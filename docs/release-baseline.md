@@ -39,7 +39,7 @@ A wheel built and installed in an independent temporary environment outside the 
 
 ## Cross-platform follow-up
 
-The first matrix passed both Linux versions but exposed HTTP readiness failures on macOS. A local regression demonstrated that the inherited HTTP server binding called reverse DNS before becoming ready. GoPyT now binds without that unnecessary lookup; 20 focused HTTP/inventory/security integration tests pass locally. The macOS failure log and before/after DNS regression logs are retained. A fresh matrix validates this follow-up. CI also now has explicit time limits and periodic stack traces.
+The first matrix passed both Linux versions but exposed HTTP readiness failures on macOS. A local regression demonstrated that the inherited HTTP server binding called reverse DNS before becoming ready. GoPyT now binds without that unnecessary lookup; 20 focused HTTP/inventory/security integration tests pass locally. The macOS failure log and before/after DNS regression logs are retained. A fresh matrix validates this follow-up. CI now has explicit time limits and verbose test output. An experimental periodic traceback dumper coincided with a Python 3.11 interpreter crash during its dump; that diagnostic timer was removed and its crash log retained.
 
 ## Remaining priority work
 
