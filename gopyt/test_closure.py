@@ -557,15 +557,21 @@ class NetworkBoundary(unittest.TestCase):
         from http.server import BaseHTTPRequestHandler
         from gopyt.test_audit import http_endpoint
         hits=[]
+        origin_bodies=[]
         class Proxy(BaseHTTPRequestHandler):
             def log_message(self,*args): pass
             def do_POST(self):
+                self.rfile.read(int(self.headers['Content-Length']))
                 hits.append(self.path)
-                self.send_response(200);self.end_headers();self.wfile.write(b'{"text":"proxy"}')
+                payload=b'{"text":"proxy"}'
+                self.send_response(200);self.send_header('Content-Length',str(len(payload)));self.end_headers();self.wfile.write(payload)
         class Origin(BaseHTTPRequestHandler):
             def log_message(self,*args): pass
             def do_POST(self):
-                self.send_response(200);self.end_headers();self.wfile.write(b'{"text":"direct"}')
+                # Consume the request before closing: unread bytes can cause TCP RST.
+                origin_bodies.append(self.rfile.read(int(self.headers['Content-Length'])))
+                payload=b'{"text":"direct"}'
+                self.send_response(200);self.send_header('Content-Length',str(len(payload)));self.end_headers();self.wfile.write(payload)
         with http_endpoint(Proxy) as proxy, http_endpoint(Origin) as origin, tempfile.TemporaryDirectory() as root:
             header='task main() -> str | ModelError\n    effects { network, model }\n'
             write_pkg(root,module(header+f'\negress {{ "{origin}" }}\n',header+'{\n    return core.model.complete("probe")\n}\n',
@@ -581,6 +587,7 @@ class NetworkBoundary(unittest.TestCase):
             with patch.dict(os.environ,{'http_proxy':proxy,'HTTP_PROXY':proxy,'no_proxy':'','NO_PROXY':'','GOPYT_MODEL_URL':origin}), patch.object(natives,'_status',capture):
                 self.assertEqual(run_cli(root,'run','demo.main'),(0,'{"str":"direct"}\n'),failures)
             self.assertEqual(hits,[])
+            self.assertEqual(origin_bodies,[b'{"prompt":"probe"}'])
 
 
 if __name__ == '__main__':
