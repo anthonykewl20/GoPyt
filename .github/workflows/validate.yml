@@ -10,9 +10,8 @@ jobs:
         os: [ubuntu-latest, macos-latest]
         python: ['3.11', '3.14']
     runs-on: ${{ matrix.os }}
-    env:
-      TMPDIR: ${{ runner.temp }}
     steps:
+      - run: echo "TMPDIR=$RUNNER_TEMP" >> "$GITHUB_ENV"
       - uses: actions/checkout@v4
       - uses: actions/setup-python@v5
         with:
