@@ -1,0 +1,11 @@
+module orders.validation
+
+use orders.model { Command, Operation, Status }
+
+fn operation(op: str) -> Operation
+
+fn legal(status: Status, operation: Operation) -> bool
+
+fn valid_order(command: Command) -> bool
+
+fn valid_refund(quantity: i64, remaining: i64) -> bool

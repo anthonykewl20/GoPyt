@@ -1,0 +1,80 @@
+module orders.fulfillment
+
+use orders.inventory { restock }
+use orders.model { Outcome, State, Status, Transition }
+
+fn ship(state: State) -> Transition
+{
+    invalid_source = state.status != Status.Paid
+    if invalid_source {
+        return Transition {
+            outcome: Outcome.InvalidState
+            state: state
+        }
+    }
+    next_state = State {
+        status: Status.Shipped
+        version: state.version + 1
+        stock: state.stock
+        quantity: state.quantity
+        refunded_quantity: state.refunded_quantity
+        net_cents: state.net_cents
+        tax_cents: state.tax_cents
+        shipping_cents: state.shipping_cents
+        charged_cents: state.charged_cents
+        refunded_cents: state.refunded_cents
+    }
+    return Transition {
+        outcome: Outcome.Ok
+        state: next_state
+    }
+}
+
+fn cancel(state: State) -> Transition
+    ensures result.outcome != Outcome.Ok or result.state.stock == state.stock + state.quantity
+    ensures result.outcome != Outcome.Ok or state.status != Status.Paid or result.state.refunded_cents == state.charged_cents and result.state.refunded_quantity == state.quantity
+    ensures result.outcome != Outcome.Ok or state.status != Status.Reserved or result.state.refunded_cents == 0 and result.state.refunded_quantity == 0
+{
+    invalid_source = state.status != Status.Reserved and state.status != Status.Paid
+    if invalid_source {
+        return Transition {
+            outcome: Outcome.InvalidState
+            state: state
+        }
+    }
+    was_paid = state.status == Status.Paid
+    if was_paid {
+        paid_cancel = State {
+            status: Status.Cancelled
+            version: state.version + 1
+            stock: orders.inventory.restock(state.stock, state.quantity)
+            quantity: state.quantity
+            refunded_quantity: state.quantity
+            net_cents: state.net_cents
+            tax_cents: state.tax_cents
+            shipping_cents: state.shipping_cents
+            charged_cents: state.charged_cents
+            refunded_cents: state.charged_cents
+        }
+        return Transition {
+            outcome: Outcome.Ok
+            state: paid_cancel
+        }
+    }
+    reserved_cancel = State {
+        status: Status.Cancelled
+        version: state.version + 1
+        stock: orders.inventory.restock(state.stock, state.quantity)
+        quantity: state.quantity
+        refunded_quantity: state.refunded_quantity
+        net_cents: state.net_cents
+        tax_cents: state.tax_cents
+        shipping_cents: state.shipping_cents
+        charged_cents: state.charged_cents
+        refunded_cents: state.refunded_cents
+    }
+    return Transition {
+        outcome: Outcome.Ok
+        state: reserved_cancel
+    }
+}

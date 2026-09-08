@@ -1,0 +1,7 @@
+module math
+
+type User {
+    name: str
+}
+
+fn ping(user: User) -> str

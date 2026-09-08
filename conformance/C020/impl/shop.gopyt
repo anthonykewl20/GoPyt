@@ -1,0 +1,8 @@
+module shop
+
+use core.map { empty }
+
+fn none_map() -> map[str, Payment]
+{
+    return core.map.empty[str, Payment]()
+}

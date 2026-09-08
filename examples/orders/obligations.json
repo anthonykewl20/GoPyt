@@ -1,0 +1,346 @@
+{
+  "schema": "gopyt.obligations.v1",
+  "application": "examples/orders",
+  "contract": {
+    "path": "../../benchmarks/order_lifecycle/CONTRACT.md",
+    "version": "order lifecycle contract v1",
+    "sha256": "sha256:69250e7c3a75d17b12efbb6be79ade9f877565d920bad5e51b884b1195689739"
+  },
+  "authority_meaning": {
+    "contract": "Part of the frozen order lifecycle contract v1. The application must satisfy it.",
+    "proposed": "A maintenance policy under discussion (for example the reliability benchmark's task B). NOT part of the application baseline; listed so the gap is explicit and no agent mistakes it for current behavior.",
+    "unresolved": "A requested behavior with undecided policy. Nothing executable may represent it; implementing it without a decision is inventing policy."
+  },
+  "obligations": [
+    {
+      "id": "ORD-PREC-001",
+      "title": "Unknown op is rejected before anything else",
+      "authority": "contract",
+      "source": "CONTRACT.md, Precedence 1",
+      "prose": "Any op other than place/pay/ship/cancel/refund produces invalid_command regardless of version or state.",
+      "functions": ["orders.service.transition", "orders.validation.operation"],
+      "state_fields": [],
+      "representations": [
+        {"kind": "ensures", "function": "orders.service.transition",
+         "text": "orders.validation.operation(command.op) != Operation.Unknown or result.outcome == Outcome.InvalidCommand"},
+        {"kind": "test", "test": "test.orders.service.unknown_before_conflict"},
+        {"kind": "acceptance", "suite": "order_lifecycle", "report": "report.json"}
+      ]
+    },
+    {
+      "id": "ORD-PREC-002",
+      "title": "Version conflict is rejected before state and field validation",
+      "authority": "contract",
+      "source": "CONTRACT.md, Precedence 2",
+      "prose": "For a known op, expected_version unequal to the current version yields conflict even when state or fields are invalid.",
+      "functions": ["orders.service.transition"],
+      "state_fields": ["version"],
+      "representations": [
+        {"kind": "ensures", "function": "orders.service.transition",
+         "text": "orders.validation.operation(command.op) == Operation.Unknown or command.expected_version == state.version or result.outcome == Outcome.Conflict"},
+        {"kind": "test", "test": "test.orders.service.conflict_before_fields"},
+        {"kind": "acceptance", "suite": "order_lifecycle", "report": "report.json"}
+      ]
+    },
+    {
+      "id": "ORD-PREC-003",
+      "title": "Illegal source state is rejected before business fields and stock",
+      "authority": "contract",
+      "source": "CONTRACT.md, Precedence 3-4",
+      "prose": "invalid_state precedes invalid_order/out_of_stock/invalid_refund. The legal table in orders.validation.legal is the source of truth; the ordering itself is not expressible as a single postcondition without restating the table.",
+      "functions": ["orders.service.transition", "orders.validation.legal"],
+      "state_fields": ["status"],
+      "representations": [
+        {"kind": "test", "test": "test.orders.service.state_before_fields"},
+        {"kind": "test", "test": "test.orders.service.invalid_before_stock"},
+        {"kind": "acceptance", "suite": "order_lifecycle", "report": "report.json"},
+        {"kind": "prose", "text": "Precedence among invalid_state, invalid_order and out_of_stock is covered only by the listed tests and the acceptance corpus; there is no runtime contract for the ordering."}
+      ]
+    },
+    {
+      "id": "ORD-REJ-001",
+      "title": "Rejected commands preserve every state field",
+      "authority": "contract",
+      "source": "CONTRACT.md, Domain and transport: failures preserve every state field",
+      "prose": "Any outcome other than ok leaves the state structurally identical, including version and stock.",
+      "functions": ["orders.service.transition"],
+      "state_fields": ["status", "version", "stock", "quantity", "refunded_quantity", "net_cents", "tax_cents", "shipping_cents", "charged_cents", "refunded_cents"],
+      "representations": [
+        {"kind": "ensures", "function": "orders.service.transition",
+         "text": "result.outcome == Outcome.Ok or result.state == state"},
+        {"kind": "test", "test": "test.orders.service.unknown_before_conflict"},
+        {"kind": "test", "test": "test.orders.service.insufficient_stock"},
+        {"kind": "acceptance", "suite": "order_lifecycle", "report": "report.json"}
+      ]
+    },
+    {
+      "id": "ORD-VER-001",
+      "title": "A successful command increments the version exactly once",
+      "authority": "contract",
+      "source": "CONTRACT.md, Domain and transport",
+      "prose": "Successful changes increment version by exactly one.",
+      "functions": ["orders.service.transition"],
+      "state_fields": ["version"],
+      "representations": [
+        {"kind": "ensures", "function": "orders.service.transition",
+         "text": "result.outcome != Outcome.Ok or result.state.version == state.version + 1"},
+        {"kind": "test", "test": "test.orders.service.split_refund"},
+        {"kind": "acceptance", "suite": "order_lifecycle", "report": "report.json"}
+      ]
+    },
+    {
+      "id": "ORD-PRC-001",
+      "title": "Member discount is floor(gross * 5%) and nonmembers pay gross",
+      "authority": "contract",
+      "source": "CONTRACT.md, place",
+      "prose": "Net = gross - floor(gross*500/10000) for members; net = gross otherwise. Membership here is the placing command's member flag; the contract keeps no membership after placement.",
+      "functions": ["orders.pricing.quote", "orders.pricing.discount"],
+      "state_fields": ["net_cents"],
+      "representations": [
+        {"kind": "ensures", "function": "orders.pricing.quote",
+         "text": "not member or result.net_cents == quantity * unit_cents - quantity * unit_cents * 500 / 10000"},
+        {"kind": "ensures", "function": "orders.pricing.quote",
+         "text": "member or result.net_cents == quantity * unit_cents"},
+        {"kind": "test", "test": "test.orders.service.member_discount_and_tax_basis"},
+        {"kind": "test", "test": "test.orders.service.quote_rounding"},
+        {"kind": "acceptance", "suite": "order_lifecycle", "report": "report.json"}
+      ]
+    },
+    {
+      "id": "ORD-PRC-002",
+      "title": "Tax is floor(net * 8.25%) on the discounted net",
+      "authority": "contract",
+      "source": "CONTRACT.md, place",
+      "prose": "Tax basis is net after discount, never gross.",
+      "functions": ["orders.pricing.quote"],
+      "state_fields": ["tax_cents"],
+      "representations": [
+        {"kind": "ensures", "function": "orders.pricing.quote",
+         "text": "result.tax_cents == result.net_cents * 825 / 10000"},
+        {"kind": "test", "test": "test.orders.service.quote_rounding"},
+        {"kind": "acceptance", "suite": "order_lifecycle", "report": "report.json"}
+      ]
+    },
+    {
+      "id": "ORD-PRC-003",
+      "title": "Shipping is 500 below a 10000 net threshold, else 0",
+      "authority": "contract",
+      "source": "CONTRACT.md, place",
+      "prose": "Shipping = 0 if net >= 10000 else 500.",
+      "functions": ["orders.pricing.quote", "orders.pricing.shipping"],
+      "state_fields": ["shipping_cents"],
+      "representations": [
+        {"kind": "ensures", "function": "orders.pricing.quote",
+         "text": "result.net_cents < 10000 or result.shipping_cents == 0"},
+        {"kind": "ensures", "function": "orders.pricing.quote",
+         "text": "result.net_cents >= 10000 or result.shipping_cents == 500"},
+        {"kind": "test", "test": "test.orders.service.free_shipping_boundary"},
+        {"kind": "acceptance", "suite": "order_lifecycle", "report": "report.json"}
+      ]
+    },
+    {
+      "id": "ORD-PLC-001",
+      "title": "Placement reserves the quantity immediately and charges nothing",
+      "authority": "contract",
+      "source": "CONTRACT.md, place",
+      "prose": "Stock decreases by quantity at placement; charged and refunded amounts remain 0.",
+      "functions": ["orders.placement.place", "orders.inventory.reserve"],
+      "state_fields": ["stock", "quantity", "charged_cents", "refunded_cents", "refunded_quantity"],
+      "representations": [
+        {"kind": "ensures", "function": "orders.placement.place",
+         "text": "result.outcome != Outcome.Ok or result.state.stock == state.stock - command.quantity and result.state.quantity == command.quantity"},
+        {"kind": "ensures", "function": "orders.placement.place",
+         "text": "result.outcome != Outcome.Ok or result.state.charged_cents == 0 and result.state.refunded_cents == 0 and result.state.refunded_quantity == 0"},
+        {"kind": "test", "test": "test.orders.service.place_reserves_stock_without_charge"},
+        {"kind": "acceptance", "suite": "order_lifecycle", "report": "report.json"}
+      ]
+    },
+    {
+      "id": "ORD-QUO-001",
+      "title": "Quoted amounts and quantity are fixed at placement and preserved by every later transition",
+      "authority": "contract",
+      "source": "CONTRACT.md, cancel/refund: preserve quoted amounts",
+      "prose": "net_cents, tax_cents, shipping_cents and quantity are written only by placement and copied unchanged by pay, ship, cancel and refund.",
+      "functions": ["orders.payment.pay", "orders.fulfillment.ship", "orders.fulfillment.cancel", "orders.refunds.refund"],
+      "state_fields": ["net_cents", "tax_cents", "shipping_cents", "quantity"],
+      "representations": [
+        {"kind": "preserved_field", "type": "orders.model.State", "field": "net_cents", "except": ["orders.placement.place", "orders.model.initial"]},
+        {"kind": "preserved_field", "type": "orders.model.State", "field": "tax_cents", "except": ["orders.placement.place", "orders.model.initial"]},
+        {"kind": "preserved_field", "type": "orders.model.State", "field": "shipping_cents", "except": ["orders.placement.place", "orders.model.initial"]},
+        {"kind": "preserved_field", "type": "orders.model.State", "field": "quantity", "except": ["orders.placement.place", "orders.model.initial"]},
+        {"kind": "acceptance", "suite": "order_lifecycle", "report": "report.json"}
+      ]
+    },
+    {
+      "id": "ORD-PAY-001",
+      "title": "Payment charges net + tax + shipping from the saved quote",
+      "authority": "contract",
+      "source": "CONTRACT.md, pay",
+      "prose": "The charge is the saved quote, not a recomputation from the pay command.",
+      "functions": ["orders.payment.pay"],
+      "state_fields": ["charged_cents"],
+      "representations": [
+        {"kind": "ensures", "function": "orders.payment.pay",
+         "text": "result.outcome != Outcome.Ok or result.state.charged_cents == state.net_cents + state.tax_cents + state.shipping_cents"},
+        {"kind": "test", "test": "test.orders.service.pay_charges_saved_quote"},
+        {"kind": "acceptance", "suite": "order_lifecycle", "report": "report.json"}
+      ]
+    },
+    {
+      "id": "ORD-CAN-001",
+      "title": "Cancellation returns the entire quantity to stock",
+      "authority": "contract",
+      "source": "CONTRACT.md, cancel",
+      "prose": "Reserved or paid orders may be cancelled; the whole quantity is restocked.",
+      "functions": ["orders.fulfillment.cancel", "orders.inventory.restock"],
+      "state_fields": ["stock"],
+      "representations": [
+        {"kind": "ensures", "function": "orders.fulfillment.cancel",
+         "text": "result.outcome != Outcome.Ok or result.state.stock == state.stock + state.quantity"},
+        {"kind": "test", "test": "test.orders.service.paid_cancel_refunds_whole_charge"},
+        {"kind": "acceptance", "suite": "order_lifecycle", "report": "report.json"}
+      ]
+    },
+    {
+      "id": "ORD-CAN-002",
+      "title": "Paid cancellation refunds the whole charge including shipping; reserved cancellation refunds nothing",
+      "authority": "contract",
+      "source": "CONTRACT.md, cancel",
+      "prose": "This is the only path on which shipping is refunded under contract v1.",
+      "functions": ["orders.fulfillment.cancel"],
+      "state_fields": ["refunded_cents", "refunded_quantity"],
+      "representations": [
+        {"kind": "ensures", "function": "orders.fulfillment.cancel",
+         "text": "result.outcome != Outcome.Ok or state.status != Status.Paid or result.state.refunded_cents == state.charged_cents and result.state.refunded_quantity == state.quantity"},
+        {"kind": "ensures", "function": "orders.fulfillment.cancel",
+         "text": "result.outcome != Outcome.Ok or state.status != Status.Reserved or result.state.refunded_cents == 0 and result.state.refunded_quantity == 0"},
+        {"kind": "test", "test": "test.orders.service.paid_cancel_refunds_whole_charge"},
+        {"kind": "test", "test": "test.orders.service.reserved_cancel_refunds_nothing"},
+        {"kind": "acceptance", "suite": "order_lifecycle", "report": "report.json"}
+      ]
+    },
+    {
+      "id": "ORD-REF-001",
+      "title": "Cumulative refund is floor((net+tax) * cumulative_quantity / original_quantity); shipping is never refunded by refund",
+      "authority": "contract",
+      "source": "CONTRACT.md, refund",
+      "prose": "Entitlement is computed cumulatively so that splitting refunds never changes the total; shipping is excluded from every refund operation.",
+      "functions": ["orders.refunds.refund"],
+      "state_fields": ["refunded_cents", "refunded_quantity"],
+      "representations": [
+        {"kind": "ensures", "function": "orders.refunds.refund",
+         "text": "result.outcome != Outcome.Ok or result.state.refunded_cents == (state.net_cents + state.tax_cents) * result.state.refunded_quantity / state.quantity"},
+        {"kind": "test", "test": "test.orders.service.split_refund"},
+        {"kind": "test", "test": "test.orders.service.refunded_is_terminal"},
+        {"kind": "acceptance", "suite": "order_lifecycle", "report": "report.json"}
+      ]
+    },
+    {
+      "id": "ORD-REF-002",
+      "title": "Refund quantity is 1..remaining and accumulates",
+      "authority": "contract",
+      "source": "CONTRACT.md, refund",
+      "prose": "Quantity outside 1..(quantity - refunded_quantity) is invalid_refund; otherwise refunded_quantity grows by exactly that amount and never exceeds the original quantity.",
+      "functions": ["orders.refunds.refund", "orders.validation.valid_refund"],
+      "state_fields": ["refunded_quantity"],
+      "representations": [
+        {"kind": "ensures", "function": "orders.refunds.refund",
+         "text": "result.outcome != Outcome.Ok or result.state.refunded_quantity == state.refunded_quantity + quantity and result.state.refunded_quantity <= state.quantity"},
+        {"kind": "test", "test": "test.orders.service.split_refund"},
+        {"kind": "acceptance", "suite": "order_lifecycle", "report": "report.json"}
+      ]
+    },
+    {
+      "id": "ORD-REF-003",
+      "title": "Cumulative refunds never exceed the amount charged",
+      "authority": "contract",
+      "source": "CONTRACT.md, refund and cancel (derived invariant)",
+      "prose": "Across every transition, refunded_cents <= charged_cents. Derived from the refund formula and the paid-cancel rule; it is an invariant, not a separately stated sentence of the contract.",
+      "functions": ["orders.service.transition"],
+      "state_fields": ["refunded_cents", "charged_cents"],
+      "representations": [
+        {"kind": "ensures", "function": "orders.service.transition",
+         "text": "result.state.refunded_cents <= result.state.charged_cents"},
+        {"kind": "acceptance", "suite": "order_lifecycle", "report": "report.json"}
+      ]
+    },
+    {
+      "id": "ORD-STK-001",
+      "title": "Refund returns exactly the newly refunded quantity to stock",
+      "authority": "contract",
+      "source": "CONTRACT.md, refund",
+      "prose": "Stock increases by the refunded quantity of this command only.",
+      "functions": ["orders.refunds.refund", "orders.inventory.restock"],
+      "state_fields": ["stock"],
+      "representations": [
+        {"kind": "ensures", "function": "orders.refunds.refund",
+         "text": "result.outcome != Outcome.Ok or result.state.stock == state.stock + quantity"},
+        {"kind": "test", "test": "test.orders.service.split_refund"},
+        {"kind": "acceptance", "suite": "order_lifecycle", "report": "report.json"}
+      ]
+    },
+    {
+      "id": "ORD-TERM-001",
+      "title": "Cancelled and refunded are terminal",
+      "authority": "contract",
+      "source": "CONTRACT.md, cancel/refund",
+      "prose": "No known op is legal from cancelled or refunded; the legal table returns false for both.",
+      "functions": ["orders.validation.legal"],
+      "state_fields": ["status"],
+      "representations": [
+        {"kind": "test", "test": "test.orders.service.paid_cancel_refunds_whole_charge"},
+        {"kind": "test", "test": "test.orders.service.refunded_is_terminal"},
+        {"kind": "acceptance", "suite": "order_lifecycle", "report": "report.json"},
+        {"kind": "prose", "text": "The transition table is exhaustive by construction (match over Status); no separate runtime contract restates it."}
+      ]
+    },
+    {
+      "id": "POL-B-001",
+      "title": "Membership eligibility is fixed at order placement",
+      "authority": "proposed",
+      "source": "benchmarks/agent_reliability/CONTRACT.md, task B (maintenance request, not contract v1)",
+      "prose": "Under the proposed return policy, membership is determined by the placing command and later command.member values must not change eligibility. Contract v1 keeps no membership after placement: State has no member field, so this cannot be represented in the baseline.",
+      "functions": ["orders.placement.place"],
+      "state_fields": [],
+      "representations": [
+        {"kind": "prose", "text": "Not representable in the baseline: requires a retained membership field in State. See benchmarks/obligations/subjects/orders_policy_b for the executable form."}
+      ]
+    },
+    {
+      "id": "POL-B-002",
+      "title": "Partial returns refund merchandise plus tax only",
+      "authority": "proposed",
+      "source": "benchmarks/agent_reliability/CONTRACT.md, task B",
+      "prose": "Until the entire shipped order has been returned, refunds exclude shipping. Coincides with contract v1 for every refund; listed separately because the proposed policy changes the full-return case.",
+      "functions": ["orders.refunds.refund"],
+      "state_fields": ["refunded_cents"],
+      "representations": [
+        {"kind": "prose", "text": "Baseline behavior already excludes shipping on every refund (ORD-REF-001). The proposed policy only differs at full return."}
+      ]
+    },
+    {
+      "id": "POL-B-003",
+      "title": "A member's complete return refunds the original shipping exactly once",
+      "authority": "proposed",
+      "source": "benchmarks/agent_reliability/CONTRACT.md, task B",
+      "prose": "When the entire shipped order has been returned by a member (membership from placement), the original shipping charge is added to the cumulative refund once. Nonmembers never receive shipping through returns. Paid cancellation is unchanged.",
+      "functions": ["orders.refunds.refund"],
+      "state_fields": ["refunded_cents"],
+      "representations": [
+        {"kind": "prose", "text": "Contradicts contract v1 ORD-REF-001 for members at full return. Adopting it requires a contract amendment; it is not silently applied to this application."}
+      ]
+    },
+    {
+      "id": "POL-C-001",
+      "title": "Courtesy returns after a full refund for loyal customers",
+      "authority": "unresolved",
+      "source": "benchmarks/agent_reliability/CONTRACT.md, task C",
+      "prose": "Eligibility (what is a loyal customer), benefit, limits, inventory effect and interaction with prior refunds are unspecified. No executable representation is permitted until the policy is decided.",
+      "functions": [],
+      "state_fields": [],
+      "representations": [
+        {"kind": "prose", "text": "Open questions: eligibility criterion, benefit amount, per-order or per-customer limit, stock effect, interaction with refunded_cents <= charged_cents (ORD-REF-003)."}
+      ]
+    }
+  ]
+}

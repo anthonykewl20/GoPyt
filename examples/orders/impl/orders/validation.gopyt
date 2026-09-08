@@ -1,0 +1,46 @@
+module orders.validation
+
+use orders.model { Command, Operation, Status }
+
+fn operation(op: str) -> Operation
+{
+    if op == "place" {
+        return Operation.Place
+    }
+    if op == "pay" {
+        return Operation.Pay
+    }
+    if op == "ship" {
+        return Operation.Ship
+    }
+    if op == "cancel" {
+        return Operation.Cancel
+    }
+    if op == "refund" {
+        return Operation.Refund
+    }
+    return Operation.Unknown
+}
+
+fn legal(status: Status, operation: Operation) -> bool
+{
+    return match status {
+        Status.Empty -> operation == Operation.Place
+        Status.Reserved -> operation == Operation.Pay or operation == Operation.Cancel
+        Status.Paid -> operation == Operation.Ship or operation == Operation.Cancel
+        Status.Shipped -> operation == Operation.Refund
+        Status.Cancelled -> false
+        Status.PartiallyRefunded -> operation == Operation.Refund
+        Status.Refunded -> false
+    }
+}
+
+fn valid_order(command: Command) -> bool
+{
+    return command.quantity >= 1 and command.quantity <= 100 and command.unit_cents >= 0 and command.unit_cents <= 1000000
+}
+
+fn valid_refund(quantity: i64, remaining: i64) -> bool
+{
+    return quantity >= 1 and quantity <= remaining
+}

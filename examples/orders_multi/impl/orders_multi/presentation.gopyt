@@ -1,0 +1,43 @@
+module orders_multi.presentation
+
+use orders_multi.customer { tier_name }
+use orders_multi.model { Outcome, Snapshot, Status, Transition }
+
+fn snapshot(transition: Transition) -> Snapshot
+    ensures result.version == transition.state.version and result.lines == transition.state.lines and result.stock == transition.state.stock
+{
+    outcome = match transition.outcome {
+        Outcome.Ok -> "ok"
+        Outcome.InvalidCommand -> "invalid_command"
+        Outcome.Conflict -> "conflict"
+        Outcome.InvalidState -> "invalid_state"
+        Outcome.InvalidOrder -> "invalid_order"
+        Outcome.OutOfStock -> "out_of_stock"
+        Outcome.InvalidRefund -> "invalid_refund"
+    }
+    state = transition.state
+    status = match state.status {
+        Status.Empty -> "empty"
+        Status.Reserved -> "reserved"
+        Status.Paid -> "paid"
+        Status.Shipped -> "shipped"
+        Status.Cancelled -> "cancelled"
+        Status.PartiallyRefunded -> "partially_refunded"
+        Status.Refunded -> "refunded"
+    }
+    return Snapshot {
+        outcome: outcome
+        status: status
+        version: state.version
+        day_placed: state.day_placed
+        tier: orders_multi.customer.tier_name(state.tier)
+        subtotal_cents: state.subtotal_cents
+        discount_cents: state.discount_cents
+        tax_cents: state.tax_cents
+        shipping_cents: state.shipping_cents
+        charged_cents: state.charged_cents
+        refunded_cents: state.refunded_cents
+        lines: state.lines
+        stock: state.stock
+    }
+}

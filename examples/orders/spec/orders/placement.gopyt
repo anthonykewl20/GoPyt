@@ -1,0 +1,7 @@
+module orders.placement
+
+use orders.model { Command, Outcome, State, Transition }
+
+fn place(state: State, command: Command) -> Transition
+    ensures result.outcome != Outcome.Ok or result.state.stock == state.stock - command.quantity and result.state.quantity == command.quantity
+    ensures result.outcome != Outcome.Ok or result.state.charged_cents == 0 and result.state.refunded_cents == 0 and result.state.refunded_quantity == 0

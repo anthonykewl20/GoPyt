@@ -1,0 +1,321 @@
+module test.orders.service
+
+use core.test { assert_eq }
+use orders.model { Command, Outcome, State, Status, initial }
+use orders.pricing { quote }
+use orders.service { transition }
+
+test initial_state
+{
+    expected = State {
+        status: Status.Empty
+        version: 0
+        stock: 9
+        quantity: 0
+        refunded_quantity: 0
+        net_cents: 0
+        tax_cents: 0
+        shipping_cents: 0
+        charged_cents: 0
+        refunded_cents: 0
+    }
+    core.test.assert_eq(orders.model.initial(9), expected)
+    return unit
+}
+
+test quote_rounding
+{
+    quoted = orders.pricing.quote(3, 1201, true)
+    core.test.assert_eq(quoted.net_cents, 3423)
+    core.test.assert_eq(quoted.tax_cents, 282)
+    core.test.assert_eq(quoted.shipping_cents, 500)
+    return unit
+}
+
+test free_shipping_boundary
+{
+    below = orders.pricing.quote(1, 9999, false)
+    boundary = orders.pricing.quote(1, 10000, false)
+    core.test.assert_eq(below.shipping_cents, 500)
+    core.test.assert_eq(boundary.shipping_cents, 0)
+    return unit
+}
+
+test unknown_before_conflict
+{
+    original = orders.model.initial(1)
+    rejected = orders.service.transition(original, Command {
+        op: "other"
+        quantity: 0
+        unit_cents: 0
+        member: false
+        expected_version: 9
+    })
+    core.test.assert_eq(rejected.outcome, Outcome.InvalidCommand)
+    core.test.assert_eq(rejected.state, original)
+    return unit
+}
+
+test conflict_before_fields
+{
+    original = orders.model.initial(1)
+    rejected = orders.service.transition(original, Command {
+        op: "place"
+        quantity: -1
+        unit_cents: 0
+        member: false
+        expected_version: 9
+    })
+    core.test.assert_eq(rejected.outcome, Outcome.Conflict)
+    core.test.assert_eq(rejected.state, original)
+    return unit
+}
+
+test state_before_fields
+{
+    original = orders.model.initial(1)
+    rejected = orders.service.transition(original, Command {
+        op: "refund"
+        quantity: -1
+        unit_cents: 0
+        member: false
+        expected_version: 0
+    })
+    core.test.assert_eq(rejected.outcome, Outcome.InvalidState)
+    core.test.assert_eq(rejected.state, original)
+    return unit
+}
+
+test invalid_before_stock
+{
+    original = orders.model.initial(1)
+    rejected = orders.service.transition(original, Command {
+        op: "place"
+        quantity: 101
+        unit_cents: 0
+        member: false
+        expected_version: 0
+    })
+    core.test.assert_eq(rejected.outcome, Outcome.InvalidOrder)
+    core.test.assert_eq(rejected.state, original)
+    return unit
+}
+
+test insufficient_stock
+{
+    original = orders.model.initial(1)
+    rejected = orders.service.transition(original, Command {
+        op: "place"
+        quantity: 2
+        unit_cents: 100
+        member: false
+        expected_version: 0
+    })
+    core.test.assert_eq(rejected.outcome, Outcome.OutOfStock)
+    core.test.assert_eq(rejected.state, original)
+    return unit
+}
+
+test split_refund
+{
+    initial = orders.model.initial(3)
+    placed = orders.service.transition(initial, Command {
+        op: "place"
+        quantity: 3
+        unit_cents: 1
+        member: false
+        expected_version: 0
+    })
+    paid = orders.service.transition(placed.state, Command {
+        op: "pay"
+        quantity: 0
+        unit_cents: 0
+        member: false
+        expected_version: 1
+    })
+    shipped = orders.service.transition(paid.state, Command {
+        op: "ship"
+        quantity: 0
+        unit_cents: 0
+        member: false
+        expected_version: 2
+    })
+    partial = orders.service.transition(shipped.state, Command {
+        op: "refund"
+        quantity: 1
+        unit_cents: 0
+        member: false
+        expected_version: 3
+    })
+    full = orders.service.transition(partial.state, Command {
+        op: "refund"
+        quantity: 2
+        unit_cents: 0
+        member: false
+        expected_version: 4
+    })
+    core.test.assert_eq(partial.state.refunded_cents, 1)
+    core.test.assert_eq(full.state.refunded_cents, 3)
+    core.test.assert_eq(full.state.stock, 3)
+    core.test.assert_eq(full.state.status, Status.Refunded)
+    core.test.assert_eq(full.state.charged_cents, 503)
+    core.test.assert_eq(full.state.version, 5)
+    return unit
+}
+
+test member_discount_and_tax_basis
+{
+    quoted = orders.pricing.quote(2, 10000, true)
+    core.test.assert_eq(quoted.net_cents, 19000)
+    core.test.assert_eq(quoted.tax_cents, 1567)
+    core.test.assert_eq(quoted.shipping_cents, 0)
+    return unit
+}
+
+test place_reserves_stock_without_charge
+{
+    placed = orders.service.transition(orders.model.initial(7), Command {
+        op: "place"
+        quantity: 3
+        unit_cents: 250
+        member: false
+        expected_version: 0
+    })
+    core.test.assert_eq(placed.outcome, Outcome.Ok)
+    core.test.assert_eq(placed.state.status, Status.Reserved)
+    core.test.assert_eq(placed.state.stock, 4)
+    core.test.assert_eq(placed.state.charged_cents, 0)
+    core.test.assert_eq(placed.state.refunded_cents, 0)
+    return unit
+}
+
+test pay_charges_saved_quote
+{
+    placed = orders.service.transition(orders.model.initial(7), Command {
+        op: "place"
+        quantity: 3
+        unit_cents: 250
+        member: false
+        expected_version: 0
+    })
+    paid = orders.service.transition(placed.state, Command {
+        op: "pay"
+        quantity: 0
+        unit_cents: 0
+        member: true
+        expected_version: 1
+    })
+    core.test.assert_eq(paid.outcome, Outcome.Ok)
+    core.test.assert_eq(paid.state.charged_cents, 750 + 61 + 500)
+    core.test.assert_eq(paid.state.net_cents, 750)
+    return unit
+}
+
+test paid_cancel_refunds_whole_charge
+{
+    placed = orders.service.transition(orders.model.initial(7), Command {
+        op: "place"
+        quantity: 3
+        unit_cents: 250
+        member: false
+        expected_version: 0
+    })
+    paid = orders.service.transition(placed.state, Command {
+        op: "pay"
+        quantity: 0
+        unit_cents: 0
+        member: false
+        expected_version: 1
+    })
+    cancelled = orders.service.transition(paid.state, Command {
+        op: "cancel"
+        quantity: 0
+        unit_cents: 0
+        member: false
+        expected_version: 2
+    })
+    core.test.assert_eq(cancelled.outcome, Outcome.Ok)
+    core.test.assert_eq(cancelled.state.status, Status.Cancelled)
+    core.test.assert_eq(cancelled.state.stock, 7)
+    core.test.assert_eq(cancelled.state.refunded_cents, 1311)
+    core.test.assert_eq(cancelled.state.refunded_quantity, 3)
+    after = orders.service.transition(cancelled.state, Command {
+        op: "refund"
+        quantity: 1
+        unit_cents: 0
+        member: false
+        expected_version: 3
+    })
+    core.test.assert_eq(after.outcome, Outcome.InvalidState)
+    core.test.assert_eq(after.state, cancelled.state)
+    return unit
+}
+
+test reserved_cancel_refunds_nothing
+{
+    placed = orders.service.transition(orders.model.initial(7), Command {
+        op: "place"
+        quantity: 3
+        unit_cents: 250
+        member: false
+        expected_version: 0
+    })
+    cancelled = orders.service.transition(placed.state, Command {
+        op: "cancel"
+        quantity: 0
+        unit_cents: 0
+        member: false
+        expected_version: 1
+    })
+    core.test.assert_eq(cancelled.outcome, Outcome.Ok)
+    core.test.assert_eq(cancelled.state.stock, 7)
+    core.test.assert_eq(cancelled.state.refunded_cents, 0)
+    core.test.assert_eq(cancelled.state.refunded_quantity, 0)
+    core.test.assert_eq(cancelled.state.charged_cents, 0)
+    return unit
+}
+
+test refunded_is_terminal
+{
+    placed = orders.service.transition(orders.model.initial(2), Command {
+        op: "place"
+        quantity: 1
+        unit_cents: 100
+        member: false
+        expected_version: 0
+    })
+    paid = orders.service.transition(placed.state, Command {
+        op: "pay"
+        quantity: 0
+        unit_cents: 0
+        member: false
+        expected_version: 1
+    })
+    shipped = orders.service.transition(paid.state, Command {
+        op: "ship"
+        quantity: 0
+        unit_cents: 0
+        member: false
+        expected_version: 2
+    })
+    refunded = orders.service.transition(shipped.state, Command {
+        op: "refund"
+        quantity: 1
+        unit_cents: 0
+        member: false
+        expected_version: 3
+    })
+    core.test.assert_eq(refunded.state.status, Status.Refunded)
+    core.test.assert_eq(refunded.state.refunded_cents, 108)
+    core.test.assert_eq(refunded.state.shipping_cents, 500)
+    again = orders.service.transition(refunded.state, Command {
+        op: "refund"
+        quantity: 1
+        unit_cents: 0
+        member: false
+        expected_version: 4
+    })
+    core.test.assert_eq(again.outcome, Outcome.InvalidState)
+    core.test.assert_eq(again.state, refunded.state)
+    return unit
+}

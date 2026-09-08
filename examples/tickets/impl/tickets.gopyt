@@ -1,0 +1,239 @@
+module tickets
+
+use core.list { range }
+use core.status { ConvertError, DbError, ListenError, NotFound }
+use core.str { concat, len, slice }
+use data.json { decode, encode }
+use net.http { serve }
+use store.db { compare_exchange, get }
+
+fn id_char(ch: str) -> bool
+{
+    return ch == "a" or ch == "b" or ch == "c" or ch == "d" or ch == "e" or ch == "f" or ch == "g" or ch == "h" or ch == "i" or ch == "j" or ch == "k" or ch == "l" or ch == "m" or ch == "n" or ch == "o" or ch == "p" or ch == "q" or ch == "r" or ch == "s" or ch == "t" or ch == "u" or ch == "v" or ch == "w" or ch == "x" or ch == "y" or ch == "z" or ch == "A" or ch == "B" or ch == "C" or ch == "D" or ch == "E" or ch == "F" or ch == "G" or ch == "H" or ch == "I" or ch == "J" or ch == "K" or ch == "L" or ch == "M" or ch == "N" or ch == "O" or ch == "P" or ch == "Q" or ch == "R" or ch == "S" or ch == "T" or ch == "U" or ch == "V" or ch == "W" or ch == "X" or ch == "Y" or ch == "Z" or ch == "0" or ch == "1" or ch == "2" or ch == "3" or ch == "4" or ch == "5" or ch == "6" or ch == "7" or ch == "8" or ch == "9" or ch == "_" or ch == "-"
+}
+
+fn valid_id(id: str) -> bool
+{
+    size = core.str.len(id)
+    if size < 1 or size > 64 {
+        return false
+    }
+    for index in core.list.range(0, size) {
+        part = core.str.slice(id, index, index + 1)
+        valid = match part {
+            str -> id_char(part)
+            ConvertError { message } -> false
+        }
+        if not valid {
+            return false
+        }
+    }
+    return true
+}
+
+fn valid_title(title: str) -> bool
+{
+    size = core.str.len(title)
+    return size > 0 and size <= 200
+}
+
+fn valid_status(status: str) -> bool
+{
+    return status == "open" or status == "in_progress" or status == "closed"
+}
+
+fn allowed(current: str, target: str) -> bool
+{
+    return current == "open" and target == "in_progress" or current == "in_progress" and target == "closed"
+}
+
+fn empty_reply(outcome: str, id: str) -> Reply
+{
+    return Reply {
+        outcome: outcome
+        id: id
+        title: ""
+        status: ""
+        version: 0
+    }
+}
+
+fn ticket_reply(outcome: str, ticket: Ticket) -> Reply
+{
+    return Reply {
+        outcome: outcome
+        id: ticket.id
+        title: ticket.title
+        status: ticket.status
+        version: ticket.version
+    }
+}
+
+fn key_of(id: str) -> str
+{
+    return core.str.concat("tickets:", id)
+}
+
+fn stored(id: str, raw: str) -> Ticket | ConvertError
+{
+    decoded = data.json.decode[Ticket](raw)
+    return match decoded {
+        Ticket -> validate_stored(id, decoded)
+        ConvertError { message } -> decoded
+    }
+}
+
+fn validate_stored(id: str, ticket: Ticket) -> Ticket | ConvertError
+{
+    if ticket.id != id or not valid_title(ticket.title) {
+        return ConvertError { message: "invalid stored ticket" }
+    }
+    if ticket.status == "open" and ticket.version == 1 {
+        return ticket
+    }
+    if ticket.status == "in_progress" and ticket.version == 2 {
+        return ticket
+    }
+    if ticket.status == "closed" and ticket.version == 3 {
+        return ticket
+    }
+    return ConvertError { message: "invalid stored ticket" }
+}
+
+task lookup(id: str, outcome: str) -> Reply
+    effects { database.read }
+{
+    raw = store.db.get(key_of(id))
+    return match raw {
+        str -> lookup_reply(id, outcome, raw)
+        NotFound -> empty_reply("not_found", id)
+        DbError { message } -> empty_reply("storage_error", id)
+    }
+}
+
+fn lookup_reply(id: str, outcome: str, raw: str) -> Reply
+{
+    found_record = stored(id, raw)
+    return match found_record {
+        Ticket -> ticket_reply(outcome, found_record)
+        ConvertError { message } -> empty_reply("storage_error", id)
+    }
+}
+
+task create(req: CreateReq) -> Reply
+    effects { database.read, database.write }
+{
+    if not valid_id(req.id) or not valid_title(req.title) {
+        return empty_reply("invalid", req.id)
+    }
+    ticket = Ticket {
+        id: req.id
+        title: req.title
+        status: "open"
+        version: 1
+    }
+    raw = data.json.encode[Ticket](ticket)
+    return match raw {
+        str -> insert(ticket, raw)
+        ConvertError { message } -> empty_reply("storage_error", req.id)
+    }
+}
+
+task insert(ticket: Ticket, raw: str) -> Reply
+    effects { database.read, database.write }
+{
+    inserted = store.db.compare_exchange(key_of(ticket.id), none, raw)
+    return match inserted {
+        bool -> insert_result(ticket, inserted)
+        DbError { message } -> empty_reply("storage_error", ticket.id)
+    }
+}
+
+task insert_result(ticket: Ticket, inserted: bool) -> Reply
+    effects { database.read }
+{
+    if inserted {
+        return ticket_reply("created", ticket)
+    }
+    return lookup(ticket.id, "conflict")
+}
+
+task retrieve(id: str) -> Reply
+    effects { database.read }
+{
+    if not valid_id(id) {
+        return empty_reply("invalid", id)
+    }
+    return lookup(id, "ok")
+}
+
+task transition(id: str, req: TransitionReq) -> Reply
+    effects { database.read, database.write }
+{
+    if not valid_id(id) or not valid_status(req.status) or req.expected_version < 1 {
+        return empty_reply("invalid", id)
+    }
+    raw = store.db.get(key_of(id))
+    return match raw {
+        str -> transition_stored(id, req, raw)
+        NotFound -> empty_reply("not_found", id)
+        DbError { message } -> empty_reply("storage_error", id)
+    }
+}
+
+task transition_stored(id: str, req: TransitionReq, raw: str) -> Reply
+    effects { database.read, database.write }
+{
+    ticket = stored(id, raw)
+    return match ticket {
+        Ticket -> transition_checked(ticket, req, raw)
+        ConvertError { message } -> empty_reply("storage_error", id)
+    }
+}
+
+task transition_checked(ticket: Ticket, req: TransitionReq, raw: str) -> Reply
+    effects { database.read, database.write }
+{
+    if ticket.version != req.expected_version {
+        return ticket_reply("conflict", ticket)
+    }
+    if not allowed(ticket.status, req.status) {
+        return empty_reply("invalid", ticket.id)
+    }
+    changed = Ticket {
+        id: ticket.id
+        title: ticket.title
+        status: req.status
+        version: ticket.version + 1
+    }
+    encoded = data.json.encode[Ticket](changed)
+    return match encoded {
+        str -> replace(ticket.id, raw, encoded, changed)
+        ConvertError { message } -> empty_reply("storage_error", ticket.id)
+    }
+}
+
+task replace(id: str, expected: str, raw: str, changed: Ticket) -> Reply
+    effects { database.read, database.write }
+{
+    replaced = store.db.compare_exchange(key_of(id), some(expected), raw)
+    return match replaced {
+        bool -> replace_result(changed, replaced)
+        DbError { message } -> empty_reply("storage_error", id)
+    }
+}
+
+task replace_result(changed: Ticket, replaced: bool) -> Reply
+    effects { database.read }
+{
+    if replaced {
+        return ticket_reply("updated", changed)
+    }
+    return lookup(changed.id, "conflict")
+}
+
+task serve() -> unit | ListenError
+    effects { network, database.read, database.write }
+{
+    return net.http.serve()
+}

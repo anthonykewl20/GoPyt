@@ -1,0 +1,8 @@
+module math
+
+fn add(left: i64, right: i64) -> i64
+    requires true
+    ensures result == left + right
+{
+    return left + right
+}

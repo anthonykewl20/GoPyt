@@ -1,0 +1,7 @@
+toolchain = "gopyt-0.1.000"
+
+[[pkg]]
+name = "orders"
+version = "0.1.0"
+path = "."
+digest = "sha256:aa994456c532f49d62c4a181d3181ae42848b70f188cbbe4db824981d98d6df3"

@@ -1,0 +1,1222 @@
+module test.orders_multi.service
+
+use core.list { append, empty, get, len }
+use core.map { empty, set }
+use core.test { assert_eq }
+use orders_multi.inventory { available }
+use orders_multi.lines { find, refunded_total }
+use orders_multi.model { Command, Line, LineInput, Outcome, Request, Snapshot, Status, Tier, initial }
+use orders_multi.service { run, transition }
+
+test initial_state
+{
+    start = orders_multi.model.initial(core.map.set[str, i64](core.map.set[str, i64](core.map.empty[str, i64](), "A", 4), "B", 6))
+    core.test.assert_eq(start.status, Status.Empty)
+    core.test.assert_eq(start.version, 0)
+    core.test.assert_eq(start.tier, Tier.None)
+    core.test.assert_eq(start.day_placed, 0)
+    core.test.assert_eq(start.charged_cents, 0)
+    core.test.assert_eq(start.refunded_cents, 0)
+    core.test.assert_eq(core.list.len[Line](start.lines), 0)
+    core.test.assert_eq(orders_multi.inventory.available(start.stock, "A"), 4)
+    core.test.assert_eq(orders_multi.inventory.available(start.stock, "B"), 6)
+    return unit
+}
+
+test gold_quote_across_categories
+{
+    placed = orders_multi.service.transition(orders_multi.model.initial(core.map.set[str, i64](core.map.set[str, i64](core.map.set[str, i64](core.map.empty[str, i64](), "A", 10), "B", 10), "C", 10)), Command {
+        op: "place"
+        lines: core.list.append[LineInput](core.list.append[LineInput](core.list.append[LineInput](core.list.empty[LineInput](), LineInput {
+            sku: "A"
+            quantity: 2
+            unit_cents: 1999
+            category: "standard"
+        }), LineInput {
+            sku: "B"
+            quantity: 3
+            unit_cents: 450
+            category: "food"
+        }), LineInput {
+            sku: "C"
+            quantity: 1
+            unit_cents: 12345
+            category: "exempt"
+        })
+        sku: ""
+        quantity: 0
+        expected_version: 0
+        day: 7
+        coupon: ""
+        tier: "gold"
+    })
+    core.test.assert_eq(placed.outcome, Outcome.Ok)
+    core.test.assert_eq(placed.state.status, Status.Reserved)
+    core.test.assert_eq(placed.state.tier, Tier.Gold)
+    core.test.assert_eq(placed.state.day_placed, 7)
+    core.test.assert_eq(placed.state.subtotal_cents, 15925)
+    core.test.assert_eq(placed.state.discount_cents, 1768)
+    core.test.assert_eq(placed.state.tax_cents, 320)
+    core.test.assert_eq(placed.state.shipping_cents, 0)
+    core.test.assert_eq(placed.state.charged_cents, 0)
+    first = orders_multi.lines.find(placed.state.lines, "A")
+    second = orders_multi.lines.find(placed.state.lines, "B")
+    third = orders_multi.lines.find(placed.state.lines, "C")
+    core.test.assert_eq(first, some(Line {
+        sku: "A"
+        quantity: 2
+        refunded_quantity: 0
+        net_cents: 3599
+        tax_cents: 296
+        refunded_cents: 0
+    }))
+    core.test.assert_eq(second, some(Line {
+        sku: "B"
+        quantity: 3
+        refunded_quantity: 0
+        net_cents: 1215
+        tax_cents: 24
+        refunded_cents: 0
+    }))
+    core.test.assert_eq(third, some(Line {
+        sku: "C"
+        quantity: 1
+        refunded_quantity: 0
+        net_cents: 11111
+        tax_cents: 0
+        refunded_cents: 0
+    }))
+    core.test.assert_eq(orders_multi.inventory.available(placed.state.stock, "A"), 8)
+    core.test.assert_eq(orders_multi.inventory.available(placed.state.stock, "B"), 7)
+    core.test.assert_eq(orders_multi.inventory.available(placed.state.stock, "C"), 9)
+    return unit
+}
+
+test member_quote_two_lines
+{
+    placed = orders_multi.service.transition(orders_multi.model.initial(core.map.set[str, i64](core.map.set[str, i64](core.map.empty[str, i64](), "A", 5), "B", 10)), Command {
+        op: "place"
+        lines: core.list.append[LineInput](core.list.append[LineInput](core.list.empty[LineInput](), LineInput {
+            sku: "A"
+            quantity: 3
+            unit_cents: 1201
+            category: "standard"
+        }), LineInput {
+            sku: "B"
+            quantity: 2
+            unit_cents: 333
+            category: "food"
+        })
+        sku: ""
+        quantity: 0
+        expected_version: 0
+        day: 10
+        coupon: ""
+        tier: "member"
+    })
+    core.test.assert_eq(placed.outcome, Outcome.Ok)
+    core.test.assert_eq(placed.state.subtotal_cents, 4056)
+    core.test.assert_eq(placed.state.discount_cents, 213)
+    core.test.assert_eq(placed.state.tax_cents, 294)
+    core.test.assert_eq(placed.state.shipping_cents, 600)
+    paid = orders_multi.service.transition(placed.state, Command {
+        op: "pay"
+        lines: core.list.empty[LineInput]()
+        sku: ""
+        quantity: 0
+        expected_version: 1
+        day: 0
+        coupon: ""
+        tier: "none"
+    })
+    core.test.assert_eq(paid.outcome, Outcome.Ok)
+    core.test.assert_eq(paid.state.status, Status.Paid)
+    core.test.assert_eq(paid.state.charged_cents, 4950)
+    core.test.assert_eq(paid.state.version, 2)
+    return unit
+}
+
+test none_tier_three_lines_pays_line_shipping
+{
+    placed = orders_multi.service.transition(orders_multi.model.initial(core.map.set[str, i64](core.map.set[str, i64](core.map.set[str, i64](core.map.empty[str, i64](), "A", 1), "B", 1), "C", 1)), Command {
+        op: "place"
+        lines: core.list.append[LineInput](core.list.append[LineInput](core.list.append[LineInput](core.list.empty[LineInput](), LineInput {
+            sku: "A"
+            quantity: 1
+            unit_cents: 100
+            category: "standard"
+        }), LineInput {
+            sku: "B"
+            quantity: 1
+            unit_cents: 200
+            category: "food"
+        }), LineInput {
+            sku: "C"
+            quantity: 1
+            unit_cents: 300
+            category: "exempt"
+        })
+        sku: ""
+        quantity: 0
+        expected_version: 0
+        day: 3
+        coupon: ""
+        tier: "none"
+    })
+    core.test.assert_eq(placed.outcome, Outcome.Ok)
+    core.test.assert_eq(placed.state.subtotal_cents, 600)
+    core.test.assert_eq(placed.state.discount_cents, 0)
+    core.test.assert_eq(placed.state.tax_cents, 12)
+    core.test.assert_eq(placed.state.shipping_cents, 700)
+    core.test.assert_eq(orders_multi.inventory.available(placed.state.stock, "A"), 0)
+    paid = orders_multi.service.transition(placed.state, Command {
+        op: "pay"
+        lines: core.list.empty[LineInput]()
+        sku: ""
+        quantity: 0
+        expected_version: 1
+        day: 0
+        coupon: ""
+        tier: "none"
+    })
+    core.test.assert_eq(paid.state.charged_cents, 1312)
+    return unit
+}
+
+test freeship_and_threshold_shipping
+{
+    coupon = orders_multi.service.transition(orders_multi.model.initial(core.map.set[str, i64](core.map.empty[str, i64](), "A", 9)), Command {
+        op: "place"
+        lines: core.list.append[LineInput](core.list.empty[LineInput](), LineInput {
+            sku: "A"
+            quantity: 1
+            unit_cents: 100
+            category: "standard"
+        })
+        sku: ""
+        quantity: 0
+        expected_version: 0
+        day: 0
+        coupon: "FREESHIP"
+        tier: "none"
+    })
+    core.test.assert_eq(coupon.outcome, Outcome.Ok)
+    core.test.assert_eq(coupon.state.shipping_cents, 0)
+    below = orders_multi.service.transition(orders_multi.model.initial(core.map.set[str, i64](core.map.empty[str, i64](), "A", 9)), Command {
+        op: "place"
+        lines: core.list.append[LineInput](core.list.empty[LineInput](), LineInput {
+            sku: "A"
+            quantity: 1
+            unit_cents: 9999
+            category: "standard"
+        })
+        sku: ""
+        quantity: 0
+        expected_version: 0
+        day: 0
+        coupon: ""
+        tier: "none"
+    })
+    core.test.assert_eq(below.state.shipping_cents, 500)
+    boundary = orders_multi.service.transition(orders_multi.model.initial(core.map.set[str, i64](core.map.empty[str, i64](), "A", 9)), Command {
+        op: "place"
+        lines: core.list.append[LineInput](core.list.empty[LineInput](), LineInput {
+            sku: "A"
+            quantity: 1
+            unit_cents: 10000
+            category: "standard"
+        })
+        sku: ""
+        quantity: 0
+        expected_version: 0
+        day: 0
+        coupon: ""
+        tier: "none"
+    })
+    core.test.assert_eq(boundary.state.shipping_cents, 0)
+    member_below = orders_multi.service.transition(orders_multi.model.initial(core.map.set[str, i64](core.map.empty[str, i64](), "A", 9)), Command {
+        op: "place"
+        lines: core.list.append[LineInput](core.list.empty[LineInput](), LineInput {
+            sku: "A"
+            quantity: 1
+            unit_cents: 10000
+            category: "standard"
+        })
+        sku: ""
+        quantity: 0
+        expected_version: 0
+        day: 0
+        coupon: ""
+        tier: "member"
+    })
+    core.test.assert_eq(member_below.state.subtotal_cents, 9500)
+    core.test.assert_eq(member_below.state.shipping_cents, 500)
+    return unit
+}
+
+test unknown_before_conflict
+{
+    original = orders_multi.model.initial(core.map.set[str, i64](core.map.empty[str, i64](), "A", 1))
+    rejected = orders_multi.service.transition(original, Command {
+        op: "other"
+        lines: core.list.empty[LineInput]()
+        sku: ""
+        quantity: 0
+        expected_version: 9
+        day: 0
+        coupon: ""
+        tier: "none"
+    })
+    core.test.assert_eq(rejected.outcome, Outcome.InvalidCommand)
+    core.test.assert_eq(rejected.state, original)
+    return unit
+}
+
+test conflict_before_state_and_fields
+{
+    original = orders_multi.model.initial(core.map.set[str, i64](core.map.empty[str, i64](), "A", 1))
+    rejected = orders_multi.service.transition(original, Command {
+        op: "place"
+        lines: core.list.append[LineInput](core.list.empty[LineInput](), LineInput {
+            sku: "A"
+            quantity: -1
+            unit_cents: 0
+            category: "standard"
+        })
+        sku: ""
+        quantity: 0
+        expected_version: 9
+        day: 0
+        coupon: ""
+        tier: "none"
+    })
+    core.test.assert_eq(rejected.outcome, Outcome.Conflict)
+    core.test.assert_eq(rejected.state, original)
+    refund_conflict = orders_multi.service.transition(original, Command {
+        op: "refund"
+        lines: core.list.empty[LineInput]()
+        sku: "Z"
+        quantity: 0
+        expected_version: 1
+        day: 0
+        coupon: ""
+        tier: "none"
+    })
+    core.test.assert_eq(refund_conflict.outcome, Outcome.Conflict)
+    core.test.assert_eq(refund_conflict.state, original)
+    return unit
+}
+
+test state_before_fields
+{
+    original = orders_multi.model.initial(core.map.set[str, i64](core.map.empty[str, i64](), "A", 1))
+    rejected = orders_multi.service.transition(original, Command {
+        op: "refund"
+        lines: core.list.empty[LineInput]()
+        sku: "Z"
+        quantity: -1
+        expected_version: 0
+        day: 0
+        coupon: ""
+        tier: "none"
+    })
+    core.test.assert_eq(rejected.outcome, Outcome.InvalidState)
+    core.test.assert_eq(rejected.state, original)
+    pay_empty = orders_multi.service.transition(original, Command {
+        op: "pay"
+        lines: core.list.empty[LineInput]()
+        sku: ""
+        quantity: 0
+        expected_version: 0
+        day: 0
+        coupon: ""
+        tier: "none"
+    })
+    core.test.assert_eq(pay_empty.outcome, Outcome.InvalidState)
+    core.test.assert_eq(pay_empty.state, original)
+    return unit
+}
+
+test invalid_order_before_stock
+{
+    original = orders_multi.model.initial(core.map.set[str, i64](core.map.empty[str, i64](), "A", 1))
+    too_many = orders_multi.service.transition(original, Command {
+        op: "place"
+        lines: core.list.append[LineInput](core.list.empty[LineInput](), LineInput {
+            sku: "A"
+            quantity: 101
+            unit_cents: 0
+            category: "standard"
+        })
+        sku: ""
+        quantity: 0
+        expected_version: 0
+        day: 0
+        coupon: ""
+        tier: "none"
+    })
+    core.test.assert_eq(too_many.outcome, Outcome.InvalidOrder)
+    core.test.assert_eq(too_many.state, original)
+    duplicate = orders_multi.service.transition(original, Command {
+        op: "place"
+        lines: core.list.append[LineInput](core.list.append[LineInput](core.list.empty[LineInput](), LineInput {
+            sku: "A"
+            quantity: 1
+            unit_cents: 5
+            category: "standard"
+        }), LineInput {
+            sku: "A"
+            quantity: 1
+            unit_cents: 5
+            category: "food"
+        })
+        sku: ""
+        quantity: 0
+        expected_version: 0
+        day: 0
+        coupon: ""
+        tier: "none"
+    })
+    core.test.assert_eq(duplicate.outcome, Outcome.InvalidOrder)
+    unknown_sku = orders_multi.service.transition(original, Command {
+        op: "place"
+        lines: core.list.append[LineInput](core.list.empty[LineInput](), LineInput {
+            sku: "Z"
+            quantity: 1
+            unit_cents: 5
+            category: "standard"
+        })
+        sku: ""
+        quantity: 0
+        expected_version: 0
+        day: 0
+        coupon: ""
+        tier: "none"
+    })
+    core.test.assert_eq(unknown_sku.outcome, Outcome.InvalidOrder)
+    bad_category = orders_multi.service.transition(original, Command {
+        op: "place"
+        lines: core.list.append[LineInput](core.list.empty[LineInput](), LineInput {
+            sku: "A"
+            quantity: 1
+            unit_cents: 5
+            category: "luxury"
+        })
+        sku: ""
+        quantity: 0
+        expected_version: 0
+        day: 0
+        coupon: ""
+        tier: "none"
+    })
+    core.test.assert_eq(bad_category.outcome, Outcome.InvalidOrder)
+    bad_coupon = orders_multi.service.transition(original, Command {
+        op: "place"
+        lines: core.list.append[LineInput](core.list.empty[LineInput](), LineInput {
+            sku: "A"
+            quantity: 1
+            unit_cents: 5
+            category: "standard"
+        })
+        sku: ""
+        quantity: 0
+        expected_version: 0
+        day: 0
+        coupon: "HALF"
+        tier: "none"
+    })
+    core.test.assert_eq(bad_coupon.outcome, Outcome.InvalidOrder)
+    bad_tier = orders_multi.service.transition(original, Command {
+        op: "place"
+        lines: core.list.append[LineInput](core.list.empty[LineInput](), LineInput {
+            sku: "A"
+            quantity: 1
+            unit_cents: 5
+            category: "standard"
+        })
+        sku: ""
+        quantity: 0
+        expected_version: 0
+        day: 0
+        coupon: ""
+        tier: "platinum"
+    })
+    core.test.assert_eq(bad_tier.outcome, Outcome.InvalidOrder)
+    bad_day = orders_multi.service.transition(original, Command {
+        op: "place"
+        lines: core.list.append[LineInput](core.list.empty[LineInput](), LineInput {
+            sku: "A"
+            quantity: 1
+            unit_cents: 5
+            category: "standard"
+        })
+        sku: ""
+        quantity: 0
+        expected_version: 0
+        day: 100001
+        coupon: ""
+        tier: "none"
+    })
+    core.test.assert_eq(bad_day.outcome, Outcome.InvalidOrder)
+    no_lines = orders_multi.service.transition(original, Command {
+        op: "place"
+        lines: core.list.empty[LineInput]()
+        sku: ""
+        quantity: 0
+        expected_version: 0
+        day: 0
+        coupon: ""
+        tier: "none"
+    })
+    core.test.assert_eq(no_lines.outcome, Outcome.InvalidOrder)
+    core.test.assert_eq(no_lines.state, original)
+    return unit
+}
+
+test out_of_stock_preserves_state
+{
+    original = orders_multi.model.initial(core.map.set[str, i64](core.map.set[str, i64](core.map.empty[str, i64](), "A", 2), "B", 1))
+    rejected = orders_multi.service.transition(original, Command {
+        op: "place"
+        lines: core.list.append[LineInput](core.list.append[LineInput](core.list.empty[LineInput](), LineInput {
+            sku: "A"
+            quantity: 2
+            unit_cents: 100
+            category: "standard"
+        }), LineInput {
+            sku: "B"
+            quantity: 2
+            unit_cents: 100
+            category: "standard"
+        })
+        sku: ""
+        quantity: 0
+        expected_version: 0
+        day: 0
+        coupon: ""
+        tier: "none"
+    })
+    core.test.assert_eq(rejected.outcome, Outcome.OutOfStock)
+    core.test.assert_eq(rejected.state, original)
+    exact = orders_multi.service.transition(original, Command {
+        op: "place"
+        lines: core.list.append[LineInput](core.list.append[LineInput](core.list.empty[LineInput](), LineInput {
+            sku: "A"
+            quantity: 2
+            unit_cents: 100
+            category: "standard"
+        }), LineInput {
+            sku: "B"
+            quantity: 1
+            unit_cents: 100
+            category: "standard"
+        })
+        sku: ""
+        quantity: 0
+        expected_version: 0
+        day: 0
+        coupon: ""
+        tier: "none"
+    })
+    core.test.assert_eq(exact.outcome, Outcome.Ok)
+    core.test.assert_eq(orders_multi.inventory.available(exact.state.stock, "A"), 0)
+    core.test.assert_eq(orders_multi.inventory.available(exact.state.stock, "B"), 0)
+    return unit
+}
+
+test split_refund_across_lines_exact_cents
+{
+    placed = orders_multi.service.transition(orders_multi.model.initial(core.map.set[str, i64](core.map.set[str, i64](core.map.empty[str, i64](), "A", 3), "B", 2)), Command {
+        op: "place"
+        lines: core.list.append[LineInput](core.list.append[LineInput](core.list.empty[LineInput](), LineInput {
+            sku: "A"
+            quantity: 3
+            unit_cents: 1234
+            category: "standard"
+        }), LineInput {
+            sku: "B"
+            quantity: 2
+            unit_cents: 500
+            category: "food"
+        })
+        sku: ""
+        quantity: 0
+        expected_version: 0
+        day: 100
+        coupon: ""
+        tier: "none"
+    })
+    core.test.assert_eq(placed.state.subtotal_cents, 4702)
+    core.test.assert_eq(placed.state.tax_cents, 325)
+    core.test.assert_eq(placed.state.shipping_cents, 600)
+    paid = orders_multi.service.transition(placed.state, Command {
+        op: "pay"
+        lines: core.list.empty[LineInput]()
+        sku: ""
+        quantity: 0
+        expected_version: 1
+        day: 0
+        coupon: ""
+        tier: "none"
+    })
+    core.test.assert_eq(paid.state.charged_cents, 5627)
+    shipped = orders_multi.service.transition(paid.state, Command {
+        op: "ship"
+        lines: core.list.empty[LineInput]()
+        sku: ""
+        quantity: 0
+        expected_version: 2
+        day: 0
+        coupon: ""
+        tier: "none"
+    })
+    core.test.assert_eq(shipped.outcome, Outcome.Ok)
+    core.test.assert_eq(shipped.state.status, Status.Shipped)
+    first = orders_multi.service.transition(shipped.state, Command {
+        op: "refund"
+        lines: core.list.empty[LineInput]()
+        sku: "A"
+        quantity: 1
+        expected_version: 3
+        day: 110
+        coupon: ""
+        tier: "none"
+    })
+    core.test.assert_eq(first.outcome, Outcome.Ok)
+    core.test.assert_eq(first.state.status, Status.PartiallyRefunded)
+    core.test.assert_eq(first.state.refunded_cents, 1335)
+    core.test.assert_eq(orders_multi.inventory.available(first.state.stock, "A"), 1)
+    second = orders_multi.service.transition(first.state, Command {
+        op: "refund"
+        lines: core.list.empty[LineInput]()
+        sku: "B"
+        quantity: 1
+        expected_version: 4
+        day: 120
+        coupon: ""
+        tier: "none"
+    })
+    core.test.assert_eq(second.state.refunded_cents, 1845)
+    third = orders_multi.service.transition(second.state, Command {
+        op: "refund"
+        lines: core.list.empty[LineInput]()
+        sku: "A"
+        quantity: 1
+        expected_version: 5
+        day: 125
+        coupon: ""
+        tier: "none"
+    })
+    core.test.assert_eq(third.state.refunded_cents, 3181)
+    core.test.assert_eq(orders_multi.lines.find(third.state.lines, "A"), some(Line {
+        sku: "A"
+        quantity: 3
+        refunded_quantity: 2
+        net_cents: 3702
+        tax_cents: 305
+        refunded_cents: 2671
+    }))
+    fourth = orders_multi.service.transition(third.state, Command {
+        op: "refund"
+        lines: core.list.empty[LineInput]()
+        sku: "A"
+        quantity: 1
+        expected_version: 6
+        day: 130
+        coupon: ""
+        tier: "none"
+    })
+    core.test.assert_eq(fourth.state.status, Status.PartiallyRefunded)
+    core.test.assert_eq(fourth.state.refunded_cents, 4517)
+    last = orders_multi.service.transition(fourth.state, Command {
+        op: "refund"
+        lines: core.list.empty[LineInput]()
+        sku: "B"
+        quantity: 1
+        expected_version: 7
+        day: 130
+        coupon: ""
+        tier: "none"
+    })
+    core.test.assert_eq(last.outcome, Outcome.Ok)
+    core.test.assert_eq(last.state.status, Status.Refunded)
+    core.test.assert_eq(last.state.refunded_cents, 5027)
+    core.test.assert_eq(last.state.charged_cents, 5627)
+    core.test.assert_eq(last.state.shipping_cents, 600)
+    core.test.assert_eq(last.state.version, 8)
+    core.test.assert_eq(orders_multi.inventory.available(last.state.stock, "A"), 3)
+    core.test.assert_eq(orders_multi.inventory.available(last.state.stock, "B"), 2)
+    return unit
+}
+
+test refund_window_day_30_inside_day_31_outside
+{
+    placed = orders_multi.service.transition(orders_multi.model.initial(core.map.set[str, i64](core.map.empty[str, i64](), "A", 2)), Command {
+        op: "place"
+        lines: core.list.append[LineInput](core.list.empty[LineInput](), LineInput {
+            sku: "A"
+            quantity: 2
+            unit_cents: 1000
+            category: "exempt"
+        })
+        sku: ""
+        quantity: 0
+        expected_version: 0
+        day: 5
+        coupon: ""
+        tier: "none"
+    })
+    paid = orders_multi.service.transition(placed.state, Command {
+        op: "pay"
+        lines: core.list.empty[LineInput]()
+        sku: ""
+        quantity: 0
+        expected_version: 1
+        day: 0
+        coupon: ""
+        tier: "none"
+    })
+    shipped = orders_multi.service.transition(paid.state, Command {
+        op: "ship"
+        lines: core.list.empty[LineInput]()
+        sku: ""
+        quantity: 0
+        expected_version: 2
+        day: 0
+        coupon: ""
+        tier: "none"
+    })
+    late = orders_multi.service.transition(shipped.state, Command {
+        op: "refund"
+        lines: core.list.empty[LineInput]()
+        sku: "A"
+        quantity: 1
+        expected_version: 3
+        day: 36
+        coupon: ""
+        tier: "none"
+    })
+    core.test.assert_eq(late.outcome, Outcome.InvalidRefund)
+    core.test.assert_eq(late.state, shipped.state)
+    early = orders_multi.service.transition(shipped.state, Command {
+        op: "refund"
+        lines: core.list.empty[LineInput]()
+        sku: "A"
+        quantity: 1
+        expected_version: 3
+        day: 4
+        coupon: ""
+        tier: "none"
+    })
+    core.test.assert_eq(early.outcome, Outcome.InvalidRefund)
+    core.test.assert_eq(early.state, shipped.state)
+    edge = orders_multi.service.transition(shipped.state, Command {
+        op: "refund"
+        lines: core.list.empty[LineInput]()
+        sku: "A"
+        quantity: 1
+        expected_version: 3
+        day: 35
+        coupon: ""
+        tier: "none"
+    })
+    core.test.assert_eq(edge.outcome, Outcome.Ok)
+    core.test.assert_eq(edge.state.refunded_cents, 1000)
+    same_day = orders_multi.service.transition(shipped.state, Command {
+        op: "refund"
+        lines: core.list.empty[LineInput]()
+        sku: "A"
+        quantity: 2
+        expected_version: 3
+        day: 5
+        coupon: ""
+        tier: "none"
+    })
+    core.test.assert_eq(same_day.outcome, Outcome.Ok)
+    core.test.assert_eq(same_day.state.status, Status.Refunded)
+    return unit
+}
+
+test refund_field_validation
+{
+    placed = orders_multi.service.transition(orders_multi.model.initial(core.map.set[str, i64](core.map.empty[str, i64](), "A", 2)), Command {
+        op: "place"
+        lines: core.list.append[LineInput](core.list.empty[LineInput](), LineInput {
+            sku: "A"
+            quantity: 2
+            unit_cents: 1000
+            category: "standard"
+        })
+        sku: ""
+        quantity: 0
+        expected_version: 0
+        day: 5
+        coupon: ""
+        tier: "none"
+    })
+    paid = orders_multi.service.transition(placed.state, Command {
+        op: "pay"
+        lines: core.list.empty[LineInput]()
+        sku: ""
+        quantity: 0
+        expected_version: 1
+        day: 0
+        coupon: ""
+        tier: "none"
+    })
+    shipped = orders_multi.service.transition(paid.state, Command {
+        op: "ship"
+        lines: core.list.empty[LineInput]()
+        sku: ""
+        quantity: 0
+        expected_version: 2
+        day: 0
+        coupon: ""
+        tier: "none"
+    })
+    unknown_sku = orders_multi.service.transition(shipped.state, Command {
+        op: "refund"
+        lines: core.list.empty[LineInput]()
+        sku: "B"
+        quantity: 1
+        expected_version: 3
+        day: 5
+        coupon: ""
+        tier: "none"
+    })
+    core.test.assert_eq(unknown_sku.outcome, Outcome.InvalidRefund)
+    core.test.assert_eq(unknown_sku.state, shipped.state)
+    zero = orders_multi.service.transition(shipped.state, Command {
+        op: "refund"
+        lines: core.list.empty[LineInput]()
+        sku: "A"
+        quantity: 0
+        expected_version: 3
+        day: 5
+        coupon: ""
+        tier: "none"
+    })
+    core.test.assert_eq(zero.outcome, Outcome.InvalidRefund)
+    too_many = orders_multi.service.transition(shipped.state, Command {
+        op: "refund"
+        lines: core.list.empty[LineInput]()
+        sku: "A"
+        quantity: 3
+        expected_version: 3
+        day: 5
+        coupon: ""
+        tier: "none"
+    })
+    core.test.assert_eq(too_many.outcome, Outcome.InvalidRefund)
+    core.test.assert_eq(too_many.state, shipped.state)
+    partial = orders_multi.service.transition(shipped.state, Command {
+        op: "refund"
+        lines: core.list.empty[LineInput]()
+        sku: "A"
+        quantity: 1
+        expected_version: 3
+        day: 5
+        coupon: ""
+        tier: "none"
+    })
+    over_remaining = orders_multi.service.transition(partial.state, Command {
+        op: "refund"
+        lines: core.list.empty[LineInput]()
+        sku: "A"
+        quantity: 2
+        expected_version: 4
+        day: 6
+        coupon: ""
+        tier: "none"
+    })
+    core.test.assert_eq(over_remaining.outcome, Outcome.InvalidRefund)
+    core.test.assert_eq(over_remaining.state, partial.state)
+    return unit
+}
+
+test paid_cancel_refunds_charge_and_restocks
+{
+    placed = orders_multi.service.transition(orders_multi.model.initial(core.map.set[str, i64](core.map.set[str, i64](core.map.set[str, i64](core.map.empty[str, i64](), "A", 1), "B", 1), "C", 1)), Command {
+        op: "place"
+        lines: core.list.append[LineInput](core.list.append[LineInput](core.list.append[LineInput](core.list.empty[LineInput](), LineInput {
+            sku: "A"
+            quantity: 1
+            unit_cents: 100
+            category: "standard"
+        }), LineInput {
+            sku: "B"
+            quantity: 1
+            unit_cents: 200
+            category: "food"
+        }), LineInput {
+            sku: "C"
+            quantity: 1
+            unit_cents: 300
+            category: "exempt"
+        })
+        sku: ""
+        quantity: 0
+        expected_version: 0
+        day: 3
+        coupon: ""
+        tier: "none"
+    })
+    paid = orders_multi.service.transition(placed.state, Command {
+        op: "pay"
+        lines: core.list.empty[LineInput]()
+        sku: ""
+        quantity: 0
+        expected_version: 1
+        day: 0
+        coupon: ""
+        tier: "none"
+    })
+    cancelled = orders_multi.service.transition(paid.state, Command {
+        op: "cancel"
+        lines: core.list.empty[LineInput]()
+        sku: ""
+        quantity: 0
+        expected_version: 2
+        day: 0
+        coupon: ""
+        tier: "none"
+    })
+    core.test.assert_eq(cancelled.outcome, Outcome.Ok)
+    core.test.assert_eq(cancelled.state.status, Status.Cancelled)
+    core.test.assert_eq(cancelled.state.charged_cents, 1312)
+    core.test.assert_eq(cancelled.state.refunded_cents, 1312)
+    core.test.assert_eq(orders_multi.lines.refunded_total(cancelled.state.lines), 612)
+    core.test.assert_eq(orders_multi.lines.find(cancelled.state.lines, "A"), some(Line {
+        sku: "A"
+        quantity: 1
+        refunded_quantity: 1
+        net_cents: 100
+        tax_cents: 8
+        refunded_cents: 108
+    }))
+    core.test.assert_eq(orders_multi.inventory.available(cancelled.state.stock, "A"), 1)
+    core.test.assert_eq(orders_multi.inventory.available(cancelled.state.stock, "B"), 1)
+    core.test.assert_eq(orders_multi.inventory.available(cancelled.state.stock, "C"), 1)
+    after = orders_multi.service.transition(cancelled.state, Command {
+        op: "pay"
+        lines: core.list.empty[LineInput]()
+        sku: ""
+        quantity: 0
+        expected_version: 3
+        day: 0
+        coupon: ""
+        tier: "none"
+    })
+    core.test.assert_eq(after.outcome, Outcome.InvalidState)
+    core.test.assert_eq(after.state, cancelled.state)
+    return unit
+}
+
+test reserved_cancel_refunds_nothing
+{
+    placed = orders_multi.service.transition(orders_multi.model.initial(core.map.set[str, i64](core.map.set[str, i64](core.map.set[str, i64](core.map.empty[str, i64](), "A", 1), "B", 1), "C", 1)), Command {
+        op: "place"
+        lines: core.list.append[LineInput](core.list.append[LineInput](core.list.append[LineInput](core.list.empty[LineInput](), LineInput {
+            sku: "A"
+            quantity: 1
+            unit_cents: 100
+            category: "standard"
+        }), LineInput {
+            sku: "B"
+            quantity: 1
+            unit_cents: 200
+            category: "food"
+        }), LineInput {
+            sku: "C"
+            quantity: 1
+            unit_cents: 300
+            category: "exempt"
+        })
+        sku: ""
+        quantity: 0
+        expected_version: 0
+        day: 3
+        coupon: ""
+        tier: "none"
+    })
+    cancelled = orders_multi.service.transition(placed.state, Command {
+        op: "cancel"
+        lines: core.list.empty[LineInput]()
+        sku: ""
+        quantity: 0
+        expected_version: 1
+        day: 0
+        coupon: ""
+        tier: "none"
+    })
+    core.test.assert_eq(cancelled.outcome, Outcome.Ok)
+    core.test.assert_eq(cancelled.state.status, Status.Cancelled)
+    core.test.assert_eq(cancelled.state.refunded_cents, 0)
+    core.test.assert_eq(cancelled.state.charged_cents, 0)
+    core.test.assert_eq(cancelled.state.lines, placed.state.lines)
+    core.test.assert_eq(orders_multi.inventory.available(cancelled.state.stock, "B"), 1)
+    after = orders_multi.service.transition(cancelled.state, Command {
+        op: "cancel"
+        lines: core.list.empty[LineInput]()
+        sku: ""
+        quantity: 0
+        expected_version: 2
+        day: 0
+        coupon: ""
+        tier: "none"
+    })
+    core.test.assert_eq(after.outcome, Outcome.InvalidState)
+    return unit
+}
+
+test refunded_is_terminal
+{
+    placed = orders_multi.service.transition(orders_multi.model.initial(core.map.set[str, i64](core.map.empty[str, i64](), "A", 2)), Command {
+        op: "place"
+        lines: core.list.append[LineInput](core.list.empty[LineInput](), LineInput {
+            sku: "A"
+            quantity: 1
+            unit_cents: 100
+            category: "standard"
+        })
+        sku: ""
+        quantity: 0
+        expected_version: 0
+        day: 1
+        coupon: ""
+        tier: "none"
+    })
+    paid = orders_multi.service.transition(placed.state, Command {
+        op: "pay"
+        lines: core.list.empty[LineInput]()
+        sku: ""
+        quantity: 0
+        expected_version: 1
+        day: 0
+        coupon: ""
+        tier: "none"
+    })
+    shipped = orders_multi.service.transition(paid.state, Command {
+        op: "ship"
+        lines: core.list.empty[LineInput]()
+        sku: ""
+        quantity: 0
+        expected_version: 2
+        day: 0
+        coupon: ""
+        tier: "none"
+    })
+    refunded = orders_multi.service.transition(shipped.state, Command {
+        op: "refund"
+        lines: core.list.empty[LineInput]()
+        sku: "A"
+        quantity: 1
+        expected_version: 3
+        day: 1
+        coupon: ""
+        tier: "none"
+    })
+    core.test.assert_eq(refunded.state.status, Status.Refunded)
+    core.test.assert_eq(refunded.state.refunded_cents, 108)
+    core.test.assert_eq(refunded.state.charged_cents, 608)
+    core.test.assert_eq(refunded.state.shipping_cents, 500)
+    again = orders_multi.service.transition(refunded.state, Command {
+        op: "refund"
+        lines: core.list.empty[LineInput]()
+        sku: "A"
+        quantity: 1
+        expected_version: 4
+        day: 1
+        coupon: ""
+        tier: "none"
+    })
+    core.test.assert_eq(again.outcome, Outcome.InvalidState)
+    core.test.assert_eq(again.state, refunded.state)
+    cancel_after = orders_multi.service.transition(refunded.state, Command {
+        op: "cancel"
+        lines: core.list.empty[LineInput]()
+        sku: ""
+        quantity: 0
+        expected_version: 4
+        day: 0
+        coupon: ""
+        tier: "none"
+    })
+    core.test.assert_eq(cancel_after.outcome, Outcome.InvalidState)
+    return unit
+}
+
+test tier_retained_when_later_commands_say_gold
+{
+    placed = orders_multi.service.transition(orders_multi.model.initial(core.map.set[str, i64](core.map.empty[str, i64](), "A", 5)), Command {
+        op: "place"
+        lines: core.list.append[LineInput](core.list.empty[LineInput](), LineInput {
+            sku: "A"
+            quantity: 2
+            unit_cents: 3000
+            category: "standard"
+        })
+        sku: ""
+        quantity: 0
+        expected_version: 0
+        day: 1
+        coupon: ""
+        tier: "member"
+    })
+    core.test.assert_eq(placed.state.tier, Tier.Member)
+    core.test.assert_eq(placed.state.subtotal_cents, 5700)
+    core.test.assert_eq(placed.state.shipping_cents, 500)
+    paid = orders_multi.service.transition(placed.state, Command {
+        op: "pay"
+        lines: core.list.empty[LineInput]()
+        sku: ""
+        quantity: 0
+        expected_version: 1
+        day: 0
+        coupon: ""
+        tier: "gold"
+    })
+    core.test.assert_eq(paid.state.tier, Tier.Member)
+    core.test.assert_eq(paid.state.charged_cents, 6670)
+    shipped = orders_multi.service.transition(paid.state, Command {
+        op: "ship"
+        lines: core.list.empty[LineInput]()
+        sku: ""
+        quantity: 0
+        expected_version: 2
+        day: 0
+        coupon: ""
+        tier: "gold"
+    })
+    core.test.assert_eq(shipped.state.tier, Tier.Member)
+    refunded = orders_multi.service.transition(shipped.state, Command {
+        op: "refund"
+        lines: core.list.empty[LineInput]()
+        sku: "A"
+        quantity: 2
+        expected_version: 3
+        day: 20
+        coupon: ""
+        tier: "gold"
+    })
+    core.test.assert_eq(refunded.state.tier, Tier.Member)
+    core.test.assert_eq(refunded.state.refunded_cents, 6170)
+    core.test.assert_eq(refunded.state.day_placed, 1)
+    return unit
+}
+
+test ship_requires_payment
+{
+    placed = orders_multi.service.transition(orders_multi.model.initial(core.map.set[str, i64](core.map.empty[str, i64](), "A", 5)), Command {
+        op: "place"
+        lines: core.list.append[LineInput](core.list.empty[LineInput](), LineInput {
+            sku: "A"
+            quantity: 1
+            unit_cents: 100
+            category: "standard"
+        })
+        sku: ""
+        quantity: 0
+        expected_version: 0
+        day: 0
+        coupon: ""
+        tier: "none"
+    })
+    early = orders_multi.service.transition(placed.state, Command {
+        op: "ship"
+        lines: core.list.empty[LineInput]()
+        sku: ""
+        quantity: 0
+        expected_version: 1
+        day: 0
+        coupon: ""
+        tier: "none"
+    })
+    core.test.assert_eq(early.outcome, Outcome.InvalidState)
+    core.test.assert_eq(early.state, placed.state)
+    paid = orders_multi.service.transition(placed.state, Command {
+        op: "pay"
+        lines: core.list.empty[LineInput]()
+        sku: ""
+        quantity: 0
+        expected_version: 1
+        day: 0
+        coupon: ""
+        tier: "none"
+    })
+    shipped = orders_multi.service.transition(paid.state, Command {
+        op: "ship"
+        lines: core.list.empty[LineInput]()
+        sku: ""
+        quantity: 0
+        expected_version: 2
+        day: 0
+        coupon: ""
+        tier: "none"
+    })
+    core.test.assert_eq(shipped.state.status, Status.Shipped)
+    core.test.assert_eq(shipped.state.stock, paid.state.stock)
+    core.test.assert_eq(shipped.state.lines, paid.state.lines)
+    twice = orders_multi.service.transition(shipped.state, Command {
+        op: "ship"
+        lines: core.list.empty[LineInput]()
+        sku: ""
+        quantity: 0
+        expected_version: 3
+        day: 0
+        coupon: ""
+        tier: "none"
+    })
+    core.test.assert_eq(twice.outcome, Outcome.InvalidState)
+    return unit
+}
+
+test run_sequences_snapshots
+{
+    request = Request {
+        stock: core.map.set[str, i64](core.map.empty[str, i64](), "A", 2)
+        commands: core.list.append[Command](core.list.append[Command](core.list.empty[Command](), Command {
+            op: "place"
+            lines: core.list.append[LineInput](core.list.empty[LineInput](), LineInput {
+                sku: "A"
+                quantity: 2
+                unit_cents: 250
+                category: "food"
+            })
+            sku: ""
+            quantity: 0
+            expected_version: 0
+            day: 2
+            coupon: ""
+            tier: "none"
+        }), Command {
+            op: "pay"
+            lines: core.list.empty[LineInput]()
+            sku: ""
+            quantity: 0
+            expected_version: 1
+            day: 0
+            coupon: ""
+            tier: "none"
+        })
+    }
+    reply = orders_multi.service.run(request)
+    core.test.assert_eq(core.list.len[Snapshot](reply.results), 2)
+    second = core.list.get[Snapshot](reply.results, 1)
+    second_status = match second {
+        none -> ""
+        some(snapshot) -> snapshot.status
+    }
+    core.test.assert_eq(second_status, "paid")
+    second_tier = match second {
+        none -> ""
+        some(snapshot) -> snapshot.tier
+    }
+    core.test.assert_eq(second_tier, "none")
+    second_charge = match second {
+        none -> 0
+        some(snapshot) -> snapshot.charged_cents
+    }
+    core.test.assert_eq(second_charge, 1010)
+    return unit
+}

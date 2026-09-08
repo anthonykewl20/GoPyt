@@ -1,0 +1,6 @@
+module math
+
+fn nada() -> unit
+{
+    return unit
+}

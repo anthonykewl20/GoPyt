@@ -1,0 +1,3 @@
+module math
+
+fn pair() -> list[i64]

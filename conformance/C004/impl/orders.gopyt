@@ -1,0 +1,8 @@
+module orders
+
+use core.log { write }
+
+fn ping() -> unit
+{
+    return core.log.write("x")
+}

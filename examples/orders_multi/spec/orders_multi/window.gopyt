@@ -1,0 +1,4 @@
+module orders_multi.window
+
+fn inside(day_placed: i64, day: i64) -> bool
+    ensures result == (day - day_placed >= 0 and day - day_placed <= 30)

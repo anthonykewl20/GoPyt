@@ -1,0 +1,8 @@
+module math
+
+fn add() -> i64
+{
+    return if true {
+        return 1
+    }
+}

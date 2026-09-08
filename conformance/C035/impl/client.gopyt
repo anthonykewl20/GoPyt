@@ -1,0 +1,17 @@
+module client
+
+use net.http { request, HttpRequest, HttpMethod }
+use core.status { HttpError }
+use core.bytes { from_str }
+
+task ping() -> unit | HttpError
+    effects { network }
+{
+    req = HttpRequest {
+        method: HttpMethod.Get
+        url: "https://example.com"
+        body: core.bytes.from_str("")
+    }
+    net.http.request(req)
+    return unit
+}

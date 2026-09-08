@@ -1,0 +1,3 @@
+ok
+phase: test
+note: uses specified store.db; no effect interception

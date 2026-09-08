@@ -1,0 +1,3 @@
+module orders
+
+fn ping() -> unit

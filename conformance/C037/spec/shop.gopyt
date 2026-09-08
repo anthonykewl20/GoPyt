@@ -1,0 +1,11 @@
+module shop
+
+use core.status { ConvertError }
+
+type Payment {
+    amount: i64
+}
+
+provide Json for Payment
+
+fn parse(text: str) -> Payment | ConvertError

@@ -1,0 +1,5 @@
+module orders.presentation
+
+use orders.model { Snapshot, Transition }
+
+fn snapshot(transition: Transition) -> Snapshot

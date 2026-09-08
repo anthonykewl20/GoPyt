@@ -1,0 +1,1202 @@
+{
+  "schema": "gopyt.obligations.v1",
+  "application": "examples/orders_multi",
+  "contract": {
+    "path": "../../benchmarks/orders_multi/CONTRACT.md",
+    "version": "Multi-line order lifecycle contract v1",
+    "sha256": "sha256:2eb885a1303ddca443f38b0efe09c2c32c1706adcffa3200cf53c2a5f9837399"
+  },
+  "authority_meaning": {
+    "contract": "Part of the frozen multi-line order lifecycle contract v1. The application must satisfy it.",
+    "proposed": "A maintenance policy under discussion. NOT part of the application baseline; listed so the gap is explicit and no agent mistakes it for current behavior.",
+    "unresolved": "A requested behavior with undecided policy. Nothing executable may represent it; implementing it without a decision is inventing policy."
+  },
+  "obligations": [
+    {
+      "id": "OM-PREC-001",
+      "title": "Unknown op is rejected before anything else",
+      "authority": "contract",
+      "source": "CONTRACT.md, Precedence 1",
+      "prose": "Any op other than place/pay/ship/cancel/refund produces invalid_command regardless of version or state.",
+      "functions": [
+        "orders_multi.service.transition",
+        "orders_multi.validation.operation"
+      ],
+      "state_fields": [],
+      "representations": [
+        {
+          "kind": "ensures",
+          "function": "orders_multi.service.transition",
+          "text": "orders_multi.validation.operation(command.op) != Operation.Unknown or result.outcome == Outcome.InvalidCommand"
+        },
+        {
+          "kind": "test",
+          "test": "test.orders_multi.service.unknown_before_conflict"
+        }
+      ]
+    },
+    {
+      "id": "OM-PREC-002",
+      "title": "Version conflict is rejected before state and field validation",
+      "authority": "contract",
+      "source": "CONTRACT.md, Precedence 2",
+      "prose": "For a known op, expected_version unequal to the current version yields conflict even when state or fields are invalid.",
+      "functions": [
+        "orders_multi.service.transition"
+      ],
+      "state_fields": [
+        "version"
+      ],
+      "representations": [
+        {
+          "kind": "ensures",
+          "function": "orders_multi.service.transition",
+          "text": "orders_multi.validation.operation(command.op) == Operation.Unknown or command.expected_version == state.version or result.outcome == Outcome.Conflict"
+        },
+        {
+          "kind": "test",
+          "test": "test.orders_multi.service.conflict_before_state_and_fields"
+        }
+      ]
+    },
+    {
+      "id": "OM-PREC-003",
+      "title": "Illegal source status is rejected before field validation and stock",
+      "authority": "contract",
+      "source": "CONTRACT.md, Precedence 3",
+      "prose": "For a known op at the expected version, a status from which the op is not legal yields invalid_state before any field is inspected. The legal table in orders_multi.validation.legal is the source of truth.",
+      "functions": [
+        "orders_multi.service.transition",
+        "orders_multi.validation.legal"
+      ],
+      "state_fields": [
+        "status"
+      ],
+      "representations": [
+        {
+          "kind": "ensures",
+          "function": "orders_multi.service.transition",
+          "text": "orders_multi.validation.operation(command.op) == Operation.Unknown or command.expected_version != state.version or orders_multi.validation.legal(state.status, orders_multi.validation.operation(command.op)) or result.outcome == Outcome.InvalidState"
+        },
+        {
+          "kind": "test",
+          "test": "test.orders_multi.service.state_before_fields"
+        },
+        {
+          "kind": "test",
+          "test": "test.orders_multi.service.ship_requires_payment"
+        }
+      ]
+    },
+    {
+      "id": "OM-PREC-004",
+      "title": "Field validation precedes stock",
+      "authority": "contract",
+      "source": "CONTRACT.md, Precedence 4-5",
+      "prose": "invalid_order precedes out_of_stock for place. Only the tests and the acceptance corpus cover this ordering; a postcondition would have to restate the field table.",
+      "functions": [
+        "orders_multi.placement.place"
+      ],
+      "state_fields": [],
+      "representations": [
+        {
+          "kind": "test",
+          "test": "test.orders_multi.service.invalid_order_before_stock"
+        },
+        {
+          "kind": "test",
+          "test": "test.orders_multi.service.out_of_stock_preserves_state"
+        },
+        {
+          "kind": "prose",
+          "text": "Precedence between invalid_order and out_of_stock has no runtime contract."
+        }
+      ]
+    },
+    {
+      "id": "OM-REJ-001",
+      "title": "Rejected commands preserve every state field",
+      "authority": "contract",
+      "source": "CONTRACT.md, Transport: every failure leaves every state field unchanged",
+      "prose": "Any outcome other than ok leaves the state structurally identical, including version, lines and stock.",
+      "functions": [
+        "orders_multi.service.transition"
+      ],
+      "state_fields": [
+        "status",
+        "version",
+        "day_placed",
+        "tier",
+        "subtotal_cents",
+        "discount_cents",
+        "tax_cents",
+        "shipping_cents",
+        "charged_cents",
+        "refunded_cents",
+        "lines",
+        "stock"
+      ],
+      "representations": [
+        {
+          "kind": "ensures",
+          "function": "orders_multi.service.transition",
+          "text": "result.outcome == Outcome.Ok or result.state == state"
+        },
+        {
+          "kind": "test",
+          "test": "test.orders_multi.service.unknown_before_conflict"
+        },
+        {
+          "kind": "test",
+          "test": "test.orders_multi.service.out_of_stock_preserves_state"
+        },
+        {
+          "kind": "test",
+          "test": "test.orders_multi.service.refund_field_validation"
+        },
+        {
+          "kind": "test",
+          "test": "test.orders_multi.service.refund_window_day_30_inside_day_31_outside"
+        }
+      ]
+    },
+    {
+      "id": "OM-VER-001",
+      "title": "A successful command increments the version exactly once",
+      "authority": "contract",
+      "source": "CONTRACT.md, Transport",
+      "prose": "Successful changes increment version by exactly one.",
+      "functions": [
+        "orders_multi.service.transition"
+      ],
+      "state_fields": [
+        "version"
+      ],
+      "representations": [
+        {
+          "kind": "ensures",
+          "function": "orders_multi.service.transition",
+          "text": "result.outcome != Outcome.Ok or result.state.version == state.version + 1"
+        },
+        {
+          "kind": "test",
+          "test": "test.orders_multi.service.split_refund_across_lines_exact_cents"
+        },
+        {
+          "kind": "test",
+          "test": "test.orders_multi.service.member_quote_two_lines"
+        }
+      ]
+    },
+    {
+      "id": "OM-INIT-001",
+      "title": "Initial state is empty with the supplied stock",
+      "authority": "contract",
+      "source": "CONTRACT.md, Transport: initial state",
+      "prose": "Status empty, version 0, day_placed 0, tier none, all amounts 0, no lines, stock as supplied.",
+      "functions": [
+        "orders_multi.model.initial"
+      ],
+      "state_fields": [
+        "status",
+        "version",
+        "stock"
+      ],
+      "representations": [
+        {
+          "kind": "ensures",
+          "function": "orders_multi.model.initial",
+          "text": "result.status == Status.Empty and result.version == 0 and result.charged_cents == 0 and result.refunded_cents == 0"
+        },
+        {
+          "kind": "ensures",
+          "function": "orders_multi.model.initial",
+          "text": "result.stock == stock"
+        },
+        {
+          "kind": "test",
+          "test": "test.orders_multi.service.initial_state"
+        }
+      ]
+    },
+    {
+      "id": "OM-STK-001",
+      "title": "Stock keeps every request SKU",
+      "authority": "contract",
+      "source": "CONTRACT.md, Transport: stock is an object with every SKU from the request",
+      "prose": "No transition adds or removes a stock key; only counts change.",
+      "functions": [
+        "orders_multi.service.transition",
+        "orders_multi.inventory.reserve",
+        "orders_multi.inventory.restock"
+      ],
+      "state_fields": [
+        "stock"
+      ],
+      "representations": [
+        {
+          "kind": "ensures",
+          "function": "orders_multi.service.transition",
+          "text": "core.map.keys[str, i64](result.state.stock) == core.map.keys[str, i64](state.stock)"
+        },
+        {
+          "kind": "ensures",
+          "function": "orders_multi.inventory.reserve",
+          "text": "core.map.keys[str, i64](result) == core.map.keys[str, i64](stock)"
+        },
+        {
+          "kind": "ensures",
+          "function": "orders_multi.inventory.restock",
+          "text": "core.map.keys[str, i64](result) == core.map.keys[str, i64](stock)"
+        },
+        {
+          "kind": "test",
+          "test": "test.orders_multi.service.split_refund_across_lines_exact_cents"
+        }
+      ]
+    },
+    {
+      "id": "OM-PLC-001",
+      "title": "Placement accepts only a valid, in-stock order",
+      "authority": "contract",
+      "source": "CONTRACT.md, Placement: field validation and stock",
+      "prose": "1..5 lines, known and distinct SKUs, quantity 1..100, unit_cents 0..1000000, known category, coupon in {\"\", FREESHIP}, tier in {none, member, gold}, day 0..100000; every line quantity within its SKU's stock.",
+      "functions": [
+        "orders_multi.placement.place",
+        "orders_multi.validation.valid_order",
+        "orders_multi.inventory.sufficient"
+      ],
+      "state_fields": [],
+      "representations": [
+        {
+          "kind": "ensures",
+          "function": "orders_multi.placement.place",
+          "text": "result.outcome != Outcome.Ok or orders_multi.validation.valid_order(command, state.stock) and orders_multi.inventory.sufficient(state.stock, command.lines)"
+        },
+        {
+          "kind": "test",
+          "test": "test.orders_multi.service.invalid_order_before_stock"
+        },
+        {
+          "kind": "test",
+          "test": "test.orders_multi.service.out_of_stock_preserves_state"
+        }
+      ]
+    },
+    {
+      "id": "OM-PLC-002",
+      "title": "Placement subtracts every line quantity from its SKU and charges nothing",
+      "authority": "contract",
+      "source": "CONTRACT.md, Placement: stock",
+      "prose": "On success each line's quantity is subtracted from its SKU; status reserved; charged and refunded stay 0.",
+      "functions": [
+        "orders_multi.placement.place",
+        "orders_multi.inventory.reserve_all",
+        "orders_multi.inventory.reserve"
+      ],
+      "state_fields": [
+        "stock",
+        "status",
+        "charged_cents",
+        "refunded_cents"
+      ],
+      "representations": [
+        {
+          "kind": "ensures",
+          "function": "orders_multi.placement.place",
+          "text": "result.outcome != Outcome.Ok or result.state.stock == orders_multi.inventory.reserve_all(state.stock, command.lines)"
+        },
+        {
+          "kind": "ensures",
+          "function": "orders_multi.placement.place",
+          "text": "result.outcome != Outcome.Ok or result.state.status == Status.Reserved and result.state.charged_cents == 0 and result.state.refunded_cents == 0"
+        },
+        {
+          "kind": "ensures",
+          "function": "orders_multi.inventory.reserve",
+          "text": "available(result, sku) == available(stock, sku) - quantity"
+        },
+        {
+          "kind": "test",
+          "test": "test.orders_multi.service.gold_quote_across_categories"
+        },
+        {
+          "kind": "test",
+          "test": "test.orders_multi.service.out_of_stock_preserves_state"
+        }
+      ]
+    },
+    {
+      "id": "OM-PLC-003",
+      "title": "Tier and day are taken from the placing command",
+      "authority": "contract",
+      "source": "CONTRACT.md, Placement: day_placed and tier",
+      "prose": "day_placed = command day; tier = the placing command's tier.",
+      "functions": [
+        "orders_multi.placement.place",
+        "orders_multi.customer.tier"
+      ],
+      "state_fields": [
+        "tier",
+        "day_placed"
+      ],
+      "representations": [
+        {
+          "kind": "ensures",
+          "function": "orders_multi.placement.place",
+          "text": "result.outcome != Outcome.Ok or result.state.tier == orders_multi.customer.tier(command.tier) and result.state.day_placed == command.day"
+        },
+        {
+          "kind": "test",
+          "test": "test.orders_multi.service.gold_quote_across_categories"
+        },
+        {
+          "kind": "test",
+          "test": "test.orders_multi.service.tier_retained_when_later_commands_say_gold"
+        }
+      ]
+    },
+    {
+      "id": "OM-TIER-001",
+      "title": "Tier and day_placed are retained unchanged by every later transition",
+      "authority": "contract",
+      "source": "CONTRACT.md, Placement: tier retained; later command tier ignored",
+      "prose": "Only placement writes tier and day_placed; pay, ship, cancel and refund copy them, and the tier value of any later command is ignored.",
+      "functions": [
+        "orders_multi.service.transition",
+        "orders_multi.payment.pay",
+        "orders_multi.fulfillment.ship",
+        "orders_multi.fulfillment.cancel",
+        "orders_multi.refunds.refund"
+      ],
+      "state_fields": [
+        "tier",
+        "day_placed"
+      ],
+      "representations": [
+        {
+          "kind": "ensures",
+          "function": "orders_multi.service.transition",
+          "text": "result.outcome != Outcome.Ok or orders_multi.validation.operation(command.op) == Operation.Place or result.state.tier == state.tier and result.state.day_placed == state.day_placed"
+        },
+        {
+          "kind": "preserved_field",
+          "type": "orders_multi.model.State",
+          "field": "tier",
+          "except": [
+            "orders_multi.placement.place",
+            "orders_multi.model.initial"
+          ]
+        },
+        {
+          "kind": "preserved_field",
+          "type": "orders_multi.model.State",
+          "field": "day_placed",
+          "except": [
+            "orders_multi.placement.place",
+            "orders_multi.model.initial"
+          ]
+        },
+        {
+          "kind": "test",
+          "test": "test.orders_multi.service.tier_retained_when_later_commands_say_gold"
+        }
+      ]
+    },
+    {
+      "id": "OM-PRC-001",
+      "title": "Line discount is floor(gross * tier rate / 10000) with rates none 0, member 500, gold 1000",
+      "authority": "contract",
+      "source": "CONTRACT.md, Pricing",
+      "prose": "Line gross = quantity * unit_cents; discount uses the placing tier's basis points; net = gross - discount.",
+      "functions": [
+        "orders_multi.pricing.quote_line",
+        "orders_multi.customer.discount",
+        "orders_multi.customer.discount_rate"
+      ],
+      "state_fields": [
+        "subtotal_cents",
+        "discount_cents"
+      ],
+      "representations": [
+        {
+          "kind": "ensures",
+          "function": "orders_multi.pricing.quote_line",
+          "text": "result.discount_cents == orders_multi.customer.discount(line.quantity * line.unit_cents, tier)"
+        },
+        {
+          "kind": "ensures",
+          "function": "orders_multi.pricing.quote_line",
+          "text": "result.net_cents == line.quantity * line.unit_cents - result.discount_cents"
+        },
+        {
+          "kind": "ensures",
+          "function": "orders_multi.customer.discount",
+          "text": "result == gross * discount_rate(tier) / 10000"
+        },
+        {
+          "kind": "ensures",
+          "function": "orders_multi.customer.discount_rate",
+          "text": "tier != Tier.None or result == 0"
+        },
+        {
+          "kind": "ensures",
+          "function": "orders_multi.customer.discount_rate",
+          "text": "tier != Tier.Member or result == 500"
+        },
+        {
+          "kind": "ensures",
+          "function": "orders_multi.customer.discount_rate",
+          "text": "tier != Tier.Gold or result == 1000"
+        },
+        {
+          "kind": "test",
+          "test": "test.orders_multi.pricing.line_discount_and_tax_basis"
+        },
+        {
+          "kind": "test",
+          "test": "test.orders_multi.service.gold_quote_across_categories"
+        },
+        {
+          "kind": "test",
+          "test": "test.orders_multi.service.member_quote_two_lines"
+        }
+      ]
+    },
+    {
+      "id": "OM-PRC-002",
+      "title": "Line tax is floor(net * category rate / 10000) on the discounted net with rates standard 825, food 200, exempt 0",
+      "authority": "contract",
+      "source": "CONTRACT.md, Pricing",
+      "prose": "Tax basis is the line net after discount, never gross.",
+      "functions": [
+        "orders_multi.pricing.quote_line",
+        "orders_multi.tax.tax",
+        "orders_multi.tax.tax_rate"
+      ],
+      "state_fields": [
+        "tax_cents"
+      ],
+      "representations": [
+        {
+          "kind": "ensures",
+          "function": "orders_multi.pricing.quote_line",
+          "text": "result.tax_cents == orders_multi.tax.tax(result.net_cents, orders_multi.tax.category(line.category))"
+        },
+        {
+          "kind": "ensures",
+          "function": "orders_multi.tax.tax",
+          "text": "result == net * tax_rate(category) / 10000"
+        },
+        {
+          "kind": "ensures",
+          "function": "orders_multi.tax.tax_rate",
+          "text": "category != Category.Standard or result == 825"
+        },
+        {
+          "kind": "ensures",
+          "function": "orders_multi.tax.tax_rate",
+          "text": "category != Category.Food or result == 200"
+        },
+        {
+          "kind": "ensures",
+          "function": "orders_multi.tax.tax_rate",
+          "text": "category != Category.Exempt or result == 0"
+        },
+        {
+          "kind": "test",
+          "test": "test.orders_multi.pricing.line_discount_and_tax_basis"
+        },
+        {
+          "kind": "test",
+          "test": "test.orders_multi.service.gold_quote_across_categories"
+        }
+      ]
+    },
+    {
+      "id": "OM-PRC-003",
+      "title": "Order totals are per-line sums",
+      "authority": "contract",
+      "source": "CONTRACT.md, Pricing: subtotal, discount and tax are sums of line values",
+      "prose": "subtotal_cents = sum of line nets, discount_cents = sum of line discounts (= total gross - subtotal), tax_cents = sum of line taxes; rounding is per line, never per order.",
+      "functions": [
+        "orders_multi.pricing.quote",
+        "orders_multi.placement.place",
+        "orders_multi.lines.subtotal",
+        "orders_multi.lines.tax_total"
+      ],
+      "state_fields": [
+        "subtotal_cents",
+        "discount_cents",
+        "tax_cents"
+      ],
+      "representations": [
+        {
+          "kind": "ensures",
+          "function": "orders_multi.pricing.quote",
+          "text": "core.list.len[Line](result.lines) == core.list.len[LineInput](lines)"
+        },
+        {
+          "kind": "ensures",
+          "function": "orders_multi.pricing.quote",
+          "text": "result.subtotal_cents == orders_multi.lines.subtotal(result.lines)"
+        },
+        {
+          "kind": "ensures",
+          "function": "orders_multi.pricing.quote",
+          "text": "result.tax_cents == orders_multi.lines.tax_total(result.lines)"
+        },
+        {
+          "kind": "ensures",
+          "function": "orders_multi.pricing.quote",
+          "text": "result.discount_cents == gross_total(lines) - result.subtotal_cents"
+        },
+        {
+          "kind": "ensures",
+          "function": "orders_multi.placement.place",
+          "text": "result.outcome != Outcome.Ok or core.list.len[Line](result.state.lines) == core.list.len[LineInput](command.lines) and orders_multi.lines.unrefunded(result.state.lines)"
+        },
+        {
+          "kind": "ensures",
+          "function": "orders_multi.placement.place",
+          "text": "result.outcome != Outcome.Ok or result.state.subtotal_cents == orders_multi.lines.subtotal(result.state.lines) and result.state.tax_cents == orders_multi.lines.tax_total(result.state.lines)"
+        },
+        {
+          "kind": "ensures",
+          "function": "orders_multi.placement.place",
+          "text": "result.outcome != Outcome.Ok or result.state.discount_cents == orders_multi.pricing.gross_total(command.lines) - result.state.subtotal_cents"
+        },
+        {
+          "kind": "test",
+          "test": "test.orders_multi.service.gold_quote_across_categories"
+        },
+        {
+          "kind": "test",
+          "test": "test.orders_multi.service.member_quote_two_lines"
+        },
+        {
+          "kind": "test",
+          "test": "test.orders_multi.service.none_tier_three_lines_pays_line_shipping"
+        }
+      ]
+    },
+    {
+      "id": "OM-SHP-001",
+      "title": "Shipping is 0 for gold, FREESHIP or subtotal >= 10000, else 500 + 100 per extra line",
+      "authority": "contract",
+      "source": "CONTRACT.md, Pricing: shipping",
+      "prose": "Shipping is computed from the placed subtotal, line count, placing tier and coupon.",
+      "functions": [
+        "orders_multi.shipping.shipping",
+        "orders_multi.placement.place"
+      ],
+      "state_fields": [
+        "shipping_cents"
+      ],
+      "representations": [
+        {
+          "kind": "ensures",
+          "function": "orders_multi.shipping.shipping",
+          "text": "tier != Tier.Gold or result == 0"
+        },
+        {
+          "kind": "ensures",
+          "function": "orders_multi.shipping.shipping",
+          "text": "coupon != \"FREESHIP\" or result == 0"
+        },
+        {
+          "kind": "ensures",
+          "function": "orders_multi.shipping.shipping",
+          "text": "subtotal_cents < 10000 or result == 0"
+        },
+        {
+          "kind": "ensures",
+          "function": "orders_multi.shipping.shipping",
+          "text": "tier == Tier.Gold or coupon == \"FREESHIP\" or subtotal_cents >= 10000 or result == 500 + 100 * (line_count - 1)"
+        },
+        {
+          "kind": "ensures",
+          "function": "orders_multi.placement.place",
+          "text": "result.outcome != Outcome.Ok or result.state.shipping_cents == orders_multi.shipping.shipping(result.state.subtotal_cents, core.list.len[Line](result.state.lines), result.state.tier, command.coupon)"
+        },
+        {
+          "kind": "test",
+          "test": "test.orders_multi.shipping.shipping_rules"
+        },
+        {
+          "kind": "test",
+          "test": "test.orders_multi.service.freeship_and_threshold_shipping"
+        },
+        {
+          "kind": "test",
+          "test": "test.orders_multi.service.none_tier_three_lines_pays_line_shipping"
+        }
+      ]
+    },
+    {
+      "id": "OM-QUO-001",
+      "title": "Quoted amounts are fixed at placement and preserved by every later transition",
+      "authority": "contract",
+      "source": "CONTRACT.md, Pricing and later transitions",
+      "prose": "subtotal_cents, discount_cents, tax_cents and shipping_cents are written only by placement and copied unchanged by pay, ship, cancel and refund.",
+      "functions": [
+        "orders_multi.payment.pay",
+        "orders_multi.fulfillment.ship",
+        "orders_multi.fulfillment.cancel",
+        "orders_multi.refunds.refund"
+      ],
+      "state_fields": [
+        "subtotal_cents",
+        "discount_cents",
+        "tax_cents",
+        "shipping_cents"
+      ],
+      "representations": [
+        {
+          "kind": "preserved_field",
+          "type": "orders_multi.model.State",
+          "field": "subtotal_cents",
+          "except": [
+            "orders_multi.placement.place",
+            "orders_multi.model.initial"
+          ]
+        },
+        {
+          "kind": "preserved_field",
+          "type": "orders_multi.model.State",
+          "field": "discount_cents",
+          "except": [
+            "orders_multi.placement.place",
+            "orders_multi.model.initial"
+          ]
+        },
+        {
+          "kind": "preserved_field",
+          "type": "orders_multi.model.State",
+          "field": "tax_cents",
+          "except": [
+            "orders_multi.placement.place",
+            "orders_multi.model.initial"
+          ]
+        },
+        {
+          "kind": "preserved_field",
+          "type": "orders_multi.model.State",
+          "field": "shipping_cents",
+          "except": [
+            "orders_multi.placement.place",
+            "orders_multi.model.initial"
+          ]
+        },
+        {
+          "kind": "test",
+          "test": "test.orders_multi.service.split_refund_across_lines_exact_cents"
+        }
+      ]
+    },
+    {
+      "id": "OM-PAY-001",
+      "title": "Payment charges subtotal + tax + shipping from the saved quote",
+      "authority": "contract",
+      "source": "CONTRACT.md, Payment",
+      "prose": "The charge is the saved quote, not a recomputation from the pay command; lines and stock do not change.",
+      "functions": [
+        "orders_multi.payment.pay"
+      ],
+      "state_fields": [
+        "charged_cents",
+        "status"
+      ],
+      "representations": [
+        {
+          "kind": "ensures",
+          "function": "orders_multi.payment.pay",
+          "text": "result.outcome != Outcome.Ok or result.state.charged_cents == state.subtotal_cents + state.tax_cents + state.shipping_cents"
+        },
+        {
+          "kind": "ensures",
+          "function": "orders_multi.payment.pay",
+          "text": "result.outcome != Outcome.Ok or result.state.status == Status.Paid and result.state.stock == state.stock and result.state.lines == state.lines"
+        },
+        {
+          "kind": "preserved_field",
+          "type": "orders_multi.model.State",
+          "field": "charged_cents",
+          "except": [
+            "orders_multi.payment.pay",
+            "orders_multi.placement.place",
+            "orders_multi.model.initial"
+          ]
+        },
+        {
+          "kind": "test",
+          "test": "test.orders_multi.service.member_quote_two_lines"
+        },
+        {
+          "kind": "test",
+          "test": "test.orders_multi.service.none_tier_three_lines_pays_line_shipping"
+        }
+      ]
+    },
+    {
+      "id": "OM-SHIP-001",
+      "title": "Shipment changes only the status",
+      "authority": "contract",
+      "source": "CONTRACT.md, Shipment",
+      "prose": "ship sets status shipped and nothing else changes.",
+      "functions": [
+        "orders_multi.fulfillment.ship"
+      ],
+      "state_fields": [
+        "status"
+      ],
+      "representations": [
+        {
+          "kind": "ensures",
+          "function": "orders_multi.fulfillment.ship",
+          "text": "result.outcome != Outcome.Ok or result.state.status == Status.Shipped and result.state.stock == state.stock and result.state.lines == state.lines and result.state.charged_cents == state.charged_cents and result.state.refunded_cents == state.refunded_cents"
+        },
+        {
+          "kind": "test",
+          "test": "test.orders_multi.service.ship_requires_payment"
+        }
+      ]
+    },
+    {
+      "id": "OM-CAN-001",
+      "title": "Cancellation returns every line's full quantity to its SKU",
+      "authority": "contract",
+      "source": "CONTRACT.md, Cancellation",
+      "prose": "Reserved or paid orders may be cancelled; every line's full quantity is restocked, never a partial amount.",
+      "functions": [
+        "orders_multi.fulfillment.cancel",
+        "orders_multi.inventory.restock_all",
+        "orders_multi.inventory.restock"
+      ],
+      "state_fields": [
+        "stock",
+        "status"
+      ],
+      "representations": [
+        {
+          "kind": "ensures",
+          "function": "orders_multi.fulfillment.cancel",
+          "text": "result.outcome != Outcome.Ok or result.state.stock == orders_multi.inventory.restock_all(state.stock, state.lines)"
+        },
+        {
+          "kind": "ensures",
+          "function": "orders_multi.fulfillment.cancel",
+          "text": "result.outcome != Outcome.Ok or result.state.status == Status.Cancelled"
+        },
+        {
+          "kind": "ensures",
+          "function": "orders_multi.inventory.restock",
+          "text": "available(result, sku) == available(stock, sku) + quantity"
+        },
+        {
+          "kind": "test",
+          "test": "test.orders_multi.service.paid_cancel_refunds_charge_and_restocks"
+        },
+        {
+          "kind": "test",
+          "test": "test.orders_multi.service.reserved_cancel_refunds_nothing"
+        }
+      ]
+    },
+    {
+      "id": "OM-CAN-002",
+      "title": "Paid cancellation refunds the whole charge including shipping and marks every line refunded; reserved cancellation refunds nothing",
+      "authority": "contract",
+      "source": "CONTRACT.md, Cancellation",
+      "prose": "If paid: refunded_cents = charged_cents, each line refunded_quantity = quantity and refunded_cents = net + tax (so line refunds sum to subtotal + tax while the order refund includes shipping). If reserved: refund fields stay 0 and lines are unchanged. This is the only path that refunds shipping under contract v1.",
+      "functions": [
+        "orders_multi.fulfillment.cancel",
+        "orders_multi.lines.refund_all"
+      ],
+      "state_fields": [
+        "refunded_cents",
+        "lines"
+      ],
+      "representations": [
+        {
+          "kind": "ensures",
+          "function": "orders_multi.fulfillment.cancel",
+          "text": "result.outcome != Outcome.Ok or state.status != Status.Paid or result.state.refunded_cents == state.charged_cents and orders_multi.lines.all_refunded(result.state.lines) and orders_multi.lines.refunded_total(result.state.lines) == state.subtotal_cents + state.tax_cents"
+        },
+        {
+          "kind": "ensures",
+          "function": "orders_multi.fulfillment.cancel",
+          "text": "result.outcome != Outcome.Ok or state.status != Status.Reserved or result.state.refunded_cents == 0 and result.state.lines == state.lines"
+        },
+        {
+          "kind": "ensures",
+          "function": "orders_multi.lines.refund_all",
+          "text": "all_refunded(result)"
+        },
+        {
+          "kind": "ensures",
+          "function": "orders_multi.lines.refund_all",
+          "text": "refunded_total(result) == subtotal(lines) + tax_total(lines)"
+        },
+        {
+          "kind": "test",
+          "test": "test.orders_multi.service.paid_cancel_refunds_charge_and_restocks"
+        },
+        {
+          "kind": "test",
+          "test": "test.orders_multi.service.reserved_cancel_refunds_nothing"
+        }
+      ]
+    },
+    {
+      "id": "OM-REF-001",
+      "title": "Refund validation: the SKU names a line and quantity is 1..(line quantity - refunded_quantity)",
+      "authority": "contract",
+      "source": "CONTRACT.md, Refund: validation",
+      "prose": "Otherwise invalid_refund and the state is unchanged.",
+      "functions": [
+        "orders_multi.refunds.refund",
+        "orders_multi.lines.find",
+        "orders_multi.validation.valid_refund_quantity"
+      ],
+      "state_fields": [
+        "lines"
+      ],
+      "representations": [
+        {
+          "kind": "ensures",
+          "function": "orders_multi.validation.valid_refund_quantity",
+          "text": "result == (quantity >= 1 and quantity <= remaining)"
+        },
+        {
+          "kind": "ensures",
+          "function": "orders_multi.refunds.refund",
+          "text": "result.outcome != Outcome.Ok or orders_multi.lines.entitled(result.state.lines)"
+        },
+        {
+          "kind": "test",
+          "test": "test.orders_multi.service.refund_field_validation"
+        },
+        {
+          "kind": "prose",
+          "text": "The find/quantity checks are enforced by the body; the entitled postcondition (refunded_quantity <= quantity on every line) bounds the accepted quantity but does not by itself restate the lower bound."
+        }
+      ]
+    },
+    {
+      "id": "OM-REF-002",
+      "title": "Refund window: day - day_placed must be 0..30",
+      "authority": "contract",
+      "source": "CONTRACT.md, Refund: window",
+      "prose": "Day 30 after placement is inside; day 31 and any day before placement are outside.",
+      "functions": [
+        "orders_multi.refunds.refund",
+        "orders_multi.window.inside"
+      ],
+      "state_fields": [
+        "day_placed"
+      ],
+      "representations": [
+        {
+          "kind": "ensures",
+          "function": "orders_multi.window.inside",
+          "text": "result == (day - day_placed >= 0 and day - day_placed <= 30)"
+        },
+        {
+          "kind": "ensures",
+          "function": "orders_multi.refunds.refund",
+          "text": "result.outcome != Outcome.Ok or orders_multi.window.inside(state.day_placed, day)"
+        },
+        {
+          "kind": "test",
+          "test": "test.orders_multi.window.window_boundaries"
+        },
+        {
+          "kind": "test",
+          "test": "test.orders_multi.service.refund_window_day_30_inside_day_31_outside"
+        }
+      ]
+    },
+    {
+      "id": "OM-REF-003",
+      "title": "Per-line refund entitlement is cumulative: refunded_cents = floor((net + tax) * refunded_quantity / quantity)",
+      "authority": "contract",
+      "source": "CONTRACT.md, Refund: on success",
+      "prose": "Each line's refunded_cents is recomputed from its cumulative refunded_quantity so split refunds never change the total; the order refunded_cents is the sum of line refunded_cents.",
+      "functions": [
+        "orders_multi.refunds.refund",
+        "orders_multi.lines.refund_line",
+        "orders_multi.lines.entitled",
+        "orders_multi.lines.refunded_total"
+      ],
+      "state_fields": [
+        "refunded_cents",
+        "lines"
+      ],
+      "representations": [
+        {
+          "kind": "ensures",
+          "function": "orders_multi.refunds.refund",
+          "text": "result.outcome != Outcome.Ok or result.state.lines == orders_multi.lines.refund_line(state.lines, sku, quantity)"
+        },
+        {
+          "kind": "ensures",
+          "function": "orders_multi.refunds.refund",
+          "text": "result.outcome != Outcome.Ok or orders_multi.lines.entitled(result.state.lines)"
+        },
+        {
+          "kind": "ensures",
+          "function": "orders_multi.refunds.refund",
+          "text": "result.outcome != Outcome.Ok or result.state.refunded_cents == orders_multi.lines.refunded_total(result.state.lines)"
+        },
+        {
+          "kind": "ensures",
+          "function": "orders_multi.lines.refund_line",
+          "text": "core.list.len[Line](result) == core.list.len[Line](lines)"
+        },
+        {
+          "kind": "test",
+          "test": "test.orders_multi.service.split_refund_across_lines_exact_cents"
+        },
+        {
+          "kind": "test",
+          "test": "test.orders_multi.service.refunded_is_terminal"
+        }
+      ]
+    },
+    {
+      "id": "OM-REF-004",
+      "title": "Shipping is never refunded by refund",
+      "authority": "contract",
+      "source": "CONTRACT.md, Refund: shipping is never refunded by this operation",
+      "prose": "After any successful refund, refunded_cents never exceeds subtotal + tax of the order.",
+      "functions": [
+        "orders_multi.refunds.refund"
+      ],
+      "state_fields": [
+        "refunded_cents"
+      ],
+      "representations": [
+        {
+          "kind": "ensures",
+          "function": "orders_multi.refunds.refund",
+          "text": "result.outcome != Outcome.Ok or result.state.refunded_cents <= state.subtotal_cents + state.tax_cents"
+        },
+        {
+          "kind": "test",
+          "test": "test.orders_multi.service.refunded_is_terminal"
+        },
+        {
+          "kind": "test",
+          "test": "test.orders_multi.service.tier_retained_when_later_commands_say_gold"
+        }
+      ]
+    },
+    {
+      "id": "OM-REF-005",
+      "title": "Refund returns exactly the refunded quantity to the line's SKU",
+      "authority": "contract",
+      "source": "CONTRACT.md, Refund: the quantity returns to the SKU's stock",
+      "prose": "Stock of that SKU increases by this command's quantity only.",
+      "functions": [
+        "orders_multi.refunds.refund",
+        "orders_multi.inventory.restock"
+      ],
+      "state_fields": [
+        "stock"
+      ],
+      "representations": [
+        {
+          "kind": "ensures",
+          "function": "orders_multi.refunds.refund",
+          "text": "result.outcome != Outcome.Ok or result.state.stock == orders_multi.inventory.restock(state.stock, sku, quantity)"
+        },
+        {
+          "kind": "ensures",
+          "function": "orders_multi.inventory.restock",
+          "text": "available(result, sku) == available(stock, sku) + quantity"
+        },
+        {
+          "kind": "test",
+          "test": "test.orders_multi.service.split_refund_across_lines_exact_cents"
+        }
+      ]
+    },
+    {
+      "id": "OM-REF-006",
+      "title": "Status is refunded only when every line is fully refunded, else partially_refunded",
+      "authority": "contract",
+      "source": "CONTRACT.md, Refund: status",
+      "prose": "all_refunded over the lines decides the status after every successful refund.",
+      "functions": [
+        "orders_multi.refunds.refund",
+        "orders_multi.validation.refund_status",
+        "orders_multi.lines.all_refunded"
+      ],
+      "state_fields": [
+        "status"
+      ],
+      "representations": [
+        {
+          "kind": "ensures",
+          "function": "orders_multi.refunds.refund",
+          "text": "result.outcome != Outcome.Ok or not orders_multi.lines.all_refunded(result.state.lines) or result.state.status == Status.Refunded"
+        },
+        {
+          "kind": "ensures",
+          "function": "orders_multi.refunds.refund",
+          "text": "result.outcome != Outcome.Ok or orders_multi.lines.all_refunded(result.state.lines) or Status.PartiallyRefunded == result.state.status"
+        },
+        {
+          "kind": "ensures",
+          "function": "orders_multi.validation.refund_status",
+          "text": "not orders_multi.lines.all_refunded(lines) or Status.Refunded == result"
+        },
+        {
+          "kind": "ensures",
+          "function": "orders_multi.validation.refund_status",
+          "text": "orders_multi.lines.all_refunded(lines) or Status.PartiallyRefunded == result"
+        },
+        {
+          "kind": "test",
+          "test": "test.orders_multi.service.split_refund_across_lines_exact_cents"
+        },
+        {
+          "kind": "test",
+          "test": "test.orders_multi.service.refund_window_day_30_inside_day_31_outside"
+        }
+      ]
+    },
+    {
+      "id": "OM-REF-007",
+      "title": "Cumulative refunds never exceed the amount charged",
+      "authority": "contract",
+      "source": "CONTRACT.md, Refund and Cancellation (derived invariant)",
+      "prose": "Across every transition refunded_cents <= charged_cents. Derived from the entitlement formula and the paid-cancel rule; it is an invariant, not a separately stated sentence of the contract.",
+      "functions": [
+        "orders_multi.service.transition"
+      ],
+      "state_fields": [
+        "refunded_cents",
+        "charged_cents"
+      ],
+      "representations": [
+        {
+          "kind": "ensures",
+          "function": "orders_multi.service.transition",
+          "text": "result.state.refunded_cents <= result.state.charged_cents"
+        },
+        {
+          "kind": "test",
+          "test": "test.orders_multi.service.paid_cancel_refunds_charge_and_restocks"
+        }
+      ]
+    },
+    {
+      "id": "OM-TERM-001",
+      "title": "Cancelled and refunded are terminal",
+      "authority": "contract",
+      "source": "CONTRACT.md, Precedence: legal source statuses",
+      "prose": "No known op is legal from cancelled or refunded; the legal table returns false for both.",
+      "functions": [
+        "orders_multi.validation.legal"
+      ],
+      "state_fields": [
+        "status"
+      ],
+      "representations": [
+        {
+          "kind": "test",
+          "test": "test.orders_multi.service.paid_cancel_refunds_charge_and_restocks"
+        },
+        {
+          "kind": "test",
+          "test": "test.orders_multi.service.reserved_cancel_refunds_nothing"
+        },
+        {
+          "kind": "test",
+          "test": "test.orders_multi.service.refunded_is_terminal"
+        },
+        {
+          "kind": "prose",
+          "text": "The transition table is exhaustive by construction (match over Status); no separate runtime contract restates it."
+        }
+      ]
+    },
+    {
+      "id": "OM-PRES-001",
+      "title": "Snapshots report the state's version, lines and stock verbatim",
+      "authority": "contract",
+      "source": "CONTRACT.md, Transport: response",
+      "prose": "The presentation layer copies state fields; the adapter orders keys and sorts stock SKUs.",
+      "functions": [
+        "orders_multi.presentation.snapshot"
+      ],
+      "state_fields": [],
+      "representations": [
+        {
+          "kind": "ensures",
+          "function": "orders_multi.presentation.snapshot",
+          "text": "result.version == transition.state.version and result.lines == transition.state.lines and result.stock == transition.state.stock"
+        },
+        {
+          "kind": "test",
+          "test": "test.orders_multi.service.run_sequences_snapshots"
+        }
+      ]
+    },
+    {
+      "id": "OM-POL-B-001",
+      "title": "Tiered shipping refund on a full return",
+      "authority": "proposed",
+      "source": "maintenance policy under discussion (not contract v1)",
+      "prose": "Proposed: when every line of a shipped order has been returned, a member or gold customer (tier from placement) receives the original shipping charge once in addition to line entitlements. Contradicts OM-REF-004 at full return; adopting it requires a contract amendment and is not applied here.",
+      "functions": [
+        "orders_multi.refunds.refund"
+      ],
+      "state_fields": [
+        "refunded_cents"
+      ],
+      "representations": [
+        {
+          "kind": "prose",
+          "text": "Not implemented. Would change the refund postcondition refunded_cents <= subtotal + tax at full return for member/gold tiers."
+        }
+      ]
+    },
+    {
+      "id": "OM-POL-B-002",
+      "title": "Tier eligibility is fixed at placement for the proposed refund policy",
+      "authority": "proposed",
+      "source": "maintenance policy under discussion (not contract v1)",
+      "prose": "Proposed: the tier used by the shipping-refund policy is the placing command's tier, never a later command's. Contract v1 already retains the tier (OM-TIER-001); listed so the dependency is explicit.",
+      "functions": [
+        "orders_multi.placement.place"
+      ],
+      "state_fields": [
+        "tier"
+      ],
+      "representations": [
+        {
+          "kind": "prose",
+          "text": "Coincides with OM-TIER-001 in the baseline; the proposed policy only adds a consumer of the retained tier."
+        }
+      ]
+    },
+    {
+      "id": "OM-POL-C-001",
+      "title": "Exchanges of returned lines",
+      "authority": "unresolved",
+      "source": "requested behavior with undecided policy",
+      "prose": "A customer who returned a line wants to exchange it for another SKU. Eligibility, pricing of the replacement, window, stock effect, whether an exchange counts against refunded_cents, and the resulting status are unspecified. No executable representation is permitted until decided.",
+      "functions": [],
+      "state_fields": [],
+      "representations": [
+        {
+          "kind": "prose",
+          "text": "Open questions: replacement pricing and tier, window relative to placement or return, stock reservation of the new SKU, interaction with OM-REF-007 and terminal statuses."
+        }
+      ]
+    }
+  ]
+}

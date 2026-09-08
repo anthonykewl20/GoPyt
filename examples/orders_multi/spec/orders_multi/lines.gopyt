@@ -1,0 +1,28 @@
+module orders_multi.lines
+
+use orders_multi.model { Line, LineInput }
+
+fn find(lines: list[Line], sku: str) -> Line?
+
+fn subtotal(lines: list[Line]) -> i64
+
+fn tax_total(lines: list[Line]) -> i64
+
+fn refunded_total(lines: list[Line]) -> i64
+
+fn unrefunded(lines: list[Line]) -> bool
+
+fn all_refunded(lines: list[Line]) -> bool
+
+fn entitled(lines: list[Line]) -> bool
+
+fn distinct(lines: list[LineInput]) -> bool
+
+fn refund_line(lines: list[Line], sku: str, quantity: i64) -> list[Line]
+    requires quantity >= 1
+    ensures core.list.len[Line](result) == core.list.len[Line](lines)
+
+fn refund_all(lines: list[Line]) -> list[Line]
+    ensures core.list.len[Line](result) == core.list.len[Line](lines)
+    ensures all_refunded(result)
+    ensures refunded_total(result) == subtotal(lines) + tax_total(lines)

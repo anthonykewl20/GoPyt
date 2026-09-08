@@ -1,0 +1,5 @@
+name = "app_ok"
+version = "0.1.0"
+
+[deps]
+auth = { path = "../auth" }

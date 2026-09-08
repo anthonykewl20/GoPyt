@@ -1,0 +1,8 @@
+module orders.refunds
+
+use orders.model { Outcome, State, Transition }
+
+fn refund(state: State, quantity: i64) -> Transition
+    ensures result.outcome != Outcome.Ok or result.state.refunded_cents == (state.net_cents + state.tax_cents) * result.state.refunded_quantity / state.quantity
+    ensures result.outcome != Outcome.Ok or result.state.refunded_quantity == state.refunded_quantity + quantity and result.state.refunded_quantity <= state.quantity
+    ensures result.outcome != Outcome.Ok or result.state.stock == state.stock + quantity

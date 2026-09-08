@@ -1,0 +1,9 @@
+module bot
+
+use core.log { write }
+
+task ping() -> unit
+    effects { log }
+{
+    return core.log.write("x")
+}

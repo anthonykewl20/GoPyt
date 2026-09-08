@@ -1,0 +1,4 @@
+module netx
+
+task ping() -> unit
+    effects { network, database.write, }

@@ -1,0 +1,39 @@
+module orders.presentation
+
+use orders.model { Outcome, Snapshot, Status, Transition }
+
+fn snapshot(transition: Transition) -> Snapshot
+{
+    outcome = match transition.outcome {
+        Outcome.Ok -> "ok"
+        Outcome.InvalidCommand -> "invalid_command"
+        Outcome.Conflict -> "conflict"
+        Outcome.InvalidState -> "invalid_state"
+        Outcome.InvalidOrder -> "invalid_order"
+        Outcome.OutOfStock -> "out_of_stock"
+        Outcome.InvalidRefund -> "invalid_refund"
+    }
+    state = transition.state
+    status = match state.status {
+        Status.Empty -> "empty"
+        Status.Reserved -> "reserved"
+        Status.Paid -> "paid"
+        Status.Shipped -> "shipped"
+        Status.Cancelled -> "cancelled"
+        Status.PartiallyRefunded -> "partially_refunded"
+        Status.Refunded -> "refunded"
+    }
+    return Snapshot {
+        outcome: outcome
+        status: status
+        version: state.version
+        stock: state.stock
+        quantity: state.quantity
+        refunded_quantity: state.refunded_quantity
+        net_cents: state.net_cents
+        tax_cents: state.tax_cents
+        shipping_cents: state.shipping_cents
+        charged_cents: state.charged_cents
+        refunded_cents: state.refunded_cents
+    }
+}

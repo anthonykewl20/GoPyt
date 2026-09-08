@@ -1,0 +1,15 @@
+module orders_multi.service
+
+use orders_multi.model { Command, Operation, Outcome, Reply, Request, State, Transition }
+
+fn transition(state: State, command: Command) -> Transition
+    ensures orders_multi.validation.operation(command.op) != Operation.Unknown or result.outcome == Outcome.InvalidCommand
+    ensures orders_multi.validation.operation(command.op) == Operation.Unknown or command.expected_version == state.version or result.outcome == Outcome.Conflict
+    ensures orders_multi.validation.operation(command.op) == Operation.Unknown or command.expected_version != state.version or orders_multi.validation.legal(state.status, orders_multi.validation.operation(command.op)) or result.outcome == Outcome.InvalidState
+    ensures result.outcome == Outcome.Ok or result.state == state
+    ensures result.outcome != Outcome.Ok or result.state.version == state.version + 1
+    ensures result.outcome != Outcome.Ok or orders_multi.validation.operation(command.op) == Operation.Place or result.state.tier == state.tier and result.state.day_placed == state.day_placed
+    ensures result.state.refunded_cents <= result.state.charged_cents
+    ensures core.map.keys[str, i64](result.state.stock) == core.map.keys[str, i64](state.stock)
+
+fn run(request: Request) -> Reply

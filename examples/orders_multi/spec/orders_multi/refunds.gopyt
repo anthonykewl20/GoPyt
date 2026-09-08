@@ -1,0 +1,13 @@
+module orders_multi.refunds
+
+use orders_multi.model { Outcome, State, Status, Transition }
+
+fn refund(state: State, sku: str, quantity: i64, day: i64) -> Transition
+    ensures result.outcome != Outcome.Ok or orders_multi.window.inside(state.day_placed, day)
+    ensures result.outcome != Outcome.Ok or result.state.stock == orders_multi.inventory.restock(state.stock, sku, quantity)
+    ensures result.outcome != Outcome.Ok or result.state.lines == orders_multi.lines.refund_line(state.lines, sku, quantity)
+    ensures result.outcome != Outcome.Ok or orders_multi.lines.entitled(result.state.lines)
+    ensures result.outcome != Outcome.Ok or result.state.refunded_cents == orders_multi.lines.refunded_total(result.state.lines)
+    ensures result.outcome != Outcome.Ok or result.state.refunded_cents <= state.subtotal_cents + state.tax_cents
+    ensures result.outcome != Outcome.Ok or not orders_multi.lines.all_refunded(result.state.lines) or result.state.status == Status.Refunded
+    ensures result.outcome != Outcome.Ok or orders_multi.lines.all_refunded(result.state.lines) or Status.PartiallyRefunded == result.state.status

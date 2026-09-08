@@ -1,0 +1,6 @@
+module math
+
+fn pair() -> list[i64]
+{
+    return parallel { 1 2 }
+}

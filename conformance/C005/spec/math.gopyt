@@ -1,0 +1,3 @@
+module math
+
+fn add(left: int, right: i64) -> i64

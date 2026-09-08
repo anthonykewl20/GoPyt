@@ -1,0 +1,89 @@
+module orders_multi.fulfillment
+
+use orders_multi.inventory { restock_all }
+use orders_multi.lines { all_refunded, refund_all, refunded_total }
+use orders_multi.model { Outcome, State, Status, Transition }
+
+fn ship(state: State) -> Transition
+    ensures result.outcome != Outcome.Ok or result.state.status == Status.Shipped and result.state.stock == state.stock and result.state.lines == state.lines and result.state.charged_cents == state.charged_cents and result.state.refunded_cents == state.refunded_cents
+{
+    invalid_source = state.status != Status.Paid
+    if invalid_source {
+        return Transition {
+            outcome: Outcome.InvalidState
+            state: state
+        }
+    }
+    next_state = State {
+        status: Status.Shipped
+        version: state.version + 1
+        day_placed: state.day_placed
+        tier: state.tier
+        subtotal_cents: state.subtotal_cents
+        discount_cents: state.discount_cents
+        tax_cents: state.tax_cents
+        shipping_cents: state.shipping_cents
+        charged_cents: state.charged_cents
+        refunded_cents: state.refunded_cents
+        lines: state.lines
+        stock: state.stock
+    }
+    return Transition {
+        outcome: Outcome.Ok
+        state: next_state
+    }
+}
+
+fn cancel(state: State) -> Transition
+    ensures result.outcome != Outcome.Ok or result.state.stock == orders_multi.inventory.restock_all(state.stock, state.lines)
+    ensures result.outcome != Outcome.Ok or result.state.status == Status.Cancelled
+    ensures result.outcome != Outcome.Ok or state.status != Status.Paid or result.state.refunded_cents == state.charged_cents and orders_multi.lines.all_refunded(result.state.lines) and orders_multi.lines.refunded_total(result.state.lines) == state.subtotal_cents + state.tax_cents
+    ensures result.outcome != Outcome.Ok or state.status != Status.Reserved or result.state.refunded_cents == 0 and result.state.lines == state.lines
+{
+    invalid_source = state.status != Status.Reserved and state.status != Status.Paid
+    if invalid_source {
+        return Transition {
+            outcome: Outcome.InvalidState
+            state: state
+        }
+    }
+    was_paid = state.status == Status.Paid
+    if was_paid {
+        paid_cancel = State {
+            status: Status.Cancelled
+            version: state.version + 1
+            day_placed: state.day_placed
+            tier: state.tier
+            subtotal_cents: state.subtotal_cents
+            discount_cents: state.discount_cents
+            tax_cents: state.tax_cents
+            shipping_cents: state.shipping_cents
+            charged_cents: state.charged_cents
+            refunded_cents: state.charged_cents
+            lines: orders_multi.lines.refund_all(state.lines)
+            stock: orders_multi.inventory.restock_all(state.stock, state.lines)
+        }
+        return Transition {
+            outcome: Outcome.Ok
+            state: paid_cancel
+        }
+    }
+    reserved_cancel = State {
+        status: Status.Cancelled
+        version: state.version + 1
+        day_placed: state.day_placed
+        tier: state.tier
+        subtotal_cents: state.subtotal_cents
+        discount_cents: state.discount_cents
+        tax_cents: state.tax_cents
+        shipping_cents: state.shipping_cents
+        charged_cents: state.charged_cents
+        refunded_cents: state.refunded_cents
+        lines: state.lines
+        stock: orders_multi.inventory.restock_all(state.stock, state.lines)
+    }
+    return Transition {
+        outcome: Outcome.Ok
+        state: reserved_cancel
+    }
+}

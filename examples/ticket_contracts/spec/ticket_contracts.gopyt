@@ -1,0 +1,38 @@
+module ticket_contracts
+
+enum Status {
+    Open
+    InProgress
+    Closed
+}
+
+enum Priority {
+    Normal
+    Urgent
+}
+
+type Ticket {
+    status: Status
+    priority: Priority
+    version: i64
+}
+
+fn next_version(version: i64) -> i64
+    requires version >= 1 and version < 1000000
+    ensures result == version + 1
+
+fn next_status(status: Status) -> Status
+    requires status != Status.Closed
+    ensures result != status
+
+fn is_open(status: Status) -> bool
+
+fn is_current(ticket: Ticket, expected_version: i64) -> bool
+
+fn advance(ticket: Ticket, expected_version: i64) -> Ticket
+    requires is_current(ticket, expected_version)
+    requires ticket.status != Status.Closed
+    requires ticket.version >= 1 and ticket.version < 1000000
+    ensures result.version == ticket.version + 1
+    ensures result.priority == ticket.priority
+    ensures result.status == next_status(ticket.status)

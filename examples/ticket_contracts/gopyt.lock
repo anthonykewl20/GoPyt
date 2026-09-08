@@ -1,0 +1,7 @@
+toolchain = "gopyt-0.1.000"
+
+[[pkg]]
+name = "ticket_contracts"
+version = "0.1.0"
+path = "."
+digest = "sha256:bbeb6999134c8f98c9f41d9131c189d27bf0c2521f204cfcd1d882d58d38cc4d"

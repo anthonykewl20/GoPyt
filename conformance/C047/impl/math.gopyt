@@ -1,0 +1,8 @@
+module math
+
+fn ping(value: i64) -> i64
+{
+    return match value {
+        _ -> value
+    }
+}

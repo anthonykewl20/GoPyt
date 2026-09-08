@@ -1,0 +1,4 @@
+module math
+
+task boom() -> i64
+    effects { log }

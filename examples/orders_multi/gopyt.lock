@@ -1,0 +1,7 @@
+toolchain = "gopyt-0.1.000"
+
+[[pkg]]
+name = "orders_multi"
+version = "0.1.0"
+path = "."
+digest = "sha256:dd3a5ac382f1ec6c3b53a1561c86aac075e3b2e9bdf2d3e9dee9f90107015ce3"

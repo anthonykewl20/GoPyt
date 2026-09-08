@@ -1,0 +1,6 @@
+module math
+
+fn ping(user: User) -> str
+{
+    return user.name()
+}

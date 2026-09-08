@@ -1,0 +1,18 @@
+module orders_multi.validation
+
+use orders_multi.model { Command, Line, LineInput, Operation, Status }
+
+fn operation(op: str) -> Operation
+
+fn legal(status: Status, operation: Operation) -> bool
+
+fn valid_line(line: LineInput, stock: map[str, i64]) -> bool
+
+fn valid_order(command: Command, stock: map[str, i64]) -> bool
+
+fn valid_refund_quantity(quantity: i64, remaining: i64) -> bool
+    ensures result == (quantity >= 1 and quantity <= remaining)
+
+fn refund_status(lines: list[Line]) -> Status
+    ensures not orders_multi.lines.all_refunded(lines) or Status.Refunded == result
+    ensures orders_multi.lines.all_refunded(lines) or Status.PartiallyRefunded == result

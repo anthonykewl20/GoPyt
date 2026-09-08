@@ -1,0 +1,3 @@
+module shop
+
+fn bad() -> map[bytes, str]

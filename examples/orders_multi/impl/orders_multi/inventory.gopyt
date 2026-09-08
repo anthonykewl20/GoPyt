@@ -1,0 +1,81 @@
+module orders_multi.inventory
+
+use core.list { get }
+use core.map { get, keys, set }
+use orders_multi.model { Line, LineInput }
+
+fn known(stock: map[str, i64], sku: str) -> bool
+{
+    return match core.map.get[str, i64](stock, sku) {
+        none -> false
+        some(count) -> true
+    }
+}
+
+fn available(stock: map[str, i64], sku: str) -> i64
+{
+    return match core.map.get[str, i64](stock, sku) {
+        none -> 0
+        some(count) -> count
+    }
+}
+
+fn reserve(stock: map[str, i64], sku: str, quantity: i64) -> map[str, i64]
+    requires quantity >= 1
+    requires known(stock, sku) and available(stock, sku) >= quantity
+    ensures available(result, sku) == available(stock, sku) - quantity
+    ensures core.map.keys[str, i64](result) == core.map.keys[str, i64](stock)
+{
+    return core.map.set[str, i64](stock, sku, available(stock, sku) - quantity)
+}
+
+fn restock(stock: map[str, i64], sku: str, quantity: i64) -> map[str, i64]
+    requires quantity >= 1
+    requires known(stock, sku)
+    ensures available(result, sku) == available(stock, sku) + quantity
+    ensures core.map.keys[str, i64](result) == core.map.keys[str, i64](stock)
+{
+    return core.map.set[str, i64](stock, sku, available(stock, sku) + quantity)
+}
+
+fn sufficient_from(stock: map[str, i64], lines: list[LineInput], index: i64) -> bool
+{
+    return match core.list.get[LineInput](lines, index) {
+        none -> true
+        some(line) -> known(stock, line.sku) and available(stock, line.sku) >= line.quantity and sufficient_from(stock, lines, index + 1)
+    }
+}
+
+fn sufficient(stock: map[str, i64], lines: list[LineInput]) -> bool
+{
+    return sufficient_from(stock, lines, 0)
+}
+
+fn reserve_from(stock: map[str, i64], lines: list[LineInput], index: i64) -> map[str, i64]
+{
+    return match core.list.get[LineInput](lines, index) {
+        none -> stock
+        some(line) -> reserve_from(reserve(stock, line.sku, line.quantity), lines, index + 1)
+    }
+}
+
+fn reserve_all(stock: map[str, i64], lines: list[LineInput]) -> map[str, i64]
+    requires sufficient(stock, lines)
+    ensures core.map.keys[str, i64](result) == core.map.keys[str, i64](stock)
+{
+    return reserve_from(stock, lines, 0)
+}
+
+fn restock_from(stock: map[str, i64], lines: list[Line], index: i64) -> map[str, i64]
+{
+    return match core.list.get[Line](lines, index) {
+        none -> stock
+        some(line) -> restock_from(restock(stock, line.sku, line.quantity), lines, index + 1)
+    }
+}
+
+fn restock_all(stock: map[str, i64], lines: list[Line]) -> map[str, i64]
+    ensures core.map.keys[str, i64](result) == core.map.keys[str, i64](stock)
+{
+    return restock_from(stock, lines, 0)
+}

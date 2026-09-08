@@ -1,0 +1,38 @@
+module orders_multi.tax
+
+use orders_multi.model { Category }
+
+fn valid_category(name: str) -> bool
+{
+    return name == "standard" or name == "food" or name == "exempt"
+}
+
+fn category(name: str) -> Category
+{
+    if name == "food" {
+        return Category.Food
+    }
+    if name == "exempt" {
+        return Category.Exempt
+    }
+    return Category.Standard
+}
+
+fn tax_rate(category: Category) -> i64
+    ensures category != Category.Standard or result == 825
+    ensures category != Category.Food or result == 200
+    ensures category != Category.Exempt or result == 0
+{
+    return match category {
+        Category.Standard -> 825
+        Category.Food -> 200
+        Category.Exempt -> 0
+    }
+}
+
+fn tax(net: i64, category: Category) -> i64
+    requires net >= 0
+    ensures result == net * tax_rate(category) / 10000
+{
+    return net * tax_rate(category) / 10000
+}

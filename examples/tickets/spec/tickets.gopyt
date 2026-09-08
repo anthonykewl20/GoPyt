@@ -1,0 +1,59 @@
+module tickets
+
+use core.convert { Json }
+use core.status { ListenError }
+
+type CreateReq {
+    id: str
+    title: str
+}
+
+type TransitionReq {
+    expected_version: i64
+    status: str
+}
+
+type Ticket {
+    id: str
+    title: str
+    status: str
+    version: i64
+}
+
+type Reply {
+    outcome: str
+    id: str
+    title: str
+    status: str
+    version: i64
+}
+
+provide Json for CreateReq
+
+provide Json for TransitionReq
+
+provide Json for Ticket
+
+provide Json for Reply
+
+http {
+    post "/tickets" create
+    get "/tickets/{id}" retrieve
+    post "/tickets/{id}/transition" transition
+}
+
+fn valid_id(id: str) -> bool
+
+fn valid_title(title: str) -> bool
+
+task create(req: CreateReq) -> Reply
+    effects { database.read, database.write }
+
+task retrieve(id: str) -> Reply
+    effects { database.read }
+
+task transition(id: str, req: TransitionReq) -> Reply
+    effects { database.read, database.write }
+
+task serve() -> unit | ListenError
+    effects { network, database.read, database.write }

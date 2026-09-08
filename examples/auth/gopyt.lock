@@ -1,0 +1,7 @@
+toolchain = "gopyt-0.1.000"
+
+[[pkg]]
+name = "auth_example"
+version = "0.1.0"
+path = "."
+digest = "sha256:8a3466ed3972227f7b307bbc795f502e0911a018437ad394e13cad07acca03af"

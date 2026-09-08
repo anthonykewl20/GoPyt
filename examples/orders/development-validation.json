@@ -1,0 +1,77 @@
+{
+  "kind": "unmeasured development validation",
+  "python": "3.14.7 (main, Sep  1 2026, 14:18:09) [Clang 22.1.3 ]",
+  "operations": [
+    {
+      "command": [
+        "/home/soultransit/.local/bin/python",
+        "-m",
+        "gopyt",
+        "fmt"
+      ],
+      "exit": 0,
+      "stdout": "",
+      "stderr": ""
+    },
+    {
+      "command": [
+        "/home/soultransit/.local/bin/python",
+        "-m",
+        "gopyt",
+        "check"
+      ],
+      "exit": 0,
+      "stdout": "",
+      "stderr": ""
+    },
+    {
+      "command": [
+        "/home/soultransit/.local/bin/python",
+        "-m",
+        "gopyt",
+        "test"
+      ],
+      "exit": 0,
+      "stdout": "",
+      "stderr": ""
+    },
+    {
+      "command": [
+        "/home/soultransit/.local/bin/python",
+        "/tmp/gopyt-orders-validation-6os2xyjz/orders/public_test.py"
+      ],
+      "exit": 0,
+      "stdout": "",
+      "stderr": "test_empty_and_maximum_length (__main__.PublicExamples.test_empty_and_maximum_length) ... ok\ntest_failure_preserves_entire_state (__main__.PublicExamples.test_failure_preserves_entire_state) ... ok\ntest_json_lines_fails_without_business_reply (__main__.PublicExamples.test_json_lines_fails_without_business_reply) ... ok\ntest_json_lines_multiple_scenarios (__main__.PublicExamples.test_json_lines_multiple_scenarios) ... ok\ntest_member_quote_and_full_lifecycle (__main__.PublicExamples.test_member_quote_and_full_lifecycle) ... ok\ntest_paid_and_reserved_cancellation (__main__.PublicExamples.test_paid_and_reserved_cancellation) ... ok\ntest_transport_shapes_and_types (__main__.PublicExamples.test_transport_shapes_and_types) ... ok\ntest_unsafe_json_numbers_and_duplicate_keys (__main__.PublicExamples.test_unsafe_json_numbers_and_duplicate_keys) ... ok\ntest_zero_price_still_charges_shipping (__main__.PublicExamples.test_zero_price_still_charges_shipping) ... ok\n\n----------------------------------------------------------------------\nRan 9 tests in 0.488s\n\nOK\n"
+    }
+  ],
+  "toolchain": "gopyt-0.1.000",
+  "package_digest": "sha256:68139bb36823480399a0fb8d031e290f1b2a734d5acb532baea10080b271f5be",
+  "public_source_sha256": {
+    "adapter.py": "9e017ddcf34f10244314e25295cee0ea47d2b99b99a24852a096949d3f3d9d99",
+    "gopyt.lock": "80c76db4d4954941327aa709e15ba032aa77e9cc8b5b7d50eb9f54325705d37f",
+    "gopyt.toml": "5a17990bf66c996db62b86f53256a350e65e020d9e3f34cc7ea5a3ef2ac6cae9",
+    "impl/orders/fulfillment.gopyt": "772881caad36d5d253658246b25b80eda3049f860a0da34f578708e205330a87",
+    "impl/orders/inventory.gopyt": "54996147864dfe36b39ac54e162f47006039c6033c7bef1f1a033eddf057e216",
+    "impl/orders/model.gopyt": "00e7101af069a3b3f947a467a43c6967c62f193c41db82088579a681935690f5",
+    "impl/orders/payment.gopyt": "744e034bbc053ab31d3d0f24b35a4d93029fb20d73b39a76f9166f265d5ea0c9",
+    "impl/orders/placement.gopyt": "454d9852fbadb8232284b4fa4cb2cded9b14ad0a0f33a1f61687fb6b0c204b37",
+    "impl/orders/presentation.gopyt": "92e20380e3977b072d93733581c67ce65c9a30f963abf5d20bbc4480c1aed7ef",
+    "impl/orders/pricing.gopyt": "d2484f487f4c9a9c7af5fdf28674200ca3ef30b16fb31a1a1d30c0c9986f022e",
+    "impl/orders/refunds.gopyt": "6e1a6c0096ee28b096cd90a346a3d5393d2041eaad10568a5c19868a77a77035",
+    "impl/orders/service.gopyt": "e188415c336e5a5a14f3bcbc4a4e5ef57198b1bd55791d4a9ded749cb95ba1e3",
+    "impl/orders/validation.gopyt": "664312c65cf6a81236d868ee7eeaa14805dcf6fc071db3dbe113ebb41dd448d4",
+    "public_test.py": "87ce98b1be43a34c747c8872c6aa757a8515a3527f86253e019443204561d3dd",
+    "spec/orders/fulfillment.gopyt": "5bcdc429e3b6597f782d453e9ec01c725f5905fe7ffef4ecbcbe32b4d2468a4c",
+    "spec/orders/inventory.gopyt": "bcb8410d693360d75c75adb0edf911c1736905be3d91ea6ba5fd6d9a001b8cb2",
+    "spec/orders/model.gopyt": "6fb40308e9fcf289c89eac09262827c065ba5d6a35f3fec25a7063637d5dc24d",
+    "spec/orders/payment.gopyt": "094189f6eadb9a4715ba6e9a10ce32d18386e1627ac4b44e491639c8c42945a7",
+    "spec/orders/placement.gopyt": "7d3ec792a9be7c51f15bc343f9b1bc657948df5d8eee45fda7133ab66f9a5355",
+    "spec/orders/presentation.gopyt": "64e6909366e2063c5d9220dde0f00412187bc2caed51d2e6252dd17f8308db99",
+    "spec/orders/pricing.gopyt": "1ad99613dbed900336cdc460f76cf5e8bc79586136c84703eed652e0814047f5",
+    "spec/orders/refunds.gopyt": "d9bc3a2f4d4c36475c0a462a6fb4cb6b3fb39680c80877040086c5b3ad4cb41a",
+    "spec/orders/service.gopyt": "32f1d6767a0f8ed966f87fe6bbdaa5d4dae7aec55b9efaa7b421c23a8a308f5d",
+    "spec/orders/validation.gopyt": "6be591f40ea591f9d1e0bb5a986dcf13d23adc0499cbf2d3f3eb6902284e56f6",
+    "test/orders/service.gopyt": "9373255d6bce763c9d5ba367115edec4a8d394aaad73cdf0b76370f70e90bf06"
+  }
+}

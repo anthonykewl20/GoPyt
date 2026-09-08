@@ -1,0 +1,4 @@
+module orders
+
+task ping() -> unit
+    effects { log }

@@ -1,0 +1,70 @@
+module orders.service
+
+use core.list { append, empty, get }
+use orders.fulfillment { cancel, ship }
+use orders.model { Command, Operation, Outcome, Reply, Request, Snapshot, State, Transition, initial }
+use orders.payment { pay }
+use orders.placement { place }
+use orders.presentation { snapshot }
+use orders.refunds { refund }
+use orders.validation { legal, operation }
+
+fn transition(state: State, command: Command) -> Transition
+    ensures orders.validation.operation(command.op) != Operation.Unknown or result.outcome == Outcome.InvalidCommand
+    ensures orders.validation.operation(command.op) == Operation.Unknown or command.expected_version == state.version or result.outcome == Outcome.Conflict
+    ensures result.outcome == Outcome.Ok or result.state == state
+    ensures result.outcome != Outcome.Ok or result.state.version == state.version + 1
+    ensures result.state.refunded_cents <= result.state.charged_cents
+{
+    operation = orders.validation.operation(command.op)
+    unknown_operation = operation == Operation.Unknown
+    if unknown_operation {
+        return Transition {
+            outcome: Outcome.InvalidCommand
+            state: state
+        }
+    }
+    if command.expected_version != state.version {
+        return Transition {
+            outcome: Outcome.Conflict
+            state: state
+        }
+    }
+    if not orders.validation.legal(state.status, operation) {
+        return Transition {
+            outcome: Outcome.InvalidState
+            state: state
+        }
+    }
+    return match operation {
+        Operation.Place -> orders.placement.place(state, command)
+        Operation.Pay -> orders.payment.pay(state)
+        Operation.Ship -> orders.fulfillment.ship(state)
+        Operation.Cancel -> orders.fulfillment.cancel(state)
+        Operation.Refund -> orders.refunds.refund(state, command.quantity)
+        Operation.Unknown -> Transition {
+            outcome: Outcome.InvalidCommand
+            state: state
+        }
+    }
+}
+
+fn remaining(commands: list[Command], index: i64, state: State, snapshots: list[Snapshot]) -> list[Snapshot]
+{
+    return match core.list.get[Command](commands, index) {
+        none -> snapshots
+        some(command) -> advance(commands, index, transition(state, command), snapshots)
+    }
+}
+
+fn advance(commands: list[Command], index: i64, next: Transition, snapshots: list[Snapshot]) -> list[Snapshot]
+{
+    appended = core.list.append[Snapshot](snapshots, orders.presentation.snapshot(next))
+    return remaining(commands, index + 1, next.state, appended)
+}
+
+fn run(request: Request) -> Reply
+    requires request.stock >= 0 and request.stock <= 10000
+{
+    return Reply { results: remaining(request.commands, 0, orders.model.initial(request.stock), core.list.empty[Snapshot]()) }
+}

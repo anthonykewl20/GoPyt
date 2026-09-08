@@ -1,0 +1,22 @@
+module shop
+
+use core.status { ConvertError }
+use data.json { decode }
+
+provide Json for Payment
+{
+    fn to_json(value: Self) -> str | ConvertError
+    {
+        unresolved to_json
+    }
+
+    fn from_json(text: str) -> Self | ConvertError
+    {
+        unresolved from_json
+    }
+}
+
+fn parse(text: str) -> Payment | ConvertError
+{
+    return data.json.decode[Payment](text)
+}

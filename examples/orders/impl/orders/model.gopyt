@@ -1,0 +1,18 @@
+module orders.model
+
+fn initial(stock: i64) -> State
+    requires stock >= 0 and stock <= 10000
+{
+    return State {
+        status: Status.Empty
+        version: 0
+        stock: stock
+        quantity: 0
+        refunded_quantity: 0
+        net_cents: 0
+        tax_cents: 0
+        shipping_cents: 0
+        charged_cents: 0
+        refunded_cents: 0
+    }
+}

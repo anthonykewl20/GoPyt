@@ -1,0 +1,31 @@
+[build-system]
+requires = ["setuptools>=68"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "gopyt"
+version = "0.1.000"
+description = "GoPyT compiler and bytecode virtual machine"
+readme = "README.md"
+requires-python = ">=3.11"
+classifiers = [
+  "Programming Language :: Python :: 3",
+  "Operating System :: POSIX :: Linux",
+  "Operating System :: MacOS :: MacOS X",
+  "Development Status :: 3 - Alpha",
+]
+
+[project.scripts]
+gopyt = "gopyt.cli:main"
+gopyt-guard = "gopyt.guard:main"
+gopyt-lsp = "gopyt.lsp:main"
+
+[tool.setuptools.packages.find]
+include = ["gopyt"]
+
+[tool.setuptools.exclude-package-data]
+"*" = ["test_*.py"]
+
+
+[project.optional-dependencies]
+security = ["cryptography==50.0.1"]

@@ -1,0 +1,4 @@
+module math
+
+task triple() -> list[i64]
+    effects { time }

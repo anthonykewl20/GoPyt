@@ -1,0 +1,7 @@
+module orders
+
+task ping() -> unit
+    effects { log }
+{
+    return core.log.write("x")
+}

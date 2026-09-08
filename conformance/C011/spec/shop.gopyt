@@ -1,0 +1,7 @@
+module shop
+
+type Payment {
+    amount: i64
+}
+
+fn dump(payment: Payment) -> str

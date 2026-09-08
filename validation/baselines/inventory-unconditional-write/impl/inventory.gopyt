@@ -1,0 +1,299 @@
+module inventory
+
+use core.list { append, empty, get, len }
+use core.status { ConvertError, DbError, ListenError, NotFound }
+use core.str { len }
+use core.time { now_ms }
+use data.json { decode, encode }
+use net.http { serve }
+use store.db { compare_exchange, get }
+
+fn blank() -> State
+{
+    return State { entries: core.list.empty[Reservation]() }
+}
+
+fn decision(outcome: str, state: State) -> Decision
+{
+    return Decision {
+        outcome: outcome
+        state: state
+    }
+}
+
+fn find(entries: list[Reservation], id: str, index: i64) -> Reservation?
+{
+    item = core.list.get[Reservation](entries, index)
+    return match item {
+        some(value) -> find_item(entries, id, index, value)
+        none -> none
+    }
+}
+
+fn find_item(entries: list[Reservation], id: str, index: i64, item: Reservation) -> Reservation?
+{
+    if item.id == id {
+        return some(item)
+    }
+    return find(entries, id, index + 1)
+}
+
+fn used(entries: list[Reservation], index: i64) -> i64
+{
+    item = core.list.get[Reservation](entries, index)
+    return match item {
+        some(value) -> used_item(entries, index, value)
+        none -> 0
+    }
+}
+
+fn used_item(entries: list[Reservation], index: i64, item: Reservation) -> i64
+{
+    tail = used(entries, index + 1)
+    if item.status == "active" or item.status == "confirmed" {
+        return item.quantity + tail
+    }
+    return tail
+}
+
+fn valid_entries(entries: list[Reservation], index: i64) -> bool
+{
+    item = core.list.get[Reservation](entries, index)
+    return match item {
+        some(value) -> valid_item(entries, index, value)
+        none -> true
+    }
+}
+
+fn valid_item(entries: list[Reservation], index: i64, item: Reservation) -> bool
+{
+    if core.str.len(item.id) < 1 or core.str.len(item.id) > 64 or item.quantity < 1 or item.quantity > 10 or item.expires_ms < 0 or item.ttl_ms < 1 or item.ttl_ms > 60000 {
+        return false
+    }
+    if item.status != "active" and item.status != "confirmed" and item.status != "cancelled" and item.status != "expired" {
+        return false
+    }
+    duplicate = find(entries, item.id, index + 1)
+    return match duplicate {
+        some(value) -> false
+        none -> valid_entries(entries, index + 1)
+    }
+}
+
+fn valid_state(state: State) -> bool
+{
+    if core.list.len[Reservation](state.entries) > 32 {
+        return false
+    }
+    return valid_entries(state.entries, 0) and used(state.entries, 0) <= 10
+}
+
+fn expire(entries: list[Reservation], index: i64, now: i64, result: list[Reservation]) -> list[Reservation]
+{
+    item = core.list.get[Reservation](entries, index)
+    return match item {
+        some(value) -> expire_item(entries, index, now, result, value)
+        none -> result
+    }
+}
+
+fn expire_item(entries: list[Reservation], index: i64, now: i64, result: list[Reservation], item: Reservation) -> list[Reservation]
+{
+    if item.status == "active" and item.expires_ms <= now {
+        changed = Reservation {
+            id: item.id
+            quantity: item.quantity
+            expires_ms: item.expires_ms
+            ttl_ms: item.ttl_ms
+            status: "expired"
+        }
+        return expire(entries, index + 1, now, core.list.append[Reservation](result, changed))
+    }
+    return expire(entries, index + 1, now, core.list.append[Reservation](result, item))
+}
+
+fn replace(entries: list[Reservation], index: i64, changed: Reservation, result: list[Reservation]) -> list[Reservation]
+{
+    item = core.list.get[Reservation](entries, index)
+    return match item {
+        some(value) -> replace_item(entries, index, changed, result, value)
+        none -> result
+    }
+}
+
+fn replace_item(entries: list[Reservation], index: i64, changed: Reservation, result: list[Reservation], item: Reservation) -> list[Reservation]
+{
+    if item.id == changed.id {
+        return replace(entries, index + 1, changed, core.list.append[Reservation](result, changed))
+    }
+    return replace(entries, index + 1, changed, core.list.append[Reservation](result, item))
+}
+
+fn apply(state: State, req: Command, now: i64) -> Decision
+    requires valid_state(state)
+    requires now >= 0 and now <= 9223372036854715807
+    ensures valid_state(result.state)
+{
+    current = State { entries: expire(state.entries, 0, now, core.list.empty[Reservation]()) }
+    if req.action == "reap" {
+        if req.id != "" or req.quantity != 0 or req.ttl_ms != 0 {
+            return decision("invalid", current)
+        }
+        return decision("ok", current)
+    }
+    if req.action != "reserve" and (req.quantity != 0 or req.ttl_ms != 0) {
+        return decision("invalid", current)
+    }
+    if core.str.len(req.id) < 1 or core.str.len(req.id) > 64 {
+        return decision("invalid", current)
+    }
+    if req.action != "reserve" and req.action != "cancel" and req.action != "confirm" {
+        return decision("invalid", current)
+    }
+    if req.action == "reserve" and (req.quantity < 1 or req.quantity > 10 or req.ttl_ms < 1 or req.ttl_ms > 60000) {
+        return decision("invalid", current)
+    }
+    found = find(current.entries, req.id, 0)
+    return match found {
+        some(item) -> existing(current, req, item)
+        none -> missing(current, req, now)
+    }
+}
+
+fn missing(state: State, req: Command, now: i64) -> Decision
+{
+    if req.action != "reserve" {
+        return decision("not_found", state)
+    }
+    if core.list.len[Reservation](state.entries) >= 32 {
+        return decision("ledger_full", state)
+    }
+    if used(state.entries, 0) + req.quantity > 10 {
+        return decision("sold_out", state)
+    }
+    item = Reservation {
+        id: req.id
+        quantity: req.quantity
+        expires_ms: now + req.ttl_ms
+        ttl_ms: req.ttl_ms
+        status: "active"
+    }
+    return decision("active", State { entries: core.list.append[Reservation](state.entries, item) })
+}
+
+fn existing(state: State, req: Command, item: Reservation) -> Decision
+{
+    if req.action == "reserve" {
+        if item.quantity != req.quantity or item.ttl_ms != req.ttl_ms {
+            return decision("id_conflict", state)
+        }
+        return decision(item.status, state)
+    }
+    if item.status != "active" {
+        return decision(item.status, state)
+    }
+    target = target_status(req.action)
+    changed = Reservation {
+        id: item.id
+        quantity: item.quantity
+        expires_ms: item.expires_ms
+        ttl_ms: item.ttl_ms
+        status: target
+    }
+    return decision(target, State { entries: replace(state.entries, 0, changed, core.list.empty[Reservation]()) })
+}
+
+task execute(req: Command, attempts: i64) -> Decision
+    effects { database.read, database.write, time }
+{
+    if attempts == 0 {
+        return decision("conflict", blank())
+    }
+    raw = store.db.get("inventory:v1")
+    return match raw {
+        str -> decode_state(req, raw, attempts)
+        NotFound -> change(req, blank(), none, attempts)
+        DbError { message } -> decision("storage_error", blank())
+    }
+}
+
+task decode_state(req: Command, raw: str, attempts: i64) -> Decision
+    effects { database.read, database.write, time }
+{
+    decoded = data.json.decode[State](raw)
+    return match decoded {
+        State -> checked_state(req, decoded, raw, attempts)
+        ConvertError { message } -> decision("storage_error", blank())
+    }
+}
+
+task checked_state(req: Command, state: State, raw: str, attempts: i64) -> Decision
+    effects { database.read, database.write, time }
+{
+    if not valid_state(state) {
+        return decision("storage_error", blank())
+    }
+    return change(req, state, some(raw), attempts)
+}
+
+task change(req: Command, state: State, expected: str?, attempts: i64) -> Decision
+    effects { database.read, database.write, time }
+{
+    now = core.time.now_ms()
+    result = apply(state, req, now)
+    encoded = data.json.encode[State](result.state)
+    return match encoded {
+        str -> save(req, result, expected, encoded, attempts)
+        ConvertError { message } -> decision("storage_error", blank())
+    }
+}
+
+task save(req: Command, result: Decision, expected: str?, encoded: str, attempts: i64) -> Decision
+    effects { database.read, database.write, time }
+{
+    stored = store.db.compare_exchange("inventory:v1", expected, encoded)
+    return match stored {
+        bool -> finish(req, result, stored, attempts)
+        DbError { message } -> decision("storage_error", blank())
+    }
+}
+
+task finish(req: Command, result: Decision, stored: bool, attempts: i64) -> Decision
+    effects { database.read, database.write, time }
+{
+    if stored {
+        return result
+    }
+    return execute(req, attempts - 1)
+}
+
+task command(req: Command) -> Decision
+    effects { database.read, database.write, time }
+{
+    return execute(req, 8)
+}
+
+task view() -> Decision
+    effects { database.read, database.write, time }
+{
+    return execute(Command {
+        action: "reap"
+        id: ""
+        quantity: 0
+        ttl_ms: 0
+    }, 8)
+}
+
+task serve() -> unit | ListenError
+    effects { network, database.read, database.write, time }
+{
+    return net.http.serve()
+}
+
+fn target_status(action: str) -> str
+{
+    if action == "cancel" {
+        return "cancelled"
+    }
+    return "confirmed"
+}

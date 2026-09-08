@@ -1,0 +1,127 @@
+{
+  "bytes": 8388624,
+  "rows": 1048576,
+  "runs": [
+    {
+      "mode": "streaming",
+      "seconds": 0.1272685150615871,
+      "sum": -50674,
+      "random_sum": -8245,
+      "peak_rss_platform_units": 19068,
+      "minor_faults": 56,
+      "major_faults": 0,
+      "repeat": 0
+    },
+    {
+      "mode": "buffered",
+      "seconds": 0.05558184802066535,
+      "sum": -50674,
+      "random_sum": -8245,
+      "peak_rss_platform_units": 26348,
+      "minor_faults": 2055,
+      "major_faults": 0,
+      "repeat": 0
+    },
+    {
+      "mode": "mapped",
+      "seconds": 0.09236609097570181,
+      "sum": -50674,
+      "random_sum": -8245,
+      "peak_rss_platform_units": 26380,
+      "minor_faults": 137,
+      "major_faults": 0,
+      "repeat": 0
+    },
+    {
+      "mode": "sealed",
+      "seconds": 0.07956458593253046,
+      "sum": -50674,
+      "random_sum": -8245,
+      "peak_rss_platform_units": 34788,
+      "minor_faults": 2191,
+      "major_faults": 0,
+      "repeat": 0
+    },
+    {
+      "mode": "sealed",
+      "seconds": 0.08747016603592783,
+      "sum": -50674,
+      "random_sum": -8245,
+      "peak_rss_platform_units": 34752,
+      "minor_faults": 2190,
+      "major_faults": 0,
+      "repeat": 1
+    },
+    {
+      "mode": "mapped",
+      "seconds": 0.07386199198663235,
+      "sum": -50674,
+      "random_sum": -8245,
+      "peak_rss_platform_units": 26572,
+      "minor_faults": 137,
+      "major_faults": 0,
+      "repeat": 1
+    },
+    {
+      "mode": "buffered",
+      "seconds": 0.07752355502452701,
+      "sum": -50674,
+      "random_sum": -8245,
+      "peak_rss_platform_units": 26112,
+      "minor_faults": 2055,
+      "major_faults": 0,
+      "repeat": 1
+    },
+    {
+      "mode": "streaming",
+      "seconds": 0.1439395269844681,
+      "sum": -50674,
+      "random_sum": -8245,
+      "peak_rss_platform_units": 19068,
+      "minor_faults": 56,
+      "major_faults": 0,
+      "repeat": 1
+    },
+    {
+      "mode": "streaming",
+      "seconds": 0.12418442603666335,
+      "sum": -50674,
+      "random_sum": -8245,
+      "peak_rss_platform_units": 19068,
+      "minor_faults": 56,
+      "major_faults": 0,
+      "repeat": 2
+    },
+    {
+      "mode": "buffered",
+      "seconds": 0.052928437013179064,
+      "sum": -50674,
+      "random_sum": -8245,
+      "peak_rss_platform_units": 26272,
+      "minor_faults": 2055,
+      "major_faults": 0,
+      "repeat": 2
+    },
+    {
+      "mode": "mapped",
+      "seconds": 0.04308123397640884,
+      "sum": -50674,
+      "random_sum": -8245,
+      "peak_rss_platform_units": 25692,
+      "minor_faults": 137,
+      "major_faults": 0,
+      "repeat": 2
+    },
+    {
+      "mode": "sealed",
+      "seconds": 0.058365295990370214,
+      "sum": -50674,
+      "random_sum": -8245,
+      "peak_rss_platform_units": 34904,
+      "minor_faults": 2190,
+      "major_faults": 0,
+      "repeat": 2
+    }
+  ],
+  "limits": "Synthetic 8 MiB column, warm cache possible, local host. No beyond-RAM, encrypted mmap, GPU, or IPC throughput claim. RSS units: KiB on Linux, bytes on macOS."
+}

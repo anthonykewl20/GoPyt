@@ -1,0 +1,6 @@
+module math
+
+fn ping() -> str
+{
+    return f"hi"
+}

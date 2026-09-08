@@ -1,0 +1,6 @@
+module client
+
+use core.status { HttpError }
+
+task ping() -> unit | HttpError
+    effects { network }

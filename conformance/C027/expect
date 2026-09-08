@@ -1,0 +1,3 @@
+ok
+phase: bytecode
+note: build/out.gobyte is truncated junk; loading it must be E100

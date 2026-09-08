@@ -1,0 +1,59 @@
+module inventory
+
+use core.convert { Json }
+use core.status { ListenError }
+
+type Reservation {
+    id: str
+    quantity: i64
+    expires_ms: i64
+    ttl_ms: i64
+    status: str
+}
+
+type State {
+    entries: list[Reservation]
+}
+
+type Command {
+    action: str
+    id: str
+    quantity: i64
+    ttl_ms: i64
+}
+
+type Decision {
+    outcome: str
+    state: State
+}
+
+provide Json for Reservation
+
+provide Json for State
+
+provide Json for Command
+
+provide Json for Decision
+
+http {
+    get "/inventory" view
+    post "/inventory" command
+}
+
+fn used(entries: list[Reservation], index: i64) -> i64
+
+fn valid_state(state: State) -> bool
+
+fn apply(state: State, req: Command, now: i64) -> Decision
+    requires valid_state(state)
+    requires now >= 0 and now <= 9223372036854715807
+    ensures valid_state(result.state)
+
+task command(req: Command) -> Decision
+    effects { database.read, database.write, time }
+
+task view() -> Decision
+    effects { database.read, database.write, time }
+
+task serve() -> unit | ListenError
+    effects { network, database.read, database.write, time }

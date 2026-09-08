@@ -1,0 +1,44 @@
+module test.ticket_contracts
+
+use core.test { assert_eq }
+use ticket_contracts { Priority, Status, Ticket, advance, is_current, is_open, next_status, next_version }
+
+test lifecycle
+{
+    opened = Ticket {
+        status: Status.Open
+        priority: Priority.Urgent
+        version: 1
+    }
+    working = ticket_contracts.advance(opened, 1)
+    closed = ticket_contracts.advance(working, 2)
+    core.test.assert_eq(working, Ticket {
+        status: Status.InProgress
+        priority: Priority.Urgent
+        version: 2
+    })
+    core.test.assert_eq(closed, Ticket {
+        status: Status.Closed
+        priority: Priority.Urgent
+        version: 3
+    })
+    return unit
+}
+
+test boundaries
+{
+    core.test.assert_eq(ticket_contracts.next_version(1), 2)
+    core.test.assert_eq(ticket_contracts.next_version(999999), 1000000)
+    core.test.assert_eq(ticket_contracts.next_status(Status.Open), Status.InProgress)
+    core.test.assert_eq(ticket_contracts.next_status(Status.InProgress), Status.Closed)
+    core.test.assert_eq(ticket_contracts.is_open(Status.Open), true)
+    core.test.assert_eq(ticket_contracts.is_open(Status.Closed), false)
+    ticket = Ticket {
+        status: Status.Open
+        priority: Priority.Normal
+        version: 2
+    }
+    core.test.assert_eq(ticket_contracts.is_current(ticket, 2), true)
+    core.test.assert_eq(ticket_contracts.is_current(ticket, 1), false)
+    return unit
+}

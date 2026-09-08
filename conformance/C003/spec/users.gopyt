@@ -1,0 +1,10 @@
+module users
+
+type User {
+    name: str
+}
+
+type NotFound {
+}
+
+fn load() -> User | NotFound

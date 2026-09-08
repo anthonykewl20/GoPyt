@@ -1,0 +1,13 @@
+module test.orders_multi.window
+
+use core.test { assert_eq }
+use orders_multi.window { inside }
+
+test window_boundaries
+{
+    core.test.assert_eq(orders_multi.window.inside(10, 10), true)
+    core.test.assert_eq(orders_multi.window.inside(10, 40), true)
+    core.test.assert_eq(orders_multi.window.inside(10, 41), false)
+    core.test.assert_eq(orders_multi.window.inside(10, 9), false)
+    return unit
+}

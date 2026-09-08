@@ -1,0 +1,8 @@
+module shop
+
+use data.json { encode }
+
+fn dump(payment: Payment) -> str
+{
+    return data.json.encode(payment)
+}

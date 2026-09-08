@@ -1,0 +1,26 @@
+module billing.api
+
+use core.convert { Json }
+use core.status { ListenError }
+
+type Payment {
+    amount: i64
+}
+
+type Receipt {
+    amount: i64
+}
+
+provide Json for Payment
+
+provide Json for Receipt
+
+http {
+    post "/charge" post_charge
+}
+
+task post_charge(payment: Payment) -> Receipt
+    effects { log }
+
+task serve() -> unit | ListenError
+    effects { network, log }

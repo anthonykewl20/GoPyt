@@ -1,0 +1,9 @@
+module test.kv
+
+use store.db { put }
+
+test writes
+{
+    store.db.put("a", "b")
+    return unit
+}

@@ -1,0 +1,6 @@
+name = "app_dup"
+version = "0.1.0"
+
+[deps]
+auth = { path = "../auth_alt" }
+mid = { path = "../mid" }

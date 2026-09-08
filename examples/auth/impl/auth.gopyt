@@ -1,0 +1,81 @@
+module auth
+
+use core.limit { allow }
+use core.list { range }
+use core.observe { note, report }
+use core.status { DbError, NotFound, Throttled }
+use core.str { concat, len }
+use store.db { get, put }
+
+fn key_of(user: str) -> str
+{
+    return core.str.concat("auth:token:", user)
+}
+
+task enroll(user: str, token: str) -> unit | DbError
+    effects { database.write }
+    requires core.str.len(user) > 0
+{
+    return store.db.put(key_of(user), token)
+}
+
+task login(req: LoginReq) -> Session | Denied | Throttled
+    effects { database.read, time, observe }
+    requires core.str.len(req.user) > 0
+{
+    allowed = core.limit.allow(req.user, 4, 3600000)
+    return match allowed {
+        unit -> verify(req)
+        Throttled -> Throttled {}
+    }
+}
+
+task verify(req: LoginReq) -> Session | Denied
+    effects { database.read, observe }
+{
+    stored = store.db.get(key_of(req.user))
+    return match stored {
+        str -> compare(req, stored)
+        NotFound -> deny("unknown user")
+        DbError { message } -> deny("store unavailable")
+    }
+}
+
+task compare(req: LoginReq, stored: str) -> Session | Denied
+    effects { observe }
+{
+    if stored == req.token {
+        return Session { user: req.user }
+    }
+    return deny("bad token")
+}
+
+task deny(reason: str) -> Denied
+    effects { observe }
+{
+    core.observe.note(reason)
+    return Denied { reason: reason }
+}
+
+task burst() -> bool
+    effects { database.read, time, observe }
+{
+    for step in core.list.range(0, 40) {
+        attempt()
+    }
+    return core.observe.report().cusum_alarm
+}
+
+task attempt() -> unit
+    effects { database.read, time, observe }
+{
+    result = login(LoginReq {
+        user: "burst"
+        token: "wrong"
+    })
+    return match result {
+        Session { user } -> unit
+        Denied { reason } -> unit
+        Throttled -> unit
+    }
+}

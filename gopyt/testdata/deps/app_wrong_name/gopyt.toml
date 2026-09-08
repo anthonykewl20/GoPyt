@@ -1,0 +1,5 @@
+name = "app_wrong_name"
+version = "0.1.0"
+
+[deps]
+wrong = { path = "../auth" }

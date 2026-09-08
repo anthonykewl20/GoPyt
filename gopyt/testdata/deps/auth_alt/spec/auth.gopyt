@@ -1,0 +1,3 @@
+module auth
+
+fn tag(value: str) -> str

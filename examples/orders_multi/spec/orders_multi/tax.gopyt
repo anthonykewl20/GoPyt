@@ -1,0 +1,16 @@
+module orders_multi.tax
+
+use orders_multi.model { Category }
+
+fn valid_category(name: str) -> bool
+
+fn category(name: str) -> Category
+
+fn tax_rate(category: Category) -> i64
+    ensures category != Category.Standard or result == 825
+    ensures category != Category.Food or result == 200
+    ensures category != Category.Exempt or result == 0
+
+fn tax(net: i64, category: Category) -> i64
+    requires net >= 0
+    ensures result == net * tax_rate(category) / 10000

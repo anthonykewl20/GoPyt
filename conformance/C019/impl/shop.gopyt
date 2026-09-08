@@ -1,0 +1,8 @@
+module shop
+
+use core.list { empty }
+
+fn none_pay() -> list[Payment]
+{
+    return core.list.empty[Payment]()
+}

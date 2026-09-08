@@ -1,0 +1,562 @@
+echo
+.echo
+.echo
+echo
+.echo
+.charge
+.echo
+echo
+...echo
+....................................probe
+probe
+probe
+......arithmetic
+..probe
+.......x
+...x
+...charge
+..............................................start
+.......decode
+.................................................echo
+echo
+echo
+echo
+echo
+charge
+echo
+echo
+echo
+probe
+probe
+probe
+arithmetic
+probe
+x
+x
+charge
+start
+decode
+start
+ERROR:root:Refund transaction failed
+Traceback (most recent call last):
+  File "/home/soultransit/devtony/GoPyt/examples/guarded_refunds/service.py", line 236, in do_POST
+    result = self.server.ledger.apply(body)
+  File "/home/soultransit/devtony/GoPyt/examples/guarded_refunds/service.py", line 143, in apply
+    return self._apply(body)
+           ~~~~~~~~~~~^^^^^^
+  File "/home/soultransit/devtony/GoPyt/examples/guarded_refunds/service.py", line 180, in _apply
+    conn.execute('INSERT INTO requests VALUES(?,?,?,?)', (order_id,key,payload,canonical(response).decode()))
+    ~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+sqlite3.IntegrityError: injected
+ERROR:root:Refund transaction failed
+Traceback (most recent call last):
+  File "/home/soultransit/devtony/GoPyt/examples/guarded_refunds/service.py", line 236, in do_POST
+    result = self.server.ledger.apply(body)
+  File "/home/soultransit/devtony/GoPyt/examples/guarded_refunds/service.py", line 143, in apply
+    return self._apply(body)
+           ~~~~~~~~~~~^^^^^^
+  File "/home/soultransit/devtony/GoPyt/examples/guarded_refunds/service.py", line 168, in _apply
+    allowed = timed_call(self.vm, self.ids['refund_policy.allowed'],
+                         [row['paid'],row['refunded'],amount,row['version'],expected,bool(row['closed'])])
+  File "/home/soultransit/.local/share/uv/python/cpython-3.14.7-linux-x86_64-gnu/lib/python3.14/unittest/mock.py", line 1176, in __call__
+    return self._mock_call(*args, **kwargs)
+           ~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^
+  File "/home/soultransit/.local/share/uv/python/cpython-3.14.7-linux-x86_64-gnu/lib/python3.14/unittest/mock.py", line 1180, in _mock_call
+    return self._execute_mock_call(*args, **kwargs)
+           ~~~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^
+  File "/home/soultransit/.local/share/uv/python/cpython-3.14.7-linux-x86_64-gnu/lib/python3.14/unittest/mock.py", line 1241, in _execute_mock_call
+    raise effect
+gopyt.vm.Trap: trap 2
+ERROR:root:Refund transaction failed
+Traceback (most recent call last):
+  File "/home/soultransit/devtony/GoPyt/examples/guarded_refunds/service.py", line 236, in do_POST
+    result = self.server.ledger.apply(body)
+  File "/home/soultransit/devtony/GoPyt/examples/guarded_refunds/service.py", line 143, in apply
+    return self._apply(body)
+           ~~~~~~~~~~~^^^^^^
+  File "/home/soultransit/devtony/GoPyt/examples/guarded_refunds/service.py", line 168, in _apply
+    allowed = timed_call(self.vm, self.ids['refund_policy.allowed'],
+                         [row['paid'],row['refunded'],amount,row['version'],expected,bool(row['closed'])])
+  File "/home/soultransit/.local/share/uv/python/cpython-3.14.7-linux-x86_64-gnu/lib/python3.14/unittest/mock.py", line 1176, in __call__
+    return self._mock_call(*args, **kwargs)
+           ~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^
+  File "/home/soultransit/.local/share/uv/python/cpython-3.14.7-linux-x86_64-gnu/lib/python3.14/unittest/mock.py", line 1180, in _mock_call
+    return self._execute_mock_call(*args, **kwargs)
+           ~~~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^
+  File "/home/soultransit/.local/share/uv/python/cpython-3.14.7-linux-x86_64-gnu/lib/python3.14/unittest/mock.py", line 1241, in _execute_mock_call
+    raise effect
+gopyt.vm.Cancelled
+ERROR:root:Refund transaction failed
+Traceback (most recent call last):
+  File "/home/soultransit/devtony/GoPyt/examples/guarded_refunds/service.py", line 236, in do_POST
+    result = self.server.ledger.apply(body)
+  File "/home/soultransit/devtony/GoPyt/examples/guarded_refunds/service.py", line 143, in apply
+    return self._apply(body)
+           ~~~~~~~~~~~^^^^^^
+  File "/home/soultransit/devtony/GoPyt/examples/guarded_refunds/service.py", line 172, in _apply
+    after = timed_call(self.vm, self.ids['refund_policy.after_refund'],
+                       [row['paid'],row['refunded'],amount])
+  File "/home/soultransit/devtony/GoPyt/gopyt/guard.py", line 337, in timed_call
+    return vm.call(fn, list(args))
+           ~~~~~~~^^^^^^^^^^^^^^^^
+  File "/home/soultransit/devtony/GoPyt/gopyt/vm.py", line 157, in call
+    result = self.heap.handoff(self._call(fn_id, args, caller_effects))
+                               ~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/soultransit/devtony/GoPyt/gopyt/vm.py", line 190, in _call
+    return self.exec(fn_id, func, args)
+           ~~~~~~~~~^^^^^^^^^^^^^^^^^^^
+  File "/home/soultransit/devtony/GoPyt/gopyt/vm.py", line 208, in exec
+    return self._exec_frame(frame)
+           ~~~~~~~~~~~~~~~~^^^^^^^
+  File "/home/soultransit/devtony/GoPyt/gopyt/vm.py", line 422, in _exec_frame
+    raise Trap(ops.TRAP_REQUIRES if op == ops.REQUIRE else ops.TRAP_ENSURES)
+gopyt.vm.Trap: trap 2
+guard prepare: duplicate JSON key: cases
+guard prepare: preparation policy exceeds byte limit
+echo
+echo
+echo
+echo
+echo
+echo
+obligations: FileExistsError: [Errno 17] File exists: '/tmp/tmp59jabxqf/report.json'
+obligations: FileExistsError: [Errno 17] File exists: '/tmp/tmpxnn_t89p/report.json'
+obligations: FileExistsError: [Errno 17] File exists: '/tmp/tmpbsrg30k0/report.json'
+obligations: FileExistsError: [Errno 17] File exists: '/tmp/tmpsluo6rtm/report.json'
+project context: FileExistsError: [Errno 17] File exists: '/tmp/tmpig588dgg/receipt.json'
+decode
+charge
+cell
+e
+o
+e
+o
+e
+o
+e
+charging
+echo
+user
+ping
+charge
+wire
+alloc
+1
+1
+found
+go
+go
+0
+1
+2
+3
+go
+go
+go
+and
+order
+contract
+div
+enum
+int
+opt
+or
+range
+mod
+slice
+len
+encode
+encode
+decode
+get
+bools
+empty
+keys
+map
+..echo
+echo
+echo
+echo
+echo
+charge
+echo
+echo
+echo
+82bb05225ff4a9204b3628a12fed2628323bc92983ecc2b21b8301e03b8c7721
+{
+  "schema": "gopyt.guard.receipt.v1",
+  "accepted": true,
+  "bundle_sha256": "82bb05225ff4a9204b3628a12fed2628323bc92983ecc2b21b8301e03b8c7721",
+  "engine_sha256": "f114e7a53ff5b7a9470a9653f07467ba32e9449f7a3c5361df1cb89f8e74f2f2",
+  "limitations": [
+    "Finite acceptance cases, not a proof.",
+    "Listed obligations are declarations; this gate executes only the supplied cases, not HTTP or database tests.",
+    "Caller, bundle pin, and executor must be protected outside candidate authority.",
+    "No guarantee about external payment processors or undisclosed policies."
+  ],
+  "candidate_sha256": "41217c3d81c3e3e70a25f60eb3e1a17f66ca718bdcf34ad5d4fc00dd52486e0a",
+  "changed_files": [],
+  "obligations": {
+    "stock": "Reservation preserves nonnegative stock."
+  },
+  "protected_contract_helpers": [],
+  "passed": 3,
+  "total": 3,
+  "failures": []
+}
+
+50 modules checked in 22 ms
+
+check 17 ms, 10000 logins 3181 ms
+probe
+probe
+probe
+arithmetic
+probe
+x
+x
+charge
+start
+decode
+start
+ERROR:root:Refund transaction failed
+Traceback (most recent call last):
+  File "/home/soultransit/devtony/GoPyt/examples/guarded_refunds/service.py", line 236, in do_POST
+    result = self.server.ledger.apply(body)
+  File "/home/soultransit/devtony/GoPyt/examples/guarded_refunds/service.py", line 143, in apply
+    return self._apply(body)
+           ~~~~~~~~~~~^^^^^^
+  File "/home/soultransit/devtony/GoPyt/examples/guarded_refunds/service.py", line 180, in _apply
+    conn.execute('INSERT INTO requests VALUES(?,?,?,?)', (order_id,key,payload,canonical(response).decode()))
+    ~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+sqlite3.IntegrityError: injected
+ERROR:root:Refund transaction failed
+Traceback (most recent call last):
+  File "/home/soultransit/devtony/GoPyt/examples/guarded_refunds/service.py", line 236, in do_POST
+    result = self.server.ledger.apply(body)
+  File "/home/soultransit/devtony/GoPyt/examples/guarded_refunds/service.py", line 143, in apply
+    return self._apply(body)
+           ~~~~~~~~~~~^^^^^^
+  File "/home/soultransit/devtony/GoPyt/examples/guarded_refunds/service.py", line 168, in _apply
+    allowed = timed_call(self.vm, self.ids['refund_policy.allowed'],
+                         [row['paid'],row['refunded'],amount,row['version'],expected,bool(row['closed'])])
+  File "/home/soultransit/.local/share/uv/python/cpython-3.14.7-linux-x86_64-gnu/lib/python3.14/unittest/mock.py", line 1176, in __call__
+    return self._mock_call(*args, **kwargs)
+           ~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^
+  File "/home/soultransit/.local/share/uv/python/cpython-3.14.7-linux-x86_64-gnu/lib/python3.14/unittest/mock.py", line 1180, in _mock_call
+    return self._execute_mock_call(*args, **kwargs)
+           ~~~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^
+  File "/home/soultransit/.local/share/uv/python/cpython-3.14.7-linux-x86_64-gnu/lib/python3.14/unittest/mock.py", line 1241, in _execute_mock_call
+    raise effect
+gopyt.vm.Trap: trap 2
+ERROR:root:Refund transaction failed
+Traceback (most recent call last):
+  File "/home/soultransit/devtony/GoPyt/examples/guarded_refunds/service.py", line 236, in do_POST
+    result = self.server.ledger.apply(body)
+  File "/home/soultransit/devtony/GoPyt/examples/guarded_refunds/service.py", line 143, in apply
+    return self._apply(body)
+           ~~~~~~~~~~~^^^^^^
+  File "/home/soultransit/devtony/GoPyt/examples/guarded_refunds/service.py", line 168, in _apply
+    allowed = timed_call(self.vm, self.ids['refund_policy.allowed'],
+                         [row['paid'],row['refunded'],amount,row['version'],expected,bool(row['closed'])])
+  File "/home/soultransit/.local/share/uv/python/cpython-3.14.7-linux-x86_64-gnu/lib/python3.14/unittest/mock.py", line 1176, in __call__
+    return self._mock_call(*args, **kwargs)
+           ~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^
+  File "/home/soultransit/.local/share/uv/python/cpython-3.14.7-linux-x86_64-gnu/lib/python3.14/unittest/mock.py", line 1180, in _mock_call
+    return self._execute_mock_call(*args, **kwargs)
+           ~~~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^
+  File "/home/soultransit/.local/share/uv/python/cpython-3.14.7-linux-x86_64-gnu/lib/python3.14/unittest/mock.py", line 1241, in _execute_mock_call
+    raise effect
+gopyt.vm.Cancelled
+ERROR:root:Refund transaction failed
+Traceback (most recent call last):
+  File "/home/soultransit/devtony/GoPyt/examples/guarded_refunds/service.py", line 236, in do_POST
+    result = self.server.ledger.apply(body)
+  File "/home/soultransit/devtony/GoPyt/examples/guarded_refunds/service.py", line 143, in apply
+    return self._apply(body)
+           ~~~~~~~~~~~^^^^^^
+  File "/home/soultransit/devtony/GoPyt/examples/guarded_refunds/service.py", line 172, in _apply
+    after = timed_call(self.vm, self.ids['refund_policy.after_refund'],
+                       [row['paid'],row['refunded'],amount])
+  File "/home/soultransit/devtony/GoPyt/gopyt/guard.py", line 337, in timed_call
+    return vm.call(fn, list(args))
+           ~~~~~~~^^^^^^^^^^^^^^^^
+  File "/home/soultransit/devtony/GoPyt/gopyt/vm.py", line 157, in call
+    result = self.heap.handoff(self._call(fn_id, args, caller_effects))
+                               ~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/soultransit/devtony/GoPyt/gopyt/vm.py", line 190, in _call
+    return self.exec(fn_id, func, args)
+           ~~~~~~~~~^^^^^^^^^^^^^^^^^^^
+  File "/home/soultransit/devtony/GoPyt/gopyt/vm.py", line 208, in exec
+    return self._exec_frame(frame)
+           ~~~~~~~~~~~~~~~~^^^^^^^
+  File "/home/soultransit/devtony/GoPyt/gopyt/vm.py", line 422, in _exec_frame
+    raise Trap(ops.TRAP_REQUIRES if op == ops.REQUIRE else ops.TRAP_ENSURES)
+gopyt.vm.Trap: trap 2
+guard prepare: duplicate JSON key: cases
+guard prepare: preparation policy exceeds byte limit
+echo
+echo
+echo
+echo
+echo
+echo
+obligations: FileExistsError: [Errno 17] File exists: '/tmp/tmpo_w4zwba/report.json'
+obligations: FileExistsError: [Errno 17] File exists: '/tmp/tmpzwjdgm4g/report.json'
+obligations: FileExistsError: [Errno 17] File exists: '/tmp/tmppsg8uji2/report.json'
+obligations: FileExistsError: [Errno 17] File exists: '/tmp/tmpx63wntqp/report.json'
+project context: FileExistsError: [Errno 17] File exists: '/tmp/tmpfrp8sb1g/receipt.json'
+decode
+charge
+cell
+e
+o
+e
+o
+e
+o
+e
+charging
+echo
+user
+ping
+charge
+wire
+alloc
+1
+1
+found
+go
+go
+0
+1
+2
+3
+go
+go
+go
+and
+order
+contract
+div
+enum
+int
+opt
+or
+range
+mod
+slice
+len
+encode
+encode
+decode
+get
+bools
+empty
+keys
+map
+F..................................................................................911fa3d92aacec85e51b9036fdce082d85d8ddf02cc9a094492dd90c641457b6
+{
+  "schema": "gopyt.guard.receipt.v1",
+  "accepted": true,
+  "bundle_sha256": "911fa3d92aacec85e51b9036fdce082d85d8ddf02cc9a094492dd90c641457b6",
+  "engine_sha256": "7766fc08f07450c3f5921f46beae3c4b2b9f99378308355279366aa0df570cca",
+  "limitations": [
+    "Finite acceptance cases, not a proof.",
+    "Listed obligations are declarations; this gate executes only the supplied cases, not HTTP or database tests.",
+    "Caller, bundle pin, and executor must be protected outside candidate authority.",
+    "No guarantee about external payment processors or undisclosed policies."
+  ],
+  "candidate_sha256": "41217c3d81c3e3e70a25f60eb3e1a17f66ca718bdcf34ad5d4fc00dd52486e0a",
+  "changed_files": [],
+  "obligations": {
+    "stock": "Reservation preserves nonnegative stock."
+  },
+  "protected_contract_helpers": [],
+  "passed": 3,
+  "total": 3,
+  "failures": []
+}
+
+50 modules checked in 20 ms
+
+check 12 ms, 10000 logins 2972 ms
+...............start
+...............................................ERROR:root:Refund transaction failed
+Traceback (most recent call last):
+  File "/home/soultransit/devtony/GoPyt/examples/guarded_refunds/service.py", line 236, in do_POST
+    result = self.server.ledger.apply(body)
+  File "/home/soultransit/devtony/GoPyt/examples/guarded_refunds/service.py", line 143, in apply
+    return self._apply(body)
+           ~~~~~~~~~~~^^^^^^
+  File "/home/soultransit/devtony/GoPyt/examples/guarded_refunds/service.py", line 180, in _apply
+    conn.execute('INSERT INTO requests VALUES(?,?,?,?)', (order_id,key,payload,canonical(response).decode()))
+    ~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+sqlite3.IntegrityError: injected
+.....ERROR:root:Refund transaction failed
+Traceback (most recent call last):
+  File "/home/soultransit/devtony/GoPyt/examples/guarded_refunds/service.py", line 236, in do_POST
+    result = self.server.ledger.apply(body)
+  File "/home/soultransit/devtony/GoPyt/examples/guarded_refunds/service.py", line 143, in apply
+    return self._apply(body)
+           ~~~~~~~~~~~^^^^^^
+  File "/home/soultransit/devtony/GoPyt/examples/guarded_refunds/service.py", line 168, in _apply
+    allowed = timed_call(self.vm, self.ids['refund_policy.allowed'],
+                         [row['paid'],row['refunded'],amount,row['version'],expected,bool(row['closed'])])
+  File "/home/soultransit/.local/share/uv/python/cpython-3.14.7-linux-x86_64-gnu/lib/python3.14/unittest/mock.py", line 1176, in __call__
+    return self._mock_call(*args, **kwargs)
+           ~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^
+  File "/home/soultransit/.local/share/uv/python/cpython-3.14.7-linux-x86_64-gnu/lib/python3.14/unittest/mock.py", line 1180, in _mock_call
+    return self._execute_mock_call(*args, **kwargs)
+           ~~~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^
+  File "/home/soultransit/.local/share/uv/python/cpython-3.14.7-linux-x86_64-gnu/lib/python3.14/unittest/mock.py", line 1241, in _execute_mock_call
+    raise effect
+gopyt.vm.Trap: trap 2
+ERROR:root:Refund transaction failed
+Traceback (most recent call last):
+  File "/home/soultransit/devtony/GoPyt/examples/guarded_refunds/service.py", line 236, in do_POST
+    result = self.server.ledger.apply(body)
+  File "/home/soultransit/devtony/GoPyt/examples/guarded_refunds/service.py", line 143, in apply
+    return self._apply(body)
+           ~~~~~~~~~~~^^^^^^
+  File "/home/soultransit/devtony/GoPyt/examples/guarded_refunds/service.py", line 168, in _apply
+    allowed = timed_call(self.vm, self.ids['refund_policy.allowed'],
+                         [row['paid'],row['refunded'],amount,row['version'],expected,bool(row['closed'])])
+  File "/home/soultransit/.local/share/uv/python/cpython-3.14.7-linux-x86_64-gnu/lib/python3.14/unittest/mock.py", line 1176, in __call__
+    return self._mock_call(*args, **kwargs)
+           ~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^
+  File "/home/soultransit/.local/share/uv/python/cpython-3.14.7-linux-x86_64-gnu/lib/python3.14/unittest/mock.py", line 1180, in _mock_call
+    return self._execute_mock_call(*args, **kwargs)
+           ~~~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^
+  File "/home/soultransit/.local/share/uv/python/cpython-3.14.7-linux-x86_64-gnu/lib/python3.14/unittest/mock.py", line 1241, in _execute_mock_call
+    raise effect
+gopyt.vm.Cancelled
+...ERROR:root:Refund transaction failed
+Traceback (most recent call last):
+  File "/home/soultransit/devtony/GoPyt/examples/guarded_refunds/service.py", line 236, in do_POST
+    result = self.server.ledger.apply(body)
+  File "/home/soultransit/devtony/GoPyt/examples/guarded_refunds/service.py", line 143, in apply
+    return self._apply(body)
+           ~~~~~~~~~~~^^^^^^
+  File "/home/soultransit/devtony/GoPyt/examples/guarded_refunds/service.py", line 172, in _apply
+    after = timed_call(self.vm, self.ids['refund_policy.after_refund'],
+                       [row['paid'],row['refunded'],amount])
+  File "/home/soultransit/devtony/GoPyt/gopyt/guard.py", line 337, in timed_call
+    return vm.call(fn, list(args))
+           ~~~~~~~^^^^^^^^^^^^^^^^
+  File "/home/soultransit/devtony/GoPyt/gopyt/vm.py", line 157, in call
+    result = self.heap.handoff(self._call(fn_id, args, caller_effects))
+                               ~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/soultransit/devtony/GoPyt/gopyt/vm.py", line 190, in _call
+    return self.exec(fn_id, func, args)
+           ~~~~~~~~~^^^^^^^^^^^^^^^^^^^
+  File "/home/soultransit/devtony/GoPyt/gopyt/vm.py", line 208, in exec
+    return self._exec_frame(frame)
+           ~~~~~~~~~~~~~~~~^^^^^^^
+  File "/home/soultransit/devtony/GoPyt/gopyt/vm.py", line 422, in _exec_frame
+    raise Trap(ops.TRAP_REQUIRES if op == ops.REQUIRE else ops.TRAP_ENSURES)
+gopyt.vm.Trap: trap 2
+..........guard prepare: duplicate JSON key: cases
+...........guard prepare: preparation policy exceeds byte limit
+......................echo
+echo
+echo
+echo
+echo
+echo
+......obligations: FileExistsError: [Errno 17] File exists: '/tmp/tmp8cgq6ruu/report.json'
+...................obligations: FileExistsError: [Errno 17] File exists: '/tmp/tmpqla64z3l/report.json'
+..................obligations: FileExistsError: [Errno 17] File exists: '/tmp/tmpvissdc_m/report.json'
+...............obligations: FileExistsError: [Errno 17] File exists: '/tmp/tmpngi0frod/report.json'
+............................project context: FileExistsError: [Errno 17] File exists: '/tmp/tmpo5nerl6q/receipt.json'
+.................................................................decode
+.....charge
+...................cell
+.e
+o
+e
+o
+e
+o
+e
+..charging
+..........echo
+......user
+.ping
+..charge
+.........wire
+.alloc
+...........1
+1
+.....found
+...go
+..go
+.0
+1
+2
+3
+..go
+...go
+....go
+.......and
+.order
+.contract
+.div
+.enum
+.int
+...opt
+.or
+.range
+.mod
+.slice
+.len
+.encode
+..encode
+decode
+..get
+..bools
+..empty
+..keys
+.map
+...
+======================================================================
+FAIL: test_untested_list_stays_honest (gopyt.test_diagnostics.Coverage.test_untested_list_stays_honest)
+A code that a test does reach must not sit in UNTESTED.
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/home/soultransit/devtony/GoPyt/gopyt/test_diagnostics.py", line 84, in test_untested_list_stays_honest
+    seen = raised_codes()
+  File "/home/soultransit/devtony/GoPyt/gopyt/test_diagnostics.py", line 70, in raised_codes
+    raise AssertionError("the rest of the suite must pass before auditing codes")
+AssertionError: the rest of the suite must pass before auditing codes
+
+----------------------------------------------------------------------
+Ran 638 tests in 202.159s
+
+FAILED (failures=1)
+911fa3d92aacec85e51b9036fdce082d85d8ddf02cc9a094492dd90c641457b6
+{
+  "schema": "gopyt.guard.receipt.v1",
+  "accepted": true,
+  "bundle_sha256": "911fa3d92aacec85e51b9036fdce082d85d8ddf02cc9a094492dd90c641457b6",
+  "engine_sha256": "7766fc08f07450c3f5921f46beae3c4b2b9f99378308355279366aa0df570cca",
+  "limitations": [
+    "Finite acceptance cases, not a proof.",
+    "Listed obligations are declarations; this gate executes only the supplied cases, not HTTP or database tests.",
+    "Caller, bundle pin, and executor must be protected outside candidate authority.",
+    "No guarantee about external payment processors or undisclosed policies."
+  ],
+  "candidate_sha256": "41217c3d81c3e3e70a25f60eb3e1a17f66ca718bdcf34ad5d4fc00dd52486e0a",
+  "changed_files": [],
+  "obligations": {
+    "stock": "Reservation preserves nonnegative stock."
+  },
+  "protected_contract_helpers": [],
+  "passed": 3,
+  "total": 3,
+  "failures": []
+}
+
+50 modules checked in 17 ms
+
+check 12 ms, 10000 logins 3301 ms

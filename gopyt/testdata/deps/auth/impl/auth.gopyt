@@ -1,0 +1,8 @@
+module auth
+
+use core.str { concat }
+
+fn tag(value: str) -> str
+{
+    return core.str.concat("auth:", value)
+}

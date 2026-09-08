@@ -1,0 +1,7 @@
+module math
+
+task ping() -> unit
+    effects { ffi }
+{
+    return unit
+}

@@ -1,0 +1,28 @@
+module orders_multi.inventory
+
+use orders_multi.model { Line, LineInput }
+
+fn known(stock: map[str, i64], sku: str) -> bool
+
+fn available(stock: map[str, i64], sku: str) -> i64
+
+fn reserve(stock: map[str, i64], sku: str, quantity: i64) -> map[str, i64]
+    requires quantity >= 1
+    requires known(stock, sku) and available(stock, sku) >= quantity
+    ensures available(result, sku) == available(stock, sku) - quantity
+    ensures core.map.keys[str, i64](result) == core.map.keys[str, i64](stock)
+
+fn restock(stock: map[str, i64], sku: str, quantity: i64) -> map[str, i64]
+    requires quantity >= 1
+    requires known(stock, sku)
+    ensures available(result, sku) == available(stock, sku) + quantity
+    ensures core.map.keys[str, i64](result) == core.map.keys[str, i64](stock)
+
+fn sufficient(stock: map[str, i64], lines: list[LineInput]) -> bool
+
+fn reserve_all(stock: map[str, i64], lines: list[LineInput]) -> map[str, i64]
+    requires sufficient(stock, lines)
+    ensures core.map.keys[str, i64](result) == core.map.keys[str, i64](stock)
+
+fn restock_all(stock: map[str, i64], lines: list[Line]) -> map[str, i64]
+    ensures core.map.keys[str, i64](result) == core.map.keys[str, i64](stock)

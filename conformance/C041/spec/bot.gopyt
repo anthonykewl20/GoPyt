@@ -1,0 +1,13 @@
+module bot
+
+agent Worker
+    effects { model, log, observe }
+    tasks { ping }
+    evolve {
+        max 0
+        timeout_ms 1
+        reservoir 1
+    }
+
+task ping() -> unit
+    effects { log }

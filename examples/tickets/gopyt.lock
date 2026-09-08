@@ -1,0 +1,7 @@
+toolchain = "gopyt-0.1.000"
+
+[[pkg]]
+name = "support_tickets"
+version = "0.1.0"
+path = "."
+digest = "sha256:dccee13d35b46467a3e36ac71ffeb057179845908933de3d2fdc19e454116d93"

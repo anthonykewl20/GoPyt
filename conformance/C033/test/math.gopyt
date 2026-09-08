@@ -1,0 +1,10 @@
+module test.math
+
+use math { charge_zero }
+use core.test { assert_eq }
+
+test charge_zero
+{
+    core.test.assert_eq(math.charge_zero(), 0)
+    return unit
+}

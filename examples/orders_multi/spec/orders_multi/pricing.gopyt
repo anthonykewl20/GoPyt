@@ -1,0 +1,19 @@
+module orders_multi.pricing
+
+use orders_multi.model { LineInput, LineQuote, Quote, Tier }
+
+fn gross_total(lines: list[LineInput]) -> i64
+
+fn quote_line(line: LineInput, tier: Tier) -> LineQuote
+    requires line.quantity >= 1 and line.quantity <= 100
+    requires line.unit_cents >= 0 and line.unit_cents <= 1000000
+    ensures result.discount_cents == orders_multi.customer.discount(line.quantity * line.unit_cents, tier)
+    ensures result.net_cents == line.quantity * line.unit_cents - result.discount_cents
+    ensures result.tax_cents == orders_multi.tax.tax(result.net_cents, orders_multi.tax.category(line.category))
+
+fn quote(lines: list[LineInput], tier: Tier) -> Quote
+    ensures core.list.len[Line](result.lines) == core.list.len[LineInput](lines)
+    ensures result.subtotal_cents == orders_multi.lines.subtotal(result.lines)
+    ensures result.tax_cents == orders_multi.lines.tax_total(result.lines)
+    ensures result.discount_cents == gross_total(lines) - result.subtotal_cents
+    ensures orders_multi.lines.unrefunded(result.lines)

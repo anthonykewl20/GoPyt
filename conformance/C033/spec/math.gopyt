@@ -1,0 +1,4 @@
+module math
+
+fn charge_zero() -> i64
+    requires open needs_test_charge_zero

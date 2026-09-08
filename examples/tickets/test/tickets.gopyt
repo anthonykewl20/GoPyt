@@ -1,0 +1,31 @@
+module test.tickets
+
+use core.str { concat }
+use core.test { assert_eq }
+use tickets { valid_id, valid_title }
+
+test id_rules
+{
+    core.test.assert_eq(tickets.valid_id("ticket_01-A"), true)
+    core.test.assert_eq(tickets.valid_id(""), false)
+    core.test.assert_eq(tickets.valid_id("../outside"), false)
+    core.test.assert_eq(tickets.valid_id("ticket name"), false)
+    core.test.assert_eq(tickets.valid_id("café"), false)
+    return unit
+}
+
+test id_length_boundary
+{
+    full = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789_-"
+    core.test.assert_eq(tickets.valid_id(full), true)
+    core.test.assert_eq(tickets.valid_id(core.str.concat(full, "a")), false)
+    return unit
+}
+
+test title_rules
+{
+    core.test.assert_eq(tickets.valid_title(""), false)
+    core.test.assert_eq(tickets.valid_title("Fix the export"), true)
+    core.test.assert_eq(tickets.valid_title(" "), true)
+    return unit
+}

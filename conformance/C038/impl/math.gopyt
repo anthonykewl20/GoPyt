@@ -1,0 +1,6 @@
+module math
+
+fn boom() -> i64
+{
+    return eval("1")
+}

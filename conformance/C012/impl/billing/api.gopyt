@@ -1,0 +1,18 @@
+module billing.api
+
+use core.log { write }
+use core.status { ListenError }
+use net.http { serve }
+
+task post_charge(payment: Payment) -> Receipt
+    effects { log }
+{
+    core.log.write("charge")
+    return Receipt { amount: payment.amount }
+}
+
+task serve() -> unit | ListenError
+    effects { network, log }
+{
+    return net.http.serve()
+}

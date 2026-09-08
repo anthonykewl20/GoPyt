@@ -1,0 +1,7 @@
+toolchain = "gopyt-0.1.000"
+
+[[pkg]]
+name = "refund_policy"
+version = "0.1.0"
+path = "."
+digest = "sha256:d5d30a789177869e7b5779201684e5f0c137e3f9af073f123aa0a5387839f431"

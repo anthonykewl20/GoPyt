@@ -1,0 +1,17 @@
+module orders_multi.shipping
+
+use orders_multi.model { Tier }
+
+fn shipping(subtotal_cents: i64, line_count: i64, tier: Tier, coupon: str) -> i64
+    requires line_count >= 1
+    ensures tier != Tier.Gold or result == 0
+    ensures coupon != "FREESHIP" or result == 0
+    ensures subtotal_cents < 10000 or result == 0
+    ensures tier == Tier.Gold or coupon == "FREESHIP" or subtotal_cents >= 10000 or result == 500 + 100 * (line_count - 1)
+{
+    gold = tier == Tier.Gold
+    if gold or coupon == "FREESHIP" or subtotal_cents >= 10000 {
+        return 0
+    }
+    return 500 + 100 * (line_count - 1)
+}

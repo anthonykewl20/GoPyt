@@ -1,0 +1,7 @@
+module shop
+
+type Payment {
+    amount: i64
+}
+
+fn none_pay() -> list[Payment]

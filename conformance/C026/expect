@@ -1,0 +1,3 @@
+ok
+phase: fmt
+note: format twice is byte-identical

@@ -1,0 +1,131 @@
+module orders_multi.model
+
+enum Status {
+    Empty
+    Reserved
+    Paid
+    Shipped
+    Cancelled
+    PartiallyRefunded
+    Refunded
+}
+
+enum Outcome {
+    Ok
+    InvalidCommand
+    Conflict
+    InvalidState
+    InvalidOrder
+    OutOfStock
+    InvalidRefund
+}
+
+enum Operation {
+    Place
+    Pay
+    Ship
+    Cancel
+    Refund
+    Unknown
+}
+
+enum Tier {
+    None
+    Member
+    Gold
+}
+
+enum Category {
+    Standard
+    Food
+    Exempt
+}
+
+type LineInput {
+    sku: str
+    quantity: i64
+    unit_cents: i64
+    category: str
+}
+
+type Command {
+    op: str
+    lines: list[LineInput]
+    sku: str
+    quantity: i64
+    expected_version: i64
+    day: i64
+    coupon: str
+    tier: str
+}
+
+type Request {
+    stock: map[str, i64]
+    commands: list[Command]
+}
+
+type Line {
+    sku: str
+    quantity: i64
+    refunded_quantity: i64
+    net_cents: i64
+    tax_cents: i64
+    refunded_cents: i64
+}
+
+type LineQuote {
+    discount_cents: i64
+    net_cents: i64
+    tax_cents: i64
+}
+
+type Quote {
+    lines: list[Line]
+    subtotal_cents: i64
+    discount_cents: i64
+    tax_cents: i64
+}
+
+type State {
+    status: Status
+    version: i64
+    day_placed: i64
+    tier: Tier
+    subtotal_cents: i64
+    discount_cents: i64
+    tax_cents: i64
+    shipping_cents: i64
+    charged_cents: i64
+    refunded_cents: i64
+    lines: list[Line]
+    stock: map[str, i64]
+}
+
+type Transition {
+    outcome: Outcome
+    state: State
+}
+
+type Snapshot {
+    outcome: str
+    status: str
+    version: i64
+    day_placed: i64
+    tier: str
+    subtotal_cents: i64
+    discount_cents: i64
+    tax_cents: i64
+    shipping_cents: i64
+    charged_cents: i64
+    refunded_cents: i64
+    lines: list[Line]
+    stock: map[str, i64]
+}
+
+type Reply {
+    results: list[Snapshot]
+}
+
+fn initial(stock: map[str, i64]) -> State
+    ensures result.status == Status.Empty and result.version == 0 and result.charged_cents == 0 and result.refunded_cents == 0
+    ensures result.stock == stock

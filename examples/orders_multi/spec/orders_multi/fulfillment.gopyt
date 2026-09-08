@@ -1,0 +1,12 @@
+module orders_multi.fulfillment
+
+use orders_multi.model { Outcome, State, Status, Transition }
+
+fn ship(state: State) -> Transition
+    ensures result.outcome != Outcome.Ok or result.state.status == Status.Shipped and result.state.stock == state.stock and result.state.lines == state.lines and result.state.charged_cents == state.charged_cents and result.state.refunded_cents == state.refunded_cents
+
+fn cancel(state: State) -> Transition
+    ensures result.outcome != Outcome.Ok or result.state.stock == orders_multi.inventory.restock_all(state.stock, state.lines)
+    ensures result.outcome != Outcome.Ok or result.state.status == Status.Cancelled
+    ensures result.outcome != Outcome.Ok or state.status != Status.Paid or result.state.refunded_cents == state.charged_cents and orders_multi.lines.all_refunded(result.state.lines) and orders_multi.lines.refunded_total(result.state.lines) == state.subtotal_cents + state.tax_cents
+    ensures result.outcome != Outcome.Ok or state.status != Status.Reserved or result.state.refunded_cents == 0 and result.state.lines == state.lines

@@ -1,0 +1,9 @@
+module orders.inventory
+
+fn reserve(stock: i64, quantity: i64) -> i64
+    requires stock >= quantity and quantity >= 1
+    ensures result == stock - quantity
+
+fn restock(stock: i64, quantity: i64) -> i64
+    requires stock >= 0 and quantity >= 1
+    ensures result == stock + quantity

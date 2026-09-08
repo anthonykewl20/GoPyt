@@ -1,0 +1,285 @@
+(*
+  GoPyT v0 grammar
+  Source of truth for tokens and syntax. Semantics live in docs/spec.md.
+
+  Notation: ISO EBNF.
+    = production
+    | alternative
+    { x } zero or more
+    [ x ] optional
+    ( x ) grouping
+    "abc" exact terminals
+    parenthesized-star notation denotes a grammar comment
+
+  File roles (not separate grammars):
+    spec/  : ModuleFile with no Block on fn/task/workflow.
+    impl/  : ModuleFile; every spec fn/task/workflow has a Block.
+    test/  : TestFile.
+
+  Tabs are illegal. Indentation is 4 spaces (enforced by fmt/check, not this grammar).
+*)
+
+(* ===== Lexical ===== *)
+
+letter_lower = "a" | "b" | "c" | "d" | "e" | "f" | "g" | "h" | "i" | "j"
+             | "k" | "l" | "m" | "n" | "o" | "p" | "q" | "r" | "s" | "t"
+             | "u" | "v" | "w" | "x" | "y" | "z" ;
+letter_upper = "A" | "B" | "C" | "D" | "E" | "F" | "G" | "H" | "I" | "J"
+             | "K" | "L" | "M" | "N" | "O" | "P" | "Q" | "R" | "S" | "T"
+             | "U" | "V" | "W" | "X" | "Y" | "Z" ;
+digit        = "0" | "1" | "2" | "3" | "4" | "5" | "6" | "7" | "8" | "9" ;
+
+(* Tokens use longest match. A keyword must end before the next identifier
+   character: `modulefoo` is one identifier, never `module` + `foo`. *)
+
+(* snake: at least two characters. No leading/trailing "_", no "__". *)
+snake = letter_lower, (letter_lower | digit), { letter_lower | digit | ( "_", (letter_lower | digit) ) } ;
+
+(* Pascal: acronyms-as-words. "Http", "UserId" legal. "HTTP", "UserID" illegal. *)
+pascal_chunk = letter_upper, (letter_lower | digit), { letter_lower | digit } ;
+pascal       = pascal_chunk, { pascal_chunk } ;
+type_var     = "T" | "K" | "V" ;
+
+module_path = snake, { ".", snake } ;
+
+comment = "//", { comment_char }, ( newline | ? end of file ? ) ;
+comment_char = ? any UTF-8 except CR or LF ? ;
+newline = "\n" ;
+ws      = { " " | newline | comment } ;
+
+nonzero = "1" | "2" | "3" | "4" | "5" | "6" | "7" | "8" | "9" ;
+integer = "0" | nonzero, { digit } ;         (* type i64; no leading zeros *)
+float   = integer, ".", digit, { digit } ;   (* type f64; not 1. or .5 *)
+string  = '"', { string_char }, '"' ;
+string_char = ? any UTF-8 except raw " and control chars; escapes: \\ \" \n \t \r ? ;
+
+(* ===== Keywords (contextual exceptions in runtime-amendment-2026-09-05.md) ===== *)
+
+(*
+  module use type enum fn task trait agent workflow
+  match if else for in parallel return
+  effects requires ensures open
+  some none true false test
+  http tasks provide egress evolve
+  unresolved
+  bool i32 i64 u32 u64 f64 str bytes list map unit
+  Self
+  and or not
+  get post put patch delete   (* contextual in name positions *)
+  max timeout_ms reservoir
+*)
+
+(* Soft keywords, legal as snake in name positions:
+   bool i32 i64 u32 u64 f64 str bytes list map unit get post put patch delete
+   test http evolve tasks max timeout_ms reservoir. *)
+
+(* ===== Compilation units ===== *)
+
+ModuleFile = ws, ModuleHeader, { UseDecl }, { Item }, ws ;
+TestFile   = ws, ModuleHeader, { UseDecl }, { TestDecl }, ws ;
+
+ModuleHeader = "module", ws, module_path, ws ;
+
+UseDecl = "use", ws, module_path, ws, "{", ws, UseName, { ",", ws, UseName }, ws, "}", ws ;
+UseName = pascal | snake ;
+
+Item = TypeDecl | EnumDecl | TraitDecl | ProvideDecl | FnDecl | TaskDecl
+     | WorkflowDecl | AgentDecl | HttpDecl | EgressDecl ;
+
+(* ===== Types ===== *)
+
+TypeDecl = "type", ws, pascal, [ TypeParams ], ws, TypeBody, ws ;
+TypeParams = "[", ws, type_var, { ",", ws, type_var }, ws, "]" ;
+TypeBody = "{", ws, { Field }, "}" ;
+Field = snake, ws, ":", ws, TypeExpr, ws ;
+
+EnumDecl = "enum", ws, pascal, ws, "{", ws, { Variant }, "}" , ws ;
+Variant = pascal, [ ws, TypeBody ], ws ;
+
+TraitDecl = "trait", ws, pascal, [ TypeParams ], ws, "{", ws, { TraitMember }, "}", ws ;
+TraitMember = ( FnSig | TaskSig ), ws ;
+
+(* spec/: no ProvideBody. impl/: ProvideBody required. Builtin targets are
+   accepted only in the toolchain's stdlib; app orphan checking rejects them. *)
+ProvideDecl = "provide", ws, TraitRef, ws, "for", ws, ProvideType, [ ws, ProvideBody ], ws ;
+TraitRef = [ module_path, ".", ], pascal, [ TypeArgs ] ;
+ProvideType = pascal, [ TypeArgs ] | ScalarBuiltin ;
+ProvideBody = "{", ws, { ( FnDecl | TaskDecl ) }, "}" ;
+
+TypeExpr = UnionType ;
+UnionType = OptionalType, { ws, "|", ws, OptionalType } ;
+OptionalType = NamedType, [ "?" ] ;
+NamedType = BuiltinType
+          | "Self"
+          | type_var
+          | pascal, [ TypeArgs ]
+          | module_path, ".", pascal, [ TypeArgs ] ;
+TypeArgs = "[", ws, TypeExpr, { ws, ",", ws, TypeExpr }, ws, "]" ;
+
+ScalarBuiltin = "bool" | "i32" | "i64" | "u32" | "u64" | "f64"
+              | "str" | "bytes" | "unit" ;
+BuiltinType = ScalarBuiltin
+            | "list", TypeArgs
+            | "map", TypeArgs ;
+
+(* ===== Functions / tasks ===== *)
+
+FnDecl   = FnSig, [ ws, Block ], ws ;
+TaskDecl = TaskSig, [ ws, Block ], ws ;
+WorkflowDecl = WorkflowSig, [ ws, Block ], ws ;
+
+FnSig = "fn", ws, snake, [ TypeParams ], ParamList, ws, "->", ws, TypeExpr, { ws, Contract } ;
+
+TaskSig = "task", ws, snake, [ TypeParams ], ParamList, ws, "->", ws, TypeExpr,
+          ws, EffectsClause, { ws, Contract } ;
+
+WorkflowSig = "workflow", ws, snake, ParamList, ws, "->", ws, TypeExpr,
+              ws, EffectsClause, { ws, Contract } ;
+
+ParamList = "(", ws, [ Param, { ",", ws, Param } ], ws, ")" ;
+Param = snake, ws, ":", ws, TypeExpr ;
+
+EffectsClause = "effects", ws, "{", ws, [ Effect, { ",", ws, Effect } ], ws, "}" ;
+Effect = "network"
+       | "filesystem.read" | "filesystem.write"
+       | "database.read" | "database.write"
+       | "time" | "random" | "log" | "model" | "ffi" | "secret" | "observe" ;
+
+Contract = ("requires" | "ensures"), ws, ( Expr | OpenHole ) ;
+OpenHole = "open", ws, snake ;
+
+(* ===== Agent / HTTP ===== *)
+
+AgentDecl = "agent", ws, pascal, ws, EffectsClause, ws,
+            "tasks", ws, "{", ws, [ snake, { ",", ws, snake } ], ws, "}",
+            [ ws, EvolveClause ], ws ;
+EvolveClause = "evolve", ws, "{", ws,
+    "max", ws, integer, ws,
+    "timeout_ms", ws, integer, ws,
+    "reservoir", ws, integer, ws, "}" ;
+
+HttpDecl = "http", ws, "{", ws, { HttpRoute }, "}", ws ;
+HttpRoute = HttpVerb, ws, string, ws, snake, ws ;
+HttpVerb = "get" | "post" | "put" | "patch" | "delete" ;
+
+EgressDecl = "egress", ws, "{", ws, [ string, { ",", ws, string } ], ws, "}", ws ;
+
+(* ===== Tests ===== *)
+
+TestDecl = "test", ws, snake, ws, Block, ws ;
+
+(* ===== Blocks / statements ===== *)
+
+Block = "{", ws, { Stmt }, "}" ;
+
+Stmt = BindStmt | ReturnStmt | IfStmt | ForStmt | ExprStmt | UnresolvedStmt ;
+UnresolvedStmt = "unresolved", ws, snake ;
+
+BindStmt   = snake, ws, "=", ws, Expr, ws ;
+ReturnStmt = "return", ws, Expr, ws ;
+IfStmt     = "if", ws, Expr, ws, Block, [ ws, "else", ws, Block ], ws ;
+ForStmt    = "for", ws, snake, ws, "in", ws, Expr, ws, Block, ws ;
+ExprStmt   = Expr, ws ;
+
+(* ===== Expressions ===== *)
+
+Expr = OrExpr ;
+
+OrExpr  = AndExpr, { ws, "or", ws, AndExpr } ;
+AndExpr = NotExpr, { ws, "and", ws, NotExpr } ;
+NotExpr = { "not", ws }, CmpExpr ;
+CmpExpr = AddExpr, [ ws, CmpOp, ws, AddExpr ] ;
+CmpOp   = "==" | "!=" | "<" | ">" | "<=" | ">=" ;
+AddExpr = MulExpr, { ws, AddOp, ws, MulExpr } ;
+AddOp   = "+" | "-" ;
+MulExpr = UnaryExpr, { ws, MulOp, ws, UnaryExpr } ;
+MulOp   = "*" | "/" | "%" ;
+
+UnaryExpr = [ "-" ], PrefixExpr ;
+PrefixExpr = Primary, { Trailer } ;
+
+Trailer = ".", snake
+        | [ TypeArgs ], "(", ws, [ ArgList ], ws, ")" ;
+
+ArgList = Expr, { ",", ws, Expr } ;
+
+Primary = integer | float | string
+        | "true" | "false"
+        | "none"
+        | "unit"
+        | "some", "(", ws, Expr, ws, ")"
+        | Construct
+        | CallName
+        | MatchExpr
+        | ParallelExpr
+        | "(", ws, Expr, ws, ")" ;
+
+(*
+  CallName:
+    same module: snake
+    other module: module_path "." snake
+  Types in constructs follow the same rule with pascal.
+*)
+(*
+  Calls:
+    same module fn/task: snake
+    foreign fn/task:     module_path "." snake
+    trait fn:            [module_path "."] pascal "." snake
+  Enum variants are Pascal.Pascal (construct), not calls.
+*)
+CallName = module_path, ".", pascal, ".", snake
+         | pascal, ".", snake
+         | module_path, ".", snake
+         | snake ;
+
+Construct = TypeRef, ws, TypeBodyValues | EnumRef, [ ws, TypeBodyValues ] ;
+TypeRef = module_path, ".", pascal | pascal ;
+EnumRef = (module_path, ".", pascal | pascal), ".", pascal ;
+TypeBodyValues = "{", ws, { FieldLit }, "}" ;
+FieldLit = snake, ws, ":", ws, Expr, ws ;
+
+MatchExpr = "match", ws, Expr, ws, "{", ws, { MatchArm }, "}" ;
+MatchArm  = Pattern, ws, "->", ws, Expr, ws ;
+Pattern   = "none"
+          | "some", "(", ws, snake, ws, ")"
+          | ScalarBuiltin
+          | EnumRef, [ ws, PatternBody ]
+          | (module_path, ".", pascal | pascal), [ ws, PatternBody ] ;
+PatternBody = "{", ws, { snake, ws }, "}" ;
+
+ParallelExpr = "parallel", ws, "max", ws, integer, ws, "timeout_ms", ws, integer, ws,
+               "{", ws, { Expr, ws }, "}" ;
+
+(* ===== Checker constraints (not EBNF, but binding) ===== *)
+
+(*
+  - module_path in ModuleHeader must equal file path (spec.md S3, S4).
+  - spec/: FnDecl/TaskDecl/WorkflowDecl have no Block. impl/: they have Block.
+  - One-letter names are rejected except closed generic variables T/K/V in the
+    scope of the generic declaration that binds them.
+  - no "_" wildcard pattern (S14).
+  - Pattern includes ScalarBuiltin so `str | ConvertError` and `unit | Throttled` can be matched.
+  - Parameter, argument, use, effect, task-name, type-parameter, and type-argument
+    lists use commas and have no trailing comma. Record fields, enum payload
+    fields, literals, patterns, statements, and match arms have no commas.
+  - TypeArgs: commas required between args (list[T], map[K, V]).
+  - Qualified foreign names must appear in use allowlist (S4).
+  - In canonical checked source, foreign callables use `module_path.snake`,
+    imported foreign types use allowlisted `pascal`, enum constructors use
+    `pascal.pascal`, and trait calls use `[module_path.]pascal.snake`. Broader
+    syntactic alternatives in TypeRef/CallName are disambiguated then rejected by
+    `GOPYT_E004` when noncanonical.
+  - A payload-free enum value is `Type.Variant` with no `{}`. A payload enum uses
+    exactly one TypeBodyValues. Records and marker records always use `{}`.
+  - Call sites cannot use "." methods; only CallName(...) (S13).
+  - provide: type `pascal` must be declared in this module (orphan rule).
+  - unresolved: legal syntax; gopyt check fails until replaced (elaborator.md).
+  - Unary `-` is legal only for i64. A negative literal is parsed as unary minus.
+  - spec/ contains ProvideDecl without ProvideBody; impl/ requires ProvideBody and
+    exactly one matching member declaration for every trait member.
+  - Trait TaskSig effects are the caller-facing set. Provide task effects ⊆ trait effects.
+  - EffectsClause is syntactically allowed empty for targeted E050 recovery, but
+    task/workflow/trait-task declarations require at least one effect.
+  - A trait with any task member is effectful: fn code cannot call those members.
+  - spec/ must not contain unresolved.
+*)

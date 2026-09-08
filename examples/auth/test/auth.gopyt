@@ -1,0 +1,36 @@
+module test.auth
+
+use auth { Denied, LoginReq, Session, enroll, login }
+use core.test { assert_eq }
+
+test login_accepts_the_stored_token
+{
+    auth.enroll("alice", "secret")
+    result = auth.login(LoginReq {
+        user: "alice"
+        token: "secret"
+    })
+    core.test.assert_eq(result, Session { user: "alice" })
+    return unit
+}
+
+test login_denies_a_wrong_token
+{
+    auth.enroll("bob", "secret")
+    result = auth.login(LoginReq {
+        user: "bob"
+        token: "wrong"
+    })
+    core.test.assert_eq(result, Denied { reason: "bad token" })
+    return unit
+}
+
+test login_denies_an_unknown_user
+{
+    result = auth.login(LoginReq {
+        user: "carol"
+        token: "secret"
+    })
+    core.test.assert_eq(result, Denied { reason: "unknown user" })
+    return unit
+}

@@ -1,0 +1,13 @@
+module orders.service
+
+use orders.model { Command, Operation, Outcome, Reply, Request, State, Transition }
+
+fn transition(state: State, command: Command) -> Transition
+    ensures orders.validation.operation(command.op) != Operation.Unknown or result.outcome == Outcome.InvalidCommand
+    ensures orders.validation.operation(command.op) == Operation.Unknown or command.expected_version == state.version or result.outcome == Outcome.Conflict
+    ensures result.outcome == Outcome.Ok or result.state == state
+    ensures result.outcome != Outcome.Ok or result.state.version == state.version + 1
+    ensures result.state.refunded_cents <= result.state.charged_cents
+
+fn run(request: Request) -> Reply
+    requires request.stock >= 0 and request.stock <= 10000

@@ -1,0 +1,7 @@
+module orders_multi.payment
+
+use orders_multi.model { Outcome, State, Status, Transition }
+
+fn pay(state: State) -> Transition
+    ensures result.outcome != Outcome.Ok or result.state.charged_cents == state.subtotal_cents + state.tax_cents + state.shipping_cents
+    ensures result.outcome != Outcome.Ok or result.state.status == Status.Paid and result.state.stock == state.stock and result.state.lines == state.lines

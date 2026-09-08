@@ -1,0 +1,12 @@
+module sec
+
+use core.secret { get }
+use core.status { NotFound }
+use core.log { write }
+
+task leak() -> unit | NotFound
+    effects { secret, log }
+{
+    secret_value = core.secret.get("api_token")
+    return core.log.write(secret_value)
+}

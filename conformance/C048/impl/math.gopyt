@@ -1,0 +1,9 @@
+module math
+
+fn ping() -> i64
+{
+    return match true {
+        true => 1
+        false => 0
+    }
+}

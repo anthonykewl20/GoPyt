@@ -1,0 +1,85 @@
+module orders_multi.pricing
+
+use core.list { append, empty, get, len }
+use orders_multi.customer { discount }
+use orders_multi.lines { subtotal, tax_total, unrefunded }
+use orders_multi.model { Line, LineInput, LineQuote, Quote, Tier }
+use orders_multi.tax { category, tax }
+
+fn gross_from(lines: list[LineInput], index: i64) -> i64
+{
+    return match core.list.get[LineInput](lines, index) {
+        none -> 0
+        some(line) -> line.quantity * line.unit_cents + gross_from(lines, index + 1)
+    }
+}
+
+fn gross_total(lines: list[LineInput]) -> i64
+{
+    return gross_from(lines, 0)
+}
+
+fn quote_line(line: LineInput, tier: Tier) -> LineQuote
+    requires line.quantity >= 1 and line.quantity <= 100
+    requires line.unit_cents >= 0 and line.unit_cents <= 1000000
+    ensures result.discount_cents == orders_multi.customer.discount(line.quantity * line.unit_cents, tier)
+    ensures result.net_cents == line.quantity * line.unit_cents - result.discount_cents
+    ensures result.tax_cents == orders_multi.tax.tax(result.net_cents, orders_multi.tax.category(line.category))
+{
+    gross = line.quantity * line.unit_cents
+    discount = orders_multi.customer.discount(gross, tier)
+    net = gross - discount
+    return LineQuote {
+        discount_cents: discount
+        net_cents: net
+        tax_cents: orders_multi.tax.tax(net, orders_multi.tax.category(line.category))
+    }
+}
+
+fn quoted_line(line: LineInput, quoted: LineQuote) -> Line
+{
+    return Line {
+        sku: line.sku
+        quantity: line.quantity
+        refunded_quantity: 0
+        net_cents: quoted.net_cents
+        tax_cents: quoted.tax_cents
+        refunded_cents: 0
+    }
+}
+
+fn extend(lines: list[LineInput], index: i64, tier: Tier, partial: Quote, line: LineInput) -> Quote
+{
+    quoted = quote_line(line, tier)
+    next = Quote {
+        lines: core.list.append[Line](partial.lines, quoted_line(line, quoted))
+        subtotal_cents: partial.subtotal_cents + quoted.net_cents
+        discount_cents: partial.discount_cents + quoted.discount_cents
+        tax_cents: partial.tax_cents + quoted.tax_cents
+    }
+    return quote_from(lines, index + 1, tier, next)
+}
+
+fn quote_from(lines: list[LineInput], index: i64, tier: Tier, partial: Quote) -> Quote
+{
+    return match core.list.get[LineInput](lines, index) {
+        none -> partial
+        some(line) -> extend(lines, index, tier, partial, line)
+    }
+}
+
+fn quote(lines: list[LineInput], tier: Tier) -> Quote
+    ensures core.list.len[Line](result.lines) == core.list.len[LineInput](lines)
+    ensures result.subtotal_cents == orders_multi.lines.subtotal(result.lines)
+    ensures result.tax_cents == orders_multi.lines.tax_total(result.lines)
+    ensures result.discount_cents == gross_total(lines) - result.subtotal_cents
+    ensures orders_multi.lines.unrefunded(result.lines)
+{
+    start = Quote {
+        lines: core.list.empty[Line]()
+        subtotal_cents: 0
+        discount_cents: 0
+        tax_cents: 0
+    }
+    return quote_from(lines, 0, tier, start)
+}

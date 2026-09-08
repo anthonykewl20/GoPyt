@@ -1,0 +1,34 @@
+module orders_multi.payment
+
+use orders_multi.model { Outcome, State, Status, Transition }
+
+fn pay(state: State) -> Transition
+    ensures result.outcome != Outcome.Ok or result.state.charged_cents == state.subtotal_cents + state.tax_cents + state.shipping_cents
+    ensures result.outcome != Outcome.Ok or result.state.status == Status.Paid and result.state.stock == state.stock and result.state.lines == state.lines
+{
+    invalid_source = state.status != Status.Reserved
+    if invalid_source {
+        return Transition {
+            outcome: Outcome.InvalidState
+            state: state
+        }
+    }
+    next_state = State {
+        status: Status.Paid
+        version: state.version + 1
+        day_placed: state.day_placed
+        tier: state.tier
+        subtotal_cents: state.subtotal_cents
+        discount_cents: state.discount_cents
+        tax_cents: state.tax_cents
+        shipping_cents: state.shipping_cents
+        charged_cents: state.subtotal_cents + state.tax_cents + state.shipping_cents
+        refunded_cents: state.refunded_cents
+        lines: state.lines
+        stock: state.stock
+    }
+    return Transition {
+        outcome: Outcome.Ok
+        state: next_state
+    }
+}

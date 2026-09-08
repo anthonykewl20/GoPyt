@@ -1,0 +1,11 @@
+module refund_policy
+
+fn allowed(paid: i64, refunded: i64, amount: i64, version: i64, expected: i64, closed: bool) -> bool
+    ensures result == (paid >= 0 and paid <= 1000000000000 and refunded >= 0 and refunded <= paid and amount > 0 and amount <= paid - refunded and version >= 1 and version < 1000000000 and expected == version and not closed)
+
+fn after_refund(paid: i64, refunded: i64, amount: i64) -> i64
+    requires paid >= 0 and paid <= 1000000000000
+    requires refunded >= 0 and refunded <= paid
+    requires amount > 0 and amount <= paid - refunded
+    ensures result == refunded + amount
+    ensures result <= paid

@@ -1,0 +1,7 @@
+toolchain = "gopyt-0.1.000"
+
+[[pkg]]
+name = "inventory"
+version = "0.1.0"
+path = "."
+digest = "sha256:cd81609e6948e726cc12324d1c85f815fee771d5bcba4e63702dbf2f4cf6a66c"

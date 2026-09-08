@@ -1,0 +1,3 @@
+module math
+
+fn pair(left: i64, right: i64) -> i64

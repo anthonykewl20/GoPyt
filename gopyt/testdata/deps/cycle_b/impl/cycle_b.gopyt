@@ -1,0 +1,6 @@
+module cycle_b
+
+fn pong() -> unit
+{
+    return unit
+}

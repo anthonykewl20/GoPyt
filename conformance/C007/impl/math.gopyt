@@ -1,0 +1,6 @@
+module math
+
+fn add() -> i64
+{
+    return 01
+}

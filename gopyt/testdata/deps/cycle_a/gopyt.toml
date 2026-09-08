@@ -1,0 +1,5 @@
+name = "cycle_a"
+version = "0.1.0"
+
+[deps]
+cycle_b = { path = "../cycle_b" }

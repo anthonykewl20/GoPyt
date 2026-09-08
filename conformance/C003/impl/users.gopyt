@@ -1,0 +1,9 @@
+module users
+
+fn load() -> User | NotFound
+{
+    value = User { name: "a" }
+    return match value {
+        User { name } -> User { name: name }
+    }
+}

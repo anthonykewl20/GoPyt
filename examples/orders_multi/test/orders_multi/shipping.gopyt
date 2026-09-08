@@ -1,0 +1,16 @@
+module test.orders_multi.shipping
+
+use core.test { assert_eq }
+use orders_multi.model { Tier }
+use orders_multi.shipping { shipping }
+
+test shipping_rules
+{
+    core.test.assert_eq(orders_multi.shipping.shipping(1, 1, Tier.Gold, ""), 0)
+    core.test.assert_eq(orders_multi.shipping.shipping(1, 5, Tier.None, "FREESHIP"), 0)
+    core.test.assert_eq(orders_multi.shipping.shipping(10000, 5, Tier.None, ""), 0)
+    core.test.assert_eq(orders_multi.shipping.shipping(9999, 1, Tier.None, ""), 500)
+    core.test.assert_eq(orders_multi.shipping.shipping(9999, 5, Tier.Member, ""), 900)
+    core.test.assert_eq(orders_multi.shipping.shipping(0, 3, Tier.Member, "freeship"), 700)
+    return unit
+}

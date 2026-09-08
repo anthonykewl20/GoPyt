@@ -1,0 +1,67 @@
+module orders_multi.refunds
+
+use orders_multi.inventory { restock }
+use orders_multi.lines { all_refunded, entitled, find, refund_line, refunded_total }
+use orders_multi.model { Line, Outcome, State, Status, Transition }
+use orders_multi.validation { refund_status, valid_refund_quantity }
+use orders_multi.window { inside }
+
+fn refund(state: State, sku: str, quantity: i64, day: i64) -> Transition
+    ensures result.outcome != Outcome.Ok or orders_multi.window.inside(state.day_placed, day)
+    ensures result.outcome != Outcome.Ok or result.state.stock == orders_multi.inventory.restock(state.stock, sku, quantity)
+    ensures result.outcome != Outcome.Ok or result.state.lines == orders_multi.lines.refund_line(state.lines, sku, quantity)
+    ensures result.outcome != Outcome.Ok or orders_multi.lines.entitled(result.state.lines)
+    ensures result.outcome != Outcome.Ok or result.state.refunded_cents == orders_multi.lines.refunded_total(result.state.lines)
+    ensures result.outcome != Outcome.Ok or result.state.refunded_cents <= state.subtotal_cents + state.tax_cents
+    ensures result.outcome != Outcome.Ok or not orders_multi.lines.all_refunded(result.state.lines) or result.state.status == Status.Refunded
+    ensures result.outcome != Outcome.Ok or orders_multi.lines.all_refunded(result.state.lines) or Status.PartiallyRefunded == result.state.status
+{
+    invalid_source = state.status != Status.Shipped and state.status != Status.PartiallyRefunded
+    if invalid_source {
+        return Transition {
+            outcome: Outcome.InvalidState
+            state: state
+        }
+    }
+    return match orders_multi.lines.find(state.lines, sku) {
+        none -> refund_rejected(state)
+        some(line) -> refund_apply(state, line, quantity, day)
+    }
+}
+
+fn refund_rejected(state: State) -> Transition
+{
+    return Transition {
+        outcome: Outcome.InvalidRefund
+        state: state
+    }
+}
+
+fn refund_apply(state: State, line: Line, quantity: i64, day: i64) -> Transition
+{
+    if not orders_multi.validation.valid_refund_quantity(quantity, line.quantity - line.refunded_quantity) {
+        return refund_rejected(state)
+    }
+    if not orders_multi.window.inside(state.day_placed, day) {
+        return refund_rejected(state)
+    }
+    updated = orders_multi.lines.refund_line(state.lines, line.sku, quantity)
+    next_state = State {
+        status: orders_multi.validation.refund_status(updated)
+        version: state.version + 1
+        day_placed: state.day_placed
+        tier: state.tier
+        subtotal_cents: state.subtotal_cents
+        discount_cents: state.discount_cents
+        tax_cents: state.tax_cents
+        shipping_cents: state.shipping_cents
+        charged_cents: state.charged_cents
+        refunded_cents: orders_multi.lines.refunded_total(updated)
+        lines: updated
+        stock: orders_multi.inventory.restock(state.stock, line.sku, quantity)
+    }
+    return Transition {
+        outcome: Outcome.Ok
+        state: next_state
+    }
+}

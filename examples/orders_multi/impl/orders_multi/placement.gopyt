@@ -1,0 +1,61 @@
+module orders_multi.placement
+
+use core.list { len }
+use orders_multi.customer { tier }
+use orders_multi.inventory { reserve_all, sufficient }
+use orders_multi.lines { subtotal, tax_total, unrefunded }
+use orders_multi.model { Command, Line, LineInput, Outcome, State, Status, Transition }
+use orders_multi.pricing { gross_total, quote }
+use orders_multi.shipping { shipping }
+use orders_multi.validation { valid_order }
+
+fn place(state: State, command: Command) -> Transition
+    ensures result.outcome != Outcome.Ok or orders_multi.validation.valid_order(command, state.stock) and orders_multi.inventory.sufficient(state.stock, command.lines)
+    ensures result.outcome != Outcome.Ok or result.state.stock == orders_multi.inventory.reserve_all(state.stock, command.lines)
+    ensures result.outcome != Outcome.Ok or result.state.tier == orders_multi.customer.tier(command.tier) and result.state.day_placed == command.day
+    ensures result.outcome != Outcome.Ok or result.state.status == Status.Reserved and result.state.charged_cents == 0 and result.state.refunded_cents == 0
+    ensures result.outcome != Outcome.Ok or core.list.len[Line](result.state.lines) == core.list.len[LineInput](command.lines) and orders_multi.lines.unrefunded(result.state.lines)
+    ensures result.outcome != Outcome.Ok or result.state.subtotal_cents == orders_multi.lines.subtotal(result.state.lines) and result.state.tax_cents == orders_multi.lines.tax_total(result.state.lines)
+    ensures result.outcome != Outcome.Ok or result.state.discount_cents == orders_multi.pricing.gross_total(command.lines) - result.state.subtotal_cents
+    ensures result.outcome != Outcome.Ok or result.state.shipping_cents == orders_multi.shipping.shipping(result.state.subtotal_cents, core.list.len[Line](result.state.lines), result.state.tier, command.coupon)
+{
+    invalid_source = state.status != Status.Empty
+    if invalid_source {
+        return Transition {
+            outcome: Outcome.InvalidState
+            state: state
+        }
+    }
+    if not orders_multi.validation.valid_order(command, state.stock) {
+        return Transition {
+            outcome: Outcome.InvalidOrder
+            state: state
+        }
+    }
+    if not orders_multi.inventory.sufficient(state.stock, command.lines) {
+        return Transition {
+            outcome: Outcome.OutOfStock
+            state: state
+        }
+    }
+    placed_tier = orders_multi.customer.tier(command.tier)
+    quoted = orders_multi.pricing.quote(command.lines, placed_tier)
+    next_state = State {
+        status: Status.Reserved
+        version: state.version + 1
+        day_placed: command.day
+        tier: placed_tier
+        subtotal_cents: quoted.subtotal_cents
+        discount_cents: quoted.discount_cents
+        tax_cents: quoted.tax_cents
+        shipping_cents: orders_multi.shipping.shipping(quoted.subtotal_cents, core.list.len[Line](quoted.lines), placed_tier, command.coupon)
+        charged_cents: state.charged_cents
+        refunded_cents: state.refunded_cents
+        lines: quoted.lines
+        stock: orders_multi.inventory.reserve_all(state.stock, command.lines)
+    }
+    return Transition {
+        outcome: Outcome.Ok
+        state: next_state
+    }
+}

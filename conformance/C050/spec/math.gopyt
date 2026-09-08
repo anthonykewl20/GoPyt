@@ -1,0 +1,3 @@
+module math
+
+public fn ping() -> unit

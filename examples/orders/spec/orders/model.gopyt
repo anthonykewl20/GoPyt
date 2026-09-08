@@ -1,0 +1,88 @@
+module orders.model
+
+enum Status {
+    Empty
+    Reserved
+    Paid
+    Shipped
+    Cancelled
+    PartiallyRefunded
+    Refunded
+}
+
+enum Outcome {
+    Ok
+    InvalidCommand
+    Conflict
+    InvalidState
+    InvalidOrder
+    OutOfStock
+    InvalidRefund
+}
+
+enum Operation {
+    Place
+    Pay
+    Ship
+    Cancel
+    Refund
+    Unknown
+}
+
+type Command {
+    op: str
+    quantity: i64
+    unit_cents: i64
+    member: bool
+    expected_version: i64
+}
+
+type Request {
+    stock: i64
+    commands: list[Command]
+}
+
+type Quote {
+    net_cents: i64
+    tax_cents: i64
+    shipping_cents: i64
+}
+
+type State {
+    status: Status
+    version: i64
+    stock: i64
+    quantity: i64
+    refunded_quantity: i64
+    net_cents: i64
+    tax_cents: i64
+    shipping_cents: i64
+    charged_cents: i64
+    refunded_cents: i64
+}
+
+type Transition {
+    outcome: Outcome
+    state: State
+}
+
+type Snapshot {
+    outcome: str
+    status: str
+    version: i64
+    stock: i64
+    quantity: i64
+    refunded_quantity: i64
+    net_cents: i64
+    tax_cents: i64
+    shipping_cents: i64
+    charged_cents: i64
+    refunded_cents: i64
+}
+
+type Reply {
+    results: list[Snapshot]
+}
+
+fn initial(stock: i64) -> State
+    requires stock >= 0 and stock <= 10000

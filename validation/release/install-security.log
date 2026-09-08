@@ -1,0 +1,27 @@
+Obtaining file:///home/soultransit/devtony/GoPyt
+  Installing build dependencies: started
+  Installing build dependencies: finished with status 'done'
+  Checking if build backend supports build_editable: started
+  Checking if build backend supports build_editable: finished with status 'done'
+  Getting requirements to build editable: started
+  Getting requirements to build editable: finished with status 'done'
+  Preparing editable metadata (pyproject.toml): started
+  Preparing editable metadata (pyproject.toml): finished with status 'done'
+Collecting cryptography==50.0.1 (from gopyt==0.1.0)
+  Using cached cryptography-50.0.1-cp311-abi3-manylinux_2_34_x86_64.whl.metadata (4.3 kB)
+Collecting cffi>=2.0.0 (from cryptography==50.0.1->gopyt==0.1.0)
+  Using cached cffi-2.1.1-cp314-cp314-manylinux2014_x86_64.manylinux_2_17_x86_64.whl.metadata (2.5 kB)
+Collecting pycparser (from cffi>=2.0.0->cryptography==50.0.1->gopyt==0.1.0)
+  Using cached pycparser-3.0-py3-none-any.whl.metadata (8.2 kB)
+Using cached cryptography-50.0.1-cp311-abi3-manylinux_2_34_x86_64.whl (4.7 MB)
+Using cached cffi-2.1.1-cp314-cp314-manylinux2014_x86_64.manylinux_2_17_x86_64.whl (221 kB)
+Using cached pycparser-3.0-py3-none-any.whl (48 kB)
+Building wheels for collected packages: gopyt
+  Building editable for gopyt (pyproject.toml): started
+  Building editable for gopyt (pyproject.toml): finished with status 'done'
+  Created wheel for gopyt: filename=gopyt-0.1.0-0.editable-py3-none-any.whl size=6541 sha256=6a1af54fc218c6a2c2afd22b279baf097802d86b4b8b03f7ce87ae8492c33e5e
+  Stored in directory: /tmp/pip-ephem-wheel-cache-yodqkvrk/wheels/7b/1c/49/db5b7cd155fa87bf7655b3bc73d6fc4af8594fbe61b55e0ea0
+Successfully built gopyt
+Installing collected packages: pycparser, gopyt, cffi, cryptography
+
+Successfully installed cffi-2.1.1 cryptography-50.0.1 gopyt-0.1.0 pycparser-3.0

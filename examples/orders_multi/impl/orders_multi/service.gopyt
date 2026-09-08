@@ -1,0 +1,73 @@
+module orders_multi.service
+
+use core.list { append, empty, get }
+use core.map { keys }
+use orders_multi.fulfillment { cancel, ship }
+use orders_multi.model { Command, Operation, Outcome, Reply, Request, Snapshot, State, Transition, initial }
+use orders_multi.payment { pay }
+use orders_multi.placement { place }
+use orders_multi.presentation { snapshot }
+use orders_multi.refunds { refund }
+use orders_multi.validation { legal, operation }
+
+fn transition(state: State, command: Command) -> Transition
+    ensures orders_multi.validation.operation(command.op) != Operation.Unknown or result.outcome == Outcome.InvalidCommand
+    ensures orders_multi.validation.operation(command.op) == Operation.Unknown or command.expected_version == state.version or result.outcome == Outcome.Conflict
+    ensures orders_multi.validation.operation(command.op) == Operation.Unknown or command.expected_version != state.version or orders_multi.validation.legal(state.status, orders_multi.validation.operation(command.op)) or result.outcome == Outcome.InvalidState
+    ensures result.outcome == Outcome.Ok or result.state == state
+    ensures result.outcome != Outcome.Ok or result.state.version == state.version + 1
+    ensures result.outcome != Outcome.Ok or orders_multi.validation.operation(command.op) == Operation.Place or result.state.tier == state.tier and result.state.day_placed == state.day_placed
+    ensures result.state.refunded_cents <= result.state.charged_cents
+    ensures core.map.keys[str, i64](result.state.stock) == core.map.keys[str, i64](state.stock)
+{
+    operation = orders_multi.validation.operation(command.op)
+    unknown_operation = operation == Operation.Unknown
+    if unknown_operation {
+        return Transition {
+            outcome: Outcome.InvalidCommand
+            state: state
+        }
+    }
+    if command.expected_version != state.version {
+        return Transition {
+            outcome: Outcome.Conflict
+            state: state
+        }
+    }
+    if not orders_multi.validation.legal(state.status, operation) {
+        return Transition {
+            outcome: Outcome.InvalidState
+            state: state
+        }
+    }
+    return match operation {
+        Operation.Place -> orders_multi.placement.place(state, command)
+        Operation.Pay -> orders_multi.payment.pay(state)
+        Operation.Ship -> orders_multi.fulfillment.ship(state)
+        Operation.Cancel -> orders_multi.fulfillment.cancel(state)
+        Operation.Refund -> orders_multi.refunds.refund(state, command.sku, command.quantity, command.day)
+        Operation.Unknown -> Transition {
+            outcome: Outcome.InvalidCommand
+            state: state
+        }
+    }
+}
+
+fn remaining(commands: list[Command], index: i64, state: State, snapshots: list[Snapshot]) -> list[Snapshot]
+{
+    return match core.list.get[Command](commands, index) {
+        none -> snapshots
+        some(command) -> advance(commands, index, transition(state, command), snapshots)
+    }
+}
+
+fn advance(commands: list[Command], index: i64, next: Transition, snapshots: list[Snapshot]) -> list[Snapshot]
+{
+    appended = core.list.append[Snapshot](snapshots, orders_multi.presentation.snapshot(next))
+    return remaining(commands, index + 1, next.state, appended)
+}
+
+fn run(request: Request) -> Reply
+{
+    return Reply { results: remaining(request.commands, 0, orders_multi.model.initial(request.stock), core.list.empty[Snapshot]()) }
+}

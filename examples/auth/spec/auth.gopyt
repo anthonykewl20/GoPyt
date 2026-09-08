@@ -1,0 +1,28 @@
+module auth
+
+use core.status { DbError, Throttled }
+use core.str { len }
+
+type LoginReq {
+    user: str
+    token: str
+}
+
+type Session {
+    user: str
+}
+
+type Denied {
+    reason: str
+}
+
+task enroll(user: str, token: str) -> unit | DbError
+    effects { database.write }
+    requires core.str.len(user) > 0
+
+task login(req: LoginReq) -> Session | Denied | Throttled
+    effects { database.read, time, observe }
+    requires core.str.len(req.user) > 0
+
+task burst() -> bool
+    effects { database.read, time, observe }

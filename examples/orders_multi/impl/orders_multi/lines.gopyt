@@ -1,0 +1,193 @@
+module orders_multi.lines
+
+use core.list { append, empty, get, len }
+use orders_multi.model { Line, LineInput }
+
+fn find_from(lines: list[Line], sku: str, index: i64) -> Line?
+{
+    return match core.list.get[Line](lines, index) {
+        none -> none
+        some(line) -> pick(lines, sku, index, line)
+    }
+}
+
+fn pick(lines: list[Line], sku: str, index: i64, line: Line) -> Line?
+{
+    if line.sku == sku {
+        return some(line)
+    }
+    return find_from(lines, sku, index + 1)
+}
+
+fn find(lines: list[Line], sku: str) -> Line?
+{
+    return find_from(lines, sku, 0)
+}
+
+fn subtotal_from(lines: list[Line], index: i64) -> i64
+{
+    return match core.list.get[Line](lines, index) {
+        none -> 0
+        some(line) -> line.net_cents + subtotal_from(lines, index + 1)
+    }
+}
+
+fn subtotal(lines: list[Line]) -> i64
+{
+    return subtotal_from(lines, 0)
+}
+
+fn tax_from(lines: list[Line], index: i64) -> i64
+{
+    return match core.list.get[Line](lines, index) {
+        none -> 0
+        some(line) -> line.tax_cents + tax_from(lines, index + 1)
+    }
+}
+
+fn tax_total(lines: list[Line]) -> i64
+{
+    return tax_from(lines, 0)
+}
+
+fn refunded_from(lines: list[Line], index: i64) -> i64
+{
+    return match core.list.get[Line](lines, index) {
+        none -> 0
+        some(line) -> line.refunded_cents + refunded_from(lines, index + 1)
+    }
+}
+
+fn refunded_total(lines: list[Line]) -> i64
+{
+    return refunded_from(lines, 0)
+}
+
+fn unrefunded_from(lines: list[Line], index: i64) -> bool
+{
+    return match core.list.get[Line](lines, index) {
+        none -> true
+        some(line) -> line.refunded_quantity == 0 and line.refunded_cents == 0 and unrefunded_from(lines, index + 1)
+    }
+}
+
+fn unrefunded(lines: list[Line]) -> bool
+{
+    return unrefunded_from(lines, 0)
+}
+
+fn all_refunded_from(lines: list[Line], index: i64) -> bool
+{
+    return match core.list.get[Line](lines, index) {
+        none -> true
+        some(line) -> line.refunded_quantity == line.quantity and all_refunded_from(lines, index + 1)
+    }
+}
+
+fn all_refunded(lines: list[Line]) -> bool
+{
+    return all_refunded_from(lines, 0)
+}
+
+fn entitlement(line: Line) -> i64
+{
+    return (line.net_cents + line.tax_cents) * line.refunded_quantity / line.quantity
+}
+
+fn entitled_from(lines: list[Line], index: i64) -> bool
+{
+    return match core.list.get[Line](lines, index) {
+        none -> true
+        some(line) -> line.refunded_quantity <= line.quantity and line.refunded_cents == entitlement(line) and entitled_from(lines, index + 1)
+    }
+}
+
+fn entitled(lines: list[Line]) -> bool
+{
+    return entitled_from(lines, 0)
+}
+
+fn repeats_from(lines: list[LineInput], sku: str, index: i64) -> bool
+{
+    return match core.list.get[LineInput](lines, index) {
+        none -> false
+        some(line) -> line.sku == sku or repeats_from(lines, sku, index + 1)
+    }
+}
+
+fn distinct_from(lines: list[LineInput], index: i64) -> bool
+{
+    return match core.list.get[LineInput](lines, index) {
+        none -> true
+        some(line) -> not repeats_from(lines, line.sku, index + 1) and distinct_from(lines, index + 1)
+    }
+}
+
+fn distinct(lines: list[LineInput]) -> bool
+{
+    return distinct_from(lines, 0)
+}
+
+fn refunded_line(line: Line, quantity: i64) -> Line
+{
+    cumulative = line.refunded_quantity + quantity
+    return Line {
+        sku: line.sku
+        quantity: line.quantity
+        refunded_quantity: cumulative
+        net_cents: line.net_cents
+        tax_cents: line.tax_cents
+        refunded_cents: (line.net_cents + line.tax_cents) * cumulative / line.quantity
+    }
+}
+
+fn refund_step(line: Line, sku: str, quantity: i64) -> Line
+{
+    if line.sku == sku {
+        return refunded_line(line, quantity)
+    }
+    return line
+}
+
+fn refund_from(lines: list[Line], sku: str, quantity: i64, index: i64, updated: list[Line]) -> list[Line]
+{
+    return match core.list.get[Line](lines, index) {
+        none -> updated
+        some(line) -> refund_from(lines, sku, quantity, index + 1, core.list.append[Line](updated, refund_step(line, sku, quantity)))
+    }
+}
+
+fn refund_line(lines: list[Line], sku: str, quantity: i64) -> list[Line]
+    requires quantity >= 1
+    ensures core.list.len[Line](result) == core.list.len[Line](lines)
+{
+    return refund_from(lines, sku, quantity, 0, core.list.empty[Line]())
+}
+
+fn fully_refunded(line: Line) -> Line
+{
+    return Line {
+        sku: line.sku
+        quantity: line.quantity
+        refunded_quantity: line.quantity
+        net_cents: line.net_cents
+        tax_cents: line.tax_cents
+        refunded_cents: line.net_cents + line.tax_cents
+    }
+}
+
+fn refund_all_from(lines: list[Line], index: i64, updated: list[Line]) -> list[Line]
+{
+    return match core.list.get[Line](lines, index) {
+        none -> updated
+        some(line) -> refund_all_from(lines, index + 1, core.list.append[Line](updated, fully_refunded(line)))
+    }
+}
+
+fn refund_all(lines: list[Line]) -> list[Line]
+    ensures core.list.len[Line](result) == core.list.len[Line](lines)
+    ensures all_refunded(result)
+    ensures refunded_total(result) == subtotal(lines) + tax_total(lines)
+{
+    return refund_all_from(lines, 0, core.list.empty[Line]())
+}

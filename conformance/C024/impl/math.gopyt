@@ -1,0 +1,11 @@
+module math
+
+use core.log { write }
+
+task boom() -> i64
+    effects { log }
+{
+    core.log.write("start")
+    zero = 0
+    return 1 / zero
+}

@@ -1,0 +1,44 @@
+module ticket_contracts
+
+fn next_version(version: i64) -> i64
+    requires version >= 1 and version < 1000000
+    ensures result == version + 1
+{
+    return version + 1
+}
+
+fn next_status(status: Status) -> Status
+    requires status != Status.Closed
+    ensures result != status
+{
+    return match status {
+        Status.Open -> Status.InProgress
+        Status.InProgress -> Status.Closed
+        Status.Closed -> Status.Closed
+    }
+}
+
+fn is_open(status: Status) -> bool
+{
+    return status == Status.Open
+}
+
+fn is_current(ticket: Ticket, expected_version: i64) -> bool
+{
+    return ticket.version == expected_version
+}
+
+fn advance(ticket: Ticket, expected_version: i64) -> Ticket
+    requires is_current(ticket, expected_version)
+    requires ticket.status != Status.Closed
+    requires ticket.version >= 1 and ticket.version < 1000000
+    ensures result.version == ticket.version + 1
+    ensures result.priority == ticket.priority
+    ensures result.status == next_status(ticket.status)
+{
+    return Ticket {
+        status: next_status(ticket.status)
+        priority: ticket.priority
+        version: next_version(ticket.version)
+    }
+}

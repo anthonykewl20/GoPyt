@@ -1,0 +1,50 @@
+module test.orders_multi.pricing
+
+use core.test { assert_eq }
+use orders_multi.model { LineInput, Tier }
+use orders_multi.pricing { quote_line }
+
+test line_discount_and_tax_basis
+{
+    member = orders_multi.pricing.quote_line(LineInput {
+        sku: "A"
+        quantity: 3
+        unit_cents: 1201
+        category: "standard"
+    }, Tier.Member)
+    core.test.assert_eq(member.discount_cents, 180)
+    core.test.assert_eq(member.net_cents, 3423)
+    core.test.assert_eq(member.tax_cents, 282)
+    gold = orders_multi.pricing.quote_line(LineInput {
+        sku: "B"
+        quantity: 3
+        unit_cents: 450
+        category: "food"
+    }, Tier.Gold)
+    core.test.assert_eq(gold.discount_cents, 135)
+    core.test.assert_eq(gold.net_cents, 1215)
+    core.test.assert_eq(gold.tax_cents, 24)
+    plain = orders_multi.pricing.quote_line(LineInput {
+        sku: "C"
+        quantity: 1
+        unit_cents: 12345
+        category: "exempt"
+    }, Tier.None)
+    core.test.assert_eq(plain.discount_cents, 0)
+    core.test.assert_eq(plain.net_cents, 12345)
+    core.test.assert_eq(plain.tax_cents, 0)
+    return unit
+}
+
+test zero_unit_price_line
+{
+    free = orders_multi.pricing.quote_line(LineInput {
+        sku: "A"
+        quantity: 100
+        unit_cents: 0
+        category: "standard"
+    }, Tier.Gold)
+    core.test.assert_eq(free.net_cents, 0)
+    core.test.assert_eq(free.tax_cents, 0)
+    return unit
+}

@@ -1,0 +1,9 @@
+module math
+
+task pair() -> list[i64]
+    effects { time }
+{
+    return parallel max 0 timeout_ms 1000 {
+        1
+    }
+}

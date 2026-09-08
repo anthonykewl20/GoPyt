@@ -1,0 +1,4 @@
+E101
+trap: 4
+phase: run
+command: gopyt run math.boom

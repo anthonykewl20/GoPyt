@@ -1,0 +1,4 @@
+module math
+
+type UserID {
+}

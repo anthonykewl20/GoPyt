@@ -1,0 +1,19 @@
+# S17: build/ is the bytecode cache and is not committed. impl/ is.
+build/
+# docs/evolve.md: candidate trees are scratch for one propose wave.
+evolve/
+__pycache__/
+*.pyc
+
+.gopyt-transaction.lock
+.gopyt-state/
+*.egg-info/
+dist/
+.venv/
+# Reproducible agent benchmark dependencies are installed from pinned manifests.
+benchmarks/agent_eval/toolchain/node_modules/
+benchmarks/agent_eval/toolchain/venv/
+.mypy_cache/
+
+validation/runs/
+*.prof

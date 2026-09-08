@@ -1,0 +1,6 @@
+module cycle_a
+
+fn ping() -> unit
+{
+    return unit
+}

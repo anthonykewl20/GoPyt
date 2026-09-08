@@ -1,0 +1,23 @@
+module orders_multi.model
+
+use core.list { empty }
+
+fn initial(stock: map[str, i64]) -> State
+    ensures result.status == Status.Empty and result.version == 0 and result.charged_cents == 0 and result.refunded_cents == 0
+    ensures result.stock == stock
+{
+    return State {
+        status: Status.Empty
+        version: 0
+        day_placed: 0
+        tier: Tier.None
+        subtotal_cents: 0
+        discount_cents: 0
+        tax_cents: 0
+        shipping_cents: 0
+        charged_cents: 0
+        refunded_cents: 0
+        lines: core.list.empty[Line]()
+        stock: stock
+    }
+}

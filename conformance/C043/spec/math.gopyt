@@ -1,0 +1,4 @@
+module math
+
+fn ping() -> unit
+    async

@@ -1,0 +1,4 @@
+module math
+
+task pair() -> list[i64]
+    effects { time }

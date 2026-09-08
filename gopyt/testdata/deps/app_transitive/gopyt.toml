@@ -1,0 +1,5 @@
+name = "app_transitive"
+version = "0.1.0"
+
+[deps]
+mid = { path = "../mid" }

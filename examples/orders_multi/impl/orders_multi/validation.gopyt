@@ -1,0 +1,91 @@
+module orders_multi.validation
+
+use core.list { get, len }
+use orders_multi.customer { valid_tier }
+use orders_multi.inventory { known }
+use orders_multi.lines { all_refunded, distinct }
+use orders_multi.model { Command, Line, LineInput, Operation, Status }
+use orders_multi.tax { valid_category }
+
+fn operation(op: str) -> Operation
+{
+    if op == "place" {
+        return Operation.Place
+    }
+    if op == "pay" {
+        return Operation.Pay
+    }
+    if op == "ship" {
+        return Operation.Ship
+    }
+    if op == "cancel" {
+        return Operation.Cancel
+    }
+    if op == "refund" {
+        return Operation.Refund
+    }
+    return Operation.Unknown
+}
+
+fn legal(status: Status, operation: Operation) -> bool
+{
+    return match status {
+        Status.Empty -> operation == Operation.Place
+        Status.Reserved -> operation == Operation.Pay or operation == Operation.Cancel
+        Status.Paid -> operation == Operation.Ship or operation == Operation.Cancel
+        Status.Shipped -> operation == Operation.Refund
+        Status.Cancelled -> false
+        Status.PartiallyRefunded -> operation == Operation.Refund
+        Status.Refunded -> false
+    }
+}
+
+fn valid_line(line: LineInput, stock: map[str, i64]) -> bool
+{
+    return orders_multi.inventory.known(stock, line.sku) and line.quantity >= 1 and line.quantity <= 100 and line.unit_cents >= 0 and line.unit_cents <= 1000000 and orders_multi.tax.valid_category(line.category)
+}
+
+fn valid_lines_from(lines: list[LineInput], stock: map[str, i64], index: i64) -> bool
+{
+    return match core.list.get[LineInput](lines, index) {
+        none -> true
+        some(line) -> valid_line(line, stock) and valid_lines_from(lines, stock, index + 1)
+    }
+}
+
+fn valid_order(command: Command, stock: map[str, i64]) -> bool
+{
+    count = core.list.len[LineInput](command.lines)
+    if count < 1 or count > 5 {
+        return false
+    }
+    if not valid_lines_from(command.lines, stock, 0) {
+        return false
+    }
+    if not orders_multi.lines.distinct(command.lines) {
+        return false
+    }
+    if command.coupon != "" and command.coupon != "FREESHIP" {
+        return false
+    }
+    if not orders_multi.customer.valid_tier(command.tier) {
+        return false
+    }
+    return command.day >= 0 and command.day <= 100000
+}
+
+fn valid_refund_quantity(quantity: i64, remaining: i64) -> bool
+    ensures result == (quantity >= 1 and quantity <= remaining)
+{
+    return quantity >= 1 and quantity <= remaining
+}
+
+fn refund_status(lines: list[Line]) -> Status
+    ensures not orders_multi.lines.all_refunded(lines) or Status.Refunded == result
+    ensures orders_multi.lines.all_refunded(lines) or Status.PartiallyRefunded == result
+{
+    if orders_multi.lines.all_refunded(lines) {
+        return Status.Refunded
+    }
+    return Status.PartiallyRefunded
+}

@@ -1,0 +1,52 @@
+{
+  "searches": [
+    {
+      "query": "MAP_SHARED",
+      "coverage": {
+        "status": "indeterminate_global",
+        "files_eligible": 692224,
+        "files_indexed": 1,
+        "files_excluded": 23,
+        "incomplete_results": true,
+        "exclusions": {
+          "no_adapter": 23
+        },
+        "pages_fetched": 2,
+        "matches_returned": 4,
+        "bounds": [
+          "page-cap"
+        ]
+      }
+    },
+    {
+      "query": "F_SEAL_SHRINK",
+      "coverage": {
+        "status": "indeterminate_global",
+        "files_eligible": 25920,
+        "files_indexed": 12,
+        "files_excluded": 1,
+        "incomplete_results": true,
+        "exclusions": {
+          "no_adapter": 1
+        },
+        "pages_fetched": 2,
+        "matches_returned": 15,
+        "bounds": [
+          "candidate-budget",
+          "result-budget"
+        ]
+      }
+    }
+  ],
+  "selected": {
+    "repository": "a-darwish/memfd-examples",
+    "commit": "172d805b24e0c3283934ba009bfdadcc3ab92bf7",
+    "verified": true,
+    "files_inspected": [
+      "server.c",
+      "LICENSE"
+    ],
+    "license": "Unlicense",
+    "use": "Adapted sealing pattern in research prototype; no donor dependency or donor execution"
+  }
+}

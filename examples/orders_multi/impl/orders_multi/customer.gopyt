@@ -1,0 +1,47 @@
+module orders_multi.customer
+
+use orders_multi.model { Tier }
+
+fn valid_tier(name: str) -> bool
+{
+    return name == "none" or name == "member" or name == "gold"
+}
+
+fn tier(name: str) -> Tier
+{
+    if name == "member" {
+        return Tier.Member
+    }
+    if name == "gold" {
+        return Tier.Gold
+    }
+    return Tier.None
+}
+
+fn tier_name(tier: Tier) -> str
+{
+    return match tier {
+        Tier.None -> "none"
+        Tier.Member -> "member"
+        Tier.Gold -> "gold"
+    }
+}
+
+fn discount_rate(tier: Tier) -> i64
+    ensures tier != Tier.None or result == 0
+    ensures tier != Tier.Member or result == 500
+    ensures tier != Tier.Gold or result == 1000
+{
+    return match tier {
+        Tier.None -> 0
+        Tier.Member -> 500
+        Tier.Gold -> 1000
+    }
+}
+
+fn discount(gross: i64, tier: Tier) -> i64
+    requires gross >= 0
+    ensures result == gross * discount_rate(tier) / 10000
+{
+    return gross * discount_rate(tier) / 10000
+}

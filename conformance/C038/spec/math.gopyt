@@ -1,0 +1,3 @@
+module math
+
+fn boom() -> i64

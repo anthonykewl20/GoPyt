@@ -1,0 +1,6 @@
+module kv
+
+fn dummy() -> unit
+{
+    return unit
+}

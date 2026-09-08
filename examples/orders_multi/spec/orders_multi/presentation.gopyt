@@ -1,0 +1,6 @@
+module orders_multi.presentation
+
+use orders_multi.model { Snapshot, Transition }
+
+fn snapshot(transition: Transition) -> Snapshot
+    ensures result.version == transition.state.version and result.lines == transition.state.lines and result.stock == transition.state.stock

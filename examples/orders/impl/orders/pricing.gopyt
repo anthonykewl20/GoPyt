@@ -1,0 +1,37 @@
+module orders.pricing
+
+use orders.model { Quote }
+
+fn discount(gross: i64, member: bool) -> i64
+{
+    if member {
+        return gross * 500 / 10000
+    }
+    return 0
+}
+
+fn shipping(net: i64) -> i64
+{
+    if net >= 10000 {
+        return 0
+    }
+    return 500
+}
+
+fn quote(quantity: i64, unit_cents: i64, member: bool) -> Quote
+    requires quantity >= 1 and quantity <= 100
+    requires unit_cents >= 0 and unit_cents <= 1000000
+    ensures not member or result.net_cents == quantity * unit_cents - quantity * unit_cents * 500 / 10000
+    ensures member or result.net_cents == quantity * unit_cents
+    ensures result.tax_cents == result.net_cents * 825 / 10000
+    ensures result.net_cents < 10000 or result.shipping_cents == 0
+    ensures result.net_cents >= 10000 or result.shipping_cents == 500
+{
+    gross = quantity * unit_cents
+    net = gross - discount(gross, member)
+    return Quote {
+        net_cents: net
+        tax_cents: net * 825 / 10000
+        shipping_cents: shipping(net)
+    }
+}

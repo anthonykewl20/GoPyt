@@ -1,0 +1,50 @@
+module orders.refunds
+
+use orders.inventory { restock }
+use orders.model { Outcome, State, Status, Transition }
+use orders.validation { valid_refund }
+
+fn refund_status(refunded: i64, quantity: i64) -> Status
+{
+    if refunded == quantity {
+        return Status.Refunded
+    }
+    return Status.PartiallyRefunded
+}
+
+fn refund(state: State, quantity: i64) -> Transition
+    ensures result.outcome != Outcome.Ok or result.state.refunded_cents == (state.net_cents + state.tax_cents) * result.state.refunded_quantity / state.quantity
+    ensures result.outcome != Outcome.Ok or result.state.refunded_quantity == state.refunded_quantity + quantity and result.state.refunded_quantity <= state.quantity
+    ensures result.outcome != Outcome.Ok or result.state.stock == state.stock + quantity
+{
+    invalid_source = state.status != Status.Shipped and state.status != Status.PartiallyRefunded
+    if invalid_source {
+        return Transition {
+            outcome: Outcome.InvalidState
+            state: state
+        }
+    }
+    if not orders.validation.valid_refund(quantity, state.quantity - state.refunded_quantity) {
+        return Transition {
+            outcome: Outcome.InvalidRefund
+            state: state
+        }
+    }
+    cumulative = state.refunded_quantity + quantity
+    next_state = State {
+        status: refund_status(cumulative, state.quantity)
+        version: state.version + 1
+        stock: orders.inventory.restock(state.stock, quantity)
+        quantity: state.quantity
+        refunded_quantity: cumulative
+        net_cents: state.net_cents
+        tax_cents: state.tax_cents
+        shipping_cents: state.shipping_cents
+        charged_cents: state.charged_cents
+        refunded_cents: (state.net_cents + state.tax_cents) * cumulative / state.quantity
+    }
+    return Transition {
+        outcome: Outcome.Ok
+        state: next_state
+    }
+}

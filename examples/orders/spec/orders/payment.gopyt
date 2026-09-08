@@ -1,0 +1,6 @@
+module orders.payment
+
+use orders.model { Outcome, State, Transition }
+
+fn pay(state: State) -> Transition
+    ensures result.outcome != Outcome.Ok or result.state.charged_cents == state.net_cents + state.tax_cents + state.shipping_cents

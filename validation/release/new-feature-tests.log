@@ -1,0 +1,19 @@
+test_actual_stdio_initialize_symbols_shutdown (gopyt.test_lsp.LanguageServer.test_actual_stdio_initialize_symbols_shutdown) ... ok
+test_path_and_message_boundaries (gopyt.test_lsp.LanguageServer.test_path_and_message_boundaries) ... ok
+test_unsaved_diagnostics_revert_and_stale_versions (gopyt.test_lsp.LanguageServer.test_unsaved_diagnostics_revert_and_stale_versions) ... ok
+test_encrypted_restart_and_conditional_write (gopyt.test_security_config.SecurityProfile.test_encrypted_restart_and_conditional_write) ... ok
+test_plaintext_is_not_silently_migrated (gopyt.test_security_config.SecurityProfile.test_plaintext_is_not_silently_migrated) ... ok
+test_real_http_authentication_encrypted_restart (gopyt.test_security_config.SecurityProfile.test_real_http_authentication_encrypted_restart) ... ok
+test_secret_permissions_links_and_package_location (gopyt.test_security_config.SecurityProfile.test_secret_permissions_links_and_package_location) ... ok
+test_strict_listener_requires_loopback_and_token (gopyt.test_security_config.SecurityProfile.test_strict_listener_requires_loopback_and_token) ... ok
+test_tampered_snapshot_cannot_be_read_or_overwritten (gopyt.test_security_config.SecurityProfile.test_tampered_snapshot_cannot_be_read_or_overwritten) ... ok
+test_wrong_key_context_and_missing_key_reject_even_cached_reads (gopyt.test_security_config.SecurityProfile.test_wrong_key_context_and_missing_key_reject_even_cached_reads) ... ok
+test_hardlinks_cannot_read_or_modify_outside_file (gopyt.test_security_files.FilesystemSecurity.test_hardlinks_cannot_read_or_modify_outside_file) ... ok
+test_runtime_metadata_and_source_writes_are_reserved (gopyt.test_security_files.FilesystemSecurity.test_runtime_metadata_and_source_writes_are_reserved) ... ok
+test_malformed_lengths_and_headers (gopyt.test_mapped_data.MappedColumn.test_malformed_lengths_and_headers) ... ok
+test_seals_block_resize_write_and_mapping_mutation (gopyt.test_mapped_data.MappedColumn.test_seals_block_resize_write_and_mapping_mutation) ... ok
+
+----------------------------------------------------------------------
+Ran 14 tests in 0.974s
+
+OK
