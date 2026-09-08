@@ -1,48 +1,57 @@
-# Language baseline: 2026-09-09
+# GoPyT language baseline: 2026-09-09
 
-This language-only checkout implements the first increment of the approved backend, correctness, editor, security, performance and release priorities. It excludes the separate model-training workspace. All results below concern local GoPyT tests, not a newly measured VulcanBench model score.
+The language baseline is published and its complete Linux/macOS CI matrix passed at commit `90505c0bef75d1cb9414c4e9cb62d71a9483a921`. This is an alpha engineering release, not a security certification, a new VulcanBench model score, or a proof of arbitrary application correctness.
 
-## Correctness and security
+## Final validation
 
-The initial complete language suite passed **644 tests in 200.321 seconds** on the local Linux/Python 3.14 environment. The final provider-error handling adjustment then passed its seven security integration tests. Logs are in [validation/release](../validation/release/). An earlier run failed the nested diagnostic-coverage audit while new LSP test fixtures were being corrected; its failure is retained, followed by the clean final run.
+[Successful GitHub run](https://github.com/anthonykewl20/GoPyt/actions/runs/34272736437). Its [metadata](../validation/release/github-ci.json) and [full logs](../validation/release/github-ci.log) are retained in the repository.
 
-New generated-program validation compares 48 arithmetic/branch programs at 11 boundary inputs each, including signed 64-bit overflow. Inventory validation compares 400 seeded state transitions to an independent reference model and passes eight real HTTP lifecycle/concurrency/restart checks. These are constructed workloads, not an exhaustive program proof or customer production dataset.
+| Platform | Language suite | Boundary-probe suite | Remaining CI checks |
+| --- | --- | --- | --- |
+| Linux, Python 3.11 | 646 tests, pass | 17 tests, pass | Pass |
+| Linux, Python 3.14 | 646 tests, pass | 17 tests, pass | Pass |
+| macOS, Python 3.11 | 646 tests, 2 Linux-only prototype skips, pass | 17 tests, pass | Pass |
+| macOS, Python 3.14 | 646 tests, 2 Linux-only prototype skips, pass | 17 tests, pass | Pass |
 
-A reproduced hard-link flaw allowed an application write to truncate a file outside its package. General file natives now reject multi-link regular files before access/truncation, and reserved source/runtime paths are protected. The before-repair reproduction is retained as `hardlink-before.json`; regression tests keep the outside sentinel unchanged.
+Remaining checks include synchronization of 20 stdlib modules, the contract-drift demo, wheel construction and installation in a fresh environment outside the checkout. The installed compiler, guard entry point, LSP initialization and LSP checker subprocess all passed. The final local full suite also passed 646 tests in 180.927 seconds.
 
-Authenticated storage tests exercise encrypted restart, conditional updates, ciphertext tampering, wrong/missing keys, changed store identities, cached reads and refusal of implicit plaintext migration. A real HTTP subprocess test rejects missing, incorrect and duplicate credentials, verifies no unauthorized state mutation, then writes an authorized reservation and restarts from encrypted state. The strict profile and limits are documented in [SECURITY.md](../SECURITY.md) and the [normative amendment](security-profile-amendment-2026-09-09.md).
+## What changed
 
-The security extra is an explicit project dependency choice, independent of Leitir source discovery. A pip-audit scan reported no known advisories for the three pinned security-extra packages at execution time; this is not a code audit or a guarantee against undisclosed vulnerabilities.
+The inventory backend implements a bounded reservation ledger with explicit HTTP/JSON, storage and clock integration. Identical retries retain their outcome; changed quantities or TTLs conflict; confirmation is terminal; cancellation and expiry restore stock; retained IDs prevent reuse. Whole-state compare/exchange prevents lost updates. The example intentionally caps stock at 10 units and retained reservation IDs at 32.
 
-## Backend performance
+Correctness tests compare 400 seeded state transitions against an independent Python model and exercise eight real HTTP lifecycle/concurrency/restart scenarios. Generated-program tests compare 48 arithmetic/branch programs at 11 inputs each, including signed 64-bit overflow, against an independent integer oracle. These are constructed workloads, not customer production data or exhaustive program proofs.
 
-Three alternating before/after runs measured median GET latency with 40 requests per run:
+Security work repaired a demonstrated hard-link write outside an application package, added case-folded reserved-path protection, and hardened concurrent lock-file creation. The opt-in strict profile requires private external credentials, authenticated HTTP on a loopback listener behind a TLS gateway, and authenticated encrypted storage through AES-256-GCM-SIV. Tests cover unauthorized and duplicate credentials, ciphertext tampering, wrong/missing keys, changed identities, cached reads, refusal of implicit plaintext migration and encrypted restart. See [SECURITY.md](../SECURITY.md) and the [host-profile amendment](security-profile-amendment-2026-09-09.md).
+
+The security extra is an explicit project dependency choice, independent of Leitir source discovery. A [pip-audit scan](../validation/release/dependency-audit.json) found no known advisories for its three pinned packages at execution time. That scan is not an independent code audit. Private vulnerability reporting and dependency alerts are enabled on GitHub.
+
+The initial LSP provides bounded local document overlays, first-error diagnostics, formatting, symbols and basic completion. Tests repaired missing function symbols and exercise actual stdio framing, source preservation, stale versions, path/message bounds and overlay closure. Compiler checks use a subprocess with time/CPU limits and a Linux address-space limit. See [editor limitations](editor.md).
+
+HTTP startup now binds without an unnecessary reverse-DNS lookup, eliminating the readiness failures observed on macOS.
+
+## Measured performance
+
+Three alternating before/after inventory runs measured 40 GET requests per run:
 
 | Variant | Median of run medians |
 | --- | ---: |
 | Unconditional snapshot write | 6.813 ms |
 | Skip unchanged snapshot write | 4.516 ms |
 
-This is a **1.51x latency ratio** on this local workload. An 80-request/eight-worker run measured **44.52 ms p95**. Raw timings and final states are in [inventory.json](../validation/release/inventory.json). These development-profile measurements do not include encryption overhead, sustained saturation, multi-machine load or power-loss testing. The machine was shared with other work, so timings are indicative rather than isolated hardware certification.
+The latency ratio is **1.51x** on this local workload. An 80-request/eight-worker run measured **44.52 ms p95**. [Raw timings and states](../validation/release/inventory.json) are retained. These development-profile measurements exclude encryption overhead, sustained saturation, multiple machines and power-loss testing. The shared host was not an isolated benchmark machine.
 
-## Mapped-data result
+## Mapped-data research
 
-Leitir global searches for `MAP_SHARED` and `F_SEAL_SHRINK` produced partial, explicitly bounded GitHub results. A verified commit of `a-darwish/memfd-examples` supplied a licensed seal-before-sharing reference. The local prototype adapts that pattern, adds growth sealing and format/index validation, and introduces no donor dependency.
+Leitir's bounded global GitHub searches found a verified commit of `a-darwish/memfd-examples`. Its inspected Unlicense permitted adaptation of the seal-before-sharing pattern. The local prototype also seals growth and validates exact format and index bounds. No donor package became a dependency.
 
-Twelve subprocess runs over a synthetic 8 MiB i64 column matched independent sequential/random-query results. Median combined timings: streaming 127.27 ms, buffered 55.58 ms, ordinary mapped 73.86 ms, sealed mapping including setup copy 79.56 ms. **Buffering won this workload.** No claim of generally faster mmap is supported. The [prototype](../prototypes/mapped_data/README.md) remains outside the runtime; encrypted mapped queries, mutable IPC, beyond-RAM stress and real columnar formats remain research work.
+Twelve subprocess runs over a synthetic 8 MiB i64 column matched independent sequential/random-query results. Median combined timings were streaming 127.27 ms, buffering 55.58 ms, ordinary mapping 73.86 ms and sealed mapping including its setup copy 79.56 ms. **Buffering won this workload.** The [prototype](../prototypes/mapped_data/README.md) remains outside the language runtime. This does not measure encrypted queries, mutable IPC, beyond-RAM data, Parquet decoding or GPU operations.
 
-## Tooling and delivery
+## Retained R&D findings
 
-The initial stdio LSP supports bounded local overlays, first-error diagnostics, formatting, symbols and basic completion. Tests caught and repaired missing function symbols and now verify real protocol startup, immutable on-disk sources, stale versions, path/message limits and overlay closure. Checker execution is isolated with time/CPU limits and a Linux memory limit. See [editor limitations](editor.md).
+Earlier failures remain under [validation/release](../validation/release/). They include the original hard-link reproduction, macOS readiness failures, concurrent lock initialization, an opaque diagnostic-audit failure, and an interpreter crash during an experimental periodic traceback dump. CI retains execution limits and verbose output; the periodic dumper was removed.
 
-A wheel built and installed in an independent temporary environment outside the checkout. Compiler checking, guard entry point, LSP initialization and LSP checker subprocess passed there. The stdlib synchronization check passed for 20 modules. The separate boundary-probe suite passed 17 tests. Linux/macOS and Python 3.11/3.14 GitHub CI are configured; remote results are reported separately after publication.
+Two test assumptions were corrected with evidence. Darwin returns a nonzero TCP_NODELAY flag mask rather than Linux's integer 1; the assertion now checks enabled/nonzero. Apple's [pinned source](https://github.com/apple-oss-distributions/xnu/blob/f6217f891ac0bb64f3d375211650a4c1ff8ca1ea/bsd/netinet/tcp_usrreq.c#L2830) and [flag definition](https://github.com/apple-oss-distributions/xnu/blob/f6217f891ac0bb64f3d375211650a4c1ff8ca1ea/bsd/netinet/tcp_var.h#L433) establish that behavior. The proxy-isolation fixture now consumes and verifies its POST body and declares response length, avoiding a peer reset from closing over unread input. It still requires the direct response and zero proxy hits; the native continues to reject reset responses.
 
-## Cross-platform follow-up
+## Remaining priorities
 
-The first matrix passed both Linux versions but exposed HTTP readiness failures on macOS. A local regression demonstrated that the inherited HTTP server binding called reverse DNS before becoming ready. GoPyT now binds without that unnecessary lookup; 20 focused HTTP/inventory/security integration tests pass locally. The macOS failure log and before/after DNS regression logs are retained. After the startup fix, the complete local suite passed **645 tests in 234.304 seconds**. The macOS rerun cleared the startup failures and exposed one test portability error: it required TCP_NODELAY to equal 1. Apple's [pinned implementation](https://github.com/apple-oss-distributions/xnu/blob/f6217f891ac0bb64f3d375211650a4c1ff8ca1ea/bsd/netinet/tcp_usrreq.c#L2830) returns a flag mask, with [TF_NODELAY equal to 4](https://github.com/apple-oss-distributions/xnu/blob/f6217f891ac0bb64f3d375211650a4c1ff8ca1ea/bsd/netinet/tcp_var.h#L433). The assertion now checks nonzero, preserving the requirement that Nagle is disabled. A fresh matrix validates both follow-ups. CI now has explicit time limits and verbose test output. An experimental periodic traceback dumper coincided with a Python 3.11 interpreter crash during its dump; that diagnostic timer was removed and its crash log retained.
-
-The expanded audit report later exposed a lock-file creation race during concurrent cold starts. Lock opening now separates existing-file access from exclusive creation and retries creation races within the existing deadline; symlinks, invalid lock files and unlinked directories remain rejected. A fault-injected regression and 36 focused storage/security/network tests pass locally. Reserved-path checks now also reject case variants for case-insensitive filesystems. Fixture-only diagnostics identified the proxy-isolation failure as a TCP reset: the test origin closed without consuming its POST body. The fixture now drains and checks that body and declares its response length. It still requires the direct response and zero proxy hits; the native still rejects reset responses.
-
-## Remaining priority work
-
-Independent security review; user/tenant authorization and gateway integration; safe encrypted-store migration and key rotation; rollback detection; sustained encrypted load and recovery testing; multi-aggregate transaction design; richer editor semantics and dependency support; real-world column datasets and safe encrypted paging. Existing guard finite-case limits remain. No universal security, zero-miss or production-readiness claim is made.
+Independent security review; user/tenant authorization and gateway integration; encrypted-store migration and key rotation; rollback detection; sustained encrypted load and recovery testing; multiple-aggregate transactions; richer editor semantics and dependencies; real column datasets and safe encrypted paging. Existing guard finite-case limits remain. This release makes no universal-security, zero-miss or production-readiness claim.
