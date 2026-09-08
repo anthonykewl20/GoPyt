@@ -1,0 +1,883 @@
+﻿2026-09-08T18:59:56.5434030Z Current runner version: '2.337.0'
+2026-09-08T18:59:56.5484030Z ##[group]Runner Image Provisioner
+2026-09-08T18:59:56.5484900Z Hosted Compute Agent
+2026-09-08T18:59:56.5485310Z Version: 20260828.587
+2026-09-08T18:59:56.5486660Z Commit: abac92662cab4cc7352de4f9f9d2e2419aad9c29
+2026-09-08T18:59:56.5487810Z Build Date: 2026-08-28T16:44:25Z
+2026-09-08T18:59:56.5488780Z Worker ID: {31268815-27ee-40c2-be21-7548f413c52c}
+2026-09-08T18:59:56.5489550Z Azure Region: westus
+2026-09-08T18:59:56.5490010Z ##[endgroup]
+2026-09-08T18:59:56.5491150Z ##[group]Operating System
+2026-09-08T18:59:56.5491570Z macOS
+2026-09-08T18:59:56.5491900Z 26.6.2
+2026-09-08T18:59:56.5492260Z 25G83
+2026-09-08T18:59:56.5492710Z ##[endgroup]
+2026-09-08T18:59:56.5493130Z ##[group]Runner Image
+2026-09-08T18:59:56.5493590Z Image: macos-26-arm64
+2026-09-08T18:59:56.5493990Z Version: 20260831.0337.3
+2026-09-08T18:59:56.5494920Z Included Software: https://github.com/actions/runner-images/blob/macos-26-arm64/20260831.0337/images/macos/macos-26-arm64-Readme.md
+2026-09-08T18:59:56.5498690Z Image Release: https://github.com/actions/runner-images/releases/tag/macos-26-arm64%2F20260831.0337
+2026-09-08T18:59:56.5502030Z ##[endgroup]
+2026-09-08T18:59:56.5503790Z ##[group]GITHUB_TOKEN Permissions
+2026-09-08T18:59:56.5508270Z Contents: read
+2026-09-08T18:59:56.5508650Z Metadata: read
+2026-09-08T18:59:56.5509090Z ##[endgroup]
+2026-09-08T18:59:56.5511120Z Secret source: Actions
+2026-09-08T18:59:56.5511880Z Prepare workflow directory
+2026-09-08T18:59:56.6085770Z Prepare all required actions
+2026-09-08T18:59:56.6184900Z Getting action download info
+2026-09-08T18:59:56.8753140Z Download action repository 'actions/checkout@v4' (SHA:11d5960a326750d5838078e36cf38b85af677262)
+2026-09-08T18:59:57.4133270Z Download action repository 'actions/setup-python@v5' (SHA:a26af69be951a213d495a4c3e4e4022e16d87065)
+2026-09-08T18:59:57.9499100Z Complete job name: language (macos-latest, 3.11)
+2026-09-08T18:59:58.1004750Z ##[group]Run echo "TMPDIR=$RUNNER_TEMP" >> "$GITHUB_ENV"
+2026-09-08T18:59:58.1005540Z [36;1mecho "TMPDIR=$RUNNER_TEMP" >> "$GITHUB_ENV"[0m
+2026-09-08T18:59:58.1183230Z shell: /bin/bash -e {0}
+2026-09-08T18:59:58.1186520Z ##[endgroup]
+2026-09-08T18:59:58.3105730Z Node 20 is being deprecated. This workflow is running with Node 24 by default. If you need to temporarily use Node 20, you can set the ACTIONS_ALLOW_USE_UNSECURE_NODE_VERSION=true environment variable. For more information see: https://github.blog/changelog/2025-09-19-deprecation-of-node-20-on-github-actions-runners/
+2026-09-08T18:59:58.3123650Z ##[group]Run actions/checkout@v4
+2026-09-08T18:59:58.3124050Z with:
+2026-09-08T18:59:58.3124390Z   repository: anthonykewl20/GoPyt
+2026-09-08T18:59:58.3130120Z   token: ***
+2026-09-08T18:59:58.3130510Z   ssh-strict: true
+2026-09-08T18:59:58.3130910Z   ssh-user: git
+2026-09-08T18:59:58.3131930Z   persist-credentials: true
+2026-09-08T18:59:58.3132950Z   clean: true
+2026-09-08T18:59:58.3139520Z   sparse-checkout-cone-mode: true
+2026-09-08T18:59:58.3140200Z   fetch-depth: 1
+2026-09-08T18:59:58.3141440Z   fetch-tags: false
+2026-09-08T18:59:58.3142310Z   show-progress: true
+2026-09-08T18:59:58.3142700Z   lfs: false
+2026-09-08T18:59:58.3143950Z   submodules: false
+2026-09-08T18:59:58.3145220Z   set-safe-directory: true
+2026-09-08T18:59:58.3146500Z   allow-unsafe-pr-checkout: false
+2026-09-08T18:59:58.3147750Z env:
+2026-09-08T18:59:58.3148550Z   TMPDIR: /Users/runner/work/_temp
+2026-09-08T18:59:58.3149730Z ##[endgroup]
+2026-09-08T18:59:59.4248610Z Syncing repository: anthonykewl20/GoPyt
+2026-09-08T18:59:59.4253550Z ##[group]Getting Git version info
+2026-09-08T18:59:59.4255740Z Working directory is '/Users/runner/work/GoPyt/GoPyt'
+2026-09-08T18:59:59.4258570Z [command]/opt/homebrew/bin/git version
+2026-09-08T18:59:59.4957020Z git version 2.55.0
+2026-09-08T18:59:59.5004070Z ##[endgroup]
+2026-09-08T18:59:59.5027240Z Copying '/Users/runner/.gitconfig' to '/Users/runner/work/_temp/e7417b72-ebc5-458a-9457-6c51236111bf/.gitconfig'
+2026-09-08T18:59:59.5043400Z Temporarily overriding HOME='/Users/runner/work/_temp/e7417b72-ebc5-458a-9457-6c51236111bf' before making global git config changes
+2026-09-08T18:59:59.5052590Z Adding repository directory to the temporary git global config as a safe directory
+2026-09-08T18:59:59.5055030Z [command]/opt/homebrew/bin/git config --global --add safe.directory /Users/runner/work/GoPyt/GoPyt
+2026-09-08T18:59:59.5600940Z Deleting the contents of '/Users/runner/work/GoPyt/GoPyt'
+2026-09-08T18:59:59.5710550Z ##[group]Initializing the repository
+2026-09-08T18:59:59.5712240Z [command]/opt/homebrew/bin/git init /Users/runner/work/GoPyt/GoPyt
+2026-09-08T18:59:59.6568710Z hint: Using 'master' as the name for the initial branch. This default branch name
+2026-09-08T18:59:59.6677640Z hint: will change to "main" in Git 3.0. To configure the initial branch name
+2026-09-08T18:59:59.6792770Z hint: to use in all of your new repositories, which will suppress this warning,
+2026-09-08T18:59:59.6891880Z hint: call:
+2026-09-08T18:59:59.7022570Z hint:
+2026-09-08T18:59:59.7127850Z hint: 	git config --global init.defaultBranch <name>
+2026-09-08T18:59:59.7231820Z hint:
+2026-09-08T18:59:59.7336540Z hint: Names commonly chosen instead of 'master' are 'main', 'trunk' and
+2026-09-08T18:59:59.7443030Z hint: 'development'. The just-created branch can be renamed via this command:
+2026-09-08T18:59:59.7559320Z hint:
+2026-09-08T18:59:59.7666590Z hint: 	git branch -m <name>
+2026-09-08T18:59:59.7769800Z hint:
+2026-09-08T18:59:59.7875040Z hint: Disable this message with "git config set advice.defaultBranchName false"
+2026-09-08T18:59:59.8121500Z Initialized empty Git repository in /Users/runner/work/GoPyt/GoPyt/.git/
+2026-09-08T18:59:59.8362610Z [command]/opt/homebrew/bin/git remote add origin https://github.com/anthonykewl20/GoPyt
+2026-09-08T18:59:59.8696610Z ##[endgroup]
+2026-09-08T18:59:59.8807370Z ##[group]Disabling automatic garbage collection
+2026-09-08T18:59:59.8915570Z [command]/opt/homebrew/bin/git config --local gc.auto 0
+2026-09-08T18:59:59.9121330Z ##[endgroup]
+2026-09-08T18:59:59.9122400Z ##[group]Setting up auth
+2026-09-08T18:59:59.9124900Z [command]/opt/homebrew/bin/git config --local --name-only --get-regexp core\.sshCommand
+2026-09-08T18:59:59.9146530Z [command]/opt/homebrew/bin/git submodule foreach --recursive sh -c "git config --local --name-only --get-regexp 'core\.sshCommand' && git config --local --unset-all 'core.sshCommand' || :"
+2026-09-08T19:00:00.0842030Z [command]/opt/homebrew/bin/git config --local --name-only --get-regexp http\.https\:\/\/github\.com\/\.extraheader
+2026-09-08T19:00:00.1002900Z [command]/opt/homebrew/bin/git submodule foreach --recursive sh -c "git config --local --name-only --get-regexp 'http\.https\:\/\/github\.com\/\.extraheader' && git config --local --unset-all 'http.https://github.com/.extraheader' || :"
+2026-09-08T19:00:00.4226740Z [command]/opt/homebrew/bin/git config --local --name-only --get-regexp ^includeIf\.gitdir:
+2026-09-08T19:00:00.4586820Z [command]/opt/homebrew/bin/git submodule foreach --recursive git config --local --show-origin --name-only --get-regexp remote.origin.url
+2026-09-08T19:00:00.7747040Z [command]/opt/homebrew/bin/git config --local http.https://github.com/.extraheader AUTHORIZATION: basic ***
+2026-09-08T19:00:00.7966190Z ##[endgroup]
+2026-09-08T19:00:00.8071980Z ##[group]Fetching the repository
+2026-09-08T19:00:00.8172070Z [command]/opt/homebrew/bin/git -c protocol.version=2 fetch --no-tags --prune --no-recurse-submodules --depth=1 origin +5a957b8b3abec9dc536e078ec879732ed7318bf7:refs/remotes/origin/main
+2026-09-08T19:00:02.0183600Z From https://github.com/anthonykewl20/GoPyt
+2026-09-08T19:00:02.0286960Z  * [new ref]         5a957b8b3abec9dc536e078ec879732ed7318bf7 -> origin/main
+2026-09-08T19:00:02.0593140Z ##[endgroup]
+2026-09-08T19:00:02.0658520Z ##[group]Determining the checkout info
+2026-09-08T19:00:02.0692690Z ##[endgroup]
+2026-09-08T19:00:02.0741630Z [command]/opt/homebrew/bin/git sparse-checkout disable
+2026-09-08T19:00:02.0755140Z [command]/opt/homebrew/bin/git config --local --unset-all extensions.worktreeConfig
+2026-09-08T19:00:02.0838810Z ##[group]Checking out the ref
+2026-09-08T19:00:02.0842650Z [command]/opt/homebrew/bin/git checkout --progress --force -B main refs/remotes/origin/main
+2026-09-08T19:00:02.3051730Z Switched to a new branch 'main'
+2026-09-08T19:00:02.3155080Z branch 'main' set up to track 'origin/main'.
+2026-09-08T19:00:02.3432200Z ##[endgroup]
+2026-09-08T19:00:02.3467100Z [command]/opt/homebrew/bin/git log -1 --format=%H
+2026-09-08T19:00:02.3475460Z 5a957b8b3abec9dc536e078ec879732ed7318bf7
+2026-09-08T19:00:02.3783260Z Node 20 is being deprecated. This workflow is running with Node 24 by default. If you need to temporarily use Node 20, you can set the ACTIONS_ALLOW_USE_UNSECURE_NODE_VERSION=true environment variable. For more information see: https://github.blog/changelog/2025-09-19-deprecation-of-node-20-on-github-actions-runners/
+2026-09-08T19:00:02.3785260Z ##[group]Run actions/setup-python@v5
+2026-09-08T19:00:02.3785460Z with:
+2026-09-08T19:00:02.3785610Z   python-version: 3.11
+2026-09-08T19:00:02.3785770Z   check-latest: false
+2026-09-08T19:00:02.3788450Z   token: ***
+2026-09-08T19:00:02.3789070Z   update-environment: true
+2026-09-08T19:00:02.3789330Z   allow-prereleases: false
+2026-09-08T19:00:02.3789540Z   freethreaded: false
+2026-09-08T19:00:02.3789730Z env:
+2026-09-08T19:00:02.3789880Z   TMPDIR: /Users/runner/work/_temp
+2026-09-08T19:00:02.3790070Z ##[endgroup]
+2026-09-08T19:00:02.7329710Z ##[group]Installed versions
+2026-09-08T19:00:02.7468290Z (node:5468) [DEP0040] DeprecationWarning: The `punycode` module is deprecated. Please use a userland alternative instead.
+2026-09-08T19:00:02.7588930Z (Use `node --trace-deprecation ...` to show where the warning was created)
+2026-09-08T19:00:02.8201220Z Successfully set up CPython (3.11.9)
+2026-09-08T19:00:02.8201860Z ##[endgroup]
+2026-09-08T19:00:02.8373480Z ##[group]Run python -m pip install -e '.[security]'
+2026-09-08T19:00:02.8374670Z [36;1mpython -m pip install -e '.[security]'[0m
+2026-09-08T19:00:02.8537360Z shell: /bin/bash -e {0}
+2026-09-08T19:00:02.8538050Z env:
+2026-09-08T19:00:02.8538900Z   TMPDIR: /Users/runner/work/_temp
+2026-09-08T19:00:02.8539640Z   pythonLocation: /Users/runner/hostedtoolcache/Python/3.11.9/arm64
+2026-09-08T19:00:02.8541540Z   PKG_CONFIG_PATH: /Users/runner/hostedtoolcache/Python/3.11.9/arm64/lib/pkgconfig
+2026-09-08T19:00:02.8544770Z   Python_ROOT_DIR: /Users/runner/hostedtoolcache/Python/3.11.9/arm64
+2026-09-08T19:00:02.8548050Z   Python2_ROOT_DIR: /Users/runner/hostedtoolcache/Python/3.11.9/arm64
+2026-09-08T19:00:02.8549300Z   Python3_ROOT_DIR: /Users/runner/hostedtoolcache/Python/3.11.9/arm64
+2026-09-08T19:00:02.8550180Z ##[endgroup]
+2026-09-08T19:00:06.0185170Z Obtaining file:///Users/runner/work/GoPyt/GoPyt
+2026-09-08T19:00:06.0288830Z   Installing build dependencies: started
+2026-09-08T19:00:08.7514570Z   Installing build dependencies: finished with status 'done'
+2026-09-08T19:00:08.7616940Z   Checking if build backend supports build_editable: started
+2026-09-08T19:00:09.9051870Z   Checking if build backend supports build_editable: finished with status 'done'
+2026-09-08T19:00:09.9261450Z   Getting requirements to build editable: started
+2026-09-08T19:00:11.2563620Z   Getting requirements to build editable: finished with status 'done'
+2026-09-08T19:00:11.2620600Z   Preparing editable metadata (pyproject.toml): started
+2026-09-08T19:00:12.0215000Z   Preparing editable metadata (pyproject.toml): finished with status 'done'
+2026-09-08T19:00:12.6938440Z Collecting cryptography==50.0.1 (from gopyt==0.1.0)
+2026-09-08T19:00:12.8094780Z   Downloading cryptography-50.0.1-cp311-abi3-macosx_11_0_arm64.whl.metadata (4.3 kB)
+2026-09-08T19:00:13.0559650Z Collecting cffi>=2.0.0 (from cryptography==50.0.1->gopyt==0.1.0)
+2026-09-08T19:00:13.0727680Z   Downloading cffi-2.1.1-cp311-cp311-macosx_11_0_arm64.whl.metadata (2.5 kB)
+2026-09-08T19:00:13.1224130Z Collecting pycparser (from cffi>=2.0.0->cryptography==50.0.1->gopyt==0.1.0)
+2026-09-08T19:00:13.1539490Z   Downloading pycparser-3.0-py3-none-any.whl.metadata (8.2 kB)
+2026-09-08T19:00:13.2447200Z Downloading cryptography-50.0.1-cp311-abi3-macosx_11_0_arm64.whl (4.0 MB)
+2026-09-08T19:00:13.3742280Z    ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ 4.0/4.0 MB 42.1 MB/s  0:00:00
+2026-09-08T19:00:13.3899760Z Downloading cffi-2.1.1-cp311-cp311-macosx_11_0_arm64.whl (184 kB)
+2026-09-08T19:00:13.4092810Z Downloading pycparser-3.0-py3-none-any.whl (48 kB)
+2026-09-08T19:00:13.4583080Z Building wheels for collected packages: gopyt
+2026-09-08T19:00:13.4618270Z   Building editable for gopyt (pyproject.toml): started
+2026-09-08T19:00:14.3046890Z   Building editable for gopyt (pyproject.toml): finished with status 'done'
+2026-09-08T19:00:14.3150880Z   Created wheel for gopyt: filename=gopyt-0.1.0-0.editable-py3-none-any.whl size=4246 sha256=faab0233010e46bf9ad56294eb2a0ad28a8c37cc8ca1572bf4bb30bbf054636d
+2026-09-08T19:00:14.3252660Z   Stored in directory: /Users/runner/work/_temp/pip-ephem-wheel-cache-4gndrh3i/wheels/83/cb/1d/7c9638c7754547d80304e5601c8763cde6088176a08192df96
+2026-09-08T19:00:14.3358370Z Successfully built gopyt
+2026-09-08T19:00:14.3934250Z Installing collected packages: pycparser, gopyt, cffi, cryptography
+2026-09-08T19:00:15.1157730Z 
+2026-09-08T19:00:15.1192770Z Successfully installed cffi-2.1.1 cryptography-50.0.1 gopyt-0.1.0 pycparser-3.0
+2026-09-08T19:00:15.4767210Z ##[group]Run python -m unittest discover -s gopyt -t .
+2026-09-08T19:00:15.4768400Z [36;1mpython -m unittest discover -s gopyt -t .[0m
+2026-09-08T19:00:15.4908070Z shell: /bin/bash -e {0}
+2026-09-08T19:00:15.4909800Z env:
+2026-09-08T19:00:15.4910510Z   TMPDIR: /Users/runner/work/_temp
+2026-09-08T19:00:15.4914240Z   pythonLocation: /Users/runner/hostedtoolcache/Python/3.11.9/arm64
+2026-09-08T19:00:15.4916690Z   PKG_CONFIG_PATH: /Users/runner/hostedtoolcache/Python/3.11.9/arm64/lib/pkgconfig
+2026-09-08T19:00:15.4918600Z   Python_ROOT_DIR: /Users/runner/hostedtoolcache/Python/3.11.9/arm64
+2026-09-08T19:00:15.4919880Z   Python2_ROOT_DIR: /Users/runner/hostedtoolcache/Python/3.11.9/arm64
+2026-09-08T19:00:15.4920750Z   Python3_ROOT_DIR: /Users/runner/hostedtoolcache/Python/3.11.9/arm64
+2026-09-08T19:00:15.4921170Z ##[endgroup]
+2026-09-08T19:00:54.4540230Z FFFFFF.Fecho
+2026-09-08T19:00:57.9290750Z ....................................probe
+2026-09-08T19:00:58.0115150Z probe
+2026-09-08T19:00:58.1110860Z probe
+2026-09-08T19:00:58.8824820Z ......arithmetic
+2026-09-08T19:00:58.9856040Z ..probe
+2026-09-08T19:00:59.3479540Z .......x
+2026-09-08T19:00:59.5575000Z ...x
+2026-09-08T19:00:59.7726660Z ...charge
+2026-09-08T19:01:08.8787780Z ..............................................start
+2026-09-08T19:01:09.5795470Z .......decode
+2026-09-08T19:01:12.0183450Z .................................................echo
+2026-09-08T19:01:12.4619860Z echo
+2026-09-08T19:01:12.6650740Z echo
+2026-09-08T19:01:12.6827690Z echo
+2026-09-08T19:01:13.0466780Z echo
+2026-09-08T19:01:13.2677060Z charge
+2026-09-08T19:01:13.4832150Z echo
+2026-09-08T19:01:13.4848840Z echo
+2026-09-08T19:01:16.0436680Z echo
+2026-09-08T19:01:20.1421200Z probe
+2026-09-08T19:01:20.2128170Z probe
+2026-09-08T19:01:20.3030990Z probe
+2026-09-08T19:01:20.9812080Z arithmetic
+2026-09-08T19:01:21.1141510Z probe
+2026-09-08T19:01:21.3867470Z x
+2026-09-08T19:01:21.6078890Z x
+2026-09-08T19:01:21.7665460Z charge
+2026-09-08T19:01:30.7322080Z start
+2026-09-08T19:01:31.1463350Z decode
+2026-09-08T19:01:36.9738730Z start
+2026-09-08T19:01:52.8182890Z ERROR:root:Refund transaction failed
+2026-09-08T19:01:52.8187440Z Traceback (most recent call last):
+2026-09-08T19:01:52.8234170Z   File "/Users/runner/work/GoPyt/GoPyt/examples/guarded_refunds/service.py", line 236, in do_POST
+2026-09-08T19:01:52.8237500Z     result = self.server.ledger.apply(body)
+2026-09-08T19:01:52.8239570Z              ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+2026-09-08T19:01:52.8245380Z   File "/Users/runner/work/GoPyt/GoPyt/examples/guarded_refunds/service.py", line 143, in apply
+2026-09-08T19:01:52.8247230Z     return self._apply(body)
+2026-09-08T19:01:52.8248910Z            ^^^^^^^^^^^^^^^^^
+2026-09-08T19:01:52.8250840Z   File "/Users/runner/work/GoPyt/GoPyt/examples/guarded_refunds/service.py", line 180, in _apply
+2026-09-08T19:01:52.8283610Z     conn.execute('INSERT INTO requests VALUES(?,?,?,?)', (order_id,key,payload,canonical(response).decode()))
+2026-09-08T19:01:52.8287100Z sqlite3.IntegrityError: injected
+2026-09-08T19:02:03.8335140Z ERROR:root:Refund transaction failed
+2026-09-08T19:02:03.8442350Z Traceback (most recent call last):
+2026-09-08T19:02:03.8543130Z   File "/Users/runner/work/GoPyt/GoPyt/examples/guarded_refunds/service.py", line 236, in do_POST
+2026-09-08T19:02:03.8580320Z     result = self.server.ledger.apply(body)
+2026-09-08T19:02:03.8581090Z              ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+2026-09-08T19:02:03.8590490Z   File "/Users/runner/work/GoPyt/GoPyt/examples/guarded_refunds/service.py", line 143, in apply
+2026-09-08T19:02:03.8607930Z     return self._apply(body)
+2026-09-08T19:02:03.8608650Z            ^^^^^^^^^^^^^^^^^
+2026-09-08T19:02:03.8611350Z   File "/Users/runner/work/GoPyt/GoPyt/examples/guarded_refunds/service.py", line 168, in _apply
+2026-09-08T19:02:03.8613370Z     allowed = timed_call(self.vm, self.ids['refund_policy.allowed'],
+2026-09-08T19:02:03.8616450Z               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+2026-09-08T19:02:03.8621390Z   File "/Library/Frameworks/Python.framework/Versions/3.11/lib/python3.11/unittest/mock.py", line 1124, in __call__
+2026-09-08T19:02:03.8623250Z     return self._mock_call(*args, **kwargs)
+2026-09-08T19:02:03.8624100Z            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+2026-09-08T19:02:03.8625940Z   File "/Library/Frameworks/Python.framework/Versions/3.11/lib/python3.11/unittest/mock.py", line 1128, in _mock_call
+2026-09-08T19:02:03.8626720Z     return self._execute_mock_call(*args, **kwargs)
+2026-09-08T19:02:03.8627080Z            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+2026-09-08T19:02:03.8628080Z   File "/Library/Frameworks/Python.framework/Versions/3.11/lib/python3.11/unittest/mock.py", line 1183, in _execute_mock_call
+2026-09-08T19:02:03.8629440Z     raise effect
+2026-09-08T19:02:03.8629680Z gopyt.vm.Trap: trap 2
+2026-09-08T19:02:03.8630070Z ERROR:root:Refund transaction failed
+2026-09-08T19:02:03.8630500Z Traceback (most recent call last):
+2026-09-08T19:02:03.8631110Z   File "/Users/runner/work/GoPyt/GoPyt/examples/guarded_refunds/service.py", line 236, in do_POST
+2026-09-08T19:02:03.8631680Z     result = self.server.ledger.apply(body)
+2026-09-08T19:02:03.8632010Z              ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+2026-09-08T19:02:03.8632580Z   File "/Users/runner/work/GoPyt/GoPyt/examples/guarded_refunds/service.py", line 143, in apply
+2026-09-08T19:02:03.8633090Z     return self._apply(body)
+2026-09-08T19:02:03.8633980Z            ^^^^^^^^^^^^^^^^^
+2026-09-08T19:02:03.8638760Z   File "/Users/runner/work/GoPyt/GoPyt/examples/guarded_refunds/service.py", line 168, in _apply
+2026-09-08T19:02:03.8641270Z     allowed = timed_call(self.vm, self.ids['refund_policy.allowed'],
+2026-09-08T19:02:03.8642660Z               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+2026-09-08T19:02:03.8644290Z   File "/Library/Frameworks/Python.framework/Versions/3.11/lib/python3.11/unittest/mock.py", line 1124, in __call__
+2026-09-08T19:02:03.8645900Z     return self._mock_call(*args, **kwargs)
+2026-09-08T19:02:03.8647850Z            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+2026-09-08T19:02:03.8650990Z   File "/Library/Frameworks/Python.framework/Versions/3.11/lib/python3.11/unittest/mock.py", line 1128, in _mock_call
+2026-09-08T19:02:03.8651870Z     return self._execute_mock_call(*args, **kwargs)
+2026-09-08T19:02:03.8652210Z            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+2026-09-08T19:02:03.8654170Z   File "/Library/Frameworks/Python.framework/Versions/3.11/lib/python3.11/unittest/mock.py", line 1183, in _execute_mock_call
+2026-09-08T19:02:03.8656550Z     raise effect
+2026-09-08T19:02:03.8657290Z gopyt.vm.Cancelled
+2026-09-08T19:02:12.2088890Z ERROR:root:Refund transaction failed
+2026-09-08T19:02:12.2089860Z Traceback (most recent call last):
+2026-09-08T19:02:12.2097880Z   File "/Users/runner/work/GoPyt/GoPyt/examples/guarded_refunds/service.py", line 236, in do_POST
+2026-09-08T19:02:12.2104020Z     result = self.server.ledger.apply(body)
+2026-09-08T19:02:12.2104980Z              ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+2026-09-08T19:02:12.2110970Z   File "/Users/runner/work/GoPyt/GoPyt/examples/guarded_refunds/service.py", line 143, in apply
+2026-09-08T19:02:12.2112120Z     return self._apply(body)
+2026-09-08T19:02:12.2113380Z            ^^^^^^^^^^^^^^^^^
+2026-09-08T19:02:12.2114630Z   File "/Users/runner/work/GoPyt/GoPyt/examples/guarded_refunds/service.py", line 172, in _apply
+2026-09-08T19:02:12.2116830Z     after = timed_call(self.vm, self.ids['refund_policy.after_refund'],
+2026-09-08T19:02:12.2661680Z             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+2026-09-08T19:02:12.2662390Z   File "/Users/runner/work/GoPyt/GoPyt/gopyt/guard.py", line 337, in timed_call
+2026-09-08T19:02:12.2662870Z     return vm.call(fn, list(args))
+2026-09-08T19:02:12.2663060Z            ^^^^^^^^^^^^^^^^^^^^^^^
+2026-09-08T19:02:12.2663390Z   File "/Users/runner/work/GoPyt/GoPyt/gopyt/vm.py", line 157, in call
+2026-09-08T19:02:12.2663800Z     result = self.heap.handoff(self._call(fn_id, args, caller_effects))
+2026-09-08T19:02:12.2668280Z                                ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+2026-09-08T19:02:12.2670390Z   File "/Users/runner/work/GoPyt/GoPyt/gopyt/vm.py", line 190, in _call
+2026-09-08T19:02:12.2674560Z     return self.exec(fn_id, func, args)
+2026-09-08T19:02:12.2676280Z            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+2026-09-08T19:02:12.2683200Z   File "/Users/runner/work/GoPyt/GoPyt/gopyt/vm.py", line 208, in exec
+2026-09-08T19:02:12.2684700Z     return self._exec_frame(frame)
+2026-09-08T19:02:12.2685590Z            ^^^^^^^^^^^^^^^^^^^^^^^
+2026-09-08T19:02:12.2686690Z   File "/Users/runner/work/GoPyt/GoPyt/gopyt/vm.py", line 422, in _exec_frame
+2026-09-08T19:02:12.2689810Z     raise Trap(ops.TRAP_REQUIRES if op == ops.REQUIRE else ops.TRAP_ENSURES)
+2026-09-08T19:02:12.2695210Z gopyt.vm.Trap: trap 2
+2026-09-08T19:02:18.1174280Z guard prepare: duplicate JSON key: cases
+2026-09-08T19:02:20.1558720Z guard prepare: preparation policy exceeds byte limit
+2026-09-08T19:02:23.8821260Z echo
+2026-09-08T19:02:23.8836780Z echo
+2026-09-08T19:02:23.8852890Z echo
+2026-09-08T19:02:23.8864850Z echo
+2026-09-08T19:02:23.8877940Z echo
+2026-09-08T19:02:23.8888060Z echo
+2026-09-08T19:03:18.0979690Z obligations: FileExistsError: [Errno 17] File exists: '/Users/runner/work/_temp/tmpm58vlt9a/report.json'
+2026-09-08T19:03:23.4709890Z obligations: FileExistsError: [Errno 17] File exists: '/Users/runner/work/_temp/tmpqguzuaiu/report.json'
+2026-09-08T19:03:27.3371960Z obligations: FileExistsError: [Errno 17] File exists: '/Users/runner/work/_temp/tmpahgc7o6q/report.json'
+2026-09-08T19:03:30.4642980Z obligations: FileExistsError: [Errno 17] File exists: '/Users/runner/work/_temp/tmp8qyc1pzo/report.json'
+2026-09-08T19:03:48.4549300Z project context: FileExistsError: [Errno 17] File exists: '/Users/runner/work/_temp/tmpzjoi04xv/receipt.json'
+2026-09-08T19:04:41.0259480Z decode
+2026-09-08T19:04:41.1803350Z charge
+2026-09-08T19:04:42.1400260Z cell
+2026-09-08T19:04:42.1816320Z e
+2026-09-08T19:04:42.1817400Z o
+2026-09-08T19:04:42.1818070Z e
+2026-09-08T19:04:42.1818690Z o
+2026-09-08T19:04:42.1819560Z e
+2026-09-08T19:04:42.1820480Z o
+2026-09-08T19:04:42.1821280Z e
+2026-09-08T19:04:42.2895020Z charging
+2026-09-08T19:04:43.0643520Z echo
+2026-09-08T19:04:44.3192530Z user
+2026-09-08T19:04:44.5955580Z ping
+2026-09-08T19:04:45.0212860Z charge
+2026-09-08T19:04:45.1786670Z wire
+2026-09-08T19:04:45.2478710Z alloc
+2026-09-08T19:04:46.4488700Z 1
+2026-09-08T19:04:46.4809440Z 1
+2026-09-08T19:04:46.8185920Z found
+2026-09-08T19:04:46.9953980Z go
+2026-09-08T19:04:47.0994800Z go
+2026-09-08T19:04:47.1435710Z 0
+2026-09-08T19:04:47.1436480Z 1
+2026-09-08T19:04:47.1436980Z 2
+2026-09-08T19:04:47.1437430Z 3
+2026-09-08T19:04:47.2265860Z go
+2026-09-08T19:04:47.3785210Z go
+2026-09-08T19:04:48.0296110Z go
+2026-09-08T19:04:48.3843390Z and
+2026-09-08T19:04:48.4380880Z order
+2026-09-08T19:04:48.5644130Z contract
+2026-09-08T19:04:48.6433520Z div
+2026-09-08T19:04:48.7186180Z enum
+2026-09-08T19:04:48.7745850Z int
+2026-09-08T19:04:48.9211150Z opt
+2026-09-08T19:04:49.0060690Z or
+2026-09-08T19:04:49.0337220Z range
+2026-09-08T19:04:49.0652030Z mod
+2026-09-08T19:04:49.1042030Z slice
+2026-09-08T19:04:49.1560800Z len
+2026-09-08T19:04:49.1897110Z encode
+2026-09-08T19:04:49.2605010Z encode
+2026-09-08T19:04:49.2608410Z decode
+2026-09-08T19:04:49.3575540Z get
+2026-09-08T19:04:49.3927300Z bools
+2026-09-08T19:04:49.4668540Z empty
+2026-09-08T19:04:49.5037540Z keys
+2026-09-08T19:04:49.5384840Z map
+2026-09-08T19:04:49.6652650Z F.echo
+2026-09-08T19:04:50.0809030Z echo
+2026-09-08T19:04:50.3104310Z echo
+2026-09-08T19:04:50.3575270Z echo
+2026-09-08T19:04:50.7071890Z echo
+2026-09-08T19:04:50.8965850Z charge
+2026-09-08T19:04:51.1070180Z echo
+2026-09-08T19:04:51.1078770Z echo
+2026-09-08T19:04:53.5598850Z echo
+2026-09-08T19:04:54.4701450Z 511a276d5385b597c8e4574100a0444179295e525ebeb9f2492e3074aa09cdf4
+2026-09-08T19:04:54.4708380Z {
+2026-09-08T19:04:54.4708810Z   "schema": "gopyt.guard.receipt.v1",
+2026-09-08T19:04:54.4710560Z   "accepted": true,
+2026-09-08T19:04:54.4713800Z   "bundle_sha256": "511a276d5385b597c8e4574100a0444179295e525ebeb9f2492e3074aa09cdf4",
+2026-09-08T19:04:54.4753680Z   "engine_sha256": "69d420841eb5a9e274a489768f9199d672944e572dbcfac329760634a4c6a17f",
+2026-09-08T19:04:54.4754610Z   "limitations": [
+2026-09-08T19:04:54.4754900Z     "Finite acceptance cases, not a proof.",
+2026-09-08T19:04:54.4757000Z     "Listed obligations are declarations; this gate executes only the supplied cases, not HTTP or database tests.",
+2026-09-08T19:04:54.4757700Z     "Caller, bundle pin, and executor must be protected outside candidate authority.",
+2026-09-08T19:04:54.4758350Z     "No guarantee about external payment processors or undisclosed policies."
+2026-09-08T19:04:54.4759470Z   ],
+2026-09-08T19:04:54.4760920Z   "candidate_sha256": "41217c3d81c3e3e70a25f60eb3e1a17f66ca718bdcf34ad5d4fc00dd52486e0a",
+2026-09-08T19:04:54.4761440Z   "changed_files": [],
+2026-09-08T19:04:54.4761690Z   "obligations": {
+2026-09-08T19:04:54.4762040Z     "stock": "Reservation preserves nonnegative stock."
+2026-09-08T19:04:54.4762320Z   },
+2026-09-08T19:04:54.4762590Z   "protected_contract_helpers": [],
+2026-09-08T19:04:54.4762870Z   "passed": 3,
+2026-09-08T19:04:54.4763130Z   "total": 3,
+2026-09-08T19:04:54.4763340Z   "failures": []
+2026-09-08T19:04:54.4763660Z }
+2026-09-08T19:04:54.4763960Z 
+2026-09-08T19:04:54.4764050Z 50 modules checked in 117 ms
+2026-09-08T19:04:54.4764250Z 
+2026-09-08T19:04:54.4764380Z check 38 ms, 10000 logins 8410 ms
+2026-09-08T19:04:55.4075780Z probe
+2026-09-08T19:04:55.4366730Z probe
+2026-09-08T19:04:55.4578890Z probe
+2026-09-08T19:04:55.6492090Z arithmetic
+2026-09-08T19:04:55.6886300Z probe
+2026-09-08T19:04:55.7997450Z x
+2026-09-08T19:04:55.8552190Z x
+2026-09-08T19:04:55.9084450Z charge
+2026-09-08T19:04:58.9305850Z start
+2026-09-08T19:04:59.1608500Z decode
+2026-09-08T19:05:03.8634180Z start
+2026-09-08T19:05:16.6307020Z ERROR:root:Refund transaction failed
+2026-09-08T19:05:16.6308390Z Traceback (most recent call last):
+2026-09-08T19:05:16.6309940Z   File "/Users/runner/work/GoPyt/GoPyt/examples/guarded_refunds/service.py", line 236, in do_POST
+2026-09-08T19:05:16.6310500Z     result = self.server.ledger.apply(body)
+2026-09-08T19:05:16.6310830Z              ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+2026-09-08T19:05:16.6311350Z   File "/Users/runner/work/GoPyt/GoPyt/examples/guarded_refunds/service.py", line 143, in apply
+2026-09-08T19:05:16.6311820Z     return self._apply(body)
+2026-09-08T19:05:16.6312090Z            ^^^^^^^^^^^^^^^^^
+2026-09-08T19:05:16.6312490Z   File "/Users/runner/work/GoPyt/GoPyt/examples/guarded_refunds/service.py", line 180, in _apply
+2026-09-08T19:05:16.6313130Z     conn.execute('INSERT INTO requests VALUES(?,?,?,?)', (order_id,key,payload,canonical(response).decode()))
+2026-09-08T19:05:16.6313600Z sqlite3.IntegrityError: injected
+2026-09-08T19:05:22.6972990Z ERROR:root:Refund transaction failed
+2026-09-08T19:05:22.6982880Z Traceback (most recent call last):
+2026-09-08T19:05:22.6985070Z   File "/Users/runner/work/GoPyt/GoPyt/examples/guarded_refunds/service.py", line 236, in do_POST
+2026-09-08T19:05:22.6985770Z     result = self.server.ledger.apply(body)
+2026-09-08T19:05:22.6986120Z              ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+2026-09-08T19:05:22.6987250Z   File "/Users/runner/work/GoPyt/GoPyt/examples/guarded_refunds/service.py", line 143, in apply
+2026-09-08T19:05:22.6988170Z     return self._apply(body)
+2026-09-08T19:05:22.6988470Z            ^^^^^^^^^^^^^^^^^
+2026-09-08T19:05:22.6990550Z   File "/Users/runner/work/GoPyt/GoPyt/examples/guarded_refunds/service.py", line 168, in _apply
+2026-09-08T19:05:22.6991150Z     allowed = timed_call(self.vm, self.ids['refund_policy.allowed'],
+2026-09-08T19:05:22.6992840Z               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+2026-09-08T19:05:22.6996180Z   File "/Library/Frameworks/Python.framework/Versions/3.11/lib/python3.11/unittest/mock.py", line 1124, in __call__
+2026-09-08T19:05:22.6997920Z     return self._mock_call(*args, **kwargs)
+2026-09-08T19:05:22.6998280Z            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+2026-09-08T19:05:22.7009180Z   File "/Library/Frameworks/Python.framework/Versions/3.11/lib/python3.11/unittest/mock.py", line 1128, in _mock_call
+2026-09-08T19:05:22.7011020Z     return self._execute_mock_call(*args, **kwargs)
+2026-09-08T19:05:22.7011420Z            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+2026-09-08T19:05:22.7012820Z   File "/Library/Frameworks/Python.framework/Versions/3.11/lib/python3.11/unittest/mock.py", line 1183, in _execute_mock_call
+2026-09-08T19:05:22.7013880Z     raise effect
+2026-09-08T19:05:22.7014130Z gopyt.vm.Trap: trap 2
+2026-09-08T19:05:22.7014550Z ERROR:root:Refund transaction failed
+2026-09-08T19:05:22.7014900Z Traceback (most recent call last):
+2026-09-08T19:05:22.7020550Z   File "/Users/runner/work/GoPyt/GoPyt/examples/guarded_refunds/service.py", line 236, in do_POST
+2026-09-08T19:05:22.7021110Z     result = self.server.ledger.apply(body)
+2026-09-08T19:05:22.7022280Z              ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+2026-09-08T19:05:22.7023850Z   File "/Users/runner/work/GoPyt/GoPyt/examples/guarded_refunds/service.py", line 143, in apply
+2026-09-08T19:05:22.7024570Z     return self._apply(body)
+2026-09-08T19:05:22.7024930Z            ^^^^^^^^^^^^^^^^^
+2026-09-08T19:05:22.7025540Z   File "/Users/runner/work/GoPyt/GoPyt/examples/guarded_refunds/service.py", line 168, in _apply
+2026-09-08T19:05:22.7026200Z     allowed = timed_call(self.vm, self.ids['refund_policy.allowed'],
+2026-09-08T19:05:22.7026670Z               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+2026-09-08T19:05:22.7028900Z   File "/Library/Frameworks/Python.framework/Versions/3.11/lib/python3.11/unittest/mock.py", line 1124, in __call__
+2026-09-08T19:05:22.7029550Z     return self._mock_call(*args, **kwargs)
+2026-09-08T19:05:22.7029990Z            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+2026-09-08T19:05:22.7031070Z   File "/Library/Frameworks/Python.framework/Versions/3.11/lib/python3.11/unittest/mock.py", line 1128, in _mock_call
+2026-09-08T19:05:22.7031660Z     return self._execute_mock_call(*args, **kwargs)
+2026-09-08T19:05:22.7032000Z            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+2026-09-08T19:05:22.7032610Z   File "/Library/Frameworks/Python.framework/Versions/3.11/lib/python3.11/unittest/mock.py", line 1183, in _execute_mock_call
+2026-09-08T19:05:22.7033180Z     raise effect
+2026-09-08T19:05:22.7034310Z gopyt.vm.Cancelled
+2026-09-08T19:05:27.9623260Z ERROR:root:Refund transaction failed
+2026-09-08T19:05:27.9623730Z Traceback (most recent call last):
+2026-09-08T19:05:27.9626480Z   File "/Users/runner/work/GoPyt/GoPyt/examples/guarded_refunds/service.py", line 236, in do_POST
+2026-09-08T19:05:27.9628680Z     result = self.server.ledger.apply(body)
+2026-09-08T19:05:27.9629310Z              ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+2026-09-08T19:05:27.9630320Z   File "/Users/runner/work/GoPyt/GoPyt/examples/guarded_refunds/service.py", line 143, in apply
+2026-09-08T19:05:27.9632290Z     return self._apply(body)
+2026-09-08T19:05:27.9632580Z            ^^^^^^^^^^^^^^^^^
+2026-09-08T19:05:27.9634530Z   File "/Users/runner/work/GoPyt/GoPyt/examples/guarded_refunds/service.py", line 172, in _apply
+2026-09-08T19:05:27.9636320Z     after = timed_call(self.vm, self.ids['refund_policy.after_refund'],
+2026-09-08T19:05:27.9638900Z             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+2026-09-08T19:05:27.9640470Z   File "/Users/runner/work/GoPyt/GoPyt/gopyt/guard.py", line 337, in timed_call
+2026-09-08T19:05:27.9641070Z     return vm.call(fn, list(args))
+2026-09-08T19:05:27.9641660Z            ^^^^^^^^^^^^^^^^^^^^^^^
+2026-09-08T19:05:27.9642410Z   File "/Users/runner/work/GoPyt/GoPyt/gopyt/vm.py", line 157, in call
+2026-09-08T19:05:27.9643320Z     result = self.heap.handoff(self._call(fn_id, args, caller_effects))
+2026-09-08T19:05:27.9644000Z                                ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+2026-09-08T19:05:27.9644530Z   File "/Users/runner/work/GoPyt/GoPyt/gopyt/vm.py", line 190, in _call
+2026-09-08T19:05:27.9644980Z     return self.exec(fn_id, func, args)
+2026-09-08T19:05:27.9645380Z            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+2026-09-08T19:05:27.9646310Z   File "/Users/runner/work/GoPyt/GoPyt/gopyt/vm.py", line 208, in exec
+2026-09-08T19:05:27.9646790Z     return self._exec_frame(frame)
+2026-09-08T19:05:27.9647080Z            ^^^^^^^^^^^^^^^^^^^^^^^
+2026-09-08T19:05:27.9647540Z   File "/Users/runner/work/GoPyt/GoPyt/gopyt/vm.py", line 422, in _exec_frame
+2026-09-08T19:05:27.9648160Z     raise Trap(ops.TRAP_REQUIRES if op == ops.REQUIRE else ops.TRAP_ENSURES)
+2026-09-08T19:05:27.9648630Z gopyt.vm.Trap: trap 2
+2026-09-08T19:05:32.0388640Z guard prepare: duplicate JSON key: cases
+2026-09-08T19:05:33.2282980Z guard prepare: preparation policy exceeds byte limit
+2026-09-08T19:05:36.0886070Z echo
+2026-09-08T19:05:36.0898280Z echo
+2026-09-08T19:05:36.0905790Z echo
+2026-09-08T19:05:36.0917100Z echo
+2026-09-08T19:05:36.0924800Z echo
+2026-09-08T19:05:36.0936370Z echo
+2026-09-08T19:06:25.2121580Z obligations: FileExistsError: [Errno 17] File exists: '/Users/runner/work/_temp/tmp4twvl26_/report.json'
+2026-09-08T19:06:28.6864390Z obligations: FileExistsError: [Errno 17] File exists: '/Users/runner/work/_temp/tmpcv1k9ing/report.json'
+2026-09-08T19:06:31.2926360Z obligations: FileExistsError: [Errno 17] File exists: '/Users/runner/work/_temp/tmpu3gsf4bt/report.json'
+2026-09-08T19:06:33.6743910Z obligations: FileExistsError: [Errno 17] File exists: '/Users/runner/work/_temp/tmpwo1l7eup/report.json'
+2026-09-08T19:06:40.0471350Z project context: FileExistsError: [Errno 17] File exists: '/Users/runner/work/_temp/tmpv3yk8tyh/receipt.json'
+2026-09-08T19:07:19.8567930Z decode
+2026-09-08T19:07:19.9110650Z charge
+2026-09-08T19:07:20.2583470Z cell
+2026-09-08T19:07:20.2973570Z e
+2026-09-08T19:07:20.2974080Z o
+2026-09-08T19:07:20.2974790Z e
+2026-09-08T19:07:20.2976090Z o
+2026-09-08T19:07:20.2976770Z e
+2026-09-08T19:07:20.2978040Z o
+2026-09-08T19:07:20.2979060Z e
+2026-09-08T19:07:20.3448380Z charging
+2026-09-08T19:07:20.7629560Z echo
+2026-09-08T19:07:21.8884010Z user
+2026-09-08T19:07:22.1371080Z ping
+2026-09-08T19:07:22.5972420Z charge
+2026-09-08T19:07:22.7433810Z wire
+2026-09-08T19:07:22.7607340Z alloc
+2026-09-08T19:07:23.2925190Z 1
+2026-09-08T19:07:23.3027490Z 1
+2026-09-08T19:07:23.4160820Z found
+2026-09-08T19:07:23.4875490Z go
+2026-09-08T19:07:23.5325270Z go
+2026-09-08T19:07:23.5507230Z 0
+2026-09-08T19:07:23.5507650Z 1
+2026-09-08T19:07:23.5507930Z 2
+2026-09-08T19:07:23.5508610Z 3
+2026-09-08T19:07:23.5872690Z go
+2026-09-08T19:07:23.6554120Z go
+2026-09-08T19:07:24.3078230Z go
+2026-09-08T19:07:24.4292830Z and
+2026-09-08T19:07:24.4531400Z order
+2026-09-08T19:07:24.4832640Z contract
+2026-09-08T19:07:24.5046690Z div
+2026-09-08T19:07:24.5233020Z enum
+2026-09-08T19:07:24.5407850Z int
+2026-09-08T19:07:24.5586310Z opt
+2026-09-08T19:07:24.5774280Z or
+2026-09-08T19:07:24.6183610Z range
+2026-09-08T19:07:24.6369210Z mod
+2026-09-08T19:07:24.6567170Z slice
+2026-09-08T19:07:24.6781770Z len
+2026-09-08T19:07:24.7082680Z encode
+2026-09-08T19:07:24.7644850Z encode
+2026-09-08T19:07:24.7648300Z decode
+2026-09-08T19:07:24.8128570Z get
+2026-09-08T19:07:24.8326850Z bools
+2026-09-08T19:07:24.8709980Z empty
+2026-09-08T19:07:24.9037760Z keys
+2026-09-08T19:07:24.9269410Z map
+2026-09-08T19:07:25.9761100Z 511a276d5385b597c8e4574100a0444179295e525ebeb9f2492e3074aa09cdf4
+2026-09-08T19:07:25.9764570Z {
+2026-09-08T19:07:25.9765120Z   "schema": "gopyt.guard.receipt.v1",
+2026-09-08T19:07:25.9767690Z   "accepted": true,
+2026-09-08T19:07:25.9768130Z   "bundle_sha256": "511a276d5385b597c8e4574100a0444179295e525ebeb9f2492e3074aa09cdf4",
+2026-09-08T19:07:25.9768770Z   "engine_sha256": "69d420841eb5a9e274a489768f9199d672944e572dbcfac329760634a4c6a17f",
+2026-09-08T19:07:25.9769290Z   "limitations": [
+2026-09-08T19:07:25.9769570Z     "Finite acceptance cases, not a proof.",
+2026-09-08T19:07:25.9770270Z     "Listed obligations are declarations; this gate executes only the supplied cases, not HTTP or database tests.",
+2026-09-08T19:07:25.9771040Z     "Caller, bundle pin, and executor must be protected outside candidate authority.",
+2026-09-08T19:07:25.9771690Z     "No guarantee about external payment processors or undisclosed policies."
+2026-09-08T19:07:25.9772090Z   ],
+2026-09-08T19:07:25.9784060Z   "candidate_sha256": "41217c3d81c3e3e70a25f60eb3e1a17f66ca718bdcf34ad5d4fc00dd52486e0a",
+2026-09-08T19:07:25.9784800Z   "changed_files": [],
+2026-09-08T19:07:25.9785020Z   "obligations": {
+2026-09-08T19:07:25.9785310Z     "stock": "Reservation preserves nonnegative stock."
+2026-09-08T19:07:25.9785660Z   },
+2026-09-08T19:07:25.9785920Z   "protected_contract_helpers": [],
+2026-09-08T19:07:25.9786170Z   "passed": 3,
+2026-09-08T19:07:25.9786430Z   "total": 3,
+2026-09-08T19:07:25.9786650Z   "failures": []
+2026-09-08T19:07:25.9787120Z }
+2026-09-08T19:07:25.9787260Z 
+2026-09-08T19:07:25.9787370Z 50 modules checked in 30 ms
+2026-09-08T19:07:25.9787500Z 
+2026-09-08T19:07:25.9787630Z check 12 ms, 10000 logins 2731 ms
+2026-09-08T19:07:27.5747370Z F.................................................................................................start
+2026-09-08T19:07:34.6636380Z ................................................ERROR:root:Refund transaction failed
+2026-09-08T19:07:34.6637320Z Traceback (most recent call last):
+2026-09-08T19:07:34.6638390Z   File "/Users/runner/work/GoPyt/GoPyt/examples/guarded_refunds/service.py", line 236, in do_POST
+2026-09-08T19:07:34.6639010Z     result = self.server.ledger.apply(body)
+2026-09-08T19:07:34.6639380Z              ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+2026-09-08T19:07:34.6639900Z   File "/Users/runner/work/GoPyt/GoPyt/examples/guarded_refunds/service.py", line 143, in apply
+2026-09-08T19:07:34.6640400Z     return self._apply(body)
+2026-09-08T19:07:34.6640730Z            ^^^^^^^^^^^^^^^^^
+2026-09-08T19:07:34.6641150Z   File "/Users/runner/work/GoPyt/GoPyt/examples/guarded_refunds/service.py", line 180, in _apply
+2026-09-08T19:07:34.6641900Z     conn.execute('INSERT INTO requests VALUES(?,?,?,?)', (order_id,key,payload,canonical(response).decode()))
+2026-09-08T19:07:34.6642470Z sqlite3.IntegrityError: injected
+2026-09-08T19:07:40.3162740Z .....ERROR:root:Refund transaction failed
+2026-09-08T19:07:40.3163630Z Traceback (most recent call last):
+2026-09-08T19:07:40.3164540Z   File "/Users/runner/work/GoPyt/GoPyt/examples/guarded_refunds/service.py", line 236, in do_POST
+2026-09-08T19:07:40.3165140Z     result = self.server.ledger.apply(body)
+2026-09-08T19:07:40.3165580Z              ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+2026-09-08T19:07:40.3166150Z   File "/Users/runner/work/GoPyt/GoPyt/examples/guarded_refunds/service.py", line 143, in apply
+2026-09-08T19:07:40.3167480Z     return self._apply(body)
+2026-09-08T19:07:40.3167720Z            ^^^^^^^^^^^^^^^^^
+2026-09-08T19:07:40.3168210Z   File "/Users/runner/work/GoPyt/GoPyt/examples/guarded_refunds/service.py", line 168, in _apply
+2026-09-08T19:07:40.3169850Z     allowed = timed_call(self.vm, self.ids['refund_policy.allowed'],
+2026-09-08T19:07:40.3170400Z               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+2026-09-08T19:07:40.3172100Z   File "/Library/Frameworks/Python.framework/Versions/3.11/lib/python3.11/unittest/mock.py", line 1124, in __call__
+2026-09-08T19:07:40.3172960Z     return self._mock_call(*args, **kwargs)
+2026-09-08T19:07:40.3173350Z            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+2026-09-08T19:07:40.3173960Z   File "/Library/Frameworks/Python.framework/Versions/3.11/lib/python3.11/unittest/mock.py", line 1128, in _mock_call
+2026-09-08T19:07:40.3174530Z     return self._execute_mock_call(*args, **kwargs)
+2026-09-08T19:07:40.3174950Z            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+2026-09-08T19:07:40.3175740Z   File "/Library/Frameworks/Python.framework/Versions/3.11/lib/python3.11/unittest/mock.py", line 1183, in _execute_mock_call
+2026-09-08T19:07:40.3176560Z     raise effect
+2026-09-08T19:07:40.3176790Z gopyt.vm.Trap: trap 2
+2026-09-08T19:07:40.3182740Z ERROR:root:Refund transaction failed
+2026-09-08T19:07:40.3183890Z Traceback (most recent call last):
+2026-09-08T19:07:40.3184610Z   File "/Users/runner/work/GoPyt/GoPyt/examples/guarded_refunds/service.py", line 236, in do_POST
+2026-09-08T19:07:40.3185320Z     result = self.server.ledger.apply(body)
+2026-09-08T19:07:40.3186460Z              ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+2026-09-08T19:07:40.3187000Z   File "/Users/runner/work/GoPyt/GoPyt/examples/guarded_refunds/service.py", line 143, in apply
+2026-09-08T19:07:40.3187580Z     return self._apply(body)
+2026-09-08T19:07:40.3187800Z            ^^^^^^^^^^^^^^^^^
+2026-09-08T19:07:40.3188260Z   File "/Users/runner/work/GoPyt/GoPyt/examples/guarded_refunds/service.py", line 168, in _apply
+2026-09-08T19:07:40.3188740Z     allowed = timed_call(self.vm, self.ids['refund_policy.allowed'],
+2026-09-08T19:07:40.3189140Z               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+2026-09-08T19:07:40.3189650Z   File "/Library/Frameworks/Python.framework/Versions/3.11/lib/python3.11/unittest/mock.py", line 1124, in __call__
+2026-09-08T19:07:40.3190200Z     return self._mock_call(*args, **kwargs)
+2026-09-08T19:07:40.3190540Z            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+2026-09-08T19:07:40.3191110Z   File "/Library/Frameworks/Python.framework/Versions/3.11/lib/python3.11/unittest/mock.py", line 1128, in _mock_call
+2026-09-08T19:07:40.3191750Z     return self._execute_mock_call(*args, **kwargs)
+2026-09-08T19:07:40.3192100Z            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+2026-09-08T19:07:40.3192690Z   File "/Library/Frameworks/Python.framework/Versions/3.11/lib/python3.11/unittest/mock.py", line 1183, in _execute_mock_call
+2026-09-08T19:07:40.3193200Z     raise effect
+2026-09-08T19:07:40.3193390Z gopyt.vm.Cancelled
+2026-09-08T19:07:43.6927500Z ...ERROR:root:Refund transaction failed
+2026-09-08T19:07:43.6928070Z Traceback (most recent call last):
+2026-09-08T19:07:43.6928640Z   File "/Users/runner/work/GoPyt/GoPyt/examples/guarded_refunds/service.py", line 236, in do_POST
+2026-09-08T19:07:43.6929390Z     result = self.server.ledger.apply(body)
+2026-09-08T19:07:43.6929780Z              ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+2026-09-08T19:07:43.6931870Z   File "/Users/runner/work/GoPyt/GoPyt/examples/guarded_refunds/service.py", line 143, in apply
+2026-09-08T19:07:43.6932610Z     return self._apply(body)
+2026-09-08T19:07:43.6932910Z            ^^^^^^^^^^^^^^^^^
+2026-09-08T19:07:43.6934670Z   File "/Users/runner/work/GoPyt/GoPyt/examples/guarded_refunds/service.py", line 172, in _apply
+2026-09-08T19:07:43.6935280Z     after = timed_call(self.vm, self.ids['refund_policy.after_refund'],
+2026-09-08T19:07:43.6937150Z             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+2026-09-08T19:07:43.6937910Z   File "/Users/runner/work/GoPyt/GoPyt/gopyt/guard.py", line 337, in timed_call
+2026-09-08T19:07:43.6939000Z     return vm.call(fn, list(args))
+2026-09-08T19:07:43.6939640Z            ^^^^^^^^^^^^^^^^^^^^^^^
+2026-09-08T19:07:43.6940130Z   File "/Users/runner/work/GoPyt/GoPyt/gopyt/vm.py", line 157, in call
+2026-09-08T19:07:43.6941360Z     result = self.heap.handoff(self._call(fn_id, args, caller_effects))
+2026-09-08T19:07:43.6942550Z                                ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+2026-09-08T19:07:43.6943070Z   File "/Users/runner/work/GoPyt/GoPyt/gopyt/vm.py", line 190, in _call
+2026-09-08T19:07:43.6943580Z     return self.exec(fn_id, func, args)
+2026-09-08T19:07:43.6943850Z            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+2026-09-08T19:07:43.6944500Z   File "/Users/runner/work/GoPyt/GoPyt/gopyt/vm.py", line 208, in exec
+2026-09-08T19:07:43.6945740Z     return self._exec_frame(frame)
+2026-09-08T19:07:43.6946020Z            ^^^^^^^^^^^^^^^^^^^^^^^
+2026-09-08T19:07:43.6969180Z   File "/Users/runner/work/GoPyt/GoPyt/gopyt/vm.py", line 422, in _exec_frame
+2026-09-08T19:07:43.6969940Z     raise Trap(ops.TRAP_REQUIRES if op == ops.REQUIRE else ops.TRAP_ENSURES)
+2026-09-08T19:07:43.6970420Z gopyt.vm.Trap: trap 2
+2026-09-08T19:07:45.8800780Z ..........guard prepare: duplicate JSON key: cases
+2026-09-08T19:07:46.5089740Z ...........guard prepare: preparation policy exceeds byte limit
+2026-09-08T19:07:47.8306260Z ......................echo
+2026-09-08T19:07:47.8313900Z echo
+2026-09-08T19:07:47.8320310Z echo
+2026-09-08T19:07:47.8326770Z echo
+2026-09-08T19:07:47.8332800Z echo
+2026-09-08T19:07:47.8338830Z echo
+2026-09-08T19:08:27.3912720Z ..F...ss...obligations: FileExistsError: [Errno 17] File exists: '/Users/runner/work/_temp/tmpeuci9x5m/report.json'
+2026-09-08T19:08:29.6603630Z ...................obligations: FileExistsError: [Errno 17] File exists: '/Users/runner/work/_temp/tmp8384msem/report.json'
+2026-09-08T19:08:32.5335890Z ..................obligations: FileExistsError: [Errno 17] File exists: '/Users/runner/work/_temp/tmpi556jj61/report.json'
+2026-09-08T19:08:35.7792520Z ...............obligations: FileExistsError: [Errno 17] File exists: '/Users/runner/work/_temp/tmp4y6qsui0/report.json'
+2026-09-08T19:08:44.3405940Z ............................project context: FileExistsError: [Errno 17] File exists: '/Users/runner/work/_temp/tmpylwkro5h/receipt.json'
+2026-09-08T19:09:26.0625690Z .....................F...........................................decode
+2026-09-08T19:09:26.1175590Z .....charge
+2026-09-08T19:09:26.5125670Z ...................cell
+2026-09-08T19:09:26.5374280Z .e
+2026-09-08T19:09:26.5376340Z o
+2026-09-08T19:09:26.5376780Z e
+2026-09-08T19:09:26.5377110Z o
+2026-09-08T19:09:26.5377370Z e
+2026-09-08T19:09:26.5377660Z o
+2026-09-08T19:09:26.5377940Z e
+2026-09-08T19:09:26.5897010Z ..charging
+2026-09-08T19:09:27.0585030Z ..........echo
+2026-09-08T19:09:28.2178110Z ......user
+2026-09-08T19:09:28.4380960Z .ping
+2026-09-08T19:09:28.8539930Z ..charge
+2026-09-08T19:09:28.9901170Z .........wire
+2026-09-08T19:09:29.0100470Z .alloc
+2026-09-08T19:09:29.6555910Z ...........1
+2026-09-08T19:09:29.6739280Z 1
+2026-09-08T19:09:29.8138110Z .....found
+2026-09-08T19:09:29.8708650Z ...go
+2026-09-08T19:09:29.9781080Z ..go
+2026-09-08T19:09:30.0021800Z .0
+2026-09-08T19:09:30.0022290Z 1
+2026-09-08T19:09:30.0022490Z 2
+2026-09-08T19:09:30.0023090Z 3
+2026-09-08T19:09:30.0400170Z ..go
+2026-09-08T19:09:30.1048380Z ...go
+2026-09-08T19:09:30.8262990Z ....go
+2026-09-08T19:09:30.9966140Z .......and
+2026-09-08T19:09:31.0301990Z .order
+2026-09-08T19:09:31.0663610Z .contract
+2026-09-08T19:09:31.0987620Z .div
+2026-09-08T19:09:31.1336510Z .enum
+2026-09-08T19:09:31.1630530Z .int
+2026-09-08T19:09:31.1912130Z ...opt
+2026-09-08T19:09:31.2236510Z .or
+2026-09-08T19:09:31.2845610Z .range
+2026-09-08T19:09:31.3247690Z .mod
+2026-09-08T19:09:31.4086830Z .slice
+2026-09-08T19:09:31.4440700Z .len
+2026-09-08T19:09:31.5031150Z .encode
+2026-09-08T19:09:31.6481750Z ..encode
+2026-09-08T19:09:31.6484920Z decode
+2026-09-08T19:09:31.7686790Z ..get
+2026-09-08T19:09:31.8181860Z ..bools
+2026-09-08T19:09:31.9107200Z ..empty
+2026-09-08T19:09:31.9403940Z ..keys
+2026-09-08T19:09:31.9656790Z .map
+2026-09-08T19:09:32.0693940Z ...
+2026-09-08T19:09:32.0701700Z ======================================================================
+2026-09-08T19:09:32.0702280Z 511a276d5385b597c8e4574100a0444179295e525ebeb9f2492e3074aa09cdf4
+2026-09-08T19:09:32.0743750Z FAIL: test_ambiguous_or_oversized_framing_is_rejected (gopyt.test_app_runtime.ApplicationHttpRuntime.test_ambiguous_or_oversized_framing_is_rejected)
+2026-09-08T19:09:32.0753930Z {
+2026-09-08T19:09:32.0754290Z   "schema": "gopyt.guard.receipt.v1",
+2026-09-08T19:09:32.0755660Z ----------------------------------------------------------------------
+2026-09-08T19:09:32.0799960Z   "accepted": true,
+2026-09-08T19:09:32.0831380Z Traceback (most recent call last):
+2026-09-08T19:09:32.0831970Z   "bundle_sha256": "511a276d5385b597c8e4574100a0444179295e525ebeb9f2492e3074aa09cdf4",
+2026-09-08T19:09:32.0912080Z   File "/Users/runner/work/GoPyt/GoPyt/gopyt/test_app_runtime.py", line 109, in test_ambiguous_or_oversized_framing_is_rejected
+2026-09-08T19:09:32.0944070Z     with running_server() as (_, port):
+2026-09-08T19:09:32.0944780Z   "engine_sha256": "69d420841eb5a9e274a489768f9199d672944e572dbcfac329760634a4c6a17f",
+2026-09-08T19:09:32.0974860Z   File "/Library/Frameworks/Python.framework/Versions/3.11/lib/python3.11/contextlib.py", line 137, in __enter__
+2026-09-08T19:09:32.0975590Z   "limitations": [
+2026-09-08T19:09:32.1038810Z     return next(self.gen)
+2026-09-08T19:09:32.1039190Z     "Finite acceptance cases, not a proof.",
+2026-09-08T19:09:32.1046320Z            ^^^^^^^^^^^^^^
+2026-09-08T19:09:32.1046850Z     "Listed obligations are declarations; this gate executes only the supplied cases, not HTTP or database tests.",
+2026-09-08T19:09:32.1134910Z   File "/Users/runner/work/GoPyt/GoPyt/gopyt/test_app_runtime.py", line 47, in running_server
+2026-09-08T19:09:32.1135570Z     "Caller, bundle pin, and executor must be protected outside candidate authority.",
+2026-09-08T19:09:32.1142750Z     raise AssertionError(f'server did not start: {errors!r}')
+2026-09-08T19:09:32.1143280Z     "No guarantee about external payment processors or undisclosed policies."
+2026-09-08T19:09:32.1188970Z AssertionError: server did not start: []
+2026-09-08T19:09:32.1189370Z   ],
+2026-09-08T19:09:32.1195820Z 
+2026-09-08T19:09:32.1196200Z   "candidate_sha256": "41217c3d81c3e3e70a25f60eb3e1a17f66ca718bdcf34ad5d4fc00dd52486e0a",
+2026-09-08T19:09:32.1239510Z ======================================================================
+2026-09-08T19:09:32.1240040Z   "changed_files": [],
+2026-09-08T19:09:32.1246100Z FAIL: test_drip_fed_body_cannot_extend_request_deadline (gopyt.test_app_runtime.ApplicationHttpRuntime.test_drip_fed_body_cannot_extend_request_deadline)
+2026-09-08T19:09:32.1246720Z   "obligations": {
+2026-09-08T19:09:32.1282930Z ----------------------------------------------------------------------
+2026-09-08T19:09:32.1283390Z     "stock": "Reservation preserves nonnegative stock."
+2026-09-08T19:09:32.1289030Z Traceback (most recent call last):
+2026-09-08T19:09:32.1289330Z   },
+2026-09-08T19:09:32.1348590Z   File "/Users/runner/work/GoPyt/GoPyt/gopyt/test_app_runtime.py", line 164, in test_drip_fed_body_cannot_extend_request_deadline
+2026-09-08T19:09:32.1349240Z   "protected_contract_helpers": [],
+2026-09-08T19:09:32.1350260Z     with running_server(MAX_HANDLERS=1, REQUEST_TIMEOUT_SECONDS=.2) as (_, port):
+2026-09-08T19:09:32.1351000Z   File "/Library/Frameworks/Python.framework/Versions/3.11/lib/python3.11/contextlib.py", line 137, in __enter__
+2026-09-08T19:09:32.1351510Z     return next(self.gen)
+2026-09-08T19:09:32.1353190Z            ^^^^^^^^^^^^^^
+2026-09-08T19:09:32.1355000Z   File "/Users/runner/work/GoPyt/GoPyt/gopyt/test_app_runtime.py", line 47, in running_server
+2026-09-08T19:09:32.1355550Z     raise AssertionError(f'server did not start: {errors!r}')
+2026-09-08T19:09:32.1356320Z AssertionError: server did not start: []
+2026-09-08T19:09:32.1357350Z 
+2026-09-08T19:09:32.1357450Z ======================================================================
+2026-09-08T19:09:32.1361640Z FAIL: test_full_queue_returns_503_and_recovers_after_clients_close (gopyt.test_app_runtime.ApplicationHttpRuntime.test_full_queue_returns_503_and_recovers_after_clients_close)
+2026-09-08T19:09:32.1362420Z ----------------------------------------------------------------------
+2026-09-08T19:09:32.1367280Z Traceback (most recent call last):
+2026-09-08T19:09:32.1442500Z   File "/Users/runner/work/GoPyt/GoPyt/gopyt/test_app_runtime.py", line 193, in test_full_queue_returns_503_and_recovers_after_clients_close
+2026-09-08T19:09:32.1443190Z     with running_server(MAX_HANDLERS=1, QUEUE=1) as (vm, port):
+2026-09-08T19:09:32.1443980Z   File "/Library/Frameworks/Python.framework/Versions/3.11/lib/python3.11/contextlib.py", line 137, in __enter__
+2026-09-08T19:09:32.1444480Z     return next(self.gen)
+2026-09-08T19:09:32.1444770Z            ^^^^^^^^^^^^^^
+2026-09-08T19:09:32.1448220Z   File "/Users/runner/work/GoPyt/GoPyt/gopyt/test_app_runtime.py", line 47, in running_server
+2026-09-08T19:09:32.1449650Z     raise AssertionError(f'server did not start: {errors!r}')
+2026-09-08T19:09:32.1450050Z AssertionError: server did not start: []
+2026-09-08T19:09:32.1450250Z 
+2026-09-08T19:09:32.1450350Z ======================================================================
+2026-09-08T19:09:32.1451530Z FAIL: test_idle_connections_eventually_release_workers (gopyt.test_app_runtime.ApplicationHttpRuntime.test_idle_connections_eventually_release_workers)
+2026-09-08T19:09:32.1452210Z ----------------------------------------------------------------------
+2026-09-08T19:09:32.1453490Z Traceback (most recent call last):
+2026-09-08T19:09:32.1454120Z   File "/Users/runner/work/GoPyt/GoPyt/gopyt/test_app_runtime.py", line 156, in test_idle_connections_eventually_release_workers
+2026-09-08T19:09:32.1455700Z     with running_server(MAX_HANDLERS=2, REQUEST_TIMEOUT_SECONDS=.15) as (_, port):
+2026-09-08T19:09:32.1456290Z   "passed": 3,
+2026-09-08T19:09:32.1456630Z   "total": 3,
+2026-09-08T19:09:32.1458450Z   "failures": []
+2026-09-08T19:09:32.1458700Z }
+2026-09-08T19:09:32.1458770Z 
+2026-09-08T19:09:32.1458880Z 50 modules checked in 41 ms
+2026-09-08T19:09:32.1459320Z 
+2026-09-08T19:09:32.1459500Z check 14 ms, 10000 logins 3275 ms
+2026-09-08T19:09:32.1460030Z   File "/Library/Frameworks/Python.framework/Versions/3.11/lib/python3.11/contextlib.py", line 137, in __enter__
+2026-09-08T19:09:32.1460600Z     return next(self.gen)
+2026-09-08T19:09:32.1462010Z            ^^^^^^^^^^^^^^
+2026-09-08T19:09:32.1462790Z   File "/Users/runner/work/GoPyt/GoPyt/gopyt/test_app_runtime.py", line 47, in running_server
+2026-09-08T19:09:32.1463380Z     raise AssertionError(f'server did not start: {errors!r}')
+2026-09-08T19:09:32.1463810Z AssertionError: server did not start: []
+2026-09-08T19:09:32.1464010Z 
+2026-09-08T19:09:32.1464150Z ======================================================================
+2026-09-08T19:09:32.1464930Z FAIL: test_malformed_json_is_rejected_and_connection_remains_usable (gopyt.test_app_runtime.ApplicationHttpRuntime.test_malformed_json_is_rejected_and_connection_remains_usable)
+2026-09-08T19:09:32.1465720Z ----------------------------------------------------------------------
+2026-09-08T19:09:32.1466140Z Traceback (most recent call last):
+2026-09-08T19:09:32.1466810Z   File "/Users/runner/work/GoPyt/GoPyt/gopyt/test_app_runtime.py", line 122, in test_malformed_json_is_rejected_and_connection_remains_usable
+2026-09-08T19:09:32.1467550Z     with running_server() as (_, port):
+2026-09-08T19:09:32.1468180Z   File "/Library/Frameworks/Python.framework/Versions/3.11/lib/python3.11/contextlib.py", line 137, in __enter__
+2026-09-08T19:09:32.1468770Z     return next(self.gen)
+2026-09-08T19:09:32.1469080Z            ^^^^^^^^^^^^^^
+2026-09-08T19:09:32.1469610Z   File "/Users/runner/work/GoPyt/GoPyt/gopyt/test_app_runtime.py", line 47, in running_server
+2026-09-08T19:09:32.1470250Z     raise AssertionError(f'server did not start: {errors!r}')
+2026-09-08T19:09:32.1470630Z AssertionError: server did not start: []
+2026-09-08T19:09:32.1470850Z 
+2026-09-08T19:09:32.1471000Z ======================================================================
+2026-09-08T19:09:32.1471720Z FAIL: test_pipelined_requests_preserve_response_boundaries (gopyt.test_app_runtime.ApplicationHttpRuntime.test_pipelined_requests_preserve_response_boundaries)
+2026-09-08T19:09:32.1472930Z ----------------------------------------------------------------------
+2026-09-08T19:09:32.1473370Z Traceback (most recent call last):
+2026-09-08T19:09:32.1474000Z   File "/Users/runner/work/GoPyt/GoPyt/gopyt/test_app_runtime.py", line 141, in test_pipelined_requests_preserve_response_boundaries
+2026-09-08T19:09:32.1476570Z     with running_server() as (_, port):
+2026-09-08T19:09:32.1477150Z   File "/Library/Frameworks/Python.framework/Versions/3.11/lib/python3.11/contextlib.py", line 137, in __enter__
+2026-09-08T19:09:32.1477730Z     return next(self.gen)
+2026-09-08T19:09:32.1478350Z            ^^^^^^^^^^^^^^
+2026-09-08T19:09:32.1479590Z   File "/Users/runner/work/GoPyt/GoPyt/gopyt/test_app_runtime.py", line 47, in running_server
+2026-09-08T19:09:32.1480550Z     raise AssertionError(f'server did not start: {errors!r}')
+2026-09-08T19:09:32.1482280Z AssertionError: server did not start: []
+2026-09-08T19:09:32.1482540Z 
+2026-09-08T19:09:32.1483420Z ======================================================================
+2026-09-08T19:09:32.1494210Z FAIL: test_small_responses_disable_nagle_on_the_accepted_socket (gopyt.test_app_runtime.ApplicationHttpRuntime.test_small_responses_disable_nagle_on_the_accepted_socket)
+2026-09-08T19:09:32.1495640Z ----------------------------------------------------------------------
+2026-09-08T19:09:32.1496060Z Traceback (most recent call last):
+2026-09-08T19:09:32.1496760Z   File "/Users/runner/work/GoPyt/GoPyt/gopyt/test_app_runtime.py", line 93, in test_small_responses_disable_nagle_on_the_accepted_socket
+2026-09-08T19:09:32.1497380Z     self.fail('accepted HTTP socket did not enable TCP_NODELAY')
+2026-09-08T19:09:32.1497830Z AssertionError: accepted HTTP socket did not enable TCP_NODELAY
+2026-09-08T19:09:32.1498120Z 
+2026-09-08T19:09:32.1498220Z ======================================================================
+2026-09-08T19:09:32.1499000Z FAIL: test_every_documented_code_is_raised_or_declared (gopyt.test_diagnostics.Coverage.test_every_documented_code_is_raised_or_declared)
+2026-09-08T19:09:32.1499620Z ----------------------------------------------------------------------
+2026-09-08T19:09:32.1500000Z Traceback (most recent call last):
+2026-09-08T19:09:32.1500600Z   File "/Users/runner/work/GoPyt/GoPyt/gopyt/test_diagnostics.py", line 78, in test_every_documented_code_is_raised_or_declared
+2026-09-08T19:09:32.1501160Z     seen = raised_codes()
+2026-09-08T19:09:32.1501460Z            ^^^^^^^^^^^^^^
+2026-09-08T19:09:32.1501850Z   File "/Users/runner/work/GoPyt/GoPyt/gopyt/test_diagnostics.py", line 70, in raised_codes
+2026-09-08T19:09:32.1502470Z     raise AssertionError("the rest of the suite must pass before auditing codes")
+2026-09-08T19:09:32.1502920Z AssertionError: the rest of the suite must pass before auditing codes
+2026-09-08T19:09:32.1503210Z 
+2026-09-08T19:09:32.1503350Z ======================================================================
+2026-09-08T19:09:32.1503870Z FAIL: test_untested_list_stays_honest (gopyt.test_diagnostics.Coverage.test_untested_list_stays_honest)
+2026-09-08T19:09:32.1504370Z A code that a test does reach must not sit in UNTESTED.
+2026-09-08T19:09:32.1505140Z ----------------------------------------------------------------------
+2026-09-08T19:09:32.1505490Z Traceback (most recent call last):
+2026-09-08T19:09:32.1506050Z   File "/Users/runner/work/GoPyt/GoPyt/gopyt/test_diagnostics.py", line 84, in test_untested_list_stays_honest
+2026-09-08T19:09:32.1506510Z     seen = raised_codes()
+2026-09-08T19:09:32.1506780Z            ^^^^^^^^^^^^^^
+2026-09-08T19:09:32.1507210Z   File "/Users/runner/work/GoPyt/GoPyt/gopyt/test_diagnostics.py", line 70, in raised_codes
+2026-09-08T19:09:32.1507770Z     raise AssertionError("the rest of the suite must pass before auditing codes")
+2026-09-08T19:09:32.1508270Z AssertionError: the rest of the suite must pass before auditing codes
+2026-09-08T19:09:32.1508550Z 
+2026-09-08T19:09:32.1508640Z ======================================================================
+2026-09-08T19:09:32.1509110Z FAIL: test_real_http_lifecycle (gopyt.test_inventory.Inventory.test_real_http_lifecycle)
+2026-09-08T19:09:32.1509870Z ----------------------------------------------------------------------
+2026-09-08T19:09:32.1510220Z Traceback (most recent call last):
+2026-09-08T19:09:32.1510710Z   File "/Users/runner/work/GoPyt/GoPyt/gopyt/test_inventory.py", line 31, in test_real_http_lifecycle
+2026-09-08T19:09:32.1511160Z     self.assertEqual(len(acceptance()),8)
+2026-09-08T19:09:32.1511470Z                          ^^^^^^^^^^^^
+2026-09-08T19:09:32.1511850Z   File "/Users/runner/work/GoPyt/GoPyt/tools/inventory_probe.py", line 82, in acceptance
+2026-09-08T19:09:32.1512300Z     server.command('check');server.start()
+2026-09-08T19:09:32.1512610Z                             ^^^^^^^^^^^^^^
+2026-09-08T19:09:32.1512970Z   File "/Users/runner/work/GoPyt/GoPyt/tools/inventory_probe.py", line 67, in start
+2026-09-08T19:09:32.1656960Z ##[error]    raise AssertionError('inventory readiness timeout')
+2026-09-08T19:09:32.1668910Z AssertionError: inventory readiness timeout
+2026-09-08T19:09:32.1669240Z 
+2026-09-08T19:09:32.1669430Z ======================================================================
+2026-09-08T19:09:32.1671420Z FAIL: test_real_http_authentication_encrypted_restart (gopyt.test_security_config.SecurityProfile.test_real_http_authentication_encrypted_restart)
+2026-09-08T19:09:32.1672100Z ----------------------------------------------------------------------
+2026-09-08T19:09:32.1672590Z Traceback (most recent call last):
+2026-09-08T19:09:32.1673600Z   File "/Users/runner/work/GoPyt/GoPyt/gopyt/test_security_config.py", line 98, in test_real_http_authentication_encrypted_restart
+2026-09-08T19:09:32.1674340Z     server.start()
+2026-09-08T19:09:32.1674740Z   File "/Users/runner/work/GoPyt/GoPyt/tools/inventory_probe.py", line 67, in start
+2026-09-08T19:09:32.1676120Z ##[error]    raise AssertionError('inventory readiness timeout')
+2026-09-08T19:09:32.1677350Z AssertionError: inventory readiness timeout
+2026-09-08T19:09:32.1677670Z 
+2026-09-08T19:09:32.1677860Z ----------------------------------------------------------------------
+2026-09-08T19:09:32.1678370Z Ran 644 tests in 555.159s
+2026-09-08T19:09:32.1678710Z 
+2026-09-08T19:09:32.1678890Z FAILED (failures=11, skipped=2)
+2026-09-08T19:09:32.1684650Z ##[error]Process completed with exit code 1.
+2026-09-08T19:09:32.1970790Z Node 20 is being deprecated. This workflow is running with Node 24 by default. If you need to temporarily use Node 20, you can set the ACTIONS_ALLOW_USE_UNSECURE_NODE_VERSION=true environment variable. For more information see: https://github.blog/changelog/2025-09-19-deprecation-of-node-20-on-github-actions-runners/
+2026-09-08T19:09:32.1971840Z Post job cleanup.
+2026-09-08T19:09:32.7943840Z [command]/opt/homebrew/bin/git version
+2026-09-08T19:09:32.8315210Z git version 2.55.0
+2026-09-08T19:09:32.8350170Z Copying '/Users/runner/.gitconfig' to '/Users/runner/work/_temp/d625b12f-a4f1-4886-9c09-84bc30c8a1b5/.gitconfig'
+2026-09-08T19:09:32.8376410Z Temporarily overriding HOME='/Users/runner/work/_temp/d625b12f-a4f1-4886-9c09-84bc30c8a1b5' before making global git config changes
+2026-09-08T19:09:32.8377980Z Adding repository directory to the temporary git global config as a safe directory
+2026-09-08T19:09:32.8384630Z [command]/opt/homebrew/bin/git config --global --add safe.directory /Users/runner/work/GoPyt/GoPyt
+2026-09-08T19:09:32.9030500Z [command]/opt/homebrew/bin/git config --local --name-only --get-regexp core\.sshCommand
+2026-09-08T19:09:32.9415600Z [command]/opt/homebrew/bin/git submodule foreach --recursive sh -c "git config --local --name-only --get-regexp 'core\.sshCommand' && git config --local --unset-all 'core.sshCommand' || :"
+2026-09-08T19:09:33.0808510Z [command]/opt/homebrew/bin/git config --local --name-only --get-regexp http\.https\:\/\/github\.com\/\.extraheader
+2026-09-08T19:09:33.0862030Z http.https://github.com/.extraheader
+2026-09-08T19:09:33.0869220Z [command]/opt/homebrew/bin/git config --local --unset-all http.https://github.com/.extraheader
+2026-09-08T19:09:33.0972590Z [command]/opt/homebrew/bin/git submodule foreach --recursive sh -c "git config --local --name-only --get-regexp 'http\.https\:\/\/github\.com\/\.extraheader' && git config --local --unset-all 'http.https://github.com/.extraheader' || :"
+2026-09-08T19:09:33.1738050Z [command]/opt/homebrew/bin/git config --local --name-only --get-regexp ^includeIf\.gitdir:
+2026-09-08T19:09:33.1916880Z [command]/opt/homebrew/bin/git submodule foreach --recursive git config --local --show-origin --name-only --get-regexp remote.origin.url
+2026-09-08T19:09:33.3005460Z Cleaning up orphan processes
+2026-09-08T19:09:34.1409900Z ##[warning]Node.js 20 is deprecated. The following actions target Node.js 20 but are being forced to run on Node.js 24: actions/checkout@v4, actions/setup-python@v5. For more information see: https://github.blog/changelog/2025-09-19-deprecation-of-node-20-on-github-actions-runners/

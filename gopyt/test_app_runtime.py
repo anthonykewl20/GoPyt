@@ -77,6 +77,11 @@ def request(port, method='GET', path='/echo/abc', body=None):
 
 
 class ApplicationHttpRuntime(unittest.TestCase):
+    def test_listener_startup_does_not_depend_on_reverse_dns(self):
+        with patch('socket.getfqdn', side_effect=AssertionError('reverse DNS must not run')):
+            with running_server() as (_, port):
+                self.assertEqual(request(port)[0], 200)
+
     def test_small_responses_disable_nagle_on_the_accepted_socket(self):
         with running_server() as (vm, port):
             with socket.create_connection(('127.0.0.1', port), timeout=2):

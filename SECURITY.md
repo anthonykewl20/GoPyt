@@ -30,4 +30,4 @@ The LSP accepts local, bounded package snapshots and invokes the checker with CP
 
 ## Reporting
 
-Do not publish credentials or exploit details in an ordinary issue. Use GitHub private vulnerability reporting if it is enabled for this repository; otherwise request a private reporting channel from the maintainer without including exploit details.
+Do not publish credentials or exploit details in an ordinary issue. Private vulnerability reporting is enabled: use the repository Security tab to report privately. Dependency vulnerability alerts are also enabled.

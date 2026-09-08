@@ -37,6 +37,10 @@ The initial stdio LSP supports bounded local overlays, first-error diagnostics, 
 
 A wheel built and installed in an independent temporary environment outside the checkout. Compiler checking, guard entry point, LSP initialization and LSP checker subprocess passed there. The stdlib synchronization check passed for 20 modules. The separate boundary-probe suite passed 17 tests. Linux/macOS and Python 3.11/3.14 GitHub CI are configured; remote results are reported separately after publication.
 
+## Cross-platform follow-up
+
+The first matrix passed both Linux versions but exposed HTTP readiness failures on macOS. A local regression demonstrated that the inherited HTTP server binding called reverse DNS before becoming ready. GoPyT now binds without that unnecessary lookup; 20 focused HTTP/inventory/security integration tests pass locally. The macOS failure log and before/after DNS regression logs are retained. A fresh matrix validates this follow-up. CI also now has explicit time limits and periodic stack traces.
+
 ## Remaining priority work
 
 Independent security review; user/tenant authorization and gateway integration; safe encrypted-store migration and key rotation; rollback detection; sustained encrypted load and recovery testing; multi-aggregate transaction design; richer editor semantics and dependency support; real-world column datasets and safe encrypted paging. Existing guard finite-case limits remain. No universal security, zero-miss or production-readiness claim is made.

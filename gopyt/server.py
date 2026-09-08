@@ -13,6 +13,7 @@ import io
 import queue
 import signal
 import socket
+import socketserver
 import threading
 import time
 from http.server import BaseHTTPRequestHandler, ThreadingHTTPServer
@@ -263,6 +264,12 @@ def serve(vm, module: str):
 
     class Server(ThreadingHTTPServer):
         request_queue_size = QUEUE
+
+        def server_bind(self):
+            # Routing uses declared paths, not the machine's reverse-DNS name.
+            # HTTPServer.server_bind performs an unbounded getfqdn lookup.
+            socketserver.TCPServer.server_bind(self)
+            self.server_name, self.server_port = self.server_address[:2]
 
         def __init__(self, *args):
             super().__init__(*args)
