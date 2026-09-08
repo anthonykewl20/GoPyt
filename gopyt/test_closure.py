@@ -570,15 +570,15 @@ class NetworkBoundary(unittest.TestCase):
             header='task main() -> str | ModelError\n    effects { network, model }\n'
             write_pkg(root,module(header+f'\negress {{ "{origin}" }}\n',header+'{\n    return core.model.complete("probe")\n}\n',
                 uses='use core.model { complete }\nuse core.status { ModelError }',spec_uses='use core.status { ModelError }'),fmt=True)
-            import urllib.request
+            from gopyt import natives
+            import traceback
             failures=[]
-            opening=urllib.request.OpenerDirector.open
-            def capture(*args,**kwargs):
-                try:return opening(*args,**kwargs)
-                except Exception as exc:
-                    failures.append(f'{type(exc).__name__}: {exc}')
-                    raise
-            with patch.dict(os.environ,{'http_proxy':proxy,'HTTP_PROXY':proxy,'no_proxy':'','NO_PROXY':'','GOPYT_MODEL_URL':origin}), patch.object(urllib.request.OpenerDirector,'open',capture):
+            status=natives._status
+            def capture(vm,name,*fields):
+                if name=='ModelError' and fields==('network',):
+                    failures.append(''.join(traceback.format_exception(*sys.exc_info())))
+                return status(vm,name,*fields)
+            with patch.dict(os.environ,{'http_proxy':proxy,'HTTP_PROXY':proxy,'no_proxy':'','NO_PROXY':'','GOPYT_MODEL_URL':origin}), patch.object(natives,'_status',capture):
                 self.assertEqual(run_cli(root,'run','demo.main'),(0,'{"str":"direct"}\n'),failures)
             self.assertEqual(hits,[])
 
