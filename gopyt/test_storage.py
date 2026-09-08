@@ -42,6 +42,19 @@ class Storage(unittest.TestCase):
         self.assertFalse(self.store.compare_exchange('ticket', 'wrong', 'changed'))
         self.assertEqual(self.store.get('ticket'), 'á\0雪')
 
+    def test_lock_creation_retries_a_transient_missing_name(self):
+        original = os.open
+        injected = []
+        def opening(path, flags, *args, **kwargs):
+            if path == 'lock' and flags & os.O_CREAT and not injected:
+                injected.append(True)
+                raise FileNotFoundError('simulated concurrent creation race')
+            return original(path, flags, *args, **kwargs)
+        with patch('gopyt.storage.os.open', side_effect=opening):
+            self.store.put('key', 'retained')
+        self.assertEqual(injected, [True])
+        self.assertEqual(Store(self.root).get('key'), 'retained')
+
     def test_one_winner_for_threaded_conditional_insert(self):
         with concurrent.futures.ThreadPoolExecutor(max_workers=16) as pool:
             wins = list(pool.map(lambda i: Store(self.root).compare_exchange('ticket', None, str(i)), range(32)))

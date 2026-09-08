@@ -276,11 +276,12 @@ def _safe_path(vm, path: str, write=False) -> str | None:
     segs = path.split("/")
     if any(s in ("", ".", "..") for s in segs):
         return None
-    if any(seg in (".git", ".gopyt-state") for seg in segs):
+    folded = path.casefold()
+    if any(seg.casefold() in (".git", ".gopyt-state") for seg in segs):
         return None
-    if write and (segs[0] in ("spec", "impl", "test", "build")
-                  or path in ("gopyt.toml", "gopyt.lock")
-                  or path.endswith((".gopyt", ".gobyte", ".py", ".pyc", ".so"))):
+    if write and (segs[0].casefold() in ("spec", "impl", "test", "build")
+                  or folded in ("gopyt.toml", "gopyt.lock")
+                  or folded.endswith((".gopyt", ".gobyte", ".py", ".pyc", ".so"))):
         return None
     root = os.path.realpath(vm.root)
     full = os.path.join(root, *segs)

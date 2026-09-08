@@ -31,6 +31,23 @@ class StorageError(Exception):
     pass
 
 
+def _open_lock(directory, deadline):
+    """Open an existing lock or create it exclusively, tolerating creation races."""
+    flags = os.O_RDWR | os.O_NOFOLLOW | os.O_NONBLOCK
+    while True:
+        try:
+            return os.open('lock', flags, dir_fd=directory)
+        except FileNotFoundError:
+            try:
+                return os.open('lock', flags | os.O_CREAT | os.O_EXCL,
+                               0o600, dir_fd=directory)
+            except (FileExistsError, FileNotFoundError):
+                # Never follow a replaced directory or wait without a deadline.
+                if os.fstat(directory).st_nlink == 0 or time.monotonic() >= deadline:
+                    raise StorageError('database lock creation failed')
+                time.sleep(0.002)
+
+
 class Store:
     def __init__(self, root=None):
         self.root = os.path.abspath(root) if root is not None else None
@@ -76,8 +93,7 @@ class Store:
                 pass
             directory = os.open(name, os.O_RDONLY | os.O_DIRECTORY | os.O_NOFOLLOW, dir_fd=root)
         try:
-            lock = os.open('lock', os.O_RDWR | os.O_CREAT | os.O_NOFOLLOW | os.O_NONBLOCK,
-                           0o600, dir_fd=directory)
+            lock = _open_lock(directory, deadline)
             try:
                 info = os.fstat(lock)
                 if not stat.S_ISREG(info.st_mode) or info.st_nlink != 1:

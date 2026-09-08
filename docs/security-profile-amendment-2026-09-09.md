@@ -2,7 +2,7 @@
 
 This amendment adds host-level controls without changing GoPyT source syntax or the closed stdlib signatures. Deployment requirements are in [SECURITY.md](../SECURITY.md).
 
-Application file natives require single-link regular files, including before truncation. Reads and writes reject `.git` and `.gopyt-state` path components. Writes additionally reject source/test/build directories, package manifest and lock, and executable/source artifact suffixes listed in `gopyt.natives._safe_path`. Rejection uses the existing file-status result. These constraints apply to application natives; trusted compiler output still uses its own atomic-write path.
+Application file natives require single-link regular files, including before truncation. Reads and writes reject `.git` and `.gopyt-state` path components. Writes additionally reject source/test/build directories, package manifest and lock, and executable/source artifact suffixes listed in `gopyt.natives._safe_path`. Reserved-name checks are case-folded so case-insensitive filesystems cannot bypass them. Rejection uses the existing file-status result. These constraints apply to application natives; trusted compiler output still uses its own atomic-write path.
 
 The strict host profile requires a private external storage key and HTTP service credential. HTTP authentication failure produces an empty 401 response and closes the connection before body decoding or handler execution. Strict listeners require numerical loopback addresses. Existing method, body-size and routing validation remains in force.
 

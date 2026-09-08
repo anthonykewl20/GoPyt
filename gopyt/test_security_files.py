@@ -19,8 +19,8 @@ class FilesystemSecurity(unittest.TestCase):
     def test_runtime_metadata_and_source_writes_are_reserved(self):
         with tempfile.TemporaryDirectory() as root:
             vm=SimpleNamespace(root=root)
-            for path in ['.gopyt-state/store.sqlite3','.git/config','data/.git/config']:
+            for path in ['.gopyt-state/store.sqlite3','.git/config','data/.git/config','.GIT/config','.GOPYT-STATE/store.sqlite3']:
                 self.assertIsNone(_safe_path(vm,path))
-            for path in ['spec/rule.gopyt','impl/rule.gopyt','gopyt.lock','gopyt.toml','build/out.gobyte','helper.py']:
+            for path in ['spec/rule.gopyt','impl/rule.gopyt','gopyt.lock','gopyt.toml','build/out.gobyte','helper.py','GOPYT.LOCK','IMPL/rule.gopyt','helper.PY']:
                 self.assertIsNone(_safe_path(vm,path,write=True))
             self.assertIsNotNone(_safe_path(vm,'records.bin',write=True))

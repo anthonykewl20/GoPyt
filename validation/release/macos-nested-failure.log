@@ -1,0 +1,1574 @@
+﻿2026-09-08T19:37:28.5811900Z Current runner version: '2.337.0'
+2026-09-08T19:37:28.5867550Z ##[group]Runner Image Provisioner
+2026-09-08T19:37:28.5868200Z Hosted Compute Agent
+2026-09-08T19:37:28.5868570Z Version: 20260828.587
+2026-09-08T19:37:28.5868980Z Commit: abac92662cab4cc7352de4f9f9d2e2419aad9c29
+2026-09-08T19:37:28.5869530Z Build Date: 2026-08-28T16:44:25Z
+2026-09-08T19:37:28.5869980Z Worker ID: {16aba16c-f016-448f-9db4-23710141dd07}
+2026-09-08T19:37:28.5870430Z Azure Region: westus
+2026-09-08T19:37:28.5870790Z ##[endgroup]
+2026-09-08T19:37:28.5871760Z ##[group]Operating System
+2026-09-08T19:37:28.5872210Z macOS
+2026-09-08T19:37:28.5872860Z 26.6.2
+2026-09-08T19:37:28.5873240Z 25G83
+2026-09-08T19:37:28.5873600Z ##[endgroup]
+2026-09-08T19:37:28.5874100Z ##[group]Runner Image
+2026-09-08T19:37:28.5874600Z Image: macos-26-arm64
+2026-09-08T19:37:28.5874980Z Version: 20260831.0337.3
+2026-09-08T19:37:28.5875990Z Included Software: https://github.com/actions/runner-images/blob/macos-26-arm64/20260831.0337/images/macos/macos-26-arm64-Readme.md
+2026-09-08T19:37:28.5877260Z Image Release: https://github.com/actions/runner-images/releases/tag/macos-26-arm64%2F20260831.0337
+2026-09-08T19:37:28.5878030Z ##[endgroup]
+2026-09-08T19:37:28.5878960Z ##[group]GITHUB_TOKEN Permissions
+2026-09-08T19:37:28.5880720Z Contents: read
+2026-09-08T19:37:28.5881090Z Metadata: read
+2026-09-08T19:37:28.5881460Z ##[endgroup]
+2026-09-08T19:37:28.5885670Z Secret source: Actions
+2026-09-08T19:37:28.5891800Z Prepare workflow directory
+2026-09-08T19:37:28.6421540Z Prepare all required actions
+2026-09-08T19:37:28.6496570Z Getting action download info
+2026-09-08T19:37:29.1236280Z Download action repository 'actions/checkout@v4' (SHA:11d5960a326750d5838078e36cf38b85af677262)
+2026-09-08T19:37:29.6396910Z Download action repository 'actions/setup-python@v5' (SHA:a26af69be951a213d495a4c3e4e4022e16d87065)
+2026-09-08T19:37:29.9189430Z Complete job name: language (macos-latest, 3.11)
+2026-09-08T19:37:30.0081170Z ##[group]Run echo "TMPDIR=$RUNNER_TEMP" >> "$GITHUB_ENV"
+2026-09-08T19:37:30.0082920Z [36;1mecho "TMPDIR=$RUNNER_TEMP" >> "$GITHUB_ENV"[0m
+2026-09-08T19:37:30.0131440Z shell: /bin/bash -e {0}
+2026-09-08T19:37:30.0132050Z ##[endgroup]
+2026-09-08T19:37:30.1305580Z Node 20 is being deprecated. This workflow is running with Node 24 by default. If you need to temporarily use Node 20, you can set the ACTIONS_ALLOW_USE_UNSECURE_NODE_VERSION=true environment variable. For more information see: https://github.blog/changelog/2025-09-19-deprecation-of-node-20-on-github-actions-runners/
+2026-09-08T19:37:30.1332090Z ##[group]Run actions/checkout@v4
+2026-09-08T19:37:30.1332540Z with:
+2026-09-08T19:37:30.1333060Z   repository: anthonykewl20/GoPyt
+2026-09-08T19:37:30.1336040Z   token: ***
+2026-09-08T19:37:30.1336370Z   ssh-strict: true
+2026-09-08T19:37:30.1336780Z   ssh-user: git
+2026-09-08T19:37:30.1337150Z   persist-credentials: true
+2026-09-08T19:37:30.1337600Z   clean: true
+2026-09-08T19:37:30.1339460Z   sparse-checkout-cone-mode: true
+2026-09-08T19:37:30.1339990Z   fetch-depth: 1
+2026-09-08T19:37:30.1340510Z   fetch-tags: false
+2026-09-08T19:37:30.1340920Z   show-progress: true
+2026-09-08T19:37:30.1342790Z   lfs: false
+2026-09-08T19:37:30.1343830Z   submodules: false
+2026-09-08T19:37:30.1344870Z   set-safe-directory: true
+2026-09-08T19:37:30.1345380Z   allow-unsafe-pr-checkout: false
+2026-09-08T19:37:30.1345850Z env:
+2026-09-08T19:37:30.1346160Z   TMPDIR: /Users/runner/work/_temp
+2026-09-08T19:37:30.1346540Z ##[endgroup]
+2026-09-08T19:37:30.9086700Z Syncing repository: anthonykewl20/GoPyt
+2026-09-08T19:37:30.9090260Z ##[group]Getting Git version info
+2026-09-08T19:37:30.9103410Z Working directory is '/Users/runner/work/GoPyt/GoPyt'
+2026-09-08T19:37:30.9105100Z [command]/opt/homebrew/bin/git version
+2026-09-08T19:37:30.9919320Z git version 2.55.0
+2026-09-08T19:37:30.9975550Z ##[endgroup]
+2026-09-08T19:37:30.9994480Z Copying '/Users/runner/.gitconfig' to '/Users/runner/work/_temp/1d0fe264-790d-45ef-9672-d99cd0461947/.gitconfig'
+2026-09-08T19:37:31.0001350Z Temporarily overriding HOME='/Users/runner/work/_temp/1d0fe264-790d-45ef-9672-d99cd0461947' before making global git config changes
+2026-09-08T19:37:31.0035240Z Adding repository directory to the temporary git global config as a safe directory
+2026-09-08T19:37:31.0040770Z [command]/opt/homebrew/bin/git config --global --add safe.directory /Users/runner/work/GoPyt/GoPyt
+2026-09-08T19:37:31.0318490Z Deleting the contents of '/Users/runner/work/GoPyt/GoPyt'
+2026-09-08T19:37:31.0339580Z ##[group]Initializing the repository
+2026-09-08T19:37:31.0344280Z [command]/opt/homebrew/bin/git init /Users/runner/work/GoPyt/GoPyt
+2026-09-08T19:37:31.0945750Z hint: Using 'master' as the name for the initial branch. This default branch name
+2026-09-08T19:37:31.0953070Z hint: will change to "main" in Git 3.0. To configure the initial branch name
+2026-09-08T19:37:31.0955030Z hint: to use in all of your new repositories, which will suppress this warning,
+2026-09-08T19:37:31.0956570Z hint: call:
+2026-09-08T19:37:31.0957350Z hint:
+2026-09-08T19:37:31.0958220Z hint: 	git config --global init.defaultBranch <name>
+2026-09-08T19:37:31.0959540Z hint:
+2026-09-08T19:37:31.0960640Z hint: Names commonly chosen instead of 'master' are 'main', 'trunk' and
+2026-09-08T19:37:31.0962390Z hint: 'development'. The just-created branch can be renamed via this command:
+2026-09-08T19:37:31.0963720Z hint:
+2026-09-08T19:37:31.0964530Z hint: 	git branch -m <name>
+2026-09-08T19:37:31.0965320Z hint:
+2026-09-08T19:37:31.0966520Z hint: Disable this message with "git config set advice.defaultBranchName false"
+2026-09-08T19:37:31.0968330Z Initialized empty Git repository in /Users/runner/work/GoPyt/GoPyt/.git/
+2026-09-08T19:37:31.0982500Z [command]/opt/homebrew/bin/git remote add origin https://github.com/anthonykewl20/GoPyt
+2026-09-08T19:37:31.1185510Z ##[endgroup]
+2026-09-08T19:37:31.1187010Z ##[group]Disabling automatic garbage collection
+2026-09-08T19:37:31.1188420Z [command]/opt/homebrew/bin/git config --local gc.auto 0
+2026-09-08T19:37:31.1357760Z ##[endgroup]
+2026-09-08T19:37:31.1371870Z ##[group]Setting up auth
+2026-09-08T19:37:31.1376630Z [command]/opt/homebrew/bin/git config --local --name-only --get-regexp core\.sshCommand
+2026-09-08T19:37:31.1512040Z [command]/opt/homebrew/bin/git submodule foreach --recursive sh -c "git config --local --name-only --get-regexp 'core\.sshCommand' && git config --local --unset-all 'core.sshCommand' || :"
+2026-09-08T19:37:31.3532230Z [command]/opt/homebrew/bin/git config --local --name-only --get-regexp http\.https\:\/\/github\.com\/\.extraheader
+2026-09-08T19:37:31.3701980Z [command]/opt/homebrew/bin/git submodule foreach --recursive sh -c "git config --local --name-only --get-regexp 'http\.https\:\/\/github\.com\/\.extraheader' && git config --local --unset-all 'http.https://github.com/.extraheader' || :"
+2026-09-08T19:37:31.6267160Z [command]/opt/homebrew/bin/git config --local --name-only --get-regexp ^includeIf\.gitdir:
+2026-09-08T19:37:31.6575320Z [command]/opt/homebrew/bin/git submodule foreach --recursive git config --local --show-origin --name-only --get-regexp remote.origin.url
+2026-09-08T19:37:31.9878490Z [command]/opt/homebrew/bin/git config --local http.https://github.com/.extraheader AUTHORIZATION: basic ***
+2026-09-08T19:37:32.0183470Z ##[endgroup]
+2026-09-08T19:37:32.0296180Z ##[group]Fetching the repository
+2026-09-08T19:37:32.0400690Z [command]/opt/homebrew/bin/git -c protocol.version=2 fetch --no-tags --prune --no-recurse-submodules --depth=1 origin +ba7c2ee1b5ff210cb639e1c0a45de36f8c57d460:refs/remotes/origin/main
+2026-09-08T19:37:32.6633140Z From https://github.com/anthonykewl20/GoPyt
+2026-09-08T19:37:32.6634960Z  * [new ref]         ba7c2ee1b5ff210cb639e1c0a45de36f8c57d460 -> origin/main
+2026-09-08T19:37:32.6636840Z ##[endgroup]
+2026-09-08T19:37:32.6637380Z ##[group]Determining the checkout info
+2026-09-08T19:37:32.6637890Z ##[endgroup]
+2026-09-08T19:37:32.6640150Z [command]/opt/homebrew/bin/git sparse-checkout disable
+2026-09-08T19:37:32.6747410Z [command]/opt/homebrew/bin/git config --local --unset-all extensions.worktreeConfig
+2026-09-08T19:37:32.6867710Z ##[group]Checking out the ref
+2026-09-08T19:37:32.6870090Z [command]/opt/homebrew/bin/git checkout --progress --force -B main refs/remotes/origin/main
+2026-09-08T19:37:32.8039080Z Switched to a new branch 'main'
+2026-09-08T19:37:32.8046820Z branch 'main' set up to track 'origin/main'.
+2026-09-08T19:37:32.8052960Z ##[endgroup]
+2026-09-08T19:37:32.8285760Z [command]/opt/homebrew/bin/git log -1 --format=%H
+2026-09-08T19:37:32.8470630Z ba7c2ee1b5ff210cb639e1c0a45de36f8c57d460
+2026-09-08T19:37:32.8895420Z Node 20 is being deprecated. This workflow is running with Node 24 by default. If you need to temporarily use Node 20, you can set the ACTIONS_ALLOW_USE_UNSECURE_NODE_VERSION=true environment variable. For more information see: https://github.blog/changelog/2025-09-19-deprecation-of-node-20-on-github-actions-runners/
+2026-09-08T19:37:32.8897150Z ##[group]Run actions/setup-python@v5
+2026-09-08T19:37:32.8897470Z with:
+2026-09-08T19:37:32.8897680Z   python-version: 3.11
+2026-09-08T19:37:32.8897920Z   check-latest: false
+2026-09-08T19:37:32.8900470Z   token: ***
+2026-09-08T19:37:32.8900680Z   update-environment: true
+2026-09-08T19:37:32.8900930Z   allow-prereleases: false
+2026-09-08T19:37:32.8901170Z   freethreaded: false
+2026-09-08T19:37:32.8901440Z env:
+2026-09-08T19:37:32.8901680Z   TMPDIR: /Users/runner/work/_temp
+2026-09-08T19:37:32.8901940Z ##[endgroup]
+2026-09-08T19:37:33.0894570Z ##[group]Installed versions
+2026-09-08T19:37:33.1077120Z (node:1140) [DEP0040] DeprecationWarning: The `punycode` module is deprecated. Please use a userland alternative instead.
+2026-09-08T19:37:33.1081920Z Successfully set up CPython (3.11.9)
+2026-09-08T19:37:33.1092660Z (Use `node --trace-deprecation ...` to show where the warning was created)
+2026-09-08T19:37:33.1093590Z ##[endgroup]
+2026-09-08T19:37:33.1203390Z ##[group]Run python -m pip install -e '.[security]'
+2026-09-08T19:37:33.1203870Z [36;1mpython -m pip install -e '.[security]'[0m
+2026-09-08T19:37:33.1360410Z shell: /bin/bash -e {0}
+2026-09-08T19:37:33.1360880Z env:
+2026-09-08T19:37:33.1361110Z   TMPDIR: /Users/runner/work/_temp
+2026-09-08T19:37:33.1361450Z   pythonLocation: /Users/runner/hostedtoolcache/Python/3.11.9/arm64
+2026-09-08T19:37:33.1361950Z   PKG_CONFIG_PATH: /Users/runner/hostedtoolcache/Python/3.11.9/arm64/lib/pkgconfig
+2026-09-08T19:37:33.1362390Z   Python_ROOT_DIR: /Users/runner/hostedtoolcache/Python/3.11.9/arm64
+2026-09-08T19:37:33.1362810Z   Python2_ROOT_DIR: /Users/runner/hostedtoolcache/Python/3.11.9/arm64
+2026-09-08T19:37:33.1363300Z   Python3_ROOT_DIR: /Users/runner/hostedtoolcache/Python/3.11.9/arm64
+2026-09-08T19:37:33.1363650Z ##[endgroup]
+2026-09-08T19:37:36.6022770Z Obtaining file:///Users/runner/work/GoPyt/GoPyt
+2026-09-08T19:37:36.6060320Z   Installing build dependencies: started
+2026-09-08T19:37:38.2455020Z   Installing build dependencies: finished with status 'done'
+2026-09-08T19:37:38.2470570Z   Checking if build backend supports build_editable: started
+2026-09-08T19:37:38.6515590Z   Checking if build backend supports build_editable: finished with status 'done'
+2026-09-08T19:37:38.6530320Z   Getting requirements to build editable: started
+2026-09-08T19:37:39.0510320Z   Getting requirements to build editable: finished with status 'done'
+2026-09-08T19:37:39.0544790Z   Preparing editable metadata (pyproject.toml): started
+2026-09-08T19:37:39.3315100Z   Preparing editable metadata (pyproject.toml): finished with status 'done'
+2026-09-08T19:37:39.5904280Z Collecting cryptography==50.0.1 (from gopyt==0.1.0)
+2026-09-08T19:37:39.6312710Z   Downloading cryptography-50.0.1-cp311-abi3-macosx_11_0_arm64.whl.metadata (4.3 kB)
+2026-09-08T19:37:39.7869220Z Collecting cffi>=2.0.0 (from cryptography==50.0.1->gopyt==0.1.0)
+2026-09-08T19:37:39.7930840Z   Downloading cffi-2.1.1-cp311-cp311-macosx_11_0_arm64.whl.metadata (2.5 kB)
+2026-09-08T19:37:39.8176450Z Collecting pycparser (from cffi>=2.0.0->cryptography==50.0.1->gopyt==0.1.0)
+2026-09-08T19:37:39.8238510Z   Downloading pycparser-3.0-py3-none-any.whl.metadata (8.2 kB)
+2026-09-08T19:37:39.8396250Z Downloading cryptography-50.0.1-cp311-abi3-macosx_11_0_arm64.whl (4.0 MB)
+2026-09-08T19:37:39.8988080Z    ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ 4.0/4.0 MB 100.4 MB/s  0:00:00
+2026-09-08T19:37:39.9079750Z Downloading cffi-2.1.1-cp311-cp311-macosx_11_0_arm64.whl (184 kB)
+2026-09-08T19:37:39.9310430Z Downloading pycparser-3.0-py3-none-any.whl (48 kB)
+2026-09-08T19:37:39.9623030Z Building wheels for collected packages: gopyt
+2026-09-08T19:37:39.9646660Z   Building editable for gopyt (pyproject.toml): started
+2026-09-08T19:37:40.5716250Z   Building editable for gopyt (pyproject.toml): finished with status 'done'
+2026-09-08T19:37:40.5826740Z   Created wheel for gopyt: filename=gopyt-0.1.0-0.editable-py3-none-any.whl size=4246 sha256=5b0efa2901fa3aa6be1cca01fd4e452e1f8dfa368fbfa4057aa009bdcbf75257
+2026-09-08T19:37:40.5952570Z   Stored in directory: /Users/runner/work/_temp/pip-ephem-wheel-cache-bsg6f6rn/wheels/83/cb/1d/7c9638c7754547d80304e5601c8763cde6088176a08192df96
+2026-09-08T19:37:40.6062440Z Successfully built gopyt
+2026-09-08T19:37:40.6325530Z Installing collected packages: pycparser, gopyt, cffi, cryptography
+2026-09-08T19:37:40.9902810Z 
+2026-09-08T19:37:40.9933250Z Successfully installed cffi-2.1.1 cryptography-50.0.1 gopyt-0.1.0 pycparser-3.0
+2026-09-08T19:37:41.1601900Z ##[group]Run python -u -m unittest discover -s gopyt -t . -v
+2026-09-08T19:37:41.1602340Z [36;1mpython -u -m unittest discover -s gopyt -t . -v[0m
+2026-09-08T19:37:41.1685480Z shell: /bin/bash -e {0}
+2026-09-08T19:37:41.1685860Z env:
+2026-09-08T19:37:41.1686110Z   TMPDIR: /Users/runner/work/_temp
+2026-09-08T19:37:41.1686520Z   pythonLocation: /Users/runner/hostedtoolcache/Python/3.11.9/arm64
+2026-09-08T19:37:41.1686980Z   PKG_CONFIG_PATH: /Users/runner/hostedtoolcache/Python/3.11.9/arm64/lib/pkgconfig
+2026-09-08T19:37:41.1687550Z   Python_ROOT_DIR: /Users/runner/hostedtoolcache/Python/3.11.9/arm64
+2026-09-08T19:37:41.1687980Z   Python2_ROOT_DIR: /Users/runner/hostedtoolcache/Python/3.11.9/arm64
+2026-09-08T19:37:41.1688390Z   Python3_ROOT_DIR: /Users/runner/hostedtoolcache/Python/3.11.9/arm64
+2026-09-08T19:37:41.1688760Z ##[endgroup]
+2026-09-08T19:37:42.0505260Z test_ambiguous_or_oversized_framing_is_rejected (gopyt.test_app_runtime.ApplicationHttpRuntime.test_ambiguous_or_oversized_framing_is_rejected) ... echo
+2026-09-08T19:37:42.1589140Z ok
+2026-09-08T19:37:42.4343010Z test_drip_fed_body_cannot_extend_request_deadline (gopyt.test_app_runtime.ApplicationHttpRuntime.test_drip_fed_body_cannot_extend_request_deadline) ... echo
+2026-09-08T19:37:42.4742050Z ok
+2026-09-08T19:37:42.5702400Z test_full_queue_returns_503_and_recovers_after_clients_close (gopyt.test_app_runtime.ApplicationHttpRuntime.test_full_queue_returns_503_and_recovers_after_clients_close) ... echo
+2026-09-08T19:37:42.5884180Z echo
+2026-09-08T19:37:42.6923480Z ok
+2026-09-08T19:37:42.8882050Z test_idle_connections_eventually_release_workers (gopyt.test_app_runtime.ApplicationHttpRuntime.test_idle_connections_eventually_release_workers) ... echo
+2026-09-08T19:37:42.9598280Z ok
+2026-09-08T19:37:43.0098180Z test_listener_startup_does_not_depend_on_reverse_dns (gopyt.test_app_runtime.ApplicationHttpRuntime.test_listener_startup_does_not_depend_on_reverse_dns) ... echo
+2026-09-08T19:37:43.1253910Z ok
+2026-09-08T19:37:43.1760710Z test_malformed_json_is_rejected_and_connection_remains_usable (gopyt.test_app_runtime.ApplicationHttpRuntime.test_malformed_json_is_rejected_and_connection_remains_usable) ... charge
+2026-09-08T19:37:43.2751190Z ok
+2026-09-08T19:37:43.3368900Z test_pipelined_requests_preserve_response_boundaries (gopyt.test_app_runtime.ApplicationHttpRuntime.test_pipelined_requests_preserve_response_boundaries) ... echo
+2026-09-08T19:37:43.3370870Z echo
+2026-09-08T19:37:43.4486450Z ok
+2026-09-08T19:37:43.5013960Z test_shutdown_interrupts_partial_headers_and_partial_bodies (gopyt.test_app_runtime.ApplicationHttpRuntime.test_shutdown_interrupts_partial_headers_and_partial_bodies) ... ok
+2026-09-08T19:37:43.6736250Z test_small_responses_disable_nagle_on_the_accepted_socket (gopyt.test_app_runtime.ApplicationHttpRuntime.test_small_responses_disable_nagle_on_the_accepted_socket) ... ok
+2026-09-08T19:37:43.7410270Z test_truncated_declared_body_does_not_invoke_post_handler (gopyt.test_app_runtime.ApplicationHttpRuntime.test_truncated_declared_body_does_not_invoke_post_handler) ... echo
+2026-09-08T19:37:43.8509550Z ok
+2026-09-08T19:37:44.0225610Z test_truncated_ignored_get_body_is_still_bad_framing (gopyt.test_app_runtime.ApplicationHttpRuntime.test_truncated_ignored_get_body_is_still_bad_framing) ... ok
+2026-09-08T19:37:44.0806730Z test_dependency_formatting_is_checked (gopyt.test_audit.DependencyAudit.test_dependency_formatting_is_checked) ... ok
+2026-09-08T19:37:44.0974110Z test_digest_path_cannot_inject_additional_entries (gopyt.test_audit.DependencyAudit.test_digest_path_cannot_inject_additional_entries) ... ok
+2026-09-08T19:37:44.1211600Z test_transitive_lock_paths_and_order (gopyt.test_audit.DependencyAudit.test_transitive_lock_paths_and_order) ... ok
+2026-09-08T19:37:44.4080160Z test_apply_failure_rolls_back_sources (gopyt.test_audit.EvolutionAudit.test_apply_failure_rolls_back_sources) ... ok
+2026-09-08T19:37:44.4383960Z test_candidate_does_not_rewrite_string_literals (gopyt.test_audit.EvolutionAudit.test_candidate_does_not_rewrite_string_literals) ... ok
+2026-09-08T19:37:44.7738840Z test_candidates_keep_path_dependencies_resolvable (gopyt.test_audit.EvolutionAudit.test_candidates_keep_path_dependencies_resolvable) ... ok
+2026-09-08T19:37:44.8505110Z test_timeout_leaves_live_sources_and_lock_unchanged (gopyt.test_audit.EvolutionAudit.test_timeout_leaves_live_sources_and_lock_unchanged) ... ok
+2026-09-08T19:37:45.0635090Z test_bad_input_observation_uses_route_template (gopyt.test_audit.HttpBoundaryAudit.test_bad_input_observation_uses_route_template) ... ok
+2026-09-08T19:37:45.2416560Z test_invalid_content_lengths_return_400 (gopyt.test_audit.HttpBoundaryAudit.test_invalid_content_lengths_return_400) ... ok
+2026-09-08T19:37:45.4422340Z test_worker_count_and_accepted_queue_are_bounded (gopyt.test_audit.HttpQueueAudit.test_worker_count_and_accepted_queue_are_bounded) ... ok
+2026-09-08T19:37:45.4525370Z test_decimal_integer_does_not_round_through_float (gopyt.test_audit.JsonAudit.test_decimal_integer_does_not_round_through_float) ... ok
+2026-09-08T19:37:45.4604480Z test_integer_union_round_trip_preserves_tag (gopyt.test_audit.JsonAudit.test_integer_union_round_trip_preserves_tag) ... ok
+2026-09-08T19:37:45.4606830Z test_json_whitespace_and_unicode_validity (gopyt.test_audit.JsonAudit.test_json_whitespace_and_unicode_validity) ... ok
+2026-09-08T19:37:45.4608690Z test_application_ffi_is_rejected (gopyt.test_audit.LoaderAudit.test_application_ffi_is_rejected) ... ok
+2026-09-08T19:37:45.4613670Z test_bad_constant_index (gopyt.test_audit.LoaderAudit.test_bad_constant_index) ... ok
+2026-09-08T19:37:45.4616600Z test_cyclic_type_expression_is_rejected (gopyt.test_audit.LoaderAudit.test_cyclic_type_expression_is_rejected) ... ok
+2026-09-08T19:37:45.4618520Z test_dead_instruction_still_validates_indices (gopyt.test_audit.LoaderAudit.test_dead_instruction_still_validates_indices) ... ok
+2026-09-08T19:37:45.4620570Z test_falling_off_function_is_rejected (gopyt.test_audit.LoaderAudit.test_falling_off_function_is_rejected) ... ok
+2026-09-08T19:37:45.4623280Z test_float_equality_is_rejected_before_execution (gopyt.test_audit.LoaderAudit.test_float_equality_is_rejected_before_execution) ... ok
+2026-09-08T19:37:45.4625150Z test_forged_provide_signature (gopyt.test_audit.LoaderAudit.test_forged_provide_signature) ... ok
+2026-09-08T19:37:45.4626880Z test_forged_stdlib_record_layout (gopyt.test_audit.LoaderAudit.test_forged_stdlib_record_layout) ... ok
+2026-09-08T19:37:45.4629130Z test_join_type_mismatch (gopyt.test_audit.LoaderAudit.test_join_type_mismatch) ... ok
+2026-09-08T19:37:45.4631000Z test_native_argument_type_mismatch (gopyt.test_audit.LoaderAudit.test_native_argument_type_mismatch) ... ok
+2026-09-08T19:37:45.4638890Z test_return_type_mismatch (gopyt.test_audit.LoaderAudit.test_return_type_mismatch) ... ok
+2026-09-08T19:37:45.4818330Z test_seeded_bytecode_mutations_never_crash_decoder (gopyt.test_audit.LoaderAudit.test_seeded_bytecode_mutations_never_crash_decoder) ... ok
+2026-09-08T19:38:20.5587770Z test_model_redirect_cannot_reach_an_unlisted_origin (gopyt.test_audit.NetworkAudit.test_model_redirect_cannot_reach_an_unlisted_origin) ... ok
+2026-09-08T19:38:20.5606220Z test_origin_parser_accepts_query_without_path (gopyt.test_audit.NetworkAudit.test_origin_parser_accepts_query_without_path) ... ok
+2026-09-08T19:38:20.6078070Z test_parallel_arm_keeps_its_modules_egress (gopyt.test_audit.NetworkAudit.test_parallel_arm_keeps_its_modules_egress) ... ok
+2026-09-08T19:38:20.6097890Z test_file_io_rejects_nonregular_entries_without_blocking (gopyt.test_audit.ResourceAudit.test_file_io_rejects_nonregular_entries_without_blocking) ... ok
+2026-09-08T19:38:20.6099590Z test_native_collection_growth_checks_allocation_limit (gopyt.test_audit.ResourceAudit.test_native_collection_growth_checks_allocation_limit) ... ok
+2026-09-08T19:38:20.6627790Z test_build_directory_symlink_does_not_write_outside_package (gopyt.test_audit.SourceAudit.test_build_directory_symlink_does_not_write_outside_package) ... ok
+2026-09-08T19:38:20.7089550Z test_direct_polymorphic_recursion_is_e029_even_when_unused (gopyt.test_audit.SourceAudit.test_direct_polymorphic_recursion_is_e029_even_when_unused) ... ok
+2026-09-08T19:38:20.7394770Z test_duplicate_enum_payload_fields_are_rejected (gopyt.test_audit.SourceAudit.test_duplicate_enum_payload_fields_are_rejected) ... ok
+2026-09-08T19:38:20.7812860Z test_enum_with_float_payload_has_no_equality (gopyt.test_audit.SourceAudit.test_enum_with_float_payload_has_no_equality) ... ok
+2026-09-08T19:38:20.8080080Z test_integer_conversion_keeps_union_variant (gopyt.test_audit.SourceAudit.test_integer_conversion_keeps_union_variant) ... probe
+2026-09-08T19:38:20.8367340Z probe
+2026-09-08T19:38:20.8648140Z probe
+2026-09-08T19:38:20.8710480Z ok
+2026-09-08T19:38:20.8755990Z test_long_number_is_a_lexical_error (gopyt.test_audit.SourceAudit.test_long_number_is_a_lexical_error) ... ok
+2026-09-08T19:38:20.9085920Z test_mutual_polymorphic_recursion_is_e029 (gopyt.test_audit.SourceAudit.test_mutual_polymorphic_recursion_is_e029) ... ok
+2026-09-08T19:38:20.9235190Z test_nested_directory_symlink_is_not_ignored (gopyt.test_audit.SourceAudit.test_nested_directory_symlink_is_not_ignored) ... ok
+2026-09-08T19:38:20.9238280Z test_non_ascii_names_and_numbers_are_rejected (gopyt.test_audit.SourceAudit.test_non_ascii_names_and_numbers_are_rejected) ... ok
+2026-09-08T19:38:20.9658070Z test_recursive_record_equality_terminates (gopyt.test_audit.SourceAudit.test_recursive_record_equality_terminates) ... ok
+2026-09-08T19:38:21.1978690Z test_seeded_arithmetic_matches_integer_reference (gopyt.test_audit.SourceAudit.test_seeded_arithmetic_matches_integer_reference) ... arithmetic
+2026-09-08T19:38:21.2171500Z ok
+2026-09-08T19:38:21.2222810Z test_source_directory_symlink_rejected_before_fmt (gopyt.test_audit.SourceAudit.test_source_directory_symlink_rejected_before_fmt) ... ok
+2026-09-08T19:38:21.2638470Z test_union_equality_different_active_members_is_false (gopyt.test_audit.SourceAudit.test_union_equality_different_active_members_is_false) ... probe
+2026-09-08T19:38:21.2733900Z ok
+2026-09-08T19:38:21.2874440Z test_check_takes_no_argument (gopyt.test_cli.Commands.test_check_takes_no_argument) ... ok
+2026-09-08T19:38:21.3295600Z test_check_writes_the_artifact (gopyt.test_cli.Commands.test_check_writes_the_artifact) ... ok
+2026-09-08T19:38:21.3424720Z test_no_command (gopyt.test_cli.Commands.test_no_command) ... ok
+2026-09-08T19:38:21.3527870Z test_no_manifest_is_e046 (gopyt.test_cli.Commands.test_no_manifest_is_e046) ... ok
+2026-09-08T19:38:21.3626650Z test_run_needs_exactly_one_target (gopyt.test_cli.Commands.test_run_needs_exactly_one_target) ... ok
+2026-09-08T19:38:21.3642680Z test_run_of_a_fn_is_e074 (gopyt.test_cli.Commands.test_run_of_a_fn_is_e074)
+2026-09-08T19:38:21.3913620Z implementer.md 9: run targets a task or workflow. ... ok
+2026-09-08T19:38:21.4480120Z test_run_of_a_task_prints_json (gopyt.test_cli.Commands.test_run_of_a_task_prints_json) ... x
+2026-09-08T19:38:21.4571860Z ok
+2026-09-08T19:38:21.4892200Z test_run_of_a_task_with_arguments_is_e022 (gopyt.test_cli.Commands.test_run_of_a_task_with_arguments_is_e022) ... ok
+2026-09-08T19:38:21.5066720Z test_run_of_an_unknown_target_is_e074 (gopyt.test_cli.Commands.test_run_of_an_unknown_target_is_e074) ... ok
+2026-09-08T19:38:21.5375770Z test_run_prints_nothing_for_unit (gopyt.test_cli.Commands.test_run_prints_nothing_for_unit) ... x
+2026-09-08T19:38:21.5418270Z ok
+2026-09-08T19:38:21.5578360Z test_unknown_command (gopyt.test_cli.Commands.test_unknown_command) ... ok
+2026-09-08T19:38:21.5712080Z test_a_module_header_must_match_a_nested_path (gopyt.test_cli.NestedModules.test_a_module_header_must_match_a_nested_path) ... ok
+2026-09-08T19:38:21.6374050Z test_nested_spec_impl_and_test_modules (gopyt.test_cli.NestedModules.test_nested_spec_impl_and_test_modules) ... charge
+2026-09-08T19:38:21.6422210Z ok
+2026-09-08T19:38:21.6843850Z test_a_failing_test_exits_two_at_the_first_trap (gopyt.test_cli.TestOrdering.test_a_failing_test_exits_two_at_the_first_trap) ... ok
+2026-09-08T19:38:21.7492440Z test_tests_run_in_lexicographic_order (gopyt.test_cli.TestOrdering.test_tests_run_in_lexicographic_order) ... ok
+2026-09-08T19:38:21.7499170Z test_back_edge_cannot_exempt_a_double_store (gopyt.test_closure.ArtifactPolicy.test_back_edge_cannot_exempt_a_double_store) ... ok
+2026-09-08T19:38:21.7500300Z test_duplicate_union_types_with_different_indices_are_rejected (gopyt.test_closure.ArtifactPolicy.test_duplicate_union_types_with_different_indices_are_rejected) ... ok
+2026-09-08T19:38:21.7501490Z test_evolve_round_trip_and_validation (gopyt.test_closure.ArtifactPolicy.test_evolve_round_trip_and_validation) ... ok
+2026-09-08T19:38:21.8299920Z test_multiple_agents_require_identical_bounds (gopyt.test_closure.ArtifactPolicy.test_multiple_agents_require_identical_bounds) ... ok
+2026-09-08T19:38:21.8300880Z test_reset_parameters_and_load_after_reset_are_rejected (gopyt.test_closure.ArtifactPolicy.test_reset_parameters_and_load_after_reset_are_rejected) ... ok
+2026-09-08T19:38:22.7031240Z test_rich_artifact_mutations_never_raise_host_exceptions (gopyt.test_closure.ArtifactPolicy.test_rich_artifact_mutations_never_raise_host_exceptions) ... ok
+2026-09-08T19:38:22.7360520Z test_custom_trait_stub_has_all_members (gopyt.test_closure.Authoring.test_custom_trait_stub_has_all_members) ... ok
+2026-09-08T19:38:22.7637380Z test_derived_from_str_cannot_be_overridden (gopyt.test_closure.Authoring.test_derived_from_str_cannot_be_overridden) ... ok
+2026-09-08T19:38:22.8063180Z test_identity_and_constructor_are_determined (gopyt.test_closure.Authoring.test_identity_and_constructor_are_determined) ... ok
+2026-09-08T19:38:22.8470620Z test_missing_member_repair_preserves_completed_body (gopyt.test_closure.Authoring.test_missing_member_repair_preserves_completed_body) ... ok
+2026-09-08T19:38:22.8912460Z test_missing_test_has_safe_canonical_file_repair (gopyt.test_closure.Authoring.test_missing_test_has_safe_canonical_file_repair) ... ok
+2026-09-08T19:38:22.9172970Z test_serve_body_is_compiler_determined (gopyt.test_closure.Authoring.test_serve_body_is_compiler_determined) ... ok
+2026-09-08T19:38:22.9733500Z test_serve_cannot_add_an_arbitrary_body (gopyt.test_closure.Authoring.test_serve_cannot_add_an_arbitrary_body) ... ok
+2026-09-08T19:38:23.1218300Z test_bloom_and_trace_dump_have_fixed_bounds (gopyt.test_closure.BoundedState.test_bloom_and_trace_dump_have_fixed_bounds) ... ok
+2026-09-08T19:38:23.1306820Z test_full_bucket_pressure_does_not_rescan_before_refill (gopyt.test_closure.BoundedState.test_full_bucket_pressure_does_not_rescan_before_refill) ... ok
+2026-09-08T19:38:23.1307720Z test_parameter_change_cannot_bypass_limit (gopyt.test_closure.BoundedState.test_parameter_change_cannot_bypass_limit) ... ok
+2026-09-08T19:38:23.1420870Z test_pressure_does_not_reset_depleted_keys (gopyt.test_closure.BoundedState.test_pressure_does_not_reset_depleted_keys) ... ok
+2026-09-08T19:38:23.2681210Z test_vm_counts_nominal_failure_without_manual_note (gopyt.test_closure.BoundedState.test_vm_counts_nominal_failure_without_manual_note) ... ok
+2026-09-08T19:38:23.5108760Z test_collection_during_parallel_calls_preserves_results (gopyt.test_closure.Memory.test_collection_during_parallel_calls_preserves_results) ... ok
+2026-09-08T19:38:23.5109880Z test_cycles_are_swept_with_host_cycle_gc_disabled (gopyt.test_closure.Memory.test_cycles_are_swept_with_host_cycle_gc_disabled) ... ok
+2026-09-08T19:38:23.6866340Z test_long_lived_vm_reclaims_temporary_values (gopyt.test_closure.Memory.test_long_lived_vm_reclaims_temporary_values) ... ok
+2026-09-08T19:38:23.7808120Z test_native_only_allocations_trigger_collection (gopyt.test_closure.Memory.test_native_only_allocations_trigger_collection) ... ok
+2026-09-08T19:38:23.7818130Z test_root_keeps_transitive_graph_and_releases_it (gopyt.test_closure.Memory.test_root_keeps_transitive_graph_and_releases_it) ... ok
+2026-09-08T19:38:23.8458320Z test_ambient_proxy_does_not_receive_allowed_request (gopyt.test_closure.NetworkBoundary.test_ambient_proxy_does_not_receive_allowed_request) ... FAIL
+2026-09-08T19:38:24.3108400Z test_real_tls_verification_and_model_protocol (gopyt.test_closure.NetworkBoundary.test_real_tls_verification_and_model_protocol) ... ok
+2026-09-08T19:38:24.5494960Z test_candidate_tampering_is_refused_before_live_writes (gopyt.test_closure.Transactions.test_candidate_tampering_is_refused_before_live_writes) ... ok
+2026-09-08T19:38:24.7937450Z test_checked_survivors_use_persistent_weights_and_tag_replay (gopyt.test_closure.Transactions.test_checked_survivors_use_persistent_weights_and_tag_replay) ... ok
+2026-09-08T19:38:24.8149690Z test_committed_journal_is_cleaned_without_rollback (gopyt.test_closure.Transactions.test_committed_journal_is_cleaned_without_rollback) ... ok
+2026-09-08T19:38:24.8929510Z test_cooperating_reader_waits_until_commit (gopyt.test_closure.Transactions.test_cooperating_reader_waits_until_commit) ... ok
+2026-09-08T19:38:25.0788460Z test_descriptor_access_rejects_a_flipping_symlink (gopyt.test_closure.Transactions.test_descriptor_access_rejects_a_flipping_symlink) ... ok
+2026-09-08T19:38:25.0915400Z test_external_edit_conflict_is_preserved (gopyt.test_closure.Transactions.test_external_edit_conflict_is_preserved) ... ok
+2026-09-08T19:38:25.4112890Z test_process_death_after_each_write_recovers_complete_old_tree (gopyt.test_closure.Transactions.test_process_death_after_each_write_recovers_complete_old_tree) ... ok
+2026-09-08T19:38:25.4238610Z test_source_digest_must_match_bytes_that_were_parsed (gopyt.test_closure.Transactions.test_source_digest_must_match_bytes_that_were_parsed) ... ok
+2026-09-08T19:38:25.4239760Z test_a_comment_is_never_a_contract (gopyt.test_comments.Comments.test_a_comment_is_never_a_contract)
+2026-09-08T19:38:25.4244970Z fmt.md: comments never become a contract or an `open`. ... ok
+2026-09-08T19:38:25.4262190Z test_a_commented_package_checks (gopyt.test_comments.Comments.test_a_commented_package_checks)
+2026-09-08T19:38:25.4503480Z Types live in spec/ only (elaborator.md); comments live in both. ... ok
+2026-09-08T19:38:25.4506370Z test_comment_only_module_keeps_its_text (gopyt.test_comments.Comments.test_comment_only_module_keeps_its_text) ... ok
+2026-09-08T19:38:25.4581410Z test_fmt_does_not_delete_comments_on_disk (gopyt.test_comments.Comments.test_fmt_does_not_delete_comments_on_disk) ... ok
+2026-09-08T19:38:25.4768040Z test_formatting_is_idempotent_with_comments (gopyt.test_comments.Comments.test_formatting_is_idempotent_with_comments) ... ok
+2026-09-08T19:38:25.4769130Z test_formatting_keeps_every_comment (gopyt.test_comments.Comments.test_formatting_keeps_every_comment) ... ok
+2026-09-08T19:38:25.4769760Z test_trailing_whitespace_is_removed (gopyt.test_comments.Comments.test_trailing_whitespace_is_removed) ... ok
+2026-09-08T19:38:25.4830380Z test_c019_list_empty_type (gopyt.test_conformance.Assertions.test_c019_list_empty_type) ... ok
+2026-09-08T19:38:25.4958170Z test_c020_map_empty_type (gopyt.test_conformance.Assertions.test_c020_map_empty_type) ... ok
+2026-09-08T19:38:25.5299780Z test_c022_parallel_runs_in_source_order (gopyt.test_conformance.Assertions.test_c022_parallel_runs_in_source_order) ... ok
+2026-09-08T19:38:25.5437590Z test_c024_division_by_zero_traps (gopyt.test_conformance.Assertions.test_c024_division_by_zero_traps) ... start
+2026-09-08T19:38:25.5450880Z ok
+2026-09-08T19:38:25.5703560Z test_c026_format_is_idempotent (gopyt.test_conformance.Assertions.test_c026_format_is_idempotent) ... ok
+2026-09-08T19:38:25.5914090Z test_c027_jump_into_operand (gopyt.test_conformance.Assertions.test_c027_jump_into_operand) ... ok
+2026-09-08T19:38:25.6204380Z test_c030_stale_lock (gopyt.test_conformance.Assertions.test_c030_stale_lock) ... ok
+2026-09-08T19:38:25.6609350Z test_c031_test_effects_are_inferred (gopyt.test_conformance.Assertions.test_c031_test_effects_are_inferred) ... ok
+2026-09-08T19:38:25.7034160Z test_c032_effectful_test_uses_the_runtime (gopyt.test_conformance.Assertions.test_c032_effectful_test_uses_the_runtime) ... ok
+2026-09-08T19:38:25.7378850Z test_c033_obligation_discharged (gopyt.test_conformance.Assertions.test_c033_obligation_discharged) ... ok
+2026-09-08T19:38:25.7545550Z test_c037_json_extra_key (gopyt.test_conformance.Assertions.test_c037_json_extra_key) ... decode
+2026-09-08T19:38:25.7546470Z ok
+2026-09-08T19:38:25.7616400Z test_c040_propose_needs_evolve (gopyt.test_conformance.Assertions.test_c040_propose_needs_evolve) ... ok
+2026-09-08T19:38:25.7822100Z test_c001_pure_i64 (gopyt.test_conformance.MustAccept.test_c001_pure_i64) ... ok
+2026-09-08T19:38:25.7939080Z test_c014_param_comma (gopyt.test_conformance.MustAccept.test_c014_param_comma) ... ok
+2026-09-08T19:38:25.8109630Z test_c018_return_unit (gopyt.test_conformance.MustAccept.test_c018_return_unit) ... ok
+2026-09-08T19:38:25.8306380Z test_c002_missing_use (gopyt.test_conformance.MustReject.test_c002_missing_use) ... ok
+2026-09-08T19:38:25.8474030Z test_c003_inexhaustive_match (gopyt.test_conformance.MustReject.test_c003_inexhaustive_match) ... ok
+2026-09-08T19:38:25.8620120Z test_c004_fn_cannot_call_task (gopyt.test_conformance.MustReject.test_c004_fn_cannot_call_task) ... ok
+2026-09-08T19:38:25.8763640Z test_c005_int_is_not_a_type (gopyt.test_conformance.MustReject.test_c005_int_is_not_a_type) ... ok
+2026-09-08T19:38:25.8828000Z test_c006_userid_illegal (gopyt.test_conformance.MustReject.test_c006_userid_illegal) ... ok
+2026-09-08T19:38:25.8892170Z test_c007_leading_zero (gopyt.test_conformance.MustReject.test_c007_leading_zero) ... ok
+2026-09-08T19:38:25.8958380Z test_c008_if_is_not_an_expression (gopyt.test_conformance.MustReject.test_c008_if_is_not_an_expression) ... ok
+2026-09-08T19:38:25.9103100Z test_c009_open_fails_check (gopyt.test_conformance.MustReject.test_c009_open_fails_check) ... ok
+2026-09-08T19:38:25.9205250Z test_c010_parallel_requires_bounds (gopyt.test_conformance.MustReject.test_c010_parallel_requires_bounds) ... ok
+2026-09-08T19:38:25.9349890Z test_c011_json_requires_provide (gopyt.test_conformance.MustReject.test_c011_json_requires_provide) ... ok
+2026-09-08T19:38:25.9622970Z test_c012_serve_arity (gopyt.test_conformance.MustReject.test_c012_serve_arity) ... ok
+2026-09-08T19:38:25.9740660Z test_c013_param_comma_required (gopyt.test_conformance.MustReject.test_c013_param_comma_required) ... ok
+2026-09-08T19:38:25.9904600Z test_c015_effect_comma_required (gopyt.test_conformance.MustReject.test_c015_effect_comma_required) ... ok
+2026-09-08T19:38:25.9988640Z test_c016_no_trailing_comma (gopyt.test_conformance.MustReject.test_c016_no_trailing_comma) ... ok
+2026-09-08T19:38:26.0105170Z test_c017_missing_return_path (gopyt.test_conformance.MustReject.test_c017_missing_return_path) ... ok
+2026-09-08T19:38:26.0207020Z test_c021_map_key_is_closed (gopyt.test_conformance.MustReject.test_c021_map_key_is_closed) ... ok
+2026-09-08T19:38:26.0269250Z test_c023_parallel_max_zero (gopyt.test_conformance.MustReject.test_c023_parallel_max_zero) ... ok
+2026-09-08T19:38:26.0362980Z test_c025_if_in_value_position (gopyt.test_conformance.MustReject.test_c025_if_in_value_position) ... ok
+2026-09-08T19:38:26.0421330Z test_c028_unknown_effect (gopyt.test_conformance.MustReject.test_c028_unknown_effect) ... ok
+2026-09-08T19:38:26.0563010Z test_c029_non_test_open (gopyt.test_conformance.MustReject.test_c029_non_test_open) ... ok
+2026-09-08T19:38:26.0644830Z test_c034_app_ffi (gopyt.test_conformance.MustReject.test_c034_app_ffi) ... ok
+2026-09-08T19:38:26.0803420Z test_c035_request_without_egress (gopyt.test_conformance.MustReject.test_c035_request_without_egress) ... ok
+2026-09-08T19:38:26.0934240Z test_c036_secret_in_log (gopyt.test_conformance.MustReject.test_c036_secret_in_log) ... ok
+2026-09-08T19:38:26.1174510Z test_c038_eval (gopyt.test_conformance.MustReject.test_c038_eval) ... ok
+2026-09-08T19:38:26.1538020Z test_c039_evolve_without_model (gopyt.test_conformance.MustReject.test_c039_evolve_without_model) ... ok
+2026-09-08T19:38:26.1596010Z test_c041_evolve_bounds (gopyt.test_conformance.MustReject.test_c041_evolve_bounds) ... ok
+2026-09-08T19:38:26.1821610Z test_changed_contract_kind_is_drift (gopyt.test_contract_drift.ContractDriftTests.test_changed_contract_kind_is_drift) ... ok
+2026-09-08T19:38:26.2032110Z test_changed_literal_is_drift (gopyt.test_contract_drift.ContractDriftTests.test_changed_literal_is_drift) ... ok
+2026-09-08T19:38:26.2304790Z test_changed_operator_is_drift (gopyt.test_contract_drift.ContractDriftTests.test_changed_operator_is_drift) ... ok
+2026-09-08T19:38:26.2568260Z test_comments_and_source_lines_are_not_drift (gopyt.test_contract_drift.ContractDriftTests.test_comments_and_source_lines_are_not_drift) ... ok
+2026-09-08T19:38:26.3017680Z test_nested_expression_change_is_drift (gopyt.test_contract_drift.ContractDriftTests.test_nested_expression_change_is_drift) ... ok
+2026-09-08T19:38:26.3245300Z test_reordered_clauses_are_drift (gopyt.test_contract_drift.ContractDriftTests.test_reordered_clauses_are_drift) ... ok
+2026-09-08T19:38:26.3691810Z test_declaring_the_dependency_makes_the_import_legal (gopyt.test_deps.DirectImports.test_declaring_the_dependency_makes_the_import_legal) ... ok
+2026-09-08T19:38:26.3847530Z test_reaching_past_a_dependency_is_e043 (gopyt.test_deps.DirectImports.test_reaching_past_a_dependency_is_e043) ... ok
+2026-09-08T19:38:26.4057090Z test_e042_cycle (gopyt.test_deps.Graph.test_e042_cycle) ... ok
+2026-09-08T19:38:26.4215320Z test_e043_missing_path (gopyt.test_deps.Graph.test_e043_missing_path) ... ok
+2026-09-08T19:38:26.4345990Z test_e044_name_mismatch (gopyt.test_deps.Graph.test_e044_name_mismatch) ... ok
+2026-09-08T19:38:26.4556320Z test_e045_same_name_two_paths (gopyt.test_deps.Graph.test_e045_same_name_two_paths) ... ok
+2026-09-08T19:38:26.4703110Z test_a_root_module_may_not_shadow_a_dependency (gopyt.test_deps.Names.test_a_root_module_may_not_shadow_a_dependency) ... ok
+2026-09-08T19:38:26.4793070Z test_a_stdlib_prefix_may_not_be_an_app_module (gopyt.test_deps.Names.test_a_stdlib_prefix_may_not_be_an_app_module) ... ok
+2026-09-08T19:38:26.4988670Z test_dep_digest_tracks_dep_sources (gopyt.test_deps.Resolved.test_dep_digest_tracks_dep_sources) ... ok
+2026-09-08T19:38:26.5201890Z test_dep_module_is_callable_and_reaches_bytecode (gopyt.test_deps.Resolved.test_dep_module_is_callable_and_reaches_bytecode) ... ok
+2026-09-08T19:38:26.5312600Z test_lock_lists_root_first_then_deps_by_name (gopyt.test_deps.Resolved.test_lock_lists_root_first_then_deps_by_name) ... ok
+2026-09-08T19:38:26.5541370Z test_missing_lock_is_e041_then_check_passes (gopyt.test_deps.Resolved.test_missing_lock_is_e041_then_check_passes) ... ok
+2026-09-08T19:38:26.6205100Z test_every_documented_code_is_raised_or_declared (gopyt.test_diagnostics.Coverage.test_every_documented_code_is_raised_or_declared) ... echo
+2026-09-08T19:38:26.9700520Z echo
+2026-09-08T19:38:27.0760840Z echo
+2026-09-08T19:38:27.0890490Z echo
+2026-09-08T19:38:27.4159630Z echo
+2026-09-08T19:38:27.5304090Z echo
+2026-09-08T19:38:27.6861480Z charge
+2026-09-08T19:38:27.8561650Z echo
+2026-09-08T19:38:27.8561990Z echo
+2026-09-08T19:38:28.2286000Z echo
+2026-09-08T19:38:30.7276590Z probe
+2026-09-08T19:38:30.7940480Z probe
+2026-09-08T19:38:30.8630360Z probe
+2026-09-08T19:38:31.3935340Z arithmetic
+2026-09-08T19:38:31.5224440Z probe
+2026-09-08T19:38:31.7529960Z x
+2026-09-08T19:38:31.9903970Z x
+2026-09-08T19:38:32.1533770Z charge
+2026-09-08T19:38:39.4065250Z start
+2026-09-08T19:38:39.7970220Z decode
+2026-09-08T19:38:50.1801630Z start
+2026-09-08T19:39:04.7293210Z ERROR:root:Refund transaction failed
+2026-09-08T19:39:04.7389890Z Traceback (most recent call last):
+2026-09-08T19:39:04.7530330Z   File "/Users/runner/work/GoPyt/GoPyt/examples/guarded_refunds/service.py", line 236, in do_POST
+2026-09-08T19:39:04.7531610Z     result = self.server.ledger.apply(body)
+2026-09-08T19:39:04.7633850Z              ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+2026-09-08T19:39:04.7737390Z   File "/Users/runner/work/GoPyt/GoPyt/examples/guarded_refunds/service.py", line 143, in apply
+2026-09-08T19:39:04.7792750Z     return self._apply(body)
+2026-09-08T19:39:04.7794500Z            ^^^^^^^^^^^^^^^^^
+2026-09-08T19:39:04.7797010Z   File "/Users/runner/work/GoPyt/GoPyt/examples/guarded_refunds/service.py", line 180, in _apply
+2026-09-08T19:39:04.7810760Z     conn.execute('INSERT INTO requests VALUES(?,?,?,?)', (order_id,key,payload,canonical(response).decode()))
+2026-09-08T19:39:04.7811340Z sqlite3.IntegrityError: injected
+2026-09-08T19:39:15.8835630Z ERROR:root:Refund transaction failed
+2026-09-08T19:39:15.8939150Z Traceback (most recent call last):
+2026-09-08T19:39:15.9042040Z   File "/Users/runner/work/GoPyt/GoPyt/examples/guarded_refunds/service.py", line 236, in do_POST
+2026-09-08T19:39:15.9141590Z     result = self.server.ledger.apply(body)
+2026-09-08T19:39:15.9244250Z              ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+2026-09-08T19:39:15.9352700Z   File "/Users/runner/work/GoPyt/GoPyt/examples/guarded_refunds/service.py", line 143, in apply
+2026-09-08T19:39:15.9447720Z     return self._apply(body)
+2026-09-08T19:39:15.9549580Z            ^^^^^^^^^^^^^^^^^
+2026-09-08T19:39:15.9653890Z   File "/Users/runner/work/GoPyt/GoPyt/examples/guarded_refunds/service.py", line 168, in _apply
+2026-09-08T19:39:15.9753570Z     allowed = timed_call(self.vm, self.ids['refund_policy.allowed'],
+2026-09-08T19:39:15.9857110Z               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+2026-09-08T19:39:15.9961610Z   File "/Library/Frameworks/Python.framework/Versions/3.11/lib/python3.11/unittest/mock.py", line 1124, in __call__
+2026-09-08T19:39:16.0071120Z     return self._mock_call(*args, **kwargs)
+2026-09-08T19:39:16.0162290Z            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+2026-09-08T19:39:16.0265010Z   File "/Library/Frameworks/Python.framework/Versions/3.11/lib/python3.11/unittest/mock.py", line 1128, in _mock_call
+2026-09-08T19:39:16.0370780Z     return self._execute_mock_call(*args, **kwargs)
+2026-09-08T19:39:16.0472660Z            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+2026-09-08T19:39:16.0576250Z   File "/Library/Frameworks/Python.framework/Versions/3.11/lib/python3.11/unittest/mock.py", line 1183, in _execute_mock_call
+2026-09-08T19:39:16.0678010Z     raise effect
+2026-09-08T19:39:16.0780030Z gopyt.vm.Trap: trap 2
+2026-09-08T19:39:16.0883200Z ERROR:root:Refund transaction failed
+2026-09-08T19:39:16.0986230Z Traceback (most recent call last):
+2026-09-08T19:39:16.1087570Z   File "/Users/runner/work/GoPyt/GoPyt/examples/guarded_refunds/service.py", line 236, in do_POST
+2026-09-08T19:39:16.1190930Z     result = self.server.ledger.apply(body)
+2026-09-08T19:39:16.1292810Z              ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+2026-09-08T19:39:16.1396440Z   File "/Users/runner/work/GoPyt/GoPyt/examples/guarded_refunds/service.py", line 143, in apply
+2026-09-08T19:39:16.1497930Z     return self._apply(body)
+2026-09-08T19:39:16.1598600Z            ^^^^^^^^^^^^^^^^^
+2026-09-08T19:39:16.1700810Z   File "/Users/runner/work/GoPyt/GoPyt/examples/guarded_refunds/service.py", line 168, in _apply
+2026-09-08T19:39:16.1801550Z     allowed = timed_call(self.vm, self.ids['refund_policy.allowed'],
+2026-09-08T19:39:16.1904950Z               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+2026-09-08T19:39:16.2008340Z   File "/Library/Frameworks/Python.framework/Versions/3.11/lib/python3.11/unittest/mock.py", line 1124, in __call__
+2026-09-08T19:39:16.2108280Z     return self._mock_call(*args, **kwargs)
+2026-09-08T19:39:16.2220150Z            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+2026-09-08T19:39:16.2323570Z   File "/Library/Frameworks/Python.framework/Versions/3.11/lib/python3.11/unittest/mock.py", line 1128, in _mock_call
+2026-09-08T19:39:16.2428140Z     return self._execute_mock_call(*args, **kwargs)
+2026-09-08T19:39:16.2532130Z            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+2026-09-08T19:39:16.2540030Z   File "/Library/Frameworks/Python.framework/Versions/3.11/lib/python3.11/unittest/mock.py", line 1183, in _execute_mock_call
+2026-09-08T19:39:16.2643060Z     raise effect
+2026-09-08T19:39:16.2745120Z gopyt.vm.Cancelled
+2026-09-08T19:39:24.2313090Z ERROR:root:Refund transaction failed
+2026-09-08T19:39:24.2325340Z Traceback (most recent call last):
+2026-09-08T19:39:24.2331910Z   File "/Users/runner/work/GoPyt/GoPyt/examples/guarded_refunds/service.py", line 236, in do_POST
+2026-09-08T19:39:24.2333470Z     result = self.server.ledger.apply(body)
+2026-09-08T19:39:24.2351920Z              ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+2026-09-08T19:39:24.2354360Z   File "/Users/runner/work/GoPyt/GoPyt/examples/guarded_refunds/service.py", line 143, in apply
+2026-09-08T19:39:24.2355810Z     return self._apply(body)
+2026-09-08T19:39:24.2356380Z            ^^^^^^^^^^^^^^^^^
+2026-09-08T19:39:24.2357170Z   File "/Users/runner/work/GoPyt/GoPyt/examples/guarded_refunds/service.py", line 172, in _apply
+2026-09-08T19:39:24.2358490Z     after = timed_call(self.vm, self.ids['refund_policy.after_refund'],
+2026-09-08T19:39:24.2362190Z             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+2026-09-08T19:39:24.2363640Z   File "/Users/runner/work/GoPyt/GoPyt/gopyt/guard.py", line 337, in timed_call
+2026-09-08T19:39:24.2364660Z     return vm.call(fn, list(args))
+2026-09-08T19:39:24.2365240Z            ^^^^^^^^^^^^^^^^^^^^^^^
+2026-09-08T19:39:24.2366180Z   File "/Users/runner/work/GoPyt/GoPyt/gopyt/vm.py", line 157, in call
+2026-09-08T19:39:24.2367300Z     result = self.heap.handoff(self._call(fn_id, args, caller_effects))
+2026-09-08T19:39:24.2368230Z                                ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+2026-09-08T19:39:24.2369290Z   File "/Users/runner/work/GoPyt/GoPyt/gopyt/vm.py", line 190, in _call
+2026-09-08T19:39:24.2370250Z     return self.exec(fn_id, func, args)
+2026-09-08T19:39:24.2370880Z            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+2026-09-08T19:39:24.2371840Z   File "/Users/runner/work/GoPyt/GoPyt/gopyt/vm.py", line 208, in exec
+2026-09-08T19:39:24.2372710Z     return self._exec_frame(frame)
+2026-09-08T19:39:24.2373380Z            ^^^^^^^^^^^^^^^^^^^^^^^
+2026-09-08T19:39:24.2374270Z   File "/Users/runner/work/GoPyt/GoPyt/gopyt/vm.py", line 422, in _exec_frame
+2026-09-08T19:39:24.2375940Z     raise Trap(ops.TRAP_REQUIRES if op == ops.REQUIRE else ops.TRAP_ENSURES)
+2026-09-08T19:39:24.2377240Z gopyt.vm.Trap: trap 2
+2026-09-08T19:39:31.5385570Z guard prepare: duplicate JSON key: cases
+2026-09-08T19:39:33.5041030Z guard prepare: preparation policy exceeds byte limit
+2026-09-08T19:39:34.7730800Z 08201f592d76174174acb1e009c3fdffc4690a9496c2bc4907a1ae208c8c7da3
+2026-09-08T19:39:35.1777830Z {
+2026-09-08T19:39:35.1783020Z   "schema": "gopyt.guard.receipt.v1",
+2026-09-08T19:39:35.1784220Z   "accepted": true,
+2026-09-08T19:39:35.1785570Z   "bundle_sha256": "08201f592d76174174acb1e009c3fdffc4690a9496c2bc4907a1ae208c8c7da3",
+2026-09-08T19:39:35.1787080Z   "engine_sha256": "2eb6b8956f69bccac3973454fc10a00f9344581f9083688bc1bd57a36813aa54",
+2026-09-08T19:39:35.1788440Z   "limitations": [
+2026-09-08T19:39:35.1789250Z     "Finite acceptance cases, not a proof.",
+2026-09-08T19:39:35.1790640Z     "Listed obligations are declarations; this gate executes only the supplied cases, not HTTP or database tests.",
+2026-09-08T19:39:35.1792210Z     "Caller, bundle pin, and executor must be protected outside candidate authority.",
+2026-09-08T19:39:35.1810790Z     "No guarantee about external payment processors or undisclosed policies."
+2026-09-08T19:39:35.1811290Z   ],
+2026-09-08T19:39:35.1811710Z   "candidate_sha256": "41217c3d81c3e3e70a25f60eb3e1a17f66ca718bdcf34ad5d4fc00dd52486e0a",
+2026-09-08T19:39:35.1812210Z   "changed_files": [],
+2026-09-08T19:39:35.1812450Z   "obligations": {
+2026-09-08T19:39:35.1812760Z     "stock": "Reservation preserves nonnegative stock."
+2026-09-08T19:39:35.1813050Z   },
+2026-09-08T19:39:35.1813350Z   "protected_contract_helpers": [],
+2026-09-08T19:39:35.1813610Z   "passed": 3,
+2026-09-08T19:39:35.1821000Z   "total": 3,
+2026-09-08T19:39:35.1821650Z   "failures": []
+2026-09-08T19:39:35.1822250Z }
+2026-09-08T19:39:37.1394020Z echo
+2026-09-08T19:39:37.1404300Z echo
+2026-09-08T19:39:37.1418160Z echo
+2026-09-08T19:39:37.1425600Z echo
+2026-09-08T19:39:37.1442120Z echo
+2026-09-08T19:39:37.1454750Z echo
+2026-09-08T19:40:14.7801480Z obligations: FileExistsError: [Errno 17] File exists: '/Users/runner/work/_temp/tmpksf9mspf/report.json'
+2026-09-08T19:40:19.4563480Z obligations: FileExistsError: [Errno 17] File exists: '/Users/runner/work/_temp/tmpuxh24hgd/report.json'
+2026-09-08T19:40:22.8753720Z obligations: FileExistsError: [Errno 17] File exists: '/Users/runner/work/_temp/tmphv0gx3jo/report.json'
+2026-09-08T19:40:26.1742620Z obligations: FileExistsError: [Errno 17] File exists: '/Users/runner/work/_temp/tmpqjflwyny/report.json'
+2026-09-08T19:40:33.0012930Z 
+2026-09-08T19:40:33.0014610Z 50 modules checked in 70 ms
+2026-09-08T19:40:41.7375630Z 
+2026-09-08T19:40:41.7377320Z check 47 ms, 10000 logins 8583 ms
+2026-09-08T19:40:45.3828930Z project context: FileExistsError: [Errno 17] File exists: '/Users/runner/work/_temp/tmp7qzcanta/receipt.json'
+2026-09-08T19:41:10.9562140Z decode
+2026-09-08T19:41:11.1109600Z charge
+2026-09-08T19:41:12.4312370Z cell
+2026-09-08T19:41:12.5622690Z e
+2026-09-08T19:41:12.5624320Z o
+2026-09-08T19:41:12.5626020Z e
+2026-09-08T19:41:12.5630830Z o
+2026-09-08T19:41:12.5631780Z e
+2026-09-08T19:41:12.5634240Z o
+2026-09-08T19:41:12.5635090Z e
+2026-09-08T19:41:12.7152270Z charging
+2026-09-08T19:41:13.9111250Z echo
+2026-09-08T19:41:15.2548590Z user
+2026-09-08T19:41:15.7544770Z ping
+2026-09-08T19:41:16.2008880Z charge
+2026-09-08T19:41:16.3759860Z wire
+2026-09-08T19:41:16.4459750Z alloc
+2026-09-08T19:41:18.3883180Z 1
+2026-09-08T19:41:18.4598760Z 1
+2026-09-08T19:41:19.0048210Z found
+2026-09-08T19:41:19.2513780Z go
+2026-09-08T19:41:19.4052260Z go
+2026-09-08T19:41:19.5179900Z 0
+2026-09-08T19:41:19.5233240Z 1
+2026-09-08T19:41:19.5233910Z 2
+2026-09-08T19:41:19.5234250Z 3
+2026-09-08T19:41:19.7335300Z go
+2026-09-08T19:41:20.0987500Z go
+2026-09-08T19:41:20.9818150Z go
+2026-09-08T19:41:21.5016830Z and
+2026-09-08T19:41:21.6119690Z order
+2026-09-08T19:41:21.6782830Z contract
+2026-09-08T19:41:21.7360420Z div
+2026-09-08T19:41:21.7940290Z enum
+2026-09-08T19:41:21.8585650Z int
+2026-09-08T19:41:21.9125430Z opt
+2026-09-08T19:41:21.9633350Z or
+2026-09-08T19:41:22.0247920Z range
+2026-09-08T19:41:22.0988710Z mod
+2026-09-08T19:41:22.2421240Z slice
+2026-09-08T19:41:22.3230320Z len
+2026-09-08T19:41:22.4315500Z encode
+2026-09-08T19:41:22.7252330Z encode
+2026-09-08T19:41:22.7264930Z decode
+2026-09-08T19:41:22.8970700Z get
+2026-09-08T19:41:22.9657410Z bools
+2026-09-08T19:41:23.0910290Z empty
+2026-09-08T19:41:23.2044940Z keys
+2026-09-08T19:41:23.3504330Z map
+2026-09-08T19:41:23.5593240Z ok
+2026-09-08T19:41:23.5734200Z test_untested_codes_are_documented (gopyt.test_diagnostics.Coverage.test_untested_codes_are_documented) ... ok
+2026-09-08T19:41:23.5843190Z test_untested_list_stays_honest (gopyt.test_diagnostics.Coverage.test_untested_list_stays_honest)
+2026-09-08T19:41:23.6848590Z A code that a test does reach must not sit in UNTESTED. ... echo
+2026-09-08T19:41:24.2043530Z echo
+2026-09-08T19:41:24.4159310Z echo
+2026-09-08T19:41:24.4259320Z echo
+2026-09-08T19:41:24.7811180Z echo
+2026-09-08T19:41:25.1648270Z echo
+2026-09-08T19:41:25.5741530Z charge
+2026-09-08T19:41:25.7797010Z echo
+2026-09-08T19:41:25.7850940Z echo
+2026-09-08T19:41:26.4049020Z echo
+2026-09-08T19:41:30.7480440Z probe
+2026-09-08T19:41:30.8099180Z probe
+2026-09-08T19:41:30.9767720Z probe
+2026-09-08T19:41:32.1859340Z arithmetic
+2026-09-08T19:41:32.2872760Z probe
+2026-09-08T19:41:32.5282910Z x
+2026-09-08T19:41:32.7493390Z x
+2026-09-08T19:41:32.9352650Z charge
+2026-09-08T19:41:39.9239290Z start
+2026-09-08T19:41:40.4361610Z decode
+2026-09-08T19:41:49.8251390Z start
+2026-09-08T19:42:01.8374110Z ERROR:root:Refund transaction failed
+2026-09-08T19:42:01.8375170Z Traceback (most recent call last):
+2026-09-08T19:42:01.8377470Z   File "/Users/runner/work/GoPyt/GoPyt/examples/guarded_refunds/service.py", line 236, in do_POST
+2026-09-08T19:42:01.8378610Z     result = self.server.ledger.apply(body)
+2026-09-08T19:42:01.8379430Z              ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+2026-09-08T19:42:01.8380550Z   File "/Users/runner/work/GoPyt/GoPyt/examples/guarded_refunds/service.py", line 143, in apply
+2026-09-08T19:42:01.8381680Z     return self._apply(body)
+2026-09-08T19:42:01.8382610Z            ^^^^^^^^^^^^^^^^^
+2026-09-08T19:42:01.8383630Z   File "/Users/runner/work/GoPyt/GoPyt/examples/guarded_refunds/service.py", line 180, in _apply
+2026-09-08T19:42:01.8393400Z     conn.execute('INSERT INTO requests VALUES(?,?,?,?)', (order_id,key,payload,canonical(response).decode()))
+2026-09-08T19:42:01.8396730Z sqlite3.IntegrityError: injected
+2026-09-08T19:42:09.3730310Z ERROR:root:Refund transaction failed
+2026-09-08T19:42:09.3799840Z Traceback (most recent call last):
+2026-09-08T19:42:09.3805920Z   File "/Users/runner/work/GoPyt/GoPyt/examples/guarded_refunds/service.py", line 236, in do_POST
+2026-09-08T19:42:09.3806840Z     result = self.server.ledger.apply(body)
+2026-09-08T19:42:09.3813090Z              ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+2026-09-08T19:42:09.3813820Z   File "/Users/runner/work/GoPyt/GoPyt/examples/guarded_refunds/service.py", line 143, in apply
+2026-09-08T19:42:09.3814500Z     return self._apply(body)
+2026-09-08T19:42:09.3814850Z            ^^^^^^^^^^^^^^^^^
+2026-09-08T19:42:09.3816060Z   File "/Users/runner/work/GoPyt/GoPyt/examples/guarded_refunds/service.py", line 168, in _apply
+2026-09-08T19:42:09.3824140Z     allowed = timed_call(self.vm, self.ids['refund_policy.allowed'],
+2026-09-08T19:42:09.3824710Z               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+2026-09-08T19:42:09.3826260Z   File "/Library/Frameworks/Python.framework/Versions/3.11/lib/python3.11/unittest/mock.py", line 1124, in __call__
+2026-09-08T19:42:09.3849120Z     return self._mock_call(*args, **kwargs)
+2026-09-08T19:42:09.3859740Z            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+2026-09-08T19:42:09.3884600Z   File "/Library/Frameworks/Python.framework/Versions/3.11/lib/python3.11/unittest/mock.py", line 1128, in _mock_call
+2026-09-08T19:42:09.3886960Z     return self._execute_mock_call(*args, **kwargs)
+2026-09-08T19:42:09.3887460Z            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+2026-09-08T19:42:09.3888210Z   File "/Library/Frameworks/Python.framework/Versions/3.11/lib/python3.11/unittest/mock.py", line 1183, in _execute_mock_call
+2026-09-08T19:42:09.3888950Z     raise effect
+2026-09-08T19:42:09.3889590Z gopyt.vm.Trap: trap 2
+2026-09-08T19:42:09.3890100Z ERROR:root:Refund transaction failed
+2026-09-08T19:42:09.3890530Z Traceback (most recent call last):
+2026-09-08T19:42:09.3891950Z   File "/Users/runner/work/GoPyt/GoPyt/examples/guarded_refunds/service.py", line 236, in do_POST
+2026-09-08T19:42:09.3899840Z     result = self.server.ledger.apply(body)
+2026-09-08T19:42:09.3900320Z              ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+2026-09-08T19:42:09.3900900Z   File "/Users/runner/work/GoPyt/GoPyt/examples/guarded_refunds/service.py", line 143, in apply
+2026-09-08T19:42:09.3901560Z     return self._apply(body)
+2026-09-08T19:42:09.3904660Z            ^^^^^^^^^^^^^^^^^
+2026-09-08T19:42:09.3905240Z   File "/Users/runner/work/GoPyt/GoPyt/examples/guarded_refunds/service.py", line 168, in _apply
+2026-09-08T19:42:09.3905910Z     allowed = timed_call(self.vm, self.ids['refund_policy.allowed'],
+2026-09-08T19:42:09.3906470Z               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+2026-09-08T19:42:09.3919930Z   File "/Library/Frameworks/Python.framework/Versions/3.11/lib/python3.11/unittest/mock.py", line 1124, in __call__
+2026-09-08T19:42:09.3920460Z     return self._mock_call(*args, **kwargs)
+2026-09-08T19:42:09.3920810Z            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+2026-09-08T19:42:09.3921350Z   File "/Library/Frameworks/Python.framework/Versions/3.11/lib/python3.11/unittest/mock.py", line 1128, in _mock_call
+2026-09-08T19:42:09.3921860Z     return self._execute_mock_call(*args, **kwargs)
+2026-09-08T19:42:09.3922200Z            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+2026-09-08T19:42:09.3922740Z   File "/Library/Frameworks/Python.framework/Versions/3.11/lib/python3.11/unittest/mock.py", line 1183, in _execute_mock_call
+2026-09-08T19:42:09.3923290Z     raise effect
+2026-09-08T19:42:09.3923570Z gopyt.vm.Cancelled
+2026-09-08T19:42:13.3524490Z ERROR:root:Refund transaction failed
+2026-09-08T19:42:13.3592190Z Traceback (most recent call last):
+2026-09-08T19:42:13.3598510Z   File "/Users/runner/work/GoPyt/GoPyt/examples/guarded_refunds/service.py", line 236, in do_POST
+2026-09-08T19:42:13.3599980Z     result = self.server.ledger.apply(body)
+2026-09-08T19:42:13.3624910Z              ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+2026-09-08T19:42:13.3651540Z   File "/Users/runner/work/GoPyt/GoPyt/examples/guarded_refunds/service.py", line 143, in apply
+2026-09-08T19:42:13.3652670Z     return self._apply(body)
+2026-09-08T19:42:13.3655050Z            ^^^^^^^^^^^^^^^^^
+2026-09-08T19:42:13.3656120Z   File "/Users/runner/work/GoPyt/GoPyt/examples/guarded_refunds/service.py", line 172, in _apply
+2026-09-08T19:42:13.3656710Z     after = timed_call(self.vm, self.ids['refund_policy.after_refund'],
+2026-09-08T19:42:13.3657160Z             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+2026-09-08T19:42:13.3657690Z   File "/Users/runner/work/GoPyt/GoPyt/gopyt/guard.py", line 337, in timed_call
+2026-09-08T19:42:13.3658090Z     return vm.call(fn, list(args))
+2026-09-08T19:42:13.3658430Z            ^^^^^^^^^^^^^^^^^^^^^^^
+2026-09-08T19:42:13.3658770Z   File "/Users/runner/work/GoPyt/GoPyt/gopyt/vm.py", line 157, in call
+2026-09-08T19:42:13.3659350Z     result = self.heap.handoff(self._call(fn_id, args, caller_effects))
+2026-09-08T19:42:13.3659790Z                                ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+2026-09-08T19:42:13.3660190Z   File "/Users/runner/work/GoPyt/GoPyt/gopyt/vm.py", line 190, in _call
+2026-09-08T19:42:13.3660770Z     return self.exec(fn_id, func, args)
+2026-09-08T19:42:13.3661170Z            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+2026-09-08T19:42:13.3664860Z   File "/Users/runner/work/GoPyt/GoPyt/gopyt/vm.py", line 208, in exec
+2026-09-08T19:42:13.3666870Z     return self._exec_frame(frame)
+2026-09-08T19:42:13.3667300Z            ^^^^^^^^^^^^^^^^^^^^^^^
+2026-09-08T19:42:13.3667860Z   File "/Users/runner/work/GoPyt/GoPyt/gopyt/vm.py", line 422, in _exec_frame
+2026-09-08T19:42:13.3668520Z     raise Trap(ops.TRAP_REQUIRES if op == ops.REQUIRE else ops.TRAP_ENSURES)
+2026-09-08T19:42:13.3669080Z gopyt.vm.Trap: trap 2
+2026-09-08T19:42:16.7046990Z guard prepare: duplicate JSON key: cases
+2026-09-08T19:42:17.8119910Z guard prepare: preparation policy exceeds byte limit
+2026-09-08T19:42:18.7121860Z 08201f592d76174174acb1e009c3fdffc4690a9496c2bc4907a1ae208c8c7da3
+2026-09-08T19:42:19.0087110Z {
+2026-09-08T19:42:19.0088790Z   "schema": "gopyt.guard.receipt.v1",
+2026-09-08T19:42:19.0089430Z   "accepted": true,
+2026-09-08T19:42:19.0090070Z   "bundle_sha256": "08201f592d76174174acb1e009c3fdffc4690a9496c2bc4907a1ae208c8c7da3",
+2026-09-08T19:42:19.0090760Z   "engine_sha256": "2eb6b8956f69bccac3973454fc10a00f9344581f9083688bc1bd57a36813aa54",
+2026-09-08T19:42:19.0091220Z   "limitations": [
+2026-09-08T19:42:19.0091630Z     "Finite acceptance cases, not a proof.",
+2026-09-08T19:42:19.0092710Z     "Listed obligations are declarations; this gate executes only the supplied cases, not HTTP or database tests.",
+2026-09-08T19:42:19.0093410Z     "Caller, bundle pin, and executor must be protected outside candidate authority.",
+2026-09-08T19:42:19.0114080Z     "No guarantee about external payment processors or undisclosed policies."
+2026-09-08T19:42:19.0114480Z   ],
+2026-09-08T19:42:19.0115000Z   "candidate_sha256": "41217c3d81c3e3e70a25f60eb3e1a17f66ca718bdcf34ad5d4fc00dd52486e0a",
+2026-09-08T19:42:19.0115870Z   "changed_files": [],
+2026-09-08T19:42:19.0116120Z   "obligations": {
+2026-09-08T19:42:19.0121280Z     "stock": "Reservation preserves nonnegative stock."
+2026-09-08T19:42:19.0125530Z   },
+2026-09-08T19:42:19.0128430Z   "protected_contract_helpers": [],
+2026-09-08T19:42:19.0129900Z   "passed": 3,
+2026-09-08T19:42:19.0130140Z   "total": 3,
+2026-09-08T19:42:19.0130330Z   "failures": []
+2026-09-08T19:42:19.0130630Z }
+2026-09-08T19:42:20.1481720Z echo
+2026-09-08T19:42:20.1490670Z echo
+2026-09-08T19:42:20.1499580Z echo
+2026-09-08T19:42:20.1507030Z echo
+2026-09-08T19:42:20.1520740Z echo
+2026-09-08T19:42:20.1533210Z echo
+2026-09-08T19:42:40.6880450Z obligations: FileExistsError: [Errno 17] File exists: '/Users/runner/work/_temp/tmpi0fbcpij/report.json'
+2026-09-08T19:42:43.7460610Z obligations: FileExistsError: [Errno 17] File exists: '/Users/runner/work/_temp/tmpsipsn87g/report.json'
+2026-09-08T19:42:45.6736450Z obligations: FileExistsError: [Errno 17] File exists: '/Users/runner/work/_temp/tmp08oc6hfy/report.json'
+2026-09-08T19:42:47.1663700Z obligations: FileExistsError: [Errno 17] File exists: '/Users/runner/work/_temp/tmp8zcnq1_h/report.json'
+2026-09-08T19:42:50.7730240Z 
+2026-09-08T19:42:50.7731890Z 50 modules checked in 29 ms
+2026-09-08T19:42:55.2980370Z 
+2026-09-08T19:42:55.2981180Z check 17 ms, 10000 logins 4476 ms
+2026-09-08T19:42:57.1671210Z project context: FileExistsError: [Errno 17] File exists: '/Users/runner/work/_temp/tmpeii36is0/receipt.json'
+2026-09-08T19:43:15.4989310Z decode
+2026-09-08T19:43:15.6539430Z charge
+2026-09-08T19:43:16.5666560Z cell
+2026-09-08T19:43:16.7054800Z e
+2026-09-08T19:43:16.7178160Z o
+2026-09-08T19:43:16.7280760Z e
+2026-09-08T19:43:16.7383040Z o
+2026-09-08T19:43:16.7484500Z e
+2026-09-08T19:43:16.7587240Z o
+2026-09-08T19:43:16.7691400Z e
+2026-09-08T19:43:16.8907500Z charging
+2026-09-08T19:43:17.7469270Z echo
+2026-09-08T19:43:19.0724560Z user
+2026-09-08T19:43:19.2546440Z ping
+2026-09-08T19:43:19.5937320Z charge
+2026-09-08T19:43:19.7510350Z wire
+2026-09-08T19:43:19.8207180Z alloc
+2026-09-08T19:43:21.1875450Z 1
+2026-09-08T19:43:21.2095350Z 1
+2026-09-08T19:43:21.4618430Z found
+2026-09-08T19:43:21.7437080Z go
+2026-09-08T19:43:21.8966130Z go
+2026-09-08T19:43:21.9578750Z 0
+2026-09-08T19:43:21.9584680Z 1
+2026-09-08T19:43:21.9585990Z 2
+2026-09-08T19:43:21.9587710Z 3
+2026-09-08T19:43:22.0750420Z go
+2026-09-08T19:43:22.2517020Z go
+2026-09-08T19:43:22.8990460Z go
+2026-09-08T19:43:23.1487470Z and
+2026-09-08T19:43:23.1822020Z order
+2026-09-08T19:43:23.2296590Z contract
+2026-09-08T19:43:23.2688840Z div
+2026-09-08T19:43:23.2980110Z enum
+2026-09-08T19:43:23.3403580Z int
+2026-09-08T19:43:23.3717700Z opt
+2026-09-08T19:43:23.4090090Z or
+2026-09-08T19:43:23.4450010Z range
+2026-09-08T19:43:23.4679430Z mod
+2026-09-08T19:43:23.4975390Z slice
+2026-09-08T19:43:23.5292840Z len
+2026-09-08T19:43:23.5746290Z encode
+2026-09-08T19:43:23.6625220Z encode
+2026-09-08T19:43:23.6626800Z decode
+2026-09-08T19:43:23.7416050Z get
+2026-09-08T19:43:23.7776010Z bools
+2026-09-08T19:43:23.8710490Z empty
+2026-09-08T19:43:23.9101960Z keys
+2026-09-08T19:43:23.9430700Z map
+2026-09-08T19:43:24.0124520Z FAIL
+2026-09-08T19:43:24.0427590Z test_distinct_routes_are_accepted (gopyt.test_errors.Errors.test_distinct_routes_are_accepted) ... ok
+2026-09-08T19:43:24.0530330Z test_e002_tab (gopyt.test_errors.Errors.test_e002_tab) ... ok
+2026-09-08T19:43:24.0610960Z test_e003_crlf_source (gopyt.test_errors.Errors.test_e003_crlf_source) ... ok
+2026-09-08T19:43:24.0789050Z test_e003_invalid_utf8_source (gopyt.test_errors.Errors.test_e003_invalid_utf8_source) ... ok
+2026-09-08T19:43:24.0915740Z test_e004_duplicate_egress_origin (gopyt.test_errors.Errors.test_e004_duplicate_egress_origin) ... ok
+2026-09-08T19:43:24.1026960Z test_e004_unformatted (gopyt.test_errors.Errors.test_e004_unformatted) ... ok
+2026-09-08T19:43:24.1068390Z test_e004_unused_egress_block (gopyt.test_errors.Errors.test_e004_unused_egress_block)
+2026-09-08T19:43:24.1130610Z security.md: omit `egress` when nothing goes out. ... ok
+2026-09-08T19:43:24.1132340Z test_e010_module_path_too_deep (gopyt.test_errors.Errors.test_e010_module_path_too_deep)
+2026-09-08T19:43:24.1204770Z implementer.md 7: at most eight path segments. ... ok
+2026-09-08T19:43:24.1415050Z test_e012_module_header_mismatch (gopyt.test_errors.Errors.test_e012_module_header_mismatch) ... ok
+2026-09-08T19:43:24.1613100Z test_e014_unused_use (gopyt.test_errors.Errors.test_e014_unused_use) ... ok
+2026-09-08T19:43:24.1623930Z test_e017_keyword_as_a_name (gopyt.test_errors.Errors.test_e017_keyword_as_a_name) ... ok
+2026-09-08T19:43:24.1753020Z test_e018_impl_without_a_spec_twin (gopyt.test_errors.Errors.test_e018_impl_without_a_spec_twin) ... ok
+2026-09-08T19:43:24.1868960Z test_e019_impl_provide_without_a_spec_twin (gopyt.test_errors.Errors.test_e019_impl_provide_without_a_spec_twin) ... ok
+2026-09-08T19:43:24.1993230Z test_e022_wrong_argument_count (gopyt.test_errors.Errors.test_e022_wrong_argument_count) ... ok
+2026-09-08T19:43:24.2129850Z test_e023_missing_field (gopyt.test_errors.Errors.test_e023_missing_field) ... ok
+2026-09-08T19:43:24.2512750Z test_e024_extra_field (gopyt.test_errors.Errors.test_e024_extra_field) ... ok
+2026-09-08T19:43:24.2634160Z test_e025_illegal_union_member (gopyt.test_errors.Errors.test_e025_illegal_union_member) ... ok
+2026-09-08T19:43:24.2749500Z test_e026_optional_used_as_a_value (gopyt.test_errors.Errors.test_e026_optional_used_as_a_value) ... ok
+2026-09-08T19:43:24.2851640Z test_e028_builtin_shadow (gopyt.test_errors.Errors.test_e028_builtin_shadow) ... ok
+2026-09-08T19:43:24.2963740Z test_e029_bad_type_arguments (gopyt.test_errors.Errors.test_e029_bad_type_arguments) ... ok
+2026-09-08T19:43:24.3091040Z test_e031_body_in_spec (gopyt.test_errors.Errors.test_e031_body_in_spec) ... ok
+2026-09-08T19:43:24.3725510Z test_e032_impl_drifts_from_spec (gopyt.test_errors.Errors.test_e032_impl_drifts_from_spec) ... ok
+2026-09-08T19:43:24.3807840Z test_e033_missing_impl (gopyt.test_errors.Errors.test_e033_missing_impl) ... ok
+2026-09-08T19:43:24.3815610Z test_e034_unresolved_in_a_spec_role_body (gopyt.test_errors.Errors.test_e034_unresolved_in_a_spec_role_body)
+2026-09-08T19:43:24.3905140Z `unresolved` is illegal in spec/ even where a body is (E031 first). ... ok
+2026-09-08T19:43:24.3997410Z test_e034_unresolved_in_spec (gopyt.test_errors.Errors.test_e034_unresolved_in_spec) ... ok
+2026-09-08T19:43:24.4159640Z test_e035_private_type_in_a_public_signature (gopyt.test_errors.Errors.test_e035_private_type_in_a_public_signature) ... ok
+2026-09-08T19:43:24.4325960Z test_e036_duplicate_test_name (gopyt.test_errors.Errors.test_e036_duplicate_test_name) ... ok
+2026-09-08T19:43:24.4437790Z test_e036_rebind (gopyt.test_errors.Errors.test_e036_rebind) ... ok
+2026-09-08T19:43:24.4522430Z test_e038_comma_in_a_field_list (gopyt.test_errors.Errors.test_e038_comma_in_a_field_list) ... ok
+2026-09-08T19:43:24.4620400Z test_e040_toolchain_mismatch (gopyt.test_errors.Errors.test_e040_toolchain_mismatch) ... ok
+2026-09-08T19:43:24.4697160Z test_e050_effect_missing (gopyt.test_errors.Errors.test_e050_effect_missing) ... ok
+2026-09-08T19:43:24.4768850Z test_e051_effect_unused (gopyt.test_errors.Errors.test_e051_effect_unused) ... ok
+2026-09-08T19:43:24.4918630Z test_e055_parallel_arm_types_differ (gopyt.test_errors.Errors.test_e055_parallel_arm_types_differ) ... ok
+2026-09-08T19:43:24.5001390Z test_e060_contract_is_not_bool (gopyt.test_errors.Errors.test_e060_contract_is_not_bool) ... ok
+2026-09-08T19:43:24.5016570Z test_e061_f64_in_a_contract (gopyt.test_errors.Errors.test_e061_f64_in_a_contract)
+2026-09-08T19:43:24.5233040Z S20: v0 contracts are bool/i64/str/enum/T? only. ... ok
+2026-09-08T19:43:24.5389090Z test_e062_contract_calls_a_task (gopyt.test_errors.Errors.test_e062_contract_calls_a_task) ... ok
+2026-09-08T19:43:24.5514140Z test_e065_duplicate_obligation_test (gopyt.test_errors.Errors.test_e065_duplicate_obligation_test) ... ok
+2026-09-08T19:43:24.5606240Z test_e065_obligation_only_on_a_public_fn (gopyt.test_errors.Errors.test_e065_obligation_only_on_a_public_fn) ... ok
+2026-09-08T19:43:24.5687240Z test_e072_for_over_a_scalar (gopyt.test_errors.Errors.test_e072_for_over_a_scalar) ... ok
+2026-09-08T19:43:24.5786730Z test_e074_unknown_local (gopyt.test_errors.Errors.test_e074_unknown_local) ... ok
+2026-09-08T19:43:24.5869320Z test_e080_provide_orphan (gopyt.test_errors.Errors.test_e080_provide_orphan) ... ok
+2026-09-08T19:43:24.5965300Z test_e081_provide_twice (gopyt.test_errors.Errors.test_e081_provide_twice) ... ok
+2026-09-08T19:43:24.6092180Z test_e082_provide_signature_mismatch (gopyt.test_errors.Errors.test_e082_provide_signature_mismatch) ... ok
+2026-09-08T19:43:24.6262440Z test_e083_provide_widens_effects (gopyt.test_errors.Errors.test_e083_provide_widens_effects) ... ok
+2026-09-08T19:43:24.6371560Z test_e084_fn_calls_an_effectful_trait_member (gopyt.test_errors.Errors.test_e084_fn_calls_an_effectful_trait_member) ... ok
+2026-09-08T19:43:24.6449330Z test_e091_empty_http_block (gopyt.test_errors.Errors.test_e091_empty_http_block) ... ok
+2026-09-08T19:43:24.6557080Z test_e091_handler_must_be_a_task (gopyt.test_errors.Errors.test_e091_handler_must_be_a_task) ... ok
+2026-09-08T19:43:24.7132250Z test_e091_illegal_route_path (gopyt.test_errors.Errors.test_e091_illegal_route_path) ... ok
+2026-09-08T19:43:24.7133680Z test_e091_overlapping_routes (gopyt.test_errors.Errors.test_e091_overlapping_routes)
+2026-09-08T19:43:24.7207180Z implementer.md 12: no precedence rule, so an overlap is an error. ... ok
+2026-09-08T19:43:24.7433440Z test_e091_route_without_a_handler (gopyt.test_errors.Errors.test_e091_route_without_a_handler) ... ok
+2026-09-08T19:43:24.7523190Z test_e091_two_http_blocks (gopyt.test_errors.Errors.test_e091_two_http_blocks) ... ok
+2026-09-08T19:43:24.7636170Z test_e092_placeholder_is_not_a_parameter (gopyt.test_errors.Errors.test_e092_placeholder_is_not_a_parameter) ... ok
+2026-09-08T19:43:24.7725320Z test_e093_serve_missing (gopyt.test_errors.Errors.test_e093_serve_missing) ... ok
+2026-09-08T19:43:24.7767070Z test_e094_agent_lists_an_unknown_task (gopyt.test_errors.Errors.test_e094_agent_lists_an_unknown_task) ... ok
+2026-09-08T19:43:24.7851770Z test_e095_agent_effects_are_not_the_union (gopyt.test_errors.Errors.test_e095_agent_effects_are_not_the_union) ... ok
+2026-09-08T19:43:24.7947040Z test_e096_unknown_app_module (gopyt.test_errors.Errors.test_e096_unknown_app_module) ... ok
+2026-09-08T19:43:24.8064830Z test_e096_unknown_name_in_an_allowlist (gopyt.test_errors.Errors.test_e096_unknown_name_in_an_allowlist) ... ok
+2026-09-08T19:43:24.8138060Z test_e096_unknown_stdlib_module (gopyt.test_errors.Errors.test_e096_unknown_stdlib_module) ... ok
+2026-09-08T19:43:24.8240450Z test_e099_f64_equality (gopyt.test_errors.Errors.test_e099_f64_equality) ... ok
+2026-09-08T19:43:24.9149720Z test_e111_bad_egress_origins (gopyt.test_errors.Errors.test_e111_bad_egress_origins) ... ok
+2026-09-08T19:43:24.9211950Z test_egress_normalizes_host_and_port (gopyt.test_errors.Errors.test_egress_normalizes_host_and_port) ... ok
+2026-09-08T19:43:24.9396040Z test_a_well_formed_float_is_accepted (gopyt.test_errors.Lexical.test_a_well_formed_float_is_accepted) ... ok
+2026-09-08T19:43:24.9485500Z test_character_literals_do_not_exist (gopyt.test_errors.Lexical.test_character_literals_do_not_exist) ... ok
+2026-09-08T19:43:24.9678510Z test_float_needs_digits_on_both_sides (gopyt.test_errors.Lexical.test_float_needs_digits_on_both_sides) ... ok
+2026-09-08T19:43:24.9996580Z test_hex_and_underscored_integers_do_not_exist (gopyt.test_errors.Lexical.test_hex_and_underscored_integers_do_not_exist) ... ok
+2026-09-08T19:43:25.0115930Z test_integer_must_fit_in_i64 (gopyt.test_errors.Lexical.test_integer_must_fit_in_i64) ... ok
+2026-09-08T19:43:25.0393440Z test_only_the_five_escapes_exist (gopyt.test_errors.Lexical.test_only_the_five_escapes_exist) ... ok
+2026-09-08T19:43:25.0532830Z test_unary_minus_on_f64_is_illegal (gopyt.test_errors.Lexical.test_unary_minus_on_f64_is_illegal) ... ok
+2026-09-08T19:43:25.0630020Z test_a_fat_arrow (gopyt.test_errors.RejectedForms.test_a_fat_arrow) ... ok
+2026-09-08T19:43:25.0733540Z test_a_method_call (gopyt.test_errors.RejectedForms.test_a_method_call) ... ok
+2026-09-08T19:43:25.0795720Z test_a_ternary (gopyt.test_errors.RejectedForms.test_a_ternary) ... ok
+2026-09-08T19:43:25.1022550Z test_c_style_boolean_operators (gopyt.test_errors.RejectedForms.test_c_style_boolean_operators) ... ok
+2026-09-08T19:43:25.1178810Z test_identity_comparison (gopyt.test_errors.RejectedForms.test_identity_comparison) ... ok
+2026-09-08T19:43:25.1394710Z test_the_words_are_the_operators (gopyt.test_errors.RejectedForms.test_the_words_are_the_operators) ... ok
+2026-09-08T19:43:25.1547500Z test_a_record_holding_a_secret_is_not_json (gopyt.test_errors.SecretRules.test_a_record_holding_a_secret_is_not_json) ... ok
+2026-09-08T19:43:25.1630940Z test_secret_equality_is_rejected (gopyt.test_errors.SecretRules.test_secret_equality_is_rejected) ... ok
+2026-09-08T19:43:25.1806840Z test_user_code_cannot_construct_a_secret (gopyt.test_errors.SecretRules.test_user_code_cannot_construct_a_secret) ... ok
+2026-09-08T19:43:25.1818680Z test_a_candidate_that_fails_check_is_discarded (gopyt.test_evolve.Pipeline.test_a_candidate_that_fails_check_is_discarded)
+2026-09-08T19:43:25.3615720Z Force every candidate to be illegal; the package must not move. ... ok
+2026-09-08T19:43:25.3890190Z test_a_package_with_no_limiter_has_nothing_to_change (gopyt.test_evolve.Pipeline.test_a_package_with_no_limiter_has_nothing_to_change) ... ok
+2026-09-08T19:43:25.8147210Z test_alarm_tightens_the_limiter_and_moves_the_digest (gopyt.test_evolve.Pipeline.test_alarm_tightens_the_limiter_and_moves_the_digest) ... ok
+2026-09-08T19:43:25.8995600Z test_candidates_never_add_ffi_or_drop_egress (gopyt.test_evolve.Pipeline.test_candidates_never_add_ffi_or_drop_egress) ... ok
+2026-09-08T19:43:25.9097480Z test_quiet_cusum_is_nochange_and_writes_nothing (gopyt.test_evolve.Pipeline.test_quiet_cusum_is_nochange_and_writes_nothing) ... ok
+2026-09-08T19:43:25.9098580Z test_a_second_propose_inside_the_cooldown_is_nochange (gopyt.test_evolve.ThroughTheVm.test_a_second_propose_inside_the_cooldown_is_nochange)
+2026-09-08T19:43:26.5005000Z hardening.md: the cooldown is the evolve block's timeout_ms. ... ok
+2026-09-08T19:43:27.0176260Z test_burst_then_propose_applies_a_checked_candidate (gopyt.test_evolve.ThroughTheVm.test_burst_then_propose_applies_a_checked_candidate) ... ok
+2026-09-08T19:43:27.0595870Z test_check_accepts_the_evolve_agent (gopyt.test_evolve.ThroughTheVm.test_check_accepts_the_evolve_agent) ... ok
+2026-09-08T19:43:27.1623140Z test_in_flight_propose_is_refused (gopyt.test_evolve.ThroughTheVm.test_in_flight_propose_is_refused) ... ok
+2026-09-08T19:43:27.2024950Z test_propose_outside_an_evolve_module_is_e115 (gopyt.test_evolve.ThroughTheVm.test_propose_outside_an_evolve_module_is_e115) ... ok
+2026-09-08T19:43:27.2029400Z test_propose_without_an_alarm_is_nochange (gopyt.test_evolve.ThroughTheVm.test_propose_without_an_alarm_is_nochange)
+2026-09-08T19:43:27.2717370Z Same package, no burst: the model is never consulted. ... ok
+2026-09-08T19:43:27.2722520Z test_the_agent_sizes_the_reservoir (gopyt.test_evolve.ThroughTheVm.test_the_agent_sizes_the_reservoir)
+2026-09-08T19:43:27.3780020Z S32: `evolve { reservoir K }` is the Vitter bound the VM uses. ... ok
+2026-09-08T19:43:27.4542120Z test_burst_sets_cusum_alarm (gopyt.test_examples.AuthExample.test_burst_sets_cusum_alarm) ... ok
+2026-09-08T19:43:27.4802060Z test_check_is_clean_with_the_committed_lock (gopyt.test_examples.AuthExample.test_check_is_clean_with_the_committed_lock) ... ok
+2026-09-08T19:43:27.4806050Z test_login_denies_then_throttles (gopyt.test_examples.AuthExample.test_login_denies_then_throttles)
+2026-09-08T19:43:27.5115350Z Distinct users so the bucket state of one case cannot leak. ... ok
+2026-09-08T19:43:27.5405570Z test_no_app_ffi_and_no_egress (gopyt.test_examples.AuthExample.test_no_app_ffi_and_no_egress) ... ok
+2026-09-08T19:43:27.6000600Z test_observe_buffers_stay_bounded (gopyt.test_examples.AuthExample.test_observe_buffers_stay_bounded) ... ok
+2026-09-08T19:43:27.6030230Z test_staging_does_not_copy_a_local_demo_database_or_build_cache (gopyt.test_examples.AuthExample.test_staging_does_not_copy_a_local_demo_database_or_build_cache)
+2026-09-08T19:43:27.6508110Z Running the example locally must not contaminate isolated tests. ... ok
+2026-09-08T19:43:27.6965790Z test_tests_pass (gopyt.test_examples.AuthExample.test_tests_pass) ... ok
+2026-09-08T19:43:27.6967540Z test_the_committed_sources_are_canonical (gopyt.test_examples.AuthExample.test_the_committed_sources_are_canonical)
+2026-09-08T19:43:27.7208570Z `gopyt fmt` must be a no-op on what is committed (E004 otherwise). ... ok
+2026-09-08T19:43:28.3352320Z test_fixtures (gopyt.test_fixtures.Fixtures.test_fixtures) ... start
+2026-09-08T19:43:28.8399640Z ok
+2026-09-08T19:43:30.2973250Z test_every_fixture_formats_to_a_fixed_point (gopyt.test_fixtures.FormatterIdempotence.test_every_fixture_formats_to_a_fixed_point) ... ok
+2026-09-08T19:43:30.3083910Z test_agent_tasks_and_egress_are_sorted (gopyt.test_fmt.Canonical.test_agent_tasks_and_egress_are_sorted) ... ok
+2026-09-08T19:43:30.3150540Z test_body_brace_is_on_its_own_line_and_headers_keep_theirs (gopyt.test_fmt.Canonical.test_body_brace_is_on_its_own_line_and_headers_keep_theirs) ... ok
+2026-09-08T19:43:30.3152170Z test_effects_use_the_catalog_order_not_alphabetical (gopyt.test_fmt.Canonical.test_effects_use_the_catalog_order_not_alphabetical) ... ok
+2026-09-08T19:43:30.3153200Z test_empty_parameter_list_has_no_interior_space (gopyt.test_fmt.Canonical.test_empty_parameter_list_has_no_interior_space) ... ok
+2026-09-08T19:43:30.3154210Z test_formatting_is_a_fixed_point_for_every_construct (gopyt.test_fmt.Canonical.test_formatting_is_a_fixed_point_for_every_construct) ... ok
+2026-09-08T19:43:30.3156060Z test_one_blank_line_between_items_and_a_single_final_newline (gopyt.test_fmt.Canonical.test_one_blank_line_between_items_and_a_single_final_newline) ... ok
+2026-09-08T19:43:30.3298130Z test_unformatted_source_is_e004_with_the_full_file_as_repair (gopyt.test_fmt.Canonical.test_unformatted_source_is_e004_with_the_full_file_as_repair) ... ok
+2026-09-08T19:43:30.3348260Z test_uses_are_sorted_and_names_grouped (gopyt.test_fmt.Canonical.test_uses_are_sorted_and_names_grouped) ... ok
+2026-09-08T19:43:30.3356260Z test_every_source_in_the_repository_keeps_its_parse_tree (gopyt.test_fmt.MeaningPreserved.test_every_source_in_the_repository_keeps_its_parse_tree)
+2026-09-08T19:43:31.1895890Z The real corpus: conformance fixtures, examples, and dep testdata. ... ok
+2026-09-08T19:43:31.2001510Z test_formatting_keeps_the_parse_tree (gopyt.test_fmt.MeaningPreserved.test_formatting_keeps_the_parse_tree) ... ok
+2026-09-08T19:43:31.2446360Z test_mutants_keep_their_parse_tree (gopyt.test_fmt.MeaningPreserved.test_mutants_keep_their_parse_tree) ... ok
+2026-09-08T19:43:31.2559610Z test_needed_parentheses_survive (gopyt.test_fmt.MeaningPreserved.test_needed_parentheses_survive) ... ok
+2026-09-08T19:43:31.2662210Z test_redundant_parentheses_are_removed (gopyt.test_fmt.MeaningPreserved.test_redundant_parentheses_are_removed) ... ok
+2026-09-08T19:43:31.2795470Z test_c001 (gopyt.test_frontend.Frontend.test_c001) ... ok
+2026-09-08T19:43:31.2835610Z test_c002_missing_use (gopyt.test_frontend.Frontend.test_c002_missing_use) ... ok
+2026-09-08T19:43:31.2939170Z test_c004_fn_task (gopyt.test_frontend.Frontend.test_c004_fn_task) ... ok
+2026-09-08T19:43:31.3031640Z test_c005_int (gopyt.test_frontend.Frontend.test_c005_int) ... ok
+2026-09-08T19:43:31.3034740Z test_c006_userid (gopyt.test_frontend.Frontend.test_c006_userid) ... ok
+2026-09-08T19:43:31.3205400Z test_c007_leading_zero (gopyt.test_frontend.Frontend.test_c007_leading_zero) ... ok
+2026-09-08T19:43:31.3269280Z test_c008_if_expr (gopyt.test_frontend.Frontend.test_c008_if_expr) ... ok
+2026-09-08T19:43:31.3339250Z test_c009_open (gopyt.test_frontend.Frontend.test_c009_open) ... ok
+2026-09-08T19:43:31.3404040Z test_c013_comma (gopyt.test_frontend.Frontend.test_c013_comma) ... ok
+2026-09-08T19:43:31.3557760Z test_c034_ffi (gopyt.test_frontend.Frontend.test_c034_ffi) ... ok
+2026-09-08T19:43:31.3817660Z test_fmt_idempotent (gopyt.test_frontend.Frontend.test_fmt_idempotent) ... ok
+2026-09-08T19:43:31.4413140Z test_mutants_that_parse_format_to_a_fixed_point (gopyt.test_fuzz.Idempotence.test_mutants_that_parse_format_to_a_fixed_point) ... ok
+2026-09-08T19:43:31.4418540Z test_deep_nesting_is_a_diagnostic (gopyt.test_fuzz.Limits.test_deep_nesting_is_a_diagnostic) ... ok
+2026-09-08T19:43:31.4419560Z test_long_identifier_is_e010 (gopyt.test_fuzz.Limits.test_long_identifier_is_e010) ... ok
+2026-09-08T19:43:31.4433970Z test_oversized_file_is_e010 (gopyt.test_fuzz.Limits.test_oversized_file_is_e010) ... ok
+2026-09-08T19:43:31.4434780Z test_mutated_packages_reach_the_checker (gopyt.test_fuzz.MutatedModules.test_mutated_packages_reach_the_checker)
+2026-09-08T19:43:31.8843310Z Full pipeline: a mutated impl must give a diagnostic, never a crash. ... ok
+2026-09-08T19:43:31.8973640Z test_mutated_valid_modules_never_crash (gopyt.test_fuzz.MutatedModules.test_mutated_valid_modules_never_crash) ... ok
+2026-09-08T19:43:31.9041650Z test_random_text_never_crashes (gopyt.test_fuzz.RandomBytes.test_random_text_never_crashes) ... ok
+2026-09-08T19:43:31.9055210Z test_random_tokens_never_crash (gopyt.test_fuzz.RandomBytes.test_random_tokens_never_crash)
+2026-09-08T19:43:31.9178350Z Shuffled real tokens hit the parser rather than dying in the lexer. ... ok
+2026-09-08T19:43:31.9710810Z test_arithmetic_branches_and_overflow (gopyt.test_generated_programs.GeneratedPrograms.test_arithmetic_branches_and_overflow) ... ok
+2026-09-08T19:43:32.0113610Z test_both_contract_copies_cannot_erase_rule (gopyt.test_guard.GuardTests.test_both_contract_copies_cannot_erase_rule) ... ok
+2026-09-08T19:43:32.0571850Z test_bundle_and_engine_tampering (gopyt.test_guard.GuardTests.test_bundle_and_engine_tampering) ... ok
+2026-09-08T19:43:32.1280550Z test_candidate_cannot_replace_gate_or_tests (gopyt.test_guard.GuardTests.test_candidate_cannot_replace_gate_or_tests) ... ok
+2026-09-08T19:43:32.9002870Z test_clean_and_legitimate_body_change (gopyt.test_guard.GuardTests.test_clean_and_legitimate_body_change) ... ok
+2026-09-08T19:43:33.4617610Z test_lock_is_derived_not_an_authority (gopyt.test_guard.GuardTests.test_lock_is_derived_not_an_authority) ... ok
+2026-09-08T19:43:33.5188120Z test_manifest_and_spec_deletion_refused (gopyt.test_guard.GuardTests.test_manifest_and_spec_deletion_refused) ... ok
+2026-09-08T19:43:33.5665510Z test_oversized_input_refused (gopyt.test_guard.GuardTests.test_oversized_input_refused) ... ok
+2026-09-08T19:43:33.6209660Z test_symlink_directory_and_file_refused (gopyt.test_guard.GuardTests.test_symlink_directory_and_file_refused) ... ok
+2026-09-08T19:43:33.6941000Z test_timeout_fails_closed (gopyt.test_guard.GuardTests.test_timeout_fails_closed) ... ok
+2026-09-08T19:43:34.2297320Z test_wrong_body_fails_executable_contract (gopyt.test_guard.GuardTests.test_wrong_body_fails_executable_contract) ... ok
+2026-09-08T19:43:35.2586530Z test_bad_adapter_pin_prevents_start (gopyt.test_guard.LedgerTests.test_bad_adapter_pin_prevents_start) ... ok
+2026-09-08T19:43:36.3523560Z test_concurrent_identical_requests_replay_one_commit (gopyt.test_guard.LedgerTests.test_concurrent_identical_requests_replay_one_commit) ... ok
+2026-09-08T19:43:37.4120280Z test_concurrent_unique_requests_cannot_double_spend (gopyt.test_guard.LedgerTests.test_concurrent_unique_requests_cannot_double_spend) ... ok
+2026-09-08T19:43:37.8095260Z test_db_failure_between_update_and_receipt_rolls_back (gopyt.test_guard.LedgerTests.test_db_failure_between_update_and_receipt_rolls_back) ... ERROR:root:Refund transaction failed
+2026-09-08T19:43:37.8099020Z Traceback (most recent call last):
+2026-09-08T19:43:37.8107590Z   File "/Users/runner/work/GoPyt/GoPyt/examples/guarded_refunds/service.py", line 236, in do_POST
+2026-09-08T19:43:37.8110580Z     result = self.server.ledger.apply(body)
+2026-09-08T19:43:37.8111420Z              ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+2026-09-08T19:43:37.8115060Z   File "/Users/runner/work/GoPyt/GoPyt/examples/guarded_refunds/service.py", line 143, in apply
+2026-09-08T19:43:37.8115570Z     return self._apply(body)
+2026-09-08T19:43:37.8115850Z            ^^^^^^^^^^^^^^^^^
+2026-09-08T19:43:37.8116240Z   File "/Users/runner/work/GoPyt/GoPyt/examples/guarded_refunds/service.py", line 180, in _apply
+2026-09-08T19:43:37.8116920Z     conn.execute('INSERT INTO requests VALUES(?,?,?,?)', (order_id,key,payload,canonical(response).decode()))
+2026-09-08T19:43:37.8117350Z sqlite3.IntegrityError: injected
+2026-09-08T19:43:38.3097940Z ok
+2026-09-08T19:43:39.2077260Z test_missing_wrong_and_cross_customer_credentials (gopyt.test_guard.LedgerTests.test_missing_wrong_and_cross_customer_credentials) ... ok
+2026-09-08T19:43:40.8093290Z test_process_death_between_update_and_receipt_rolls_back (gopyt.test_guard.LedgerTests.test_process_death_between_update_and_receipt_rolls_back) ... ok
+2026-09-08T19:43:41.7642510Z test_remaining_balance_stale_version_closed_customer (gopyt.test_guard.LedgerTests.test_remaining_balance_stale_version_closed_customer) ... ok
+2026-09-08T19:43:43.7370530Z test_replay_conflict_and_restart (gopyt.test_guard.LedgerTests.test_replay_conflict_and_restart) ... ok
+2026-09-08T19:43:44.2231380Z test_runtime_trap_and_cancel_roll_back (gopyt.test_guard.LedgerTests.test_runtime_trap_and_cancel_roll_back) ... ERROR:root:Refund transaction failed
+2026-09-08T19:43:44.2233100Z Traceback (most recent call last):
+2026-09-08T19:43:44.2235620Z   File "/Users/runner/work/GoPyt/GoPyt/examples/guarded_refunds/service.py", line 236, in do_POST
+2026-09-08T19:43:44.2237920Z     result = self.server.ledger.apply(body)
+2026-09-08T19:43:44.2239380Z              ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+2026-09-08T19:43:44.2241010Z   File "/Users/runner/work/GoPyt/GoPyt/examples/guarded_refunds/service.py", line 143, in apply
+2026-09-08T19:43:44.2244150Z     return self._apply(body)
+2026-09-08T19:43:44.2245300Z            ^^^^^^^^^^^^^^^^^
+2026-09-08T19:43:44.2246060Z   File "/Users/runner/work/GoPyt/GoPyt/examples/guarded_refunds/service.py", line 168, in _apply
+2026-09-08T19:43:44.2246690Z     allowed = timed_call(self.vm, self.ids['refund_policy.allowed'],
+2026-09-08T19:43:44.2247220Z               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+2026-09-08T19:43:44.2247870Z   File "/Library/Frameworks/Python.framework/Versions/3.11/lib/python3.11/unittest/mock.py", line 1124, in __call__
+2026-09-08T19:43:44.2248480Z     return self._mock_call(*args, **kwargs)
+2026-09-08T19:43:44.2249080Z            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+2026-09-08T19:43:44.2249760Z   File "/Library/Frameworks/Python.framework/Versions/3.11/lib/python3.11/unittest/mock.py", line 1128, in _mock_call
+2026-09-08T19:43:44.2250620Z     return self._execute_mock_call(*args, **kwargs)
+2026-09-08T19:43:44.2251000Z            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+2026-09-08T19:43:44.2251750Z   File "/Library/Frameworks/Python.framework/Versions/3.11/lib/python3.11/unittest/mock.py", line 1183, in _execute_mock_call
+2026-09-08T19:43:44.2252480Z     raise effect
+2026-09-08T19:43:44.2253120Z gopyt.vm.Trap: trap 2
+2026-09-08T19:43:44.2266480Z ERROR:root:Refund transaction failed
+2026-09-08T19:43:44.2267130Z Traceback (most recent call last):
+2026-09-08T19:43:44.2268640Z   File "/Users/runner/work/GoPyt/GoPyt/examples/guarded_refunds/service.py", line 236, in do_POST
+2026-09-08T19:43:44.2269230Z     result = self.server.ledger.apply(body)
+2026-09-08T19:43:44.2269710Z              ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+2026-09-08T19:43:44.2270320Z   File "/Users/runner/work/GoPyt/GoPyt/examples/guarded_refunds/service.py", line 143, in apply
+2026-09-08T19:43:44.2270760Z     return self._apply(body)
+2026-09-08T19:43:44.2271020Z            ^^^^^^^^^^^^^^^^^
+2026-09-08T19:43:44.2271420Z   File "/Users/runner/work/GoPyt/GoPyt/examples/guarded_refunds/service.py", line 168, in _apply
+2026-09-08T19:43:44.2272590Z     allowed = timed_call(self.vm, self.ids['refund_policy.allowed'],
+2026-09-08T19:43:44.2272990Z               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+2026-09-08T19:43:44.2275260Z   File "/Library/Frameworks/Python.framework/Versions/3.11/lib/python3.11/unittest/mock.py", line 1124, in __call__
+2026-09-08T19:43:44.2275860Z     return self._mock_call(*args, **kwargs)
+2026-09-08T19:43:44.2276130Z            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+2026-09-08T19:43:44.2276730Z   File "/Library/Frameworks/Python.framework/Versions/3.11/lib/python3.11/unittest/mock.py", line 1128, in _mock_call
+2026-09-08T19:43:44.2277260Z     return self._execute_mock_call(*args, **kwargs)
+2026-09-08T19:43:44.2278010Z            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+2026-09-08T19:43:44.2280620Z   File "/Library/Frameworks/Python.framework/Versions/3.11/lib/python3.11/unittest/mock.py", line 1183, in _execute_mock_call
+2026-09-08T19:43:44.2282300Z     raise effect
+2026-09-08T19:43:44.2285570Z gopyt.vm.Cancelled
+2026-09-08T19:43:44.7359990Z ok
+2026-09-08T19:43:45.9000720Z test_strict_input (gopyt.test_guard.LedgerTests.test_strict_input) ... ok
+2026-09-08T19:43:47.4934750Z test_two_independent_ledgers_share_database_safely (gopyt.test_guard.LedgerTests.test_two_independent_ledgers_share_database_safely) ... ok
+2026-09-08T19:43:49.2621580Z test_unseen_wrong_body_is_blocked_by_real_runtime_contract (gopyt.test_guard.LedgerTests.test_unseen_wrong_body_is_blocked_by_real_runtime_contract) ... ERROR:root:Refund transaction failed
+2026-09-08T19:43:49.2642030Z Traceback (most recent call last):
+2026-09-08T19:43:49.2710140Z   File "/Users/runner/work/GoPyt/GoPyt/examples/guarded_refunds/service.py", line 236, in do_POST
+2026-09-08T19:43:49.2719080Z     result = self.server.ledger.apply(body)
+2026-09-08T19:43:49.2740950Z              ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+2026-09-08T19:43:49.2747450Z   File "/Users/runner/work/GoPyt/GoPyt/examples/guarded_refunds/service.py", line 143, in apply
+2026-09-08T19:43:49.2748080Z     return self._apply(body)
+2026-09-08T19:43:49.2748500Z            ^^^^^^^^^^^^^^^^^
+2026-09-08T19:43:49.2750550Z   File "/Users/runner/work/GoPyt/GoPyt/examples/guarded_refunds/service.py", line 172, in _apply
+2026-09-08T19:43:49.2752160Z     after = timed_call(self.vm, self.ids['refund_policy.after_refund'],
+2026-09-08T19:43:49.2756970Z             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+2026-09-08T19:43:49.2758780Z   File "/Users/runner/work/GoPyt/GoPyt/gopyt/guard.py", line 337, in timed_call
+2026-09-08T19:43:49.2759330Z     return vm.call(fn, list(args))
+2026-09-08T19:43:49.2759640Z            ^^^^^^^^^^^^^^^^^^^^^^^
+2026-09-08T19:43:49.2760230Z   File "/Users/runner/work/GoPyt/GoPyt/gopyt/vm.py", line 157, in call
+2026-09-08T19:43:49.2760820Z     result = self.heap.handoff(self._call(fn_id, args, caller_effects))
+2026-09-08T19:43:49.2761240Z                                ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+2026-09-08T19:43:49.2761710Z   File "/Users/runner/work/GoPyt/GoPyt/gopyt/vm.py", line 190, in _call
+2026-09-08T19:43:49.2762140Z     return self.exec(fn_id, func, args)
+2026-09-08T19:43:49.2762490Z            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+2026-09-08T19:43:49.2762910Z   File "/Users/runner/work/GoPyt/GoPyt/gopyt/vm.py", line 208, in exec
+2026-09-08T19:43:49.2764060Z     return self._exec_frame(frame)
+2026-09-08T19:43:49.2764480Z            ^^^^^^^^^^^^^^^^^^^^^^^
+2026-09-08T19:43:49.2764900Z   File "/Users/runner/work/GoPyt/GoPyt/gopyt/vm.py", line 422, in _exec_frame
+2026-09-08T19:43:49.2765730Z     raise Trap(ops.TRAP_REQUIRES if op == ops.REQUIRE else ops.TRAP_ENSURES)
+2026-09-08T19:43:49.2766190Z gopyt.vm.Trap: trap 2
+2026-09-08T19:43:49.7643750Z ok
+2026-09-08T19:43:50.9378010Z test_helper_comments_and_line_numbers_do_not_change_meaning (gopyt.test_guard_dependencies.ContractDependencies.test_helper_comments_and_line_numbers_do_not_change_meaning) ... ok
+2026-09-08T19:43:51.4334600Z test_nonhelper_body_still_editable (gopyt.test_guard_dependencies.ContractDependencies.test_nonhelper_body_still_editable) ... ok
+2026-09-08T19:43:51.8433010Z test_semantic_helper_edits_require_operator_review (gopyt.test_guard_dependencies.ContractDependencies.test_semantic_helper_edits_require_operator_review) ... ok
+2026-09-08T19:43:52.2770340Z test_transitive_cross_module_binding (gopyt.test_guard_dependencies.ContractDependencies.test_transitive_cross_module_binding) ... ok
+2026-09-08T19:43:52.6086660Z test_unseen_transitive_helper_change_is_rejected_before_execution (gopyt.test_guard_dependencies.ContractDependencies.test_unseen_transitive_helper_change_is_rejected_before_execution) ... ok
+2026-09-08T19:43:52.8648670Z test_bool_is_not_integer_argument (gopyt.test_guard_hardening.GuardHardening.test_bool_is_not_integer_argument) ... ok
+2026-09-08T19:43:53.1036430Z test_extra_argument_cannot_match_expected_type_trap (gopyt.test_guard_hardening.GuardHardening.test_extra_argument_cannot_match_expected_type_trap) ... ok
+2026-09-08T19:43:53.3415960Z test_integer_is_not_bool_argument (gopyt.test_guard_hardening.GuardHardening.test_integer_is_not_bool_argument) ... ok
+2026-09-08T19:43:53.6151950Z test_missing_argument_cannot_match_expected_type_trap (gopyt.test_guard_hardening.GuardHardening.test_missing_argument_cannot_match_expected_type_trap) ... ok
+2026-09-08T19:43:53.6716980Z test_prepare_duplicate_policy_key_is_refused (gopyt.test_guard_hardening.GuardHardening.test_prepare_duplicate_policy_key_is_refused) ... guard prepare: duplicate JSON key: cases
+2026-09-08T19:43:53.6720470Z ok
+2026-09-08T19:43:53.7311470Z test_prepare_rejects_unknown_function (gopyt.test_guard_hardening.GuardHardening.test_prepare_rejects_unknown_function) ... ok
+2026-09-08T19:43:53.7928240Z test_prepare_rejects_wrong_arity (gopyt.test_guard_hardening.GuardHardening.test_prepare_rejects_wrong_arity) ... ok
+2026-09-08T19:43:53.8449590Z test_prepare_rejects_wrong_result_type (gopyt.test_guard_hardening.GuardHardening.test_prepare_rejects_wrong_result_type) ... ok
+2026-09-08T19:43:53.8781250Z test_timed_call_preserves_input_list (gopyt.test_guard_hardening.GuardHardening.test_timed_call_preserves_input_list) ... ok
+2026-09-08T19:43:53.9669260Z test_timeout_and_cancellation_restoration (gopyt.test_guard_hardening.GuardHardening.test_timeout_and_cancellation_restoration) ... ok
+2026-09-08T19:43:54.1974770Z test_unsupported_string_parameter (gopyt.test_guard_hardening.GuardHardening.test_unsupported_string_parameter) ... ok
+2026-09-08T19:43:54.4074760Z test_valid_bool_and_integer_cases_pass (gopyt.test_guard_hardening.GuardHardening.test_valid_bool_and_integer_cases_pass) ... ok
+2026-09-08T19:43:54.4380040Z test_actual_vm_loop_stops_and_next_call_works (gopyt.test_guard_optimization.DeadlineExecution.test_actual_vm_loop_stops_and_next_call_works) ... ok
+2026-09-08T19:43:54.4393070Z test_no_timer_thread_is_allocated (gopyt.test_guard_optimization.DeadlineExecution.test_no_timer_thread_is_allocated) ... ok
+2026-09-08T19:43:54.4799010Z test_case_limit_is_checked_before_compilation (gopyt.test_guard_preparation.PreparationLimits.test_case_limit_is_checked_before_compilation) ... ok
+2026-09-08T19:43:54.5022890Z test_cli_oversized_policy_refused_before_json_parse (gopyt.test_guard_preparation.PreparationLimits.test_cli_oversized_policy_refused_before_json_parse) ... guard prepare: preparation policy exceeds byte limit
+2026-09-08T19:43:54.5032460Z ok
+2026-09-08T19:43:54.5460780Z test_engine_change_during_preparation_is_refused (gopyt.test_guard_preparation.PreparationLimits.test_engine_change_during_preparation_is_refused) ... ok
+2026-09-08T19:43:54.9531750Z test_parameter_swap_cannot_change_contract_meaning (gopyt.test_guard_private_helpers.PrivateHelperSignature.test_parameter_swap_cannot_change_contract_meaning) ... ok
+2026-09-08T19:43:55.0051060Z test_ambiguous_and_invalid_case_outcomes (gopyt.test_guard_schema.BundleValidation.test_ambiguous_and_invalid_case_outcomes) ... ok
+2026-09-08T19:43:55.1011530Z 08201f592d76174174acb1e009c3fdffc4690a9496c2bc4907a1ae208c8c7da3
+2026-09-08T19:43:55.2940510Z {
+2026-09-08T19:43:55.2944260Z   "schema": "gopyt.guard.receipt.v1",
+2026-09-08T19:43:55.2946420Z   "accepted": true,
+2026-09-08T19:43:55.2948340Z   "bundle_sha256": "08201f592d76174174acb1e009c3fdffc4690a9496c2bc4907a1ae208c8c7da3",
+2026-09-08T19:43:55.2950150Z   "engine_sha256": "2eb6b8956f69bccac3973454fc10a00f9344581f9083688bc1bd57a36813aa54",
+2026-09-08T19:43:55.2951470Z   "limitations": [
+2026-09-08T19:43:55.2952330Z     "Finite acceptance cases, not a proof.",
+2026-09-08T19:43:55.2954050Z     "Listed obligations are declarations; this gate executes only the supplied cases, not HTTP or database tests.",
+2026-09-08T19:43:55.2955900Z     "Caller, bundle pin, and executor must be protected outside candidate authority.",
+2026-09-08T19:43:55.2957720Z     "No guarantee about external payment processors or undisclosed policies."
+2026-09-08T19:43:55.2958990Z   ],
+2026-09-08T19:43:55.2960590Z   "candidate_sha256": "41217c3d81c3e3e70a25f60eb3e1a17f66ca718bdcf34ad5d4fc00dd52486e0a",
+2026-09-08T19:43:55.2962150Z   "changed_files": [],
+2026-09-08T19:43:55.2963200Z   "obligations": {
+2026-09-08T19:43:55.2964080Z     "stock": "Reservation preserves nonnegative stock."
+2026-09-08T19:43:55.2965170Z   },
+2026-09-08T19:43:55.2965880Z   "protected_contract_helpers": [],
+2026-09-08T19:43:55.2967970Z   "passed": 3,
+2026-09-08T19:43:55.2968790Z   "total": 3,
+2026-09-08T19:43:55.2969680Z   "failures": []
+2026-09-08T19:43:55.2970470Z }
+2026-09-08T19:43:55.4904170Z test_cli_prepare_and_evaluate_preserve_existing_receipts (gopyt.test_guard_schema.BundleValidation.test_cli_prepare_and_evaluate_preserve_existing_receipts) ... ok
+2026-09-08T19:43:55.5354040Z test_duplicate_keys_refused (gopyt.test_guard_schema.BundleValidation.test_duplicate_keys_refused) ... ok
+2026-09-08T19:43:55.5715550Z test_empty_cases_even_with_correct_pin (gopyt.test_guard_schema.BundleValidation.test_empty_cases_even_with_correct_pin) ... ok
+2026-09-08T19:43:55.6208640Z test_empty_obligations_and_unknown_fields_refused (gopyt.test_guard_schema.BundleValidation.test_empty_obligations_and_unknown_fields_refused) ... ok
+2026-09-08T19:43:55.6764650Z test_inventory_path_traversal_and_wrong_hash_refused (gopyt.test_guard_schema.BundleValidation.test_inventory_path_traversal_and_wrong_hash_refused) ... ok
+2026-09-08T19:43:55.7324070Z test_mutable_authority_cannot_expand_to_specs (gopyt.test_guard_schema.BundleValidation.test_mutable_authority_cannot_expand_to_specs) ... ok
+2026-09-08T19:43:55.7834660Z test_only_trap_cases_are_not_sufficient (gopyt.test_guard_schema.BundleValidation.test_only_trap_cases_are_not_sufficient) ... ok
+2026-09-08T19:43:55.8370280Z test_preparation_refuses_invalid_case (gopyt.test_guard_schema.BundleValidation.test_preparation_refuses_invalid_case) ... ok
+2026-09-08T19:43:55.8387360Z test_collection_traces_new_children_of_already_admitted_mutable_roots (gopyt.test_heap_boundaries.HeapBoundaries.test_collection_traces_new_children_of_already_admitted_mutable_roots) ... ok
+2026-09-08T19:43:55.8389200Z test_exception_removes_frame_and_pin_roots_and_restores_released_lock (gopyt.test_heap_boundaries.HeapBoundaries.test_exception_removes_frame_and_pin_roots_and_restores_released_lock) ... ok
+2026-09-08T19:43:55.8390460Z test_handoff_survives_until_caller_stack_owns_the_return_value (gopyt.test_heap_boundaries.HeapBoundaries.test_handoff_survives_until_caller_stack_owns_the_return_value) ... ok
+2026-09-08T19:43:55.8391580Z test_one_threads_instruction_does_not_consume_another_threads_handoff (gopyt.test_heap_boundaries.HeapBoundaries.test_one_threads_instruction_does_not_consume_another_threads_handoff) ... ok
+2026-09-08T19:43:55.8392960Z test_released_native_boundary_allows_collection_with_arguments_pinned (gopyt.test_heap_boundaries.HeapBoundaries.test_released_native_boundary_allows_collection_with_arguments_pinned) ... ok
+2026-09-08T19:43:55.8394180Z test_step_admits_both_stack_and_local_graphs_before_threshold_collection (gopyt.test_heap_boundaries.HeapBoundaries.test_step_admits_both_stack_and_local_graphs_before_threshold_collection) ... ok
+2026-09-08T19:43:55.8395250Z test_failed_body_releases_reusable_guard (gopyt.test_heap_refinement.HeapRefinement.test_failed_body_releases_reusable_guard) ... ok
+2026-09-08T19:43:55.8404720Z test_failed_enter_releases_lock_for_other_thread (gopyt.test_heap_refinement.HeapRefinement.test_failed_enter_releases_lock_for_other_thread) ... ok
+2026-09-08T19:43:55.8407440Z test_guard_reuse_rescans_mutated_roots (gopyt.test_heap_refinement.HeapRefinement.test_guard_reuse_rescans_mutated_roots) ... ok
+2026-09-08T19:43:56.2834180Z test_seeded_graph_traces_match_retained_heap (gopyt.test_heap_refinement.HeapRefinement.test_seeded_graph_traces_match_retained_heap) ... ok
+2026-09-08T19:43:56.4041540Z test_finished_handlers_are_reclaimed_with_cyclic_gc_disabled (gopyt.test_http_retention.HttpRetention.test_finished_handlers_are_reclaimed_with_cyclic_gc_disabled) ... echo
+2026-09-08T19:43:56.4055720Z echo
+2026-09-08T19:43:56.4065600Z echo
+2026-09-08T19:43:56.4072610Z echo
+2026-09-08T19:43:56.4088770Z echo
+2026-09-08T19:43:56.4106650Z echo
+2026-09-08T19:43:56.5239910Z ok
+2026-09-08T19:44:05.5709940Z test_generated_state_sequences (gopyt.test_inventory.Inventory.test_generated_state_sequences) ... ok
+2026-09-08T19:44:09.9826940Z test_real_http_lifecycle (gopyt.test_inventory.Inventory.test_real_http_lifecycle) ... ok
+2026-09-08T19:44:10.1867680Z test_actual_stdio_initialize_symbols_shutdown (gopyt.test_lsp.LanguageServer.test_actual_stdio_initialize_symbols_shutdown) ... ok
+2026-09-08T19:44:10.1973430Z test_path_and_message_boundaries (gopyt.test_lsp.LanguageServer.test_path_and_message_boundaries) ... ok
+2026-09-08T19:44:10.4904670Z test_unsaved_diagnostics_revert_and_stale_versions (gopyt.test_lsp.LanguageServer.test_unsaved_diagnostics_revert_and_stale_versions) ... ok
+2026-09-08T19:44:10.4910550Z test_malformed_lengths_and_headers (gopyt.test_mapped_data.MappedColumn.test_malformed_lengths_and_headers) ... skipped 'Linux memfd sealing prototype'
+2026-09-08T19:44:10.4913470Z test_seals_block_resize_write_and_mapping_mutation (gopyt.test_mapped_data.MappedColumn.test_seals_block_resize_write_and_mapping_mutation) ... skipped 'Linux memfd sealing prototype'
+2026-09-08T19:44:10.6457500Z test_acceptance_binding_and_staleness (gopyt.test_obligations.Challenge2026.test_acceptance_binding_and_staleness) ... ok
+2026-09-08T19:44:10.7528690Z test_acceptance_summary_discloses_corpus_size (gopyt.test_obligations.Challenge2026.test_acceptance_summary_discloses_corpus_size) ... ok
+2026-09-08T19:44:10.8251930Z test_binding_scopes_and_gaps (gopyt.test_obligations.Challenge2026.test_binding_scopes_and_gaps) ... ok
+2026-09-08T19:44:10.8721660Z test_cli_refuses_existing_output (gopyt.test_obligations.Challenge2026.test_cli_refuses_existing_output) ... obligations: FileExistsError: [Errno 17] File exists: '/Users/runner/work/_temp/tmp8adlfbgw/report.json'
+2026-09-08T19:44:10.8729530Z ok
+2026-09-08T19:44:10.9149400Z test_contract_document_change_is_reported (gopyt.test_obligations.Challenge2026.test_contract_document_change_is_reported) ... ok
+2026-09-08T19:44:11.0236860Z test_contradictory_current_receipts_are_flagged_not_order_decided (gopyt.test_obligations.Challenge2026.test_contradictory_current_receipts_are_flagged_not_order_decided) ... ok
+2026-09-08T19:44:11.0964740Z test_ensures_violation_traps_in_test_receipt (gopyt.test_obligations.Challenge2026.test_ensures_violation_traps_in_test_receipt) ... ok
+2026-09-08T19:44:11.1377010Z test_facts_expose_field_coupling_and_body_identity (gopyt.test_obligations.Challenge2026.test_facts_expose_field_coupling_and_body_identity) ... ok
+2026-09-08T19:44:11.2502320Z test_impact_flags_before_report_from_another_package (gopyt.test_obligations.Challenge2026.test_impact_flags_before_report_from_another_package) ... ok
+2026-09-08T19:44:11.3596740Z test_impact_lists_changed_functions_obligations_and_stale_evidence (gopyt.test_obligations.Challenge2026.test_impact_lists_changed_functions_obligations_and_stale_evidence) ... ok
+2026-09-08T19:44:11.4933480Z test_impact_records_engine_change_between_reports (gopyt.test_obligations.Challenge2026.test_impact_records_engine_change_between_reports) ... ok
+2026-09-08T19:44:11.5931170Z test_impact_records_registry_change_between_reports (gopyt.test_obligations.Challenge2026.test_impact_records_registry_change_between_reports) ... ok
+2026-09-08T19:44:11.6381250Z test_missing_clause_and_unknown_function_are_explicit (gopyt.test_obligations.Challenge2026.test_missing_clause_and_unknown_function_are_explicit) ... ok
+2026-09-08T19:44:11.7195700Z test_one_suite_identity_two_corpora_is_flagged (gopyt.test_obligations.Challenge2026.test_one_suite_identity_two_corpora_is_flagged) ... ok
+2026-09-08T19:44:11.9662070Z test_orders_registry_binds_completely (gopyt.test_obligations.Challenge2026.test_orders_registry_binds_completely) ... ok
+2026-09-08T19:44:12.0293480Z test_preserved_field_violation_is_static (gopyt.test_obligations.Challenge2026.test_preserved_field_violation_is_static) ... ok
+2026-09-08T19:44:12.1136090Z test_receipt_goes_stale_when_source_changes (gopyt.test_obligations.Challenge2026.test_receipt_goes_stale_when_source_changes) ... ok
+2026-09-08T19:44:12.1657780Z test_stale_except_names_are_flagged (gopyt.test_obligations.Challenge2026.test_stale_except_names_are_flagged) ... ok
+2026-09-08T19:44:12.2355770Z test_uninstantiated_generic_clause_is_not_claimed_compiled (gopyt.test_obligations.Challenge2026.test_uninstantiated_generic_clause_is_not_claimed_compiled) ... ok
+2026-09-08T19:44:12.2543540Z test_unresolved_policy_cannot_carry_executable_representation (gopyt.test_obligations.Challenge2026.test_unresolved_policy_cannot_carry_executable_representation) ... ok
+2026-09-08T19:44:12.4027700Z test_acceptance_binding_and_staleness (gopyt.test_obligations.ChallengeFindings.test_acceptance_binding_and_staleness) ... ok
+2026-09-08T19:44:12.4910180Z test_binding_scopes_and_gaps (gopyt.test_obligations.ChallengeFindings.test_binding_scopes_and_gaps) ... ok
+2026-09-08T19:44:12.5456940Z test_cli_refuses_existing_output (gopyt.test_obligations.ChallengeFindings.test_cli_refuses_existing_output) ... obligations: FileExistsError: [Errno 17] File exists: '/Users/runner/work/_temp/tmplb3dflq8/report.json'
+2026-09-08T19:44:12.5476240Z ok
+2026-09-08T19:44:12.6103930Z test_contract_document_change_is_reported (gopyt.test_obligations.ChallengeFindings.test_contract_document_change_is_reported) ... ok
+2026-09-08T19:44:12.6827520Z test_ensures_violation_traps_in_test_receipt (gopyt.test_obligations.ChallengeFindings.test_ensures_violation_traps_in_test_receipt) ... ok
+2026-09-08T19:44:12.7480050Z test_equivalent_clause_spelling_binds (gopyt.test_obligations.ChallengeFindings.test_equivalent_clause_spelling_binds) ... ok
+2026-09-08T19:44:12.7897890Z test_facts_expose_field_coupling_and_body_identity (gopyt.test_obligations.ChallengeFindings.test_facts_expose_field_coupling_and_body_identity) ... ok
+2026-09-08T19:44:12.9043270Z test_halted_tests_are_labelled (gopyt.test_obligations.ChallengeFindings.test_halted_tests_are_labelled) ... ok
+2026-09-08T19:44:13.0309250Z test_impact_lists_changed_functions_obligations_and_stale_evidence (gopyt.test_obligations.ChallengeFindings.test_impact_lists_changed_functions_obligations_and_stale_evidence) ... ok
+2026-09-08T19:44:13.1043380Z test_invalid_row_does_not_hide_other_obligations (gopyt.test_obligations.ChallengeFindings.test_invalid_row_does_not_hide_other_obligations) ... ok
+2026-09-08T19:44:13.1828660Z test_local_alias_field_is_not_established_not_violated (gopyt.test_obligations.ChallengeFindings.test_local_alias_field_is_not_established_not_violated) ... ok
+2026-09-08T19:44:13.2604320Z test_missing_clause_and_unknown_function_are_explicit (gopyt.test_obligations.ChallengeFindings.test_missing_clause_and_unknown_function_are_explicit) ... ok
+2026-09-08T19:44:13.3117930Z test_misspelled_preserved_field_is_a_gap (gopyt.test_obligations.ChallengeFindings.test_misspelled_preserved_field_is_a_gap) ... ok
+2026-09-08T19:44:13.4916830Z test_orders_registry_binds_completely (gopyt.test_obligations.ChallengeFindings.test_orders_registry_binds_completely) ... ok
+2026-09-08T19:44:13.5638190Z test_preserved_field_violation_is_static (gopyt.test_obligations.ChallengeFindings.test_preserved_field_violation_is_static) ... ok
+2026-09-08T19:44:13.6280590Z test_receipt_goes_stale_when_source_changes (gopyt.test_obligations.ChallengeFindings.test_receipt_goes_stale_when_source_changes) ... ok
+2026-09-08T19:44:13.6441270Z test_unresolved_policy_cannot_carry_executable_representation (gopyt.test_obligations.ChallengeFindings.test_unresolved_policy_cannot_carry_executable_representation) ... ok
+2026-09-08T19:44:13.6680300Z test_helper_sorting_before_contract_owner (gopyt.test_obligations.ContractNamePropagation.test_helper_sorting_before_contract_owner) ... ok
+2026-09-08T19:44:13.8002390Z test_acceptance_binding_and_staleness (gopyt.test_obligations.Obligations.test_acceptance_binding_and_staleness) ... ok
+2026-09-08T19:44:13.8610570Z test_binding_scopes_and_gaps (gopyt.test_obligations.Obligations.test_binding_scopes_and_gaps) ... ok
+2026-09-08T19:44:13.9143780Z test_cli_refuses_existing_output (gopyt.test_obligations.Obligations.test_cli_refuses_existing_output) ... obligations: FileExistsError: [Errno 17] File exists: '/Users/runner/work/_temp/tmpo90wh73e/report.json'
+2026-09-08T19:44:13.9150630Z ok
+2026-09-08T19:44:13.9619880Z test_contract_document_change_is_reported (gopyt.test_obligations.Obligations.test_contract_document_change_is_reported) ... ok
+2026-09-08T19:44:14.0324500Z test_ensures_violation_traps_in_test_receipt (gopyt.test_obligations.Obligations.test_ensures_violation_traps_in_test_receipt) ... ok
+2026-09-08T19:44:14.0602790Z test_facts_expose_field_coupling_and_body_identity (gopyt.test_obligations.Obligations.test_facts_expose_field_coupling_and_body_identity) ... ok
+2026-09-08T19:44:14.1525700Z test_impact_lists_changed_functions_obligations_and_stale_evidence (gopyt.test_obligations.Obligations.test_impact_lists_changed_functions_obligations_and_stale_evidence) ... ok
+2026-09-08T19:44:14.1952070Z test_missing_clause_and_unknown_function_are_explicit (gopyt.test_obligations.Obligations.test_missing_clause_and_unknown_function_are_explicit) ... ok
+2026-09-08T19:44:14.4435620Z test_orders_registry_binds_completely (gopyt.test_obligations.Obligations.test_orders_registry_binds_completely) ... ok
+2026-09-08T19:44:14.5032680Z test_preserved_field_violation_is_static (gopyt.test_obligations.Obligations.test_preserved_field_violation_is_static) ... ok
+2026-09-08T19:44:14.5710540Z test_receipt_goes_stale_when_source_changes (gopyt.test_obligations.Obligations.test_receipt_goes_stale_when_source_changes) ... ok
+2026-09-08T19:44:14.5886720Z test_unresolved_policy_cannot_carry_executable_representation (gopyt.test_obligations.Obligations.test_unresolved_policy_cannot_carry_executable_representation) ... ok
+2026-09-08T19:44:14.7415800Z test_acceptance_binding_and_staleness (gopyt.test_obligations.ReviewRegressions.test_acceptance_binding_and_staleness) ... ok
+2026-09-08T19:44:14.8628620Z test_acceptance_representation_binds_by_suite_not_basename (gopyt.test_obligations.ReviewRegressions.test_acceptance_representation_binds_by_suite_not_basename) ... ok
+2026-09-08T19:44:14.9890720Z test_arithmetic_change_pulls_in_downstream_readers (gopyt.test_obligations.ReviewRegressions.test_arithmetic_change_pulls_in_downstream_readers) ... ok
+2026-09-08T19:44:15.0676780Z test_binding_scopes_and_gaps (gopyt.test_obligations.ReviewRegressions.test_binding_scopes_and_gaps) ... ok
+2026-09-08T19:44:15.1457690Z test_boolean_scenario_counts_are_contradictory (gopyt.test_obligations.ReviewRegressions.test_boolean_scenario_counts_are_contradictory) ... ok
+2026-09-08T19:44:15.1985530Z test_cli_refuses_existing_output (gopyt.test_obligations.ReviewRegressions.test_cli_refuses_existing_output) ... obligations: FileExistsError: [Errno 17] File exists: '/Users/runner/work/_temp/tmpazofelim/report.json'
+2026-09-08T19:44:15.1993050Z ok
+2026-09-08T19:44:15.3033200Z test_complete_report_binds_when_repo_root_is_not_package_parent (gopyt.test_obligations.ReviewRegressions.test_complete_report_binds_when_repo_root_is_not_package_parent) ... ok
+2026-09-08T19:44:15.3546950Z test_contract_document_change_is_reported (gopyt.test_obligations.ReviewRegressions.test_contract_document_change_is_reported) ... ok
+2026-09-08T19:44:15.4788680Z test_decoy_gopyt_directory_does_not_cover_the_engine (gopyt.test_obligations.ReviewRegressions.test_decoy_gopyt_directory_does_not_cover_the_engine) ... ok
+2026-09-08T19:44:15.5482630Z test_duplicate_json_keys_make_the_report_invalid (gopyt.test_obligations.ReviewRegressions.test_duplicate_json_keys_make_the_report_invalid) ... ok
+2026-09-08T19:44:15.6324060Z test_ensures_violation_traps_in_test_receipt (gopyt.test_obligations.ReviewRegressions.test_ensures_violation_traps_in_test_receipt) ... ok
+2026-09-08T19:44:15.6777180Z test_facts_expose_field_coupling_and_body_identity (gopyt.test_obligations.ReviewRegressions.test_facts_expose_field_coupling_and_body_identity) ... ok
+2026-09-08T19:44:15.7991990Z test_impact_lists_changed_functions_obligations_and_stale_evidence (gopyt.test_obligations.ReviewRegressions.test_impact_lists_changed_functions_obligations_and_stale_evidence) ... ok
+2026-09-08T19:44:15.9089650Z test_impact_propagates_contract_staleness (gopyt.test_obligations.ReviewRegressions.test_impact_propagates_contract_staleness) ... ok
+2026-09-08T19:44:15.9593330Z test_missing_clause_and_unknown_function_are_explicit (gopyt.test_obligations.ReviewRegressions.test_missing_clause_and_unknown_function_are_explicit) ... ok
+2026-09-08T19:44:16.1458130Z test_orders_registry_binds_completely (gopyt.test_obligations.ReviewRegressions.test_orders_registry_binds_completely) ... ok
+2026-09-08T19:44:16.3216810Z test_partial_or_contradictory_acceptance_is_never_passing (gopyt.test_obligations.ReviewRegressions.test_partial_or_contradictory_acceptance_is_never_passing) ... ok
+2026-09-08T19:44:16.3892060Z test_preserved_field_violation_is_static (gopyt.test_obligations.ReviewRegressions.test_preserved_field_violation_is_static) ... ok
+2026-09-08T19:44:16.4647130Z test_receipt_goes_stale_when_source_changes (gopyt.test_obligations.ReviewRegressions.test_receipt_goes_stale_when_source_changes) ... ok
+2026-09-08T19:44:16.5292510Z test_stale_contract_marks_every_obligation_applicability (gopyt.test_obligations.ReviewRegressions.test_stale_contract_marks_every_obligation_applicability) ... ok
+2026-09-08T19:44:16.5972470Z test_unbound_or_missing_contract_flags_contract_authority (gopyt.test_obligations.ReviewRegressions.test_unbound_or_missing_contract_flags_contract_authority) ... ok
+2026-09-08T19:44:16.6993530Z test_uncalled_function_is_not_reported_as_executed (gopyt.test_obligations.ReviewRegressions.test_uncalled_function_is_not_reported_as_executed) ... ok
+2026-09-08T19:44:16.7409070Z test_unresolved_policy_cannot_carry_executable_representation (gopyt.test_obligations.ReviewRegressions.test_unresolved_policy_cannot_carry_executable_representation) ... ok
+2026-09-08T19:44:16.7766360Z test_ids_are_sorted_by_symbol_and_type_arguments (gopyt.test_perf.ArtifactOrder.test_ids_are_sorted_by_symbol_and_type_arguments) ... ok
+2026-09-08T19:44:17.2818220Z test_artifact_is_identical_under_different_hash_seeds (gopyt.test_perf.Determinism.test_artifact_is_identical_under_different_hash_seeds) ... ok
+2026-09-08T19:44:17.2862290Z test_the_same_broken_package_reports_the_same_diagnostic (gopyt.test_perf.Determinism.test_the_same_broken_package_reports_the_same_diagnostic)
+2026-09-08T19:44:17.6898160Z docs/diagnostics.md: first error only, chosen deterministically. ... ok
+2026-09-08T19:44:17.8946010Z 
+2026-09-08T19:44:17.8960760Z 50 modules checked in 37 ms
+2026-09-08T19:44:17.9005450Z test_fifty_modules (gopyt.test_perf.ManyModules.test_fifty_modules) ... ok
+2026-09-08T19:44:21.2546120Z 
+2026-09-08T19:44:21.2549700Z check 17 ms, 10000 logins 3308 ms
+2026-09-08T19:44:21.2577470Z test_check_and_a_ten_thousand_denial_burst (gopyt.test_perf.Smoke.test_check_and_a_ten_thousand_denial_burst) ... ok
+2026-09-08T19:44:21.2578760Z test_observe_memory_is_flat_across_sizes (gopyt.test_perf.Smoke.test_observe_memory_is_flat_across_sizes)
+2026-09-08T19:44:22.5042800Z Ten times the events must not mean more cells. ... ok
+2026-09-08T19:44:22.5520900Z test_changed_source_and_tampered_receipt_rejected (gopyt.test_project_context.ProjectContext.test_changed_source_and_tampered_receipt_rejected) ... ok
+2026-09-08T19:44:22.6267080Z test_contract_diff_ignores_comments_but_tracks_policy_expression (gopyt.test_project_context.ProjectContext.test_contract_diff_ignores_comments_but_tracks_policy_expression) ... ok
+2026-09-08T19:44:22.6639090Z test_copied_input_is_tested_when_working_tree_changes (gopyt.test_project_context.ProjectContext.test_copied_input_is_tested_when_working_tree_changes) ... ok
+2026-09-08T19:44:22.6937190Z test_exact_generic_contract_and_resolved_call (gopyt.test_project_context.ProjectContext.test_exact_generic_contract_and_resolved_call) ... ok
+2026-09-08T19:44:22.7084980Z test_existing_output_never_overwritten (gopyt.test_project_context.ProjectContext.test_existing_output_never_overwritten) ... project context: FileExistsError: [Errno 17] File exists: '/Users/runner/work/_temp/tmpg4fo9dus/receipt.json'
+2026-09-08T19:44:22.7090710Z ok
+2026-09-08T19:44:22.7502290Z test_failed_compile_never_reuses_disk_artifact (gopyt.test_project_context.ProjectContext.test_failed_compile_never_reuses_disk_artifact) ... ok
+2026-09-08T19:44:22.8205610Z test_failed_test_distinct_from_compile_and_retained (gopyt.test_project_context.ProjectContext.test_failed_test_distinct_from_compile_and_retained) ... ok
+2026-09-08T19:44:22.8601120Z test_first_test_failure_does_not_claim_remaining_tests (gopyt.test_project_context.ProjectContext.test_first_test_failure_does_not_claim_remaining_tests) ... ok
+2026-09-08T19:44:22.9330290Z test_sibling_dependency_test_and_non_source_bytes_bound (gopyt.test_project_context.ProjectContext.test_sibling_dependency_test_and_non_source_bytes_bound) ... ok
+2026-09-08T19:44:22.9621000Z test_stale_lock_is_a_failed_check (gopyt.test_project_context.ProjectContext.test_stale_lock_is_a_failed_check) ... ok
+2026-09-08T19:44:22.9817460Z test_symlink_source_has_no_context (gopyt.test_project_context.ProjectContext.test_symlink_source_has_no_context) ... ok
+2026-09-08T19:44:23.0279390Z test_test_receipt_replays_serialized_result (gopyt.test_project_context.ProjectContext.test_test_receipt_replays_serialized_result) ... ok
+2026-09-08T19:44:23.0768790Z test_zero_tests_is_explicit (gopyt.test_project_context.ProjectContext.test_zero_tests_is_explicit) ... ok
+2026-09-08T19:44:23.9807840Z test_each_fixture_converges_or_stops_at_its_own_code (gopyt.test_repair.AgainstTheFixtures.test_each_fixture_converges_or_stops_at_its_own_code) ... ok
+2026-09-08T19:44:24.0398130Z test_a_repair_only_touches_the_file_it_names (gopyt.test_repair.RepairLoop.test_a_repair_only_touches_the_file_it_names) ... ok
+2026-09-08T19:44:24.0399890Z test_int_stops_without_inventing_a_dialect (gopyt.test_repair.RepairLoop.test_int_stops_without_inventing_a_dialect)
+2026-09-08T19:44:24.0545120Z C005: E020 has no exact replacement text, so the loop must stop. ... ok
+2026-09-08T19:44:24.0545830Z test_missing_use_and_lock_are_repaired (gopyt.test_repair.RepairLoop.test_missing_use_and_lock_are_repaired)
+2026-09-08T19:44:24.1025780Z C002 shape: no `use`, no lock. Both repairs are exact text. ... ok
+2026-09-08T19:44:24.1026700Z test_open_hole_stops (gopyt.test_repair.RepairLoop.test_open_hole_stops)
+2026-09-08T19:44:24.1155720Z E065 is a hole a human or agent must fill; no repair bytes. ... ok
+2026-09-08T19:44:24.2917620Z test_runs_as_a_script (gopyt.test_repair.RepairLoop.test_runs_as_a_script) ... ok
+2026-09-08T19:44:24.2918310Z test_several_errors_converge (gopyt.test_repair.RepairLoop.test_several_errors_converge)
+2026-09-08T19:44:24.3472640Z Unformatted, missing use, missing impl, and no lock, all at once. ... ok
+2026-09-08T19:44:24.3827030Z test_stale_lock_alone_is_repaired (gopyt.test_repair.RepairLoop.test_stale_lock_alone_is_repaired) ... ok
+2026-09-08T19:44:24.3833870Z test_the_missing_impl_repair_is_a_file_that_parses (gopyt.test_repair.RepairLoop.test_the_missing_impl_repair_is_a_file_that_parses)
+2026-09-08T19:44:24.4082640Z E033's repair is the E-D2 stub: it reaches E030, not E013 or E020. ... ok
+2026-09-08T19:44:24.4519540Z test_widening_an_existing_allowlist (gopyt.test_repair.RepairLoop.test_widening_an_existing_allowlist) ... ok
+2026-09-08T19:44:24.4597340Z test_encrypted_restart_and_conditional_write (gopyt.test_security_config.SecurityProfile.test_encrypted_restart_and_conditional_write) ... ok
+2026-09-08T19:44:24.4639280Z test_plaintext_is_not_silently_migrated (gopyt.test_security_config.SecurityProfile.test_plaintext_is_not_silently_migrated) ... ok
+2026-09-08T19:44:25.2339760Z test_real_http_authentication_encrypted_restart (gopyt.test_security_config.SecurityProfile.test_real_http_authentication_encrypted_restart) ... ok
+2026-09-08T19:44:25.2371330Z test_secret_permissions_links_and_package_location (gopyt.test_security_config.SecurityProfile.test_secret_permissions_links_and_package_location) ... ok
+2026-09-08T19:44:25.2399690Z test_strict_listener_requires_loopback_and_token (gopyt.test_security_config.SecurityProfile.test_strict_listener_requires_loopback_and_token) ... ok
+2026-09-08T19:44:25.2449510Z test_tampered_snapshot_cannot_be_read_or_overwritten (gopyt.test_security_config.SecurityProfile.test_tampered_snapshot_cannot_be_read_or_overwritten) ... ok
+2026-09-08T19:44:25.2514300Z test_wrong_key_context_and_missing_key_reject_even_cached_reads (gopyt.test_security_config.SecurityProfile.test_wrong_key_context_and_missing_key_reject_even_cached_reads) ... ok
+2026-09-08T19:44:25.2530180Z test_hardlinks_cannot_read_or_modify_outside_file (gopyt.test_security_files.FilesystemSecurity.test_hardlinks_cannot_read_or_modify_outside_file) ... ok
+2026-09-08T19:44:25.2531440Z test_runtime_metadata_and_source_writes_are_reserved (gopyt.test_security_files.FilesystemSecurity.test_runtime_metadata_and_source_writes_are_reserved) ... ok
+2026-09-08T19:44:25.2583950Z test_absent_is_distinct_from_empty_and_unicode_values (gopyt.test_storage.Storage.test_absent_is_distinct_from_empty_and_unicode_values) ... ok
+2026-09-08T19:44:25.3629600Z test_acknowledged_write_survives_abrupt_process_exit (gopyt.test_storage.Storage.test_acknowledged_write_survives_abrupt_process_exit) ... ok
+2026-09-08T19:44:25.3897450Z test_cache_lru_bounds_utf8_payload_and_entry_count (gopyt.test_storage.Storage.test_cache_lru_bounds_utf8_payload_and_entry_count) ... ok
+2026-09-08T19:44:25.5243000Z test_crash_before_commit_preserves_database_and_cleans_temporary (gopyt.test_storage.Storage.test_crash_before_commit_preserves_database_and_cleans_temporary) ... ok
+2026-09-08T19:44:25.5344860Z test_database_and_lock_links_are_rejected (gopyt.test_storage.Storage.test_database_and_lock_links_are_rejected) ... ok
+2026-09-08T19:44:25.5452110Z test_database_hardlink_fifo_and_corruption_are_rejected (gopyt.test_storage.Storage.test_database_hardlink_fifo_and_corruption_are_rejected) ... ok
+2026-09-08T19:44:25.5549460Z test_directory_symlink_cannot_escape (gopyt.test_storage.Storage.test_directory_symlink_cannot_escape) ... ok
+2026-09-08T19:44:25.5661070Z test_failed_commit_preserves_prior_database (gopyt.test_storage.Storage.test_failed_commit_preserves_prior_database) ... ok
+2026-09-08T19:44:25.5667540Z test_failed_write_never_exposes_unpersisted_cached_value (gopyt.test_storage.Storage.test_failed_write_never_exposes_unpersisted_cached_value) ... ok
+2026-09-08T19:44:25.7190580Z test_fork_discards_inherited_cache_and_locked_python_mutex (gopyt.test_storage.Storage.test_fork_discards_inherited_cache_and_locked_python_mutex) ... ok
+2026-09-08T19:44:25.7199470Z test_in_place_change_with_restored_mtime_invalidates_cache (gopyt.test_storage.Storage.test_in_place_change_with_restored_mtime_invalidates_cache) ... ok
+2026-09-08T19:44:25.7338080Z test_lock_wait_is_bounded (gopyt.test_storage.Storage.test_lock_wait_is_bounded) ... ok
+2026-09-08T19:44:25.7587750Z test_native_compiles_without_app_ffi_and_persists_between_vms (gopyt.test_storage.Storage.test_native_compiles_without_app_ffi_and_persists_between_vms) ... ok
+2026-09-08T19:44:26.2266630Z test_one_winner_for_process_stale_updates (gopyt.test_storage.Storage.test_one_winner_for_process_stale_updates) ... ok
+2026-09-08T19:44:26.3538090Z test_one_winner_for_threaded_conditional_insert (gopyt.test_storage.Storage.test_one_winner_for_threaded_conditional_insert) ... ERROR
+2026-09-08T19:44:26.3601890Z test_post_rename_failure_reads_back_actual_persisted_state (gopyt.test_storage.Storage.test_post_rename_failure_reads_back_actual_persisted_state) ... ok
+2026-09-08T19:44:26.7263750Z test_process_cas_increment_has_no_lost_updates (gopyt.test_storage.Storage.test_process_cas_increment_has_no_lost_updates) ... ok
+2026-09-08T19:44:26.7371740Z test_removed_and_recreated_database_invalidates_cached_value (gopyt.test_storage.Storage.test_removed_and_recreated_database_invalidates_cached_value) ... ok
+2026-09-08T19:44:26.8343680Z test_same_store_threads_share_atomic_cas_and_bounded_lock_wait (gopyt.test_storage.Storage.test_same_store_threads_share_atomic_cas_and_bounded_lock_wait) ... ok
+2026-09-08T19:44:26.8469430Z test_separate_packages_and_implicit_stores_are_isolated (gopyt.test_storage.Storage.test_separate_packages_and_implicit_stores_are_isolated) ... ok
+2026-09-08T19:44:26.8547600Z test_size_error_does_not_replace_existing_value (gopyt.test_storage.Storage.test_size_error_does_not_replace_existing_value) ... ok
+2026-09-08T19:44:26.9831800Z test_warm_cache_rejects_unsafe_replacement_and_corruption (gopyt.test_storage.Storage.test_warm_cache_rejects_unsafe_replacement_and_corruption) ... ok
+2026-09-08T19:44:27.0070210Z test_warm_cache_revalidates_schema_and_value_types (gopyt.test_storage.Storage.test_warm_cache_revalidates_schema_and_value_types) ... ok
+2026-09-08T19:44:27.1886500Z test_warm_reads_and_absence_reuse_only_validated_results (gopyt.test_storage.Storage.test_warm_reads_and_absence_reuse_only_validated_results) ... ok
+2026-09-08T19:44:27.4154780Z test_example_checks_tests_and_formats_without_source_changes (gopyt.test_tickets.TicketExample.test_example_checks_tests_and_formats_without_source_changes) ... ok
+2026-09-08T19:44:27.4164390Z test_identifier_validation_matches_independent_character_and_length_oracle (gopyt.test_tickets.TicketExample.test_identifier_validation_matches_independent_character_and_length_oracle)
+2026-09-08T19:44:29.5694770Z The frozen HTTP contract, independent of the application's algorithm. ... ok
+2026-09-08T19:44:30.2173380Z test_control_stream_alarm_rate_is_low (gopyt.test_validation.P0Observe.test_control_stream_alarm_rate_is_low) ... ok
+2026-09-08T19:44:30.9423140Z test_memory_is_o1_in_stream_length (gopyt.test_validation.P0Observe.test_memory_is_o1_in_stream_length) ... ok
+2026-09-08T19:44:30.9733340Z test_planted_shift_alarms (gopyt.test_validation.P0Observe.test_planted_shift_alarms) ... ok
+2026-09-08T19:44:31.1378920Z test_reservoir_never_exceeds_k (gopyt.test_validation.P0Observe.test_reservoir_never_exceeds_k) ... ok
+2026-09-08T19:44:31.6822900Z test_the_prototype_still_passes (gopyt.test_validation.P0Observe.test_the_prototype_still_passes) ... ok
+2026-09-08T19:44:31.6940690Z test_c001_to_c041_are_all_covered (gopyt.test_validation.P1Conformance.test_c001_to_c041_are_all_covered) ... ok
+2026-09-08T19:44:33.7670510Z test_the_fixture_runner_agrees_with_the_compiler (gopyt.test_validation.P1Conformance.test_the_fixture_runner_agrees_with_the_compiler) ... ok
+2026-09-08T19:44:33.8477890Z test_a_broken_tree_reaches_check_zero (gopyt.test_validation.P2RepairLoop.test_a_broken_tree_reaches_check_zero) ... ok
+2026-09-08T19:44:34.0993550Z test_a_candidate_that_fails_check_leaves_the_digest_alone (gopyt.test_validation.P3Harden.test_a_candidate_that_fails_check_leaves_the_digest_alone) ... ok
+2026-09-08T19:44:34.1627660Z test_burst_raises_the_alarm (gopyt.test_validation.P3Harden.test_burst_raises_the_alarm) ... ok
+2026-09-08T19:44:34.4365710Z test_propose_keeps_egress_and_ffi_closed (gopyt.test_validation.P3Harden.test_propose_keeps_egress_and_ffi_closed) ... ok
+2026-09-08T19:44:34.4588910Z test_a_json_extra_field_is_convert_error (gopyt.test_validation.P4Security.test_a_json_extra_field_is_convert_error) ... decode
+2026-09-08T19:44:34.4701780Z ok
+2026-09-08T19:44:34.4803810Z test_app_ffi_is_e069 (gopyt.test_validation.P4Security.test_app_ffi_is_e069) ... ok
+2026-09-08T19:44:34.4906960Z test_eval_is_e110 (gopyt.test_validation.P4Security.test_eval_is_e110) ... ok
+2026-09-08T19:44:34.5009800Z test_logging_a_secret_is_e112 (gopyt.test_validation.P4Security.test_logging_a_secret_is_e112) ... ok
+2026-09-08T19:44:34.5113540Z test_request_off_the_allowlist_is_e111 (gopyt.test_validation.P4Security.test_request_off_the_allowlist_is_e111) ... ok
+2026-09-08T19:44:34.5216690Z test_a_caller_holds_the_trait_effects_not_the_provide_effects (gopyt.test_vm.EffectHygiene.test_a_caller_holds_the_trait_effects_not_the_provide_effects)
+2026-09-08T19:44:34.5419150Z S26: the trait signature is the caller contract. ... charge
+2026-09-08T19:44:34.5520500Z ok
+2026-09-08T19:44:34.5645680Z test_a_caller_missing_a_trait_effect_is_e050 (gopyt.test_vm.EffectHygiene.test_a_caller_missing_a_trait_effect_is_e050) ... ok
+2026-09-08T19:44:34.5761890Z test_a_task_that_only_calls_a_pure_fn_needs_no_effect_but_must_have_one (gopyt.test_vm.EffectHygiene.test_a_task_that_only_calls_a_pure_fn_needs_no_effect_but_must_have_one)
+2026-09-08T19:44:34.5924110Z S9: a declaration with an empty effect set is a fn, so this is E051. ... ok
+2026-09-08T19:44:34.6164770Z test_an_effect_used_only_in_a_match_arm_counts (gopyt.test_vm.EffectHygiene.test_an_effect_used_only_in_a_match_arm_counts) ... ok
+2026-09-08T19:44:34.6366880Z test_an_effect_used_only_inside_a_parallel_arm_counts (gopyt.test_vm.EffectHygiene.test_an_effect_used_only_inside_a_parallel_arm_counts) ... ok
+2026-09-08T19:44:34.6627050Z test_empty_effects_clause_is_e050 (gopyt.test_vm.EffectHygiene.test_empty_effects_clause_is_e050) ... ok
+2026-09-08T19:44:34.6865000Z test_parallel_without_time_is_effect_missing (gopyt.test_vm.EffectHygiene.test_parallel_without_time_is_effect_missing) ... ok
+2026-09-08T19:44:34.7054750Z test_a_repeated_arm_is_e070 (gopyt.test_vm.Exhaustiveness.test_a_repeated_arm_is_e070) ... ok
+2026-09-08T19:44:34.7249330Z test_all_members_named_once_is_accepted (gopyt.test_vm.Exhaustiveness.test_all_members_named_once_is_accepted) ... ok
+2026-09-08T19:44:34.7507540Z test_an_arm_outside_the_union_is_e070 (gopyt.test_vm.Exhaustiveness.test_an_arm_outside_the_union_is_e070) ... ok
+2026-09-08T19:44:34.7736780Z test_matching_a_plain_record_is_e070 (gopyt.test_vm.Exhaustiveness.test_matching_a_plain_record_is_e070) ... ok
+2026-09-08T19:44:34.8033280Z test_optional_needs_both_arms (gopyt.test_vm.Exhaustiveness.test_optional_needs_both_arms) ... ok
+2026-09-08T19:44:34.8200270Z test_generic_body_may_use_its_own_type_variable (gopyt.test_vm.GenericBodies.test_generic_body_may_use_its_own_type_variable) ... ok
+2026-09-08T19:44:34.8336150Z test_identity_is_accepted (gopyt.test_vm.GenericBodies.test_identity_is_accepted) ... ok
+2026-09-08T19:44:34.8456270Z test_missing_return_in_an_uncalled_generic_is_reported (gopyt.test_vm.GenericBodies.test_missing_return_in_an_uncalled_generic_is_reported) ... ok
+2026-09-08T19:44:34.8607240Z test_type_error_in_an_uncalled_generic_is_reported (gopyt.test_vm.GenericBodies.test_type_error_in_an_uncalled_generic_is_reported) ... ok
+2026-09-08T19:44:34.8806630Z test_uncalled_generic_emits_no_function (gopyt.test_vm.GenericBodies.test_uncalled_generic_emits_no_function) ... ok
+2026-09-08T19:44:34.8998510Z test_unresolved_in_an_uncalled_generic_is_reported (gopyt.test_vm.GenericBodies.test_unresolved_in_an_uncalled_generic_is_reported) ... ok
+2026-09-08T19:44:34.9284370Z test_a_generic_record_is_monomorphized (gopyt.test_vm.Generics.test_a_generic_record_is_monomorphized) ... ok
+2026-09-08T19:44:34.9663780Z test_a_generic_trait_binds_its_parameters (gopyt.test_vm.Generics.test_a_generic_trait_binds_its_parameters) ... cell
+2026-09-08T19:44:34.9766270Z ok
+2026-09-08T19:44:35.0073390Z test_mutually_recursive_tasks (gopyt.test_vm.Generics.test_mutually_recursive_tasks) ... e
+2026-09-08T19:44:35.0075340Z o
+2026-09-08T19:44:35.0075730Z e
+2026-09-08T19:44:35.0075980Z o
+2026-09-08T19:44:35.0076610Z e
+2026-09-08T19:44:35.0079570Z o
+2026-09-08T19:44:35.0080690Z e
+2026-09-08T19:44:35.0138090Z ok
+2026-09-08T19:44:35.0581050Z test_one_function_record_per_type_argument_vector (gopyt.test_vm.Generics.test_one_function_record_per_type_argument_vector) ... ok
+2026-09-08T19:44:35.0582600Z test_trait_task_dispatch_and_two_traits_sharing_a_member_name (gopyt.test_vm.Generics.test_trait_task_dispatch_and_two_traits_sharing_a_member_name)
+2026-09-08T19:44:35.0970780Z S23/S26: static dispatch, and `Named.label` vs `Gateway.label`. ... charging
+2026-09-08T19:44:35.1013390Z ok
+2026-09-08T19:44:35.1127020Z test_wrong_trait_argument_count_is_e029 (gopyt.test_vm.Generics.test_wrong_trait_argument_count_is_e029) ... ok
+2026-09-08T19:44:35.1496960Z test_denied_burst_sets_cusum_alarm (gopyt.test_vm.Hardening.test_denied_burst_sets_cusum_alarm) ... ok
+2026-09-08T19:44:35.1714080Z test_a_negative_sleep_traps (gopyt.test_vm.HostServices.test_a_negative_sleep_traps) ... ok
+2026-09-08T19:44:35.1961140Z test_file_write_then_read_round_trips_inside_the_package (gopyt.test_vm.HostServices.test_file_write_then_read_round_trips_inside_the_package) ... ok
+2026-09-08T19:44:35.2691250Z test_random_respects_its_bounds (gopyt.test_vm.HostServices.test_random_respects_its_bounds) ... ok
+2026-09-08T19:44:35.3013050Z test_random_with_min_above_max_traps (gopyt.test_vm.HostServices.test_random_with_min_above_max_traps) ... ok
+2026-09-08T19:44:35.3255780Z test_reading_a_missing_file_is_not_found (gopyt.test_vm.HostServices.test_reading_a_missing_file_is_not_found) ... ok
+2026-09-08T19:44:35.3870750Z test_time_moves_forward (gopyt.test_vm.HostServices.test_time_moves_forward) ... ok
+2026-09-08T19:44:35.5146060Z test_a_second_serve_is_listen_error (gopyt.test_vm.HttpEdges.test_a_second_serve_is_listen_error) ... ok
+2026-09-08T19:44:35.6109450Z test_get_ignores_a_request_body (gopyt.test_vm.HttpEdges.test_get_ignores_a_request_body) ... echo
+2026-09-08T19:44:35.7181890Z ok
+2026-09-08T19:44:35.8959600Z test_post_with_a_wrong_content_type_is_400_empty (gopyt.test_vm.HttpEdges.test_post_with_a_wrong_content_type_is_400_empty) ... ok
+2026-09-08T19:44:36.0981540Z test_post_with_an_extra_json_key_is_400_empty (gopyt.test_vm.HttpEdges.test_post_with_an_extra_json_key_is_400_empty) ... ok
+2026-09-08T19:44:36.0984630Z test_routes_carry_their_parameter_names (gopyt.test_vm.HttpEdges.test_routes_carry_their_parameter_names)
+2026-09-08T19:44:36.2222200Z The artifact alone is enough to bind by name (bytecode.md). ... ok
+2026-09-08T19:44:36.3849550Z test_unknown_route_is_404_empty (gopyt.test_vm.HttpEdges.test_unknown_route_is_404_empty) ... ok
+2026-09-08T19:44:36.5324250Z test_wrong_method_on_a_known_path_is_404 (gopyt.test_vm.HttpEdges.test_wrong_method_on_a_known_path_is_404) ... ok
+2026-09-08T19:44:36.6069150Z test_a_convertible_placeholder_reaches_the_handler (gopyt.test_vm.HttpFromStr.test_a_convertible_placeholder_reaches_the_handler) ... user
+2026-09-08T19:44:36.7122530Z ok
+2026-09-08T19:44:36.8047360Z test_a_unit_handler_answers_200_with_an_empty_body (gopyt.test_vm.HttpFromStr.test_a_unit_handler_answers_200_with_an_empty_body) ... ping
+2026-09-08T19:44:36.9150210Z ok
+2026-09-08T19:44:37.0594200Z test_an_unconvertible_placeholder_is_400_empty (gopyt.test_vm.HttpFromStr.test_an_unconvertible_placeholder_is_400_empty) ... ok
+2026-09-08T19:44:37.1519160Z test_post_route_round_trip (gopyt.test_vm.HttpServer.test_post_route_round_trip) ... charge
+2026-09-08T19:44:37.2586850Z ok
+2026-09-08T19:44:37.2587760Z test_a_frame_must_be_empty_after_return (gopyt.test_vm.Loader.test_a_frame_must_be_empty_after_return)
+2026-09-08T19:44:37.2592010Z Anything left on the stack at RETURN is a lowering bug. ... ok
+2026-09-08T19:44:37.2602710Z test_a_native_must_match_the_shipped_declaration (gopyt.test_vm.Loader.test_a_native_must_match_the_shipped_declaration)
+2026-09-08T19:44:37.2603990Z bytecode.md: arity, parameter types, return type, and effects. ... ok
+2026-09-08T19:44:37.2604540Z test_bad_magic (gopyt.test_vm.Loader.test_bad_magic) ... ok
+2026-09-08T19:44:37.2605150Z test_fn_may_not_carry_effects (gopyt.test_vm.Loader.test_fn_may_not_carry_effects) ... ok
+2026-09-08T19:44:37.2607510Z test_round_trip (gopyt.test_vm.Loader.test_round_trip) ... ok
+2026-09-08T19:44:37.2614010Z test_stack_height_must_agree_at_a_join (gopyt.test_vm.Loader.test_stack_height_must_agree_at_a_join) ... ok
+2026-09-08T19:44:37.2635500Z test_stack_must_be_empty_at_end (gopyt.test_vm.Loader.test_stack_must_be_empty_at_end) ... ok
+2026-09-08T19:44:37.2636190Z test_unknown_opcode (gopyt.test_vm.Loader.test_unknown_opcode) ... ok
+2026-09-08T19:44:37.2878080Z test_a_workflow_runs_like_a_task (gopyt.test_vm.MoreStdlib.test_a_workflow_runs_like_a_task) ... wire
+2026-09-08T19:44:37.2888360Z ok
+2026-09-08T19:44:37.3136240Z test_allocation_limit_traps (gopyt.test_vm.MoreStdlib.test_allocation_limit_traps) ... alloc
+2026-09-08T19:44:37.3145340Z ok
+2026-09-08T19:44:37.3369720Z test_assert_eq_on_f64_is_e099 (gopyt.test_vm.MoreStdlib.test_assert_eq_on_f64_is_e099) ... ok
+2026-09-08T19:44:37.3740980Z test_model_with_an_unlisted_origin_never_leaves_the_process (gopyt.test_vm.MoreStdlib.test_model_with_an_unlisted_origin_never_leaves_the_process) ... ok
+2026-09-08T19:44:37.4003800Z test_model_without_a_url_is_model_error (gopyt.test_vm.MoreStdlib.test_model_without_a_url_is_model_error) ... ok
+2026-09-08T19:44:37.4197870Z test_request_with_userinfo_is_refused (gopyt.test_vm.MoreStdlib.test_request_with_userinfo_is_refused) ... ok
+2026-09-08T19:44:37.4437730Z test_cusum_alarms_on_a_planted_shift (gopyt.test_vm.ObservePort.test_cusum_alarms_on_a_planted_shift) ... ok
+2026-09-08T19:44:37.4941460Z test_memory_is_fixed (gopyt.test_vm.ObservePort.test_memory_is_fixed) ... ok
+2026-09-08T19:44:37.6060470Z test_reservoir_is_bounded (gopyt.test_vm.ObservePort.test_reservoir_is_bounded) ... ok
+2026-09-08T19:44:37.6062420Z test_a_trapping_arm_does_not_stop_a_neighbouring_parallel (gopyt.test_vm.ParallelCancellation.test_a_trapping_arm_does_not_stop_a_neighbouring_parallel)
+2026-09-08T19:44:37.6516560Z Two parallels run on different threads; only the bad one traps. ... ok
+2026-09-08T19:44:37.6521380Z test_observe_holds_its_bound_under_threads (gopyt.test_vm.ParallelCancellation.test_observe_holds_its_bound_under_threads)
+2026-09-08T19:44:37.8023840Z P0's reservoir bound must survive concurrent arms. ... ok
+2026-09-08T19:44:37.8309850Z test_results_keep_source_order_regardless_of_finish_order (gopyt.test_vm.ParallelCancellation.test_results_keep_source_order_regardless_of_finish_order) ... ok
+2026-09-08T19:44:37.8716810Z test_a_package_using_every_callable_kind (gopyt.test_vm.ProgramMatchesArtifact.test_a_package_using_every_callable_kind) ... 1
+2026-09-08T19:44:37.8803770Z 1
+2026-09-08T19:44:37.8903900Z ok
+2026-09-08T19:44:37.9108880Z test_the_auth_example (gopyt.test_vm.ProgramMatchesArtifact.test_the_auth_example) ... ok
+2026-09-08T19:44:37.9110070Z test_a_test_stores_its_inferred_effects_in_the_artifact (gopyt.test_vm.Runtime.test_a_test_stores_its_inferred_effects_in_the_artifact)
+2026-09-08T19:44:37.9307740Z C031 / S9: preserve application effects; stdlib ffi does not propagate. ... ok
+2026-09-08T19:44:37.9559600Z test_a_trap_is_one_observe_event_not_one_per_frame (gopyt.test_vm.Runtime.test_a_trap_is_one_observe_event_not_one_per_frame) ... ok
+2026-09-08T19:44:37.9777580Z test_an_arm_captures_a_match_binding (gopyt.test_vm.Runtime.test_an_arm_captures_a_match_binding) ... ok
+2026-09-08T19:44:37.9993710Z test_an_early_return_from_a_loop (gopyt.test_vm.Runtime.test_an_early_return_from_a_loop) ... found
+2026-09-08T19:44:38.0032090Z ok
+2026-09-08T19:44:38.0032750Z test_artifact_is_reproducible (gopyt.test_vm.Runtime.test_artifact_is_reproducible)
+2026-09-08T19:44:38.0599440Z RP-002: same sources and toolchain, same bytes. ... ok
+2026-09-08T19:44:38.0878930Z test_assert_eq_mismatch_is_trap_13 (gopyt.test_vm.Runtime.test_assert_eq_mismatch_is_trap_13) ... ok
+2026-09-08T19:44:38.1061320Z test_call_depth_traps (gopyt.test_vm.Runtime.test_call_depth_traps) ... go
+2026-09-08T19:44:38.1160460Z ok
+2026-09-08T19:44:38.1371090Z test_egress_denied_at_runtime (gopyt.test_vm.Runtime.test_egress_denied_at_runtime) ... ok
+2026-09-08T19:44:38.1591480Z test_ensures_traps (gopyt.test_vm.Runtime.test_ensures_traps) ... go
+2026-09-08T19:44:38.1607140Z ok
+2026-09-08T19:44:38.1806270Z test_for_loop_rebinds_its_slots (gopyt.test_vm.Runtime.test_for_loop_rebinds_its_slots) ... 0
+2026-09-08T19:44:38.1838940Z 1
+2026-09-08T19:44:38.1941320Z 2
+2026-09-08T19:44:38.2025520Z 3
+2026-09-08T19:44:38.2042930Z ok
+2026-09-08T19:44:38.2043710Z test_limit_throttles (gopyt.test_vm.Runtime.test_limit_throttles) ... ok
+2026-09-08T19:44:38.2227560Z test_list_get_negative_index_traps (gopyt.test_vm.Runtime.test_list_get_negative_index_traps) ... go
+2026-09-08T19:44:38.2238930Z ok
+2026-09-08T19:44:38.2637360Z test_nested_parallel_captures_through_an_arm (gopyt.test_vm.Runtime.test_nested_parallel_captures_through_an_arm) ... ok
+2026-09-08T19:44:38.2922660Z test_observe_report_counts_traps (gopyt.test_vm.Runtime.test_observe_report_counts_traps) ... ok
+2026-09-08T19:44:38.3343390Z test_overflow_traps (gopyt.test_vm.Runtime.test_overflow_traps) ... go
+2026-09-08T19:44:38.3363550Z ok
+2026-09-08T19:44:38.3577070Z test_parallel_arm_trap_fails_parent (gopyt.test_vm.Runtime.test_parallel_arm_trap_fails_parent) ... ok
+2026-09-08T19:44:38.3785900Z test_parallel_captures_outer_locals (gopyt.test_vm.Runtime.test_parallel_captures_outer_locals) ... ok
+2026-09-08T19:44:38.8587820Z test_parallel_timeout_traps (gopyt.test_vm.Runtime.test_parallel_timeout_traps) ... ok
+2026-09-08T19:44:38.8834250Z test_requires_traps (gopyt.test_vm.Runtime.test_requires_traps) ... go
+2026-09-08T19:44:38.8847510Z ok
+2026-09-08T19:44:38.8848030Z test_store_db_from_an_app_task (gopyt.test_vm.Runtime.test_store_db_from_an_app_task)
+2026-09-08T19:44:38.9096380Z S9 (amended): stdlib `ffi` does not propagate; scalar arms match. ... ok
+2026-09-08T19:44:38.9277310Z test_store_db_round_trip (gopyt.test_vm.Runtime.test_store_db_round_trip) ... ok
+2026-09-08T19:44:38.9285420Z test_missing_lock_is_e041_with_full_repair (gopyt.test_vm.Security.test_missing_lock_is_e041_with_full_repair)
+2026-09-08T19:44:38.9439130Z docs/lockfile.md: missing lock -> E041; the repair is the whole lock. ... ok
+2026-09-08T19:44:38.9652310Z test_secret_never_json (gopyt.test_vm.Security.test_secret_never_json) ... ok
+2026-09-08T19:44:38.9838140Z test_truncated_artifact_is_rejected (gopyt.test_vm.Security.test_truncated_artifact_is_rejected) ... ok
+2026-09-08T19:44:39.0074660Z test_wrong_literal_origin_fails_check (gopyt.test_vm.Security.test_wrong_literal_origin_fails_check) ... ok
+2026-09-08T19:44:39.0333360Z test_and_short_circuits (gopyt.test_vm.Semantics.test_and_short_circuits) ... and
+2026-09-08T19:44:39.0356310Z ok
+2026-09-08T19:44:39.0361630Z test_arguments_evaluate_left_to_right (gopyt.test_vm.Semantics.test_arguments_evaluate_left_to_right)
+2026-09-08T19:44:39.0615580Z The left argument's trap wins, so evaluation order is observable. ... order
+2026-09-08T19:44:39.0634670Z ok
+2026-09-08T19:44:39.0635360Z test_contracts_run_in_declaration_order (gopyt.test_vm.Semantics.test_contracts_run_in_declaration_order)
+2026-09-08T19:44:39.0956710Z The first false clause traps; a later clause never runs. ... contract
+2026-09-08T19:44:39.0978060Z ok
+2026-09-08T19:44:39.1208950Z test_division_truncates_toward_zero (gopyt.test_vm.Semantics.test_division_truncates_toward_zero) ... div
+2026-09-08T19:44:39.1220580Z ok
+2026-09-08T19:44:39.1418100Z test_enum_without_a_payload_encodes_as_an_empty_object (gopyt.test_vm.Semantics.test_enum_without_a_payload_encodes_as_an_empty_object) ... enum
+2026-09-08T19:44:39.1429860Z ok
+2026-09-08T19:44:39.1634910Z test_int_conversion_range_is_checked (gopyt.test_vm.Semantics.test_int_conversion_range_is_checked) ... int
+2026-09-08T19:44:39.1645150Z ok
+2026-09-08T19:44:39.1647490Z test_json_decode_rejects_duplicate_keys (gopyt.test_vm.Semantics.test_json_decode_rejects_duplicate_keys) ... ok
+2026-09-08T19:44:39.1652710Z test_json_decode_rejects_trailing_input (gopyt.test_vm.Semantics.test_json_decode_rejects_trailing_input) ... ok
+2026-09-08T19:44:39.1969950Z test_optional_encodes_as_null (gopyt.test_vm.Semantics.test_optional_encodes_as_null) ... opt
+2026-09-08T19:44:39.1982690Z ok
+2026-09-08T19:44:39.2284240Z test_or_short_circuits (gopyt.test_vm.Semantics.test_or_short_circuits) ... or
+2026-09-08T19:44:39.2332520Z ok
+2026-09-08T19:44:39.2600350Z test_range_is_end_exclusive_and_may_be_empty (gopyt.test_vm.Semantics.test_range_is_end_exclusive_and_may_be_empty) ... range
+2026-09-08T19:44:39.2637490Z ok
+2026-09-08T19:44:39.2947620Z test_remainder_takes_the_sign_of_the_dividend (gopyt.test_vm.Semantics.test_remainder_takes_the_sign_of_the_dividend) ... mod
+2026-09-08T19:44:39.3069990Z ok
+2026-09-08T19:44:39.3318580Z test_slice_past_the_end_is_convert_error (gopyt.test_vm.Semantics.test_slice_past_the_end_is_convert_error) ... slice
+2026-09-08T19:44:39.3419670Z ok
+2026-09-08T19:44:39.3832430Z test_str_len_counts_scalars_and_bytes_len_counts_bytes (gopyt.test_vm.Semantics.test_str_len_counts_scalars_and_bytes_len_counts_bytes) ... len
+2026-09-08T19:44:39.3846470Z ok
+2026-09-08T19:44:39.4232080Z test_canonical_json_of_a_nested_value (gopyt.test_vm.Shapes.test_canonical_json_of_a_nested_value) ... encode
+2026-09-08T19:44:39.4246210Z ok
+2026-09-08T19:44:39.4614290Z test_check_is_clean (gopyt.test_vm.Shapes.test_check_is_clean) ... ok
+2026-09-08T19:44:39.5322620Z test_decode_reaches_the_record (gopyt.test_vm.Shapes.test_decode_reaches_the_record) ... encode
+2026-09-08T19:44:39.5426450Z decode
+2026-09-08T19:44:39.5531440Z ok
+2026-09-08T19:44:39.6394660Z test_structural_equality_over_the_whole_shape (gopyt.test_vm.Shapes.test_structural_equality_over_the_whole_shape) ... ok
+2026-09-08T19:44:39.6801990Z test_a_missing_map_key_is_none (gopyt.test_vm.StdlibEdges.test_a_missing_map_key_is_none) ... get
+2026-09-08T19:44:39.6905580Z ok
+2026-09-08T19:44:39.7003220Z test_absolute_and_empty_segments_are_io_error (gopyt.test_vm.StdlibEdges.test_absolute_and_empty_segments_are_io_error) ... ok
+2026-09-08T19:44:39.7205600Z test_bool_keys_sort_false_then_true (gopyt.test_vm.StdlibEdges.test_bool_keys_sort_false_then_true) ... bools
+2026-09-08T19:44:39.7254980Z ok
+2026-09-08T19:44:39.7738340Z test_dot_dot_path_is_io_error (gopyt.test_vm.StdlibEdges.test_dot_dot_path_is_io_error) ... ok
+2026-09-08T19:44:39.8119410Z test_empty_collections_encode (gopyt.test_vm.StdlibEdges.test_empty_collections_encode) ... empty
+2026-09-08T19:44:39.8179750Z ok
+2026-09-08T19:44:39.8410170Z test_map_key_must_be_closed (gopyt.test_vm.StdlibEdges.test_map_key_must_be_closed) ... ok
+2026-09-08T19:44:39.8412370Z test_map_keys_sort_by_kind (gopyt.test_vm.StdlibEdges.test_map_keys_sort_by_kind)
+2026-09-08T19:44:39.9174410Z implementer.md 5: bool false then true, i64 ascending. ... keys
+2026-09-08T19:44:39.9214970Z ok
+2026-09-08T19:44:39.9822430Z test_map_round_trip_and_sorted_keys (gopyt.test_vm.StdlibEdges.test_map_round_trip_and_sorted_keys) ... map
+2026-09-08T19:44:39.9900320Z ok
+2026-09-08T19:44:40.0538140Z test_reveal_declassifies_and_is_visible_in_effects (gopyt.test_vm.StdlibEdges.test_reveal_declassifies_and_is_visible_in_effects) ... ok
+2026-09-08T19:44:40.1346560Z test_secret_is_not_accepted_by_concat (gopyt.test_vm.StdlibEdges.test_secret_is_not_accepted_by_concat) ... ok
+2026-09-08T19:44:40.1347420Z 
+2026-09-08T19:44:40.1348410Z ======================================================================
+2026-09-08T19:44:40.1350500Z ERROR: test_one_winner_for_threaded_conditional_insert (gopyt.test_storage.Storage.test_one_winner_for_threaded_conditional_insert)
+2026-09-08T19:44:40.1352410Z ----------------------------------------------------------------------
+2026-09-08T19:44:40.1353000Z Traceback (most recent call last):
+2026-09-08T19:44:40.1356120Z   File "/Users/runner/work/GoPyt/GoPyt/gopyt/storage.py", line 190, in _operate_locked
+2026-09-08T19:44:40.1359500Z     with self._locked(deadline) as directory:
+2026-09-08T19:44:40.1361440Z   File "/Library/Frameworks/Python.framework/Versions/3.11/lib/python3.11/contextlib.py", line 137, in __enter__
+2026-09-08T19:44:40.1363810Z     return next(self.gen)
+2026-09-08T19:44:40.1366010Z            ^^^^^^^^^^^^^^
+2026-09-08T19:44:40.1368480Z   File "/Users/runner/work/GoPyt/GoPyt/gopyt/storage.py", line 79, in _locked
+2026-09-08T19:44:40.1371370Z     lock = os.open('lock', os.O_RDWR | os.O_CREAT | os.O_NOFOLLOW | os.O_NONBLOCK,
+2026-09-08T19:44:40.1374390Z            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+2026-09-08T19:44:40.1375130Z FileNotFoundError: [Errno 2] No such file or directory: 'lock'
+2026-09-08T19:44:40.1375570Z 
+2026-09-08T19:44:40.1375920Z The above exception was the direct cause of the following exception:
+2026-09-08T19:44:40.1380020Z 
+2026-09-08T19:44:40.1380470Z Traceback (most recent call last):
+2026-09-08T19:44:40.1382290Z   File "/Users/runner/work/GoPyt/GoPyt/gopyt/test_storage.py", line 47, in test_one_winner_for_threaded_conditional_insert
+2026-09-08T19:44:40.1385680Z     wins = list(pool.map(lambda i: Store(self.root).compare_exchange('ticket', None, str(i)), range(32)))
+2026-09-08T19:44:40.1387200Z            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+2026-09-08T19:44:40.1390760Z   File "/Library/Frameworks/Python.framework/Versions/3.11/lib/python3.11/concurrent/futures/_base.py", line 619, in result_iterator
+2026-09-08T19:44:40.1391910Z     yield _result_or_cancel(fs.pop())
+2026-09-08T19:44:40.1392430Z           ^^^^^^^^^^^^^^^^^^^^^^^^^^^
+2026-09-08T19:44:40.1393460Z   File "/Library/Frameworks/Python.framework/Versions/3.11/lib/python3.11/concurrent/futures/_base.py", line 317, in _result_or_cancel
+2026-09-08T19:44:40.1396350Z     return fut.result(timeout)
+2026-09-08T19:44:40.1397290Z            ^^^^^^^^^^^^^^^^^^^
+2026-09-08T19:44:40.1399470Z   File "/Library/Frameworks/Python.framework/Versions/3.11/lib/python3.11/concurrent/futures/_base.py", line 449, in result
+2026-09-08T19:44:40.1402170Z     return self.__get_result()
+2026-09-08T19:44:40.1402800Z            ^^^^^^^^^^^^^^^^^^^
+2026-09-08T19:44:40.1404210Z   File "/Library/Frameworks/Python.framework/Versions/3.11/lib/python3.11/concurrent/futures/_base.py", line 401, in __get_result
+2026-09-08T19:44:40.1405700Z     raise self._exception
+2026-09-08T19:44:40.1407030Z   File "/Library/Frameworks/Python.framework/Versions/3.11/lib/python3.11/concurrent/futures/thread.py", line 58, in run
+2026-09-08T19:44:40.1408920Z     result = self.fn(*self.args, **self.kwargs)
+2026-09-08T19:44:40.1409710Z              ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+2026-09-08T19:44:40.1410760Z   File "/Users/runner/work/GoPyt/GoPyt/gopyt/test_storage.py", line 47, in <lambda>
+2026-09-08T19:44:40.1412780Z     wins = list(pool.map(lambda i: Store(self.root).compare_exchange('ticket', None, str(i)), range(32)))
+2026-09-08T19:44:40.1414570Z                                    ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+2026-09-08T19:44:40.1415850Z   File "/Users/runner/work/GoPyt/GoPyt/gopyt/storage.py", line 248, in compare_exchange
+2026-09-08T19:44:40.1417110Z     return self._operate('compare_exchange', key, value, expected)
+2026-09-08T19:44:40.1418020Z            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+2026-09-08T19:44:40.1418990Z   File "/Users/runner/work/GoPyt/GoPyt/gopyt/storage.py", line 175, in _operate
+2026-09-08T19:44:40.1420090Z     return self._operate_locked(operation, key, value, expected, deadline)
+2026-09-08T19:44:40.1420950Z            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+2026-09-08T19:44:40.1421960Z   File "/Users/runner/work/GoPyt/GoPyt/gopyt/storage.py", line 236, in _operate_locked
+2026-09-08T19:44:40.1423530Z     raise StorageError('database operation failed') from exc
+2026-09-08T19:44:40.1424000Z gopyt.storage.StorageError: database operation failed
+2026-09-08T19:44:40.1424380Z 
+2026-09-08T19:44:40.1424530Z ======================================================================
+2026-09-08T19:44:40.1425530Z FAIL: test_ambient_proxy_does_not_receive_allowed_request (gopyt.test_closure.NetworkBoundary.test_ambient_proxy_does_not_receive_allowed_request)
+2026-09-08T19:44:40.1427760Z ----------------------------------------------------------------------
+2026-09-08T19:44:40.1428810Z Traceback (most recent call last):
+2026-09-08T19:44:40.1430280Z   File "/Users/runner/work/GoPyt/GoPyt/gopyt/test_closure.py", line 574, in test_ambient_proxy_does_not_receive_allowed_request
+2026-09-08T19:44:40.1434850Z     self.assertEqual(run_cli(root,'run','demo.main'),(0,'{"str":"direct"}\n'))
+2026-09-08T19:44:40.1436270Z AssertionError: Tuples differ: (0, '{"core.status.ModelError":{"message":"network"}}\n') != (0, '{"str":"direct"}\n')
+2026-09-08T19:44:40.1437280Z 
+2026-09-08T19:44:40.1437520Z First differing element 1:
+2026-09-08T19:44:40.1438130Z '{"core.status.ModelError":{"message":"network"}}\n'
+2026-09-08T19:44:40.1438790Z '{"str":"direct"}\n'
+2026-09-08T19:44:40.1439150Z 
+2026-09-08T19:44:40.1439950Z - (0, '{"core.status.ModelError":{"message":"network"}}\n')
+2026-09-08T19:44:40.1442680Z + (0, '{"str":"direct"}\n')
+2026-09-08T19:44:40.1442990Z 
+2026-09-08T19:44:40.1443230Z ======================================================================
+2026-09-08T19:44:40.1457010Z FAIL: test_untested_list_stays_honest (gopyt.test_diagnostics.Coverage.test_untested_list_stays_honest)
+2026-09-08T19:44:40.1460000Z A code that a test does reach must not sit in UNTESTED.
+2026-09-08T19:44:40.1460920Z ----------------------------------------------------------------------
+2026-09-08T19:44:40.1461700Z Traceback (most recent call last):
+2026-09-08T19:44:40.1463020Z   File "/Users/runner/work/GoPyt/GoPyt/gopyt/test_diagnostics.py", line 85, in test_untested_list_stays_honest
+2026-09-08T19:44:40.1504860Z     seen = raised_codes()
+2026-09-08T19:44:40.1505080Z            ^^^^^^^^^^^^^^
+2026-09-08T19:44:40.1505480Z   File "/Users/runner/work/GoPyt/GoPyt/gopyt/test_diagnostics.py", line 71, in raised_codes
+2026-09-08T19:44:40.1509540Z     raise AssertionError("the rest of the suite must pass before auditing codes\n" + output.getvalue())
+2026-09-08T19:44:40.1511220Z AssertionError: the rest of the suite must pass before auditing codes
+2026-09-08T19:44:40.1512130Z ======================================================================
+2026-09-08T19:44:40.1513600Z ERROR: test_one_winner_for_threaded_conditional_insert (gopyt.test_storage.Storage.test_one_winner_for_threaded_conditional_insert)
+2026-09-08T19:44:40.1517440Z ----------------------------------------------------------------------
+2026-09-08T19:44:40.1522960Z Traceback (most recent call last):
+2026-09-08T19:44:40.1525360Z   File "/Users/runner/work/GoPyt/GoPyt/gopyt/storage.py", line 190, in _operate_locked
+2026-09-08T19:44:40.1531550Z     with self._locked(deadline) as directory:
+2026-09-08T19:44:40.1535140Z   File "/Library/Frameworks/Python.framework/Versions/3.11/lib/python3.11/contextlib.py", line 137, in __enter__
+2026-09-08T19:44:40.1540150Z     return next(self.gen)
+2026-09-08T19:44:40.1540370Z            ^^^^^^^^^^^^^^
+2026-09-08T19:44:40.1540700Z   File "/Users/runner/work/GoPyt/GoPyt/gopyt/storage.py", line 79, in _locked
+2026-09-08T19:44:40.1542530Z     lock = os.open('lock', os.O_RDWR | os.O_CREAT | os.O_NOFOLLOW | os.O_NONBLOCK,
+2026-09-08T19:44:40.1544210Z            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+2026-09-08T19:44:40.1545320Z FileNotFoundError: [Errno 2] No such file or directory: 'lock'
+2026-09-08T19:44:40.1545620Z 
+2026-09-08T19:44:40.1545960Z The above exception was the direct cause of the following exception:
+2026-09-08T19:44:40.1546250Z 
+2026-09-08T19:44:40.1546340Z Traceback (most recent call last):
+2026-09-08T19:44:40.1546870Z   File "/Users/runner/work/GoPyt/GoPyt/gopyt/test_storage.py", line 47, in test_one_winner_for_threaded_conditional_insert
+2026-09-08T19:44:40.1553550Z     wins = list(pool.map(lambda i: Store(self.root).compare_exchange('ticket', None, str(i)), range(32)))
+2026-09-08T19:44:40.1562950Z            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+2026-09-08T19:44:40.1566030Z   File "/Library/Frameworks/Python.framework/Versions/3.11/lib/python3.11/concurrent/futures/_base.py", line 619, in result_iterator
+2026-09-08T19:44:40.1569150Z     yield _result_or_cancel(fs.pop())
+2026-09-08T19:44:40.1569370Z           ^^^^^^^^^^^^^^^^^^^^^^^^^^^
+2026-09-08T19:44:40.1569980Z   File "/Library/Frameworks/Python.framework/Versions/3.11/lib/python3.11/concurrent/futures/_base.py", line 317, in _result_or_cancel
+2026-09-08T19:44:40.1570450Z     return fut.result(timeout)
+2026-09-08T19:44:40.1570640Z            ^^^^^^^^^^^^^^^^^^^
+2026-09-08T19:44:40.1571140Z   File "/Library/Frameworks/Python.framework/Versions/3.11/lib/python3.11/concurrent/futures/_base.py", line 449, in result
+2026-09-08T19:44:40.1576010Z     return self.__get_result()
+2026-09-08T19:44:40.1576200Z            ^^^^^^^^^^^^^^^^^^^
+2026-09-08T19:44:40.1576650Z   File "/Library/Frameworks/Python.framework/Versions/3.11/lib/python3.11/concurrent/futures/_base.py", line 401, in __get_result
+2026-09-08T19:44:40.1577170Z     raise self._exception
+2026-09-08T19:44:40.1609130Z   File "/Library/Frameworks/Python.framework/Versions/3.11/lib/python3.11/concurrent/futures/thread.py", line 58, in run
+2026-09-08T19:44:40.1609720Z     result = self.fn(*self.args, **self.kwargs)
+2026-09-08T19:44:40.1638140Z              ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+2026-09-08T19:44:40.1638890Z   File "/Users/runner/work/GoPyt/GoPyt/gopyt/test_storage.py", line 47, in <lambda>
+2026-09-08T19:44:40.1639520Z     wins = list(pool.map(lambda i: Store(self.root).compare_exchange('ticket', None, str(i)), range(32)))
+2026-09-08T19:44:40.1642510Z                                    ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+2026-09-08T19:44:40.1643720Z   File "/Users/runner/work/GoPyt/GoPyt/gopyt/storage.py", line 248, in compare_exchange
+2026-09-08T19:44:40.1644810Z     return self._operate('compare_exchange', key, value, expected)
+2026-09-08T19:44:40.1645640Z            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+2026-09-08T19:44:40.1648410Z   File "/Users/runner/work/GoPyt/GoPyt/gopyt/storage.py", line 175, in _operate
+2026-09-08T19:44:40.1650750Z     return self._operate_locked(operation, key, value, expected, deadline)
+2026-09-08T19:44:40.1651860Z            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+2026-09-08T19:44:40.1654870Z   File "/Users/runner/work/GoPyt/GoPyt/gopyt/storage.py", line 236, in _operate_locked
+2026-09-08T19:44:40.1656230Z     raise StorageError('database operation failed') from exc
+2026-09-08T19:44:40.1657150Z gopyt.storage.StorageError: database operation failed
+2026-09-08T19:44:40.1657660Z 
+2026-09-08T19:44:40.1659490Z ----------------------------------------------------------------------
+2026-09-08T19:44:40.1660030Z Ran 642 tests in 120.430s
+2026-09-08T19:44:40.1675690Z 
+2026-09-08T19:44:40.1675870Z FAILED (errors=1, skipped=2)
+2026-09-08T19:44:40.1678780Z 
+2026-09-08T19:44:40.1678790Z 
+2026-09-08T19:44:40.1678950Z ----------------------------------------------------------------------
+2026-09-08T19:44:40.1679470Z Ran 645 tests in 418.183s
+2026-09-08T19:44:40.1680540Z 
+2026-09-08T19:44:40.1680820Z FAILED (failures=2, errors=1, skipped=2)
+2026-09-08T19:44:40.2936140Z ##[error]Process completed with exit code 1.
+2026-09-08T19:44:40.3782710Z Node 20 is being deprecated. This workflow is running with Node 24 by default. If you need to temporarily use Node 20, you can set the ACTIONS_ALLOW_USE_UNSECURE_NODE_VERSION=true environment variable. For more information see: https://github.blog/changelog/2025-09-19-deprecation-of-node-20-on-github-actions-runners/
+2026-09-08T19:44:40.3785310Z Post job cleanup.
+2026-09-08T19:44:41.4292980Z [command]/opt/homebrew/bin/git version
+2026-09-08T19:44:41.4644500Z git version 2.55.0
+2026-09-08T19:44:41.4731250Z Copying '/Users/runner/.gitconfig' to '/Users/runner/work/_temp/e5a6b1ee-e57e-475e-92de-f7053572a52b/.gitconfig'
+2026-09-08T19:44:41.4735260Z Temporarily overriding HOME='/Users/runner/work/_temp/e5a6b1ee-e57e-475e-92de-f7053572a52b' before making global git config changes
+2026-09-08T19:44:41.4767110Z Adding repository directory to the temporary git global config as a safe directory
+2026-09-08T19:44:41.4768460Z [command]/opt/homebrew/bin/git config --global --add safe.directory /Users/runner/work/GoPyt/GoPyt
+2026-09-08T19:44:41.5269140Z [command]/opt/homebrew/bin/git config --local --name-only --get-regexp core\.sshCommand
+2026-09-08T19:44:41.5289070Z [command]/opt/homebrew/bin/git submodule foreach --recursive sh -c "git config --local --name-only --get-regexp 'core\.sshCommand' && git config --local --unset-all 'core.sshCommand' || :"
+2026-09-08T19:44:41.6934770Z [command]/opt/homebrew/bin/git config --local --name-only --get-regexp http\.https\:\/\/github\.com\/\.extraheader
+2026-09-08T19:44:41.7007060Z http.https://github.com/.extraheader
+2026-09-08T19:44:41.7015210Z [command]/opt/homebrew/bin/git config --local --unset-all http.https://github.com/.extraheader
+2026-09-08T19:44:41.7093900Z [command]/opt/homebrew/bin/git submodule foreach --recursive sh -c "git config --local --name-only --get-regexp 'http\.https\:\/\/github\.com\/\.extraheader' && git config --local --unset-all 'http.https://github.com/.extraheader' || :"
+2026-09-08T19:44:41.8127860Z [command]/opt/homebrew/bin/git config --local --name-only --get-regexp ^includeIf\.gitdir:
+2026-09-08T19:44:41.8221140Z [command]/opt/homebrew/bin/git submodule foreach --recursive git config --local --show-origin --name-only --get-regexp remote.origin.url
+2026-09-08T19:44:41.9262910Z Cleaning up orphan processes
+2026-09-08T19:44:45.2271980Z ##[warning]Node.js 20 is deprecated. The following actions target Node.js 20 but are being forced to run on Node.js 24: actions/checkout@v4, actions/setup-python@v5. For more information see: https://github.blog/changelog/2025-09-19-deprecation-of-node-20-on-github-actions-runners/
