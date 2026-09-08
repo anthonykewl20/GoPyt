@@ -4,7 +4,7 @@ This language-only checkout implements the first increment of the approved backe
 
 ## Correctness and security
 
-The complete language suite passed **644 tests in 200.321 seconds** on the local Linux/Python 3.14 environment. The final provider-error handling adjustment then passed its seven security integration tests. Logs are in [validation/release](../validation/release/). An earlier run failed the nested diagnostic-coverage audit while new LSP test fixtures were being corrected; its failure is retained, followed by the clean final run.
+The initial complete language suite passed **644 tests in 200.321 seconds** on the local Linux/Python 3.14 environment. The final provider-error handling adjustment then passed its seven security integration tests. Logs are in [validation/release](../validation/release/). An earlier run failed the nested diagnostic-coverage audit while new LSP test fixtures were being corrected; its failure is retained, followed by the clean final run.
 
 New generated-program validation compares 48 arithmetic/branch programs at 11 boundary inputs each, including signed 64-bit overflow. Inventory validation compares 400 seeded state transitions to an independent reference model and passes eight real HTTP lifecycle/concurrency/restart checks. These are constructed workloads, not an exhaustive program proof or customer production dataset.
 
@@ -39,7 +39,7 @@ A wheel built and installed in an independent temporary environment outside the 
 
 ## Cross-platform follow-up
 
-The first matrix passed both Linux versions but exposed HTTP readiness failures on macOS. A local regression demonstrated that the inherited HTTP server binding called reverse DNS before becoming ready. GoPyT now binds without that unnecessary lookup; 20 focused HTTP/inventory/security integration tests pass locally. The macOS failure log and before/after DNS regression logs are retained. A fresh matrix validates this follow-up. CI now has explicit time limits and verbose test output. An experimental periodic traceback dumper coincided with a Python 3.11 interpreter crash during its dump; that diagnostic timer was removed and its crash log retained.
+The first matrix passed both Linux versions but exposed HTTP readiness failures on macOS. A local regression demonstrated that the inherited HTTP server binding called reverse DNS before becoming ready. GoPyT now binds without that unnecessary lookup; 20 focused HTTP/inventory/security integration tests pass locally. The macOS failure log and before/after DNS regression logs are retained. After the startup fix, the complete local suite passed **645 tests in 234.304 seconds**. The macOS rerun cleared the startup failures and exposed one test portability error: it required TCP_NODELAY to equal 1. Apple's [pinned implementation](https://github.com/apple-oss-distributions/xnu/blob/f6217f891ac0bb64f3d375211650a4c1ff8ca1ea/bsd/netinet/tcp_usrreq.c#L2830) returns a flag mask, with [TF_NODELAY equal to 4](https://github.com/apple-oss-distributions/xnu/blob/f6217f891ac0bb64f3d375211650a4c1ff8ca1ea/bsd/netinet/tcp_var.h#L433). The assertion now checks nonzero, preserving the requirement that Nagle is disabled. A fresh matrix validates both follow-ups. CI now has explicit time limits and verbose test output. An experimental periodic traceback dumper coincided with a Python 3.11 interpreter crash during its dump; that diagnostic timer was removed and its crash log retained.
 
 ## Remaining priority work
 

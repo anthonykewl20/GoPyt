@@ -1,0 +1,6 @@
+test_small_responses_disable_nagle_on_the_accepted_socket (gopyt.test_app_runtime.ApplicationHttpRuntime.test_small_responses_disable_nagle_on_the_accepted_socket) ... ok
+
+----------------------------------------------------------------------
+Ran 1 test in 0.168s
+
+OK

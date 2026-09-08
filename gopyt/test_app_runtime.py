@@ -91,7 +91,8 @@ class ApplicationHttpRuntime(unittest.TestCase):
                         connections = tuple(vm.httpd.connections)
                     if connections and vm.httpd.pending.empty():
                         # setup runs just after dequeue; wait until its socket option is visible.
-                        if connections[0].getsockopt(socket.IPPROTO_TCP, socket.TCP_NODELAY) == 1:
+                        # Darwin returns its enabled flag bit (4); Linux returns 1.
+                        if connections[0].getsockopt(socket.IPPROTO_TCP, socket.TCP_NODELAY) != 0:
                             break
                     time.sleep(.005)
                 else:
