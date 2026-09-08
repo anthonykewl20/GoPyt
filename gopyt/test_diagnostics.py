@@ -62,12 +62,13 @@ def raised_codes() -> set[int]:
             if name in SKIP_MODULES:
                 continue
             suite.addTests(loader.loadTestsFromName(name))
-        runner = unittest.TextTestRunner(stream=io.StringIO(), verbosity=0)
+        output = io.StringIO()
+        runner = unittest.TextTestRunner(stream=output, verbosity=0)
         result = runner.run(suite)
     finally:
         diag_module.Diag.__init__ = original
     if not result.wasSuccessful():
-        raise AssertionError("the rest of the suite must pass before auditing codes")
+        raise AssertionError("the rest of the suite must pass before auditing codes\n" + output.getvalue())
     return seen
 
 
