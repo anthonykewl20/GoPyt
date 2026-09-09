@@ -206,6 +206,8 @@ DNS/TLS/socket failure, or timeout returns `HttpError`; any received HTTP status
   `.` or `..` segments, backslash, leading/trailing slash, NUL, and every symlink
   component are rejected with `IoError`. Resolution stays beneath the package
   root; `write` may create the final regular file but not parent directories.
+  The [file I/O checkpoint amendment](parallel-admission-amendment-2026-09-10.md#file-io-checkpoints)
+  defines inherited cancellation, bounded raw operations and partial-write semantics.
 - `store.db`: durable package-local SQLite snapshots; keys as given. Individual
   operations are serialized across cooperating processes, and `compare_exchange`
   performs conditional insertion/replacement atomically. See the normative

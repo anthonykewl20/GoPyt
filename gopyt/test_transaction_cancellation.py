@@ -4,6 +4,7 @@ from pathlib import Path
 import stat
 import tempfile
 import threading
+import time
 import unittest
 from unittest.mock import patch
 
@@ -118,12 +119,18 @@ task timed() -> list[bool | DbError]
     def test_parallel_timeout_waits_for_admitted_publication_then_traps(self):
         original = os.replace
         observed = []
+        clock = [time.monotonic_ns()]
         def replacing(*args, **kwargs):
-            # Wait for the actual worker's timeout event, not a guessed sleep.
+            # Keep the deadline clock frozen until publication is entered.
+            # Then cross the actual inherited deadline and wait for the real
+            # coordinator stop event. Admission need not finish within 20 ms
+            # of wall time; real wait/join timeouts still bound a broken test.
+            clock[0] = self.vm.deadline_ns + 1
             stops = self.vm.cancels
             observed.append(stops[-1].wait(2))
             return original(*args, **kwargs)
-        with patch('gopyt.storage.os.replace', replacing), self.assertRaises(Trap) as raised:
+        with patch('time.monotonic_ns', side_effect=lambda: clock[0]), \
+                patch('gopyt.storage.os.replace', replacing), self.assertRaises(Trap) as raised:
             self.vm.call(self.ids['demo.timed'], [])
         self.assertEqual(raised.exception.code, ops.TRAP_TIMEOUT)
         self.assertEqual(observed, [True])
