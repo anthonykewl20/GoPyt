@@ -124,3 +124,6 @@ blocking-I/O and graceful-drain qualification under #13 remains open.
 [Deadline boundary specification](deadline-boundaries.md) covers every shipped
 native, generated conversion form and structured cleanup boundary, including
 noninterruptible host work and commit ambiguity.
+
+[Runtime resource budget review](runtime-resource-budget-review.md) distinguishes
+fixed and configured capacities, overload policies and remaining issue #13 coverage.
