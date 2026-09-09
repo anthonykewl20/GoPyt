@@ -238,6 +238,45 @@ task write(message: str) -> unit
 ```
 module core.time
 
+use core.status { ConvertError }
+
+type Timestamp {
+    unix_ns: i64
+}
+
+type Duration {
+    ns: i64
+}
+
+type MonotonicInstant {
+    ticks_ns: i64
+    clock_id: str
+}
+
+fn timestamp_ns(value: i64) -> Timestamp | ConvertError
+fn timestamp_ms(value: i64) -> Timestamp | ConvertError
+fn duration_ns(value: i64) -> Duration | ConvertError
+fn duration_ms(value: i64) -> Duration | ConvertError
+fn timestamp_to_ms(value: Timestamp) -> i64 | ConvertError
+fn duration_to_ms(value: Duration) -> i64 | ConvertError
+fn add(value: Timestamp, delta: Duration) -> Timestamp | ConvertError
+fn difference(later: Timestamp, earlier: Timestamp) -> Duration | ConvertError
+fn duration_add(left: Duration, right: Duration) -> Duration | ConvertError
+fn elapsed(later: MonotonicInstant, earlier: MonotonicInstant) -> Duration | ConvertError
+fn parse_timestamp(text: str) -> Timestamp | ConvertError
+fn format_timestamp(value: Timestamp) -> str | ConvertError
+fn parse_duration(text: str) -> Duration | ConvertError
+fn format_duration(value: Duration) -> str | ConvertError
+
+task now() -> Timestamp | ConvertError
+    effects { time }
+
+task monotonic_now() -> MonotonicInstant | ConvertError
+    effects { time }
+
+task sleep(duration: Duration) -> unit | ConvertError
+    effects { time }
+
 task now_ms() -> i64
     effects { time }
 

@@ -1,0 +1,33 @@
+{
+  "status": "passed",
+  "source_url": "https://datacenter.iers.org/data/16/bulletinc-052.txt",
+  "source_sha256": "e798dcb63dce37d4411f58a7d47e62f5fc170724eb4fb0dd039324ca2894cab0",
+  "source_title": "IERS Bulletin C 52, 6 July 2016",
+  "runtime_sha256": "248bf8b8a9b960d489b85c970d061ffd8d26abbd52b10b0a7dfa87fe03c7739c",
+  "tool_sha256": "b5860fea6a4c6c9773bca023d140fed831ee966e739f387008c2f80a1d229e12",
+  "transformation": "Three announced UTC markers transcribed to explicit-Z inputs. No host-clock adjustment.",
+  "expected_policy": "POSIX timestamp domain rejects the real leap-second marker explicitly.",
+  "cases": [
+    {
+      "input": "2016-12-31T23:59:59Z",
+      "result_type": "core.time.Timestamp",
+      "fields": [
+        1483228799000000000
+      ]
+    },
+    {
+      "input": "2016-12-31T23:59:60Z",
+      "result_type": "core.status.ConvertError",
+      "fields": [
+        "leap seconds and unknown offsets are unsupported"
+      ]
+    },
+    {
+      "input": "2017-01-01T00:00:00Z",
+      "result_type": "core.time.Timestamp",
+      "fields": [
+        1483228800000000000
+      ]
+    }
+  ]
+}

@@ -26,7 +26,7 @@ remain open; the historical checklist review describes its pinned baseline.
 | Identity and keys | Tenant authorization, credential provisioning, rotation, migration and rollback detection | Bounded keyring and authenticated rekey implemented; tenant-bound identity sessions implemented; plaintext migration and rollback detection open |
 | Stateful Guard | Operator-pinned transition, concurrency and fault acceptance through candidate execution | Transaction state-machine regression harness implemented; Guard integration open |
 | Execution | A measured compiled/native path conforming to reference VM semantics | Reference VM retained; backend choice requires profiles and differential acceptance |
-| Data interfaces | Exact numerical/time semantics, typed streaming/batches, bounded backpressure | Bounded typed transaction batches implemented; streaming and numeric extensions open |
+| Data interfaces | Exact numerical/time semantics, typed streaming/batches, bounded backpressure | Checked finite numeric, fixed-point money and typed time APIs implemented with oracle/data qualification; bounded transaction batches implemented; streaming remains open |
 | Tooling | Type-directed workspace operations, dependency analysis, debug/profile facilities | Initial LSP retained; further implementation open |
 
 ## Rules for evidence
@@ -81,7 +81,9 @@ Release provenance: [workflow, verification and withdrawal policy](release-prove
 
 [Installed release component inventory](component-inventory.md) retains bundled metadata and its current coverage limits under #23.
 
-Finite floating-point boundaries are specified by the [binary64 amendment](finite-f64-amendment-2026-09-10.md). Overflowing literals and nonfinite bytecode/host/native values are rejected. Issue #17 remains open for exact money, typed time and real-data qualification.
-
-The [money amendment](money-amendment-2026-09-10.md) adds exact fixed-point monetary
-operations. Typed time and full numeric/time data qualification remain open in #17.
+[Numeric and time qualification](numeric-time-qualification.md) maps issue #17's
+criteria to finite binary64 admission, exact fixed-point money, typed nanosecond
+time, independent oracles, full retail replays and the IERS discontinuity replay.
+The amendments define the bounded domains and explicit unsupported cases. These
+results do not qualify the separate streaming, native-memory, production-security
+or performance goals.

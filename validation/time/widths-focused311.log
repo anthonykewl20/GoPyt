@@ -1,0 +1,8 @@
+test_every_width_to_i64_boundary_is_exact_or_rejected (gopyt.test_numeric_conversions.NumericConversions.test_every_width_to_i64_boundary_is_exact_or_rejected) ... ok
+test_i64_to_width_boundaries_preserve_value_and_tag (gopyt.test_numeric_conversions.NumericConversions.test_i64_to_width_boundaries_preserve_value_and_tag) ... ok
+test_no_implicit_numeric_width_or_float_conversion (gopyt.test_numeric_conversions.NumericConversions.test_no_implicit_numeric_width_or_float_conversion) ... ok
+
+----------------------------------------------------------------------
+Ran 3 tests in 0.488s
+
+OK
