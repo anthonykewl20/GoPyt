@@ -131,3 +131,7 @@ apply. The repeated five-wave probe retains zero candidate files after each call
 while preserving the same applied package digests. Legacy caches, parent-crash
 orphans, active staging size and the remaining sustained resource qualification
 are explicitly separate from this completed-call cleanup guarantee.
+
+## Consolidated ownership and stress review
+
+The [current qualification review](runtime-resource-qualification.md) reconciles the subsequent conversion and proposal cleanup repairs with all four issue #13 acceptance areas. It links the completed frozen workload evidence and distinguishes runtime-owned queues and cleanup from aggregate application memory and separately installed providers. The earlier findings above retain their original source identity.

@@ -127,3 +127,5 @@ noninterruptible host work and commit ambiguity.
 
 [Runtime resource budget review](runtime-resource-budget-review.md) distinguishes
 fixed and configured capacities, overload policies and remaining issue #13 coverage.
+
+[Runtime resource qualification](runtime-resource-qualification.md) maps issue #13 to the shipped admission, cancellation and cleanup policies, with frozen five-scenario Linux stress evidence on both pinned Python versions and explicit ownership limits.

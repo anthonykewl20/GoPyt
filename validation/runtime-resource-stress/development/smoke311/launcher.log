@@ -1,0 +1,191 @@
+starting slow_clients
+passed slow_clients: 2 episodes
+starting saturation
+passed saturation: 2 episodes
+starting cancellation_storm
+passed cancellation_storm: 2 episodes
+starting lock_contention
+passed lock_contention: 2 episodes
+starting shutdown_write
+passed shutdown_write: 2 episodes
+{
+  "status": "passed",
+  "mode": "smoke",
+  "phases": [
+    {
+      "phase": "slow_clients",
+      "episodes": 2,
+      "seconds": 0.7130653409985825,
+      "baseline": {
+        "rss": 32305152,
+        "fd": 6,
+        "thread": 2,
+        "child": 0
+      },
+      "final": {
+        "rss": 34709504,
+        "fd": 6,
+        "thread": 2,
+        "child": 0
+      },
+      "sampled_peak": {
+        "rss": 34721792,
+        "fd": 9,
+        "thread": 5,
+        "child": 0
+      },
+      "p50_ns": 331879010,
+      "p95_ns": 331879010,
+      "p99_ns": 331879010,
+      "max_ns": 368380550,
+      "mean_ns": 350129780
+    },
+    {
+      "phase": "saturation",
+      "episodes": 2,
+      "seconds": 0.6794159240089357,
+      "baseline": {
+        "rss": 34709504,
+        "fd": 6,
+        "thread": 2,
+        "child": 0
+      },
+      "final": {
+        "rss": 36700160,
+        "fd": 6,
+        "thread": 2,
+        "child": 0
+      },
+      "sampled_peak": {
+        "rss": 37724160,
+        "fd": 2183,
+        "thread": 67,
+        "child": 0
+      },
+      "p50_ns": 300376888,
+      "p95_ns": 300376888,
+      "p99_ns": 300376888,
+      "max_ns": 363986039,
+      "mean_ns": 332181463.5
+    },
+    {
+      "phase": "cancellation_storm",
+      "episodes": 2,
+      "seconds": 0.22284950397443026,
+      "baseline": {
+        "rss": 36700160,
+        "fd": 6,
+        "thread": 2,
+        "child": 0
+      },
+      "final": {
+        "rss": 36954112,
+        "fd": 6,
+        "thread": 2,
+        "child": 0
+      },
+      "sampled_peak": {
+        "rss": 38084608,
+        "fd": 6,
+        "thread": 74,
+        "child": 0
+      },
+      "p50_ns": 100731970,
+      "p95_ns": 100731970,
+      "p99_ns": 100731970,
+      "max_ns": 106672874,
+      "mean_ns": 103702422
+    },
+    {
+      "phase": "lock_contention",
+      "episodes": 2,
+      "seconds": 0.18325408303644508,
+      "baseline": {
+        "rss": 36954112,
+        "fd": 6,
+        "thread": 2,
+        "child": 0
+      },
+      "final": {
+        "rss": 38129664,
+        "fd": 6,
+        "thread": 2,
+        "child": 0
+      },
+      "sampled_peak": {
+        "rss": 38600704,
+        "fd": 9,
+        "thread": 34,
+        "child": 0
+      },
+      "p50_ns": 55659736,
+      "p95_ns": 55659736,
+      "p99_ns": 55659736,
+      "max_ns": 107582130,
+      "mean_ns": 81620933
+    },
+    {
+      "phase": "shutdown_write",
+      "episodes": 2,
+      "seconds": 0.4938170110108331,
+      "baseline": {
+        "rss": 38129664,
+        "fd": 6,
+        "thread": 2,
+        "child": 0
+      },
+      "final": {
+        "rss": 38236160,
+        "fd": 6,
+        "thread": 2,
+        "child": 0
+      },
+      "sampled_peak": {
+        "rss": 38248448,
+        "fd": 11,
+        "thread": 4,
+        "child": 0
+      },
+      "p50_ns": 235116423,
+      "p95_ns": 235116423,
+      "p99_ns": 235116423,
+      "max_ns": 240491663,
+      "mean_ns": 237804043
+    }
+  ],
+  "negative_controls": [
+    {
+      "phase": "slow_clients",
+      "mutation": "closed",
+      "rejected": true
+    },
+    {
+      "phase": "saturation",
+      "mutation": "admitted",
+      "rejected": true
+    },
+    {
+      "phase": "cancellation_storm",
+      "mutation": "active",
+      "rejected": true
+    },
+    {
+      "phase": "lock_contention",
+      "mutation": "before_recovery",
+      "rejected": true
+    },
+    {
+      "phase": "shutdown_write",
+      "mutation": "rows",
+      "rejected": true
+    },
+    {
+      "phase": "resources",
+      "mutation": "extra fd",
+      "rejected": true
+    }
+  ],
+  "sampler_errors": [],
+  "maxrss_bytes": 38612992,
+  "scope": "Controlled Linux runtime stress; episode latency includes setup, compilation, coordination and cleanup. Not a production request-latency SLO, aggregate memory guarantee, disaster recovery or security audit."
+}
