@@ -1,0 +1,13 @@
+Obtaining file:///home/soultransit/devtony/gopyt-milestone-work
+  Checking if build backend supports build_editable: started
+  Checking if build backend supports build_editable: finished with status 'done'
+  Preparing editable metadata (pyproject.toml): started
+  Preparing editable metadata (pyproject.toml): finished with status 'done'
+Building wheels for collected packages: gopyt
+  Building editable for gopyt (pyproject.toml): started
+  Building editable for gopyt (pyproject.toml): finished with status 'done'
+  Created wheel for gopyt: filename=gopyt-0.1.0-0.editable-py3-none-any.whl size=4271 sha256=876c019bc254b771290323efbde76a5d7c6ac6fa436559070df282edab908a79
+  Stored in directory: /tmp/pip-ephem-wheel-cache-5mzqgw3e/wheels/43/3f/cc/18622134b6572d3476a559426af26a3b801fd3f4b536730c62
+Successfully built gopyt
+Installing collected packages: gopyt
+Successfully installed gopyt-0.1.0

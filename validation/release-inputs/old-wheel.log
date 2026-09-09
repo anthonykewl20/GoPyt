@@ -1,0 +1,9 @@
+Processing /tmp/gopyt-compat-baseline
+  Preparing metadata (pyproject.toml): started
+  Preparing metadata (pyproject.toml): finished with status 'done'
+Building wheels for collected packages: gopyt
+  Building wheel for gopyt (pyproject.toml): started
+  Building wheel for gopyt (pyproject.toml): finished with status 'done'
+  Created wheel for gopyt: filename=gopyt-0.1.0-py3-none-any.whl size=286254 sha256=b3affcc63b53c2c16dadaebf7caecc1f8fa7dfed85f4fb7658f3b8830f2c2203
+  Stored in directory: /tmp/pip-ephem-wheel-cache-x8nmawo9/wheels/38/8b/ca/7058d1cb7293bec95e3d67de3ac85260abbfd98fa25d92153e
+Successfully built gopyt

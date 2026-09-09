@@ -97,3 +97,6 @@ defines publication, acknowledgment and receipt-based reconciliation boundaries.
 
 [Exact toolchain compatibility](toolchain-compatibility-amendment-2026-09-09.md)
 binds format-3 artifacts and locks to runtime sources and specifies upgrade steps.
+
+[Pinned build inputs and wheel verification](release-inputs-amendment-2026-09-09.md)
+defines current build pins, reproduction checks and remaining release gates.

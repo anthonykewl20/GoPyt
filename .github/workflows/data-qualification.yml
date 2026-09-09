@@ -11,16 +11,25 @@ permissions:
   contents: read
 jobs:
   retail:
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-24.04
     timeout-minutes: 30
     env:
       DATA_ROWS: ${{ inputs.rows }}
     steps:
-      - uses: actions/checkout@v4
-      - uses: actions/setup-python@v5
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
         with:
-          python-version: '3.14'
-      - run: python -m pip install -e '.[security]'
+          persist-credentials: false
+      - uses: actions/setup-python@5fda3b95a4ea91299a34e894583c3862153e4b97 # v7.0.0
+        with:
+          python-version: '3.14.7'
+      - name: Install checksum-pinned job Python
+        run: python tools/install_ci_python.py --version '3.14.7' --output "$RUNNER_TEMP/gopyt-python"
+      - name: Verify job interpreter
+        run: python -c "import sys; assert sys.version_info[:3] == (3, 14, 7)"
+      - name: Install hash-checked build and security inputs
+        run: |
+          python -m pip install --require-hashes --only-binary=:all: -r requirements/build.txt -r requirements/security.txt
+          python -m pip install --no-deps --no-build-isolation -e .
       - name: Acquire and verify public source
         run: |
           mkdir -p validation/qualification
@@ -40,7 +49,7 @@ jobs:
         run: python tools/retail_stress.py --data /tmp/retail-data --output validation/qualification/overlap --limit-rows "$DATA_ROWS" --workers 8 --passes 1 --overlap --encrypted > validation/qualification/overlap.log 2>&1
       - name: Authenticated HTTP and forced restart
         run: python tools/retail_http_probe.py --data /tmp/retail-data --rows "$DATA_ROWS" --output validation/qualification/http.json > validation/qualification/http.log 2>&1
-      - uses: actions/upload-artifact@v4
+      - uses: actions/upload-artifact@043fb46d1a93c77aae656e7c1c64a875d1fc6a0a # v7.0.1
         if: always()
         with:
           name: real-data-qualification

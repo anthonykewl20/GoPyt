@@ -1,0 +1,44 @@
+{
+  "3.11.16/Linux/x86_64": {
+    "version": "3.11.16",
+    "release": "20260901",
+    "url": "https://github.com/astral-sh/python-build-standalone/releases/download/20260901/cpython-3.11.16%2B20260901-x86_64-unknown-linux-gnu-install_only.tar.gz",
+    "sha256": "faa0758583a63f14c5eee516af82738403b59c13edda6fc0a21d953febd89eed",
+    "size": 48910466
+  },
+  "3.11.16/Darwin/arm64": {
+    "version": "3.11.16",
+    "release": "20260901",
+    "url": "https://github.com/astral-sh/python-build-standalone/releases/download/20260901/cpython-3.11.16%2B20260901-aarch64-apple-darwin-install_only.tar.gz",
+    "sha256": "50424fa409e8ae84b82a3052522f64695b47dff2158b70bb7358e0ebd6c085c9",
+    "size": 27087450
+  },
+  "3.11.16/Darwin/x86_64": {
+    "version": "3.11.16",
+    "release": "20260901",
+    "url": "https://github.com/astral-sh/python-build-standalone/releases/download/20260901/cpython-3.11.16%2B20260901-x86_64-apple-darwin-install_only.tar.gz",
+    "sha256": "167cc15cf4eeb72944a67bbd2f7120c45fded17d5043d5db64b3144d7adc30ae",
+    "size": 26979112
+  },
+  "3.14.7/Linux/x86_64": {
+    "version": "3.14.7",
+    "release": "20260901",
+    "url": "https://github.com/astral-sh/python-build-standalone/releases/download/20260901/cpython-3.14.7%2B20260901-x86_64-unknown-linux-gnu-install_only.tar.gz",
+    "sha256": "0ab3305457051cd3e7c031857e005f1bda17c218a1990567dacaaac6dd1d14f0",
+    "size": 125528086
+  },
+  "3.14.7/Darwin/arm64": {
+    "version": "3.14.7",
+    "release": "20260901",
+    "url": "https://github.com/astral-sh/python-build-standalone/releases/download/20260901/cpython-3.14.7%2B20260901-aarch64-apple-darwin-install_only.tar.gz",
+    "sha256": "30daa970c7d223530120f1693cd3c6fa4c0c0d31ef158710b0dd77f286a5b23e",
+    "size": 26654194
+  },
+  "3.14.7/Darwin/x86_64": {
+    "version": "3.14.7",
+    "release": "20260901",
+    "url": "https://github.com/astral-sh/python-build-standalone/releases/download/20260901/cpython-3.14.7%2B20260901-x86_64-apple-darwin-install_only.tar.gz",
+    "sha256": "dd8841a2e8ef94bd1a02b52f92843120942140f112145d4e0199abab56f120b1",
+    "size": 26745298
+  }
+}
