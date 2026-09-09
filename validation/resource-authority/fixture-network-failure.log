@@ -1,0 +1,120 @@
+test_attenuation_and_namespace_boundaries (gopyt.test_resource_authority.Grants.test_attenuation_and_namespace_boundaries) ... ok
+test_invalid_grants_and_bounded_delegation (gopyt.test_resource_authority.Grants.test_invalid_grants_and_bounded_delegation) ... ok
+test_parent_revocation_and_sibling_independence (gopyt.test_resource_authority.Grants.test_parent_revocation_and_sibling_independence) ... ok
+test_operator_grant_does_not_replace_source_egress (gopyt.test_resource_authority.NetworkCalls.test_operator_grant_does_not_replace_source_egress) ... ERROR
+test_real_http_and_model_egress_require_operator_and_source_grants (gopyt.test_resource_authority.NetworkCalls.test_real_http_and_model_egress_require_operator_and_source_grants) ... ERROR
+test_file_exact_grant_traversal_and_link_denial (gopyt.test_resource_authority.ResourceCalls.test_file_exact_grant_traversal_and_link_denial) ... ok
+test_mixed_authority_batch_is_atomic (gopyt.test_resource_authority.ResourceCalls.test_mixed_authority_batch_is_atomic) ... ok
+test_operator_policy_intersects_delegated_grants (gopyt.test_resource_authority.ResourceCalls.test_operator_policy_intersects_delegated_grants) ... ok
+test_revocation_precedes_cached_access (gopyt.test_resource_authority.ResourceCalls.test_revocation_precedes_cached_access) ... ok
+test_revoke_does_not_abort_an_admitted_commit (gopyt.test_resource_authority.ResourceCalls.test_revoke_does_not_abort_an_admitted_commit) ... ok
+test_scope_propagates_to_parallel_arms_and_restores_after_exception (gopyt.test_resource_authority.ResourceCalls.test_scope_propagates_to_parallel_arms_and_restores_after_exception) ... ok
+test_unmediated_provider_never_imported_and_forged_scope_refused (gopyt.test_resource_authority.ResourceCalls.test_unmediated_provider_never_imported_and_forged_scope_refused) ... ok
+test_warm_cache_and_transitive_deputy_cannot_expand_scope (gopyt.test_resource_authority.ResourceCalls.test_warm_cache_and_transitive_deputy_cannot_expand_scope) ... ok
+test_listener_and_worker_inherit_attenuated_scope (gopyt.test_resource_authority.ServingAuthority.test_listener_and_worker_inherit_attenuated_scope) ... ERROR
+
+======================================================================
+ERROR: test_operator_grant_does_not_replace_source_egress (gopyt.test_resource_authority.NetworkCalls.test_operator_grant_does_not_replace_source_egress)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/home/soultransit/devtony/gopyt-milestone-work/gopyt/test_resource_authority.py", line 238, in setUp
+    _, art, self.ids = build(self.root)
+                       ~~~~~^^^^^^^^^^^
+  File "/home/soultransit/devtony/gopyt-milestone-work/gopyt/transaction.py", line 114, in wrapped
+    return fn(root, *args, **kwargs)
+  File "/home/soultransit/devtony/gopyt-milestone-work/gopyt/cli.py", line 50, in build
+    prog = check_package(pkg)
+  File "/home/soultransit/devtony/gopyt-milestone-work/gopyt/check.py", line 2452, in check_package
+    ck.check_functions()
+    ~~~~~~~~~~~~~~~~~~^^
+  File "/home/soultransit/devtony/gopyt-milestone-work/gopyt/check.py", line 2332, in _check_functions
+    fc = FnChecker(self, sig, targs).run()
+  File "/home/soultransit/devtony/gopyt-milestone-work/gopyt/check.py", line 1340, in run
+    term = self.block(self.fc.body)
+  File "/home/soultransit/devtony/gopyt-milestone-work/gopyt/check.py", line 1400, in block
+    term = self.stmt(st)
+  File "/home/soultransit/devtony/gopyt-milestone-work/gopyt/check.py", line 1419, in stmt
+    ty = self.expr(st.expr, self.fc.ret)
+  File "/home/soultransit/devtony/gopyt-milestone-work/gopyt/check.py", line 1485, in expr
+    return self.call(e, expect)
+           ~~~~~~~~~^^^^^^^^^^^
+  File "/home/soultransit/devtony/gopyt-milestone-work/gopyt/check.py", line 1936, in _fn_call
+    ret = self.apply(sig, targs, e.args, expect, line)
+  File "/home/soultransit/devtony/gopyt-milestone-work/gopyt/check.py", line 2018, in _apply
+    self.use_effect(sig.effects, line)
+    ~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^
+  File "/home/soultransit/devtony/gopyt-milestone-work/gopyt/check.py", line 1312, in use_effect
+    raise err(50, self.m.file, line)
+gopyt.diag.CompileError: GOPYT_E050 effect_missing
+file: impl/remote.gopyt
+line: 16
+repair-bytes: 0
+
+
+======================================================================
+ERROR: test_real_http_and_model_egress_require_operator_and_source_grants (gopyt.test_resource_authority.NetworkCalls.test_real_http_and_model_egress_require_operator_and_source_grants)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/home/soultransit/devtony/gopyt-milestone-work/gopyt/test_resource_authority.py", line 238, in setUp
+    _, art, self.ids = build(self.root)
+                       ~~~~~^^^^^^^^^^^
+  File "/home/soultransit/devtony/gopyt-milestone-work/gopyt/transaction.py", line 114, in wrapped
+    return fn(root, *args, **kwargs)
+  File "/home/soultransit/devtony/gopyt-milestone-work/gopyt/cli.py", line 50, in build
+    prog = check_package(pkg)
+  File "/home/soultransit/devtony/gopyt-milestone-work/gopyt/check.py", line 2452, in check_package
+    ck.check_functions()
+    ~~~~~~~~~~~~~~~~~~^^
+  File "/home/soultransit/devtony/gopyt-milestone-work/gopyt/check.py", line 2332, in _check_functions
+    fc = FnChecker(self, sig, targs).run()
+  File "/home/soultransit/devtony/gopyt-milestone-work/gopyt/check.py", line 1340, in run
+    term = self.block(self.fc.body)
+  File "/home/soultransit/devtony/gopyt-milestone-work/gopyt/check.py", line 1400, in block
+    term = self.stmt(st)
+  File "/home/soultransit/devtony/gopyt-milestone-work/gopyt/check.py", line 1419, in stmt
+    ty = self.expr(st.expr, self.fc.ret)
+  File "/home/soultransit/devtony/gopyt-milestone-work/gopyt/check.py", line 1485, in expr
+    return self.call(e, expect)
+           ~~~~~~~~~^^^^^^^^^^^
+  File "/home/soultransit/devtony/gopyt-milestone-work/gopyt/check.py", line 1936, in _fn_call
+    ret = self.apply(sig, targs, e.args, expect, line)
+  File "/home/soultransit/devtony/gopyt-milestone-work/gopyt/check.py", line 2018, in _apply
+    self.use_effect(sig.effects, line)
+    ~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^
+  File "/home/soultransit/devtony/gopyt-milestone-work/gopyt/check.py", line 1312, in use_effect
+    raise err(50, self.m.file, line)
+gopyt.diag.CompileError: GOPYT_E050 effect_missing
+file: impl/remote.gopyt
+line: 16
+repair-bytes: 0
+
+
+======================================================================
+ERROR: test_listener_and_worker_inherit_attenuated_scope (gopyt.test_resource_authority.ServingAuthority.test_listener_and_worker_inherit_attenuated_scope)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/home/soultransit/devtony/gopyt-milestone-work/gopyt/test_resource_authority.py", line 297, in test_listener_and_worker_inherit_attenuated_scope
+    _, art, ids = build(root)
+                  ~~~~~^^^^^^
+  File "/home/soultransit/devtony/gopyt-milestone-work/gopyt/transaction.py", line 114, in wrapped
+    return fn(root, *args, **kwargs)
+  File "/home/soultransit/devtony/gopyt-milestone-work/gopyt/cli.py", line 50, in build
+    prog = check_package(pkg)
+  File "/home/soultransit/devtony/gopyt-milestone-work/gopyt/check.py", line 2450, in check_package
+    decls.run()
+    ~~~~~~~~~^^
+  File "/home/soultransit/devtony/gopyt-milestone-work/gopyt/check.py", line 791, in run
+    self.imports()
+    ~~~~~~~~~~~~^^
+  File "/home/soultransit/devtony/gopyt-milestone-work/gopyt/check.py", line 855, in imports
+    raise err(14, m.file, u.line)
+gopyt.diag.CompileError: GOPYT_E014 unused_use
+file: spec/service.gopyt
+line: 3
+repair-bytes: 0
+
+
+----------------------------------------------------------------------
+Ran 14 tests in 1.726s
+
+FAILED (errors=3)

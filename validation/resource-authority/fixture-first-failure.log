@@ -1,0 +1,320 @@
+test_attenuation_and_namespace_boundaries (gopyt.test_resource_authority.Grants.test_attenuation_and_namespace_boundaries) ... ok
+test_invalid_grants_and_bounded_delegation (gopyt.test_resource_authority.Grants.test_invalid_grants_and_bounded_delegation) ... ok
+test_parent_revocation_and_sibling_independence (gopyt.test_resource_authority.Grants.test_parent_revocation_and_sibling_independence) ... ok
+test_file_exact_grant_traversal_and_link_denial (gopyt.test_resource_authority.ResourceCalls.test_file_exact_grant_traversal_and_link_denial) ... ERROR
+test_mixed_authority_batch_is_atomic (gopyt.test_resource_authority.ResourceCalls.test_mixed_authority_batch_is_atomic) ... ERROR
+test_operator_policy_intersects_delegated_grants (gopyt.test_resource_authority.ResourceCalls.test_operator_policy_intersects_delegated_grants) ... ERROR
+test_revocation_precedes_cached_access (gopyt.test_resource_authority.ResourceCalls.test_revocation_precedes_cached_access) ... ERROR
+test_revoke_does_not_abort_an_admitted_commit (gopyt.test_resource_authority.ResourceCalls.test_revoke_does_not_abort_an_admitted_commit) ... ERROR
+test_scope_propagates_to_parallel_arms_and_restores_after_exception (gopyt.test_resource_authority.ResourceCalls.test_scope_propagates_to_parallel_arms_and_restores_after_exception) ... ERROR
+test_unmediated_provider_never_imported_and_forged_scope_refused (gopyt.test_resource_authority.ResourceCalls.test_unmediated_provider_never_imported_and_forged_scope_refused) ... ERROR
+test_warm_cache_and_transitive_deputy_cannot_expand_scope (gopyt.test_resource_authority.ResourceCalls.test_warm_cache_and_transitive_deputy_cannot_expand_scope) ... ERROR
+
+======================================================================
+ERROR: test_file_exact_grant_traversal_and_link_denial (gopyt.test_resource_authority.ResourceCalls.test_file_exact_grant_traversal_and_link_denial)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/home/soultransit/devtony/gopyt-milestone-work/gopyt/test_resource_authority.py", line 96, in setUp
+    _, self.art, self.ids = build(str(self.root))
+                            ~~~~~^^^^^^^^^^^^^^^^
+  File "/home/soultransit/devtony/gopyt-milestone-work/gopyt/transaction.py", line 114, in wrapped
+    return fn(root, *args, **kwargs)
+  File "/home/soultransit/devtony/gopyt-milestone-work/gopyt/cli.py", line 50, in build
+    prog = check_package(pkg)
+  File "/home/soultransit/devtony/gopyt-milestone-work/gopyt/check.py", line 2452, in check_package
+    ck.check_functions()
+    ~~~~~~~~~~~~~~~~~~^^
+  File "/home/soultransit/devtony/gopyt-milestone-work/gopyt/check.py", line 2332, in _check_functions
+    fc = FnChecker(self, sig, targs).run()
+  File "/home/soultransit/devtony/gopyt-milestone-work/gopyt/check.py", line 1340, in run
+    term = self.block(self.fc.body)
+  File "/home/soultransit/devtony/gopyt-milestone-work/gopyt/check.py", line 1400, in block
+    term = self.stmt(st)
+  File "/home/soultransit/devtony/gopyt-milestone-work/gopyt/check.py", line 1419, in stmt
+    ty = self.expr(st.expr, self.fc.ret)
+  File "/home/soultransit/devtony/gopyt-milestone-work/gopyt/check.py", line 1485, in expr
+    return self.call(e, expect)
+           ~~~~~~~~~^^^^^^^^^^^
+  File "/home/soultransit/devtony/gopyt-milestone-work/gopyt/check.py", line 1935, in _fn_call
+    self.require_use(module, parts[-1], line)
+    ~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/soultransit/devtony/gopyt-milestone-work/gopyt/check.py", line 1954, in _require_use
+    raise err(13, self.m.file, line, repair=repair)
+gopyt.diag.CompileError: GOPYT_E013 missing_use
+file: impl/probe.gopyt
+line: 25
+repair-bytes: 47
+
+use store.db { Change, compare_exchange_many }
+
+
+======================================================================
+ERROR: test_mixed_authority_batch_is_atomic (gopyt.test_resource_authority.ResourceCalls.test_mixed_authority_batch_is_atomic)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/home/soultransit/devtony/gopyt-milestone-work/gopyt/test_resource_authority.py", line 96, in setUp
+    _, self.art, self.ids = build(str(self.root))
+                            ~~~~~^^^^^^^^^^^^^^^^
+  File "/home/soultransit/devtony/gopyt-milestone-work/gopyt/transaction.py", line 114, in wrapped
+    return fn(root, *args, **kwargs)
+  File "/home/soultransit/devtony/gopyt-milestone-work/gopyt/cli.py", line 50, in build
+    prog = check_package(pkg)
+  File "/home/soultransit/devtony/gopyt-milestone-work/gopyt/check.py", line 2452, in check_package
+    ck.check_functions()
+    ~~~~~~~~~~~~~~~~~~^^
+  File "/home/soultransit/devtony/gopyt-milestone-work/gopyt/check.py", line 2332, in _check_functions
+    fc = FnChecker(self, sig, targs).run()
+  File "/home/soultransit/devtony/gopyt-milestone-work/gopyt/check.py", line 1340, in run
+    term = self.block(self.fc.body)
+  File "/home/soultransit/devtony/gopyt-milestone-work/gopyt/check.py", line 1400, in block
+    term = self.stmt(st)
+  File "/home/soultransit/devtony/gopyt-milestone-work/gopyt/check.py", line 1419, in stmt
+    ty = self.expr(st.expr, self.fc.ret)
+  File "/home/soultransit/devtony/gopyt-milestone-work/gopyt/check.py", line 1485, in expr
+    return self.call(e, expect)
+           ~~~~~~~~~^^^^^^^^^^^
+  File "/home/soultransit/devtony/gopyt-milestone-work/gopyt/check.py", line 1935, in _fn_call
+    self.require_use(module, parts[-1], line)
+    ~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/soultransit/devtony/gopyt-milestone-work/gopyt/check.py", line 1954, in _require_use
+    raise err(13, self.m.file, line, repair=repair)
+gopyt.diag.CompileError: GOPYT_E013 missing_use
+file: impl/probe.gopyt
+line: 25
+repair-bytes: 47
+
+use store.db { Change, compare_exchange_many }
+
+
+======================================================================
+ERROR: test_operator_policy_intersects_delegated_grants (gopyt.test_resource_authority.ResourceCalls.test_operator_policy_intersects_delegated_grants)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/home/soultransit/devtony/gopyt-milestone-work/gopyt/test_resource_authority.py", line 96, in setUp
+    _, self.art, self.ids = build(str(self.root))
+                            ~~~~~^^^^^^^^^^^^^^^^
+  File "/home/soultransit/devtony/gopyt-milestone-work/gopyt/transaction.py", line 114, in wrapped
+    return fn(root, *args, **kwargs)
+  File "/home/soultransit/devtony/gopyt-milestone-work/gopyt/cli.py", line 50, in build
+    prog = check_package(pkg)
+  File "/home/soultransit/devtony/gopyt-milestone-work/gopyt/check.py", line 2452, in check_package
+    ck.check_functions()
+    ~~~~~~~~~~~~~~~~~~^^
+  File "/home/soultransit/devtony/gopyt-milestone-work/gopyt/check.py", line 2332, in _check_functions
+    fc = FnChecker(self, sig, targs).run()
+  File "/home/soultransit/devtony/gopyt-milestone-work/gopyt/check.py", line 1340, in run
+    term = self.block(self.fc.body)
+  File "/home/soultransit/devtony/gopyt-milestone-work/gopyt/check.py", line 1400, in block
+    term = self.stmt(st)
+  File "/home/soultransit/devtony/gopyt-milestone-work/gopyt/check.py", line 1419, in stmt
+    ty = self.expr(st.expr, self.fc.ret)
+  File "/home/soultransit/devtony/gopyt-milestone-work/gopyt/check.py", line 1485, in expr
+    return self.call(e, expect)
+           ~~~~~~~~~^^^^^^^^^^^
+  File "/home/soultransit/devtony/gopyt-milestone-work/gopyt/check.py", line 1935, in _fn_call
+    self.require_use(module, parts[-1], line)
+    ~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/soultransit/devtony/gopyt-milestone-work/gopyt/check.py", line 1954, in _require_use
+    raise err(13, self.m.file, line, repair=repair)
+gopyt.diag.CompileError: GOPYT_E013 missing_use
+file: impl/probe.gopyt
+line: 25
+repair-bytes: 47
+
+use store.db { Change, compare_exchange_many }
+
+
+======================================================================
+ERROR: test_revocation_precedes_cached_access (gopyt.test_resource_authority.ResourceCalls.test_revocation_precedes_cached_access)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/home/soultransit/devtony/gopyt-milestone-work/gopyt/test_resource_authority.py", line 96, in setUp
+    _, self.art, self.ids = build(str(self.root))
+                            ~~~~~^^^^^^^^^^^^^^^^
+  File "/home/soultransit/devtony/gopyt-milestone-work/gopyt/transaction.py", line 114, in wrapped
+    return fn(root, *args, **kwargs)
+  File "/home/soultransit/devtony/gopyt-milestone-work/gopyt/cli.py", line 50, in build
+    prog = check_package(pkg)
+  File "/home/soultransit/devtony/gopyt-milestone-work/gopyt/check.py", line 2452, in check_package
+    ck.check_functions()
+    ~~~~~~~~~~~~~~~~~~^^
+  File "/home/soultransit/devtony/gopyt-milestone-work/gopyt/check.py", line 2332, in _check_functions
+    fc = FnChecker(self, sig, targs).run()
+  File "/home/soultransit/devtony/gopyt-milestone-work/gopyt/check.py", line 1340, in run
+    term = self.block(self.fc.body)
+  File "/home/soultransit/devtony/gopyt-milestone-work/gopyt/check.py", line 1400, in block
+    term = self.stmt(st)
+  File "/home/soultransit/devtony/gopyt-milestone-work/gopyt/check.py", line 1419, in stmt
+    ty = self.expr(st.expr, self.fc.ret)
+  File "/home/soultransit/devtony/gopyt-milestone-work/gopyt/check.py", line 1485, in expr
+    return self.call(e, expect)
+           ~~~~~~~~~^^^^^^^^^^^
+  File "/home/soultransit/devtony/gopyt-milestone-work/gopyt/check.py", line 1935, in _fn_call
+    self.require_use(module, parts[-1], line)
+    ~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/soultransit/devtony/gopyt-milestone-work/gopyt/check.py", line 1954, in _require_use
+    raise err(13, self.m.file, line, repair=repair)
+gopyt.diag.CompileError: GOPYT_E013 missing_use
+file: impl/probe.gopyt
+line: 25
+repair-bytes: 47
+
+use store.db { Change, compare_exchange_many }
+
+
+======================================================================
+ERROR: test_revoke_does_not_abort_an_admitted_commit (gopyt.test_resource_authority.ResourceCalls.test_revoke_does_not_abort_an_admitted_commit)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/home/soultransit/devtony/gopyt-milestone-work/gopyt/test_resource_authority.py", line 96, in setUp
+    _, self.art, self.ids = build(str(self.root))
+                            ~~~~~^^^^^^^^^^^^^^^^
+  File "/home/soultransit/devtony/gopyt-milestone-work/gopyt/transaction.py", line 114, in wrapped
+    return fn(root, *args, **kwargs)
+  File "/home/soultransit/devtony/gopyt-milestone-work/gopyt/cli.py", line 50, in build
+    prog = check_package(pkg)
+  File "/home/soultransit/devtony/gopyt-milestone-work/gopyt/check.py", line 2452, in check_package
+    ck.check_functions()
+    ~~~~~~~~~~~~~~~~~~^^
+  File "/home/soultransit/devtony/gopyt-milestone-work/gopyt/check.py", line 2332, in _check_functions
+    fc = FnChecker(self, sig, targs).run()
+  File "/home/soultransit/devtony/gopyt-milestone-work/gopyt/check.py", line 1340, in run
+    term = self.block(self.fc.body)
+  File "/home/soultransit/devtony/gopyt-milestone-work/gopyt/check.py", line 1400, in block
+    term = self.stmt(st)
+  File "/home/soultransit/devtony/gopyt-milestone-work/gopyt/check.py", line 1419, in stmt
+    ty = self.expr(st.expr, self.fc.ret)
+  File "/home/soultransit/devtony/gopyt-milestone-work/gopyt/check.py", line 1485, in expr
+    return self.call(e, expect)
+           ~~~~~~~~~^^^^^^^^^^^
+  File "/home/soultransit/devtony/gopyt-milestone-work/gopyt/check.py", line 1935, in _fn_call
+    self.require_use(module, parts[-1], line)
+    ~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/soultransit/devtony/gopyt-milestone-work/gopyt/check.py", line 1954, in _require_use
+    raise err(13, self.m.file, line, repair=repair)
+gopyt.diag.CompileError: GOPYT_E013 missing_use
+file: impl/probe.gopyt
+line: 25
+repair-bytes: 47
+
+use store.db { Change, compare_exchange_many }
+
+
+======================================================================
+ERROR: test_scope_propagates_to_parallel_arms_and_restores_after_exception (gopyt.test_resource_authority.ResourceCalls.test_scope_propagates_to_parallel_arms_and_restores_after_exception)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/home/soultransit/devtony/gopyt-milestone-work/gopyt/test_resource_authority.py", line 96, in setUp
+    _, self.art, self.ids = build(str(self.root))
+                            ~~~~~^^^^^^^^^^^^^^^^
+  File "/home/soultransit/devtony/gopyt-milestone-work/gopyt/transaction.py", line 114, in wrapped
+    return fn(root, *args, **kwargs)
+  File "/home/soultransit/devtony/gopyt-milestone-work/gopyt/cli.py", line 50, in build
+    prog = check_package(pkg)
+  File "/home/soultransit/devtony/gopyt-milestone-work/gopyt/check.py", line 2452, in check_package
+    ck.check_functions()
+    ~~~~~~~~~~~~~~~~~~^^
+  File "/home/soultransit/devtony/gopyt-milestone-work/gopyt/check.py", line 2332, in _check_functions
+    fc = FnChecker(self, sig, targs).run()
+  File "/home/soultransit/devtony/gopyt-milestone-work/gopyt/check.py", line 1340, in run
+    term = self.block(self.fc.body)
+  File "/home/soultransit/devtony/gopyt-milestone-work/gopyt/check.py", line 1400, in block
+    term = self.stmt(st)
+  File "/home/soultransit/devtony/gopyt-milestone-work/gopyt/check.py", line 1419, in stmt
+    ty = self.expr(st.expr, self.fc.ret)
+  File "/home/soultransit/devtony/gopyt-milestone-work/gopyt/check.py", line 1485, in expr
+    return self.call(e, expect)
+           ~~~~~~~~~^^^^^^^^^^^
+  File "/home/soultransit/devtony/gopyt-milestone-work/gopyt/check.py", line 1935, in _fn_call
+    self.require_use(module, parts[-1], line)
+    ~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/soultransit/devtony/gopyt-milestone-work/gopyt/check.py", line 1954, in _require_use
+    raise err(13, self.m.file, line, repair=repair)
+gopyt.diag.CompileError: GOPYT_E013 missing_use
+file: impl/probe.gopyt
+line: 25
+repair-bytes: 47
+
+use store.db { Change, compare_exchange_many }
+
+
+======================================================================
+ERROR: test_unmediated_provider_never_imported_and_forged_scope_refused (gopyt.test_resource_authority.ResourceCalls.test_unmediated_provider_never_imported_and_forged_scope_refused)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/home/soultransit/devtony/gopyt-milestone-work/gopyt/test_resource_authority.py", line 96, in setUp
+    _, self.art, self.ids = build(str(self.root))
+                            ~~~~~^^^^^^^^^^^^^^^^
+  File "/home/soultransit/devtony/gopyt-milestone-work/gopyt/transaction.py", line 114, in wrapped
+    return fn(root, *args, **kwargs)
+  File "/home/soultransit/devtony/gopyt-milestone-work/gopyt/cli.py", line 50, in build
+    prog = check_package(pkg)
+  File "/home/soultransit/devtony/gopyt-milestone-work/gopyt/check.py", line 2452, in check_package
+    ck.check_functions()
+    ~~~~~~~~~~~~~~~~~~^^
+  File "/home/soultransit/devtony/gopyt-milestone-work/gopyt/check.py", line 2332, in _check_functions
+    fc = FnChecker(self, sig, targs).run()
+  File "/home/soultransit/devtony/gopyt-milestone-work/gopyt/check.py", line 1340, in run
+    term = self.block(self.fc.body)
+  File "/home/soultransit/devtony/gopyt-milestone-work/gopyt/check.py", line 1400, in block
+    term = self.stmt(st)
+  File "/home/soultransit/devtony/gopyt-milestone-work/gopyt/check.py", line 1419, in stmt
+    ty = self.expr(st.expr, self.fc.ret)
+  File "/home/soultransit/devtony/gopyt-milestone-work/gopyt/check.py", line 1485, in expr
+    return self.call(e, expect)
+           ~~~~~~~~~^^^^^^^^^^^
+  File "/home/soultransit/devtony/gopyt-milestone-work/gopyt/check.py", line 1935, in _fn_call
+    self.require_use(module, parts[-1], line)
+    ~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/soultransit/devtony/gopyt-milestone-work/gopyt/check.py", line 1954, in _require_use
+    raise err(13, self.m.file, line, repair=repair)
+gopyt.diag.CompileError: GOPYT_E013 missing_use
+file: impl/probe.gopyt
+line: 25
+repair-bytes: 47
+
+use store.db { Change, compare_exchange_many }
+
+
+======================================================================
+ERROR: test_warm_cache_and_transitive_deputy_cannot_expand_scope (gopyt.test_resource_authority.ResourceCalls.test_warm_cache_and_transitive_deputy_cannot_expand_scope)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/home/soultransit/devtony/gopyt-milestone-work/gopyt/test_resource_authority.py", line 96, in setUp
+    _, self.art, self.ids = build(str(self.root))
+                            ~~~~~^^^^^^^^^^^^^^^^
+  File "/home/soultransit/devtony/gopyt-milestone-work/gopyt/transaction.py", line 114, in wrapped
+    return fn(root, *args, **kwargs)
+  File "/home/soultransit/devtony/gopyt-milestone-work/gopyt/cli.py", line 50, in build
+    prog = check_package(pkg)
+  File "/home/soultransit/devtony/gopyt-milestone-work/gopyt/check.py", line 2452, in check_package
+    ck.check_functions()
+    ~~~~~~~~~~~~~~~~~~^^
+  File "/home/soultransit/devtony/gopyt-milestone-work/gopyt/check.py", line 2332, in _check_functions
+    fc = FnChecker(self, sig, targs).run()
+  File "/home/soultransit/devtony/gopyt-milestone-work/gopyt/check.py", line 1340, in run
+    term = self.block(self.fc.body)
+  File "/home/soultransit/devtony/gopyt-milestone-work/gopyt/check.py", line 1400, in block
+    term = self.stmt(st)
+  File "/home/soultransit/devtony/gopyt-milestone-work/gopyt/check.py", line 1419, in stmt
+    ty = self.expr(st.expr, self.fc.ret)
+  File "/home/soultransit/devtony/gopyt-milestone-work/gopyt/check.py", line 1485, in expr
+    return self.call(e, expect)
+           ~~~~~~~~~^^^^^^^^^^^
+  File "/home/soultransit/devtony/gopyt-milestone-work/gopyt/check.py", line 1935, in _fn_call
+    self.require_use(module, parts[-1], line)
+    ~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/soultransit/devtony/gopyt-milestone-work/gopyt/check.py", line 1954, in _require_use
+    raise err(13, self.m.file, line, repair=repair)
+gopyt.diag.CompileError: GOPYT_E013 missing_use
+file: impl/probe.gopyt
+line: 25
+repair-bytes: 47
+
+use store.db { Change, compare_exchange_many }
+
+
+----------------------------------------------------------------------
+Ran 11 tests in 0.329s
+
+FAILED (errors=8)

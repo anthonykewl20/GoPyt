@@ -90,6 +90,10 @@ def serve(vm, module: str):
     if addr is None:
         vm.serving = False
         return _status(vm, "ListenError", "address")
+    if not vm.allows_resources(('listen', f'{addr[0]}:{addr[1]}')):
+        vm.serving = False
+        return _status(vm, "ListenError", "resource authority denied")
+    authority = vm.authority
     from gopyt.security_config import http_token, SecurityError
     try:
         authorization = http_token(vm.root, addr)
@@ -296,6 +300,7 @@ def serve(vm, module: str):
                         self.connections.discard(request)
 
         def worker(self):
+            vm._tl.authority = authority
             while True:
                 item = self.pending.get()
                 try:

@@ -107,3 +107,11 @@ next process start, and cannot drop `egress` or add app `ffi`.
 GoPyT compiler and VM. It adds no language syntax, native signatures, bytecode
 version or GoPyT CLI commands. Model output remains subject to explicit grants
 and real checks; local execution is not an adversarial OS sandbox.
+
+## Delegated host resource authority
+
+The [resource authority amendment](resource-authority-amendment-2026-09-09.md)
+adds optional host-issued authority to the embedding VM. Grants attenuate and
+revoke across task descendants; they intersect existing source egress and DB
+operator policy. The trusted Python embedding boundary and unsupported companion
+integrations are explicit in the amendment.
