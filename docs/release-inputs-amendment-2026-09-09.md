@@ -85,3 +85,5 @@ CI qualification and remaining release gates. Finite tests do not establish
 universal correctness, publisher authenticity or an independent security audit.
 
 All workflows force-reinstall the hash-pinned build/security wheels, including already-present versions. The standalone archive includes a portable pip launcher whose bytes differ from its packaged RECORD. An ordinary same-version install leaves that launcher untouched. The initial inventory CI rejected it on all four platform/version combinations; reinstalling the approved wheel regenerates consistent entry points and RECORD metadata. The verifier remains strict; the bootstrap mismatch and failed CI are retained under validation/component-inventory.
+
+Packaging-input correction: reproduction now includes existing setup.py, setup.cfg and MANIFEST.in, so repository hooks/configuration participate in the build and source hash report. Build subprocesses use an explicit 0022 umask to normalize ZIP permissions. The old hook omission and caller-umask difference are reproduced under validation/packaging-inputs; final platform qualification of the correction is required.

@@ -1,0 +1,191 @@
+{
+  "epoch": 1788964852,
+  "payload_bytes_identical": true,
+  "permission_differences": {
+    "gopyt/__init__.py": {
+      "ci": "0o100644",
+      "local_before_umask_fix": "0o100664"
+    },
+    "gopyt/__main__.py": {
+      "ci": "0o100644",
+      "local_before_umask_fix": "0o100664"
+    },
+    "gopyt/ast_nodes.py": {
+      "ci": "0o100644",
+      "local_before_umask_fix": "0o100664"
+    },
+    "gopyt/capabilities.py": {
+      "ci": "0o100644",
+      "local_before_umask_fix": "0o100664"
+    },
+    "gopyt/check.py": {
+      "ci": "0o100644",
+      "local_before_umask_fix": "0o100664"
+    },
+    "gopyt/cli.py": {
+      "ci": "0o100644",
+      "local_before_umask_fix": "0o100664"
+    },
+    "gopyt/decls.py": {
+      "ci": "0o100644",
+      "local_before_umask_fix": "0o100664"
+    },
+    "gopyt/diag.py": {
+      "ci": "0o100644",
+      "local_before_umask_fix": "0o100664"
+    },
+    "gopyt/elaborate.py": {
+      "ci": "0o100644",
+      "local_before_umask_fix": "0o100664"
+    },
+    "gopyt/emit.py": {
+      "ci": "0o100644",
+      "local_before_umask_fix": "0o100664"
+    },
+    "gopyt/evolve.py": {
+      "ci": "0o100644",
+      "local_before_umask_fix": "0o100664"
+    },
+    "gopyt/files.py": {
+      "ci": "0o100644",
+      "local_before_umask_fix": "0o100664"
+    },
+    "gopyt/fmt.py": {
+      "ci": "0o100644",
+      "local_before_umask_fix": "0o100664"
+    },
+    "gopyt/gobyte.py": {
+      "ci": "0o100644",
+      "local_before_umask_fix": "0o100664"
+    },
+    "gopyt/guard.py": {
+      "ci": "0o100644",
+      "local_before_umask_fix": "0o100664"
+    },
+    "gopyt/heap.py": {
+      "ci": "0o100644",
+      "local_before_umask_fix": "0o100664"
+    },
+    "gopyt/identity.py": {
+      "ci": "0o100644",
+      "local_before_umask_fix": "0o100664"
+    },
+    "gopyt/jsonc.py": {
+      "ci": "0o100644",
+      "local_before_umask_fix": "0o100664"
+    },
+    "gopyt/lexer.py": {
+      "ci": "0o100644",
+      "local_before_umask_fix": "0o100664"
+    },
+    "gopyt/limiter.py": {
+      "ci": "0o100644",
+      "local_before_umask_fix": "0o100664"
+    },
+    "gopyt/lsp.py": {
+      "ci": "0o100644",
+      "local_before_umask_fix": "0o100664"
+    },
+    "gopyt/lsp_check.py": {
+      "ci": "0o100644",
+      "local_before_umask_fix": "0o100664"
+    },
+    "gopyt/manifest.py": {
+      "ci": "0o100644",
+      "local_before_umask_fix": "0o100664"
+    },
+    "gopyt/natives.py": {
+      "ci": "0o100644",
+      "local_before_umask_fix": "0o100664"
+    },
+    "gopyt/obligations.py": {
+      "ci": "0o100644",
+      "local_before_umask_fix": "0o100664"
+    },
+    "gopyt/observe.py": {
+      "ci": "0o100644",
+      "local_before_umask_fix": "0o100664"
+    },
+    "gopyt/ops.py": {
+      "ci": "0o100644",
+      "local_before_umask_fix": "0o100664"
+    },
+    "gopyt/parser.py": {
+      "ci": "0o100644",
+      "local_before_umask_fix": "0o100664"
+    },
+    "gopyt/project_context.py": {
+      "ci": "0o100644",
+      "local_before_umask_fix": "0o100664"
+    },
+    "gopyt/resource_authority.py": {
+      "ci": "0o100644",
+      "local_before_umask_fix": "0o100664"
+    },
+    "gopyt/security_config.py": {
+      "ci": "0o100644",
+      "local_before_umask_fix": "0o100664"
+    },
+    "gopyt/server.py": {
+      "ci": "0o100644",
+      "local_before_umask_fix": "0o100664"
+    },
+    "gopyt/stdlib_src.py": {
+      "ci": "0o100644",
+      "local_before_umask_fix": "0o100664"
+    },
+    "gopyt/storage.py": {
+      "ci": "0o100644",
+      "local_before_umask_fix": "0o100664"
+    },
+    "gopyt/store_admin.py": {
+      "ci": "0o100644",
+      "local_before_umask_fix": "0o100664"
+    },
+    "gopyt/testing.py": {
+      "ci": "0o100644",
+      "local_before_umask_fix": "0o100664"
+    },
+    "gopyt/toolchain.py": {
+      "ci": "0o100644",
+      "local_before_umask_fix": "0o100664"
+    },
+    "gopyt/transaction.py": {
+      "ci": "0o100644",
+      "local_before_umask_fix": "0o100664"
+    },
+    "gopyt/types.py": {
+      "ci": "0o100644",
+      "local_before_umask_fix": "0o100664"
+    },
+    "gopyt/values.py": {
+      "ci": "0o100644",
+      "local_before_umask_fix": "0o100664"
+    },
+    "gopyt/verify.py": {
+      "ci": "0o100644",
+      "local_before_umask_fix": "0o100664"
+    },
+    "gopyt/vm.py": {
+      "ci": "0o100644",
+      "local_before_umask_fix": "0o100664"
+    },
+    "gopyt-0.1.0.dist-info/WHEEL": {
+      "ci": "0o100644",
+      "local_before_umask_fix": "0o100664"
+    },
+    "gopyt-0.1.0.dist-info/entry_points.txt": {
+      "ci": "0o100644",
+      "local_before_umask_fix": "0o100664"
+    },
+    "gopyt-0.1.0.dist-info/top_level.txt": {
+      "ci": "0o100644",
+      "local_before_umask_fix": "0o100664"
+    }
+  },
+  "wheel_sha256": {
+    "ci": "86d7eaf24606c9e169f1e6a7c00cfa9fa856d9e4d7570b29a51f31974b6c8642",
+    "before_umask_fix": "d51b1f599f4ce1690904411cdbf36a385d9ae0cb0c12d9598a6db791eae0cf90",
+    "after_umask_fix": "86d7eaf24606c9e169f1e6a7c00cfa9fa856d9e4d7570b29a51f31974b6c8642"
+  }
+}

@@ -1,0 +1,14 @@
+{
+  "unchanged": {
+    "returncode": 0,
+    "stdout": "",
+    "stderr": "",
+    "sha256": "5c585ae9e1283c0b35f3e313201288d918d7b8a2b4a3b463b65aef89e152a1e0"
+  },
+  "changed": {
+    "returncode": 1,
+    "stdout": "",
+    "stderr": "\nError: verifying with issuer \"sigstore.dev\"\n",
+    "sha256": "f274e504c2391861003c5b21d8365450e5bbca46e5ad7817a0b8a30c18658043"
+  }
+}

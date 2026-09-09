@@ -67,3 +67,45 @@ class WheelIntegrity(unittest.TestCase):
         self.wheel({**self.expected, 'gopyt-0.1.0.dist-info/METADATA': b'x' * 1048577})
         with self.assertRaisesRegex(ValueError, 'budget'):
             inspect_wheel(self.path, self.expected)
+
+
+class PackagingInputIntegration(unittest.TestCase):
+    def test_hook_is_applied_and_caller_umask_does_not_change_wheel(self):
+        import importlib.metadata
+        import json
+        import subprocess
+        import sys
+        from email.parser import BytesParser
+
+        versions = {name: importlib.metadata.version(name) for name in ('pip', 'setuptools')}
+        if versions != {'pip': '26.2.1', 'setuptools': '82.0.1'}:
+            self.skipTest('integration requires reviewed requirements/build.txt')
+        script = Path(__file__).resolve().parents[1] / 'tools/reproducible_wheel.py'
+        with tempfile.TemporaryDirectory() as directory:
+            root = Path(directory)
+            source = root / 'source'
+            (source / 'gopyt').mkdir(parents=True)
+            (source / 'gopyt/__init__.py').write_text('VALUE = 42\n')
+            (source / 'README.md').write_text('packaging integration fixture\n')
+            (source / 'pyproject.toml').write_text(
+                '[build-system]\nrequires = ["setuptools==82.0.1"]\n'
+                'build-backend = "setuptools.build_meta"\n'
+                '[project]\nname = "gopyt"\nversion = "0.1.0"\n'
+                'dynamic = ["description"]\n')
+            hook = 'from setuptools import setup\nsetup(description="HOOK_EXECUTED")\n'
+            (source / 'setup.py').write_text(hook)
+            hashes = []
+            for index, mask in enumerate((0o002, 0o077)):
+                output = root / str(index)
+                result = subprocess.run([sys.executable, str(script), '--source', str(source),
+                    '--output', str(output), '--epoch', '1788964852'],
+                    capture_output=True, text=True, umask=mask, timeout=120)
+                self.assertEqual(result.returncode, 0, result.stdout + result.stderr)
+                report = json.loads((output / 'report.json').read_text())
+                self.assertEqual(report['source_sha256']['setup.py'],
+                                 hashlib.sha256(hook.encode()).hexdigest())
+                with zipfile.ZipFile(next((output / '0').glob('*.whl'))) as wheel:
+                    metadata = BytesParser().parsebytes(wheel.read('gopyt-0.1.0.dist-info/METADATA'))
+                    self.assertEqual(metadata['Summary'], 'HOOK_EXECUTED')
+                hashes.append(report['builds'][0]['sha256'])
+            self.assertEqual(hashes[0], hashes[1])
