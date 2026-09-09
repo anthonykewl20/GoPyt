@@ -1,0 +1,15 @@
+{
+  "runtime_sha256": "97a6fcaee2c687f5eda9e1cc27ddeac93139a5a5a793553a0a163d713b163403",
+  "probe_sha256": "0860f39fa9700e40b8bf304e888e694ca8118321485d677291f15eccbd4d63e4",
+  "fixture_sha256": "2762d95a929a589888d23c26d3d9bbfd99b721c1a3c02b704af316a31d38ba8a",
+  "deadline_ms": 100,
+  "injected_prepare_delay_ms": 500,
+  "elapsed_ms": 768.436402,
+  "outcome": {
+    "trap": 6
+  },
+  "worker_finished_before_return": true,
+  "in_flight_after_return": false,
+  "remaining_children": [],
+  "source_unchanged": true
+}

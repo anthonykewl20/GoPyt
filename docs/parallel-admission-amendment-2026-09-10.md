@@ -252,6 +252,42 @@ after successful admission rather than before a potentially long lock wait.
 Every admitted critical section releases this lock when its body returns or
 raises. Expiration after an operation has been admitted cannot undo its state
 changes. This admission rule does not promise FIFO fairness or extend to
-unrelated heap/observation locks and cleanup barriers. It also does not make an
-already-admitted evolution preparation/apply wave interruptible by the VM context;
-that wave retains its separately specified timeout and journal recovery rules.
+unrelated heap/observation locks and cleanup barriers. Evolution preparation and apply follow the additional rules below.
+
+
+## Evolution wave deadlines and cleanup
+
+An admitted `core.evolve.propose` wave consumes the minimum of its own
+`timeout_ms` budget and the inherited VM deadline across preparation and apply.
+Explicit cancellation and VM deadline expiry retain cancellation and trap 6;
+exhausting only the wave budget returns `EvolveError("timeout")`. Untimed trusted
+host calls without a VM context retain synchronous preparation.
+
+Preparation runs in a spawned child. The parent reads one length-prefixed UTF-8
+JSON result, limited to 16,384 payload bytes, with four string fields and a
+recognized preparation outcome. Duplicate fields, extra fields, trailing bytes,
+invalid encoding, truncated frames and oversized frames are rejected. Result
+reception polls context with requested socket waits of at most 50 ms, capped by
+the remaining budget. Receiving a partial frame does not reset the budget.
+Results are not unpickled; trusted spawn arguments still use Python's process
+startup machinery.
+
+On any exit, parent sockets close and every started child is reaped. A child
+which has delivered its complete result receives a 50 ms exit grace. A remaining
+child is terminated, given 250 ms to exit, then killed if necessary and joined.
+Process startup, argument serialization and OS reaping are not asynchronously
+interruptible. These cleanup waits can exceed the deadline; no child writer is
+abandoned after return. Interrupted preparation may leave candidate cache files
+under `evolve/`, but cannot apply those files to the live source tree itself.
+
+Apply checks context before transaction-lock admission, during contention, before
+journal recovery and after recovery, and between source revalidation steps before
+commit. Process-lock contention uses requested waits of at most 2 ms, capped by
+the remaining budget. Expiry observed before recovery prevents its admission.
+Once recovery or commit is entered, it completes its existing journal and cleanup
+protocol before context is checked again. Individual filesystem and compiler
+operations are not asynchronously interrupted. Thus a timeout can follow a
+committed source change; missing `Applied` does not establish rollback. Existing
+source-authority checks, next-process activation and transaction reconciliation
+rules remain in force. This does not establish aggregate cache/memory bounds or
+complete all-native shutdown qualification.

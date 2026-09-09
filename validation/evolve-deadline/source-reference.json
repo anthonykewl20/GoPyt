@@ -1,0 +1,12 @@
+{
+  "repository": "python/cpython",
+  "commit": "823f0323ee6ec1402088b73bce1a38473cac36dc",
+  "leitir_verification": "sampled",
+  "scope": "Reviewed POSIX socket spawn reduction (reduction.py:234-248), process termination/join/close (process.py:135-202), and previously reviewed flock semantics. No donor copying, execution, or dependency added.",
+  "reviewed_files": {
+    "Lib/multiprocessing/reduction.py": "7cd1652f08e4685f380f2484ad3441d363fe58fe5b328f50050fb0f281a535f9",
+    "Lib/multiprocessing/process.py": "9cad9791c8ff9aba8f688c4e7ad9f620384231f8d0dfcc88dbc1e4c947ec28bc",
+    "Modules/fcntlmodule.c": "288fb57c511a3f9a0cb9de2d9a66d3d9c99f8fb0a77f38e1b7eb697928f4c5f3",
+    "LICENSE": "b0e25a78cffb43f4d92de8b61ccfa1f1f98ecbc22330b54b5251e7b6ba010231"
+  }
+}
