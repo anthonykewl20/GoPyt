@@ -144,6 +144,11 @@ def http_token(root,address,*,session_auth=False):
     if not path:
         if required and not session_auth:raise SecurityError('strict HTTP requires an authentication token')
         return None
+    return http_token_file(path,root)
+
+
+def http_token_file(path,root):
+    """Read one private service-token snapshot; callers pin the configured path."""
     token=secret_file(path,root,256).strip()
     if not 32<=len(token)<=256 or any(ch<33 or ch>126 for ch in token):
         raise SecurityError('token must contain 32..256 printable non-space ASCII bytes')

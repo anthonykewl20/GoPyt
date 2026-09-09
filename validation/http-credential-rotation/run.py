@@ -40,7 +40,7 @@ def main():
     parser.add_argument('--smoke', action='store_true')
     args = parser.parse_args()
     config = json.loads((HERE/'protocol.json').read_text())
-    inputs = list((ROOT/'gopyt').glob('*.py')) + [HERE/'protocol.json', Path(__file__)]
+    inputs = list((ROOT/'gopyt').glob('*.py')) + list(HERE.glob('*.py')) + [HERE/'protocol.json']
     hashes = {str(p.relative_to(ROOT)):hashlib.sha256(p.read_bytes()).hexdigest() for p in inputs}
     args.output.mkdir(exist_ok=False, parents=True)
     identity = dict(python=sys.version, runtime_sha256=FINGERPRINT.hex(), source_sha256=hashes,
