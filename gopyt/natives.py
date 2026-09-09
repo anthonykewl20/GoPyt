@@ -312,11 +312,13 @@ def _sleep_ms(vm, args, func):
     # Bounded host waits avoid platform timeout overflow and observe ancestors.
     deadline = time.monotonic_ns() + args[0] * 1_000_000
     while True:
-        if any(cancel.is_set() for cancel in vm.cancels):
-            raise Cancelled()
-        remaining = deadline - time.monotonic_ns()
+        vm.check_cancelled()
+        now = time.monotonic_ns()
+        remaining = deadline - now
         if remaining <= 0:
             break
+        if vm.deadline_ns is not None:
+            remaining = min(remaining, max(0, vm.deadline_ns - now))
         time.sleep(min(remaining, 50_000_000) / 1_000_000_000)
     return UNIT
 

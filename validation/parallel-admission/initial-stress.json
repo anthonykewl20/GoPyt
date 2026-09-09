@@ -1,0 +1,60 @@
+{
+  "status": "passed",
+  "runtime_sha256": "dbec4dd407a19d02092c4ede8a5166c0aa0cdd1460566b6500e8526d4567a2be",
+  "tool_sha256": "952dc961886d569f34b93121f6016057e60efbda7c6a4e7c8db156ad6c9a9053",
+  "workload_sha256": "13ce73003bb87caf5c792a65ac5ee1fed8a9cfe91f3cffc7ef11eeff4b032d35",
+  "python": "3.14.7 (main, Sep  1 2026, 14:18:09) [Clang 22.1.3 ]",
+  "plan": {
+    "sequential_timeouts": 100,
+    "concurrent_attempts": 256,
+    "host_drivers": 8,
+    "vm_workers": 8,
+    "group_workers": 4,
+    "deadline_ms": 5,
+    "native_sleep_ms": 200
+  },
+  "acceptance": "100 sequential timeout traps; concurrent outcomes only timeout/overload; zero idle worker/frame/pin/handoff counts, no additional live threads or descriptors; successful recovery call. RSS/latency are observations, not production SLOs.",
+  "before": {
+    "threads": 1,
+    "descriptors": 5,
+    "rss_bytes": 29102080,
+    "worker_slots": 0,
+    "heap_objects": 10,
+    "frames": 0,
+    "pins": 0,
+    "handoffs": 0
+  },
+  "after": {
+    "threads": 1,
+    "descriptors": 5,
+    "rss_bytes": 30154752,
+    "worker_slots": 0,
+    "heap_objects": 10,
+    "frames": 0,
+    "pins": 0,
+    "handoffs": 0
+  },
+  "worker_peak": 8,
+  "rejected": 254,
+  "recovery": true,
+  "sequential": {
+    "count": 100,
+    "timeout": 100,
+    "overload": 0,
+    "latency_ms": {
+      "p50": 50.961807,
+      "p99": 54.892312,
+      "max": 54.892312
+    }
+  },
+  "concurrent": {
+    "count": 256,
+    "timeout": 2,
+    "overload": 254,
+    "latency_ms": {
+      "p50": 0.06819,
+      "p99": 8.967691,
+      "max": 53.403925
+    }
+  }
+}

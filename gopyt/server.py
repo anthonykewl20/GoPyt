@@ -2,7 +2,7 @@
 
 Routes come from the artifact's route table; there is no handler list value and
 no middleware. Status is 200 with the JSON of the return value, or 404/400/500/
-503/413 with an empty body, exactly as the document fixes them.
+503/504/413 with an empty body, exactly as the document fixes them.
 """
 
 from __future__ import annotations
@@ -18,7 +18,7 @@ import threading
 import time
 from http.server import BaseHTTPRequestHandler, ThreadingHTTPServer
 
-from gopyt import jsonc
+from gopyt import jsonc, ops
 from gopyt.jsonc import ConvertFail, NotJson
 from gopyt.values import UNIT, Unit
 from gopyt.vm import Trap, Cancelled
@@ -252,9 +252,12 @@ def serve(vm, module: str):
                     except Cancelled:
                         self.close_connection = True
                         return
-                    except Trap:
-                        vm.observe.http(self.route_tag, "500", (_time.monotonic() - started) * 1000.0)
-                        self._empty(500)
+                    except Trap as error:
+                        status = (503 if error.code == ops.TRAP_PAR_MAX else
+                                  504 if error.code == ops.TRAP_TIMEOUT else 500)
+                        if status != 503:  # _empty records overload admission itself.
+                            vm.observe.http(self.route_tag, str(status), (_time.monotonic() - started) * 1000.0)
+                        self._empty(status)
                         return
                     if isinstance(result, Unit):
                         vm.observe.http(self.route_tag, "ok", (_time.monotonic() - started) * 1000.0)

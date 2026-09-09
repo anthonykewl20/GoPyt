@@ -87,3 +87,7 @@ time, independent oracles, full retail replays and the IERS discontinuity replay
 The amendments define the bounded domains and explicit unsupported cases. These
 results do not qualify the separate streaming, native-memory, production-security
 or performance goals.
+
+[Parallel admission and deadlines](parallel-admission-amendment-2026-09-10.md)
+adds a shared VM worker bound, inherited deadlines and explicit overload behavior;
+blocking-I/O and graceful-drain qualification under #13 remains open.

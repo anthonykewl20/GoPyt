@@ -333,3 +333,7 @@ Register ISA, SSA, native JIT, WASM, exceptions, threads without PARALLEL, mutab
 
 [Finite binary64 amendment](finite-f64-amendment-2026-09-10.md) defines literal
 rounding, overflow and nonfinite rejection at bytecode and VM boundaries.
+
+[Parallel admission and deadlines](parallel-admission-amendment-2026-09-10.md)
+adds a shared VM worker bound, inherited deadlines and explicit overload behavior;
+blocking-I/O and graceful-drain qualification under #13 remains open.
