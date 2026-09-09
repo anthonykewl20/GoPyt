@@ -72,3 +72,5 @@ Abrupt process death can leave temporary authority files; only the authoritative
 record and named snapshot candidate determine recovery. Power-loss behavior,
 remote authority availability and production disaster-recovery budgets require
 separate deployment qualification.
+
+The fresh `deadline-inventory.json` passed on both pinned Python versions: 73 fixed natives, 12 policy groups and three generated conversion forms. Its reviewed commit pins the qualified implementation, including authority and operator-maintenance sources. Raw logs preserve original whitespace; source/document whitespace checks pass separately.
