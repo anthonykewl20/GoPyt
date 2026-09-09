@@ -147,19 +147,44 @@ class ParallelAdmission(unittest.TestCase):
 
     def test_noncooperative_native_is_joined_before_timeout_returns(self):
         vm = self.make(fan=1, limit=1, timeout=5)
-        effects = []
+        effects, outcomes = [], []
+        entered, stopped, release = (threading.Event() for _ in range(3))
+        clock = [time.monotonic_ns()]
         def blocking(*args):
-            time.sleep(0.04)
-            effects.append('published')
+            # Expire only after actual native admission, then observe the real
+            # coordinator's stop request while deliberately refusing to finish.
+            clock[0] = vm.deadline_ns + 1
+            entered.set()
+            if vm.cancels[-1].wait(2):
+                stopped.set()
+            if release.wait(3):
+                effects.append('published')
             return UNIT
+        def run():
+            try:
+                outcomes.append(self.call(vm))
+            except BaseException as error:
+                outcomes.append(error)
         vm.natives['core.time.sleep_ms'] = blocking
-        started = time.monotonic()
-        self.assert_trap(vm, ops.TRAP_TIMEOUT)
-        self.assertGreaterEqual(time.monotonic() - started, 0.04)
+        caller = threading.Thread(target=run)
+        with patch('time.monotonic_ns', side_effect=lambda: clock[0]):
+            caller.start()
+            try:
+                self.assertTrue(entered.wait(2))
+                self.assertTrue(stopped.wait(2))
+                caller.join(.05)
+                self.assertTrue(caller.is_alive(), 'timeout abandoned the admitted writer')
+                self.assertEqual(effects, [])
+            finally:
+                clock[0] += 10_000_000_000
+                release.set()
+                caller.join(3)
+        self.assertFalse(caller.is_alive())
+        self.assertEqual(len(outcomes), 1)
+        self.assertIsInstance(outcomes[0], Trap)
+        self.assertEqual(outcomes[0].code, ops.TRAP_TIMEOUT)
         self.assertEqual(effects, ['published'])
-        # Timeout does not imply rollback, nor leave a writer running after join.
-        time.sleep(0.01)
-        self.assertEqual(effects, ['published'])
+        self.assertEqual(vm.parallel_budget.active, 0)
 
     def test_ancestor_cancel_releases_all_worker_capacity(self):
         vm = self.make(depth=2, fan=2, limit=8)

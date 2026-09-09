@@ -25,6 +25,8 @@ from gopyt.vm import Trap, Cancelled
 
 DEFAULT_ADDR = ("127.0.0.1", 8080)
 MAX_REQUEST_BODY = 1_048_576
+MAX_RESPONSE_BODY = 8_388_608
+MAX_RESPONSE_DEPTH = 128
 MAX_HANDLERS = 64
 QUEUE = 1024
 REQUEST_TIMEOUT_SECONDS = 10.0
@@ -328,12 +330,14 @@ def serve(vm, module: str):
                         self._empty(200)
                         return
                     try:
-                        text = jsonc.encode(vm.art, result, func.ret)
+                        raw = jsonc.encode_bytes(vm.art, result, func.ret,
+                                                 max_bytes=MAX_RESPONSE_BODY,
+                                                 max_depth=MAX_RESPONSE_DEPTH,
+                                                 check_context=vm.check_cancelled)
                     except (ConvertFail, NotJson):
                         vm.observe.http(self.route_tag, "ConvertError", (_time.monotonic() - started) * 1000.0, context=vm)
                         self._empty(500)
                         return
-                    raw = text.encode("utf-8")
                     vm.observe.http(self.route_tag, "ok", (_time.monotonic() - started) * 1000.0, context=vm)
                     self.send_response(200)
                     self.send_header("Content-Type", "application/json")

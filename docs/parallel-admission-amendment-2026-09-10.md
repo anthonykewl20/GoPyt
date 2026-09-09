@@ -319,3 +319,32 @@ outcome telemetry expires; a missing result does not establish rollback. An
 unreturned result's heap handoff is released during error cleanup. Heap cleanup
 and OS scheduling remain separate barriers; this admission policy does not claim
 hard physical latency or complete all-native resource qualification.
+
+
+## HTTP response serialization budget
+
+An HTTP handler response is limited to 8,388,608 UTF-8 bytes of canonical JSON.
+Exactly the limit is accepted. A response exceeding the byte budget or the
+128-level serialization traversal budget returns an empty 500, provided output
+time remains. Optional-value traversal consumes depth even without adding a JSON
+wrapper; enum wrappers consume two container levels. No 200 status or partial
+success body is sent before serialization finishes. Handler effects already
+performed remain subject to receipt reconciliation; a serialization rejection
+is not rollback and does not cause an automatic retry.
+
+The canonical JSON emitter writes into a bounded byte buffer for HTTP. It checks
+VM context between values, punctuation and string chunks of at most 4,096 source
+characters. Large strings and containers are rejected by conservative minimum
+sizes before escaping or sorting when they cannot fit. Map key character counts
+are bounded before allocating UTF-8 sort keys; escaping and final byte counts
+still enforce the exact wire budget. Sorting and individual bounded host
+operations remain synchronous. Expiry closes the request through the existing
+request-timeout cleanup path without success headers.
+
+This cap bounds retained encoded bytes, with temporary escaping chunks, key-sort
+storage, buffer capacity overhead and the final immutable byte copy in addition.
+It is not an exact RSS or aggregate-process-memory cap. The handler's pre-existing
+value graph, up to 64 simultaneous handler encoders, heap cleanup and OS socket
+buffers are separate resources. Standalone `data.json.encode` retains its existing
+uncapped value semantics and uses the same canonical emitter; this is not a
+second wire format. No response streaming or truncation is introduced.
