@@ -115,7 +115,8 @@ monotonic deadline starts when the accepted connection reaches request admission
 before taking the connection-set lock or entering the bounded queue. An expired
 queued connection closes without invoking a handler. Each later keep-alive
 request receives a new ten-second budget beginning when the worker starts waiting
-for it; idle time counts. Every budget is capped by the serving deadline.
+for it; idle time counts. Every budget is capped by the serving deadline and the
+connection lifetime below.
 
 The same deadline is installed in the worker VM context for parsing/dispatch and
 response generation, then restored afterward. Input and response writes consume
@@ -348,3 +349,38 @@ value graph, up to 64 simultaneous handler encoders, heap cleanup and OS socket
 buffers are separate resources. Standalone `data.json.encode` retains its existing
 uncapped value semantics and uses the same canonical emitter; this is not a
 second wire format. No response streaming or truncation is introduced.
+
+
+## Connection occupancy and queue fairness
+
+Each accepted HTTP connection has a ten-second absolute lifetime beginning at
+request admission, before queue insertion. Queue residence, every keep-alive
+request, idle input time, handler execution and output consume that lifetime.
+Starting another request cannot extend it. Each request still has its own budget,
+but uses the minimum of that budget, the connection lifetime and serving context.
+Expired queued connections close without handler dispatch; expiry during an
+active request follows existing cancellation and join/commit reconciliation rules.
+
+A connection also handles at most 100 request attempts. The final normal response
+advertises `Connection: close`, and the server closes after it rather than
+starting another request. Error/non-handler responses also consume this count.
+Pipelined bytes beyond the quota do not invoke another handler. Interim 1xx
+headers do not advertise quota closure; the final response does. There is no
+automatic replay or retry of discarded/unacknowledged request bytes.
+
+The pending connection queue is FIFO with capacity 1,024; at most 64 workers
+serve admitted connections. A persistent connection therefore receives a finite
+request quota and a nonrenewable time budget. Reconnecting clients enter normal
+connection admission again; they cannot retain their worker across that boundary.
+Queue-full admission still returns empty 503 when it can be sent, then closes.
+No per-tenant priority, weighted scheduling, FIFO request ordering, strict
+starvation freedom or guarantee that every accepted connection reaches a handler
+is implied. Connections accepted near each other can expire together while one
+waits; OS backlog scheduling and worker wakeups are outside FIFO queue ordering.
+
+The time bound is cooperative. Noninterruptible host work and an admitted durable
+commit can delay worker release past expiry; cleanup still joins the worker.
+Quota closure and lifetime expiry do not undo handler effects or acknowledge
+requests that never ran. Reconcile durable outcomes before application retries.
+These limits advance connection occupancy policy without claiming aggregate
+memory, arbitrary application retry bounds or sustained production fairness.

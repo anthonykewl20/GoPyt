@@ -30,6 +30,8 @@ MAX_RESPONSE_DEPTH = 128
 MAX_HANDLERS = 64
 QUEUE = 1024
 REQUEST_TIMEOUT_SECONDS = 10.0
+CONNECTION_TIMEOUT_SECONDS = 10.0
+MAX_KEEPALIVE_REQUESTS = 100
 TCP_NODELAY = True
 
 
@@ -160,17 +162,25 @@ def serve(vm, module: str):
             self.wfile.close()
             self.wfile = _DeadlineWriter(self.connection, vm)
             self.first_deadline_ns = vm._tl.http_request_deadline_ns
+            self.connection_deadline_ns = vm._tl.http_connection_deadline_ns
+            self.request_count = 0
+            self.response_status = None
             # Keep the deadline on the reader: a closure capturing this handler
             # would retain its headers and buffers until Python's cyclic GC.
             self.rfile = io.BufferedReader(_DeadlineReader(
                 self.connection, time.monotonic() + REQUEST_TIMEOUT_SECONDS))
 
         def handle_one_request(self):
+            if self.request_count >= MAX_KEEPALIVE_REQUESTS:
+                self.close_connection = True
+                return
+            self.request_count += 1
             previous_deadline = vm.deadline_ns
             deadline = self.first_deadline_ns
             self.first_deadline_ns = None
             if deadline is None:
                 deadline = time.monotonic_ns() + int(REQUEST_TIMEOUT_SECONDS * 1_000_000_000)
+            deadline = min(deadline, self.connection_deadline_ns)
             if previous_deadline is not None:
                 deadline = min(deadline, previous_deadline)
             vm.deadline_ns = deadline
@@ -180,6 +190,19 @@ def serve(vm, module: str):
                 super().handle_one_request()
             finally:
                 vm.deadline_ns = previous_deadline
+                if self.request_count >= MAX_KEEPALIVE_REQUESTS:
+                    self.close_connection = True
+
+        def send_response_only(self, code, message=None):
+            self.response_status = code
+            super().send_response_only(code, message)
+
+        def end_headers(self):
+            if (self.response_status is not None and self.response_status >= 200
+                    and self.request_count >= MAX_KEEPALIVE_REQUESTS
+                    and not self.close_connection):
+                self.send_header("Connection", "close")
+            super().end_headers()
 
         def handle(self):
             try:
@@ -405,7 +428,9 @@ def serve(vm, module: str):
                 raise _DrainRequested()
 
         def process_request(self, request, address):
-            deadline = time.monotonic_ns() + int(REQUEST_TIMEOUT_SECONDS * 1_000_000_000)
+            accepted = time.monotonic_ns()
+            connection_deadline = accepted + int(CONNECTION_TIMEOUT_SECONDS * 1_000_000_000)
+            deadline = min(accepted + int(REQUEST_TIMEOUT_SECONDS * 1_000_000_000), connection_deadline)
             try:
                 vm.check_cancelled()
             except (Cancelled, Trap):
@@ -417,7 +442,7 @@ def serve(vm, module: str):
                         self.shutdown_request(request)
                         return
                     self.connections.add(request)
-                    self.pending.put_nowait((request, address, deadline))
+                    self.pending.put_nowait((request, address, deadline, connection_deadline))
             except queue.Full:
                 try:
                     request.sendall(b"HTTP/1.1 503 Service Unavailable\r\nContent-Length: 0\r\nConnection: close\r\n\r\n")
@@ -442,8 +467,9 @@ def serve(vm, module: str):
                 try:
                     if item is None:
                         return
-                    request, address, deadline = item
+                    request, address, deadline, connection_deadline = item
                     vm._tl.http_request_deadline_ns = deadline
+                    vm._tl.http_connection_deadline_ns = connection_deadline
                     if stop.is_set() or draining.is_set() or time.monotonic_ns() >= deadline:
                         self.shutdown_request(request)
                     else:
@@ -453,8 +479,9 @@ def serve(vm, module: str):
                         with self.connection_lock:
                             self.connections.discard(request)
                     vm.heap.release_result()
-                    if hasattr(vm._tl, 'http_request_deadline_ns'):
-                        del vm._tl.http_request_deadline_ns
+                    for attribute in ('http_request_deadline_ns', 'http_connection_deadline_ns'):
+                        if hasattr(vm._tl, attribute):
+                            delattr(vm._tl, attribute)
                     self.pending.task_done()
 
         def discard_pending(self):
@@ -465,7 +492,7 @@ def serve(vm, module: str):
                     return
                 try:
                     if item is not None:
-                        request, _address, _deadline = item
+                        request, _address, _deadline, _connection_deadline = item
                         self.shutdown_request(request)
                         with self.connection_lock:
                             self.connections.discard(request)

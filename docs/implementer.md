@@ -268,3 +268,5 @@ native, generated conversion form and structured cleanup boundary, including
 noninterruptible host work and commit ambiguity.
 
 HTTP responses follow the [serialization byte/depth budget](parallel-admission-amendment-2026-09-10.md#http-response-serialization-budget); oversize output is an empty 500 before success headers, without rollback of handler effects.
+
+[Connection occupancy policy](parallel-admission-amendment-2026-09-10.md#connection-occupancy-and-queue-fairness) caps each accepted HTTP connection at ten seconds and 100 request attempts, with explicit FIFO-queue limits and closure semantics.

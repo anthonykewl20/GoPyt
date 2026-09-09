@@ -1,0 +1,10 @@
+{
+  "repository": "python/cpython",
+  "commit": "823f0323ee6ec1402088b73bce1a38473cac36dc",
+  "leitir_verification": "sampled",
+  "scope": "Reviewed BaseHTTPRequestHandler parse_request connection reset and handle/handle_one_request loop (Lib/http/server.py:410-500). Target quota final-header and loop-exit checks account for parser resetting close_connection. No donor copying/execution or dependency added.",
+  "reviewed_files": {
+    "Lib/http/server.py": "ace1320105a1f21b09b4c50179af8d4cdbda95cd4f82cb5f4527de4cd5ab8551",
+    "LICENSE": "b0e25a78cffb43f4d92de8b61ccfa1f1f98ecbc22330b54b5251e7b6ba010231"
+  }
+}
