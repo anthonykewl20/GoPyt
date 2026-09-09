@@ -34,3 +34,19 @@ updates the serving policy. Verify it with
 `python tools/check_deadline_inventory.py validation/http-response-budget/deadline-inventory.json`.
 The earlier deadline-boundaries inventory remains an immutable review of its
 older runtime; its default source-drift rejection on newer code is intentional.
+
+## CI worker-admission test correction
+
+The first macOS/Python 3.14 CI run failed an older parallel test that assumed
+a worker entered a noncooperative native within its five-millisecond deadline.
+The caller instead timed out in 7.397 ms before that native ran. The retained
+job log shows this sole failure after 860 tests; it does not demonstrate an
+abandoned writer. The corrected test freezes deadline time until actual native
+entry, waits for the real coordinator stop signal, and proves the caller cannot
+return while the admitted writer is deliberately held. Releasing it must finish
+publication, return trap 6 and release worker capacity. Real waits/joins remain
+bounded; the test no longer assumes a scheduler admission latency.
+
+All 19 focused tests pass on Python 3.14.7 and 3.11.16. The fresh full suite passes all 860 tests in 305.927 seconds; the contracts
+example also passes. Every recorded packaging input is byte-identical, so the existing
+reproduced wheel and installed-wheel/upgrade results still qualify this runtime.
