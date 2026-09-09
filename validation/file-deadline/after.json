@@ -1,0 +1,11 @@
+{
+  "runtime_sha256": "8954ed5f0c219bcc3342118ef7842d3548bc8e2d07e27761ce7aa704330912d3",
+  "probe_sha256": "1df01466efc215ac24b26058a52daa3a6aa2d79018901a3964052784c1e6d982",
+  "deadline_ms": 100,
+  "injected_directory_delay_ms": 300,
+  "elapsed_ms": 300.650022,
+  "outcome": {
+    "trap": 6
+  },
+  "file_contents_after_timeout": "before"
+}

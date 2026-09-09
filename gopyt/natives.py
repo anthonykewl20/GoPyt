@@ -363,11 +363,19 @@ def _file_read(vm, args, func):
     if full is None:
         return _status(vm, "IoError", "path")
     try:
-        with regular_file(vm.root, args[0]) as fh:
-            data = fh.read(ops.MAX_ALLOC + 1)
-            if len(data) > ops.MAX_ALLOC:
-                raise Trap(ops.TRAP_ALLOC)
-            return data
+        with regular_file(vm.root, args[0], check_context=vm.check_cancelled, buffering=0) as fh:
+            data = bytearray()
+            while True:
+                vm.check_cancelled()
+                chunk = fh.read(min(65_536, ops.MAX_ALLOC + 1 - len(data)))
+                vm.check_cancelled()
+                if chunk is None:
+                    raise OSError('file read would block')
+                if not chunk:
+                    return bytes(data)
+                data.extend(chunk)
+                if len(data) > ops.MAX_ALLOC:
+                    raise Trap(ops.TRAP_ALLOC)
     except FileNotFoundError:
         return _status(vm, "NotFound")
     except OSError:
@@ -383,8 +391,17 @@ def _file_write(vm, args, func):
     if full is None or not os.path.isdir(os.path.dirname(full)):
         return _status(vm, "IoError", "path")
     try:
-        with regular_file(vm.root, path, write=True) as fh:
-            fh.write(data)
+        with regular_file(vm.root, path, write=True,
+                          check_context=vm.check_cancelled, buffering=0) as fh:
+            with memoryview(data) as view:
+                offset = 0
+                while offset < len(view):
+                    vm.check_cancelled()
+                    written = fh.write(view[offset:offset + 65_536])
+                    if written is None or written <= 0:
+                        raise OSError('file write made no progress')
+                    offset += written
+            vm.check_cancelled()
     except OSError:
         return _status(vm, "IoError", "write")
     return UNIT

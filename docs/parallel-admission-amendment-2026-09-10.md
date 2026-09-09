@@ -212,3 +212,28 @@ released on every exit path; no detached writer continues after return. These
 rules preserve the transaction receipt/reconciliation requirements and do not
 claim rollback from a timeout, filesystem durability beyond the stated POSIX
 assumptions, fairness among contenders, or all-native shutdown qualification.
+
+## File I/O checkpoints
+
+`core.file.read` and `core.file.write` check the inherited VM context before
+entering descriptor-relative file access, after parent-directory resolution,
+after opening and validating the file, and before truncation. An expired context
+observed after directory resolution cannot begin opening/creating the final file.
+Expiry observed after opening an existing file but before truncation closes the
+descriptor and preserves its contents. File safety checks (regular file, one hard
+link, no-follow traversal and write-path restrictions) remain in force.
+
+The natives use unbuffered file operations with requests of at most 65,536 bytes,
+checking context between operations. Short reads/writes are handled as partial
+progress; EOF finishes a read. A read/write that would block without progress,
+or a zero-byte write of a nonempty slice, returns `IoError`. Reads retain the
+existing allocation limit and return allocation trap 14 if it is exceeded.
+
+Individual open, metadata, truncate, read, write and close system calls cannot
+be asynchronously interrupted by these checkpoints. A file creation or truncation
+already entered may take effect before its following context check. Cancellation
+after a partial write preserves that partial new content; there is no rollback
+or atomic-file-replacement promise for `core.file.write`. Unbuffered writes avoid
+later flushing of a user-space buffer during cancellation cleanup. All descriptors
+close before return, and no background writer is abandoned. This is not an fsync,
+power-loss durability, disk-latency or aggregate-process-memory guarantee.

@@ -42,17 +42,21 @@ def parent_directory(root, path, create=False):
 
 
 @contextmanager
-def regular_file(root, path, write=False):
+def regular_file(root, path, write=False, *, check_context=lambda: None, buffering=-1):
+    check_context()
     with parent_directory(root, path) as (parent, name):
+        check_context()
         flags = os.O_WRONLY | os.O_CREAT if write else os.O_RDONLY
         fd = os.open(name, flags | os.O_NOFOLLOW | os.O_NONBLOCK, 0o666, dir_fd=parent)
         try:
             info = os.fstat(fd)
             if not stat.S_ISREG(info.st_mode) or info.st_nlink != 1:
                 raise OSError("single-link regular file required")
+            check_context()
             if write:
                 os.ftruncate(fd, 0)
-            with os.fdopen(fd, "wb" if write else "rb", closefd=False) as stream:
+            check_context()
+            with os.fdopen(fd, "wb" if write else "rb", buffering=buffering, closefd=False) as stream:
                 yield stream
         finally:
             os.close(fd)

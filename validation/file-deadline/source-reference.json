@@ -1,0 +1,10 @@
+{
+  "repository": "python/cpython",
+  "commit": "823f0323ee6ec1402088b73bce1a38473cac36dc",
+  "leitir_verification": "sampled",
+  "scope": "Reference for FileIO.read/write single-call behavior, short reads/writes and None on EAGAIN. No source copying, donor execution or dependency change. Actual compiled file natives validated on both supported Python versions.",
+  "reviewed_files": {
+    "Modules/_io/fileio.c": "37cf882e0ed6dc4a5881ff7b4f1d243379beec223b2e1971bdf550487c0aae41",
+    "LICENSE": "b0e25a78cffb43f4d92de8b61ccfa1f1f98ecbc22330b54b5251e7b6ba010231"
+  }
+}
