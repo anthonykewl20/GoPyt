@@ -1,0 +1,10 @@
+test_contract_change_is_reviewed_and_enforced_after_rebuild (gopyt.test_dependency_upgrades.DependencyUpgrades.test_contract_change_is_reviewed_and_enforced_after_rebuild) ... ok
+test_relocated_graph_compiles_to_identical_bytes_and_lock (gopyt.test_dependency_upgrades.DependencyUpgrades.test_relocated_graph_compiles_to_identical_bytes_and_lock) ... ok
+test_reviewed_lock_cannot_make_incompatible_api_typecheck (gopyt.test_dependency_upgrades.DependencyUpgrades.test_reviewed_lock_cannot_make_incompatible_api_typecheck) ... ok
+test_transitive_upgrade_requires_review_and_rollback_is_reproducible (gopyt.test_dependency_upgrades.DependencyUpgrades.test_transitive_upgrade_requires_review_and_rollback_is_reproducible) ... ok
+test_version_unchanged_does_not_hide_dependency_source_change (gopyt.test_dependency_upgrades.DependencyUpgrades.test_version_unchanged_does_not_hide_dependency_source_change) ... ok
+
+----------------------------------------------------------------------
+Ran 5 tests in 0.365s
+
+OK

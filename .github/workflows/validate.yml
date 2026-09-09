@@ -26,3 +26,10 @@ jobs:
       - run: python examples/ticket_contracts/demo.py
       - run: python -m pip wheel --no-deps . --wheel-dir dist
       - run: python tools/wheel_smoke.py dist/gopyt-0.1.0-py3-none-any.whl
+      - name: Installed compiler/runtime upgrade and rollback
+        run: |
+          git fetch --depth 1 origin 710152358087dcf0b7e171f22a7f9a0eed557a01
+          mkdir -p "$RUNNER_TEMP/gopyt-baseline" "$RUNNER_TEMP/gopyt-old-wheel"
+          git archive 710152358087dcf0b7e171f22a7f9a0eed557a01 gopyt pyproject.toml README.md | tar -x -C "$RUNNER_TEMP/gopyt-baseline"
+          python -m pip wheel --no-deps "$RUNNER_TEMP/gopyt-baseline" --wheel-dir "$RUNNER_TEMP/gopyt-old-wheel"
+          python tools/upgrade_smoke.py "$RUNNER_TEMP/gopyt-old-wheel/gopyt-0.1.0-py3-none-any.whl" dist/gopyt-0.1.0-py3-none-any.whl

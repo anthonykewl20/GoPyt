@@ -1,0 +1,80 @@
+{
+  "issue": 22,
+  "criteria": [
+    {
+      "id": "A1",
+      "requirement": "Specify language/stdlib/toolchain versioning and compatibility for bytecode, native signatures, packages and contracts.",
+      "previously_checked": false,
+      "evidence": [
+        "docs/toolchain-compatibility-amendment-2026-09-09.md",
+        "gopyt/toolchain.py",
+        "gopyt/gobyte.py",
+        "gopyt/natives.py"
+      ]
+    },
+    {
+      "id": "A2",
+      "requirement": "Provide reproducible dependency resolution and explicit upgrade/migration behavior without silent semantic changes.",
+      "previously_checked": false,
+      "evidence": [
+        "docs/lockfile.md",
+        "gopyt/test_dependency_upgrades.py",
+        "gopyt/test_toolchain_compatibility.py"
+      ]
+    },
+    {
+      "id": "A3",
+      "requirement": "Ensure optional integration absence produces typed predictable failure rather than uncaught host exceptions.",
+      "previously_checked": true,
+      "evidence": [
+        "gopyt/test_native_boundaries.py",
+        "validation/runtime-boundaries"
+      ]
+    },
+    {
+      "id": "A4",
+      "requirement": "Test old/new compiler-runtime combinations, stale artifacts, dependency upgrades and clean installation/rollback.",
+      "previously_checked": false,
+      "evidence": [
+        "tools/upgrade_smoke.py",
+        ".github/workflows/validate.yml",
+        "validation/dependency-upgrades/installed-pair.json",
+        "validation/dependency-upgrades/installed-pair-3.11.json",
+        "gopyt/test_dependency_upgrades.py"
+      ]
+    },
+    {
+      "id": "E1",
+      "requirement": "Retain reviewed design decisions, implementation references, meaningful regression/end-to-end tests, and failure evidence appropriate to this scope.",
+      "previously_checked": false,
+      "evidence": [
+        "validation/toolchain-compatibility/README.md",
+        "validation/dependency-upgrades/README.md"
+      ]
+    },
+    {
+      "id": "E2",
+      "requirement": "For performance/data claims, freeze workload/source identities before tuning, compare with an independent oracle, and report actual limits and unsuccessful trials.",
+      "previously_checked": false,
+      "evidence": [
+        "validation/dependency-upgrades/source.json",
+        "validation/dependency-upgrades/README.md",
+        "validation/toolchain-compatibility/initial-full.log"
+      ]
+    },
+    {
+      "id": "E3",
+      "requirement": "Update user-facing documentation and the architecture tracker; do not equate finite passing tests with universal correctness or security.",
+      "previously_checked": false,
+      "evidence": [
+        "docs/toolchain-compatibility-amendment-2026-09-09.md",
+        "docs/architecture-programme.md"
+      ]
+    }
+  ],
+  "publication_gates": [
+    "Verify final full regression and source hashes",
+    "Final-head Linux/macOS Python3.11/3.14 CI including installed-pair step",
+    "Merge and update original issue and parent tracker with immutable evidence"
+  ]
+}
