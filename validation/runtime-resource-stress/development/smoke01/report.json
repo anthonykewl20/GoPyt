@@ -1,0 +1,77 @@
+{
+  "status": "failed",
+  "mode": "smoke",
+  "phases": [
+    {
+      "phase": "slow_clients",
+      "episodes": 1,
+      "seconds": 0.36122344399336725,
+      "baseline": {
+        "rss": 31518720,
+        "fd": 6,
+        "thread": 2,
+        "child": 0
+      },
+      "final": {
+        "rss": 36081664,
+        "fd": 6,
+        "thread": 2,
+        "child": 0
+      },
+      "sampled_peak": {
+        "rss": 36093952,
+        "fd": 9,
+        "thread": 5,
+        "child": 0
+      },
+      "p50_ns": 354979582,
+      "p95_ns": 354979582,
+      "p99_ns": 354979582,
+      "max_ns": 354979582,
+      "mean_ns": 354979582
+    },
+    {
+      "phase": "saturation",
+      "episodes": 1,
+      "seconds": 0.34183150297030807,
+      "baseline": {
+        "rss": 36081664,
+        "fd": 6,
+        "thread": 2,
+        "child": 0
+      },
+      "final": {
+        "rss": 38973440,
+        "fd": 6,
+        "thread": 2,
+        "child": 0
+      },
+      "sampled_peak": {
+        "rss": 39997440,
+        "fd": 2183,
+        "thread": 67,
+        "child": 0
+      },
+      "p50_ns": 333913662,
+      "p95_ns": 333913662,
+      "p99_ns": 333913662,
+      "max_ns": 333913662,
+      "mean_ns": 333913662
+    }
+  ],
+  "negative_controls": [
+    {
+      "phase": "slow_clients",
+      "mutation": "closed",
+      "rejected": true
+    },
+    {
+      "phase": "saturation",
+      "mutation": "admitted",
+      "rejected": true
+    }
+  ],
+  "sampler_errors": [],
+  "maxrss_bytes": 39362560,
+  "scope": "Controlled Linux runtime stress; episode latency includes setup, compilation, coordination and cleanup. Not a production request-latency SLO, aggregate memory guarantee, disaster recovery or security audit."
+}

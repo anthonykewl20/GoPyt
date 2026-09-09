@@ -1,0 +1,143 @@
+{
+  "status": "failed",
+  "mode": "smoke",
+  "phases": [
+    {
+      "phase": "slow_clients",
+      "episodes": 1,
+      "seconds": 0.3648312189616263,
+      "baseline": {
+        "rss": 31285248,
+        "fd": 6,
+        "thread": 2,
+        "child": 0
+      },
+      "final": {
+        "rss": 35999744,
+        "fd": 6,
+        "thread": 2,
+        "child": 0
+      },
+      "sampled_peak": {
+        "rss": 36012032,
+        "fd": 9,
+        "thread": 5,
+        "child": 0
+      },
+      "p50_ns": 357270758,
+      "p95_ns": 357270758,
+      "p99_ns": 357270758,
+      "max_ns": 357270758,
+      "mean_ns": 357270758
+    },
+    {
+      "phase": "saturation",
+      "episodes": 1,
+      "seconds": 0.3588949820259586,
+      "baseline": {
+        "rss": 35999744,
+        "fd": 6,
+        "thread": 2,
+        "child": 0
+      },
+      "final": {
+        "rss": 38862848,
+        "fd": 6,
+        "thread": 2,
+        "child": 0
+      },
+      "sampled_peak": {
+        "rss": 39886848,
+        "fd": 2183,
+        "thread": 67,
+        "child": 0
+      },
+      "p50_ns": 347121553,
+      "p95_ns": 347121553,
+      "p99_ns": 347121553,
+      "max_ns": 347121553,
+      "mean_ns": 347121553
+    },
+    {
+      "phase": "cancellation_storm",
+      "episodes": 1,
+      "seconds": 0.10384185903239995,
+      "baseline": {
+        "rss": 38862848,
+        "fd": 6,
+        "thread": 2,
+        "child": 0
+      },
+      "final": {
+        "rss": 39370752,
+        "fd": 6,
+        "thread": 2,
+        "child": 0
+      },
+      "sampled_peak": {
+        "rss": 40230912,
+        "fd": 9,
+        "thread": 74,
+        "child": 0
+      },
+      "p50_ns": 95164478,
+      "p95_ns": 95164478,
+      "p99_ns": 95164478,
+      "max_ns": 95164478,
+      "mean_ns": 95164478
+    },
+    {
+      "phase": "lock_contention",
+      "episodes": 1,
+      "seconds": 0.09731796500273049,
+      "baseline": {
+        "rss": 39370752,
+        "fd": 6,
+        "thread": 2,
+        "child": 0
+      },
+      "final": {
+        "rss": 40370176,
+        "fd": 6,
+        "thread": 2,
+        "child": 0
+      },
+      "sampled_peak": {
+        "rss": 40611840,
+        "fd": 9,
+        "thread": 34,
+        "child": 0
+      },
+      "p50_ns": 89994425,
+      "p95_ns": 89994425,
+      "p99_ns": 89994425,
+      "max_ns": 89994425,
+      "mean_ns": 89994425
+    }
+  ],
+  "negative_controls": [
+    {
+      "phase": "slow_clients",
+      "mutation": "closed",
+      "rejected": true
+    },
+    {
+      "phase": "saturation",
+      "mutation": "admitted",
+      "rejected": true
+    },
+    {
+      "phase": "cancellation_storm",
+      "mutation": "active",
+      "rejected": true
+    },
+    {
+      "phase": "lock_contention",
+      "mutation": "before_recovery",
+      "rejected": true
+    }
+  ],
+  "sampler_errors": [],
+  "maxrss_bytes": 39972864,
+  "scope": "Controlled Linux runtime stress; episode latency includes setup, compilation, coordination and cleanup. Not a production request-latency SLO, aggregate memory guarantee, disaster recovery or security audit."
+}

@@ -91,3 +91,5 @@ or performance goals.
 [Parallel admission and deadlines](parallel-admission-amendment-2026-09-10.md)
 adds a shared VM worker bound, inherited deadlines and explicit overload behavior;
 blocking-I/O and graceful-drain qualification under #13 remains open.
+
+[Runtime resource qualification](runtime-resource-qualification.md) maps issue #13 to the shipped admission, cancellation and cleanup policies, with frozen five-scenario Linux stress evidence on both pinned Python versions and explicit ownership limits.
