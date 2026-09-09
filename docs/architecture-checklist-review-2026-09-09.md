@@ -546,5 +546,7 @@ download are documented in the retail example. No new runtime dependency was add
 Original remote issue/milestone snapshots, the matrix, source identities, new
 observations and execution ledger live in `validation/checklist-review/`.
 After publishing the report, the updated remote checklist is fetched and compared
-with the prepared bodies. This review leaves all 24 parent tasks open and requires
+with the prepared bodies. The [publication verification](../validation/checklist-review/publication-verification.json)
+confirms exact body/title matches for all 25 issues, milestone membership, all
+193 checkbox entries and exactly three checked criteria. This review leaves all 24 parent tasks open and requires
 separate implementation/qualification evidence before claiming them complete.

@@ -1,0 +1,237 @@
+{
+  "verified_at_utc": "2026-09-09T11:16:52.741912+00:00",
+  "review_commit": "bc827a4bfba05fe4cd80eeb807d6f048e6b659dd",
+  "report_url": "https://github.com/anthonykewl20/GoPyt/blob/bc827a4bfba05fe4cd80eeb807d6f048e6b659dd/docs/architecture-checklist-review-2026-09-09.md",
+  "pull_request": "https://github.com/anthonykewl20/GoPyt/pull/27",
+  "original_checkboxes": 193,
+  "checked": 3,
+  "issues_verified": 25,
+  "milestone_verified": true,
+  "issues": [
+    {
+      "number": 2,
+      "url": "https://github.com/anthonykewl20/GoPyt/issues/2",
+      "body_sha256": "dce36fcd9c4ad148769cf32fbc942aa69139ff9ed7d76e43a7e3cdcfb0b8d377",
+      "checkboxes": 24,
+      "checked": 0,
+      "exact_body_and_title_match": true,
+      "state": "OPEN"
+    },
+    {
+      "number": 3,
+      "url": "https://github.com/anthonykewl20/GoPyt/issues/3",
+      "body_sha256": "f382ee0b1dc903fbf649bbff7848516d7bb36fdee41a3ebdbcac70f423a3c7e3",
+      "checkboxes": 8,
+      "checked": 0,
+      "exact_body_and_title_match": true,
+      "state": "OPEN"
+    },
+    {
+      "number": 4,
+      "url": "https://github.com/anthonykewl20/GoPyt/issues/4",
+      "body_sha256": "f63de092dd88ed28806892e4d6ea66afd82a836a78635b73f501b41cd0027955",
+      "checkboxes": 7,
+      "checked": 0,
+      "exact_body_and_title_match": true,
+      "state": "OPEN"
+    },
+    {
+      "number": 5,
+      "url": "https://github.com/anthonykewl20/GoPyt/issues/5",
+      "body_sha256": "e07a1905b8fe6e4f49dc3a0b0fc22492768d69ad7a2ddae5290854f9be3857ef",
+      "checkboxes": 7,
+      "checked": 0,
+      "exact_body_and_title_match": true,
+      "state": "OPEN"
+    },
+    {
+      "number": 6,
+      "url": "https://github.com/anthonykewl20/GoPyt/issues/6",
+      "body_sha256": "ca71a6d2551b6f9da0f46713b6aa3fa13f1024845c022efc70bf5ff5e9586376",
+      "checkboxes": 7,
+      "checked": 0,
+      "exact_body_and_title_match": true,
+      "state": "OPEN"
+    },
+    {
+      "number": 7,
+      "url": "https://github.com/anthonykewl20/GoPyt/issues/7",
+      "body_sha256": "70e393d893b9d3109499bde7800808ad560d1616b58ffb7ca98615de1189d536",
+      "checkboxes": 7,
+      "checked": 2,
+      "exact_body_and_title_match": true,
+      "state": "OPEN"
+    },
+    {
+      "number": 8,
+      "url": "https://github.com/anthonykewl20/GoPyt/issues/8",
+      "body_sha256": "4ea0c67cec5d9c034b5e2db98585551a32cb2882f9a8a19a6ff82a43884f3ac1",
+      "checkboxes": 7,
+      "checked": 0,
+      "exact_body_and_title_match": true,
+      "state": "OPEN"
+    },
+    {
+      "number": 9,
+      "url": "https://github.com/anthonykewl20/GoPyt/issues/9",
+      "body_sha256": "eec22afb8e9fde89534f55da4c48cc0d1fcc56331daf8d25350040286d35693d",
+      "checkboxes": 7,
+      "checked": 0,
+      "exact_body_and_title_match": true,
+      "state": "OPEN"
+    },
+    {
+      "number": 10,
+      "url": "https://github.com/anthonykewl20/GoPyt/issues/10",
+      "body_sha256": "4fb86e0c30e37a2ae824c05dc119447446711062e43e796061dcaad2383a7615",
+      "checkboxes": 7,
+      "checked": 0,
+      "exact_body_and_title_match": true,
+      "state": "OPEN"
+    },
+    {
+      "number": 11,
+      "url": "https://github.com/anthonykewl20/GoPyt/issues/11",
+      "body_sha256": "a50e95b50c8204a32f65552c7ae0cbb5641bdb300afbd6bfc18daae363ed585c",
+      "checkboxes": 7,
+      "checked": 0,
+      "exact_body_and_title_match": true,
+      "state": "OPEN"
+    },
+    {
+      "number": 12,
+      "url": "https://github.com/anthonykewl20/GoPyt/issues/12",
+      "body_sha256": "95dd538845f975f513c7799cbb3609a5336a7baa37956766c7e67fc08c1010e5",
+      "checkboxes": 7,
+      "checked": 0,
+      "exact_body_and_title_match": true,
+      "state": "OPEN"
+    },
+    {
+      "number": 13,
+      "url": "https://github.com/anthonykewl20/GoPyt/issues/13",
+      "body_sha256": "b00325f2779fbd4c8c1f83bef28c46f623dc94a18737a7649ffa6ee35084adb1",
+      "checkboxes": 7,
+      "checked": 0,
+      "exact_body_and_title_match": true,
+      "state": "OPEN"
+    },
+    {
+      "number": 14,
+      "url": "https://github.com/anthonykewl20/GoPyt/issues/14",
+      "body_sha256": "370a78117dfe649531e0472f073f51d0717306655dee7003cc3d14c789a715e0",
+      "checkboxes": 7,
+      "checked": 0,
+      "exact_body_and_title_match": true,
+      "state": "OPEN"
+    },
+    {
+      "number": 15,
+      "url": "https://github.com/anthonykewl20/GoPyt/issues/15",
+      "body_sha256": "9b6503c603eecea0595a440b9709b9bcda99ac287f45404a26a274cb5598dd68",
+      "checkboxes": 7,
+      "checked": 0,
+      "exact_body_and_title_match": true,
+      "state": "OPEN"
+    },
+    {
+      "number": 16,
+      "url": "https://github.com/anthonykewl20/GoPyt/issues/16",
+      "body_sha256": "891c5316446a6cbb89cb232d4c26dc8c9560203cee3d8bc78dd20a2781db7b82",
+      "checkboxes": 7,
+      "checked": 0,
+      "exact_body_and_title_match": true,
+      "state": "OPEN"
+    },
+    {
+      "number": 17,
+      "url": "https://github.com/anthonykewl20/GoPyt/issues/17",
+      "body_sha256": "ae3b69e4cf8e0579146a2b4265ae43b5a27a3c4c37ef81248c5cbd5ffbb18951",
+      "checkboxes": 7,
+      "checked": 0,
+      "exact_body_and_title_match": true,
+      "state": "OPEN"
+    },
+    {
+      "number": 18,
+      "url": "https://github.com/anthonykewl20/GoPyt/issues/18",
+      "body_sha256": "1a811e3b6767da379666949133cf352471f014a2b3b352a57618643c76de7929",
+      "checkboxes": 7,
+      "checked": 0,
+      "exact_body_and_title_match": true,
+      "state": "OPEN"
+    },
+    {
+      "number": 19,
+      "url": "https://github.com/anthonykewl20/GoPyt/issues/19",
+      "body_sha256": "c516199d71cdf7518a10b094c1890f39ec323091f7c31b5d7580f7d5f7627030",
+      "checkboxes": 7,
+      "checked": 0,
+      "exact_body_and_title_match": true,
+      "state": "OPEN"
+    },
+    {
+      "number": 20,
+      "url": "https://github.com/anthonykewl20/GoPyt/issues/20",
+      "body_sha256": "d9480e499fcb02f919887ac21a5c7e5f11f1a46efe7ac3ffd87acb3e0f8280c8",
+      "checkboxes": 7,
+      "checked": 0,
+      "exact_body_and_title_match": true,
+      "state": "OPEN"
+    },
+    {
+      "number": 21,
+      "url": "https://github.com/anthonykewl20/GoPyt/issues/21",
+      "body_sha256": "5ba3e0f231bdaa730791f4f8acc3541cb32bb6cefb5f5acad2c6959f2cc86ed4",
+      "checkboxes": 7,
+      "checked": 0,
+      "exact_body_and_title_match": true,
+      "state": "OPEN"
+    },
+    {
+      "number": 22,
+      "url": "https://github.com/anthonykewl20/GoPyt/issues/22",
+      "body_sha256": "03ee2e54cf74b66485f4830e315a1d958b0807713be1025961277556cc0fc885",
+      "checkboxes": 7,
+      "checked": 0,
+      "exact_body_and_title_match": true,
+      "state": "OPEN"
+    },
+    {
+      "number": 23,
+      "url": "https://github.com/anthonykewl20/GoPyt/issues/23",
+      "body_sha256": "75c6d8bb6478e554385f9bc06605766b5a73931483911fa8d31375f0f9b31ab9",
+      "checkboxes": 7,
+      "checked": 0,
+      "exact_body_and_title_match": true,
+      "state": "OPEN"
+    },
+    {
+      "number": 24,
+      "url": "https://github.com/anthonykewl20/GoPyt/issues/24",
+      "body_sha256": "b5cf6f2e728b4c64f16389988120793be30ca28630746df3c40e3def85c236ff",
+      "checkboxes": 7,
+      "checked": 0,
+      "exact_body_and_title_match": true,
+      "state": "OPEN"
+    },
+    {
+      "number": 25,
+      "url": "https://github.com/anthonykewl20/GoPyt/issues/25",
+      "body_sha256": "b4b63700496d06b7e4ba60a709114289a3910a45f3392f0bb3ab867bb7df8457",
+      "checkboxes": 7,
+      "checked": 1,
+      "exact_body_and_title_match": true,
+      "state": "OPEN"
+    },
+    {
+      "number": 26,
+      "url": "https://github.com/anthonykewl20/GoPyt/issues/26",
+      "body_sha256": "ab8d5c65c87a19b924d0034f7a35f459dfad944f198e0fd2f747532acee13795",
+      "checkboxes": 7,
+      "checked": 0,
+      "exact_body_and_title_match": true,
+      "state": "OPEN"
+    }
+  ]
+}
