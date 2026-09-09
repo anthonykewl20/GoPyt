@@ -1,0 +1,16 @@
+{
+  "runtime_sha256": "a9c68e8f882d9928dedf039330832856fe4d74ea0f133ec0a80457ce73b4b7fa",
+  "test_sha256": {
+    "gopyt/test_evolution_workspace.py": "a0b7591bfa0cc83acda7095f64547506a8f9168d905b356df785aca755626cbd",
+    "gopyt/test_evolve_deadlines.py": "2d476dbd6f4ee2f87a7ee4305a7e4beca1c886856113fed8ee79ae2c5c1fa1b4"
+  },
+  "reference": {
+    "commit": "823f0323ee6ec1402088b73bce1a38473cac36dc",
+    "path": "Lib/shutil.py",
+    "sha256": "28a5df6415bf1a7ab36cbd544d6d35ae0f056a198e3872a786dc4e156d5fcd7d",
+    "use": "read fd-relative rmtree ownership and symlink handling; no donor code copied or executed"
+  },
+  "qualification": "880 full regression tests passed; focused and packaging checks passed",
+  "full_tests": 880,
+  "full_seconds": 339.257
+}

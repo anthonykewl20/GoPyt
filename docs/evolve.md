@@ -12,7 +12,7 @@ See `docs/hardening.md` for analysis, sketches, and hardening. Evolution **consu
 real gopyt run traces + core.observe.report
     → CUSUM/SPRT says "change" (hardening.md)
     → core.evolve.propose   (* at most one in flight *)
-    → candidates in evolve/<digest>/
+    → candidates in evolve/.work-<proposal-id>/<digest>/
     → gopyt fmt + gopyt check + S30
     → multiplicative-weights pick among **checked** survivors
     → new lock digest; next process start loads it
@@ -54,3 +54,9 @@ task propose() -> Applied | NoChange | EvolveError
 ```
 
 Filesystem writes are the candidate tree + atomic apply, still sandboxed.
+
+
+[Proposal staging ownership](parallel-admission-amendment-2026-09-10.md#evolution-proposal-staging-ownership)
+defines private candidate trees, cleanup after reaping/apply, legacy retention and
+cleanup-error/commit ambiguity. Completed public proposals remove their own
+staging trees; persistent weights and source/lock publication remain separate.

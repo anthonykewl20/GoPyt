@@ -22,11 +22,13 @@ from gopyt.manifest import package_digest
 from gopyt.vm import Cancelled, Trap
 
 
-def held_worker(writer, root, max_candidates, module, traces):
+def held_worker(writer, root, max_candidates, module, traces, workspace=None):
     if traces['mode'] == 'ignore':
         signal.signal(signal.SIGTERM, signal.SIG_IGN)
     if traces['mode'] == 'partial':
         writer.sock.sendall((100).to_bytes(4, 'big') + b'{')
+    if workspace is not None:
+        Path(workspace, 'partial-candidate').write_bytes(b'partial')
     Path(root, 'worker-ready').write_text(str(os.getpid()))
     while not Path(root, 'worker-release').exists():
         time.sleep(.01)
@@ -36,7 +38,7 @@ def held_worker(writer, root, max_candidates, module, traces):
         writer.close()
 
 
-def wire_worker(writer, root, max_candidates, module, traces):
+def wire_worker(writer, root, max_candidates, module, traces, workspace=None):
     try:
         if traces is None:
             writer.send(evolve.Outcome('NoChange'))
@@ -85,6 +87,7 @@ class EvolutionDeadlines(unittest.TestCase):
                 self.assertTrue(exits)
                 self.assertEqual({p.pid for p in multiprocessing.active_children()} - self.children, set())
                 self.assertFalse(self.vm.evolve_in_flight)
+                self.assertEqual(list(Path(self.root, "evolve").glob(".work-*")), [])
 
     def test_started_and_partial_workers_observe_cancellation_and_deadline(self):
         for mode, condition in (('hold', 'cancel'), ('partial', 'deadline'), ('ignore', 'cancel')):

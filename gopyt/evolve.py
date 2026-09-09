@@ -17,13 +17,16 @@ import os
 import json
 import shutil
 import socket
+import secrets
+import sys
+from contextlib import contextmanager
 import time
 from dataclasses import dataclass, fields, is_dataclass
 
 from gopyt.check import check_package, load_package
 from gopyt.diag import CompileError
 from gopyt.manifest import lock_text, package_digest, reject_symlinks
-from gopyt.files import atomic_write, segments, regular_file
+from gopyt.files import atomic_write, segments, regular_file, parent_directory
 from gopyt.transaction import guard, guarded, commit
 
 SKIP_DIRS = ("build", "evolve", ".git")
@@ -136,7 +139,29 @@ def _receive_outcome(sock, budget):
         raise OSError('preparation outcome format') from exc
 
 
-def _prepare_child(root, max_candidates, module, traces, budget):
+@contextmanager
+def _proposal_workspace(root):
+    """Own only this proposal's staging tree, never another wave's cache."""
+    with parent_directory(root, 'evolve/.workspace', create=True) as (parent, _):
+        name = '.work-' + secrets.token_hex(16)
+        os.mkdir(name, 0o700, dir_fd=parent)
+        identity = os.stat(name, dir_fd=parent, follow_symlinks=False)
+        try:
+            yield os.path.join(root, 'evolve', name)
+        finally:
+            primary = sys.exc_info()[1]
+            try:
+                current = os.stat(name, dir_fd=parent, follow_symlinks=False)
+                if (current.st_dev, current.st_ino) != (identity.st_dev, identity.st_ino):
+                    raise OSError('proposal workspace changed')
+                shutil.rmtree(name, dir_fd=parent)
+            except OSError as error:
+                if primary is None:
+                    raise
+                primary.add_note('proposal cleanup failed: ' + type(error).__name__)
+
+
+def _prepare_child(root, max_candidates, module, traces, budget, workspace=None):
     import multiprocessing
     budget.check_cancelled()
     reader, sender = socket.socketpair()
@@ -145,7 +170,7 @@ def _prepare_child(root, max_candidates, module, traces, budget):
     try:
         writer = _OutcomeWriter(sender)
         process = multiprocessing.get_context('spawn').Process(
-            target=_prepare_worker, args=(writer, root, max_candidates, module, traces))
+            target=_prepare_worker, args=(writer, root, max_candidates, module, traces, workspace))
         budget.check_cancelled()
         process.start()
         writer.close()
@@ -260,7 +285,8 @@ def _write_lock(root: str) -> str:
 
 
 @guarded
-def _prepare(root: str, max_candidates: int, module: str | None = None, traces=None) -> Outcome:
+def _prepare(root: str, max_candidates: int, module: str | None = None, traces=None,
+             workspace: str | None = None) -> Outcome:
     try:
         base_egress, base_ffi = _survey(root)
     except CompileError as e:
@@ -273,7 +299,7 @@ def _prepare(root: str, max_candidates: int, module: str | None = None, traces=N
         sets = [edits for edits in sets if edits]
     if not sets:
         return Outcome("NoChange")
-    wave = os.path.join(root, "evolve", digest.replace("sha256:", ""))
+    wave = os.path.join(workspace or os.path.join(root, "evolve"), digest.replace("sha256:", ""))
     reject_symlinks(wave)
     pkg = load_package(root)
     package_paths = [os.path.normpath(os.path.join(root, entry[2])) for entry in pkg.packages]
@@ -342,9 +368,9 @@ def _prepare(root: str, max_candidates: int, module: str | None = None, traces=N
                    candidate_digest=package_digest(max(survivors)[2]))
 
 
-def _prepare_worker(connection, root, max_candidates, module, traces):
+def _prepare_worker(connection, root, max_candidates, module, traces, workspace=None):
     try:
-        connection.send(_prepare(root, max_candidates, module, traces))
+        connection.send(_prepare(root, max_candidates, module, traces, workspace))
     except Exception as exc:
         connection.send(Outcome("EvolveError", message=type(exc).__name__))
     finally:
@@ -418,14 +444,17 @@ def propose(root: str, alarm: bool, max_candidates: int,
         return Outcome("EvolveError", message="max")
     budget = None
     try:
-        if timeout_ms is None and context is None:
-            plan = _prepare(root, max_candidates, module, traces)
-        else:
+        if timeout_ms is not None or context is not None:
             budget = _WaveBudget(context, timeout_ms)
             budget.check_cancelled()
-            plan = _prepare_child(root, max_candidates, module, traces, budget)
-            budget.check_cancelled()
-        result = _apply(root, plan, context=budget) if plan.kind == "Prepared" else plan
+        with _proposal_workspace(root) as workspace:
+            if budget is None:
+                plan = _prepare(root, max_candidates, module, traces, workspace)
+            else:
+                budget.check_cancelled()
+                plan = _prepare_child(root, max_candidates, module, traces, budget, workspace)
+                budget.check_cancelled()
+            result = _apply(root, plan, context=budget) if plan.kind == "Prepared" else plan
         if budget is not None:
             budget.check_cancelled()
         return result

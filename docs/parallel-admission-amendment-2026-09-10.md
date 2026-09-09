@@ -279,8 +279,8 @@ which has delivered its complete result receives a 50 ms exit grace. A remaining
 child is terminated, given 250 ms to exit, then killed if necessary and joined.
 Process startup, argument serialization and OS reaping are not asynchronously
 interruptible. These cleanup waits can exceed the deadline; no child writer is
-abandoned after return. Interrupted preparation may leave candidate cache files
-under `evolve/`, but cannot apply those files to the live source tree itself.
+abandoned after return. Owned staging cleanup follows child reaping under the proposal ownership rules
+below. Interrupted preparation cannot apply candidate files to live source.
 
 Apply checks context before transaction-lock admission, during contention, before
 journal recovery and after recovery, and between source revalidation steps before
@@ -413,3 +413,38 @@ admission. Host parsing and bounded buffer-copy operations remain synchronous.
 Local model companions are a separate, unmediated integration and are not covered
 by these remote payload limits. No operation retries automatically. A request
 which was admitted to transport may still have remote effects before timeout.
+
+
+## Evolution proposal staging ownership
+
+Each public `core.evolve.propose` / host `evolve.propose` call that passes admission
+owns a fresh private `evolve/.work-<random-id>/` directory. Checked candidate trees
+live beneath its package digest directory. Preparation and apply share that
+workspace; simultaneous proposals have separate trees even when their base
+package digest matches. The parent holds a descriptor for the containing evolve
+directory and reclaims only its own named tree with no-follow directory traversal.
+It refuses cleanup if the workspace root identity changed. Operators must not
+rename or replace active staging directories.
+
+On success, NoChange, preparation/apply failure, timeout or cancellation, the
+parent first finishes the existing child-reaping and admitted journal rules, then
+removes its staging tree before returning. It does not check cancellation in the
+middle of this cleanup. The subsequent wave/VM check includes cleanup elapsed
+time, but individual filesystem calls and removal are not asynchronously bounded.
+The running artifact remains unchanged; source activation is still next-process.
+
+Cleanup failure is an EvolveError when it is the only failure. If an exception is
+already propagating, including cancellation or a VM trap, it remains primary and
+receives a cleanup-failure note. A cleanup error or deadline after source commit
+does not undo the published source/lock transaction; reconcile the package digest
+before retrying. A failed removal may leave staging files and is not reported as
+successful cleanup.
+
+The bounded weights record remains persistent. Older digest caches, manually
+retained evidence and another proposal's workspaces are not deleted. Internal
+prepare/apply helpers used separately by host tooling retain caller-owned plan
+lifetimes. Abrupt parent-process death or filesystem cleanup failure can leave
+orphan staging directories; automatic crash-orphan recovery is not provided by
+this change. These ownership rules stop accumulation after completed normal or
+cancelled calls whose cleanup succeeds. They do not establish a staging-byte,
+aggregate process-memory, or crash-recovery quota.

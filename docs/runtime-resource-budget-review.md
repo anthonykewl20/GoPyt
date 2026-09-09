@@ -122,3 +122,12 @@ ceiling, including generated conversion and CLI output. Aggregate decoding
 memory, evolution retention and the remaining A2–A4 review/qualification scope
 remain open. The table and original findings describe the earlier reviewed
 runtime named at the start of this document.
+
+## Subsequent proposal cleanup qualification
+
+[Proposal workspace qualification](../validation/evolution-workspace/README.md)
+removes each completed public proposal's owned candidate tree after reaping and
+apply. The repeated five-wave probe retains zero candidate files after each call,
+while preserving the same applied package digests. Legacy caches, parent-crash
+orphans, active staging size and the remaining sustained resource qualification
+are explicitly separate from this completed-call cleanup guarantee.
