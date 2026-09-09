@@ -1,0 +1,94 @@
+.............................F..............................probe
+probe
+probe
+......arithmetic
+..probe
+......E...................FF......
+======================================================================
+ERROR: test_rich_artifact_mutations_never_raise_host_exceptions (gopyt.test_closure.ArtifactPolicy.test_rich_artifact_mutations_never_raise_host_exceptions)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/home/soultransit/devtony/gopyt-milestone-work/gopyt/test_closure.py", line 491, in test_rich_artifact_mutations_never_raise_host_exceptions
+    _,art,_=build(root)
+            ~~~~~^^^^^^
+  File "/home/soultransit/devtony/gopyt-milestone-work/gopyt/transaction.py", line 114, in wrapped
+    return fn(root, *args, **kwargs)
+  File "/home/soultransit/devtony/gopyt-milestone-work/gopyt/cli.py", line 50, in build
+    prog = check_package(pkg)
+  File "/home/soultransit/devtony/gopyt-milestone-work/gopyt/check.py", line 2462, in check_package
+    check_lock(pkg)
+    ~~~~~~~~~~^^^^^
+  File "/home/soultransit/devtony/gopyt-milestone-work/gopyt/check.py", line 2421, in check_lock
+    raise err(40, "gopyt.lock", 1, repair=want)
+gopyt.diag.CompileError: GOPYT_E040 toolchain
+file: gopyt.lock
+line: 1
+repair-bytes: 243
+
+toolchain = "gopyt-0.1.000+sha256:e43bf4e4f40490035e85c73f66a61dee72a6962f579b80d5205c153e07d2a362"
+
+[[pkg]]
+name = "auth_example"
+version = "0.1.0"
+path = "."
+digest = "sha256:8a3466ed3972227f7b307bbc795f502e0911a018437ad394e13cad07acca03af"
+
+
+======================================================================
+FAIL: test_apply_failure_rolls_back_sources (gopyt.test_audit.EvolutionAudit.test_apply_failure_rolls_back_sources)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/home/soultransit/devtony/gopyt-milestone-work/gopyt/test_audit.py", line 504, in test_apply_failure_rolls_back_sources
+    self.assertEqual(run_cli(root, "check"), (0, ""))
+    ~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+AssertionError: Tuples differ: (1, 'GOPYT_E040 toolchain\nfile: gopyt.loc[280 chars]"\n') != (0, '')
+
+First differing element 0:
+1
+0
+
++ (0, '')
+- (1,
+-  'GOPYT_E040 toolchain\n'
+-  'file: gopyt.lock\n'
+-  'line: 1\n'
+-  'repair-bytes: 243\n'
+-  '\n'
+-  'toolchain = '
+-  '"gopyt-0.1.000+sha256:e43bf4e4f40490035e85c73f66a61dee72a6962f579b80d5205c153e07d2a362"\n'
+-  '\n'
+-  '[[pkg]]\n'
+-  'name = "auth_example"\n'
+-  'version = "0.1.0"\n'
+-  'path = "."\n'
+-  'digest = '
+-  '"sha256:8a3466ed3972227f7b307bbc795f502e0911a018437ad394e13cad07acca03af"\n')
+
+======================================================================
+FAIL: test_candidate_tampering_is_refused_before_live_writes (gopyt.test_closure.Transactions.test_candidate_tampering_is_refused_before_live_writes)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/home/soultransit/devtony/gopyt-milestone-work/gopyt/test_closure.py", line 312, in test_candidate_tampering_is_refused_before_live_writes
+    self.assertEqual(plan.kind,'Prepared')
+    ~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^
+AssertionError: 'EvolveError' != 'Prepared'
+- EvolveError
++ Prepared
+
+
+======================================================================
+FAIL: test_checked_survivors_use_persistent_weights_and_tag_replay (gopyt.test_closure.Transactions.test_checked_survivors_use_persistent_weights_and_tag_replay)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/home/soultransit/devtony/gopyt-milestone-work/gopyt/test_closure.py", line 341, in test_checked_survivors_use_persistent_weights_and_tag_replay
+    self.assertEqual(plan.kind,'Prepared')
+    ~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^
+AssertionError: 'EvolveError' != 'Prepared'
+- EvolveError
++ Prepared
+
+
+----------------------------------------------------------------------
+Ran 102 tests in 10.011s
+
+FAILED (failures=3, errors=1)

@@ -1,0 +1,13 @@
+{
+  "repository": "python/cpython",
+  "commit": "823f0323ee6ec1402088b73bce1a38473cac36dc",
+  "leitir_verification": "sampled",
+  "scope": "HTTPResponse file ownership, HTTPConnection response/exception lifecycle, urllib close and proxy paths, socket file references, TLS reads after descriptor ownership transfer. Reference only; no source copied, donor execution or dependency change. Also checked installed CPython 3.11.16 HTTP framing compatibility.",
+  "reviewed_files": {
+    "Lib/http/client.py": "016aa7664201a82f0f37ddfb11ed662dd1f07aa23c9470c6a3cb3278aa479230",
+    "Lib/socket.py": "4a8747dc77383df192b22bb95f4620cadafeffe6b621c61b1f3b8c386393643c",
+    "Lib/ssl.py": "21d28174e953bcfd042b328676c52584fcd8b4f0457a4db582b7f0acd78854d5",
+    "Lib/urllib/request.py": "f3464032de00c1fbc839f4657577065ea6efb30d99e5a86e204b1aefdcb77430",
+    "LICENSE": "b0e25a78cffb43f4d92de8b61ccfa1f1f98ecbc22330b54b5251e7b6ba010231"
+  }
+}
