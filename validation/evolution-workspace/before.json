@@ -1,0 +1,54 @@
+{
+  "runtime_sha256": "fc6c1aa55709c81e2c6560deb7d0e52a168c5ff5842aafd1f36df6ec41c6eada",
+  "probe_sha256": "df9f609a01e3e17086b2c66572b06ce9c05da558a600f187e2099426deaf0e59",
+  "baseline_sources": {
+    "spec/auth.gopyt": "8cba6dad454a1a75daa86d7e94c0e2d811c45bfd7fd27aa26402f2391007d120",
+    "impl/auth.gopyt": "12fd97bd8aee5cac2b0f32f500ed90a3ef650d7f0bcecd608f8c2b1b288bd2fa",
+    "test/auth.gopyt": "c600acdbdbeeeb76e37b7783aa1b33d7dcd75ad1fe9da518ca180f707985135a"
+  },
+  "max_candidates": 2,
+  "wave_timeout_ms": 10000,
+  "trials": [
+    {
+      "iteration": 0,
+      "input_digest": "sha256:8a3466ed3972227f7b307bbc795f502e0911a018437ad394e13cad07acca03af",
+      "output_digest": "sha256:51aededf463536fcf7cda012684839570fd89fc01fcc096c32c80a22780bb846",
+      "retained_waves": 1,
+      "retained_files": 14,
+      "retained_bytes": 11809
+    },
+    {
+      "iteration": 1,
+      "input_digest": "sha256:222eb15c8e98e7d218d3f76c7c6ec612e5bd2b62425b0f71542577b745d1e1be",
+      "output_digest": "sha256:59ce91841038762adfbd3f457e249461aa724780d0fe863f564930896a8e31ee",
+      "retained_waves": 2,
+      "retained_files": 28,
+      "retained_bytes": 23618
+    },
+    {
+      "iteration": 2,
+      "input_digest": "sha256:bf51a7160c2150eb21ed7f8f5528292f24bee1e0a8b5e8b6723b902b07fac2cb",
+      "output_digest": "sha256:f9321148e7fc5e5ac865297ad5e6896f2a77121354eb97e7bdd4b156bed2c958",
+      "retained_waves": 3,
+      "retained_files": 42,
+      "retained_bytes": 35427
+    },
+    {
+      "iteration": 3,
+      "input_digest": "sha256:5966def21cb6939f7d722a46f2a5a8cd13cf182f8073a20161b9bd41bee86b64",
+      "output_digest": "sha256:32827cafa92217b59ddce9519b5e3c8022e9b84cca0e79a8e21f1543478e30fb",
+      "retained_waves": 4,
+      "retained_files": 56,
+      "retained_bytes": 47236
+    },
+    {
+      "iteration": 4,
+      "input_digest": "sha256:16b9537f20f1767d96814a37ea52440546022731fd2102e42eb706228dd205ed",
+      "output_digest": "sha256:28410e77352e421b147885d0eddfda8f3ccf19fc80f4d37d3822e8e655537145",
+      "retained_waves": 5,
+      "retained_files": 70,
+      "retained_bytes": 59045
+    }
+  ],
+  "scope": "isolated five-wave retention observation; not a disk quota or production stress qualification"
+}

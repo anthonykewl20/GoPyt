@@ -1,0 +1,20 @@
+test_cleanup_does_not_follow_links_or_delete_replaced_root (gopyt.test_evolution_workspace.EvolutionWorkspace.test_cleanup_does_not_follow_links_or_delete_replaced_root) ... ok
+test_cleanup_failure_after_apply_does_not_undo_publication (gopyt.test_evolution_workspace.EvolutionWorkspace.test_cleanup_failure_after_apply_does_not_undo_publication) ... ok
+test_cleanup_failure_preserves_primary_cancellation (gopyt.test_evolution_workspace.EvolutionWorkspace.test_cleanup_failure_preserves_primary_cancellation) ... ok
+test_concurrent_proposals_cannot_remove_each_others_workspace (gopyt.test_evolution_workspace.EvolutionWorkspace.test_concurrent_proposals_cannot_remove_each_others_workspace) ... ok
+test_prepare_error_and_cancellation_release_owned_files (gopyt.test_evolution_workspace.EvolutionWorkspace.test_prepare_error_and_cancellation_release_owned_files) ... ok
+test_real_waves_remove_candidates_and_preserve_legacy_files (gopyt.test_evolution_workspace.EvolutionWorkspace.test_real_waves_remove_candidates_and_preserve_legacy_files) ... ok
+test_apply_lock_context_never_enters_recovery (gopyt.test_evolve_deadlines.EvolutionDeadlines.test_apply_lock_context_never_enters_recovery) ... ok
+test_cancellation_during_revalidation_cannot_publish (gopyt.test_evolve_deadlines.EvolutionDeadlines.test_cancellation_during_revalidation_cannot_publish) ... ok
+test_entered_commit_finishes_before_timeout_is_reported (gopyt.test_evolve_deadlines.EvolutionDeadlines.test_entered_commit_finishes_before_timeout_is_reported) ... ok
+test_own_budget_is_data_and_inherited_deadline_is_a_trap (gopyt.test_evolve_deadlines.EvolutionDeadlines.test_own_budget_is_data_and_inherited_deadline_is_a_trap) ... ok
+test_own_wave_budget_bounds_apply_lock_wait (gopyt.test_evolve_deadlines.EvolutionDeadlines.test_own_wave_budget_bounds_apply_lock_wait) ... ok
+test_recovery_finishes_before_observing_cancellation (gopyt.test_evolve_deadlines.EvolutionDeadlines.test_recovery_finishes_before_observing_cancellation) ... ok
+test_start_failure_before_and_after_spawn_closes_owned_resources (gopyt.test_evolve_deadlines.EvolutionDeadlines.test_start_failure_before_and_after_spawn_closes_owned_resources) ... ok
+test_started_and_partial_workers_observe_cancellation_and_deadline (gopyt.test_evolve_deadlines.EvolutionDeadlines.test_started_and_partial_workers_observe_cancellation_and_deadline) ... ok
+test_valid_fragmented_result_and_invalid_frames (gopyt.test_evolve_deadlines.EvolutionDeadlines.test_valid_fragmented_result_and_invalid_frames) ... ok
+
+----------------------------------------------------------------------
+Ran 15 tests in 3.499s
+
+OK

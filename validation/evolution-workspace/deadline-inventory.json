@@ -1,0 +1,218 @@
+{
+  "reviewed_commit": "689599af86d023024f5a0c9b4fde6ef123e6d5ae",
+  "runtime_sha256": "a9c68e8f882d9928dedf039330832856fe4d74ea0f133ec0a80457ce73b4b7fa",
+  "groups": {
+    "value": {
+      "natives": [
+        "core.bytes.concat",
+        "core.bytes.from_str",
+        "core.bytes.len",
+        "core.bytes.to_str",
+        "core.int.to_i32",
+        "core.int.to_i64_from_i32",
+        "core.int.to_i64_from_u32",
+        "core.int.to_i64_from_u64",
+        "core.int.to_u32",
+        "core.int.to_u64",
+        "core.list.append",
+        "core.list.empty",
+        "core.list.get",
+        "core.list.len",
+        "core.list.range",
+        "core.map.empty",
+        "core.map.get",
+        "core.map.keys",
+        "core.map.len",
+        "core.map.set",
+        "core.money.add",
+        "core.money.compare",
+        "core.money.format",
+        "core.money.make",
+        "core.money.multiply_ratio",
+        "core.money.parse",
+        "core.money.rescale",
+        "core.money.subtract",
+        "core.str.concat",
+        "core.str.from_i64",
+        "core.str.len",
+        "core.str.slice",
+        "core.test.assert_eq",
+        "core.time.add",
+        "core.time.difference",
+        "core.time.duration_add",
+        "core.time.duration_ms",
+        "core.time.duration_ns",
+        "core.time.duration_to_ms",
+        "core.time.elapsed",
+        "core.time.format_duration",
+        "core.time.format_timestamp",
+        "core.time.parse_duration",
+        "core.time.parse_timestamp",
+        "core.time.timestamp_ms",
+        "core.time.timestamp_ns",
+        "core.time.timestamp_to_ms",
+        "data.json.decode",
+        "data.json.encode"
+      ],
+      "policy": "VM entry/normal-return checks; synchronous computation; ordinary JSON output obeys the existing per-value UTF-8 allocation ceiling (trap 14)",
+      "sources": [
+        "gopyt/natives.py",
+        "gopyt/money.py",
+        "gopyt/temporal.py",
+        "gopyt/jsonc.py",
+        "gopyt/vm.py",
+        "gopyt/cli.py"
+      ]
+    },
+    "clock_entropy_secret": {
+      "natives": [
+        "core.random.i64_in",
+        "core.secret.get",
+        "core.secret.reveal",
+        "core.time.monotonic_now",
+        "core.time.now",
+        "core.time.now_ms"
+      ],
+      "policy": "VM boundary checks around synchronous host access",
+      "sources": [
+        "gopyt/natives.py",
+        "gopyt/temporal.py"
+      ]
+    },
+    "sleep": {
+      "natives": [
+        "core.time.sleep",
+        "core.time.sleep_ms"
+      ],
+      "policy": "shared remaining budget, requested waits <=50 ms",
+      "sources": [
+        "gopyt/natives.py",
+        "gopyt/temporal.py"
+      ]
+    },
+    "log": {
+      "natives": [
+        "core.log.write"
+      ],
+      "policy": "synchronous stderr write/flush; partial output possible",
+      "sources": [
+        "gopyt/natives.py"
+      ]
+    },
+    "file": {
+      "natives": [
+        "core.file.read",
+        "core.file.write"
+      ],
+      "policy": "context checkpoints around synchronous file operations; partial writes possible",
+      "sources": [
+        "gopyt/natives.py",
+        "gopyt/files.py"
+      ]
+    },
+    "limiter": {
+      "natives": [
+        "core.limit.allow"
+      ],
+      "policy": "timed state-lock admission; admitted token consumption completes",
+      "sources": [
+        "gopyt/natives.py",
+        "gopyt/limiter.py",
+        "gopyt/vm.py"
+      ]
+    },
+    "observation": {
+      "natives": [
+        "core.observe.note",
+        "core.observe.report"
+      ],
+      "policy": "timed observation-lock admission; terminal telemetry may be omitted",
+      "sources": [
+        "gopyt/natives.py",
+        "gopyt/observe.py",
+        "gopyt/vm.py"
+      ]
+    },
+    "storage": {
+      "natives": [
+        "store.db.compare_exchange",
+        "store.db.compare_exchange_many",
+        "store.db.get",
+        "store.db.get_many",
+        "store.db.put"
+      ],
+      "policy": "timed locks and prepublication checkpoints; entered replacement cleanup completes",
+      "sources": [
+        "gopyt/natives.py",
+        "gopyt/storage.py"
+      ]
+    },
+    "outbound": {
+      "natives": [
+        "core.model.complete",
+        "net.http.request"
+      ],
+      "policy": "8192-byte URL and 1 MiB body/model JSON payload limits before transport; shared budget includes preparation and bounded model serialization; inherited VM context; DNS remains synchronous",
+      "sources": [
+        "gopyt/natives.py",
+        "gopyt/netio.py",
+        "gopyt/jsonc.py"
+      ]
+    },
+    "local_provider": {
+      "natives": [
+        "core.model.local"
+      ],
+      "policy": "synchronous trusted companion, no context transfer; restricted VMs reject",
+      "sources": [
+        "gopyt/natives.py"
+      ]
+    },
+    "evolution": {
+      "natives": [
+        "core.evolve.propose"
+      ],
+      "policy": "Minimum wave/VM budget for preparation and apply admission; child reaping and admitted journal completion precede owned staging cleanup. Cleanup may exceed the budget; primary exceptions survive cleanup failure, and abrupt parent death may leave staging.",
+      "sources": [
+        "gopyt/natives.py",
+        "gopyt/evolve.py",
+        "gopyt/transaction.py",
+        "gopyt/files.py"
+      ]
+    },
+    "serving": {
+      "natives": [
+        "net.http.serve"
+      ],
+      "policy": "serving/request budgets capped by 10-second connection lifetime and 100-request quota; bounded response serialization; FIFO connection queue with explicit fairness limits; drain/abort then join",
+      "sources": [
+        "gopyt/natives.py",
+        "gopyt/server.py",
+        "gopyt/jsonc.py"
+      ]
+    }
+  },
+  "provide_examples": [
+    "provide:core.convert.Json:Inventory:to_json",
+    "provide:core.convert.Json:Inventory:from_json",
+    "provide:core.convert.FromStr:Inventory:from_str"
+  ],
+  "source_sha256": {
+    "gopyt/evolve.py": "071154fe08dcc0c67ad838345b8013c74e799a18e6d9484760e0a014e85c83cb",
+    "gopyt/files.py": "a6b2cea1fff53bcc10b37527817fa3b75fa946999aaeb40fb6ea340bdb0a5aa4",
+    "gopyt/heap.py": "0cb32277ea83b574ace0f8416e6e02fc333a60e16769a35284e6141178a67906",
+    "gopyt/jsonc.py": "37acb62a3dcf460d9b355ee367b6b65e9fd4a7dbd6b4ebf232108fafe6155db6",
+    "gopyt/limiter.py": "e148b871aafc9927b0c32be1bd65047f434f00131d0b907932f1f73d737621be",
+    "gopyt/money.py": "699111965c3539f99a6580300d391dfd5da0e4c7ee1cc4c3c4fd07dfe9f3efa5",
+    "gopyt/natives.py": "fa43014f03985255f6df67850900baf298aacfef308fc84885ec350a14f8313d",
+    "gopyt/netio.py": "ee6481fafe7cf9c5cfc855c670de26461407395ead0a6961d1f4a3f5f7fbc668",
+    "gopyt/observe.py": "6eea9ded1d3d70521388159969f33c9c11ab29e14a373d50ee5d107b3942ecd7",
+    "gopyt/scheduling.py": "bb5fc332746f4d957ff486d189b6472524101c0a30fc49cabad2df50abcd420a",
+    "gopyt/server.py": "730f4f90b72c71b889aa3775233d40a179676b15e721d098787bbd9b782f5b99",
+    "gopyt/storage.py": "420a38e4685293b8fcefab48f61bc6879948064266a7544f4a4996cef721848c",
+    "gopyt/temporal.py": "6b672707b2e61388306ef512184f767ad67b16fcaab3f7906d27832d1947f7c2",
+    "gopyt/transaction.py": "bb682cf2e5ebb8c27f5c5538d5abe878e3f36f104bfd44b852d5f2dc92fc5789",
+    "gopyt/vm.py": "87ec6704e0076df9d3a0dd9e05c927a3ac2f0a5ba4297e6983b0e992f63f9f2a",
+    "gopyt/cli.py": "00ecf856555b40bf6d8b16802412329a6f4cf3e1601f5ba812ce2a7fcd933d7c"
+  }
+}
