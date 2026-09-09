@@ -2,7 +2,11 @@
 
 Runtime fingerprint:
 `248bf8b8a9b960d489b85c970d061ffd8d26abbd52b10b0a7dfa87fe03c7739c`.
-All 792 tests pass on Python 3.14.7 in 345.444 seconds. Nine focused compiled time
+The final criterion-review suite passes all 795 tests on Python 3.14.7 in
+338.729 seconds (`numeric-final-full314.log`). The earlier 792-test run remains
+in `full314.log`. Three added all-width integer conversion tests pass on both
+supported Python versions, covering exact endpoints, result tags, range errors
+and E021 implicit-conversion rejection. No runtime source changed. Nine focused compiled time
 tests also pass on Python 3.11.16. They use the OS calendar as an independent
 format oracle and inject wall-clock rollback, backwards/mixed monotonic samples,
 clock failures and cancellation without changing the host clock. Exact endpoints,
