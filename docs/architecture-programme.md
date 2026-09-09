@@ -85,3 +85,6 @@ Finite floating-point boundaries are specified by the [binary64 amendment](finit
 
 The [money amendment](money-amendment-2026-09-10.md) adds exact fixed-point monetary
 operations. Typed time and full numeric/time data qualification remain open in #17.
+
+[Typed time amendment](time-amendment-2026-09-10.md) defines nanosecond timestamps,
+durations, explicit-offset serialization, clock origins and anomaly behavior.

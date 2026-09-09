@@ -110,3 +110,6 @@ rounding, overflow and nonfinite rejection at bytecode and VM boundaries.
 
 [Exact monetary values](money-amendment-2026-09-10.md) defines checked fixed-point
 arithmetic, explicit rounding, currency validation and decimal text boundaries.
+
+[Typed time amendment](time-amendment-2026-09-10.md) defines nanosecond timestamps,
+durations, explicit-offset serialization, clock origins and anomaly behavior.

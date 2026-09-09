@@ -1,0 +1,10 @@
+{
+  "commit": "823f0323ee6ec1402088b73bce1a38473cac36dc",
+  "repository": "python/cpython",
+  "leitir_verification": "sampled",
+  "scope": "Calendar/formatting implementation reference only; no code copying, donor execution or runtime dependency. Runtime uses installed datetime; independent oracle uses OS gmtime and exact Fraction arithmetic.",
+  "reviewed_files": {
+    "Lib/_pydatetime.py": "00e8b7b2a3c8a75f15ac016c8f4f97101394d679cba63a055205358ff3df656b",
+    "LICENSE": "b0e25a78cffb43f4d92de8b61ccfa1f1f98ecbc22330b54b5251e7b6ba010231"
+  }
+}

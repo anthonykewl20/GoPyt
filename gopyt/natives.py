@@ -293,7 +293,16 @@ def _log_write(vm, args, func):
 
 @native("core.time.now_ms")
 def _now_ms(vm, args, func):
-    return int(time.time() * 1000)
+    try:
+        ns = time.time_ns()
+    except (OSError, OverflowError) as error:
+        raise Trap(ops.TRAP_TYPE) from error
+    if type(ns) is not int:
+        raise Trap(ops.TRAP_TYPE)
+    ms = ns // 1_000_000
+    if not I64[0] <= ms <= I64[1]:
+        raise Trap(ops.TRAP_OVERFLOW)
+    return ms
 
 
 @native("core.time.sleep_ms")
@@ -746,6 +755,9 @@ class _NativeTable(dict):
 from gopyt.money import install as _install_money
 
 _install_money(NATIVES)
+from gopyt.temporal import install as _install_time
+
+_install_time(NATIVES)
 NATIVES = _NativeTable(NATIVES)
 
 

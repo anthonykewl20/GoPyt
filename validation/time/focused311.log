@@ -1,0 +1,14 @@
+test_duration_serialization (gopyt.test_temporal.TemporalTests.test_duration_serialization) ... ok
+test_exact_millisecond_conversion_and_checked_arithmetic (gopyt.test_temporal.TemporalTests.test_exact_millisecond_conversion_and_checked_arithmetic) ... ok
+test_explicit_offsets_and_nanosecond_precision (gopyt.test_temporal.TemporalTests.test_explicit_offsets_and_nanosecond_precision) ... ok
+test_invalid_calendar_offset_precision_and_range (gopyt.test_temporal.TemporalTests.test_invalid_calendar_offset_precision_and_range) ... ok
+test_malformed_record_and_unit_confusion_rejected (gopyt.test_temporal.TemporalTests.test_malformed_record_and_unit_confusion_rejected) ... ok
+test_monotonic_origins_backwards_and_clock_failure (gopyt.test_temporal.TemporalTests.test_monotonic_origins_backwards_and_clock_failure) ... ok
+test_sleep_uses_monotonic_deadline_detects_rollback_and_cancels (gopyt.test_temporal.TemporalTests.test_sleep_uses_monotonic_deadline_detects_rollback_and_cancels) ... ok
+test_timestamp_roundtrip_extremes_and_os_calendar_oracle (gopyt.test_temporal.TemporalTests.test_timestamp_roundtrip_extremes_and_os_calendar_oracle) ... ok
+test_wall_clock_rollback_is_visible_and_legacy_floor_is_exact (gopyt.test_temporal.TemporalTests.test_wall_clock_rollback_is_visible_and_legacy_floor_is_exact) ... ok
+
+----------------------------------------------------------------------
+Ran 9 tests in 0.140s
+
+OK

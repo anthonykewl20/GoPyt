@@ -73,6 +73,8 @@ class VM:
         self.art = art
         self.root = "." if root is None else root
         self._tl = threading.local()
+        from secrets import token_hex
+        self.clock_id = token_hex(16)
         self.observe = Observe(reservoir_k=32)
         self.db = Store(root)
         self.limiter = Limiter()
