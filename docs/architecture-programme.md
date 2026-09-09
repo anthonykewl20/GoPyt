@@ -3,6 +3,14 @@
 Status: active engineering programme; production readiness is not established.
 Scope: the GoPyT language, runtime, Guard and tools. Model training is excluded.
 
+The [2026-09-09 checklist review](architecture-checklist-review-2026-09-09.md)
+maps all 193 original milestone/tracker checkboxes to the merged source and
+retained or newly executed evidence. Three individual criteria are supported;
+all 24 architectural issues remain open. It records three reproduced native or
+configuration error-boundary defects and distinguishes existing v0 behavior
+from requested extensions and deployment decisions. GitHub dependency links
+describe proposed sequencing, not prerequisites enforced by the compiler.
+
 ## Acceptance gates
 
 | Gap | Required outcome | Current increment |

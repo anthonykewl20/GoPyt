@@ -1,0 +1,26 @@
+{
+  "complete": true,
+  "original_child_checkboxes": 169,
+  "tracker_checkboxes": 24,
+  "original_texts_preserved": true,
+  "unassessed_criteria": 0,
+  "duplicate_criteria": 0,
+  "supported_checked_items": [
+    [
+      7,
+      "A1"
+    ],
+    [
+      7,
+      "A3"
+    ],
+    [
+      25,
+      "A2"
+    ]
+  ],
+  "pinned_source_references": 86,
+  "pinned_source_files": 51,
+  "report_relative_links_valid": true,
+  "scope": "structural integrity of the review, not a correctness proof of the language"
+}

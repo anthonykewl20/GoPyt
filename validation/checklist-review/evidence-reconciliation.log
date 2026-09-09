@@ -1,0 +1,85 @@
+{
+  "complete": true,
+  "source_commit": "e2537c1362a5f3a350c456b5bf5303eb40395191",
+  "python": "3.14.7 (main, Sep  1 2026, 14:18:09) [Clang 22.1.3 ]",
+  "validated_source_files": 151,
+  "source_differences": [],
+  "workbook_sha256": "43465a06f2ccf7c8b5bd2892bc7defb52f97487934fe93b16ae4c3936424676d",
+  "prepared_hashes": {
+    "rows.jsonl": "08f76b68f072e3caf24ae98cfedc256fd0522d95290f8d7b41d63544b72df821",
+    "expected.json": "41d87a5d8c2a19713d325a6d8b94bbfff966676b45cf5598968eec41e5da037a",
+    "oracle.sqlite3": "0c199077a98a1c6145b563424802a38437822177cbfd1e98bc1d8f16c11101ce"
+  },
+  "independent_workbook_rows_equal_corpus_and_sql": true,
+  "counts": {
+    "rows": 541909,
+    "negative_quantity_rows": 10624,
+    "zero_quantity_rows": 0,
+    "cancellation_rows": 9288,
+    "unique_invoices": 25900,
+    "unique_skus": 4070,
+    "quantity_sum": 5176450
+  },
+  "trials": [
+    {
+      "report": "validation/architecture/retail-encrypted-1-v2/report.json",
+      "worker_reports": 1,
+      "latency_samples": 8468,
+      "arithmetic_reconciled": true,
+      "source_differences_from_audited_tree": []
+    },
+    {
+      "report": "validation/architecture/retail-encrypted-4/report.json",
+      "worker_reports": 4,
+      "latency_samples": 8468,
+      "arithmetic_reconciled": true,
+      "source_differences_from_audited_tree": [
+        "examples/retail_replay/impl/retail.gopyt",
+        "examples/retail_replay/spec/retail.gopyt",
+        "gopyt/stdlib_src.py",
+        "tools/retail_prepare.py",
+        "tools/retail_stress.py"
+      ]
+    },
+    {
+      "report": "validation/architecture/retail-encrypted-overlap-8/report.json",
+      "worker_reports": 8,
+      "latency_samples": 33872,
+      "arithmetic_reconciled": true,
+      "source_differences_from_audited_tree": [
+        "tools/retail_prepare.py"
+      ]
+    },
+    {
+      "report": "validation/architecture/retail-plaintext-4/report.json",
+      "worker_reports": 4,
+      "latency_samples": 8468,
+      "arithmetic_reconciled": true,
+      "source_differences_from_audited_tree": [
+        "examples/retail_replay/impl/retail.gopyt",
+        "examples/retail_replay/spec/retail.gopyt",
+        "gopyt/stdlib_src.py",
+        "tools/retail_prepare.py",
+        "tools/retail_stress.py"
+      ]
+    },
+    {
+      "report": "validation/architecture/retail-smoke/report.json",
+      "worker_reports": 2,
+      "latency_samples": 64,
+      "arithmetic_reconciled": true,
+      "source_differences_from_audited_tree": [
+        "examples/retail_replay/impl/retail.gopyt",
+        "examples/retail_replay/spec/retail.gopyt",
+        "gopyt/stdlib_src.py",
+        "tools/retail_prepare.py",
+        "tools/retail_stress.py"
+      ]
+    }
+  ],
+  "limits": [
+    "Reconciliation checks retained measurements; it does not re-run their trials.",
+    "A separate full HTTP replay is retained under validation/checklist-review.",
+    "Workload and oracle share historical source data; no customer workload or SLO is inferred."
+  ]
+}

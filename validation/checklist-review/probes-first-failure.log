@@ -1,0 +1,39 @@
+Traceback (most recent call last):
+  File "/home/soultransit/devtony/GoPyt/tools/checklist_review_probes.py", line 158, in <module>
+    if __name__ == '__main__': main()
+                               ~~~~^^
+  File "/home/soultransit/devtony/GoPyt/tools/checklist_review_probes.py", line 150, in main
+    if child.returncode: raise RuntimeError(child.stderr)
+                         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+RuntimeError: Traceback (most recent call last):
+  File "/home/soultransit/devtony/GoPyt/gopyt/security_config.py", line 62, in storage_cipher
+    from cryptography.hazmat.primitives.ciphers.aead import AESGCMSIV
+ModuleNotFoundError: No module named 'cryptography'
+
+The above exception was the direct cause of the following exception:
+
+Traceback (most recent call last):
+  File "/home/soultransit/devtony/GoPyt/gopyt/storage.py", line 209, in _operate_locked
+    self._security = storage_cipher(self.root)
+                     ~~~~~~~~~~~~~~^^^^^^^^^^^
+  File "/home/soultransit/devtony/GoPyt/gopyt/security_config.py", line 64, in storage_cipher
+    except ImportError as exc:raise SecurityError('supported security extra required') from exc
+                              ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+gopyt.security_config.SecurityError: supported security extra required
+
+The above exception was the direct cause of the following exception:
+
+Traceback (most recent call last):
+  File "<string>", line 1, in <module>
+    import sys,json;sys.path.insert(0,sys.argv[1]);from gopyt.storage import Store;print(json.dumps({"value":Store(sys.argv[2]).get("item")}))
+                                                                                                             ~~~~~~~~~~~~~~~~~~~~~~^^^^^^^^
+  File "/home/soultransit/devtony/GoPyt/gopyt/storage.py", line 318, in get
+    return self._operate('get', key)
+           ~~~~~~~~~~~~~^^^^^^^^^^^^
+  File "/home/soultransit/devtony/GoPyt/gopyt/storage.py", line 196, in _operate
+    return self._operate_locked(operation, key, value, expected, deadline)
+           ~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/soultransit/devtony/GoPyt/gopyt/storage.py", line 312, in _operate_locked
+    raise StorageError('database operation failed') from exc
+gopyt.storage.StorageError: database operation failed
+

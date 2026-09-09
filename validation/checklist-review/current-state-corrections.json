@@ -1,0 +1,14 @@
+{
+  "scope": "Linux/macOS CI and public retail replay are evidenced. A customer deployment envelope, production SLOs and recovery targets have not been selected in the repository.",
+  "authority": "Merged main implements host-owned DB namespace policy, package file confinement and source-declared egress. General delegated resource authority is absent; Python 3.11 deep-policy error handling has a reproduced defect.",
+  "lifetimes": "The VM owns a tracing heap with explicit embedding pins and tested native/call/GC roots. Foreign buffers, mappings and closeable resource lifetimes are not a language API.",
+  "isolation": "Guard and LSP have subprocess/resource limits. Their current execution paths do not install an OS sandbox; the documented trust model excludes hostile host execution.",
+  "transactions": "Merged main provides bounded multi-key value-CAS and consistent reads. Its atomicity and ABA limitations are documented. General transactions, comprehensive history checking and every-boundary failure qualification remain open.",
+  "keys": "Merged main provides a bounded keyring and quiesced maintenance rekey. Plaintext migration, live HTTP credential rotation and production key custody remain open.",
+  "concurrency": "Structured joins/cancellation, bounded HTTP workers/queue and socket shutdown already exist. Blocking natives can exceed deadlines; maximal valid i64 sleep raises a host OverflowError.",
+  "guard_dependencies": "Guard pins transitive cross-module and private contract helpers within one package. Packages declaring dependencies are rejected; this is not an absence of all dependency analysis.",
+  "execution": "GoPyT already compiles to validated bytecode and executes on a Python-hosted VM. No machine-code/native execution backend is implemented or selected.",
+  "numeric": "Existing i64 arithmetic, checked conversions and restricted f64 operations are specified. Monetary types and typed time APIs remain absent; non-finite float literals and native sleep ranges need explicit treatment.",
+  "observability": "Bounded outcome/trap/latency telemetry exists. Authorization-denial visibility, operational metric coverage and a controlled source-level debugger/profiler remain incomplete.",
+  "packages": "Exact toolchain locks, transitive package digests, versioned bytecode and native signature checks exist. Multi-release upgrades are not qualified; absent optional-provider invocation currently escapes as ModuleNotFoundError."
+}

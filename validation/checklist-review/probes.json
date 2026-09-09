@@ -1,0 +1,64 @@
+{
+  "source_commit": "e2537c1362a5f3a350c456b5bf5303eb40395191",
+  "python": "3.14.7 (main, Sep  1 2026, 14:18:09) [Clang 22.1.3 ]",
+  "observations": [
+    {
+      "name": "optional_provider_absence",
+      "classification": "boundary defect if ModuleNotFoundError",
+      "actual": {
+        "exception": "ModuleNotFoundError",
+        "detail": "No module named 'peon'"
+      }
+    },
+    {
+      "name": "deep_operator_policy",
+      "classification": "typed-error boundary defect; trusted configuration input",
+      "bytes": 24001,
+      "recursion_limit": 8192,
+      "actual": {
+        "returned": "core.status.DbError"
+      },
+      "unchanged": true
+    },
+    {
+      "name": "sleep_ms_0",
+      "classification": "control",
+      "actual": {
+        "returned": "Unit"
+      }
+    },
+    {
+      "name": "sleep_ms_9223372036854775807",
+      "classification": "native range boundary defect",
+      "actual": {
+        "exception": "OverflowError",
+        "detail": "timestamp out of range for C PyTime_t"
+      }
+    },
+    {
+      "name": "blocking_native_deadline",
+      "classification": "documented cancellation limitation",
+      "timeout_seconds": 0.01,
+      "sleep_seconds": 0.25,
+      "elapsed_seconds": 0.2501785079948604,
+      "outcome": "Cancelled"
+    },
+    {
+      "name": "aba",
+      "classification": "documented value-CAS limitation",
+      "stale_value_accepted": true
+    },
+    {
+      "name": "authenticated_snapshot_replay",
+      "classification": "documented rollback limitation",
+      "restored_value": "old"
+    },
+    {
+      "name": "retired_key_fresh_process_read",
+      "classification": "positive control",
+      "actual": {
+        "value": "old"
+      }
+    }
+  ]
+}

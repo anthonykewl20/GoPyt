@@ -1,0 +1,20 @@
+{
+  "complete": true,
+  "source_rows": 541909,
+  "limitations": [
+    "HTTP quantities are calculated by the host driver; GoPyT executes typed decoding and transactions.",
+    "Loopback bearer authentication and encrypted snapshots; external TLS and end-user authorization not tested."
+  ],
+  "ingestion_seconds": 185.60721091309097,
+  "checks": [
+    "missing service token rejected before mutation",
+    "invalid typed JSON rejected",
+    "cross-namespace batch denied without partial write",
+    "24 duplicate HTTP transactions have exactly one winner"
+  ],
+  "committed_batches": 8468,
+  "stale_retries_rejected": 8468,
+  "sku_totals_verified": 4070,
+  "quantity_sum": 5176450,
+  "kill_restart_oracle_equal": true
+}

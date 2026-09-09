@@ -1,0 +1,2839 @@
+{
+  "schema": "gopyt.architecture.checklist-review.v1",
+  "audited_commit": "e2537c1362a5f3a350c456b5bf5303eb40395191",
+  "source_tree": "e9e94685526d72ec1ab17b3981ddf6422d5d6ec8",
+  "scope": {
+    "child_issues": 24,
+    "acceptance_criteria": 97,
+    "evidence_criteria": 72,
+    "tracker_checkboxes": 24,
+    "total_checkboxes": 193
+  },
+  "status_counts": {
+    "decision_required": 5,
+    "partial": 140,
+    "not_implemented": 19,
+    "verified": 3,
+    "confirmed_defect": 1,
+    "external_evidence_missing": 1
+  },
+  "interpretation": "Statuses describe evidence for each original criterion; this is not a code-coverage, security or production-readiness score. Verified criteria do not close a parent issue.",
+  "references": {
+    "scope": {
+      "path": "docs/architecture-programme.md",
+      "line": 19,
+      "url": "https://github.com/anthonykewl20/GoPyt/blob/e2537c1362a5f3a350c456b5bf5303eb40395191/docs/architecture-programme.md#L19"
+    },
+    "security": {
+      "path": "SECURITY.md",
+      "line": 23,
+      "url": "https://github.com/anthonykewl20/GoPyt/blob/e2537c1362a5f3a350c456b5bf5303eb40395191/SECURITY.md#L23"
+    },
+    "strict": {
+      "path": "gopyt/security_config.py",
+      "line": 18,
+      "url": "https://github.com/anthonykewl20/GoPyt/blob/e2537c1362a5f3a350c456b5bf5303eb40395191/gopyt/security_config.py#L18"
+    },
+    "policy": {
+      "path": "gopyt/capabilities.py",
+      "line": 35,
+      "url": "https://github.com/anthonykewl20/GoPyt/blob/e2537c1362a5f3a350c456b5bf5303eb40395191/gopyt/capabilities.py#L35"
+    },
+    "authority": {
+      "path": "gopyt/storage.py",
+      "line": 200,
+      "url": "https://github.com/anthonykewl20/GoPyt/blob/e2537c1362a5f3a350c456b5bf5303eb40395191/gopyt/storage.py#L200"
+    },
+    "files": {
+      "path": "gopyt/files.py",
+      "line": 45,
+      "url": "https://github.com/anthonykewl20/GoPyt/blob/e2537c1362a5f3a350c456b5bf5303eb40395191/gopyt/files.py#L45"
+    },
+    "paths": {
+      "path": "gopyt/natives.py",
+      "line": 273,
+      "url": "https://github.com/anthonykewl20/GoPyt/blob/e2537c1362a5f3a350c456b5bf5303eb40395191/gopyt/natives.py#L273"
+    },
+    "egress": {
+      "path": "gopyt/natives.py",
+      "line": 520,
+      "url": "https://github.com/anthonykewl20/GoPyt/blob/e2537c1362a5f3a350c456b5bf5303eb40395191/gopyt/natives.py#L520"
+    },
+    "effects": {
+      "path": "gopyt/vm.py",
+      "line": 166,
+      "url": "https://github.com/anthonykewl20/GoPyt/blob/e2537c1362a5f3a350c456b5bf5303eb40395191/gopyt/vm.py#L166"
+    },
+    "heap": {
+      "path": "gopyt/heap.py",
+      "line": 57,
+      "url": "https://github.com/anthonykewl20/GoPyt/blob/e2537c1362a5f3a350c456b5bf5303eb40395191/gopyt/heap.py#L57"
+    },
+    "pin": {
+      "path": "gopyt/heap.py",
+      "line": 106,
+      "url": "https://github.com/anthonykewl20/GoPyt/blob/e2537c1362a5f3a350c456b5bf5303eb40395191/gopyt/heap.py#L106"
+    },
+    "foreign": {
+      "path": "docs/runtime-amendment-2026-09-05.md",
+      "line": 22,
+      "url": "https://github.com/anthonykewl20/GoPyt/blob/e2537c1362a5f3a350c456b5bf5303eb40395191/docs/runtime-amendment-2026-09-05.md#L22"
+    },
+    "embedding": {
+      "path": "docs/runtime-amendment-2026-09-05.md",
+      "line": 97,
+      "url": "https://github.com/anthonykewl20/GoPyt/blob/e2537c1362a5f3a350c456b5bf5303eb40395191/docs/runtime-amendment-2026-09-05.md#L97"
+    },
+    "mapped": {
+      "path": "prototypes/mapped_data/sealed_column.py",
+      "line": 46,
+      "url": "https://github.com/anthonykewl20/GoPyt/blob/e2537c1362a5f3a350c456b5bf5303eb40395191/prototypes/mapped_data/sealed_column.py#L46"
+    },
+    "mapped_format": {
+      "path": "prototypes/mapped_data/sealed_column.py",
+      "line": 29,
+      "url": "https://github.com/anthonykewl20/GoPyt/blob/e2537c1362a5f3a350c456b5bf5303eb40395191/prototypes/mapped_data/sealed_column.py#L29"
+    },
+    "guard": {
+      "path": "gopyt/guard.py",
+      "line": 283,
+      "url": "https://github.com/anthonykewl20/GoPyt/blob/e2537c1362a5f3a350c456b5bf5303eb40395191/gopyt/guard.py#L283"
+    },
+    "guard_bundle": {
+      "path": "gopyt/guard.py",
+      "line": 105,
+      "url": "https://github.com/anthonykewl20/GoPyt/blob/e2537c1362a5f3a350c456b5bf5303eb40395191/gopyt/guard.py#L105"
+    },
+    "guard_cases": {
+      "path": "gopyt/guard.py",
+      "line": 299,
+      "url": "https://github.com/anthonykewl20/GoPyt/blob/e2537c1362a5f3a350c456b5bf5303eb40395191/gopyt/guard.py#L299"
+    },
+    "guard_helper": {
+      "path": "gopyt/guard.py",
+      "line": 237,
+      "url": "https://github.com/anthonykewl20/GoPyt/blob/e2537c1362a5f3a350c456b5bf5303eb40395191/gopyt/guard.py#L237"
+    },
+    "project_graph": {
+      "path": "gopyt/project_context.py",
+      "line": 65,
+      "url": "https://github.com/anthonykewl20/GoPyt/blob/e2537c1362a5f3a350c456b5bf5303eb40395191/gopyt/project_context.py#L65"
+    },
+    "project_receipt": {
+      "path": "gopyt/project_context.py",
+      "line": 183,
+      "url": "https://github.com/anthonykewl20/GoPyt/blob/e2537c1362a5f3a350c456b5bf5303eb40395191/gopyt/project_context.py#L183"
+    },
+    "obligations": {
+      "path": "gopyt/obligations.py",
+      "line": 342,
+      "url": "https://github.com/anthonykewl20/GoPyt/blob/e2537c1362a5f3a350c456b5bf5303eb40395191/gopyt/obligations.py#L342"
+    },
+    "evolution": {
+      "path": "gopyt/evolve.py",
+      "line": 122,
+      "url": "https://github.com/anthonykewl20/GoPyt/blob/e2537c1362a5f3a350c456b5bf5303eb40395191/gopyt/evolve.py#L122"
+    },
+    "guard_worker": {
+      "path": "gopyt/guard.py",
+      "line": 342,
+      "url": "https://github.com/anthonykewl20/GoPyt/blob/e2537c1362a5f3a350c456b5bf5303eb40395191/gopyt/guard.py#L342"
+    },
+    "guard_eval": {
+      "path": "gopyt/guard.py",
+      "line": 373,
+      "url": "https://github.com/anthonykewl20/GoPyt/blob/e2537c1362a5f3a350c456b5bf5303eb40395191/gopyt/guard.py#L373"
+    },
+    "load": {
+      "path": "gopyt/storage.py",
+      "line": 147,
+      "url": "https://github.com/anthonykewl20/GoPyt/blob/e2537c1362a5f3a350c456b5bf5303eb40395191/gopyt/storage.py#L147"
+    },
+    "save": {
+      "path": "gopyt/storage.py",
+      "line": 164,
+      "url": "https://github.com/anthonykewl20/GoPyt/blob/e2537c1362a5f3a350c456b5bf5303eb40395191/gopyt/storage.py#L164"
+    },
+    "batch": {
+      "path": "gopyt/storage.py",
+      "line": 270,
+      "url": "https://github.com/anthonykewl20/GoPyt/blob/e2537c1362a5f3a350c456b5bf5303eb40395191/gopyt/storage.py#L270"
+    },
+    "limits": {
+      "path": "gopyt/storage.py",
+      "line": 22,
+      "url": "https://github.com/anthonykewl20/GoPyt/blob/e2537c1362a5f3a350c456b5bf5303eb40395191/gopyt/storage.py#L22"
+    },
+    "lock": {
+      "path": "gopyt/storage.py",
+      "line": 86,
+      "url": "https://github.com/anthonykewl20/GoPyt/blob/e2537c1362a5f3a350c456b5bf5303eb40395191/gopyt/storage.py#L86"
+    },
+    "transactions": {
+      "path": "docs/batch-storage-amendment-2026-09-09.md",
+      "line": 1,
+      "url": "https://github.com/anthonykewl20/GoPyt/blob/e2537c1362a5f3a350c456b5bf5303eb40395191/docs/batch-storage-amendment-2026-09-09.md#L1"
+    },
+    "retail": {
+      "path": "examples/retail_replay/README.md",
+      "line": 1,
+      "url": "https://github.com/anthonykewl20/GoPyt/blob/e2537c1362a5f3a350c456b5bf5303eb40395191/examples/retail_replay/README.md#L1"
+    },
+    "retry": {
+      "path": "tools/retail_stress.py",
+      "line": 70,
+      "url": "https://github.com/anthonykewl20/GoPyt/blob/e2537c1362a5f3a350c456b5bf5303eb40395191/tools/retail_stress.py#L70"
+    },
+    "cipher": {
+      "path": "gopyt/security_config.py",
+      "line": 45,
+      "url": "https://github.com/anthonykewl20/GoPyt/blob/e2537c1362a5f3a350c456b5bf5303eb40395191/gopyt/security_config.py#L45"
+    },
+    "keyring": {
+      "path": "gopyt/security_config.py",
+      "line": 75,
+      "url": "https://github.com/anthonykewl20/GoPyt/blob/e2537c1362a5f3a350c456b5bf5303eb40395191/gopyt/security_config.py#L75"
+    },
+    "unseal": {
+      "path": "gopyt/security_config.py",
+      "line": 122,
+      "url": "https://github.com/anthonykewl20/GoPyt/blob/e2537c1362a5f3a350c456b5bf5303eb40395191/gopyt/security_config.py#L122"
+    },
+    "rotation": {
+      "path": "docs/storage-key-rotation.md",
+      "line": 23,
+      "url": "https://github.com/anthonykewl20/GoPyt/blob/e2537c1362a5f3a350c456b5bf5303eb40395191/docs/storage-key-rotation.md#L23"
+    },
+    "token": {
+      "path": "gopyt/security_config.py",
+      "line": 133,
+      "url": "https://github.com/anthonykewl20/GoPyt/blob/e2537c1362a5f3a350c456b5bf5303eb40395191/gopyt/security_config.py#L133"
+    },
+    "http_auth": {
+      "path": "gopyt/server.py",
+      "line": 144,
+      "url": "https://github.com/anthonykewl20/GoPyt/blob/e2537c1362a5f3a350c456b5bf5303eb40395191/gopyt/server.py#L144"
+    },
+    "http_dispatch": {
+      "path": "gopyt/server.py",
+      "line": 189,
+      "url": "https://github.com/anthonykewl20/GoPyt/blob/e2537c1362a5f3a350c456b5bf5303eb40395191/gopyt/server.py#L189"
+    },
+    "http_frame": {
+      "path": "gopyt/server.py",
+      "line": 155,
+      "url": "https://github.com/anthonykewl20/GoPyt/blob/e2537c1362a5f3a350c456b5bf5303eb40395191/gopyt/server.py#L155"
+    },
+    "http_deadline": {
+      "path": "gopyt/server.py",
+      "line": 34,
+      "url": "https://github.com/anthonykewl20/GoPyt/blob/e2537c1362a5f3a350c456b5bf5303eb40395191/gopyt/server.py#L34"
+    },
+    "http_workers": {
+      "path": "gopyt/server.py",
+      "line": 284,
+      "url": "https://github.com/anthonykewl20/GoPyt/blob/e2537c1362a5f3a350c456b5bf5303eb40395191/gopyt/server.py#L284"
+    },
+    "http_close": {
+      "path": "gopyt/server.py",
+      "line": 315,
+      "url": "https://github.com/anthonykewl20/GoPyt/blob/e2537c1362a5f3a350c456b5bf5303eb40395191/gopyt/server.py#L315"
+    },
+    "parallel": {
+      "path": "gopyt/vm.py",
+      "line": 459,
+      "url": "https://github.com/anthonykewl20/GoPyt/blob/e2537c1362a5f3a350c456b5bf5303eb40395191/gopyt/vm.py#L459"
+    },
+    "sleep": {
+      "path": "gopyt/natives.py",
+      "line": 260,
+      "url": "https://github.com/anthonykewl20/GoPyt/blob/e2537c1362a5f3a350c456b5bf5303eb40395191/gopyt/natives.py#L260"
+    },
+    "clock": {
+      "path": "gopyt/natives.py",
+      "line": 255,
+      "url": "https://github.com/anthonykewl20/GoPyt/blob/e2537c1362a5f3a350c456b5bf5303eb40395191/gopyt/natives.py#L255"
+    },
+    "arith": {
+      "path": "gopyt/vm.py",
+      "line": 547,
+      "url": "https://github.com/anthonykewl20/GoPyt/blob/e2537c1362a5f3a350c456b5bf5303eb40395191/gopyt/vm.py#L547"
+    },
+    "numspec": {
+      "path": "docs/spec.md",
+      "line": 651,
+      "url": "https://github.com/anthonykewl20/GoPyt/blob/e2537c1362a5f3a350c456b5bf5303eb40395191/docs/spec.md#L651"
+    },
+    "convert": {
+      "path": "gopyt/natives.py",
+      "line": 213,
+      "url": "https://github.com/anthonykewl20/GoPyt/blob/e2537c1362a5f3a350c456b5bf5303eb40395191/gopyt/natives.py#L213"
+    },
+    "float": {
+      "path": "gopyt/emit.py",
+      "line": 332,
+      "url": "https://github.com/anthonykewl20/GoPyt/blob/e2537c1362a5f3a350c456b5bf5303eb40395191/gopyt/emit.py#L332"
+    },
+    "number": {
+      "path": "gopyt/lexer.py",
+      "line": 183,
+      "url": "https://github.com/anthonykewl20/GoPyt/blob/e2537c1362a5f3a350c456b5bf5303eb40395191/gopyt/lexer.py#L183"
+    },
+    "compiler": {
+      "path": "gopyt/cli.py",
+      "line": 47,
+      "url": "https://github.com/anthonykewl20/GoPyt/blob/e2537c1362a5f3a350c456b5bf5303eb40395191/gopyt/cli.py#L47"
+    },
+    "opcodes": {
+      "path": "gopyt/ops.py",
+      "line": 30,
+      "url": "https://github.com/anthonykewl20/GoPyt/blob/e2537c1362a5f3a350c456b5bf5303eb40395191/gopyt/ops.py#L30"
+    },
+    "bytecode": {
+      "path": "gopyt/gobyte.py",
+      "line": 292,
+      "url": "https://github.com/anthonykewl20/GoPyt/blob/e2537c1362a5f3a350c456b5bf5303eb40395191/gopyt/gobyte.py#L292"
+    },
+    "verify": {
+      "path": "gopyt/gobyte.py",
+      "line": 396,
+      "url": "https://github.com/anthonykewl20/GoPyt/blob/e2537c1362a5f3a350c456b5bf5303eb40395191/gopyt/gobyte.py#L396"
+    },
+    "abi": {
+      "path": "gopyt/natives.py",
+      "line": 772,
+      "url": "https://github.com/anthonykewl20/GoPyt/blob/e2537c1362a5f3a350c456b5bf5303eb40395191/gopyt/natives.py#L772"
+    },
+    "stdlib": {
+      "path": "gopyt/stdlib_src.py",
+      "line": 9,
+      "url": "https://github.com/anthonykewl20/GoPyt/blob/e2537c1362a5f3a350c456b5bf5303eb40395191/gopyt/stdlib_src.py#L9"
+    },
+    "lsp": {
+      "path": "gopyt/lsp.py",
+      "line": 28,
+      "url": "https://github.com/anthonykewl20/GoPyt/blob/e2537c1362a5f3a350c456b5bf5303eb40395191/gopyt/lsp.py#L28"
+    },
+    "lsp_methods": {
+      "path": "gopyt/lsp.py",
+      "line": 108,
+      "url": "https://github.com/anthonykewl20/GoPyt/blob/e2537c1362a5f3a350c456b5bf5303eb40395191/gopyt/lsp.py#L108"
+    },
+    "lsp_check": {
+      "path": "gopyt/lsp_check.py",
+      "line": 7,
+      "url": "https://github.com/anthonykewl20/GoPyt/blob/e2537c1362a5f3a350c456b5bf5303eb40395191/gopyt/lsp_check.py#L7"
+    },
+    "lsp_doc": {
+      "path": "docs/editor.md",
+      "line": 1,
+      "url": "https://github.com/anthonykewl20/GoPyt/blob/e2537c1362a5f3a350c456b5bf5303eb40395191/docs/editor.md#L1"
+    },
+    "observe": {
+      "path": "gopyt/observe.py",
+      "line": 121,
+      "url": "https://github.com/anthonykewl20/GoPyt/blob/e2537c1362a5f3a350c456b5bf5303eb40395191/gopyt/observe.py#L121"
+    },
+    "traces": {
+      "path": "gopyt/observe.py",
+      "line": 175,
+      "url": "https://github.com/anthonykewl20/GoPyt/blob/e2537c1362a5f3a350c456b5bf5303eb40395191/gopyt/observe.py#L175"
+    },
+    "limiter": {
+      "path": "gopyt/limiter.py",
+      "line": 17,
+      "url": "https://github.com/anthonykewl20/GoPyt/blob/e2537c1362a5f3a350c456b5bf5303eb40395191/gopyt/limiter.py#L17"
+    },
+    "packages": {
+      "path": "gopyt/manifest.py",
+      "line": 17,
+      "url": "https://github.com/anthonykewl20/GoPyt/blob/e2537c1362a5f3a350c456b5bf5303eb40395191/gopyt/manifest.py#L17"
+    },
+    "digest": {
+      "path": "gopyt/manifest.py",
+      "line": 128,
+      "url": "https://github.com/anthonykewl20/GoPyt/blob/e2537c1362a5f3a350c456b5bf5303eb40395191/gopyt/manifest.py#L128"
+    },
+    "lockspec": {
+      "path": "docs/lockfile.md",
+      "line": 93,
+      "url": "https://github.com/anthonykewl20/GoPyt/blob/e2537c1362a5f3a350c456b5bf5303eb40395191/docs/lockfile.md#L93"
+    },
+    "provider": {
+      "path": "gopyt/natives.py",
+      "line": 610,
+      "url": "https://github.com/anthonykewl20/GoPyt/blob/e2537c1362a5f3a350c456b5bf5303eb40395191/gopyt/natives.py#L610"
+    },
+    "ci": {
+      "path": ".github/workflows/validate.yml",
+      "line": 1,
+      "url": "https://github.com/anthonykewl20/GoPyt/blob/e2537c1362a5f3a350c456b5bf5303eb40395191/.github/workflows/validate.yml#L1"
+    },
+    "qualification_ci": {
+      "path": ".github/workflows/data-qualification.yml",
+      "line": 1,
+      "url": "https://github.com/anthonykewl20/GoPyt/blob/e2537c1362a5f3a350c456b5bf5303eb40395191/.github/workflows/data-qualification.yml#L1"
+    },
+    "packaging": {
+      "path": "pyproject.toml",
+      "line": 1,
+      "url": "https://github.com/anthonykewl20/GoPyt/blob/e2537c1362a5f3a350c456b5bf5303eb40395191/pyproject.toml#L1"
+    },
+    "wheel": {
+      "path": "tools/wheel_smoke.py",
+      "line": 13,
+      "url": "https://github.com/anthonykewl20/GoPyt/blob/e2537c1362a5f3a350c456b5bf5303eb40395191/tools/wheel_smoke.py#L13"
+    },
+    "report": {
+      "path": "docs/architecture-validation-2026-09-09.md",
+      "line": 26,
+      "url": "https://github.com/anthonykewl20/GoPyt/blob/e2537c1362a5f3a350c456b5bf5303eb40395191/docs/architecture-validation-2026-09-09.md#L26"
+    },
+    "prepare": {
+      "path": "tools/retail_prepare.py",
+      "line": 21,
+      "url": "https://github.com/anthonykewl20/GoPyt/blob/e2537c1362a5f3a350c456b5bf5303eb40395191/tools/retail_prepare.py#L21"
+    },
+    "http_probe": {
+      "path": "tools/retail_http_probe.py",
+      "line": 75,
+      "url": "https://github.com/anthonykewl20/GoPyt/blob/e2537c1362a5f3a350c456b5bf5303eb40395191/tools/retail_http_probe.py#L75"
+    },
+    "transactions_tests": {
+      "path": "gopyt/test_storage_transactions.py",
+      "line": 20,
+      "url": "https://github.com/anthonykewl20/GoPyt/blob/e2537c1362a5f3a350c456b5bf5303eb40395191/gopyt/test_storage_transactions.py#L20"
+    },
+    "policy_tests": {
+      "path": "gopyt/test_capabilities.py",
+      "line": 12,
+      "url": "https://github.com/anthonykewl20/GoPyt/blob/e2537c1362a5f3a350c456b5bf5303eb40395191/gopyt/test_capabilities.py#L12"
+    },
+    "security_tests": {
+      "path": "gopyt/test_security_config.py",
+      "line": 11,
+      "url": "https://github.com/anthonykewl20/GoPyt/blob/e2537c1362a5f3a350c456b5bf5303eb40395191/gopyt/test_security_config.py#L11"
+    },
+    "rotation_tests": {
+      "path": "gopyt/test_key_rotation.py",
+      "line": 15,
+      "url": "https://github.com/anthonykewl20/GoPyt/blob/e2537c1362a5f3a350c456b5bf5303eb40395191/gopyt/test_key_rotation.py#L15"
+    },
+    "heap_tests": {
+      "path": "gopyt/test_heap_boundaries.py",
+      "line": 19,
+      "url": "https://github.com/anthonykewl20/GoPyt/blob/e2537c1362a5f3a350c456b5bf5303eb40395191/gopyt/test_heap_boundaries.py#L19"
+    },
+    "guard_tests": {
+      "path": "gopyt/test_guard_dependencies.py",
+      "line": 10,
+      "url": "https://github.com/anthonykewl20/GoPyt/blob/e2537c1362a5f3a350c456b5bf5303eb40395191/gopyt/test_guard_dependencies.py#L10"
+    },
+    "lsp_tests": {
+      "path": "gopyt/test_lsp.py",
+      "line": 20,
+      "url": "https://github.com/anthonykewl20/GoPyt/blob/e2537c1362a5f3a350c456b5bf5303eb40395191/gopyt/test_lsp.py#L20"
+    },
+    "generated_tests": {
+      "path": "gopyt/test_generated_programs.py",
+      "line": 11,
+      "url": "https://github.com/anthonykewl20/GoPyt/blob/e2537c1362a5f3a350c456b5bf5303eb40395191/gopyt/test_generated_programs.py#L11"
+    },
+    "http_tests": {
+      "path": "gopyt/test_app_runtime.py",
+      "line": 79,
+      "url": "https://github.com/anthonykewl20/GoPyt/blob/e2537c1362a5f3a350c456b5bf5303eb40395191/gopyt/test_app_runtime.py#L79"
+    },
+    "prototype_doc": {
+      "path": "prototypes/mapped_data/README.md",
+      "line": 1,
+      "url": "https://github.com/anthonykewl20/GoPyt/blob/e2537c1362a5f3a350c456b5bf5303eb40395191/prototypes/mapped_data/README.md#L1"
+    }
+  },
+  "criteria": [
+    {
+      "issue": 3,
+      "key": "scope",
+      "criterion": "A1",
+      "text": "Specify the initial backend use cases, supported platforms, hardware/storage envelope, data volumes and concurrency.",
+      "was_checked": false,
+      "status": "decision_required",
+      "references": [
+        "scope",
+        "report",
+        "ci"
+      ],
+      "assessment": "Linux/macOS CI and the bounded retail workload exist. No chosen customer deployment, hardware envelope or concurrency/SLO target is frozen in the architecture programme. Do not invent these from one development host."
+    },
+    {
+      "issue": 3,
+      "key": "scope",
+      "criterion": "A2",
+      "text": "Document attacker capabilities and trust boundaries for compiler, VM, natives, editor, Guard, credentials and deployment.",
+      "was_checked": false,
+      "status": "partial",
+      "references": [
+        "security",
+        "guard_eval",
+        "lsp_doc"
+      ],
+      "assessment": "SECURITY, Guard and LSP document important trust boundaries. A unified attacker model and supported hostile-execution profiles spanning every listed surface are not established."
+    },
+    {
+      "issue": 3,
+      "key": "scope",
+      "criterion": "A3",
+      "text": "Set explicit correctness invariants, latency/throughput/memory budgets, availability expectations and recovery objectives.",
+      "was_checked": false,
+      "status": "decision_required",
+      "references": [
+        "scope",
+        "report"
+      ],
+      "assessment": "Correctness checks exist for retail quantities, transactions and retries; production latency, availability, aggregate memory, RPO and RTO acceptance values have not been selected."
+    },
+    {
+      "issue": 3,
+      "key": "scope",
+      "criterion": "A4",
+      "text": "Identify which controls belong to the language, runtime, application and deployment; record unsupported scenarios.",
+      "was_checked": false,
+      "status": "partial",
+      "references": [
+        "security",
+        "foreign",
+        "lsp_doc"
+      ],
+      "assessment": "Language/runtime/operator boundaries and unsupported hostile execution are documented. Deployment ownership and the selected production control allocation remain to be decided."
+    },
+    {
+      "issue": 3,
+      "key": "scope",
+      "criterion": "A5",
+      "text": "Freeze representative datasets, provenance/privacy handling, independent oracles and acceptance thresholds before tuning.",
+      "was_checked": false,
+      "status": "partial",
+      "references": [
+        "prepare",
+        "report",
+        "scope"
+      ],
+      "assessment": "Public source and corpus hashes, projected-field privacy handling and an independent SQL arithmetic oracle exist. Target-workload representativeness and production acceptance thresholds remain open; this audit independently re-extracts every workbook row."
+    },
+    {
+      "issue": 3,
+      "key": "scope",
+      "criterion": "E1",
+      "text": "Retain reviewed design decisions, implementation references, meaningful regression/end-to-end tests, and failure evidence appropriate to this scope.",
+      "was_checked": false,
+      "status": "partial",
+      "references": [
+        "scope",
+        "report"
+      ],
+      "assessment": "Source and existing regression evidence are linked per acceptance item. The complete scope is not closed; partial coverage, reproduced defects and external requirements are explicitly retained."
+    },
+    {
+      "issue": 3,
+      "key": "scope",
+      "criterion": "E2",
+      "text": "For performance/data claims, freeze workload/source identities before tuning, compare with an independent oracle, and report actual limits and unsuccessful trials.",
+      "was_checked": false,
+      "status": "partial",
+      "references": [
+        "report",
+        "scope"
+      ],
+      "assessment": "Retained real-data evidence is reconciled and the full HTTP path is repeated in this audit, with separate identities, exact oracles and limitations. It still does not qualify production SLOs, large retained state or all requested failure scenarios."
+    },
+    {
+      "issue": 3,
+      "key": "scope",
+      "criterion": "E3",
+      "text": "Update user-facing documentation and the architecture tracker; do not equate finite passing tests with universal correctness or security.",
+      "was_checked": false,
+      "status": "partial",
+      "references": [
+        "scope",
+        "security"
+      ],
+      "assessment": "This audit updates the current-state documentation and tracker with limitations. The evidence checkbox remains open for the eventual full feature/release scope; documenting a missing implementation is not completing it."
+    },
+    {
+      "issue": 4,
+      "key": "authority",
+      "criterion": "A1",
+      "text": "Specify non-forgeable resource authority for database namespaces, filesystem operations and network origins.",
+      "was_checked": false,
+      "status": "partial",
+      "references": [
+        "policy",
+        "paths",
+        "egress"
+      ],
+      "assessment": "Host-owned DB namespace grants, package-confined file access and module-declared network origins exist. Network declarations are application source, not operator-issued delegated capabilities; no general resource-capability value/API exists."
+    },
+    {
+      "issue": 4,
+      "key": "authority",
+      "criterion": "A2",
+      "text": "Define grant attenuation, delegation, revocation and in-flight operation behavior; applications cannot widen their own authority.",
+      "was_checked": false,
+      "status": "partial",
+      "references": [
+        "policy",
+        "transactions"
+      ],
+      "assessment": "DB policy is reloaded before admission; admitted operations may finish after a change, as documented. There is no language-level delegation or attenuation API for these resources."
+    },
+    {
+      "issue": 4,
+      "key": "authority",
+      "criterion": "A3",
+      "text": "Enforce authority consistently across transitive calls, native boundaries, caches and concurrent tasks.",
+      "was_checked": false,
+      "status": "partial",
+      "references": [
+        "authority",
+        "effects",
+        "policy_tests"
+      ],
+      "assessment": "Effects and DB grants cover the existing native/cache/batch paths. General per-task delegated authority is absent. Malformed deep policy parsing also escapes as RecursionError on Python 3.11 (R3)."
+    },
+    {
+      "issue": 4,
+      "key": "authority",
+      "criterion": "A4",
+      "text": "Test cross-tenant access, confused-deputy cases, policy changes, traversal/link races and mixed-authority atomic batches.",
+      "was_checked": false,
+      "status": "partial",
+      "references": [
+        "policy_tests",
+        "files",
+        "http_probe"
+      ],
+      "assessment": "Namespace lookalikes, revocation before cache and mixed-grant atomic batches have tests. A namespace fixture is not authenticated multi-tenant testing; generalized deputy/delegation/race qualification remains open."
+    },
+    {
+      "issue": 4,
+      "key": "authority",
+      "criterion": "E1",
+      "text": "Retain reviewed design decisions, implementation references, meaningful regression/end-to-end tests, and failure evidence appropriate to this scope.",
+      "was_checked": false,
+      "status": "partial",
+      "references": [
+        "scope",
+        "report"
+      ],
+      "assessment": "Source and existing regression evidence are linked per acceptance item. The complete scope is not closed; partial coverage, reproduced defects and external requirements are explicitly retained."
+    },
+    {
+      "issue": 4,
+      "key": "authority",
+      "criterion": "E2",
+      "text": "For performance/data claims, freeze workload/source identities before tuning, compare with an independent oracle, and report actual limits and unsuccessful trials.",
+      "was_checked": false,
+      "status": "partial",
+      "references": [
+        "report",
+        "scope"
+      ],
+      "assessment": "No new performance or production-qualification claim is made for this issue. Existing narrow measurements are cited where relevant; extension-specific frozen workloads, thresholds and unsuccessful trials remain required before such a claim."
+    },
+    {
+      "issue": 4,
+      "key": "authority",
+      "criterion": "E3",
+      "text": "Update user-facing documentation and the architecture tracker; do not equate finite passing tests with universal correctness or security.",
+      "was_checked": false,
+      "status": "partial",
+      "references": [
+        "scope",
+        "security"
+      ],
+      "assessment": "This audit updates the current-state documentation and tracker with limitations. The evidence checkbox remains open for the eventual full feature/release scope; documenting a missing implementation is not completing it."
+    },
+    {
+      "issue": 5,
+      "key": "lifetimes",
+      "criterion": "A1",
+      "text": "Define allocation, ownership, immutable/mutable sharing, borrowed views, close/unmap and embedding-handle semantics.",
+      "was_checked": false,
+      "status": "partial",
+      "references": [
+        "heap",
+        "pin",
+        "embedding",
+        "mapped"
+      ],
+      "assessment": "VM-owned tracing, explicit embedding pins and native argument/result roots are implemented and documented. Mapping/borrowed-view/close semantics are not a GoPyT API."
+    },
+    {
+      "issue": 5,
+      "key": "lifetimes",
+      "criterion": "A2",
+      "text": "Prevent use-after-close/unmap and unsafe concurrent mutation without requiring lifetime annotations in ordinary v0 code.",
+      "was_checked": false,
+      "status": "partial",
+      "references": [
+        "heap_tests",
+        "mapped"
+      ],
+      "assessment": "Existing managed roots survive the tested GC/interleavings. No language-exposed mapped view or close operation exists to substantiate a general use-after-unmap/concurrent-close guarantee."
+    },
+    {
+      "issue": 5,
+      "key": "lifetimes",
+      "criterion": "A3",
+      "text": "Account for native/off-heap allocations, mappings and file descriptors within explicit resource budgets.",
+      "was_checked": false,
+      "status": "not_implemented",
+      "references": [
+        "limits",
+        "heap",
+        "mapped"
+      ],
+      "assessment": "Object collection and several input/count limits exist, but no aggregate runtime budget accounts for native buffers, mapped bytes and descriptors."
+    },
+    {
+      "issue": 5,
+      "key": "lifetimes",
+      "criterion": "A4",
+      "text": "Test nested views, concurrent close/access, GC interactions, partial initialization, exceptions and cancellation for leaks and invalid access.",
+      "was_checked": false,
+      "status": "partial",
+      "references": [
+        "heap_tests",
+        "rotation_tests",
+        "mapped"
+      ],
+      "assessment": "Managed GC and exceptional-unwind tests exist. The requested foreign-view, cancellation and partial-initialization lifetime matrix is not implemented or qualified."
+    },
+    {
+      "issue": 5,
+      "key": "lifetimes",
+      "criterion": "E1",
+      "text": "Retain reviewed design decisions, implementation references, meaningful regression/end-to-end tests, and failure evidence appropriate to this scope.",
+      "was_checked": false,
+      "status": "partial",
+      "references": [
+        "scope",
+        "report"
+      ],
+      "assessment": "Source and existing regression evidence are linked per acceptance item. The complete scope is not closed; partial coverage, reproduced defects and external requirements are explicitly retained."
+    },
+    {
+      "issue": 5,
+      "key": "lifetimes",
+      "criterion": "E2",
+      "text": "For performance/data claims, freeze workload/source identities before tuning, compare with an independent oracle, and report actual limits and unsuccessful trials.",
+      "was_checked": false,
+      "status": "partial",
+      "references": [
+        "report",
+        "scope"
+      ],
+      "assessment": "No new performance or production-qualification claim is made for this issue. Existing narrow measurements are cited where relevant; extension-specific frozen workloads, thresholds and unsuccessful trials remain required before such a claim."
+    },
+    {
+      "issue": 5,
+      "key": "lifetimes",
+      "criterion": "E3",
+      "text": "Update user-facing documentation and the architecture tracker; do not equate finite passing tests with universal correctness or security.",
+      "was_checked": false,
+      "status": "partial",
+      "references": [
+        "scope",
+        "security"
+      ],
+      "assessment": "This audit updates the current-state documentation and tracker with limitations. The evidence checkbox remains open for the eventual full feature/release scope; documenting a missing implementation is not completing it."
+    },
+    {
+      "issue": 6,
+      "key": "isolation",
+      "criterion": "A1",
+      "text": "Define supported isolation profiles for application execution, compilation, LSP checking and Guard candidate evaluation.",
+      "was_checked": false,
+      "status": "partial",
+      "references": [
+        "security",
+        "guard_eval",
+        "lsp_check"
+      ],
+      "assessment": "Guard uses a disposable subprocess and isolated imports; LSP checking uses CPU/wall limits and Linux address-space limits. These are documented bounds, not a defined OS sandbox profile."
+    },
+    {
+      "issue": 6,
+      "key": "isolation",
+      "criterion": "A2",
+      "text": "Constrain filesystem mounts, network access, credentials, process creation, CPU, RAM, descriptors and child-process lifetime.",
+      "was_checked": false,
+      "status": "partial",
+      "references": [
+        "guard_worker",
+        "lsp_check",
+        "guard_eval"
+      ],
+      "assessment": "A Linux RLIMIT_AS and subprocess timeouts exist. No OS mount/network/credential/process isolation boundary is installed by these execution paths."
+    },
+    {
+      "issue": 6,
+      "key": "isolation",
+      "criterion": "A3",
+      "text": "Ensure guest failures cannot escape to the host or contaminate another evaluation/tenant; fail closed when required isolation is unavailable.",
+      "was_checked": false,
+      "status": "not_implemented",
+      "references": [
+        "security",
+        "guard_eval"
+      ],
+      "assessment": "Hostile host-code escape resistance and tenant separation are expressly outside current guarantees. VM native allowlists do not prove the host process sandboxed."
+    },
+    {
+      "issue": 6,
+      "key": "isolation",
+      "criterion": "A4",
+      "text": "Exercise malicious fixtures, resource exhaustion and cleanup after termination on every supported isolation platform.",
+      "was_checked": false,
+      "status": "partial",
+      "references": [
+        "guard_eval",
+        "http_tests",
+        "ci"
+      ],
+      "assessment": "Malicious source/bytecode and resource-bound fixtures run in regression/CI. No supported OS sandbox implementation exists to qualify across platforms."
+    },
+    {
+      "issue": 6,
+      "key": "isolation",
+      "criterion": "E1",
+      "text": "Retain reviewed design decisions, implementation references, meaningful regression/end-to-end tests, and failure evidence appropriate to this scope.",
+      "was_checked": false,
+      "status": "partial",
+      "references": [
+        "scope",
+        "report"
+      ],
+      "assessment": "Source and existing regression evidence are linked per acceptance item. The complete scope is not closed; partial coverage, reproduced defects and external requirements are explicitly retained."
+    },
+    {
+      "issue": 6,
+      "key": "isolation",
+      "criterion": "E2",
+      "text": "For performance/data claims, freeze workload/source identities before tuning, compare with an independent oracle, and report actual limits and unsuccessful trials.",
+      "was_checked": false,
+      "status": "partial",
+      "references": [
+        "report",
+        "scope"
+      ],
+      "assessment": "No new performance or production-qualification claim is made for this issue. Existing narrow measurements are cited where relevant; extension-specific frozen workloads, thresholds and unsuccessful trials remain required before such a claim."
+    },
+    {
+      "issue": 6,
+      "key": "isolation",
+      "criterion": "E3",
+      "text": "Update user-facing documentation and the architecture tracker; do not equate finite passing tests with universal correctness or security.",
+      "was_checked": false,
+      "status": "partial",
+      "references": [
+        "scope",
+        "security"
+      ],
+      "assessment": "This audit updates the current-state documentation and tracker with limitations. The evidence checkbox remains open for the eventual full feature/release scope; documenting a missing implementation is not completing it."
+    },
+    {
+      "issue": 7,
+      "key": "transactions",
+      "criterion": "A1",
+      "text": "Specify the supported isolation model, read/write conditions, version/ABA behavior and the boundary of transaction atomicity.",
+      "was_checked": false,
+      "status": "verified",
+      "references": [
+        "transactions",
+        "batch"
+      ],
+      "assessment": "The amendment specifies one locked pre-update snapshot, all-or-nothing conditional publication, independent-call limits and application-managed version fields for ABA. Code uses those exact boundaries; this audit also reproduces ABA acceptance."
+    },
+    {
+      "issue": 7,
+      "key": "transactions",
+      "criterion": "A2",
+      "text": "Define commit outcomes during cancellation, timeout, process death and failed fsync; clients must reconcile ambiguous outcomes.",
+      "was_checked": false,
+      "status": "partial",
+      "references": [
+        "transactions",
+        "save",
+        "effects"
+      ],
+      "assessment": "Post-replace fsync failure and cancellation ambiguity are explicit and tested in part. Full deadline propagation and a fault/outcome table across every blocking/native boundary remain incomplete."
+    },
+    {
+      "issue": 7,
+      "key": "transactions",
+      "criterion": "A3",
+      "text": "Provide documented patterns for idempotency markers, multi-aggregate invariants and bounded conflict retries.",
+      "was_checked": false,
+      "status": "verified",
+      "references": [
+        "retail",
+        "retry",
+        "transactions_tests"
+      ],
+      "assessment": "The retail example documents marker and SKU totals in one batch; the driver limits retries to max_retries (CLI bound 1..1000), backs off and records conflicts. The transfer fixture exercises a multi-key invariant. These are bounded patterns, not a general transaction service."
+    },
+    {
+      "issue": 7,
+      "key": "transactions",
+      "criterion": "A4",
+      "text": "Verify concurrent histories and independent state models, including stale reads, duplicate delivery and failures around every publication boundary.",
+      "was_checked": false,
+      "status": "partial",
+      "references": [
+        "transactions_tests",
+        "http_probe"
+      ],
+      "assessment": "The 1000-step dictionary model, process transfers, duplicate HTTP race and before/after-replace faults exist. They are not an exhaustive concurrent-history checker or fault injection at every file-write/fsync/publication step."
+    },
+    {
+      "issue": 7,
+      "key": "transactions",
+      "criterion": "E1",
+      "text": "Retain reviewed design decisions, implementation references, meaningful regression/end-to-end tests, and failure evidence appropriate to this scope.",
+      "was_checked": false,
+      "status": "partial",
+      "references": [
+        "scope",
+        "report"
+      ],
+      "assessment": "Source and existing regression evidence are linked per acceptance item. The complete scope is not closed; partial coverage, reproduced defects and external requirements are explicitly retained."
+    },
+    {
+      "issue": 7,
+      "key": "transactions",
+      "criterion": "E2",
+      "text": "For performance/data claims, freeze workload/source identities before tuning, compare with an independent oracle, and report actual limits and unsuccessful trials.",
+      "was_checked": false,
+      "status": "partial",
+      "references": [
+        "report",
+        "scope"
+      ],
+      "assessment": "Retained real-data evidence is reconciled and the full HTTP path is repeated in this audit, with separate identities, exact oracles and limitations. It still does not qualify production SLOs, large retained state or all requested failure scenarios."
+    },
+    {
+      "issue": 7,
+      "key": "transactions",
+      "criterion": "E3",
+      "text": "Update user-facing documentation and the architecture tracker; do not equate finite passing tests with universal correctness or security.",
+      "was_checked": false,
+      "status": "partial",
+      "references": [
+        "scope",
+        "security"
+      ],
+      "assessment": "This audit updates the current-state documentation and tracker with limitations. The evidence checkbox remains open for the eventual full feature/release scope; documenting a missing implementation is not completing it."
+    },
+    {
+      "issue": 8,
+      "key": "storage",
+      "criterion": "A1",
+      "text": "Select and implement a backend using measured requirements, preserving typed interfaces, confinement and authenticated persistence.",
+      "was_checked": false,
+      "status": "decision_required",
+      "references": [
+        "load",
+        "save",
+        "scope"
+      ],
+      "assessment": "The current snapshot backend is concrete and tested. Replacement technology and its acceptance envelope must be selected using workload requirements; no alternative production backend is present."
+    },
+    {
+      "issue": 8,
+      "key": "storage",
+      "criterion": "A2",
+      "text": "Avoid whole-database memory loading and rewriting for small changes; define indexing, access and concurrency behavior.",
+      "was_checked": false,
+      "status": "not_implemented",
+      "references": [
+        "load",
+        "save",
+        "limits"
+      ],
+      "assessment": "Each uncached operation deserializes into an in-memory SQLite DB; writes serialize and replace the complete bounded snapshot. Small-change paging/index/concurrency redesign is absent."
+    },
+    {
+      "issue": 8,
+      "key": "storage",
+      "criterion": "A3",
+      "text": "Design file/sidecar ownership, recovery, durability and encryption together; do not weaken security for throughput.",
+      "was_checked": false,
+      "status": "partial",
+      "references": [
+        "files",
+        "lock",
+        "save",
+        "cipher"
+      ],
+      "assessment": "Current descriptor confinement, schema validation, lock, atomic replacement, fsync and authenticated encryption are implemented. Their correctness does not automatically transfer to a new backend or sidecar layout."
+    },
+    {
+      "issue": 8,
+      "key": "storage",
+      "criterion": "A4",
+      "text": "Measure actual retained datasets at increasing sizes, including greater-than-RAM state under an enforced memory limit, with exact-result and recovery checks.",
+      "was_checked": false,
+      "status": "not_implemented",
+      "references": [
+        "report",
+        "limits"
+      ],
+      "assessment": "Retail reduces 541909 source rows to about 0.52 MiB persisted state. No enforced greater-than-RAM retained-state trial exists in this evidence; source-row volume must not be relabeled database size."
+    },
+    {
+      "issue": 8,
+      "key": "storage",
+      "criterion": "E1",
+      "text": "Retain reviewed design decisions, implementation references, meaningful regression/end-to-end tests, and failure evidence appropriate to this scope.",
+      "was_checked": false,
+      "status": "partial",
+      "references": [
+        "scope",
+        "report"
+      ],
+      "assessment": "Existing implementation/prototype references establish the boundary above, but design and regression/e2e evidence for the requested extension are not present. No extension is credited as implemented."
+    },
+    {
+      "issue": 8,
+      "key": "storage",
+      "criterion": "E2",
+      "text": "For performance/data claims, freeze workload/source identities before tuning, compare with an independent oracle, and report actual limits and unsuccessful trials.",
+      "was_checked": false,
+      "status": "partial",
+      "references": [
+        "report",
+        "scope"
+      ],
+      "assessment": "Retained real-data evidence is reconciled and the full HTTP path is repeated in this audit, with separate identities, exact oracles and limitations. It still does not qualify production SLOs, large retained state or all requested failure scenarios."
+    },
+    {
+      "issue": 8,
+      "key": "storage",
+      "criterion": "E3",
+      "text": "Update user-facing documentation and the architecture tracker; do not equate finite passing tests with universal correctness or security.",
+      "was_checked": false,
+      "status": "partial",
+      "references": [
+        "scope",
+        "security"
+      ],
+      "assessment": "This audit updates the current-state documentation and tracker with limitations. The evidence checkbox remains open for the eventual full feature/release scope; documenting a missing implementation is not completing it."
+    },
+    {
+      "issue": 9,
+      "key": "schemas",
+      "criterion": "A1",
+      "text": "Define typed records/keys and validation at persistence boundaries, including schema identifiers and compatibility rules.",
+      "was_checked": false,
+      "status": "partial",
+      "references": [
+        "batch",
+        "abi",
+        "load"
+      ],
+      "assessment": "Typed Change/Snapshot and typed JSON exist. Persisted application values remain strings in one kv table; there are no per-record schema IDs or typed persistence compatibility rules."
+    },
+    {
+      "issue": 9,
+      "key": "schemas",
+      "criterion": "A2",
+      "text": "Implement versioned migration with resumability, rollback/recovery behavior and explicit reader/writer compatibility.",
+      "was_checked": false,
+      "status": "not_implemented",
+      "references": [
+        "load",
+        "rotation"
+      ],
+      "assessment": "No application schema migration API or resumable old/new reader migration mechanism exists. Storage key rotation is a different operation."
+    },
+    {
+      "issue": 9,
+      "key": "schemas",
+      "criterion": "A3",
+      "text": "Specify bounded typed query/index interfaces appropriate to the chosen backend, rejecting unsupported or unsafe forms.",
+      "was_checked": false,
+      "status": "not_implemented",
+      "references": [
+        "load",
+        "batch"
+      ],
+      "assessment": "SQL is internal and parameterized. The closed native catalogue exposes string KV and bounded CAS/read batches, not public typed queries or indexes."
+    },
+    {
+      "issue": 9,
+      "key": "schemas",
+      "criterion": "A4",
+      "text": "Test real evolving datasets, malformed records, concurrent old/new clients and interrupted migrations without silent data loss.",
+      "was_checked": false,
+      "status": "not_implemented",
+      "references": [
+        "transactions_tests",
+        "report"
+      ],
+      "assessment": "Existing tests validate fixed KV data and batch semantics, not evolving schemas, concurrent schema versions or interrupted application data migrations."
+    },
+    {
+      "issue": 9,
+      "key": "schemas",
+      "criterion": "E1",
+      "text": "Retain reviewed design decisions, implementation references, meaningful regression/end-to-end tests, and failure evidence appropriate to this scope.",
+      "was_checked": false,
+      "status": "partial",
+      "references": [
+        "scope",
+        "report"
+      ],
+      "assessment": "Existing implementation/prototype references establish the boundary above, but design and regression/e2e evidence for the requested extension are not present. No extension is credited as implemented."
+    },
+    {
+      "issue": 9,
+      "key": "schemas",
+      "criterion": "E2",
+      "text": "For performance/data claims, freeze workload/source identities before tuning, compare with an independent oracle, and report actual limits and unsuccessful trials.",
+      "was_checked": false,
+      "status": "partial",
+      "references": [
+        "report",
+        "scope"
+      ],
+      "assessment": "No new performance or production-qualification claim is made for this issue. Existing narrow measurements are cited where relevant; extension-specific frozen workloads, thresholds and unsuccessful trials remain required before such a claim."
+    },
+    {
+      "issue": 9,
+      "key": "schemas",
+      "criterion": "E3",
+      "text": "Update user-facing documentation and the architecture tracker; do not equate finite passing tests with universal correctness or security.",
+      "was_checked": false,
+      "status": "partial",
+      "references": [
+        "scope",
+        "security"
+      ],
+      "assessment": "This audit updates the current-state documentation and tracker with limitations. The evidence checkbox remains open for the eventual full feature/release scope; documenting a missing implementation is not completing it."
+    },
+    {
+      "issue": 10,
+      "key": "identity",
+      "criterion": "A1",
+      "text": "Define verified request identity, tenant context and authorization policy interfaces with least privilege and deny-by-default behavior.",
+      "was_checked": false,
+      "status": "not_implemented",
+      "references": [
+        "token",
+        "http_dispatch"
+      ],
+      "assessment": "Authentication is one configured service bearer value checked before handler execution. Handler argument construction does not expose a verified user/tenant identity context."
+    },
+    {
+      "issue": 10,
+      "key": "identity",
+      "criterion": "A2",
+      "text": "Bind authorization to the resource operation and authenticated identity, never to an unverified client-supplied tenant identifier.",
+      "was_checked": false,
+      "status": "partial",
+      "references": [
+        "authority",
+        "http_auth"
+      ],
+      "assessment": "DB operations enforce operator namespaces and HTTP checks its shared token. There is no binding from an authenticated individual/tenant principal to a resource grant."
+    },
+    {
+      "issue": 10,
+      "key": "identity",
+      "criterion": "A3",
+      "text": "Specify provisioning, revocation, token/session expiry and supported gateway or identity-provider integration, including MFA responsibilities.",
+      "was_checked": false,
+      "status": "partial",
+      "references": [
+        "security",
+        "token",
+        "rotation"
+      ],
+      "assessment": "External gateway and service-account responsibilities are documented. User provisioning, sessions, expiry, MFA integration and credential lifecycle are not an implemented identity interface."
+    },
+    {
+      "issue": 10,
+      "key": "identity",
+      "criterion": "A4",
+      "text": "Test cross-tenant reads/writes, privilege escalation, stale credentials, batch authorization and concurrent policy changes through real HTTP.",
+      "was_checked": false,
+      "status": "partial",
+      "references": [
+        "security_tests",
+        "policy_tests",
+        "http_probe"
+      ],
+      "assessment": "Real HTTP rejects missing/duplicate credentials and cross-namespace writes; it does not test distinct authenticated users or tenant policy changes under concurrent requests."
+    },
+    {
+      "issue": 10,
+      "key": "identity",
+      "criterion": "E1",
+      "text": "Retain reviewed design decisions, implementation references, meaningful regression/end-to-end tests, and failure evidence appropriate to this scope.",
+      "was_checked": false,
+      "status": "partial",
+      "references": [
+        "scope",
+        "report"
+      ],
+      "assessment": "Source and existing regression evidence are linked per acceptance item. The complete scope is not closed; partial coverage, reproduced defects and external requirements are explicitly retained."
+    },
+    {
+      "issue": 10,
+      "key": "identity",
+      "criterion": "E2",
+      "text": "For performance/data claims, freeze workload/source identities before tuning, compare with an independent oracle, and report actual limits and unsuccessful trials.",
+      "was_checked": false,
+      "status": "partial",
+      "references": [
+        "report",
+        "scope"
+      ],
+      "assessment": "No new performance or production-qualification claim is made for this issue. Existing narrow measurements are cited where relevant; extension-specific frozen workloads, thresholds and unsuccessful trials remain required before such a claim."
+    },
+    {
+      "issue": 10,
+      "key": "identity",
+      "criterion": "E3",
+      "text": "Update user-facing documentation and the architecture tracker; do not equate finite passing tests with universal correctness or security.",
+      "was_checked": false,
+      "status": "partial",
+      "references": [
+        "scope",
+        "security"
+      ],
+      "assessment": "This audit updates the current-state documentation and tracker with limitations. The evidence checkbox remains open for the eventual full feature/release scope; documenting a missing implementation is not completing it."
+    },
+    {
+      "issue": 11,
+      "key": "keys",
+      "criterion": "A1",
+      "text": "Define secure key/credential provisioning, custody, rotation, revocation and backup retention procedures.",
+      "was_checked": false,
+      "status": "partial",
+      "references": [
+        "rotation",
+        "cipher",
+        "security"
+      ],
+      "assessment": "Private-file controls and a quiesced storage-key maintenance procedure exist. Production custody, provisioning, general credential revocation and backup retention ownership are not qualified."
+    },
+    {
+      "issue": 11,
+      "key": "keys",
+      "criterion": "A2",
+      "text": "Implement an explicit recoverable plaintext-to-encrypted migration and supported encrypted-format transitions.",
+      "was_checked": false,
+      "status": "not_implemented",
+      "references": [
+        "unseal",
+        "rotation"
+      ],
+      "assessment": "Configured encryption rejects plaintext; rekey authenticates an existing store and preserves its format. No explicit plaintext migration or encrypted-format migration workflow is implemented."
+    },
+    {
+      "issue": 11,
+      "key": "keys",
+      "criterion": "A3",
+      "text": "Handle stale writers and interrupted rotation; verify fresh-process restoration before key retirement.",
+      "was_checked": false,
+      "status": "partial",
+      "references": [
+        "rotation",
+        "rotation_tests"
+      ],
+      "assessment": "Stale writers are addressed by an operator requirement to quiesce them, not automatic fencing. Failed publication/retry is tested. This audit confirms a fresh process reads after rekey and old-key retirement; online mixed-writer rotation remains unqualified."
+    },
+    {
+      "issue": 11,
+      "key": "keys",
+      "criterion": "A4",
+      "text": "Test wrong/missing keys, lost-key handling, corrupted inputs, incompatible settings and credential rotation under load without logging secrets.",
+      "was_checked": false,
+      "status": "partial",
+      "references": [
+        "security_tests",
+        "rotation_tests",
+        "token"
+      ],
+      "assessment": "Wrong/missing keys, corruption and incompatible settings have regression tests. Lost-key recovery and live HTTP credential rotation under load are not covered; the HTTP token is captured when the listener starts."
+    },
+    {
+      "issue": 11,
+      "key": "keys",
+      "criterion": "E1",
+      "text": "Retain reviewed design decisions, implementation references, meaningful regression/end-to-end tests, and failure evidence appropriate to this scope.",
+      "was_checked": false,
+      "status": "partial",
+      "references": [
+        "scope",
+        "report"
+      ],
+      "assessment": "Source and existing regression evidence are linked per acceptance item. The complete scope is not closed; partial coverage, reproduced defects and external requirements are explicitly retained."
+    },
+    {
+      "issue": 11,
+      "key": "keys",
+      "criterion": "E2",
+      "text": "For performance/data claims, freeze workload/source identities before tuning, compare with an independent oracle, and report actual limits and unsuccessful trials.",
+      "was_checked": false,
+      "status": "partial",
+      "references": [
+        "report",
+        "scope"
+      ],
+      "assessment": "Retained real-data evidence is reconciled and the full HTTP path is repeated in this audit, with separate identities, exact oracles and limitations. It still does not qualify production SLOs, large retained state or all requested failure scenarios."
+    },
+    {
+      "issue": 11,
+      "key": "keys",
+      "criterion": "E3",
+      "text": "Update user-facing documentation and the architecture tracker; do not equate finite passing tests with universal correctness or security.",
+      "was_checked": false,
+      "status": "partial",
+      "references": [
+        "scope",
+        "security"
+      ],
+      "assessment": "This audit updates the current-state documentation and tracker with limitations. The evidence checkbox remains open for the eventual full feature/release scope; documenting a missing implementation is not completing it."
+    },
+    {
+      "issue": 12,
+      "key": "rollback",
+      "criterion": "A1",
+      "text": "Define the rollback threat model and the trusted monotonic state or external authority required to detect rollback.",
+      "was_checked": false,
+      "status": "partial",
+      "references": [
+        "security",
+        "unseal"
+      ],
+      "assessment": "The current documentation explicitly excludes old authenticated snapshot replay protection. The attack is reproduced in this audit; no trusted monotonic anchor has been selected."
+    },
+    {
+      "issue": 12,
+      "key": "rollback",
+      "criterion": "A2",
+      "text": "Bind snapshot generations to that authority with explicit failure and availability semantics.",
+      "was_checked": false,
+      "status": "not_implemented",
+      "references": [
+        "unseal",
+        "save"
+      ],
+      "assessment": "Snapshot framing has magic, random nonce and authenticated ciphertext/context. No persistent generation comparison against an external authority occurs."
+    },
+    {
+      "issue": 12,
+      "key": "rollback",
+      "criterion": "A3",
+      "text": "Define authorized backup restoration and disaster recovery without silently bypassing rollback detection.",
+      "was_checked": false,
+      "status": "not_implemented",
+      "references": [
+        "rotation",
+        "security"
+      ],
+      "assessment": "Backup/key restoration guidance exists, but there is no rollback-detection state machine with an authorized-restore protocol."
+    },
+    {
+      "issue": 12,
+      "key": "rollback",
+      "criterion": "A4",
+      "text": "Test replay, metadata substitution, crashes between snapshot/anchor updates, unavailable anchors and deliberate restore workflows.",
+      "was_checked": false,
+      "status": "partial",
+      "references": [
+        "unseal",
+        "security"
+      ],
+      "assessment": "A saved valid ciphertext is accepted after restoring it over newer state in the audit probe. Anchor substitution/unavailability and crash coordination cannot be qualified before an anchor implementation exists."
+    },
+    {
+      "issue": 12,
+      "key": "rollback",
+      "criterion": "E1",
+      "text": "Retain reviewed design decisions, implementation references, meaningful regression/end-to-end tests, and failure evidence appropriate to this scope.",
+      "was_checked": false,
+      "status": "partial",
+      "references": [
+        "scope",
+        "report"
+      ],
+      "assessment": "Existing implementation/prototype references establish the boundary above, but design and regression/e2e evidence for the requested extension are not present. No extension is credited as implemented."
+    },
+    {
+      "issue": 12,
+      "key": "rollback",
+      "criterion": "E2",
+      "text": "For performance/data claims, freeze workload/source identities before tuning, compare with an independent oracle, and report actual limits and unsuccessful trials.",
+      "was_checked": false,
+      "status": "partial",
+      "references": [
+        "report",
+        "scope"
+      ],
+      "assessment": "No new performance or production-qualification claim is made for this issue. Existing narrow measurements are cited where relevant; extension-specific frozen workloads, thresholds and unsuccessful trials remain required before such a claim."
+    },
+    {
+      "issue": 12,
+      "key": "rollback",
+      "criterion": "E3",
+      "text": "Update user-facing documentation and the architecture tracker; do not equate finite passing tests with universal correctness or security.",
+      "was_checked": false,
+      "status": "partial",
+      "references": [
+        "scope",
+        "security"
+      ],
+      "assessment": "This audit updates the current-state documentation and tracker with limitations. The evidence checkbox remains open for the eventual full feature/release scope; documenting a missing implementation is not completing it."
+    },
+    {
+      "issue": 13,
+      "key": "concurrency",
+      "criterion": "A1",
+      "text": "Specify deadline propagation, cancellation delivery and commit ambiguity across nested tasks and blocking native calls.",
+      "was_checked": false,
+      "status": "partial",
+      "references": [
+        "parallel",
+        "effects",
+        "sleep",
+        "transactions"
+      ],
+      "assessment": "Nested cancellation events and join-before-return exist. Blocking natives do not consume a shared deadline; a 10 ms cancellation deadline around 250 ms sleep returns cancellation after the sleep. Large valid i64 sleeps also expose R2."
+    },
+    {
+      "issue": 13,
+      "key": "concurrency",
+      "criterion": "A2",
+      "text": "Bound task queues, request admission, buffered data and retries; define fairness and overload responses.",
+      "was_checked": false,
+      "status": "partial",
+      "references": [
+        "http_workers",
+        "limiter",
+        "retry"
+      ],
+      "assessment": "HTTP has 64 workers and a 1024-entry pending queue, limiter storage is bounded and the retail retry loop is capped. This does not impose an aggregate bound on nested parallel tasks or establish fairness/end-to-end admission deadlines."
+    },
+    {
+      "issue": 13,
+      "key": "concurrency",
+      "criterion": "A3",
+      "text": "Implement graceful shutdown/draining and deterministic resource cleanup without abandoning acknowledged durable changes.",
+      "was_checked": false,
+      "status": "partial",
+      "references": [
+        "http_close",
+        "parallel",
+        "save"
+      ],
+      "assessment": "Signal handling, socket shutdown, draining the pending queue and joins already exist. Joins can wait for blocking natives; HTTP close aborts active connections rather than guaranteeing delivery of acknowledged application outcomes."
+    },
+    {
+      "issue": 13,
+      "key": "concurrency",
+      "criterion": "A4",
+      "text": "Stress slow clients, saturation, cancellation storms, lock contention and shutdown during writes; retain latency and leak evidence.",
+      "was_checked": false,
+      "status": "partial",
+      "references": [
+        "http_tests",
+        "transactions_tests",
+        "http_probe"
+      ],
+      "assessment": "Slow-input, overload recovery, partial-input shutdown, contention and SIGKILL restart are tested. Sustained cancellation storms, all native shutdown states and quantitative descriptor/native-memory leak budgets remain unqualified."
+    },
+    {
+      "issue": 13,
+      "key": "concurrency",
+      "criterion": "E1",
+      "text": "Retain reviewed design decisions, implementation references, meaningful regression/end-to-end tests, and failure evidence appropriate to this scope.",
+      "was_checked": false,
+      "status": "partial",
+      "references": [
+        "scope",
+        "report"
+      ],
+      "assessment": "Source and existing regression evidence are linked per acceptance item. The complete scope is not closed; partial coverage, reproduced defects and external requirements are explicitly retained."
+    },
+    {
+      "issue": 13,
+      "key": "concurrency",
+      "criterion": "E2",
+      "text": "For performance/data claims, freeze workload/source identities before tuning, compare with an independent oracle, and report actual limits and unsuccessful trials.",
+      "was_checked": false,
+      "status": "partial",
+      "references": [
+        "report",
+        "scope"
+      ],
+      "assessment": "Retained real-data evidence is reconciled and the full HTTP path is repeated in this audit, with separate identities, exact oracles and limitations. It still does not qualify production SLOs, large retained state or all requested failure scenarios."
+    },
+    {
+      "issue": 13,
+      "key": "concurrency",
+      "criterion": "E3",
+      "text": "Update user-facing documentation and the architecture tracker; do not equate finite passing tests with universal correctness or security.",
+      "was_checked": false,
+      "status": "partial",
+      "references": [
+        "scope",
+        "security"
+      ],
+      "assessment": "This audit updates the current-state documentation and tracker with limitations. The evidence checkbox remains open for the eventual full feature/release scope; documenting a missing implementation is not completing it."
+    },
+    {
+      "issue": 14,
+      "key": "guard_state",
+      "criterion": "A1",
+      "text": "Define operator-pinned state-transition, invariant, concurrency-history and fault-scenario acceptance bundles.",
+      "was_checked": false,
+      "status": "not_implemented",
+      "references": [
+        "guard_bundle",
+        "guard_cases",
+        "obligations"
+      ],
+      "assessment": "The Guard bundle validates only finite i64/bool pure-function cases. Its text obligations are declarations, not executable transition/history/fault scenarios. Separate obligation tooling binds acceptance reports; it does not add these execution modes to Guard."
+    },
+    {
+      "issue": 14,
+      "key": "guard_state",
+      "criterion": "A2",
+      "text": "Execute candidates through real language/runtime boundaries using isolated disposable state and controlled effects.",
+      "was_checked": false,
+      "status": "partial",
+      "references": [
+        "guard",
+        "guard_eval",
+        "project_receipt"
+      ],
+      "assessment": "Guard candidates compile and execute in a disposable captured tree through the VM, but effectful application functions are explicitly rejected. Separate project receipts can execute effectful package tests in disposable state; their effects are not isolated or operator-pinned Guard scenarios."
+    },
+    {
+      "issue": 14,
+      "key": "guard_state",
+      "criterion": "A3",
+      "text": "Protect acceptance definitions, helpers, fixtures and oracle identities against candidate tampering.",
+      "was_checked": false,
+      "status": "partial",
+      "references": [
+        "guard_bundle",
+        "guard_helper",
+        "guard_eval"
+      ],
+      "assessment": "Existing bundles pin files, engine identity and transitive contract-helper meaning. There is no stateful fixture/oracle identity protocol to protect yet."
+    },
+    {
+      "issue": 14,
+      "key": "guard_state",
+      "criterion": "A4",
+      "text": "Test deliberately faulty candidate edits for retries, authorization, atomicity and recovery; report misses, false positives and finite coverage honestly.",
+      "was_checked": false,
+      "status": "not_implemented",
+      "references": [
+        "guard_cases",
+        "guard_eval",
+        "transactions_tests"
+      ],
+      "assessment": "Transaction regression tests belong to the language suite and retail harness, not Guard candidate acceptance. No Guard campaign qualifies retry/auth/atomicity/recovery edits through stateful effects."
+    },
+    {
+      "issue": 14,
+      "key": "guard_state",
+      "criterion": "E1",
+      "text": "Retain reviewed design decisions, implementation references, meaningful regression/end-to-end tests, and failure evidence appropriate to this scope.",
+      "was_checked": false,
+      "status": "partial",
+      "references": [
+        "scope",
+        "report"
+      ],
+      "assessment": "Existing implementation/prototype references establish the boundary above, but design and regression/e2e evidence for the requested extension are not present. No extension is credited as implemented."
+    },
+    {
+      "issue": 14,
+      "key": "guard_state",
+      "criterion": "E2",
+      "text": "For performance/data claims, freeze workload/source identities before tuning, compare with an independent oracle, and report actual limits and unsuccessful trials.",
+      "was_checked": false,
+      "status": "partial",
+      "references": [
+        "report",
+        "scope"
+      ],
+      "assessment": "No new performance or production-qualification claim is made for this issue. Existing narrow measurements are cited where relevant; extension-specific frozen workloads, thresholds and unsuccessful trials remain required before such a claim."
+    },
+    {
+      "issue": 14,
+      "key": "guard_state",
+      "criterion": "E3",
+      "text": "Update user-facing documentation and the architecture tracker; do not equate finite passing tests with universal correctness or security.",
+      "was_checked": false,
+      "status": "partial",
+      "references": [
+        "scope",
+        "security"
+      ],
+      "assessment": "This audit updates the current-state documentation and tracker with limitations. The evidence checkbox remains open for the eventual full feature/release scope; documenting a missing implementation is not completing it."
+    },
+    {
+      "issue": 15,
+      "key": "guard_dependencies",
+      "criterion": "A1",
+      "text": "Resolve and pin the complete relevant dependency and contract-helper closure.",
+      "was_checked": false,
+      "status": "partial",
+      "references": [
+        "guard_helper",
+        "guard_bundle",
+        "project_graph"
+      ],
+      "assessment": "Guard resolves and pins transitive cross-module/private contract helpers within one package. A manifest with deps is explicitly rejected. The compiler and project-context tooling already capture package graphs; Guard does not yet consume that broader scope."
+    },
+    {
+      "issue": 15,
+      "key": "guard_dependencies",
+      "criterion": "A2",
+      "text": "Detect specification and helper weakening across modules, packages and dependency updates, including paired spec/impl edits.",
+      "was_checked": false,
+      "status": "partial",
+      "references": [
+        "guard_helper",
+        "guard_tests"
+      ],
+      "assessment": "Spec changes and helper-body/signature/call-target changes are protected within current scope, including unseen-case semantic edits. Cross-package dependency updates are unsupported."
+    },
+    {
+      "issue": 15,
+      "key": "guard_dependencies",
+      "criterion": "A3",
+      "text": "Define supported compatibility and operator-approved baseline evolution without silently replacing acceptance evidence.",
+      "was_checked": false,
+      "status": "partial",
+      "references": [
+        "guard_eval",
+        "guard_bundle",
+        "evolution"
+      ],
+      "assessment": "External bundle hash and engine pin prevent silent baseline replacement. Separate evolve code checks candidate builds/egress and replays tag-only historical traces; replaying those same traces is not execution of a changed candidate. Full operator-approved dependency evolution acceptance remains open."
+    },
+    {
+      "issue": 15,
+      "key": "guard_dependencies",
+      "criterion": "A4",
+      "text": "Use adversarial package fixtures and independently retained holdouts to test bypasses and stale-cache/dependency substitutions.",
+      "was_checked": false,
+      "status": "partial",
+      "references": [
+        "guard_tests",
+        "guard_eval"
+      ],
+      "assessment": "Adversarial internal-helper fixtures and retained boundary probes exist. No cross-package substitution/cache qualification exists because packages with dependencies are rejected."
+    },
+    {
+      "issue": 15,
+      "key": "guard_dependencies",
+      "criterion": "E1",
+      "text": "Retain reviewed design decisions, implementation references, meaningful regression/end-to-end tests, and failure evidence appropriate to this scope.",
+      "was_checked": false,
+      "status": "partial",
+      "references": [
+        "scope",
+        "report"
+      ],
+      "assessment": "Source and existing regression evidence are linked per acceptance item. The complete scope is not closed; partial coverage, reproduced defects and external requirements are explicitly retained."
+    },
+    {
+      "issue": 15,
+      "key": "guard_dependencies",
+      "criterion": "E2",
+      "text": "For performance/data claims, freeze workload/source identities before tuning, compare with an independent oracle, and report actual limits and unsuccessful trials.",
+      "was_checked": false,
+      "status": "partial",
+      "references": [
+        "report",
+        "scope"
+      ],
+      "assessment": "No new performance or production-qualification claim is made for this issue. Existing narrow measurements are cited where relevant; extension-specific frozen workloads, thresholds and unsuccessful trials remain required before such a claim."
+    },
+    {
+      "issue": 15,
+      "key": "guard_dependencies",
+      "criterion": "E3",
+      "text": "Update user-facing documentation and the architecture tracker; do not equate finite passing tests with universal correctness or security.",
+      "was_checked": false,
+      "status": "partial",
+      "references": [
+        "scope",
+        "security"
+      ],
+      "assessment": "This audit updates the current-state documentation and tracker with limitations. The evidence checkbox remains open for the eventual full feature/release scope; documenting a missing implementation is not completing it."
+    },
+    {
+      "issue": 16,
+      "key": "execution",
+      "criterion": "A1",
+      "text": "Freeze a typed lowering/IR boundary and profile representative backend/data workloads before choosing the execution target.",
+      "was_checked": false,
+      "status": "partial",
+      "references": [
+        "compiler",
+        "opcodes",
+        "report"
+      ],
+      "assessment": "Typed checking, deterministic bytecode lowering and workload measurements exist. No selected machine-code lowering/IR contract or representative native-target profiling decision is retained."
+    },
+    {
+      "issue": 16,
+      "key": "execution",
+      "criterion": "A2",
+      "text": "Implement the selected compiled/native path with explicit unsupported-feature rejection and a controlled native ABI.",
+      "was_checked": false,
+      "status": "not_implemented",
+      "references": [
+        "compiler",
+        "bytecode",
+        "effects"
+      ],
+      "assessment": "GoPyT already compiles to bytecode, then executes in its Python-hosted VM. There is no machine-code/native execution backend in the closed build/run path."
+    },
+    {
+      "issue": 16,
+      "key": "execution",
+      "criterion": "A3",
+      "text": "Preserve integer overflow traps, types, contracts, effects, resource lifetimes and concurrency semantics.",
+      "was_checked": false,
+      "status": "partial",
+      "references": [
+        "arith",
+        "effects",
+        "heap",
+        "abi"
+      ],
+      "assessment": "The reference implementation checks overflow, effects, contracts, heap boundaries and native signatures. Preservation by a second compiled backend is untested because it is absent."
+    },
+    {
+      "issue": 16,
+      "key": "execution",
+      "criterion": "A4",
+      "text": "Differentially test generated and real programs against the reference VM; report end-to-end performance, memory and compilation costs.",
+      "was_checked": false,
+      "status": "partial",
+      "references": [
+        "generated_tests",
+        "report"
+      ],
+      "assessment": "Generated programs compare VM arithmetic/branches against an independent integer oracle. That is not VM-versus-native differential conformance or a native performance comparison."
+    },
+    {
+      "issue": 16,
+      "key": "execution",
+      "criterion": "E1",
+      "text": "Retain reviewed design decisions, implementation references, meaningful regression/end-to-end tests, and failure evidence appropriate to this scope.",
+      "was_checked": false,
+      "status": "partial",
+      "references": [
+        "scope",
+        "report"
+      ],
+      "assessment": "Existing implementation/prototype references establish the boundary above, but design and regression/e2e evidence for the requested extension are not present. No extension is credited as implemented."
+    },
+    {
+      "issue": 16,
+      "key": "execution",
+      "criterion": "E2",
+      "text": "For performance/data claims, freeze workload/source identities before tuning, compare with an independent oracle, and report actual limits and unsuccessful trials.",
+      "was_checked": false,
+      "status": "partial",
+      "references": [
+        "report",
+        "scope"
+      ],
+      "assessment": "No new performance or production-qualification claim is made for this issue. Existing narrow measurements are cited where relevant; extension-specific frozen workloads, thresholds and unsuccessful trials remain required before such a claim."
+    },
+    {
+      "issue": 16,
+      "key": "execution",
+      "criterion": "E3",
+      "text": "Update user-facing documentation and the architecture tracker; do not equate finite passing tests with universal correctness or security.",
+      "was_checked": false,
+      "status": "partial",
+      "references": [
+        "scope",
+        "security"
+      ],
+      "assessment": "This audit updates the current-state documentation and tracker with limitations. The evidence checkbox remains open for the eventual full feature/release scope; documenting a missing implementation is not completing it."
+    },
+    {
+      "issue": 17,
+      "key": "numeric",
+      "criterion": "A1",
+      "text": "Define supported numeric operations, conversions, overflow and non-finite behavior without silent coercion.",
+      "was_checked": false,
+      "status": "partial",
+      "references": [
+        "numspec",
+        "arith",
+        "convert",
+        "float"
+      ],
+      "assessment": "i64 arithmetic, signed overflow, truncating division and width conversions are specified and implemented. f64 operations are restricted; a 400-digit decimal float literal still compiles to infinity. Non-finite literal/storage policy needs an explicit decision rather than assuming every number is finite."
+    },
+    {
+      "issue": 17,
+      "key": "numeric",
+      "criterion": "A2",
+      "text": "Provide an exact decimal or fixed-point design for monetary data with explicit scale, rounding and currency handling.",
+      "was_checked": false,
+      "status": "not_implemented",
+      "references": [
+        "numspec",
+        "opcodes"
+      ],
+      "assessment": "No Decimal/fixed-point currency type, rounding API or currency domain is in the language/stdlib catalogue. An application can choose integer minor units, but that is not a general monetary API."
+    },
+    {
+      "issue": 17,
+      "key": "numeric",
+      "criterion": "A3",
+      "text": "Define timestamps, durations, wall-clock versus monotonic time and precision/serialization rules.",
+      "was_checked": false,
+      "status": "partial",
+      "references": [
+        "clock",
+        "sleep"
+      ],
+      "assessment": "now_ms calls wall-clock time; host deadlines/limiter use monotonic time. Typed timestamp/duration, timezone, serialization and precision policies are not defined as language interfaces. R2 demonstrates a time-range boundary failure."
+    },
+    {
+      "issue": 17,
+      "key": "numeric",
+      "criterion": "A4",
+      "text": "Test independent arithmetic oracles and real data containing negative values, precision boundaries, rounding cases and clock anomalies.",
+      "was_checked": false,
+      "status": "partial",
+      "references": [
+        "generated_tests",
+        "arith",
+        "report"
+      ],
+      "assessment": "Generated integer oracle tests and real negative retail quantities exist. The retail workload omits prices/dates and cannot qualify decimal rounding, monetary totals or clock anomalies."
+    },
+    {
+      "issue": 17,
+      "key": "numeric",
+      "criterion": "E1",
+      "text": "Retain reviewed design decisions, implementation references, meaningful regression/end-to-end tests, and failure evidence appropriate to this scope.",
+      "was_checked": false,
+      "status": "partial",
+      "references": [
+        "scope",
+        "report"
+      ],
+      "assessment": "Source and existing regression evidence are linked per acceptance item. The complete scope is not closed; partial coverage, reproduced defects and external requirements are explicitly retained."
+    },
+    {
+      "issue": 17,
+      "key": "numeric",
+      "criterion": "E2",
+      "text": "For performance/data claims, freeze workload/source identities before tuning, compare with an independent oracle, and report actual limits and unsuccessful trials.",
+      "was_checked": false,
+      "status": "partial",
+      "references": [
+        "report",
+        "scope"
+      ],
+      "assessment": "No new performance or production-qualification claim is made for this issue. Existing narrow measurements are cited where relevant; extension-specific frozen workloads, thresholds and unsuccessful trials remain required before such a claim."
+    },
+    {
+      "issue": 17,
+      "key": "numeric",
+      "criterion": "E3",
+      "text": "Update user-facing documentation and the architecture tracker; do not equate finite passing tests with universal correctness or security.",
+      "was_checked": false,
+      "status": "partial",
+      "references": [
+        "scope",
+        "security"
+      ],
+      "assessment": "This audit updates the current-state documentation and tracker with limitations. The evidence checkbox remains open for the eventual full feature/release scope; documenting a missing implementation is not completing it."
+    },
+    {
+      "issue": 18,
+      "key": "streaming",
+      "criterion": "A1",
+      "text": "Define typed streaming/batch APIs with bounded buffering, backpressure and cancellation-safe disposal.",
+      "was_checked": false,
+      "status": "partial",
+      "references": [
+        "batch",
+        "http_frame",
+        "limits"
+      ],
+      "assessment": "Transaction batches and HTTP bodies are bounded materialized values. No language stream/iterator protocol with cancellation disposal and cross-stage backpressure is implemented."
+    },
+    {
+      "issue": 18,
+      "key": "streaming",
+      "criterion": "A2",
+      "text": "Implement supported parser/column operations with explicit buffer/view lifetimes and malformed-input bounds.",
+      "was_checked": false,
+      "status": "partial",
+      "references": [
+        "mapped_format",
+        "mapped",
+        "foreign"
+      ],
+      "assessment": "The Linux research column validates exact length/count/index and seals its copied backing data. No mapped parser/column/view API is exposed by GoPyT natives."
+    },
+    {
+      "issue": 18,
+      "key": "streaming",
+      "criterion": "A3",
+      "text": "Design authenticated encrypted paging before claiming secure mapped queries; account for decoding and unavoidable copies.",
+      "was_checked": false,
+      "status": "not_implemented",
+      "references": [
+        "cipher",
+        "load",
+        "mapped"
+      ],
+      "assessment": "AES-GCM-SIV authenticates a complete snapshot; mapping experiments are plaintext. No authenticated page/column query scheme exists, and sealing requires a setup copy."
+    },
+    {
+      "issue": 18,
+      "key": "streaming",
+      "criterion": "A4",
+      "text": "Compare streaming, buffering and mapping on actual datasets, including enforced beyond-RAM tests, cold/warm conditions and exact results.",
+      "was_checked": false,
+      "status": "partial",
+      "references": [
+        "prototype_doc",
+        "report"
+      ],
+      "assessment": "A retained synthetic 8 MiB comparison favored buffering. It does not satisfy real column-data, encrypted, cold/warm controlled or enforced beyond-RAM qualification."
+    },
+    {
+      "issue": 18,
+      "key": "streaming",
+      "criterion": "E1",
+      "text": "Retain reviewed design decisions, implementation references, meaningful regression/end-to-end tests, and failure evidence appropriate to this scope.",
+      "was_checked": false,
+      "status": "partial",
+      "references": [
+        "scope",
+        "report"
+      ],
+      "assessment": "Existing implementation/prototype references establish the boundary above, but design and regression/e2e evidence for the requested extension are not present. No extension is credited as implemented."
+    },
+    {
+      "issue": 18,
+      "key": "streaming",
+      "criterion": "E2",
+      "text": "For performance/data claims, freeze workload/source identities before tuning, compare with an independent oracle, and report actual limits and unsuccessful trials.",
+      "was_checked": false,
+      "status": "partial",
+      "references": [
+        "report",
+        "scope"
+      ],
+      "assessment": "No new performance or production-qualification claim is made for this issue. Existing narrow measurements are cited where relevant; extension-specific frozen workloads, thresholds and unsuccessful trials remain required before such a claim."
+    },
+    {
+      "issue": 18,
+      "key": "streaming",
+      "criterion": "E3",
+      "text": "Update user-facing documentation and the architecture tracker; do not equate finite passing tests with universal correctness or security.",
+      "was_checked": false,
+      "status": "partial",
+      "references": [
+        "scope",
+        "security"
+      ],
+      "assessment": "This audit updates the current-state documentation and tracker with limitations. The evidence checkbox remains open for the eventual full feature/release scope; documenting a missing implementation is not completing it."
+    },
+    {
+      "issue": 19,
+      "key": "ipc",
+      "criterion": "A1",
+      "text": "Specify ownership, synchronization, ordering, bounded queues and producer/consumer crash recovery for any shared-memory protocol.",
+      "was_checked": false,
+      "status": "not_implemented",
+      "references": [
+        "mapped"
+      ],
+      "assessment": "The prototype yields a sealed immutable memfd and mapping; there is no mutable producer/consumer queue or crash-recovery protocol."
+    },
+    {
+      "issue": 19,
+      "key": "ipc",
+      "criterion": "A2",
+      "text": "Apply capability confinement, integrity checks and safe buffer lifetimes across process boundaries.",
+      "was_checked": false,
+      "status": "partial",
+      "references": [
+        "mapped",
+        "mapped_format"
+      ],
+      "assessment": "Seals prevent mutation of the backing object; bounds are validated locally. This is not a cross-process authenticated capability protocol with managed view lifetimes."
+    },
+    {
+      "issue": 19,
+      "key": "ipc",
+      "criterion": "A3",
+      "text": "Define matrix layout/alignment and supported CPU or accelerator boundaries; do not imply that mmap alone supplies GPU access.",
+      "was_checked": false,
+      "status": "partial",
+      "references": [
+        "mapped_format"
+      ],
+      "assessment": "The prototype specifies little-endian fixed-width i64 elements, not a general matrix shape/stride/alignment API or GPU transfer/compute boundary."
+    },
+    {
+      "issue": 19,
+      "key": "ipc",
+      "criterion": "A4",
+      "text": "Benchmark real producer/consumer or matrix workloads against simpler alternatives; promote only supported, validated APIs and document deferred targets.",
+      "was_checked": false,
+      "status": "decision_required",
+      "references": [
+        "prototype_doc",
+        "scope"
+      ],
+      "assessment": "IPC/accelerator workload selection and performance acceptance are research decisions. No real producer/consumer or matrix comparison is retained; these optional targets must not silently become universal backend release blockers."
+    },
+    {
+      "issue": 19,
+      "key": "ipc",
+      "criterion": "E1",
+      "text": "Retain reviewed design decisions, implementation references, meaningful regression/end-to-end tests, and failure evidence appropriate to this scope.",
+      "was_checked": false,
+      "status": "partial",
+      "references": [
+        "scope",
+        "report"
+      ],
+      "assessment": "Existing implementation/prototype references establish the boundary above, but design and regression/e2e evidence for the requested extension are not present. No extension is credited as implemented."
+    },
+    {
+      "issue": 19,
+      "key": "ipc",
+      "criterion": "E2",
+      "text": "For performance/data claims, freeze workload/source identities before tuning, compare with an independent oracle, and report actual limits and unsuccessful trials.",
+      "was_checked": false,
+      "status": "partial",
+      "references": [
+        "report",
+        "scope"
+      ],
+      "assessment": "No new performance or production-qualification claim is made for this issue. Existing narrow measurements are cited where relevant; extension-specific frozen workloads, thresholds and unsuccessful trials remain required before such a claim."
+    },
+    {
+      "issue": 19,
+      "key": "ipc",
+      "criterion": "E3",
+      "text": "Update user-facing documentation and the architecture tracker; do not equate finite passing tests with universal correctness or security.",
+      "was_checked": false,
+      "status": "partial",
+      "references": [
+        "scope",
+        "security"
+      ],
+      "assessment": "This audit updates the current-state documentation and tracker with limitations. The evidence checkbox remains open for the eventual full feature/release scope; documenting a missing implementation is not completing it."
+    },
+    {
+      "issue": 20,
+      "key": "editor",
+      "criterion": "A1",
+      "text": "Implement an incremental dependency/workspace graph with correct unsaved-overlay invalidation.",
+      "was_checked": false,
+      "status": "not_implemented",
+      "references": [
+        "lsp",
+        "lsp_doc",
+        "project_graph"
+      ],
+      "assessment": "LSP diagnostics reconstruct a bounded dependency-free snapshot and reject deps. Compiler/project-context dependency graphs exist, but an incremental editor graph integrating them is not implemented."
+    },
+    {
+      "issue": 20,
+      "key": "editor",
+      "criterion": "A2",
+      "text": "Provide type-directed completion, hover, definitions, references and safe rename across supported packages/workspaces.",
+      "was_checked": false,
+      "status": "partial",
+      "references": [
+        "lsp_methods",
+        "lsp_doc"
+      ],
+      "assessment": "Declaration symbols/completion and formatting exist. The handler does not advertise/implement type-directed hover, definitions, references, rename or multi-root operations."
+    },
+    {
+      "issue": 20,
+      "key": "editor",
+      "criterion": "A3",
+      "text": "Improve diagnostic ranges and multiple-error reporting while preserving canonical formatting and source/lock integrity.",
+      "was_checked": false,
+      "status": "partial",
+      "references": [
+        "lsp",
+        "lsp_methods",
+        "lsp_tests"
+      ],
+      "assessment": "UTF-16 formatting endpoints, stale-version handling and source preservation exist. Diagnostics still publish the first error at line-level/zero-column ranges."
+    },
+    {
+      "issue": 20,
+      "key": "editor",
+      "criterion": "A4",
+      "text": "Test real multi-module projects, Unicode positions, stale versions, dependency changes and resource-limited checking.",
+      "was_checked": false,
+      "status": "partial",
+      "references": [
+        "lsp_tests",
+        "lsp_check"
+      ],
+      "assessment": "Actual stdio, overlay reversion, stale versions and path/message bounds are tested. Multi-package semantics and real dependency-change/rename scenarios remain unsupported."
+    },
+    {
+      "issue": 20,
+      "key": "editor",
+      "criterion": "E1",
+      "text": "Retain reviewed design decisions, implementation references, meaningful regression/end-to-end tests, and failure evidence appropriate to this scope.",
+      "was_checked": false,
+      "status": "partial",
+      "references": [
+        "scope",
+        "report"
+      ],
+      "assessment": "Existing implementation/prototype references establish the boundary above, but design and regression/e2e evidence for the requested extension are not present. No extension is credited as implemented."
+    },
+    {
+      "issue": 20,
+      "key": "editor",
+      "criterion": "E2",
+      "text": "For performance/data claims, freeze workload/source identities before tuning, compare with an independent oracle, and report actual limits and unsuccessful trials.",
+      "was_checked": false,
+      "status": "partial",
+      "references": [
+        "report",
+        "scope"
+      ],
+      "assessment": "No new performance or production-qualification claim is made for this issue. Existing narrow measurements are cited where relevant; extension-specific frozen workloads, thresholds and unsuccessful trials remain required before such a claim."
+    },
+    {
+      "issue": 20,
+      "key": "editor",
+      "criterion": "E3",
+      "text": "Update user-facing documentation and the architecture tracker; do not equate finite passing tests with universal correctness or security.",
+      "was_checked": false,
+      "status": "partial",
+      "references": [
+        "scope",
+        "security"
+      ],
+      "assessment": "This audit updates the current-state documentation and tracker with limitations. The evidence checkbox remains open for the eventual full feature/release scope; documenting a missing implementation is not completing it."
+    },
+    {
+      "issue": 21,
+      "key": "observability",
+      "criterion": "A1",
+      "text": "Define metrics/traces for task/native latency, allocation, queue pressure, conflicts, authorization denials and contract failures.",
+      "was_checked": false,
+      "status": "partial",
+      "references": [
+        "observe",
+        "effects",
+        "http_auth"
+      ],
+      "assessment": "Task/native outcomes, latency sketches, trap tags and some denials exist. Allocation/queue/conflict metrics are not comprehensive; HTTP 401 rejection and DB policy denial do not have dedicated authorization-denial telemetry here."
+    },
+    {
+      "issue": 21,
+      "key": "observability",
+      "criterion": "A2",
+      "text": "Implement debugging/profiling interfaces with source mapping and explicit access controls.",
+      "was_checked": false,
+      "status": "not_implemented",
+      "references": [
+        "lsp_methods",
+        "observe"
+      ],
+      "assessment": "Telemetry and editor symbols do not implement a source-mapped debugger or controlled profiling service. No such runtime protocol is registered."
+    },
+    {
+      "issue": 21,
+      "key": "observability",
+      "criterion": "A3",
+      "text": "Keep secrets, personal data and high-cardinality payloads out of default logs/traces; bound collection overhead.",
+      "was_checked": false,
+      "status": "partial",
+      "references": [
+        "traces",
+        "observe",
+        "security"
+      ],
+      "assessment": "Automatic snapshots retain bounded task/tag/code samples rather than arguments or returned payloads; request logging is disabled. Explicit application log/reveal effects can expose data. A production redaction/access/overhead policy across all diagnostics is not qualified."
+    },
+    {
+      "issue": 21,
+      "key": "observability",
+      "criterion": "A4",
+      "text": "Validate diagnosis of real workload failures and performance regressions, including telemetry loss and overload.",
+      "was_checked": false,
+      "status": "partial",
+      "references": [
+        "report",
+        "observe",
+        "http_tests"
+      ],
+      "assessment": "Retained workloads measure latency and some failures; telemetry unit tests check bounded storage/alarm behavior. No operational loss/overload diagnosis acceptance or debugger/profiler regression workflow exists."
+    },
+    {
+      "issue": 21,
+      "key": "observability",
+      "criterion": "E1",
+      "text": "Retain reviewed design decisions, implementation references, meaningful regression/end-to-end tests, and failure evidence appropriate to this scope.",
+      "was_checked": false,
+      "status": "partial",
+      "references": [
+        "scope",
+        "report"
+      ],
+      "assessment": "Source and existing regression evidence are linked per acceptance item. The complete scope is not closed; partial coverage, reproduced defects and external requirements are explicitly retained."
+    },
+    {
+      "issue": 21,
+      "key": "observability",
+      "criterion": "E2",
+      "text": "For performance/data claims, freeze workload/source identities before tuning, compare with an independent oracle, and report actual limits and unsuccessful trials.",
+      "was_checked": false,
+      "status": "partial",
+      "references": [
+        "report",
+        "scope"
+      ],
+      "assessment": "No new performance or production-qualification claim is made for this issue. Existing narrow measurements are cited where relevant; extension-specific frozen workloads, thresholds and unsuccessful trials remain required before such a claim."
+    },
+    {
+      "issue": 21,
+      "key": "observability",
+      "criterion": "E3",
+      "text": "Update user-facing documentation and the architecture tracker; do not equate finite passing tests with universal correctness or security.",
+      "was_checked": false,
+      "status": "partial",
+      "references": [
+        "scope",
+        "security"
+      ],
+      "assessment": "This audit updates the current-state documentation and tracker with limitations. The evidence checkbox remains open for the eventual full feature/release scope; documenting a missing implementation is not completing it."
+    },
+    {
+      "issue": 22,
+      "key": "packages",
+      "criterion": "A1",
+      "text": "Specify language/stdlib/toolchain versioning and compatibility for bytecode, native signatures, packages and contracts.",
+      "was_checked": false,
+      "status": "partial",
+      "references": [
+        "packages",
+        "bytecode",
+        "abi",
+        "lockspec"
+      ],
+      "assessment": "Exact toolchain locks, package digests, bytecode version 2 and closed verified native signatures are real compatibility checks. A multi-release language/stdlib/native upgrade matrix is not established."
+    },
+    {
+      "issue": 22,
+      "key": "packages",
+      "criterion": "A2",
+      "text": "Provide reproducible dependency resolution and explicit upgrade/migration behavior without silent semantic changes.",
+      "was_checked": false,
+      "status": "partial",
+      "references": [
+        "digest",
+        "lockspec"
+      ],
+      "assessment": "Transitive path dependencies are hashed; stale/mismatched locks are rejected without rewriting. Long-term upgrade/migration policy and cross-version semantic compatibility remain broader work."
+    },
+    {
+      "issue": 22,
+      "key": "packages",
+      "criterion": "A3",
+      "text": "Ensure optional integration absence produces typed predictable failure rather than uncaught host exceptions.",
+      "was_checked": false,
+      "status": "confirmed_defect",
+      "references": [
+        "provider",
+        "cipher"
+      ],
+      "assessment": "With the optional companion absent, compiled core.model.local raises ModuleNotFoundError outside its error handler (R1). The security extra has a separate correctly handled ImportError boundary; these must not be conflated."
+    },
+    {
+      "issue": 22,
+      "key": "packages",
+      "criterion": "A4",
+      "text": "Test old/new compiler-runtime combinations, stale artifacts, dependency upgrades and clean installation/rollback.",
+      "was_checked": false,
+      "status": "partial",
+      "references": [
+        "ci",
+        "wheel",
+        "bytecode"
+      ],
+      "assessment": "Fresh wheel/install and stale-artifact/dependency checks exist and passed CI. There is no retained historical compiler/runtime upgrade-and-rollback matrix."
+    },
+    {
+      "issue": 22,
+      "key": "packages",
+      "criterion": "E1",
+      "text": "Retain reviewed design decisions, implementation references, meaningful regression/end-to-end tests, and failure evidence appropriate to this scope.",
+      "was_checked": false,
+      "status": "partial",
+      "references": [
+        "scope",
+        "report"
+      ],
+      "assessment": "Source and existing regression evidence are linked per acceptance item. The complete scope is not closed; partial coverage, reproduced defects and external requirements are explicitly retained."
+    },
+    {
+      "issue": 22,
+      "key": "packages",
+      "criterion": "E2",
+      "text": "For performance/data claims, freeze workload/source identities before tuning, compare with an independent oracle, and report actual limits and unsuccessful trials.",
+      "was_checked": false,
+      "status": "partial",
+      "references": [
+        "report",
+        "scope"
+      ],
+      "assessment": "No new performance or production-qualification claim is made for this issue. Existing narrow measurements are cited where relevant; extension-specific frozen workloads, thresholds and unsuccessful trials remain required before such a claim."
+    },
+    {
+      "issue": 22,
+      "key": "packages",
+      "criterion": "E3",
+      "text": "Update user-facing documentation and the architecture tracker; do not equate finite passing tests with universal correctness or security.",
+      "was_checked": false,
+      "status": "partial",
+      "references": [
+        "scope",
+        "security"
+      ],
+      "assessment": "This audit updates the current-state documentation and tracker with limitations. The evidence checkbox remains open for the eventual full feature/release scope; documenting a missing implementation is not completing it."
+    },
+    {
+      "issue": 23,
+      "key": "supply_chain",
+      "criterion": "A1",
+      "text": "Define trusted release provenance, artifact verification/signing policy, dependency inventory and vulnerability response.",
+      "was_checked": false,
+      "status": "partial",
+      "references": [
+        "security",
+        "packaging",
+        "ci"
+      ],
+      "assessment": "Private vulnerability reporting, source hashes and a prior dependency audit are documented. Signed release provenance, a comprehensive release inventory and a complete artifact-verification policy are not established in this tree."
+    },
+    {
+      "issue": 23,
+      "key": "supply_chain",
+      "criterion": "A2",
+      "text": "Pin and review build/CI dependencies and action revisions; apply least-privilege credentials and permissions.",
+      "was_checked": false,
+      "status": "partial",
+      "references": [
+        "ci",
+        "qualification_ci",
+        "packaging"
+      ],
+      "assessment": "Workflows use contents:read and cryptography is pinned. Actions use major tags and build isolation requests setuptools>=68; these are not immutable reviewed revisions/hashes for the entire build toolchain."
+    },
+    {
+      "issue": 23,
+      "key": "supply_chain",
+      "criterion": "A3",
+      "text": "Verify reproducible or explained build differences, package contents and clean installs across supported platforms.",
+      "was_checked": false,
+      "status": "partial",
+      "references": [
+        "wheel",
+        "ci",
+        "report"
+      ],
+      "assessment": "Clean runtime wheel checks and Linux/macOS CI pass. Repeated bitwise release-build comparison, explained differences and historical rollback matrices are not retained."
+    },
+    {
+      "issue": 23,
+      "key": "supply_chain",
+      "criterion": "A4",
+      "text": "Use Leitir upstream code as references only; record license/provenance for adaptations and justify any dependency adoption separately.",
+      "was_checked": false,
+      "status": "partial",
+      "references": [
+        "mapped",
+        "transactions",
+        "packaging"
+      ],
+      "assessment": "Mapped research records donor commit/license and no donor dependency; transaction publication references explicitly say no donor code was installed. The cryptography extra is separately chosen. A complete repository-wide adaptation/license inventory is not provided by those examples alone."
+    },
+    {
+      "issue": 23,
+      "key": "supply_chain",
+      "criterion": "E1",
+      "text": "Retain reviewed design decisions, implementation references, meaningful regression/end-to-end tests, and failure evidence appropriate to this scope.",
+      "was_checked": false,
+      "status": "partial",
+      "references": [
+        "scope",
+        "report"
+      ],
+      "assessment": "Source and existing regression evidence are linked per acceptance item. The complete scope is not closed; partial coverage, reproduced defects and external requirements are explicitly retained."
+    },
+    {
+      "issue": 23,
+      "key": "supply_chain",
+      "criterion": "E2",
+      "text": "For performance/data claims, freeze workload/source identities before tuning, compare with an independent oracle, and report actual limits and unsuccessful trials.",
+      "was_checked": false,
+      "status": "partial",
+      "references": [
+        "report",
+        "scope"
+      ],
+      "assessment": "No new performance or production-qualification claim is made for this issue. Existing narrow measurements are cited where relevant; extension-specific frozen workloads, thresholds and unsuccessful trials remain required before such a claim."
+    },
+    {
+      "issue": 23,
+      "key": "supply_chain",
+      "criterion": "E3",
+      "text": "Update user-facing documentation and the architecture tracker; do not equate finite passing tests with universal correctness or security.",
+      "was_checked": false,
+      "status": "partial",
+      "references": [
+        "scope",
+        "security"
+      ],
+      "assessment": "This audit updates the current-state documentation and tracker with limitations. The evidence checkbox remains open for the eventual full feature/release scope; documenting a missing implementation is not completing it."
+    },
+    {
+      "issue": 24,
+      "key": "http",
+      "criterion": "A1",
+      "text": "Define and test the trusted TLS gateway, forwarded identity/header boundaries and supported transport configuration.",
+      "was_checked": false,
+      "status": "partial",
+      "references": [
+        "token",
+        "security",
+        "http_dispatch"
+      ],
+      "assessment": "Strict mode limits listening to numerical loopback with a shared token and calls for an external TLS gateway. No concrete gateway configuration or forwarded-identity trust integration is exercised by the loopback retail probe."
+    },
+    {
+      "issue": 24,
+      "key": "http",
+      "criterion": "A2",
+      "text": "Enforce robust framing, body/header limits, deadlines, admission control and appropriate identity-aware rate limiting.",
+      "was_checked": false,
+      "status": "partial",
+      "references": [
+        "http_frame",
+        "http_deadline",
+        "http_workers",
+        "limiter"
+      ],
+      "assessment": "Duplicate Content-Length/Transfer-Encoding rejection, a 1 MiB body bound, total input deadline and bounded workers/queue exist. Header parsing partly inherits Python HTTP limits; verified identity-aware admission/rate limiting is absent."
+    },
+    {
+      "issue": 24,
+      "key": "http",
+      "criterion": "A3",
+      "text": "Cover outbound SSRF/egress, redirects, DNS behavior, proxy isolation and certificate verification within supported interfaces.",
+      "was_checked": false,
+      "status": "partial",
+      "references": [
+        "egress",
+        "security"
+      ],
+      "assessment": "Normalized origin allowlisting, explicit no-proxy opener, redirect refusal and default urllib TLS verification exist. No resolved-address pinning/private-range policy or DNS-rebinding qualification is implemented by that native."
+    },
+    {
+      "issue": 24,
+      "key": "http",
+      "criterion": "A4",
+      "text": "Exercise malformed requests, slow clients, gateway failures, connection exhaustion and graceful deployment/restart through actual network paths.",
+      "was_checked": false,
+      "status": "partial",
+      "references": [
+        "http_tests",
+        "http_close",
+        "http_probe"
+      ],
+      "assessment": "Real socket malformed-input, slow-client, saturation recovery, shutdown and restart fixtures pass. This does not cover a deployed TLS gateway, gateway failure or user-identity boundary."
+    },
+    {
+      "issue": 24,
+      "key": "http",
+      "criterion": "E1",
+      "text": "Retain reviewed design decisions, implementation references, meaningful regression/end-to-end tests, and failure evidence appropriate to this scope.",
+      "was_checked": false,
+      "status": "partial",
+      "references": [
+        "scope",
+        "report"
+      ],
+      "assessment": "Source and existing regression evidence are linked per acceptance item. The complete scope is not closed; partial coverage, reproduced defects and external requirements are explicitly retained."
+    },
+    {
+      "issue": 24,
+      "key": "http",
+      "criterion": "E2",
+      "text": "For performance/data claims, freeze workload/source identities before tuning, compare with an independent oracle, and report actual limits and unsuccessful trials.",
+      "was_checked": false,
+      "status": "partial",
+      "references": [
+        "report",
+        "scope"
+      ],
+      "assessment": "Retained real-data evidence is reconciled and the full HTTP path is repeated in this audit, with separate identities, exact oracles and limitations. It still does not qualify production SLOs, large retained state or all requested failure scenarios."
+    },
+    {
+      "issue": 24,
+      "key": "http",
+      "criterion": "E3",
+      "text": "Update user-facing documentation and the architecture tracker; do not equate finite passing tests with universal correctness or security.",
+      "was_checked": false,
+      "status": "partial",
+      "references": [
+        "scope",
+        "security"
+      ],
+      "assessment": "This audit updates the current-state documentation and tracker with limitations. The evidence checkbox remains open for the eventual full feature/release scope; documenting a missing implementation is not completing it."
+    },
+    {
+      "issue": 25,
+      "key": "qualification",
+      "criterion": "A1",
+      "text": "Run frozen representative real-data workloads through complete deployed entry points at increasing size and concurrency.",
+      "was_checked": false,
+      "status": "partial",
+      "references": [
+        "report",
+        "http_probe",
+        "qualification_ci"
+      ],
+      "assessment": "Retained real-data VM and authenticated loopback HTTP trials exist; this review repeats all 541909 HTTP rows. They are not complete deployed customer/gateway paths or a frozen production size/concurrency envelope."
+    },
+    {
+      "issue": 25,
+      "key": "qualification",
+      "criterion": "A2",
+      "text": "Separate unique source rows, duplicate replay, retained state size and synthetic amplification; use independent exact-result oracles.",
+      "was_checked": false,
+      "status": "verified",
+      "references": [
+        "report",
+        "prepare",
+        "retry"
+      ],
+      "assessment": "Reports explicitly separate unique rows, replay operations, retained snapshot size and synthetic experiments. SQL sums are independently calculated; this review separately re-extracts and compares every workbook row with the corpus and SQL table."
+    },
+    {
+      "issue": 25,
+      "key": "qualification",
+      "criterion": "A3",
+      "text": "Perform long-duration saturation, fault injection, constrained-memory/beyond-RAM runs and backup/restore drills with declared recovery objectives.",
+      "was_checked": false,
+      "status": "partial",
+      "references": [
+        "transactions_tests",
+        "http_probe",
+        "report"
+      ],
+      "assessment": "Before/after-replace and SIGKILL/restart checks exist. No multi-day soak, enforced beyond-RAM retained state, power-loss qualification or declared RPO/RTO backup drill is established by these trials."
+    },
+    {
+      "issue": 25,
+      "key": "qualification",
+      "criterion": "A4",
+      "text": "Retain source/data identities, all failures, latency distributions, resource/error measurements and independent reproductions; meet the frozen qualification thresholds.",
+      "was_checked": false,
+      "status": "partial",
+      "references": [
+        "report",
+        "qualification_ci",
+        "scope"
+      ],
+      "assessment": "Sources, data identities, failures and worker latencies are retained, and current CI is verified. Qualification thresholds, aggregate resource coverage and independent reproductions by a separate reviewer remain missing. Adding a manual workflow is not a successful remote qualification run."
+    },
+    {
+      "issue": 25,
+      "key": "qualification",
+      "criterion": "E1",
+      "text": "Retain reviewed design decisions, implementation references, meaningful regression/end-to-end tests, and failure evidence appropriate to this scope.",
+      "was_checked": false,
+      "status": "partial",
+      "references": [
+        "scope",
+        "report"
+      ],
+      "assessment": "Source and existing regression evidence are linked per acceptance item. The complete scope is not closed; partial coverage, reproduced defects and external requirements are explicitly retained."
+    },
+    {
+      "issue": 25,
+      "key": "qualification",
+      "criterion": "E2",
+      "text": "For performance/data claims, freeze workload/source identities before tuning, compare with an independent oracle, and report actual limits and unsuccessful trials.",
+      "was_checked": false,
+      "status": "partial",
+      "references": [
+        "report",
+        "scope"
+      ],
+      "assessment": "Retained real-data evidence is reconciled and the full HTTP path is repeated in this audit, with separate identities, exact oracles and limitations. It still does not qualify production SLOs, large retained state or all requested failure scenarios."
+    },
+    {
+      "issue": 25,
+      "key": "qualification",
+      "criterion": "E3",
+      "text": "Update user-facing documentation and the architecture tracker; do not equate finite passing tests with universal correctness or security.",
+      "was_checked": false,
+      "status": "partial",
+      "references": [
+        "scope",
+        "security"
+      ],
+      "assessment": "This audit updates the current-state documentation and tracker with limitations. The evidence checkbox remains open for the eventual full feature/release scope; documenting a missing implementation is not completing it."
+    },
+    {
+      "issue": 26,
+      "key": "audit",
+      "criterion": "A1",
+      "text": "Obtain independent review of the compiler/loader, natives, capability model, storage/crypto boundaries, Guard isolation and deployment.",
+      "was_checked": false,
+      "status": "external_evidence_missing",
+      "references": [
+        "security"
+      ],
+      "assessment": "The repository explicitly says no independent security audit; no audit deliverable is available here. This assistant self-review is not an independent audit."
+    },
+    {
+      "issue": 26,
+      "key": "audit",
+      "criterion": "A2",
+      "text": "Remediate findings with regression evidence; record severity, residual risks and explicitly unsupported threat scenarios.",
+      "was_checked": false,
+      "status": "partial",
+      "references": [
+        "report",
+        "security"
+      ],
+      "assessment": "Prior fixes and failures are documented. R1/R2/R3 are newly reproduced and remain open in this review; no claim of exhaustive vulnerability remediation is justified."
+    },
+    {
+      "issue": 26,
+      "key": "audit",
+      "criterion": "A3",
+      "text": "Publish supported-platform, compatibility, operational, incident-response and recovery documentation with named release ownership.",
+      "was_checked": false,
+      "status": "partial",
+      "references": [
+        "embedding",
+        "lockspec",
+        "security",
+        "rotation"
+      ],
+      "assessment": "Platform, version, threat-boundary and key-maintenance documentation exists. Named release ownership, complete incident response and production recovery playbooks remain unverified."
+    },
+    {
+      "issue": 26,
+      "key": "audit",
+      "criterion": "A4",
+      "text": "Close the milestone only when every required issue is implemented and qualified, or explicitly re-scoped with rationale and revised claims; green unit tests alone are insufficient.",
+      "was_checked": false,
+      "status": "decision_required",
+      "references": [
+        "scope",
+        "security"
+      ],
+      "assessment": "All 24 issues remain open. Which optional research targets gate a particular production release must be frozen in #3; completion cannot be inferred from unit-test success or this review."
+    },
+    {
+      "issue": 26,
+      "key": "audit",
+      "criterion": "E1",
+      "text": "Retain reviewed design decisions, implementation references, meaningful regression/end-to-end tests, and failure evidence appropriate to this scope.",
+      "was_checked": false,
+      "status": "partial",
+      "references": [
+        "scope",
+        "report"
+      ],
+      "assessment": "Source and existing regression evidence are linked per acceptance item. The complete scope is not closed; partial coverage, reproduced defects and external requirements are explicitly retained."
+    },
+    {
+      "issue": 26,
+      "key": "audit",
+      "criterion": "E2",
+      "text": "For performance/data claims, freeze workload/source identities before tuning, compare with an independent oracle, and report actual limits and unsuccessful trials.",
+      "was_checked": false,
+      "status": "partial",
+      "references": [
+        "report",
+        "scope"
+      ],
+      "assessment": "No new performance or production-qualification claim is made for this issue. Existing narrow measurements are cited where relevant; extension-specific frozen workloads, thresholds and unsuccessful trials remain required before such a claim."
+    },
+    {
+      "issue": 26,
+      "key": "audit",
+      "criterion": "E3",
+      "text": "Update user-facing documentation and the architecture tracker; do not equate finite passing tests with universal correctness or security.",
+      "was_checked": false,
+      "status": "partial",
+      "references": [
+        "scope",
+        "security"
+      ],
+      "assessment": "This audit updates the current-state documentation and tracker with limitations. The evidence checkbox remains open for the eventual full feature/release scope; documenting a missing implementation is not completing it."
+    }
+  ],
+  "tracker": [
+    {
+      "issue": 3,
+      "status": "open",
+      "reason": "At least one acceptance criterion is not verified; no issue is fully qualified."
+    },
+    {
+      "issue": 4,
+      "status": "open",
+      "reason": "At least one acceptance criterion is not verified; no issue is fully qualified."
+    },
+    {
+      "issue": 5,
+      "status": "open",
+      "reason": "At least one acceptance criterion is not verified; no issue is fully qualified."
+    },
+    {
+      "issue": 6,
+      "status": "open",
+      "reason": "At least one acceptance criterion is not verified; no issue is fully qualified."
+    },
+    {
+      "issue": 7,
+      "status": "open",
+      "reason": "At least one acceptance criterion is not verified; no issue is fully qualified."
+    },
+    {
+      "issue": 8,
+      "status": "open",
+      "reason": "At least one acceptance criterion is not verified; no issue is fully qualified."
+    },
+    {
+      "issue": 9,
+      "status": "open",
+      "reason": "At least one acceptance criterion is not verified; no issue is fully qualified."
+    },
+    {
+      "issue": 10,
+      "status": "open",
+      "reason": "At least one acceptance criterion is not verified; no issue is fully qualified."
+    },
+    {
+      "issue": 11,
+      "status": "open",
+      "reason": "At least one acceptance criterion is not verified; no issue is fully qualified."
+    },
+    {
+      "issue": 12,
+      "status": "open",
+      "reason": "At least one acceptance criterion is not verified; no issue is fully qualified."
+    },
+    {
+      "issue": 13,
+      "status": "open",
+      "reason": "At least one acceptance criterion is not verified; no issue is fully qualified."
+    },
+    {
+      "issue": 14,
+      "status": "open",
+      "reason": "At least one acceptance criterion is not verified; no issue is fully qualified."
+    },
+    {
+      "issue": 15,
+      "status": "open",
+      "reason": "At least one acceptance criterion is not verified; no issue is fully qualified."
+    },
+    {
+      "issue": 16,
+      "status": "open",
+      "reason": "At least one acceptance criterion is not verified; no issue is fully qualified."
+    },
+    {
+      "issue": 17,
+      "status": "open",
+      "reason": "At least one acceptance criterion is not verified; no issue is fully qualified."
+    },
+    {
+      "issue": 18,
+      "status": "open",
+      "reason": "At least one acceptance criterion is not verified; no issue is fully qualified."
+    },
+    {
+      "issue": 19,
+      "status": "open",
+      "reason": "At least one acceptance criterion is not verified; no issue is fully qualified."
+    },
+    {
+      "issue": 20,
+      "status": "open",
+      "reason": "At least one acceptance criterion is not verified; no issue is fully qualified."
+    },
+    {
+      "issue": 21,
+      "status": "open",
+      "reason": "At least one acceptance criterion is not verified; no issue is fully qualified."
+    },
+    {
+      "issue": 22,
+      "status": "open",
+      "reason": "At least one acceptance criterion is not verified; no issue is fully qualified."
+    },
+    {
+      "issue": 23,
+      "status": "open",
+      "reason": "At least one acceptance criterion is not verified; no issue is fully qualified."
+    },
+    {
+      "issue": 24,
+      "status": "open",
+      "reason": "At least one acceptance criterion is not verified; no issue is fully qualified."
+    },
+    {
+      "issue": 25,
+      "status": "open",
+      "reason": "At least one acceptance criterion is not verified; no issue is fully qualified."
+    },
+    {
+      "issue": 26,
+      "status": "open",
+      "reason": "At least one acceptance criterion is not verified; no issue is fully qualified."
+    }
+  ]
+}
