@@ -169,7 +169,7 @@ absolute input deadlines, truncated-body rejection, and TCP_NODELAY.
   body parameter. Query parameters do not exist in v0. Handler return is `unit`
   or must implement `Json`; otherwise E097.
 - No route → response status 404, body empty.
-- Trap in handler → 500, body empty.
+- Trap in handler → body empty: worker-admission trap 7 returns 503, timeout trap 6 returns 504, and other traps return 500.
 - Handler success: status **200**, body = UTF-8 JSON of the **return value** (`Json`). If return is `unit`, body empty.
 - **No status-code mapping from `NotFound` etc.** Clients decode the JSON union/record.
 - `get`: no request body. Extra body ignored (not an error).
@@ -254,3 +254,7 @@ arithmetic, explicit rounding, currency validation and decimal text boundaries.
 
 [Typed time amendment](time-amendment-2026-09-10.md) defines nanosecond timestamps,
 durations, explicit-offset serialization, clock origins and anomaly behavior.
+
+[Parallel admission and deadlines](parallel-admission-amendment-2026-09-10.md)
+adds a shared VM worker bound, inherited deadlines and explicit overload behavior;
+blocking-I/O and graceful-drain qualification under #13 remains open.

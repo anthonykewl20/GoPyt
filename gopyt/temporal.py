@@ -149,12 +149,10 @@ def monotonic_now(vm) -> Record:
 
 def wait_ns(vm, duration: int):
     """Integer deadline with bounded host sleeps and ancestor cancellation."""
-    from gopyt.vm import Cancelled
     previous = clock(time.monotonic_ns)
     deadline = previous + duration
     while True:
-        if any(cancel.is_set() for cancel in vm.cancels):
-            raise Cancelled()
+        vm.check_cancelled()
         current = clock(time.monotonic_ns)
         if current < previous:
             raise TimeError('monotonic clock moved backwards during sleep')
@@ -162,6 +160,8 @@ def wait_ns(vm, duration: int):
         remaining = deadline - current
         if remaining <= 0:
             return UNIT
+        if vm.deadline_ns is not None:
+            remaining = min(remaining, max(0, vm.deadline_ns - current))
         try:
             time.sleep(min(remaining, 50_000_000) / SECOND)
         except (OSError, OverflowError) as error:

@@ -1,0 +1,35 @@
+test_absolute_host_deadline_propagates_through_nested_groups (gopyt.test_parallel_admission.ParallelAdmission.test_absolute_host_deadline_propagates_through_nested_groups) ... ok
+test_ancestor_cancel_releases_all_worker_capacity (gopyt.test_parallel_admission.ParallelAdmission.test_ancestor_cancel_releases_all_worker_capacity) ... ok
+test_both_sleep_loops_clamp_wait_to_inherited_deadline (gopyt.test_parallel_admission.ParallelAdmission.test_both_sleep_loops_clamp_wait_to_inherited_deadline) ... ok
+test_expired_host_deadline_does_not_admit_work (gopyt.test_parallel_admission.ParallelAdmission.test_expired_host_deadline_does_not_admit_work) ... ok
+test_http_parallel_overload_is_503_and_recovers (gopyt.test_parallel_admission.ParallelAdmission.test_http_parallel_overload_is_503_and_recovers) ... arm
+arm
+ok
+test_http_parallel_timeout_is_504 (gopyt.test_parallel_admission.ParallelAdmission.test_http_parallel_timeout_is_504) ... ok
+test_invalid_host_worker_limits_are_rejected (gopyt.test_parallel_admission.ParallelAdmission.test_invalid_host_worker_limits_are_rejected) ... ok
+test_nested_groups_cannot_multiply_past_vm_budget (gopyt.test_parallel_admission.ParallelAdmission.test_nested_groups_cannot_multiply_past_vm_budget) ... ok
+test_noncooperative_native_is_joined_before_timeout_returns (gopyt.test_parallel_admission.ParallelAdmission.test_noncooperative_native_is_joined_before_timeout_returns) ... ok
+test_overlapping_host_calls_share_admission (gopyt.test_parallel_admission.ParallelAdmission.test_overlapping_host_calls_share_admission) ... ok
+test_own_deadline_includes_admission_lock_contention (gopyt.test_parallel_admission.ParallelAdmission.test_own_deadline_includes_admission_lock_contention) ... ok
+test_partial_thread_start_failure_joins_and_releases_capacity (gopyt.test_parallel_admission.ParallelAdmission.test_partial_thread_start_failure_joins_and_releases_capacity) ... ok
+test_rejection_starts_no_arm_or_worker (gopyt.test_parallel_admission.ParallelAdmission.test_rejection_starts_no_arm_or_worker) ... ok
+test_duration_serialization (gopyt.test_temporal.TemporalTests.test_duration_serialization) ... ok
+test_exact_millisecond_conversion_and_checked_arithmetic (gopyt.test_temporal.TemporalTests.test_exact_millisecond_conversion_and_checked_arithmetic) ... ok
+test_explicit_offsets_and_nanosecond_precision (gopyt.test_temporal.TemporalTests.test_explicit_offsets_and_nanosecond_precision) ... ok
+test_invalid_calendar_offset_precision_and_range (gopyt.test_temporal.TemporalTests.test_invalid_calendar_offset_precision_and_range) ... ok
+test_malformed_record_and_unit_confusion_rejected (gopyt.test_temporal.TemporalTests.test_malformed_record_and_unit_confusion_rejected) ... ok
+test_monotonic_origins_backwards_and_clock_failure (gopyt.test_temporal.TemporalTests.test_monotonic_origins_backwards_and_clock_failure) ... ok
+test_sleep_uses_monotonic_deadline_detects_rollback_and_cancels (gopyt.test_temporal.TemporalTests.test_sleep_uses_monotonic_deadline_detects_rollback_and_cancels) ... ok
+test_timestamp_roundtrip_extremes_and_os_calendar_oracle (gopyt.test_temporal.TemporalTests.test_timestamp_roundtrip_extremes_and_os_calendar_oracle) ... ok
+test_wall_clock_rollback_is_visible_and_legacy_floor_is_exact (gopyt.test_temporal.TemporalTests.test_wall_clock_rollback_is_visible_and_legacy_floor_is_exact) ... ok
+test_deep_policy_returns_db_error (gopyt.test_native_boundaries.NativeBoundaries.test_deep_policy_returns_db_error) ... ok
+test_maximum_sleep_can_be_cancelled_by_ancestor (gopyt.test_native_boundaries.NativeBoundaries.test_maximum_sleep_can_be_cancelled_by_ancestor) ... ok
+test_missing_optional_provider_returns_model_error (gopyt.test_native_boundaries.NativeBoundaries.test_missing_optional_provider_returns_model_error) ... ok
+test_policy_parser_recursion_returns_db_error (gopyt.test_native_boundaries.NativeBoundaries.test_policy_parser_recursion_returns_db_error) ... ok
+test_real_maximum_sleep_cancellation (gopyt.test_native_boundaries.NativeBoundaries.test_real_maximum_sleep_cancellation) ... ok
+test_sleep_uses_monotonic_elapsed_time (gopyt.test_native_boundaries.NativeBoundaries.test_sleep_uses_monotonic_elapsed_time) ... ok
+
+----------------------------------------------------------------------
+Ran 28 tests in 1.604s
+
+OK

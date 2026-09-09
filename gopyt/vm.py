@@ -43,7 +43,7 @@ class Frame:
 
 
 class VM:
-    def __init__(self, art: Artifact, root: str | None = None, *, authority=None, identities=None) -> None:
+    def __init__(self, art: Artifact, root: str | None = None, *, authority=None, identities=None, parallel_workers: int = 64) -> None:
         from gopyt.toolchain import FINGERPRINT
         if art.toolchain != FINGERPRINT:
             raise gobyte.e100()
@@ -69,6 +69,8 @@ class VM:
         if sys.getrecursionlimit() < 8192:
             sys.setrecursionlimit(8192)
 
+        from gopyt.scheduling import ParallelBudget
+        self.parallel_budget = ParallelBudget(parallel_workers)
         self.heap = Heap(c.value for c in art.consts)
         self.art = art
         self.root = "." if root is None else root
@@ -210,6 +212,25 @@ class VM:
     def routes_for(self, module: str):
         return [r for r in self.art.routes if self.art.const_str(r.module) == module]
 
+    @property
+    def deadline_ns(self) -> int | None:
+        return getattr(self._tl, 'deadline_ns', None)
+
+    @deadline_ns.setter
+    def deadline_ns(self, value: int | None) -> None:
+        if value is not None and type(value) is not int:
+            raise TypeError('deadline_ns must be an integer or None')
+        self._tl.deadline_ns = value
+
+    def check_cancelled(self) -> None:
+        if any(cancel.is_set() for cancel in self.cancels):
+            raise Cancelled()
+        deadline = self.deadline_ns
+        if deadline is not None:
+            import time
+            if time.monotonic_ns() >= deadline:
+                raise Trap(ops.TRAP_TIMEOUT)
+
     # -- calling ---------------------------------------------------------
 
     def call(self, fn_id: int, args: list, caller_effects: int | None = None) -> object:
@@ -221,6 +242,7 @@ class VM:
             require_finite_values(args)
         with self.heap.pin(args):
             result = self._call(fn_id, args, caller_effects)
+            self.check_cancelled()
             if boundary:
                 require_finite_values(args)
                 require_finite_values(result)
@@ -233,8 +255,7 @@ class VM:
             return result
 
     def _call(self, fn_id: int, args: list, caller_effects: int | None = None) -> object:
-        if any(cancel.is_set() for cancel in self.cancels):
-            raise Cancelled()
+        self.check_cancelled()
         func = self.art.funcs[fn_id]
         if caller_effects is not None and func.effects & ~ops.FFI_BIT & ~caller_effects:
             raise Trap(ops.TRAP_EFFECT)
@@ -253,8 +274,7 @@ class VM:
                 from gopyt.natives import resource_denial
                 denial = resource_denial(self, self.names[fn_id], args)
                 result = denial if denial is not None else native(self, args, func)
-                if any(cancel.is_set() for cancel in self.cancels):
-                    raise Cancelled()
+                self.check_cancelled()
                 return result
             self.module_stack.append(self.module_of(fn_id))
             try:
@@ -287,9 +307,7 @@ class VM:
         instruction_guard = self.heap.step(frame)
         while pc < n:
             with instruction_guard:
-                for cancel in self.cancels:
-                    if cancel.is_set():
-                        raise Cancelled()
+                self.check_cancelled()
                 op = code[pc]
                 pc += 1
                 if op == ops.CONST:
@@ -519,15 +537,25 @@ class VM:
     # -- structured concurrency ------------------------------------------
 
     def run_parallel(self, ids: list[int], caps: list, mx: int, timeout_ms: int) -> list:
-        if mx < 1:
+        if type(mx) is not int or mx < 1:
             raise Trap(ops.TRAP_PAR_MAX)
-        if timeout_ms < 1:
+        if type(timeout_ms) is not int or timeout_ms < 1:
             raise Trap(ops.TRAP_TIMEOUT)
         results: list = [None] * len(ids)
         with self.heap.pin(results):
             return self._parallel(ids, caps, mx, timeout_ms, results)
 
     def _parallel(self, ids, caps, mx, timeout_ms, results):
+        import time
+        self.check_cancelled()
+        deadline = time.monotonic_ns() + timeout_ms * 1_000_000
+        if self.deadline_ns is not None:
+            deadline = min(deadline, self.deadline_ns)
+        with self.parallel_budget.reserve(min(mx, len(ids))):
+            return self._parallel_admitted(ids, caps, mx, deadline, results)
+
+    def _parallel_admitted(self, ids, caps, mx, deadline, results):
+        import time as _time
         errors: list = [None] * len(ids)
         stop = threading.Event()
         threads: list[threading.Thread] = []
@@ -541,11 +569,15 @@ class VM:
         def worker() -> None:
             try:
                 self.cancels = inherited + (stop,)
+                self.deadline_ns = deadline
                 self._tl.authority = authority
                 self._tl.identity = identity
                 while True:
                     with schedule:
                         if any(cancel.is_set() for cancel in self.cancels):
+                            return
+                        if _time.monotonic_ns() >= deadline:
+                            stop.set()
                             return
                         index = next(pending, None)
                         if index is None:
@@ -567,33 +599,38 @@ class VM:
             finally:
                 self.heap.release_result()
 
-        import time as _time
-
-        start = _time.monotonic()
-        for i in range(min(mx, len(ids))):
-            th = threading.Thread(target=worker, daemon=True)
-            threads.append(th)
-            th.start()
-        deadline = timeout_ms / 1000.0
         timed_out = False
-        for th in threads:
-            left = deadline - (_time.monotonic() - start)
-            if left <= 0:
-                timed_out = True
-                break
-            th.join(left)
-            if th.is_alive():
-                timed_out = True
-                break
-        if timed_out:
-            # No new arm starts; started arms are asked to stop and the parent
-            # waits for every one of them before trapping (docs/bytecode.md).
+        try:
+            for i in range(min(mx, len(ids))):
+                th = threading.Thread(target=worker, daemon=True)
+                threads.append(th)
+                try:
+                    th.start()
+                except (RuntimeError, OSError) as error:
+                    raise Trap(ops.TRAP_PAR_MAX) from error
+            for th in threads:
+                while th.is_alive():
+                    if any(cancel.is_set() for cancel in inherited):
+                        stop.set()
+                        break
+                    left = deadline - _time.monotonic_ns()
+                    if left <= 0:
+                        timed_out = True
+                        stop.set()
+                        break
+                    th.join(min(left, 50_000_000) / 1_000_000_000)
+                if timed_out or any(cancel.is_set() for cancel in inherited):
+                    break
+            timed_out = timed_out or _time.monotonic_ns() >= deadline
+        finally:
+            # Admission is held until every successfully started worker exits,
+            # including partial thread-start failure and coordinator exceptions.
             stop.set()
             for th in threads:
-                th.join()
+                if th.ident is not None:
+                    th.join()
+        if timed_out:
             raise Trap(ops.TRAP_TIMEOUT)
-        for th in threads:
-            th.join()
         if any(cancel.is_set() for cancel in inherited):
             raise Cancelled()
         for e in errors:

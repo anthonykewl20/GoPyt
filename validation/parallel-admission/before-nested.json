@@ -1,0 +1,18 @@
+{
+  "runtime_sha256": "248bf8b8a9b960d489b85c970d061ffd8d26abbd52b10b0a7dfa87fe03c7739c",
+  "depth": 3,
+  "per_group_max": 4,
+  "leaf_sleep_ms": 200,
+  "counts": {
+    "active": 0,
+    "peak": 64,
+    "calls": 64
+  },
+  "seconds": 0.2143789610126987,
+  "remaining_threads": [],
+  "files": {
+    "spec/demo.gopyt": "module demo\n\ntask run() -> list[list[list[unit]]]\n    effects { time }\n",
+    "impl/demo.gopyt": "module demo\n\nuse core.time { sleep_ms }\n\ntask run() -> list[list[list[unit]]]\n    effects { time }\n{\n    return parallel max 4 timeout_ms 5000 {\nparallel max 4 timeout_ms 5000 {\nparallel max 4 timeout_ms 5000 {\ncore.time.sleep_ms(200)\ncore.time.sleep_ms(200)\ncore.time.sleep_ms(200)\ncore.time.sleep_ms(200)\n}\nparallel max 4 timeout_ms 5000 {\ncore.time.sleep_ms(200)\ncore.time.sleep_ms(200)\ncore.time.sleep_ms(200)\ncore.time.sleep_ms(200)\n}\nparallel max 4 timeout_ms 5000 {\ncore.time.sleep_ms(200)\ncore.time.sleep_ms(200)\ncore.time.sleep_ms(200)\ncore.time.sleep_ms(200)\n}\nparallel max 4 timeout_ms 5000 {\ncore.time.sleep_ms(200)\ncore.time.sleep_ms(200)\ncore.time.sleep_ms(200)\ncore.time.sleep_ms(200)\n}\n}\nparallel max 4 timeout_ms 5000 {\nparallel max 4 timeout_ms 5000 {\ncore.time.sleep_ms(200)\ncore.time.sleep_ms(200)\ncore.time.sleep_ms(200)\ncore.time.sleep_ms(200)\n}\nparallel max 4 timeout_ms 5000 {\ncore.time.sleep_ms(200)\ncore.time.sleep_ms(200)\ncore.time.sleep_ms(200)\ncore.time.sleep_ms(200)\n}\nparallel max 4 timeout_ms 5000 {\ncore.time.sleep_ms(200)\ncore.time.sleep_ms(200)\ncore.time.sleep_ms(200)\ncore.time.sleep_ms(200)\n}\nparallel max 4 timeout_ms 5000 {\ncore.time.sleep_ms(200)\ncore.time.sleep_ms(200)\ncore.time.sleep_ms(200)\ncore.time.sleep_ms(200)\n}\n}\nparallel max 4 timeout_ms 5000 {\nparallel max 4 timeout_ms 5000 {\ncore.time.sleep_ms(200)\ncore.time.sleep_ms(200)\ncore.time.sleep_ms(200)\ncore.time.sleep_ms(200)\n}\nparallel max 4 timeout_ms 5000 {\ncore.time.sleep_ms(200)\ncore.time.sleep_ms(200)\ncore.time.sleep_ms(200)\ncore.time.sleep_ms(200)\n}\nparallel max 4 timeout_ms 5000 {\ncore.time.sleep_ms(200)\ncore.time.sleep_ms(200)\ncore.time.sleep_ms(200)\ncore.time.sleep_ms(200)\n}\nparallel max 4 timeout_ms 5000 {\ncore.time.sleep_ms(200)\ncore.time.sleep_ms(200)\ncore.time.sleep_ms(200)\ncore.time.sleep_ms(200)\n}\n}\nparallel max 4 timeout_ms 5000 {\nparallel max 4 timeout_ms 5000 {\ncore.time.sleep_ms(200)\ncore.time.sleep_ms(200)\ncore.time.sleep_ms(200)\ncore.time.sleep_ms(200)\n}\nparallel max 4 timeout_ms 5000 {\ncore.time.sleep_ms(200)\ncore.time.sleep_ms(200)\ncore.time.sleep_ms(200)\ncore.time.sleep_ms(200)\n}\nparallel max 4 timeout_ms 5000 {\ncore.time.sleep_ms(200)\ncore.time.sleep_ms(200)\ncore.time.sleep_ms(200)\ncore.time.sleep_ms(200)\n}\nparallel max 4 timeout_ms 5000 {\ncore.time.sleep_ms(200)\ncore.time.sleep_ms(200)\ncore.time.sleep_ms(200)\ncore.time.sleep_ms(200)\n}\n}\n}\n}\n"
+  },
+  "finding": "Per-group limits permit multiplicative concurrency; no VM-wide admission bound is configured."
+}
