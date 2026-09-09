@@ -42,7 +42,7 @@ class Frame:
 
 
 class VM:
-    def __init__(self, art: Artifact, root: str | None = None, *, authority=None) -> None:
+    def __init__(self, art: Artifact, root: str | None = None, *, authority=None, identities=None) -> None:
         import sys
         from gopyt.limiter import Limiter
         from gopyt.heap import Heap
@@ -52,6 +52,11 @@ class VM:
         if authority is not None and type(authority) is not ResourceAuthority:
             raise TypeError('authority must be a host ResourceAuthority handle')
         self._authority = authority
+        from gopyt.identity import SessionBroker
+        if identities is not None and (type(identities) is not SessionBroker
+                or authority is None or not identities.authority.is_descendant_of(authority)):
+            raise TypeError('identity broker requires a descendant of the VM authority')
+        self.identities = identities
 
         if sys.getrecursionlimit() < 8192:
             sys.setrecursionlimit(8192)
@@ -81,6 +86,8 @@ class VM:
 
         self.natives = NATIVES
         verify_natives(art)
+        if identities is not None:
+            identities._bind()
 
     # -- helpers ---------------------------------------------------------
 
@@ -105,6 +112,23 @@ class VM:
     def allows_resources(self, *requests):
         authority = self.authority
         return authority is None or authority.admits(requests)
+
+    @property
+    def request_identity(self):
+        return getattr(self._tl, 'identity', None)
+
+    @contextmanager
+    def request_scope(self, session):
+        from gopyt.identity import AuthenticatedRequest
+        if type(session) is not AuthenticatedRequest:
+            raise TypeError('verified request context required')
+        previous = self.request_identity
+        with self.authority_scope(session.authority):
+            self._tl.identity = session.identity
+            try:
+                yield
+            finally:
+                self._tl.identity = previous
 
     @property
     def depth(self) -> int:
@@ -495,11 +519,13 @@ class VM:
 
         inherited = self.cancels
         authority = self.authority
+        identity = self.request_identity
 
         def worker() -> None:
             try:
                 self.cancels = inherited + (stop,)
                 self._tl.authority = authority
+                self._tl.identity = identity
                 while True:
                     with schedule:
                         if any(cancel.is_set() for cancel in self.cancels):

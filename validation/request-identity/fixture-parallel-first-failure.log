@@ -1,0 +1,48 @@
+test_concurrent_users_and_policy_changes_do_not_cross_scopes (gopyt.test_identity.HttpIdentities.test_concurrent_users_and_policy_changes_do_not_cross_scopes) ... ok
+test_cross_tenant_reads_writes_batch_and_forged_identity_headers (gopyt.test_identity.HttpIdentities.test_cross_tenant_reads_writes_batch_and_forged_identity_headers) ... ok
+test_expiry_and_policy_revocation_between_authentication_and_resource_operation (gopyt.test_identity.HttpIdentities.test_expiry_and_policy_revocation_between_authentication_and_resource_operation) ... ok
+test_missing_duplicate_revoked_expired_and_restart_credentials (gopyt.test_identity.HttpIdentities.test_missing_duplicate_revoked_expired_and_restart_credentials) ... ok
+test_policy_change_denies_stale_credentials_and_route_escalation (gopyt.test_identity.HttpIdentities.test_policy_change_denies_stale_credentials_and_route_escalation) ... ok
+test_expiry_applies_to_retained_authority_and_descendants_without_wall_clock (gopyt.test_identity.Sessions.test_expiry_applies_to_retained_authority_and_descendants_without_wall_clock) ... ok
+test_identity_and_expiring_authority_follow_parallel_children (gopyt.test_identity.Sessions.test_identity_and_expiring_authority_follow_parallel_children) ... ERROR
+test_mutated_configuration_does_not_change_issued_authority (gopyt.test_identity.Sessions.test_mutated_configuration_does_not_change_issued_authority) ... ok
+test_namespace_escape_invalid_routes_and_capacity_fail_closed (gopyt.test_identity.Sessions.test_namespace_escape_invalid_routes_and_capacity_fail_closed) ... ok
+test_policy_replacement_revoke_and_reprovision_invalidate_old_credentials (gopyt.test_identity.Sessions.test_policy_replacement_revoke_and_reprovision_invalidate_old_credentials) ... ok
+test_strict_sessions_require_loopback_keys_and_unambiguous_auth_mode (gopyt.test_identity.Sessions.test_strict_sessions_require_loopback_keys_and_unambiguous_auth_mode) ... ok
+test_verified_identity_and_immutable_policy (gopyt.test_identity.Sessions.test_verified_identity_and_immutable_policy) ... ok
+test_restricted_vm_never_enters_evolution_host_code (gopyt.test_resource_authority.EvolutionAuthority.test_restricted_vm_never_enters_evolution_host_code) ... ok
+test_attenuation_and_namespace_boundaries (gopyt.test_resource_authority.Grants.test_attenuation_and_namespace_boundaries) ... ok
+test_invalid_grants_and_bounded_delegation (gopyt.test_resource_authority.Grants.test_invalid_grants_and_bounded_delegation) ... ok
+test_parent_revocation_and_sibling_independence (gopyt.test_resource_authority.Grants.test_parent_revocation_and_sibling_independence) ... ok
+test_operator_grant_does_not_replace_source_egress (gopyt.test_resource_authority.NetworkCalls.test_operator_grant_does_not_replace_source_egress) ... ok
+test_real_http_and_model_egress_require_operator_and_source_grants (gopyt.test_resource_authority.NetworkCalls.test_real_http_and_model_egress_require_operator_and_source_grants) ... ok
+test_file_exact_grant_traversal_and_link_denial (gopyt.test_resource_authority.ResourceCalls.test_file_exact_grant_traversal_and_link_denial) ... ok
+test_file_replacement_after_admission_cannot_follow_link (gopyt.test_resource_authority.ResourceCalls.test_file_replacement_after_admission_cannot_follow_link) ... ok
+test_mixed_authority_batch_is_atomic (gopyt.test_resource_authority.ResourceCalls.test_mixed_authority_batch_is_atomic) ... ok
+test_operator_policy_intersects_delegated_grants (gopyt.test_resource_authority.ResourceCalls.test_operator_policy_intersects_delegated_grants) ... ok
+test_revocation_precedes_cached_access (gopyt.test_resource_authority.ResourceCalls.test_revocation_precedes_cached_access) ... ok
+test_revoke_does_not_abort_an_admitted_commit (gopyt.test_resource_authority.ResourceCalls.test_revoke_does_not_abort_an_admitted_commit) ... ok
+test_scope_propagates_to_parallel_arms_and_restores_after_exception (gopyt.test_resource_authority.ResourceCalls.test_scope_propagates_to_parallel_arms_and_restores_after_exception) ... ok
+test_secret_acquisition_is_scoped_and_revocable (gopyt.test_resource_authority.ResourceCalls.test_secret_acquisition_is_scoped_and_revocable) ... ok
+test_simultaneous_host_scopes_do_not_share_authority (gopyt.test_resource_authority.ResourceCalls.test_simultaneous_host_scopes_do_not_share_authority) ... ok
+test_unmediated_provider_never_imported_and_forged_scope_refused (gopyt.test_resource_authority.ResourceCalls.test_unmediated_provider_never_imported_and_forged_scope_refused) ... ok
+test_warm_cache_and_transitive_deputy_cannot_expand_scope (gopyt.test_resource_authority.ResourceCalls.test_warm_cache_and_transitive_deputy_cannot_expand_scope) ... ok
+test_listener_and_worker_inherit_attenuated_scope (gopyt.test_resource_authority.ServingAuthority.test_listener_and_worker_inherit_attenuated_scope) ... ok
+
+======================================================================
+ERROR: test_identity_and_expiring_authority_follow_parallel_children (gopyt.test_identity.Sessions.test_identity_and_expiring_authority_follow_parallel_children)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/home/soultransit/devtony/gopyt-milestone-work/gopyt/test_identity.py", line 99, in test_identity_and_expiring_authority_follow_parallel_children
+    broker.provision('alice', 'a', database_read=['tenant/a/'])
+    ~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/soultransit/devtony/gopyt-milestone-work/gopyt/identity.py", line 94, in provision
+    key = _key(subject, tenant)
+  File "/home/soultransit/devtony/gopyt-milestone-work/gopyt/identity.py", line 48, in _key
+    raise AuthorityError('invalid subject or tenant identity')
+gopyt.resource_authority.AuthorityError: invalid subject or tenant identity
+
+----------------------------------------------------------------------
+Ran 30 tests in 3.192s
+
+FAILED (errors=1)

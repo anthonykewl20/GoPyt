@@ -6,7 +6,8 @@ Scope: the GoPyT language, runtime, Guard and tools. Model training is excluded.
 The [2026-09-09 checklist review](architecture-checklist-review-2026-09-09.md)
 maps all 193 original milestone/tracker checkboxes to the merged source and
 retained or newly executed evidence. At that baseline, three criteria were supported;
-all 24 architectural issues remain open. It records three reproduced native or
+all 24 architectural issues were open. Current issue states are tracked in the
+[GitHub milestone](https://github.com/anthonykewl20/GoPyt/milestone/1). The review records three reproduced native or
 configuration error-boundary defects and distinguishes existing v0 behavior
 from requested extensions and deployment decisions. GitHub dependency links
 describe proposed sequencing, not prerequisites enforced by the compiler.
@@ -19,10 +20,10 @@ remain open; the historical checklist review describes its pinned baseline.
 
 | Gap | Required outcome | Current increment |
 | --- | --- | --- |
-| Resource capabilities | Non-forgeable, least-privilege authority across database, filesystem and network; revocation and delegation semantics | Host-issued delegated DB/file/network/secret/listen authority implemented; authenticated tenant integration and independent qualification remain open |
+| Resource capabilities | Non-forgeable, least-privilege authority across database, filesystem and network; revocation and delegation semantics | Host-issued delegated DB/file/network/secret/listen authority implemented; authenticated HTTP tenant integration implemented; independent security/deployment qualification remains open |
 | Resource lifetimes | Safe close, sharing and view lifetimes; bounded native-memory accounting; cancellation cleanup | Design gate open; mapped prototype remains outside the runtime |
 | Transactional data | Atomic multi-record changes, consistent reads, recovery, schema evolution and a scalable backend | Bounded multi-key CAS and snapshot reads implemented; snapshot scalability and schema APIs open |
-| Identity and keys | Tenant authorization, credential provisioning, rotation, migration and rollback detection | Bounded keyring and authenticated rekey implemented; tenant identity, plaintext migration and rollback detection open |
+| Identity and keys | Tenant authorization, credential provisioning, rotation, migration and rollback detection | Bounded keyring and authenticated rekey implemented; tenant-bound identity sessions implemented; plaintext migration and rollback detection open |
 | Stateful Guard | Operator-pinned transition, concurrency and fault acceptance through candidate execution | Transaction state-machine regression harness implemented; Guard integration open |
 | Execution | A measured compiled/native path conforming to reference VM semantics | Reference VM retained; backend choice requires profiles and differential acceptance |
 | Data interfaces | Exact numerical/time semantics, typed streaming/batches, bounded backpressure | Bounded typed transaction batches implemented; streaming and numeric extensions open |
@@ -61,3 +62,8 @@ facilities for this increment.
 host-issued handles and inherited per-call scope. GoPyT code cannot construct or
 widen these handles. Existing namespace policy and source egress remain required
 where configured; this is not authenticated tenant identity or OS isolation.
+
+[Verified request identity](request-identity-amendment-2026-09-09.md) binds broker-
+issued credentials to subject/tenant grants at the real HTTP and native resource
+boundaries. Deployment TLS/IdP/MFA responsibilities and independent audit remain
+explicit; the milestone is not production-qualified.

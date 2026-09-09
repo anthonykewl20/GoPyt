@@ -10,6 +10,7 @@ from dataclasses import dataclass
 from types import MappingProxyType
 from typing import Mapping, Iterable
 import threading
+import time
 
 
 class AuthorityError(ValueError):
@@ -88,6 +89,7 @@ class _Node:
     depth: int
     lock: object
     revoked: object
+    expires_ns: int | None = None
 
 
 class ResourceAuthority:
@@ -109,7 +111,9 @@ class ResourceAuthority:
         return cls(_KEY, _Node(_grants(rights), None, 0,
                               threading.Lock(), threading.Event()))
 
-    def delegate(self, **rights) -> ResourceAuthority:
+    def delegate(self, *, ttl_ms: int | None = None, **rights) -> ResourceAuthority:
+        if ttl_ms is not None and (type(ttl_ms) is not int or not 1 <= ttl_ms <= 86_400_000):
+            raise AuthorityError('authority lifetime must be 1..86400000 milliseconds')
         grants = _grants(rights)
         node = self.__node
         with node.lock:
@@ -120,7 +124,8 @@ class ResourceAuthority:
                                for parent in node.grants[right]) for child in entries):
                     raise AuthorityError('delegation cannot widen authority')
             return ResourceAuthority(_KEY, _Node(grants, node, node.depth + 1,
-                                                node.lock, threading.Event()))
+                                                node.lock, threading.Event(),
+                                                None if ttl_ms is None else time.monotonic_ns() + ttl_ms * 1_000_000))
 
     def revoke(self) -> None:
         with self.__node.lock:
@@ -129,7 +134,8 @@ class ResourceAuthority:
     def _live(self) -> bool:
         node = self.__node
         while node is not None:
-            if node.revoked.is_set():
+            if (node.revoked.is_set() or node.expires_ns is not None
+                    and time.monotonic_ns() >= node.expires_ns):
                 return False
             node = node.parent
         return True
