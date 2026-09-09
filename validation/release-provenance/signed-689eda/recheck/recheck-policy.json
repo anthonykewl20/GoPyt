@@ -1,0 +1,9 @@
+{
+  "verifier_sha256": "9ea50b3e4fafc0e7c1501a573a8763eaf68fe7576c6172039ad7f88ad6ea8dd6",
+  "revocations_sha256": "dea7ab15787105b9135bb008839bd77cee062ca6ed9c9df45a2f21502727016a",
+  "approved_artifacts": {
+    "0/gopyt-0.1.0-py3-none-any.whl": "7e4a4c0064d2181edcfa5d955a28337cc9f44508421a83dd50bc411e50a29c3e",
+    "report.json": "f346954c7988c2ae7abd286c03cb9abd1f0faa01aba3d09a01e877cf661fe169",
+    "component-inventory.json": "2b9e3d16ca419ce723b81bd29d940dd49642c454b877640b6bfd35ee4ed49272"
+  }
+}
