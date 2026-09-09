@@ -135,9 +135,13 @@ class Observe:
         # so "the reservoir never exceeds K" holds under concurrency too.
         self.lock = threading.Lock()
 
-    def event(self, tag: str, fail: bool, ms: float, task: str = "", code: int = 0) -> None:
+    def admission(self, context=None):
+        return self.lock if context is None else context.native_admission(lock=self.lock)
+
+    def event(self, tag: str, fail: bool, ms: float, task: str = "", code: int = 0,
+              *, context=None) -> None:
         tag, task = compact(tag), compact(task)
-        with self.lock:
+        with self.admission(context):
             self.events = min(U64_MAX, self.events + 1)
             if fail:
                 self.fail = min(U64_MAX, self.fail + 1)
@@ -153,27 +157,40 @@ class Observe:
 
     # -- VM edges (docs/hardening.md: recorded without agent-written logs) --
 
-    def task(self, name: str) -> None:
-        with self.lock:
+    def task(self, name: str, *, context=None) -> None:
+        with self.admission(context):
             self.cms.add("task:" + name)
 
-    def trap(self, code: int, name: str) -> None:
-        self.event(f"trap:{code}:{name}", True, 0.0, name, code)
+    def terminal_event(self, tag, fail, ms, task="", code=0, *, context=None):
+        # Error reporting must not replace the original outcome or wait again
+        # on a lock whose admission has already exhausted the caller's budget.
+        from gopyt.vm import Cancelled, Trap
+        try:
+            self.event(tag, fail, ms, task, code, context=context)
+        except (Cancelled, Trap):
+            return False
+        return True
 
-    def http(self, route: str, outcome: str, ms: float) -> None:
-        self.event(f"http:{route}:{outcome}", outcome != "ok", ms)
+    def trap(self, code: int, name: str, *, context=None) -> bool:
+        return self.terminal_event(f"trap:{code}:{name}", True, 0.0, name, code,
+                                   context=context)
 
-    def note(self, tag: str) -> None:
-        self.event("note:" + tag, False, 0.0)
+    def http(self, route: str, outcome: str, ms: float, *, context=None) -> bool:
+        return self.terminal_event(f"http:{route}:{outcome}", outcome != "ok", ms,
+                                   context=context)
 
-    def deny(self, kind: str) -> None:
-        self.event("deny:" + kind, True, 0.0)
+    def note(self, tag: str, *, context=None) -> None:
+        self.event("note:" + tag, False, 0.0, context=context)
 
-    def outcome(self, task, tag, ms):
-        self.event("outcome:" + tag, tag.rsplit(".", 1)[-1] in FAILURE_NAMES, ms, task)
+    def deny(self, kind: str, *, context=None) -> None:
+        self.event("deny:" + kind, True, 0.0, context=context)
 
-    def snapshot(self):
-        with self.lock:
+    def outcome(self, task, tag, ms, *, context=None):
+        self.event("outcome:" + tag, tag.rsplit(".", 1)[-1] in FAILURE_NAMES, ms, task,
+                   context=context)
+
+    def snapshot(self, *, context=None):
+        with self.admission(context):
             return [json.loads(row) for row in self.reservoir.items]
 
     def dump(self, root):

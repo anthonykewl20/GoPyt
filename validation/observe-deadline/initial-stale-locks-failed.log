@@ -1,0 +1,87 @@
+.........F..FEdecode
+.....
+======================================================================
+ERROR: test_propose_keeps_egress_and_ffi_closed (gopyt.test_validation.P3Harden.test_propose_keeps_egress_and_ffi_closed)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/home/soultransit/devtony/gopyt-milestone-work/gopyt/test_validation.py", line 148, in test_propose_keeps_egress_and_ffi_closed
+    before_egress, before_ffi = evolve._survey(self.root)
+                                ~~~~~~~~~~~~~~^^^^^^^^^^^
+  File "/home/soultransit/devtony/gopyt-milestone-work/gopyt/evolve.py", line 248, in _survey
+    prog = check_package(load_package(root))
+  File "/home/soultransit/devtony/gopyt-milestone-work/gopyt/check.py", line 2462, in check_package
+    check_lock(pkg)
+    ~~~~~~~~~~^^^^^
+  File "/home/soultransit/devtony/gopyt-milestone-work/gopyt/check.py", line 2421, in check_lock
+    raise err(40, "gopyt.lock", 1, repair=want)
+gopyt.diag.CompileError: GOPYT_E040 toolchain
+file: gopyt.lock
+line: 1
+repair-bytes: 243
+
+toolchain = "gopyt-0.1.000+sha256:d45eb0d5404133034b5b22796fbad066c05e03dd8ce6fb4782d8d746b2c077f9"
+
+[[pkg]]
+name = "auth_example"
+version = "0.1.0"
+path = "."
+digest = "sha256:8a3466ed3972227f7b307bbc795f502e0911a018437ad394e13cad07acca03af"
+
+
+======================================================================
+FAIL: test_the_fixture_runner_agrees_with_the_compiler (gopyt.test_validation.P1Conformance.test_the_fixture_runner_agrees_with_the_compiler)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/home/soultransit/devtony/gopyt-milestone-work/gopyt/test_validation.py", line 97, in test_the_fixture_runner_agrees_with_the_compiler
+    self.assertEqual(proc.returncode, 0, proc.stdout + proc.stderr)
+    ~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+AssertionError: 1 != 0 : start
+F.
+======================================================================
+FAIL: test_fixtures (__main__.Fixtures.test_fixtures)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/home/soultransit/devtony/gopyt-milestone-work/gopyt/test_fixtures.py", line 128, in test_fixtures
+    self.assertEqual(failures, [], "conformance/ fixtures disagree:\n" + "\n".join(failures))
+    ~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+AssertionError: Lists differ: ['C030: expect E041, got E040'] != []
+
+First list contains 1 additional elements.
+First extra element 0:
+'C030: expect E041, got E040'
+
+- ['C030: expect E041, got E040']
++ [] : conformance/ fixtures disagree:
+C030: expect E041, got E040
+
+----------------------------------------------------------------------
+Ran 2 tests in 1.712s
+
+FAILED (failures=1)
+
+
+======================================================================
+FAIL: test_burst_raises_the_alarm (gopyt.test_validation.P3Harden.test_burst_raises_the_alarm)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/home/soultransit/devtony/gopyt-milestone-work/gopyt/test_validation.py", line 142, in test_burst_raises_the_alarm
+    self.assertEqual(code, 0, out)
+    ~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^
+AssertionError: 1 != 0 : GOPYT_E040 toolchain
+file: gopyt.lock
+line: 1
+repair-bytes: 243
+
+toolchain = "gopyt-0.1.000+sha256:d45eb0d5404133034b5b22796fbad066c05e03dd8ce6fb4782d8d746b2c077f9"
+
+[[pkg]]
+name = "auth_example"
+version = "0.1.0"
+path = "."
+digest = "sha256:8a3466ed3972227f7b307bbc795f502e0911a018437ad394e13cad07acca03af"
+
+
+----------------------------------------------------------------------
+Ran 19 tests in 4.231s
+
+FAILED (failures=2, errors=1)

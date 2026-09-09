@@ -1,0 +1,15 @@
+{
+  "runtime_sha256": "bc53a311fe0cbc658eb7532364bc38b02dcfd4aee508c87a4c46d72dc55cb754",
+  "deadline_ms": 100,
+  "lock_hold_ms": 300,
+  "probe_sha256": "d2c1f8c4839f8947958bdb6a1ac9fad4bc9f0b3e8387ef87df01b497fd8ce49b",
+  "returned_before_lock_release": false,
+  "elapsed_ms": 300.388067,
+  "caller_alive": false,
+  "outcomes": [
+    {
+      "trap": 6
+    }
+  ],
+  "limiter_buckets": 0
+}

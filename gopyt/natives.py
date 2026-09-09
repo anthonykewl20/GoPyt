@@ -58,7 +58,7 @@ def resource_denial(vm, name, args):
         error = 'IoError'
     elif name == 'core.secret.get':
         if not vm.allows_resources(('secrets', args[0])):
-            vm.observe.deny('resource')
+            vm.observe.deny('resource', context=vm)
             return _status(vm, 'NotFound')
     elif name == 'core.model.local':
         # Companion imports execute arbitrary Python and cannot inherit this
@@ -68,7 +68,7 @@ def resource_denial(vm, name, args):
         # Evolution writes source and launches host processes outside VM natives.
         return Record(vm.type_id_of('core.evolve.EvolveError'), ['resource authority: unmediated evolution'])
     if error is not None and not vm.allows_resources(*requests):
-        vm.observe.deny('resource')
+        vm.observe.deny('resource', context=vm)
         return _status(vm, error, 'resource authority denied')
     return None
 
@@ -284,7 +284,7 @@ def _assert_eq(vm, args, func):
 def _log_write(vm, args, func):
     message = args[0]
     if isinstance(message, Secret):
-        vm.observe.deny("secret")
+        vm.observe.deny("secret", context=vm)
         raise Trap(ops.TRAP_TYPE)
     sys.stderr.write(message + "\n")
     sys.stderr.flush()
@@ -432,7 +432,7 @@ def _secret_reveal(vm, args, func):
 @native("core.observe.report")
 def _observe_report(vm, args, func):
     obs = vm.observe
-    with obs.lock:
+    with obs.admission(vm):
         fields = [min(2**63-1, obs.events), min(2**63-1, obs.fail),
                   min(2**63-1, int(obs.welford.mean)),
                   min(2**63-1, int(obs.welford.variance())), obs.cusum.alarm]
@@ -446,7 +446,7 @@ def _observe_report(vm, args, func):
 def _observe_note(vm, args, func):
     tag = args[0]
     _requires(len(tag) > 0)
-    vm.observe.note(tag)
+    vm.observe.note(tag, context=vm)
     return UNIT
 
 
@@ -459,7 +459,7 @@ def _limit_allow(vm, args, func):
         now = time.monotonic()
         allowed = vm.limiter.allow(key, tokens, refill_ms, now)
     if not allowed:
-        vm.observe.deny("limit")
+        vm.observe.deny("limit", context=vm)
         return _status(vm, "Throttled")
     return UNIT
 
@@ -486,7 +486,7 @@ def _evolve_propose(vm, args, func):
         vm.evolve_last = now
         vm.evolve_in_flight = True
     try:
-        outcome = _evolve.propose(vm.root, True, bounds[0], timeout_ms=bounds[1], module=module, traces=vm.observe.snapshot(), context=vm)
+        outcome = _evolve.propose(vm.root, True, bounds[0], timeout_ms=bounds[1], module=module, traces=vm.observe.snapshot(context=vm), context=vm)
     except (Trap, Cancelled):
         raise
     except Exception as exc:  # a broken wave must not take the VM with it
@@ -608,7 +608,7 @@ def _http_request(vm, args, func):
     origin = _origin(url)
     norm = normalize_origin(origin) if origin else None
     if norm is None or norm not in allowed or not vm.allows_resources(('network', norm)):
-        vm.observe.deny("egress")
+        vm.observe.deny("egress", context=vm)
         return _status(vm, "HttpError", "egress")
     if "@" in url.split("://", 1)[1].split("/", 1)[0]:
         return _status(vm, "HttpError", "userinfo")
@@ -657,7 +657,7 @@ def _model_complete(vm, args, func):
     norm = normalize_origin(origin) if origin else None
     if (norm is None or norm not in set(vm.egress_for(module))
             or not vm.allows_resources(('network', norm))):
-        vm.observe.deny("egress")
+        vm.observe.deny("egress", context=vm)
         return _status(vm, "ModelError", "egress")
     import json as _json
 

@@ -232,21 +232,22 @@ class VM:
                 raise Trap(ops.TRAP_TIMEOUT)
 
     @contextmanager
-    def native_admission(self):
+    def native_admission(self, *, lock=None):
         """Wait cooperatively for shared native state, then check admission."""
         import time
+        lock = self.lock if lock is None else lock
         while True:
             self.check_cancelled()
             remaining = .05
             if self.deadline_ns is not None:
                 remaining = min(remaining, max(0, self.deadline_ns - time.monotonic_ns()) / 1_000_000_000)
-            if self.lock.acquire(timeout=remaining):
+            if lock.acquire(timeout=remaining):
                 break
         try:
             self.check_cancelled()
             yield
         finally:
-            self.lock.release()
+            lock.release()
 
     # -- calling ---------------------------------------------------------
 
@@ -268,7 +269,11 @@ class VM:
                 tag = self.type_name(result.type_id) if isinstance(result, (Record, EnumVal, Secret)) else type(result).__name__
                 if isinstance(result, EnumVal):
                     tag += "." + self.art.const_str(self.art.types[result.type_id].variants[result.variant][0])
-                self.observe.outcome(self.names[fn_id], tag, (time.monotonic() - started) * 1000)
+                try:
+                    self.observe.outcome(self.names[fn_id], tag, (time.monotonic() - started) * 1000, context=self)
+                except BaseException:
+                    self.heap.release_result()
+                    raise
             return result
 
     def _call(self, fn_id: int, args: list, caller_effects: int | None = None) -> object:
@@ -283,7 +288,7 @@ class VM:
             self.depth -= 1
             raise Trap(ops.TRAP_DEPTH)
         try:
-            self.observe.task(self.names[fn_id])
+            self.observe.task(self.names[fn_id], context=self)
             if func.kind == ops.KIND_NATIVE:
                 native = self.natives.get(self.names[fn_id])
                 if native is None:
@@ -302,7 +307,7 @@ class VM:
             # One event per trap, not one per frame it unwinds through.
             if not t.observed:
                 t.observed = True
-                self.observe.trap(t.code, self.names[fn_id])
+                self.observe.trap(t.code, self.names[fn_id], context=self)
             raise
         finally:
             self.depth -= 1
