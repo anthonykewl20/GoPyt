@@ -88,3 +88,7 @@ The specification covers the first criterion's propagation, delivery and ambigui
 scope. It makes no new latency percentile, fairness, aggregate memory, all-native
 shutdown or production qualification claim. Those criteria require separate
 implementation and workload evidence; listing a limit is not repairing it.
+
+## Opt-in rollback authority
+
+[Trusted snapshot generations](storage-rollback-amendment-2026-09-10.md) add authority-lock admission under the Store/VM budget. Snapshot hashing, authority/receipt writes, fsync and admitted recovery are synchronous. Once authority advancement begins, the staged publication is completed or retained for exact recovery before ordinary cancellation can escape; a timeout can coexist with an advanced generation. Missing authority or recovery evidence fails closed. Operator enrollment/status/restore commands are host maintenance, not new language natives.

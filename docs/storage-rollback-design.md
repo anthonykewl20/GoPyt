@@ -101,3 +101,7 @@ requires process serialization/crash behavior. An independent reader must inspec
 record generations/digests and durable logical state. Retain failed trials. This
 functional design makes no latency, availability percentage, recovery-time or
 independent security-audit claim; those need separately selected targets and trials.
+
+## Implementation follow-up
+
+The [normative amendment](storage-rollback-amendment-2026-09-10.md) specifies the implemented record format and operator interface. This original design retains its pre-implementation wording; implementation qualification is separate.

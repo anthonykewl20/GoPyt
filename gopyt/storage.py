@@ -7,6 +7,7 @@ Whole-file replacement is deliberately simple; this is not a scalable DB server.
 from collections import OrderedDict
 from contextlib import contextmanager
 import fcntl
+import hashlib
 import os
 import secrets
 import sqlite3
@@ -16,6 +17,7 @@ import threading
 import time
 import weakref
 
+from gopyt.rollback import locked_anchor, snapshot_digest
 from gopyt.files import parent_directory
 from gopyt.security_config import storage_cipher,seal,unseal,SecurityError,OVERHEAD
 
@@ -64,6 +66,7 @@ class Store:
         self._cache = OrderedDict()
         self._cache_identity = None
         self._cache_bytes = 0
+        self._anchor = None
         self._security = None
         self._security_identity = None
 
@@ -101,7 +104,7 @@ class Store:
         self._cache_bytes += size
 
     @contextmanager
-    def _locked(self, deadline):
+    def _locked(self, deadline, *, enroll=False, restore=False):
         if self.root is None:
             self._temporary = tempfile.TemporaryDirectory(prefix='gopyt-store-')
             # Host temporary roots may contain aliases (macOS /var). Only
@@ -133,13 +136,23 @@ class Store:
                 current = os.stat('lock', dir_fd=directory, follow_symlinks=False)
                 if (current.st_dev, current.st_ino) != (info.st_dev, info.st_ino):
                     raise StorageError('database lock changed')
-                for stale in os.listdir(directory):
-                    self._check_context()
-                    suffix = stale.removeprefix('.pending-')
-                    if stale.startswith('.pending-') and len(suffix) == 24 and all(c in '0123456789abcdef' for c in suffix):
-                        os.unlink(stale, dir_fd=directory)
-                self._check_context()
-                yield directory
+                with locked_anchor(self.root, lambda: self._lock_remaining(deadline), enroll=enroll) as anchor:
+                    if anchor is not None:
+                        if self._security is None:
+                            raise SecurityError('anchored storage requires encryption')
+                        if not restore:
+                            anchor.recover(directory, DATABASE, MAX_BYTES + OVERHEAD)
+                    self._anchor = anchor
+                    try:
+                        for stale in (() if restore else os.listdir(directory)):
+                            self._check_context()
+                            suffix = stale.removeprefix('.pending-')
+                            if stale.startswith('.pending-') and len(suffix) == 24 and all(c in '0123456789abcdef' for c in suffix):
+                                os.unlink(stale, dir_fd=directory)
+                        self._check_context()
+                        yield directory
+                    finally:
+                        self._anchor = None
             finally:
                 os.close(lock)
         finally:
@@ -172,7 +185,13 @@ class Store:
             data = stream.read(MAX_BYTES + OVERHEAD + 1)
         if not data or len(data) > MAX_BYTES + OVERHEAD or self._identity(os.fstat(fd)) != identity:
             raise StorageError('database changed during read')
-        data = unseal(data, self._security)
+        if self._anchor is not None and self._anchor.record is not None:
+            if hashlib.sha256(data).hexdigest() != self._anchor.record['digest']:
+                raise SecurityError('snapshot changed after anchor validation')
+        self._deserialize(unseal(data, self._security), db)
+
+    @staticmethod
+    def _deserialize(data, db):
         if len(data) > MAX_BYTES:
             raise StorageError('database size limit exceeded')
         db.deserialize(data)
@@ -181,7 +200,7 @@ class Store:
         if schema != [('table', 'kv', 'CREATE TABLE kv (key TEXT PRIMARY KEY, value TEXT NOT NULL) WITHOUT ROWID')]:
             raise StorageError('invalid database schema')
 
-    def _save(self, directory, db):
+    def _save(self, directory, db, *, restore=None):
         self._check_context()
         data = db.serialize()
         if len(data) > MAX_BYTES:
@@ -191,6 +210,7 @@ class Store:
         temporary = '.pending-' + secrets.token_hex(12)
         fd = os.open(temporary, os.O_WRONLY | os.O_CREAT | os.O_EXCL | os.O_NOFOLLOW,
                      0o600, dir_fd=directory)
+        admitted = False
         try:
             with os.fdopen(fd, 'wb') as stream:
                 stream.write(data)
@@ -199,11 +219,17 @@ class Store:
             # Publication admission: cancellation after entering replace cannot
             # undo the rename or abandon the directory durability barrier.
             self._check_context()
+            if self._anchor is not None:
+                os.fsync(directory)  # Recovery staging must survive authority advancement.
+                self._check_context()
+                admitted = True  # Even a failed authority fsync can have advanced it.
+                self._anchor.advance(hashlib.sha256(data).hexdigest(), temporary, restore)
             os.replace(temporary, DATABASE, src_dir_fd=directory, dst_dir_fd=directory)
             os.fsync(directory)
         finally:
             try:
-                os.unlink(temporary, dir_fd=directory)
+                if not admitted:
+                    os.unlink(temporary, dir_fd=directory)
             except FileNotFoundError:
                 pass
 
@@ -241,11 +267,35 @@ class Store:
                 self._clear_cache()
                 self._security_identity = identity
             # A single input must not allocate an unbounded SQLite snapshot.
-            inputs = (key, value, expected) if operation not in ('get_many', 'compare_exchange_many') else ()
+            inputs = (key, value, expected) if operation not in ('get_many', 'compare_exchange_many', 'restore_anchor') else ()
             if any(len(s) > MAX_BYTES // 2 or len(s.encode('utf-8')) > MAX_BYTES // 2
                    for s in inputs if s is not None):
                 raise StorageError('database input size limit exceeded')
-            with self._locked(deadline) as directory:
+            with self._locked(deadline, enroll=operation == 'enroll_anchor',
+                              restore=operation in ('restore_anchor', 'anchor_status')) as directory:
+                if operation == 'restore_anchor':
+                    self._clear_cache()
+                    backup, generation, reason = value
+                    if self._anchor is None or self._anchor.record['generation'] != generation:
+                        raise StorageError('restoration generation mismatch')
+                    db = sqlite3.connect(':memory:')
+                    try:
+                        db.execute('PRAGMA trusted_schema=OFF')
+                        db.setlimit(sqlite3.SQLITE_LIMIT_LENGTH, MAX_BYTES)
+                        self._deserialize(unseal(backup, self._security), db)
+                        if db.execute("SELECT 1 FROM kv WHERE typeof(key) != 'text' OR typeof(value) != 'text' LIMIT 1").fetchone():
+                            raise StorageError('invalid restoration values')
+                        self._anchor._receipt()  # Preserve any prior admitted restoration evidence.
+                        receipt = dict(generation=generation + 1, previous_generation=generation,
+                                       backup_digest=hashlib.sha256(backup).hexdigest(), reason=reason)
+                        self._save(directory, db, restore=receipt)
+                        return dict(self._anchor.record)
+                    finally:
+                        db.close()
+                if operation == 'anchor_status':
+                    if self._anchor is None:
+                        raise StorageError('anchor directory required')
+                    return dict(self._anchor.record)
                 # Writes always begin from disk, and any failure (including an
                 # ambiguous post-rename fsync failure) leaves no cached result.
                 if operation not in ('get', 'get_many'):
@@ -275,6 +325,9 @@ class Store:
                         self._check_context()
                         page_size = db.execute('PRAGMA page_size').fetchone()[0]
                         db.execute(f'PRAGMA max_page_count={MAX_BYTES // page_size}')
+                        if operation == 'enroll_anchor':
+                            self._anchor.enroll(snapshot_digest(directory, DATABASE, MAX_BYTES + OVERHEAD))
+                            return True
                         if operation == 'rekey':
                             if fd is None or self._security is None:
                                 raise StorageError('rekey requires an existing authenticated store')
@@ -395,6 +448,26 @@ class Store:
     def compare_exchange_many(self, changes):
         """Atomically compare and replace/delete every (key, expected, value)."""
         return self._operate('compare_exchange_many', self._batch(changes, changes=True))
+
+    def restore_anchor(self, backup, *, expected_generation, reason):
+        """Trusted operator restore of authenticated bytes as a new generation."""
+        if (type(backup) is not bytes or not 0 < len(backup) <= MAX_BYTES + OVERHEAD
+                or type(expected_generation) is not int or not 0 <= expected_generation < (1 << 63) - 1
+                or not isinstance(reason, str) or not reason.strip()):
+            raise StorageError('invalid restoration request')
+        try:
+            if len(reason.encode('utf-8')) > 512:
+                raise StorageError('restoration reason limit')
+        except UnicodeError as error:
+            raise StorageError('invalid restoration reason') from error
+        return self._operate('restore_anchor', '*', (backup, expected_generation, reason))
+
+    def anchor_status(self):
+        return self._operate('anchor_status', '*')
+
+    def enroll_anchor(self):
+        """Trusted operator enrollment; never called by language natives."""
+        return self._operate('enroll_anchor', '*')
 
     def rekey(self):
         """Trusted maintenance only; authenticate then republish using active key."""

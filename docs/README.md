@@ -129,3 +129,5 @@ noninterruptible host work and commit ambiguity.
 fixed and configured capacities, overload policies and remaining issue #13 coverage.
 
 [Runtime resource qualification](runtime-resource-qualification.md) maps issue #13 to the shipped admission, cancellation and cleanup policies, with frozen five-scenario Linux stress evidence on both pinned Python versions and explicit ownership limits.
+
+[Trusted snapshot generations and restoration](storage-rollback-amendment-2026-09-10.md) specify the opt-in operator authority, failure semantics and explicit restore workflow under issue #12. Full qualification is tracked separately.
