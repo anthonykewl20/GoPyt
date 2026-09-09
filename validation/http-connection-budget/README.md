@@ -32,3 +32,7 @@ fairness or a guarantee of service before expiry. Noninterruptible work and
 admitted commit cleanup can outlast expiry. Closure does not roll back effects
 or automatically replay requests. These are bounded regression observations,
 not sustained production fairness, latency or resource qualification.
+
+The refreshed [deadline inventory](deadline-inventory.json) pins this runtime.
+Run `python tools/check_deadline_inventory.py validation/http-connection-budget/deadline-inventory.json`.
+Earlier inventories remain immutable reviews of their respective runtimes.
