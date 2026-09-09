@@ -18,7 +18,7 @@ from gopyt.gobyte import TE_UNION, Artifact, Func
 from gopyt.jsonc import ConvertFail, NotJson
 from gopyt.values import NONE, UNIT, EnumVal, Record, Secret, Some
 from gopyt.values import I32 as I32Value, U32 as U32Value, U64 as U64Value
-from gopyt.vm import Trap
+from gopyt.vm import Trap, Cancelled
 
 NATIVES: dict[str, object] = {}
 
@@ -259,7 +259,16 @@ def _now_ms(vm, args, func):
 @native("core.time.sleep_ms")
 def _sleep_ms(vm, args, func):
     _requires(args[0] >= 0)
-    time.sleep(args[0] / 1000.0)
+    # Integer deadlines preserve the entire nonnegative i64 input range.
+    # Bounded host waits avoid platform timeout overflow and observe ancestors.
+    deadline = time.monotonic_ns() + args[0] * 1_000_000
+    while True:
+        if any(cancel.is_set() for cancel in vm.cancels):
+            raise Cancelled()
+        remaining = deadline - time.monotonic_ns()
+        if remaining <= 0:
+            break
+        time.sleep(min(remaining, 50_000_000) / 1_000_000_000)
     return UNIT
 
 
@@ -608,10 +617,10 @@ def _model_complete(vm, args, func):
 
 @native("core.model.local")
 def _model_local(vm, args, func):
-    from peon.local import complete
     try:
+        from peon.local import complete
         return complete(args[0], args[1])
-    except (ValueError, OSError, RuntimeError, UnicodeError) as exc:
+    except (ImportError, ValueError, OSError, RuntimeError, UnicodeError) as exc:
         # Model errors are data, never an external-provider fallback.
         return _status(vm, "ModelError", str(exc)[:256])
 

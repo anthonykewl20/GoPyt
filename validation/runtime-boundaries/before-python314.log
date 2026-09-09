@@ -1,0 +1,119 @@
+test_deep_policy_returns_db_error (gopyt.test_native_boundaries.NativeBoundaries.test_deep_policy_returns_db_error) ... ok
+test_maximum_sleep_can_be_cancelled_by_ancestor (gopyt.test_native_boundaries.NativeBoundaries.test_maximum_sleep_can_be_cancelled_by_ancestor) ... FAIL
+test_missing_optional_provider_returns_model_error (gopyt.test_native_boundaries.NativeBoundaries.test_missing_optional_provider_returns_model_error) ... ERROR
+test_policy_parser_recursion_returns_db_error (gopyt.test_native_boundaries.NativeBoundaries.test_policy_parser_recursion_returns_db_error) ... ERROR
+test_sleep_uses_monotonic_elapsed_time (gopyt.test_native_boundaries.NativeBoundaries.test_sleep_uses_monotonic_elapsed_time) ... ok
+
+======================================================================
+ERROR: test_missing_optional_provider_returns_model_error (gopyt.test_native_boundaries.NativeBoundaries.test_missing_optional_provider_returns_model_error)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/home/soultransit/devtony/gopyt-milestone-work/gopyt/test_native_boundaries.py", line 45, in test_missing_optional_provider_returns_model_error
+    result = self.vm.call(self.ids['probe.local'], [])
+  File "/home/soultransit/devtony/gopyt-milestone-work/gopyt/vm.py", line 157, in call
+    result = self.heap.handoff(self._call(fn_id, args, caller_effects))
+                               ~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/soultransit/devtony/gopyt-milestone-work/gopyt/vm.py", line 190, in _call
+    return self.exec(fn_id, func, args)
+           ~~~~~~~~~^^^^^^^^^^^^^^^^^^^
+  File "/home/soultransit/devtony/gopyt-milestone-work/gopyt/vm.py", line 208, in exec
+    return self._exec_frame(frame)
+           ~~~~~~~~~~~~~~~~^^^^^^^
+  File "/home/soultransit/devtony/gopyt-milestone-work/gopyt/vm.py", line 417, in _exec_frame
+    result = self.call(fid, list(call_args))
+  File "/home/soultransit/devtony/gopyt-milestone-work/gopyt/vm.py", line 157, in call
+    result = self.heap.handoff(self._call(fn_id, args, caller_effects))
+                               ~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/soultransit/devtony/gopyt-milestone-work/gopyt/vm.py", line 184, in _call
+    result = native(self, args, func)
+  File "/home/soultransit/devtony/gopyt-milestone-work/gopyt/natives.py", line 611, in _model_local
+    from peon.local import complete
+ModuleNotFoundError: import of peon.local halted; None in sys.modules
+
+======================================================================
+ERROR: test_policy_parser_recursion_returns_db_error (gopyt.test_native_boundaries.NativeBoundaries.test_policy_parser_recursion_returns_db_error)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/home/soultransit/devtony/gopyt-milestone-work/gopyt/test_native_boundaries.py", line 62, in test_policy_parser_recursion_returns_db_error
+    result = self.vm.call(self.ids['probe.read'], [])
+  File "/home/soultransit/devtony/gopyt-milestone-work/gopyt/vm.py", line 157, in call
+    result = self.heap.handoff(self._call(fn_id, args, caller_effects))
+                               ~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/soultransit/devtony/gopyt-milestone-work/gopyt/vm.py", line 190, in _call
+    return self.exec(fn_id, func, args)
+           ~~~~~~~~~^^^^^^^^^^^^^^^^^^^
+  File "/home/soultransit/devtony/gopyt-milestone-work/gopyt/vm.py", line 208, in exec
+    return self._exec_frame(frame)
+           ~~~~~~~~~~~~~~~~^^^^^^^
+  File "/home/soultransit/devtony/gopyt-milestone-work/gopyt/vm.py", line 417, in _exec_frame
+    result = self.call(fid, list(call_args))
+  File "/home/soultransit/devtony/gopyt-milestone-work/gopyt/vm.py", line 157, in call
+    result = self.heap.handoff(self._call(fn_id, args, caller_effects))
+                               ~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/soultransit/devtony/gopyt-milestone-work/gopyt/vm.py", line 184, in _call
+    result = native(self, args, func)
+  File "/home/soultransit/devtony/gopyt-milestone-work/gopyt/natives.py", line 434, in _db_get
+    value = vm.db.get(key)
+  File "/home/soultransit/devtony/gopyt-milestone-work/gopyt/storage.py", line 318, in get
+    return self._operate('get', key)
+           ~~~~~~~~~~~~~^^^^^^^^^^^^
+  File "/home/soultransit/devtony/gopyt-milestone-work/gopyt/storage.py", line 196, in _operate
+    return self._operate_locked(operation, key, value, expected, deadline)
+           ~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/soultransit/devtony/gopyt-milestone-work/gopyt/storage.py", line 203, in _operate_locked
+    authority = database_authority(self.root)
+  File "/home/soultransit/devtony/gopyt-milestone-work/gopyt/capabilities.py", line 41, in database_authority
+    policy = json.loads(data, object_pairs_hook=_unique)
+  File "/home/soultransit/.local/share/uv/python/cpython-3.14.7-linux-x86_64-gnu/lib/python3.14/unittest/mock.py", line 1176, in __call__
+    return self._mock_call(*args, **kwargs)
+           ~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^
+  File "/home/soultransit/.local/share/uv/python/cpython-3.14.7-linux-x86_64-gnu/lib/python3.14/unittest/mock.py", line 1180, in _mock_call
+    return self._execute_mock_call(*args, **kwargs)
+           ~~~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^
+  File "/home/soultransit/.local/share/uv/python/cpython-3.14.7-linux-x86_64-gnu/lib/python3.14/unittest/mock.py", line 1241, in _execute_mock_call
+    raise effect
+RecursionError
+
+======================================================================
+FAIL: test_maximum_sleep_can_be_cancelled_by_ancestor (gopyt.test_native_boundaries.NativeBoundaries.test_maximum_sleep_can_be_cancelled_by_ancestor)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/home/soultransit/devtony/gopyt-milestone-work/gopyt/test_native_boundaries.py", line 74, in test_maximum_sleep_can_be_cancelled_by_ancestor
+    self.vm.call(self.ids['probe.pause'], [(1 << 63) - 1])
+    ~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/soultransit/devtony/gopyt-milestone-work/gopyt/vm.py", line 157, in call
+    result = self.heap.handoff(self._call(fn_id, args, caller_effects))
+                               ~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/soultransit/devtony/gopyt-milestone-work/gopyt/vm.py", line 190, in _call
+    return self.exec(fn_id, func, args)
+           ~~~~~~~~~^^^^^^^^^^^^^^^^^^^
+  File "/home/soultransit/devtony/gopyt-milestone-work/gopyt/vm.py", line 208, in exec
+    return self._exec_frame(frame)
+           ~~~~~~~~~~~~~~~~^^^^^^^
+  File "/home/soultransit/devtony/gopyt-milestone-work/gopyt/vm.py", line 417, in _exec_frame
+    result = self.call(fid, list(call_args))
+  File "/home/soultransit/devtony/gopyt-milestone-work/gopyt/vm.py", line 157, in call
+    result = self.heap.handoff(self._call(fn_id, args, caller_effects))
+                               ~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/soultransit/devtony/gopyt-milestone-work/gopyt/vm.py", line 184, in _call
+    result = native(self, args, func)
+  File "/home/soultransit/devtony/gopyt-milestone-work/gopyt/natives.py", line 262, in _sleep_ms
+    time.sleep(args[0] / 1000.0)
+    ~~~~~~~~~~^^^^^^^^^^^^^^^^^^
+  File "/home/soultransit/.local/share/uv/python/cpython-3.14.7-linux-x86_64-gnu/lib/python3.14/unittest/mock.py", line 1176, in __call__
+    return self._mock_call(*args, **kwargs)
+           ~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^
+  File "/home/soultransit/.local/share/uv/python/cpython-3.14.7-linux-x86_64-gnu/lib/python3.14/unittest/mock.py", line 1180, in _mock_call
+    return self._execute_mock_call(*args, **kwargs)
+           ~~~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^
+  File "/home/soultransit/.local/share/uv/python/cpython-3.14.7-linux-x86_64-gnu/lib/python3.14/unittest/mock.py", line 1247, in _execute_mock_call
+    result = effect(*args, **kwargs)
+  File "/home/soultransit/devtony/gopyt-milestone-work/gopyt/test_native_boundaries.py", line 70, in stop_after_wait
+    self.assertLessEqual(seconds, 0.05)
+    ~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^
+AssertionError: 9223372036854776.0 not less than or equal to 0.05
+
+----------------------------------------------------------------------
+Ran 5 tests in 0.167s
+
+FAILED (failures=1, errors=2)

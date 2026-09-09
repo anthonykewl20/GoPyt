@@ -1,0 +1,16 @@
+test_deep_policy_returns_db_error (gopyt.test_native_boundaries.NativeBoundaries.test_deep_policy_returns_db_error) ... ok
+test_maximum_sleep_can_be_cancelled_by_ancestor (gopyt.test_native_boundaries.NativeBoundaries.test_maximum_sleep_can_be_cancelled_by_ancestor) ... ok
+test_missing_optional_provider_returns_model_error (gopyt.test_native_boundaries.NativeBoundaries.test_missing_optional_provider_returns_model_error) ... ok
+test_policy_parser_recursion_returns_db_error (gopyt.test_native_boundaries.NativeBoundaries.test_policy_parser_recursion_returns_db_error) ... ok
+test_real_maximum_sleep_cancellation (gopyt.test_native_boundaries.NativeBoundaries.test_real_maximum_sleep_cancellation) ... ok
+test_sleep_uses_monotonic_elapsed_time (gopyt.test_native_boundaries.NativeBoundaries.test_sleep_uses_monotonic_elapsed_time) ... ok
+test_batch_denial_is_all_or_nothing (gopyt.test_capabilities.Capabilities.test_batch_denial_is_all_or_nothing) ... ok
+test_explicit_wildcard_and_empty_deny_all (gopyt.test_capabilities.Capabilities.test_explicit_wildcard_and_empty_deny_all) ... ok
+test_malformed_missing_or_public_policy_fails_closed (gopyt.test_capabilities.Capabilities.test_malformed_missing_or_public_policy_fails_closed) ... ok
+test_namespace_does_not_grant_nearby_tenant_or_unscoped_keys (gopyt.test_capabilities.Capabilities.test_namespace_does_not_grant_nearby_tenant_or_unscoped_keys) ... ok
+test_revocation_precedes_cache_and_read_write_are_separate (gopyt.test_capabilities.Capabilities.test_revocation_precedes_cache_and_read_write_are_separate) ... ok
+
+----------------------------------------------------------------------
+Ran 11 tests in 0.299s
+
+OK

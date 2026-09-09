@@ -246,6 +246,10 @@ task sleep_ms(ms: i64) -> unit
     requires ms >= 0
 ```
 
+Sleep supports the full nonnegative i64 range using monotonic elapsed time and
+observes inherited cancellation between bounded host waits. See the
+[native boundary amendment](native-boundary-amendment-2026-09-09.md).
+
 ```
 module core.random
 

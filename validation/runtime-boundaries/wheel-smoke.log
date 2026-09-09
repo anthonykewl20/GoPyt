@@ -1,0 +1,27 @@
+Traceback (most recent call last):
+  File "/home/soultransit/devtony/gopyt-milestone-work/tools/wheel_smoke.py", line 57, in <module>
+    if __name__=='__main__':main()
+                            ~~~~^^
+  File "/home/soultransit/devtony/gopyt-milestone-work/tools/wheel_smoke.py", line 21, in main
+    venv.EnvBuilder(with_pip=True).create(environment)
+    ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^
+  File "/home/soultransit/.local/share/uv/python/cpython-3.14.7-linux-x86_64-gnu/lib/python3.14/venv/__init__.py", line 82, in create
+    self._setup_pip(context)
+    ~~~~~~~~~~~~~~~^^^^^^^^^
+  File "/home/soultransit/.local/share/uv/python/cpython-3.14.7-linux-x86_64-gnu/lib/python3.14/venv/__init__.py", line 458, in _setup_pip
+    self._call_new_python(context, '-m', 'ensurepip', '--upgrade',
+    ~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+                          '--default-pip', stderr=subprocess.STDOUT)
+                          ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/soultransit/.local/share/uv/python/cpython-3.14.7-linux-x86_64-gnu/lib/python3.14/venv/__init__.py", line 454, in _call_new_python
+    subprocess.check_output(args, **kwargs)
+    ~~~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^
+  File "/home/soultransit/.local/share/uv/python/cpython-3.14.7-linux-x86_64-gnu/lib/python3.14/subprocess.py", line 473, in check_output
+    return run(*popenargs, stdout=PIPE, timeout=timeout, check=True,
+           ~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+               **kwargs).stdout
+               ^^^^^^^^^
+  File "/home/soultransit/.local/share/uv/python/cpython-3.14.7-linux-x86_64-gnu/lib/python3.14/subprocess.py", line 578, in run
+    raise CalledProcessError(retcode, process.args,
+                             output=stdout, stderr=stderr)
+subprocess.CalledProcessError: Command '['/tmp/gopyt-wheel-u2alq_nb/venv/bin/python3', '-m', 'ensurepip', '--upgrade', '--default-pip']' returned non-zero exit status 1.
