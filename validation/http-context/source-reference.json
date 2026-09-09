@@ -1,0 +1,11 @@
+{
+  "repository": "python/cpython",
+  "commit": "823f0323ee6ec1402088b73bce1a38473cac36dc",
+  "leitir_verification": "sampled",
+  "scope": "BaseServer.serve_forever invokes service_actions in its coordinator and sets the shutdown event in finally. Calling shutdown in that same coordinator deadlocks. Reference only; no copying, donor execution or dependency.",
+  "reviewed_files": {
+    "Lib/socketserver.py": "ecbbe1a633801460399a8f10b39007aa0e13cdbdad507e39414000f097b769b5",
+    "Lib/threading.py": "5323909624ec2165e70b6d31333e4191b63d383d2dc5a7d7d516a3475ea2b7e3",
+    "LICENSE": "b0e25a78cffb43f4d92de8b61ccfa1f1f98ecbc22330b54b5251e7b6ba010231"
+  }
+}

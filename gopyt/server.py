@@ -119,6 +119,8 @@ def serve(vm, module: str):
         vm.serving = False
         return _status(vm, "ListenError", "no routes")
     stop = threading.Event()
+    inherited_cancels = vm.cancels
+    inherited_deadline = vm.deadline_ns
 
     class Handler(BaseHTTPRequestHandler):
         protocol_version = "HTTP/1.1"
@@ -326,7 +328,17 @@ def serve(vm, module: str):
                 self.server_close()
                 raise
 
+        def service_actions(self):
+            # Runs in the serving coordinator; raising leaves serve_forever's
+            # finally block intact and avoids shutdown()'s same-thread deadlock.
+            vm.check_cancelled()
+
         def process_request(self, request, address):
+            try:
+                vm.check_cancelled()
+            except (Cancelled, Trap):
+                self.shutdown_request(request)
+                return  # service_actions reports the context exit to the caller.
             with self.connection_lock:
                 self.connections.add(request)
             try:
@@ -342,6 +354,8 @@ def serve(vm, module: str):
 
         def worker(self):
             vm._tl.authority = authority
+            vm.cancels = inherited_cancels + (stop,)
+            vm.deadline_ns = inherited_deadline
             while True:
                 item = self.pending.get()
                 try:
