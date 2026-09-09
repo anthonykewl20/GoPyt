@@ -42,10 +42,13 @@ after media failure; disaster recovery is separately tracked in #25.
 ## Cancellation and timeouts
 
 The VM checks inherited cancellation before calls, at bytecode instruction
-boundaries, and after a native returns. Storage I/O inside an admitted native is
-not interruptible by VM cancellation. Therefore cancellation before entry has no
-write effect, but cancellation during native execution may allow the complete
-batch to publish and then discard either its success result or its `DbError`.
+boundaries, and after a native returns. The later
+[storage admission policy](parallel-admission-amendment-2026-09-10.md#storage-admission-and-publication)
+adds checks during lock acquisition and before snapshot publication. Individual
+storage I/O, serialization and encryption operations remain synchronous. Therefore
+cancellation observed before publication admission prevents that publication, but
+cancellation during an admitted replacement may allow the complete batch to
+publish and then discard either its success result or its `DbError`.
 Do not infer rollback from `Cancelled`.
 
 A `parallel timeout_ms` expires its cancellation event, stops admitting arms,
@@ -55,8 +58,10 @@ can still finish before the parent reports the trap. This is structured cleanup,
 not a hard wall-clock I/O deadline. A stuck kernel I/O call can delay that return;
 #13 tracks deadline propagation and stronger resource execution budgets.
 
-Store mutex/flock contention uses the current five-second lock-attempt budget
-and returns `DbError` when the acquisition times out, without changing data.
+Store mutex/flock contention uses a five-second lock-attempt budget capped by
+the VM context. Expiring only the store budget returns `DbError`; inherited
+cancellation/expiry retains its VM meaning. Admission rejection does not publish
+a new snapshot.
 This does not impose a five-second deadline on file I/O, serialization, encryption,
 or an already acquired transaction. An external supervisor killing the process
 uses the process-death outcomes above; it must still reconcile ambiguous commits.
@@ -86,3 +91,6 @@ records real concurrent histories, independent specification orderings, negative
 controls, compiled cancellation and timeout cases, and the complete test results.
 Neither finite histories nor fault injection prove universal correctness, every
 filesystem's durability, an OS sandbox, or production throughput and recovery SLOs.
+
+The [complete deadline boundary specification](deadline-boundaries.md) distinguishes
+all native and heap cleanup boundaries from database publication semantics.

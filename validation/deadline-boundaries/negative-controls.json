@@ -1,0 +1,32 @@
+[
+  {
+    "case": "missing",
+    "exit": 1,
+    "error": "native inventory drift: {'missing': ['data.json.encode'], 'obsolete': []}"
+  },
+  {
+    "case": "duplicate",
+    "exit": 1,
+    "error": "duplicate native policy assignment"
+  },
+  {
+    "case": "obsolete",
+    "exit": 1,
+    "error": "native inventory drift: {'missing': [], 'obsolete': ['core.fake.unreviewed']}"
+  },
+  {
+    "case": "wrong_runtime",
+    "exit": 1,
+    "error": "runtime changed; review boundaries before refreshing inventory"
+  },
+  {
+    "case": "wrong_source",
+    "exit": 1,
+    "error": "reviewed source changed: gopyt/natives.py"
+  },
+  {
+    "case": "missing_provide",
+    "exit": 1,
+    "error": "conversion-form inventory mismatch"
+  }
+]

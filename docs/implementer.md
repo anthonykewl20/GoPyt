@@ -262,3 +262,7 @@ durations, explicit-offset serialization, clock origins and anomaly behavior.
 [Parallel admission and deadlines](parallel-admission-amendment-2026-09-10.md)
 adds a shared VM worker bound, inherited deadlines and explicit overload behavior;
 blocking-I/O and graceful-drain qualification under #13 remains open.
+
+[Deadline boundary specification](deadline-boundaries.md) covers every shipped
+native, generated conversion form and structured cleanup boundary, including
+noninterruptible host work and commit ambiguity.
