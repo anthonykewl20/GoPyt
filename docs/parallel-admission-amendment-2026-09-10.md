@@ -57,7 +57,8 @@ receipt rules](transaction-outcomes-amendment-2026-09-09.md) to reconcile ambigu
 never infer rollback from a missing return value. Existing network/DNS/filesystem
 blocking boundaries do not yet consume this budget uniformly. HTTP input, queue,
 execution and response share the per-request budget defined below.
-Graceful draining and sustained all-native leak qualification remain open in #13.
+HTTP draining is defined below; broader shutdown and sustained all-native leak
+qualification remain open in #13.
 
 ## Validation and reference scope
 
@@ -128,3 +129,31 @@ Noncooperative native work can still exceed the budget before joining. Requests
 are not retried by the server, and missing/partial responses do not prove rollback.
 These finite time and queue bounds do not establish fairness among keep-alive
 connections, a bound on arbitrary handler-generated values, or graceful draining.
+
+## Graceful HTTP draining
+
+Normal in-process server shutdown and SIGINT/SIGTERM begin draining. The listener
+closes, queued and incomplete-input connections close, and no new application
+handler starts, including pipelined requests on an existing connection. A request
+becomes active after its complete input and route/authentication checks, at the
+atomic dispatch admission boundary. Active requests may finish and write their
+responses within their existing request/serving deadlines. Draining does not
+extend those budgets. Workers are joined before the serving task returns.
+
+Explicit serving-context cancellation, serving deadline expiry and unexpected
+coordinator exceptions retain abort behavior: request cancellation, close sockets,
+then join workers. SIGINT/SIGTERM merely mark draining; the coordinator observes
+that state on its service tick without needing to allocate a shutdown thread.
+
+A noncooperative native can delay final joining even after its request deadline.
+It is never abandoned to continue writing after the serving task returns. A peer
+may disconnect or an output deadline may expire after a durable commit, so receipt
+reconciliation still applies. Draining offers a chance to deliver an active
+response; it cannot guarantee delivery to an unavailable peer or undo a commit.
+This HTTP lifecycle policy does not complete all native/resource shutdown scope.
+
+Worker termination also removes its connection record in a finally block.
+Shutdown discards queued sockets itself and joins all started workers, including
+workers already terminated by an unexpected native exit. Idle workers observe
+draining through bounded queue waits, so shutdown never blocks trying to enqueue
+a sentinel into a full queue whose consumers have exited.

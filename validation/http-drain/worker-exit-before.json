@@ -1,0 +1,9 @@
+{
+  "runtime_sha256": "6830c992e25670ee9c0f42094b2649869e97874a8b1ff213703335ab6e2bbbe6",
+  "fault": "host native raises SystemExit in one handler worker",
+  "response": "disconnected",
+  "unfinished_queue": 1,
+  "queued_items": 1,
+  "connections": 1,
+  "serving": false
+}

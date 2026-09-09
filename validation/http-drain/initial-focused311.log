@@ -1,0 +1,17 @@
+echo
+..echo
+..echo
+echo
+.echo
+.echo
+.charge
+..echo
+echo
+........echo
+......arm
+arm
+.........
+----------------------------------------------------------------------
+Ran 32 tests in 15.483s
+
+OK

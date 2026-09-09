@@ -183,9 +183,11 @@ absolute input deadlines, truncated-body rejection, and TCP_NODELAY.
 - The server runs at most 64 handler children concurrently under the `serve`
   task, with a FIFO queue of 1024 accepted requests. When full it returns 503 with
   an empty body. Request bodies over 1_048_576 bytes return 413 empty. SIGINT or
-  SIGTERM stops accepting, cancels/waits for children using the parallel
-  cancellation rule, then `serve` returns `unit`. Bind/listen failure returns
-  `ListenError`; it is not a trap.
+  SIGTERM stops accepting, drains active responses within existing deadlines,
+  and joins handler children before `serve` returns `unit`, as defined by the
+  parallel-admission amendment. Explicit context cancellation or deadline expiry
+  aborts connections and joins children before propagating the terminal condition.
+  Bind/listen failure returns `ListenError`; it is not a trap.
 
 ## 13. HTTP client (`net.http.request`)
 
