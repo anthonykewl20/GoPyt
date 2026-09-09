@@ -28,3 +28,9 @@ map sorting overhead coexist. Serialization failure does not undo prior handler
 effects. No response streaming or automatic retries are added. This advances
 issue #13's buffer scope without completing its fairness, all-queue/resource or
 sustained qualification requirements.
+
+The fresh [deadline inventory](deadline-inventory.json) pins this runtime and
+updates the serving policy. Verify it with
+`python tools/check_deadline_inventory.py validation/http-response-budget/deadline-inventory.json`.
+The earlier deadline-boundaries inventory remains an immutable review of its
+older runtime; its default source-drift rejection on newer code is intentional.
