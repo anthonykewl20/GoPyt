@@ -43,6 +43,9 @@ class Frame:
 
 class VM:
     def __init__(self, art: Artifact, root: str | None = None, *, authority=None, identities=None) -> None:
+        from gopyt.toolchain import FINGERPRINT
+        if art.toolchain != FINGERPRINT:
+            raise gobyte.e100()
         import sys
         from gopyt.limiter import Limiter
         from gopyt.heap import Heap

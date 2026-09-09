@@ -1,0 +1,13 @@
+Processing ./.
+  Installing build dependencies: started
+  Installing build dependencies: finished with status 'done'
+  Getting requirements to build wheel: started
+  Getting requirements to build wheel: finished with status 'done'
+  Preparing metadata (pyproject.toml): started
+  Preparing metadata (pyproject.toml): finished with status 'done'
+Building wheels for collected packages: gopyt
+  Building wheel for gopyt (pyproject.toml): started
+  Building wheel for gopyt (pyproject.toml): finished with status 'done'
+  Created wheel for gopyt: filename=gopyt-0.1.0-py3-none-any.whl size=148101 sha256=48f1d0491204e3d7fe4f74454b60eb909afdc27d49b48736b00bcc9883c749b9
+  Stored in directory: /tmp/pip-ephem-wheel-cache-vsdy7us2/wheels/43/3f/cc/18622134b6572d3476a559426af26a3b801fd3f4b536730c62
+Successfully built gopyt

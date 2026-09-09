@@ -1,0 +1,104 @@
+test_both_contract_copies_cannot_erase_rule (gopyt.test_guard.GuardTests.test_both_contract_copies_cannot_erase_rule) ... ok
+test_bundle_and_engine_tampering (gopyt.test_guard.GuardTests.test_bundle_and_engine_tampering) ... ok
+test_candidate_cannot_replace_gate_or_tests (gopyt.test_guard.GuardTests.test_candidate_cannot_replace_gate_or_tests) ... ok
+test_clean_and_legitimate_body_change (gopyt.test_guard.GuardTests.test_clean_and_legitimate_body_change) ... ok
+test_lock_is_derived_not_an_authority (gopyt.test_guard.GuardTests.test_lock_is_derived_not_an_authority) ... ok
+test_manifest_and_spec_deletion_refused (gopyt.test_guard.GuardTests.test_manifest_and_spec_deletion_refused) ... ok
+test_oversized_input_refused (gopyt.test_guard.GuardTests.test_oversized_input_refused) ... ok
+test_symlink_directory_and_file_refused (gopyt.test_guard.GuardTests.test_symlink_directory_and_file_refused) ... ok
+test_timeout_fails_closed (gopyt.test_guard.GuardTests.test_timeout_fails_closed) ... ok
+test_wrong_body_fails_executable_contract (gopyt.test_guard.GuardTests.test_wrong_body_fails_executable_contract) ... ok
+test_bad_adapter_pin_prevents_start (gopyt.test_guard.LedgerTests.test_bad_adapter_pin_prevents_start) ... ok
+test_concurrent_identical_requests_replay_one_commit (gopyt.test_guard.LedgerTests.test_concurrent_identical_requests_replay_one_commit) ... ok
+test_concurrent_unique_requests_cannot_double_spend (gopyt.test_guard.LedgerTests.test_concurrent_unique_requests_cannot_double_spend) ... ok
+test_db_failure_between_update_and_receipt_rolls_back (gopyt.test_guard.LedgerTests.test_db_failure_between_update_and_receipt_rolls_back) ... ERROR:root:Refund transaction failed
+Traceback (most recent call last):
+  File "/home/soultransit/devtony/gopyt-milestone-work/examples/guarded_refunds/service.py", line 236, in do_POST
+    result = self.server.ledger.apply(body)
+  File "/home/soultransit/devtony/gopyt-milestone-work/examples/guarded_refunds/service.py", line 143, in apply
+    return self._apply(body)
+           ~~~~~~~~~~~^^^^^^
+  File "/home/soultransit/devtony/gopyt-milestone-work/examples/guarded_refunds/service.py", line 180, in _apply
+    conn.execute('INSERT INTO requests VALUES(?,?,?,?)', (order_id,key,payload,canonical(response).decode()))
+    ~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+sqlite3.IntegrityError: injected
+ok
+test_missing_wrong_and_cross_customer_credentials (gopyt.test_guard.LedgerTests.test_missing_wrong_and_cross_customer_credentials) ... ok
+test_process_death_between_update_and_receipt_rolls_back (gopyt.test_guard.LedgerTests.test_process_death_between_update_and_receipt_rolls_back) ... ok
+test_remaining_balance_stale_version_closed_customer (gopyt.test_guard.LedgerTests.test_remaining_balance_stale_version_closed_customer) ... ok
+test_replay_conflict_and_restart (gopyt.test_guard.LedgerTests.test_replay_conflict_and_restart) ... ok
+test_runtime_trap_and_cancel_roll_back (gopyt.test_guard.LedgerTests.test_runtime_trap_and_cancel_roll_back) ... ERROR:root:Refund transaction failed
+Traceback (most recent call last):
+  File "/home/soultransit/devtony/gopyt-milestone-work/examples/guarded_refunds/service.py", line 236, in do_POST
+    result = self.server.ledger.apply(body)
+  File "/home/soultransit/devtony/gopyt-milestone-work/examples/guarded_refunds/service.py", line 143, in apply
+    return self._apply(body)
+           ~~~~~~~~~~~^^^^^^
+  File "/home/soultransit/devtony/gopyt-milestone-work/examples/guarded_refunds/service.py", line 168, in _apply
+    allowed = timed_call(self.vm, self.ids['refund_policy.allowed'],
+                         [row['paid'],row['refunded'],amount,row['version'],expected,bool(row['closed'])])
+  File "/home/soultransit/.local/share/uv/python/cpython-3.14.7-linux-x86_64-gnu/lib/python3.14/unittest/mock.py", line 1176, in __call__
+    return self._mock_call(*args, **kwargs)
+           ~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^
+  File "/home/soultransit/.local/share/uv/python/cpython-3.14.7-linux-x86_64-gnu/lib/python3.14/unittest/mock.py", line 1180, in _mock_call
+    return self._execute_mock_call(*args, **kwargs)
+           ~~~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^
+  File "/home/soultransit/.local/share/uv/python/cpython-3.14.7-linux-x86_64-gnu/lib/python3.14/unittest/mock.py", line 1241, in _execute_mock_call
+    raise effect
+gopyt.vm.Trap: trap 2
+ERROR:root:Refund transaction failed
+Traceback (most recent call last):
+  File "/home/soultransit/devtony/gopyt-milestone-work/examples/guarded_refunds/service.py", line 236, in do_POST
+    result = self.server.ledger.apply(body)
+  File "/home/soultransit/devtony/gopyt-milestone-work/examples/guarded_refunds/service.py", line 143, in apply
+    return self._apply(body)
+           ~~~~~~~~~~~^^^^^^
+  File "/home/soultransit/devtony/gopyt-milestone-work/examples/guarded_refunds/service.py", line 168, in _apply
+    allowed = timed_call(self.vm, self.ids['refund_policy.allowed'],
+                         [row['paid'],row['refunded'],amount,row['version'],expected,bool(row['closed'])])
+  File "/home/soultransit/.local/share/uv/python/cpython-3.14.7-linux-x86_64-gnu/lib/python3.14/unittest/mock.py", line 1176, in __call__
+    return self._mock_call(*args, **kwargs)
+           ~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^
+  File "/home/soultransit/.local/share/uv/python/cpython-3.14.7-linux-x86_64-gnu/lib/python3.14/unittest/mock.py", line 1180, in _mock_call
+    return self._execute_mock_call(*args, **kwargs)
+           ~~~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^
+  File "/home/soultransit/.local/share/uv/python/cpython-3.14.7-linux-x86_64-gnu/lib/python3.14/unittest/mock.py", line 1241, in _execute_mock_call
+    raise effect
+gopyt.vm.Cancelled
+ok
+test_strict_input (gopyt.test_guard.LedgerTests.test_strict_input) ... ok
+test_two_independent_ledgers_share_database_safely (gopyt.test_guard.LedgerTests.test_two_independent_ledgers_share_database_safely) ... ok
+test_unseen_wrong_body_is_blocked_by_real_runtime_contract (gopyt.test_guard.LedgerTests.test_unseen_wrong_body_is_blocked_by_real_runtime_contract) ... ERROR:root:Refund transaction failed
+Traceback (most recent call last):
+  File "/home/soultransit/devtony/gopyt-milestone-work/examples/guarded_refunds/service.py", line 236, in do_POST
+    result = self.server.ledger.apply(body)
+  File "/home/soultransit/devtony/gopyt-milestone-work/examples/guarded_refunds/service.py", line 143, in apply
+    return self._apply(body)
+           ~~~~~~~~~~~^^^^^^
+  File "/home/soultransit/devtony/gopyt-milestone-work/examples/guarded_refunds/service.py", line 172, in _apply
+    after = timed_call(self.vm, self.ids['refund_policy.after_refund'],
+                       [row['paid'],row['refunded'],amount])
+  File "/home/soultransit/devtony/gopyt-milestone-work/gopyt/guard.py", line 337, in timed_call
+    return vm.call(fn, list(args))
+           ~~~~~~~^^^^^^^^^^^^^^^^
+  File "/home/soultransit/devtony/gopyt-milestone-work/gopyt/vm.py", line 212, in call
+    result = self.heap.handoff(self._call(fn_id, args, caller_effects))
+                               ~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/soultransit/devtony/gopyt-milestone-work/gopyt/vm.py", line 247, in _call
+    return self.exec(fn_id, func, args)
+           ~~~~~~~~~^^^^^^^^^^^^^^^^^^^
+  File "/home/soultransit/devtony/gopyt-milestone-work/gopyt/vm.py", line 265, in exec
+    return self._exec_frame(frame)
+           ~~~~~~~~~~~~~~~~^^^^^^^
+  File "/home/soultransit/devtony/gopyt-milestone-work/gopyt/vm.py", line 479, in _exec_frame
+    raise Trap(ops.TRAP_REQUIRES if op == ops.REQUIRE else ops.TRAP_ENSURES)
+gopyt.vm.Trap: trap 2
+ok
+test_fixtures (gopyt.test_fixtures.Fixtures.test_fixtures) ... start
+ok
+test_every_fixture_formats_to_a_fixed_point (gopyt.test_fixtures.FormatterIdempotence.test_every_fixture_formats_to_a_fixed_point) ... ok
+
+----------------------------------------------------------------------
+Ran 24 tests in 20.630s
+
+OK

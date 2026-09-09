@@ -1,0 +1,8 @@
+test_embedding_cannot_accidentally_use_mismatched_artifact (gopyt.test_toolchain_compatibility.ToolchainCompatibility.test_embedding_cannot_accidentally_use_mismatched_artifact) ... ok
+test_header_binds_source_and_rejects_old_and_unknown_versions (gopyt.test_toolchain_compatibility.ToolchainCompatibility.test_header_binds_source_and_rejects_old_and_unknown_versions) ... ok
+test_source_copy_matches_and_runtime_change_requires_rebuild (gopyt.test_toolchain_compatibility.ToolchainCompatibility.test_source_copy_matches_and_runtime_change_requires_rebuild) ... ok
+
+----------------------------------------------------------------------
+Ran 3 tests in 0.333s
+
+OK

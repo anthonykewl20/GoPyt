@@ -1,0 +1,158 @@
+test_embedding_cannot_accidentally_use_mismatched_artifact (gopyt.test_toolchain_compatibility.ToolchainCompatibility.test_embedding_cannot_accidentally_use_mismatched_artifact) ... ERROR
+test_header_binds_source_and_rejects_old_and_unknown_versions (gopyt.test_toolchain_compatibility.ToolchainCompatibility.test_header_binds_source_and_rejects_old_and_unknown_versions) ... ERROR
+test_source_copy_matches_and_runtime_change_requires_rebuild (gopyt.test_toolchain_compatibility.ToolchainCompatibility.test_source_copy_matches_and_runtime_change_requires_rebuild) ... ERROR
+
+======================================================================
+ERROR: test_embedding_cannot_accidentally_use_mismatched_artifact (gopyt.test_toolchain_compatibility.ToolchainCompatibility.test_embedding_cannot_accidentally_use_mismatched_artifact)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/home/soultransit/devtony/gopyt-milestone-work/gopyt/test_toolchain_compatibility.py", line 26, in setUp
+    write_pkg(str(self.root), module('task main() -> i64\n',
+    ~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+                                    'task main() -> i64 {\n    return 7\n}\n'), fmt=True)
+                                    ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/soultransit/devtony/gopyt-milestone-work/gopyt/testing.py", line 30, in write_pkg
+    cmd_fmt(root)
+    ~~~~~~~^^^^^^
+  File "/home/soultransit/devtony/gopyt-milestone-work/gopyt/transaction.py", line 114, in wrapped
+    return fn(root, *args, **kwargs)
+  File "/home/soultransit/devtony/gopyt-milestone-work/gopyt/cli.py", line 36, in cmd_fmt
+    pkg = load_package(root)
+  File "/home/soultransit/devtony/gopyt-milestone-work/gopyt/transaction.py", line 114, in wrapped
+    return fn(root, *args, **kwargs)
+  File "/home/soultransit/devtony/gopyt-milestone-work/gopyt/check.py", line 255, in load_package
+    for mod in _walk_dir(root, "spec", "spec"):
+               ~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/soultransit/devtony/gopyt-milestone-work/gopyt/check.py", line 234, in _walk_dir
+    out.append(_read_module(full, file_rel, role, expect))
+               ~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/soultransit/devtony/gopyt-milestone-work/gopyt/check.py", line 214, in _read_module
+    mod = parse_module(src, file_rel, role)
+  File "/home/soultransit/devtony/gopyt-milestone-work/gopyt/parser.py", line 969, in parse_module
+    return Parser(src, file, role).parse()
+           ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^^
+  File "/home/soultransit/devtony/gopyt-milestone-work/gopyt/parser.py", line 150, in parse
+    m.items.append(self.attach(self.parse_item(), leading))
+                               ~~~~~~~~~~~~~~~^^
+  File "/home/soultransit/devtony/gopyt-milestone-work/gopyt/parser.py", line 247, in parse_item
+    return self.parse_fn("task")
+           ~~~~~~~~~~~~~^^^^^^^^
+  File "/home/soultransit/devtony/gopyt-milestone-work/gopyt/parser.py", line 397, in parse_fn
+    sig = self.parse_sig(kind)
+  File "/home/soultransit/devtony/gopyt-milestone-work/gopyt/parser.py", line 413, in parse_sig
+    effects = self.effects_clause()
+  File "/home/soultransit/devtony/gopyt-milestone-work/gopyt/parser.py", line 450, in effects_clause
+    self.eat_kw("effects")
+    ~~~~~~~~~~~^^^^^^^^^^^
+  File "/home/soultransit/devtony/gopyt-milestone-work/gopyt/parser.py", line 84, in eat_kw
+    raise self.err(11)
+gopyt.diag.CompileError: GOPYT_E011 parse
+file: spec/demo.gopyt
+line: 4
+repair-bytes: 0
+
+
+======================================================================
+ERROR: test_header_binds_source_and_rejects_old_and_unknown_versions (gopyt.test_toolchain_compatibility.ToolchainCompatibility.test_header_binds_source_and_rejects_old_and_unknown_versions)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/home/soultransit/devtony/gopyt-milestone-work/gopyt/test_toolchain_compatibility.py", line 26, in setUp
+    write_pkg(str(self.root), module('task main() -> i64\n',
+    ~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+                                    'task main() -> i64 {\n    return 7\n}\n'), fmt=True)
+                                    ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/soultransit/devtony/gopyt-milestone-work/gopyt/testing.py", line 30, in write_pkg
+    cmd_fmt(root)
+    ~~~~~~~^^^^^^
+  File "/home/soultransit/devtony/gopyt-milestone-work/gopyt/transaction.py", line 114, in wrapped
+    return fn(root, *args, **kwargs)
+  File "/home/soultransit/devtony/gopyt-milestone-work/gopyt/cli.py", line 36, in cmd_fmt
+    pkg = load_package(root)
+  File "/home/soultransit/devtony/gopyt-milestone-work/gopyt/transaction.py", line 114, in wrapped
+    return fn(root, *args, **kwargs)
+  File "/home/soultransit/devtony/gopyt-milestone-work/gopyt/check.py", line 255, in load_package
+    for mod in _walk_dir(root, "spec", "spec"):
+               ~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/soultransit/devtony/gopyt-milestone-work/gopyt/check.py", line 234, in _walk_dir
+    out.append(_read_module(full, file_rel, role, expect))
+               ~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/soultransit/devtony/gopyt-milestone-work/gopyt/check.py", line 214, in _read_module
+    mod = parse_module(src, file_rel, role)
+  File "/home/soultransit/devtony/gopyt-milestone-work/gopyt/parser.py", line 969, in parse_module
+    return Parser(src, file, role).parse()
+           ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^^
+  File "/home/soultransit/devtony/gopyt-milestone-work/gopyt/parser.py", line 150, in parse
+    m.items.append(self.attach(self.parse_item(), leading))
+                               ~~~~~~~~~~~~~~~^^
+  File "/home/soultransit/devtony/gopyt-milestone-work/gopyt/parser.py", line 247, in parse_item
+    return self.parse_fn("task")
+           ~~~~~~~~~~~~~^^^^^^^^
+  File "/home/soultransit/devtony/gopyt-milestone-work/gopyt/parser.py", line 397, in parse_fn
+    sig = self.parse_sig(kind)
+  File "/home/soultransit/devtony/gopyt-milestone-work/gopyt/parser.py", line 413, in parse_sig
+    effects = self.effects_clause()
+  File "/home/soultransit/devtony/gopyt-milestone-work/gopyt/parser.py", line 450, in effects_clause
+    self.eat_kw("effects")
+    ~~~~~~~~~~~^^^^^^^^^^^
+  File "/home/soultransit/devtony/gopyt-milestone-work/gopyt/parser.py", line 84, in eat_kw
+    raise self.err(11)
+gopyt.diag.CompileError: GOPYT_E011 parse
+file: spec/demo.gopyt
+line: 4
+repair-bytes: 0
+
+
+======================================================================
+ERROR: test_source_copy_matches_and_runtime_change_requires_rebuild (gopyt.test_toolchain_compatibility.ToolchainCompatibility.test_source_copy_matches_and_runtime_change_requires_rebuild)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/home/soultransit/devtony/gopyt-milestone-work/gopyt/test_toolchain_compatibility.py", line 26, in setUp
+    write_pkg(str(self.root), module('task main() -> i64\n',
+    ~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+                                    'task main() -> i64 {\n    return 7\n}\n'), fmt=True)
+                                    ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/soultransit/devtony/gopyt-milestone-work/gopyt/testing.py", line 30, in write_pkg
+    cmd_fmt(root)
+    ~~~~~~~^^^^^^
+  File "/home/soultransit/devtony/gopyt-milestone-work/gopyt/transaction.py", line 114, in wrapped
+    return fn(root, *args, **kwargs)
+  File "/home/soultransit/devtony/gopyt-milestone-work/gopyt/cli.py", line 36, in cmd_fmt
+    pkg = load_package(root)
+  File "/home/soultransit/devtony/gopyt-milestone-work/gopyt/transaction.py", line 114, in wrapped
+    return fn(root, *args, **kwargs)
+  File "/home/soultransit/devtony/gopyt-milestone-work/gopyt/check.py", line 255, in load_package
+    for mod in _walk_dir(root, "spec", "spec"):
+               ~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/soultransit/devtony/gopyt-milestone-work/gopyt/check.py", line 234, in _walk_dir
+    out.append(_read_module(full, file_rel, role, expect))
+               ~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/soultransit/devtony/gopyt-milestone-work/gopyt/check.py", line 214, in _read_module
+    mod = parse_module(src, file_rel, role)
+  File "/home/soultransit/devtony/gopyt-milestone-work/gopyt/parser.py", line 969, in parse_module
+    return Parser(src, file, role).parse()
+           ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^^
+  File "/home/soultransit/devtony/gopyt-milestone-work/gopyt/parser.py", line 150, in parse
+    m.items.append(self.attach(self.parse_item(), leading))
+                               ~~~~~~~~~~~~~~~^^
+  File "/home/soultransit/devtony/gopyt-milestone-work/gopyt/parser.py", line 247, in parse_item
+    return self.parse_fn("task")
+           ~~~~~~~~~~~~~^^^^^^^^
+  File "/home/soultransit/devtony/gopyt-milestone-work/gopyt/parser.py", line 397, in parse_fn
+    sig = self.parse_sig(kind)
+  File "/home/soultransit/devtony/gopyt-milestone-work/gopyt/parser.py", line 413, in parse_sig
+    effects = self.effects_clause()
+  File "/home/soultransit/devtony/gopyt-milestone-work/gopyt/parser.py", line 450, in effects_clause
+    self.eat_kw("effects")
+    ~~~~~~~~~~~^^^^^^^^^^^
+  File "/home/soultransit/devtony/gopyt-milestone-work/gopyt/parser.py", line 84, in eat_kw
+    raise self.err(11)
+gopyt.diag.CompileError: GOPYT_E011 parse
+file: spec/demo.gopyt
+line: 4
+repair-bytes: 0
+
+
+----------------------------------------------------------------------
+Ran 3 tests in 0.017s
+
+FAILED (errors=3)

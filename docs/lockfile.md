@@ -124,3 +124,7 @@ name. v0 stdlib prefixes are `core`, `net`, `data`, `store` only (S21).
 ## Reproducibility
 
 Same `spec/` + `impl/` + `test/` + `gopyt.toml` + `gopyt.lock` + toolchain → same digest and same `.gobyte`. If an agent regenerates impl holes differently, the lock digest changes and CI shows a lock/spec review on **spec** plus a digest change — not a style debate.
+
+The [exact toolchain amendment](toolchain-compatibility-amendment-2026-09-09.md)
+extends the compiler ID shown above with a runtime-source SHA-256 fingerprint.
+Legacy identifiers require an explicitly reviewed E040 repair and recompilation.
