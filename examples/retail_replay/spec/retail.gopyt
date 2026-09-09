@@ -1,0 +1,52 @@
+module retail
+
+use core.convert { Json }
+use core.status { DbError, ListenError }
+use store.db { Change, Snapshot }
+
+fn add(old: i64, delta: i64) -> i64
+
+task read(keys: list[str]) -> Snapshot | DbError
+    effects { database.read }
+
+task commit(changes: list[Change]) -> bool | DbError
+    effects { database.read, database.write }
+
+type ReadRequest {
+    keys: list[str]
+}
+
+type CommitRequest {
+    changes: list[Change]
+}
+
+type ReadResult {
+    outcome: str
+    values: list[str?]
+}
+
+type CommitResult {
+    outcome: str
+}
+
+provide Json for ReadRequest
+
+provide Json for CommitRequest
+
+provide Json for ReadResult
+
+provide Json for CommitResult
+
+http {
+    post "/read" read_request
+    post "/commit" commit_request
+}
+
+task read_request(req: ReadRequest) -> ReadResult
+    effects { database.read }
+
+task commit_request(req: CommitRequest) -> CommitResult
+    effects { database.read, database.write }
+
+task serve() -> unit | ListenError
+    effects { network, database.read, database.write }

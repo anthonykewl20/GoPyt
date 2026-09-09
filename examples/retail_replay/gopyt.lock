@@ -1,0 +1,7 @@
+toolchain = "gopyt-0.1.000"
+
+[[pkg]]
+name = "retail_replay"
+version = "0.1.0"
+path = "."
+digest = "sha256:42e9727e594b5f47760c072232dc6df826b6542d6bc58fc2f0c52bcbf9b794a3"

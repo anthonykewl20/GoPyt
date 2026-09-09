@@ -463,6 +463,32 @@ def _db_compare_exchange(vm, args, func):
 # ---------------------------------------------------------------- data.json
 
 
+@native("store.db.get_many")
+def _db_get_many(vm, args, func):
+    from gopyt.storage import StorageError
+    try:
+        values = vm.db.get_many(args[0])
+        return Record(vm.type_id_of("store.db.Snapshot"),
+                      [[NONE if value is None else Some(value) for value in values]])
+    except StorageError as exc:
+        return _status(vm, "DbError", str(exc))
+
+
+@native("store.db.compare_exchange_many")
+def _db_compare_exchange_many(vm, args, func):
+    from gopyt.storage import StorageError, MAX_BATCH_KEYS
+    if not 1 <= len(args[0]) <= MAX_BATCH_KEYS:
+        return _status(vm, "DbError", "database batch requires 1..256 keys")
+    changes = [(row.fields[0],
+                row.fields[1].value if isinstance(row.fields[1], Some) else None,
+                row.fields[2].value if isinstance(row.fields[2], Some) else None)
+               for row in args[0]]
+    try:
+        return vm.db.compare_exchange_many(changes)
+    except StorageError as exc:
+        return _status(vm, "DbError", str(exc))
+
+
 @native("data.json.encode")
 def _json_encode(vm, args, func):
     param_te = func.params[0]

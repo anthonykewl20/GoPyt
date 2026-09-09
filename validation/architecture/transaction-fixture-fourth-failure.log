@@ -1,0 +1,39 @@
+test_competing_processes_preserve_transfer_invariant (gopyt.test_storage_transactions.Transactions.test_competing_processes_preserve_transfer_invariant) ... ok
+test_compiled_native_types_effects_and_atomicity (gopyt.test_storage_transactions.Transactions.test_compiled_native_types_effects_and_atomicity) ... ERROR
+test_conflict_changes_nothing_and_delete_distinguishes_absent_empty (gopyt.test_storage_transactions.Transactions.test_conflict_changes_nothing_and_delete_distinguishes_absent_empty) ... ok
+test_failure_before_publish_preserves_all_old_values (gopyt.test_storage_transactions.Transactions.test_failure_before_publish_preserves_all_old_values) ... ok
+test_oversized_batch_response_is_an_error (gopyt.test_storage_transactions.Transactions.test_oversized_batch_response_is_an_error) ... ok
+test_process_death_before_and_after_publish_never_tears_batch (gopyt.test_storage_transactions.Transactions.test_process_death_before_and_after_publish_never_tears_batch) ... ok
+test_read_only_conditions_and_noop_do_not_publish (gopyt.test_storage_transactions.Transactions.test_read_only_conditions_and_noop_do_not_publish) ... ok
+test_rejects_duplicate_malformed_and_unbounded_batches (gopyt.test_storage_transactions.Transactions.test_rejects_duplicate_malformed_and_unbounded_batches) ... ok
+test_seeded_state_machine_against_independent_dictionary (gopyt.test_storage_transactions.Transactions.test_seeded_state_machine_against_independent_dictionary) ... ok
+
+======================================================================
+ERROR: test_compiled_native_types_effects_and_atomicity (gopyt.test_storage_transactions.Transactions.test_compiled_native_types_effects_and_atomicity)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/home/soultransit/devtony/GoPyt/gopyt/test_storage_transactions.py", line 156, in test_compiled_native_types_effects_and_atomicity
+    _, art, ids = build(self.root)
+                  ~~~~~^^^^^^^^^^^
+  File "/home/soultransit/devtony/GoPyt/gopyt/transaction.py", line 114, in wrapped
+    return fn(root, *args, **kwargs)
+  File "/home/soultransit/devtony/GoPyt/gopyt/cli.py", line 50, in build
+    prog = check_package(pkg)
+  File "/home/soultransit/devtony/GoPyt/gopyt/check.py", line 2450, in check_package
+    decls.run()
+    ~~~~~~~~~^^
+  File "/home/soultransit/devtony/GoPyt/gopyt/check.py", line 791, in run
+    self.imports()
+    ~~~~~~~~~~~~^^
+  File "/home/soultransit/devtony/GoPyt/gopyt/check.py", line 855, in imports
+    raise err(14, m.file, u.line)
+gopyt.diag.CompileError: GOPYT_E014 unused_use
+file: spec/demo.gopyt
+line: 3
+repair-bytes: 0
+
+
+----------------------------------------------------------------------
+Ran 9 tests in 2.026s
+
+FAILED (errors=1)

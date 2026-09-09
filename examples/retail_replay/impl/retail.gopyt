@@ -1,0 +1,63 @@
+module retail
+
+use core.list { empty }
+use core.status { DbError, ListenError }
+use net.http { serve }
+use store.db { Change, Snapshot, compare_exchange_many, get_many }
+
+fn add(old: i64, delta: i64) -> i64
+{
+    return old + delta
+}
+
+task read(keys: list[str]) -> Snapshot | DbError
+    effects { database.read }
+{
+    return store.db.get_many(keys)
+}
+
+task commit(changes: list[Change]) -> bool | DbError
+    effects { database.read, database.write }
+{
+    return store.db.compare_exchange_many(changes)
+}
+
+task read_request(req: ReadRequest) -> ReadResult
+    effects { database.read }
+{
+    result = read(req.keys)
+    return match result {
+        Snapshot -> ReadResult {
+            outcome: "ok"
+            values: result.values
+        }
+        DbError { message } -> ReadResult {
+            outcome: "db_error"
+            values: core.list.empty[str?]()
+        }
+    }
+}
+
+task commit_request(req: CommitRequest) -> CommitResult
+    effects { database.read, database.write }
+{
+    result = commit(req.changes)
+    return match result {
+        bool -> commit_result(result)
+        DbError { message } -> CommitResult { outcome: "db_error" }
+    }
+}
+
+fn commit_result(applied: bool) -> CommitResult
+{
+    if applied {
+        return CommitResult { outcome: "committed" }
+    }
+    return CommitResult { outcome: "conflict" }
+}
+
+task serve() -> unit | ListenError
+    effects { network, database.read, database.write }
+{
+    return net.http.serve()
+}

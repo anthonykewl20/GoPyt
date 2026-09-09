@@ -1,0 +1,47 @@
+name: real-data-qualification
+on:
+  workflow_dispatch:
+    inputs:
+      rows:
+        description: Public source rows to replay
+        type: choice
+        options: ['32768', '541909']
+        default: '541909'
+permissions:
+  contents: read
+jobs:
+  retail:
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+    env:
+      DATA_ROWS: ${{ inputs.rows }}
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.14'
+      - run: python -m pip install -e '.[security]'
+      - name: Acquire and verify public source
+        run: |
+          mkdir -p validation/qualification
+          curl --fail --location --retry 3 --max-time 180 'https://archive.ics.uci.edu/static/public/352/online+retail.zip' --output /tmp/retail.zip
+          python - <<'PY'
+          import hashlib, zipfile
+          from pathlib import Path
+          source=Path('/tmp/retail.zip')
+          assert hashlib.sha256(source.read_bytes()).hexdigest()=='f5385cbb54bbebf7196389109c6b0621faab0c304e3702548165e71c84aede8b'
+          with zipfile.ZipFile(source) as archive:
+              Path('/tmp/Online Retail.xlsx').write_bytes(archive.read('Online Retail.xlsx'))
+          PY
+          python tools/retail_prepare.py '/tmp/Online Retail.xlsx' --output /tmp/retail-data > validation/qualification/preparation.log 2>&1
+      - name: Compiled encrypted ingestion and replay
+        run: python tools/retail_stress.py --data /tmp/retail-data --output validation/qualification/encrypted --limit-rows "$DATA_ROWS" --workers 4 --encrypted > validation/qualification/encrypted.log 2>&1
+      - name: Eight-process duplicate delivery
+        run: python tools/retail_stress.py --data /tmp/retail-data --output validation/qualification/overlap --limit-rows "$DATA_ROWS" --workers 8 --passes 1 --overlap --encrypted > validation/qualification/overlap.log 2>&1
+      - name: Authenticated HTTP and forced restart
+        run: python tools/retail_http_probe.py --data /tmp/retail-data --rows "$DATA_ROWS" --output validation/qualification/http.json > validation/qualification/http.log 2>&1
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: real-data-qualification
+          path: validation/qualification/

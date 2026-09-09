@@ -1,0 +1,32 @@
+test_corruption_is_not_reencrypted_or_overwritten (gopyt.test_key_rotation.KeyRotation.test_corruption_is_not_reencrypted_or_overwritten) ... ok
+test_encrypted_batch_conflict_and_delete_survive_restart (gopyt.test_key_rotation.KeyRotation.test_encrypted_batch_conflict_and_delete_survive_restart) ... ok
+test_failed_publish_keeps_old_key_readable_and_retry_succeeds (gopyt.test_key_rotation.KeyRotation.test_failed_publish_keeps_old_key_readable_and_retry_succeeds) ... ok
+test_multiple_key_sources_and_malformed_rings_rejected (gopyt.test_key_rotation.KeyRotation.test_multiple_key_sources_and_malformed_rings_rejected) ... ok
+test_rekey_legacy_snapshot_then_retire_old_key (gopyt.test_key_rotation.KeyRotation.test_rekey_legacy_snapshot_then_retire_old_key) ... ok
+test_retiring_key_early_invalidates_cached_plaintext (gopyt.test_key_rotation.KeyRotation.test_retiring_key_early_invalidates_cached_plaintext) ... ok
+test_encrypted_restart_and_conditional_write (gopyt.test_security_config.SecurityProfile.test_encrypted_restart_and_conditional_write) ... ok
+test_plaintext_is_not_silently_migrated (gopyt.test_security_config.SecurityProfile.test_plaintext_is_not_silently_migrated) ... ok
+test_real_http_authentication_encrypted_restart (gopyt.test_security_config.SecurityProfile.test_real_http_authentication_encrypted_restart) ... ok
+test_secret_permissions_links_and_package_location (gopyt.test_security_config.SecurityProfile.test_secret_permissions_links_and_package_location) ... ok
+test_strict_listener_requires_loopback_and_token (gopyt.test_security_config.SecurityProfile.test_strict_listener_requires_loopback_and_token) ... ok
+test_tampered_snapshot_cannot_be_read_or_overwritten (gopyt.test_security_config.SecurityProfile.test_tampered_snapshot_cannot_be_read_or_overwritten) ... ok
+test_wrong_key_context_and_missing_key_reject_even_cached_reads (gopyt.test_security_config.SecurityProfile.test_wrong_key_context_and_missing_key_reject_even_cached_reads) ... ok
+test_competing_processes_preserve_transfer_invariant (gopyt.test_storage_transactions.Transactions.test_competing_processes_preserve_transfer_invariant) ... ok
+test_compiled_native_types_effects_and_atomicity (gopyt.test_storage_transactions.Transactions.test_compiled_native_types_effects_and_atomicity) ... ok
+test_conflict_changes_nothing_and_delete_distinguishes_absent_empty (gopyt.test_storage_transactions.Transactions.test_conflict_changes_nothing_and_delete_distinguishes_absent_empty) ... ok
+test_failure_before_publish_preserves_all_old_values (gopyt.test_storage_transactions.Transactions.test_failure_before_publish_preserves_all_old_values) ... ok
+test_oversized_batch_response_is_an_error (gopyt.test_storage_transactions.Transactions.test_oversized_batch_response_is_an_error) ... ok
+test_process_death_before_and_after_publish_never_tears_batch (gopyt.test_storage_transactions.Transactions.test_process_death_before_and_after_publish_never_tears_batch) ... ok
+test_read_only_conditions_and_noop_do_not_publish (gopyt.test_storage_transactions.Transactions.test_read_only_conditions_and_noop_do_not_publish) ... ok
+test_rejects_duplicate_malformed_and_unbounded_batches (gopyt.test_storage_transactions.Transactions.test_rejects_duplicate_malformed_and_unbounded_batches) ... ok
+test_seeded_state_machine_against_independent_dictionary (gopyt.test_storage_transactions.Transactions.test_seeded_state_machine_against_independent_dictionary) ... ok
+test_batch_denial_is_all_or_nothing (gopyt.test_capabilities.Capabilities.test_batch_denial_is_all_or_nothing) ... ok
+test_explicit_wildcard_and_empty_deny_all (gopyt.test_capabilities.Capabilities.test_explicit_wildcard_and_empty_deny_all) ... ok
+test_malformed_missing_or_public_policy_fails_closed (gopyt.test_capabilities.Capabilities.test_malformed_missing_or_public_policy_fails_closed) ... ok
+test_namespace_does_not_grant_nearby_tenant_or_unscoped_keys (gopyt.test_capabilities.Capabilities.test_namespace_does_not_grant_nearby_tenant_or_unscoped_keys) ... ok
+test_revocation_precedes_cache_and_read_write_are_separate (gopyt.test_capabilities.Capabilities.test_revocation_precedes_cache_and_read_write_are_separate) ... ok
+
+----------------------------------------------------------------------
+Ran 27 tests in 3.517s
+
+OK

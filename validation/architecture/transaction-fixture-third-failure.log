@@ -1,0 +1,86 @@
+test_competing_processes_preserve_transfer_invariant (gopyt.test_storage_transactions.Transactions.test_competing_processes_preserve_transfer_invariant) ... ok
+test_compiled_native_types_effects_and_atomicity (gopyt.test_storage_transactions.Transactions.test_compiled_native_types_effects_and_atomicity) ... ERROR
+test_conflict_changes_nothing_and_delete_distinguishes_absent_empty (gopyt.test_storage_transactions.Transactions.test_conflict_changes_nothing_and_delete_distinguishes_absent_empty) ... ok
+test_failure_before_publish_preserves_all_old_values (gopyt.test_storage_transactions.Transactions.test_failure_before_publish_preserves_all_old_values) ... ok
+test_oversized_batch_response_is_an_error (gopyt.test_storage_transactions.Transactions.test_oversized_batch_response_is_an_error) ... ok
+test_process_death_before_and_after_publish_never_tears_batch (gopyt.test_storage_transactions.Transactions.test_process_death_before_and_after_publish_never_tears_batch) ... ok
+test_read_only_conditions_and_noop_do_not_publish (gopyt.test_storage_transactions.Transactions.test_read_only_conditions_and_noop_do_not_publish) ... ok
+test_rejects_duplicate_malformed_and_unbounded_batches (gopyt.test_storage_transactions.Transactions.test_rejects_duplicate_malformed_and_unbounded_batches) ... ok
+test_seeded_state_machine_against_independent_dictionary (gopyt.test_storage_transactions.Transactions.test_seeded_state_machine_against_independent_dictionary) ... ok
+
+======================================================================
+ERROR: test_compiled_native_types_effects_and_atomicity (gopyt.test_storage_transactions.Transactions.test_compiled_native_types_effects_and_atomicity)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/home/soultransit/devtony/GoPyt/gopyt/test_storage_transactions.py", line 155, in test_compiled_native_types_effects_and_atomicity
+    write_pkg(self.root, files, fmt=True)
+    ~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/soultransit/devtony/GoPyt/gopyt/testing.py", line 30, in write_pkg
+    cmd_fmt(root)
+    ~~~~~~~^^^^^^
+  File "/home/soultransit/devtony/GoPyt/gopyt/transaction.py", line 114, in wrapped
+    return fn(root, *args, **kwargs)
+  File "/home/soultransit/devtony/GoPyt/gopyt/cli.py", line 36, in cmd_fmt
+    pkg = load_package(root)
+  File "/home/soultransit/devtony/GoPyt/gopyt/transaction.py", line 114, in wrapped
+    return fn(root, *args, **kwargs)
+  File "/home/soultransit/devtony/GoPyt/gopyt/check.py", line 258, in load_package
+    for mod in _walk_dir(root, "impl", "impl"):
+               ~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/soultransit/devtony/GoPyt/gopyt/check.py", line 234, in _walk_dir
+    out.append(_read_module(full, file_rel, role, expect))
+               ~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/soultransit/devtony/GoPyt/gopyt/check.py", line 214, in _read_module
+    mod = parse_module(src, file_rel, role)
+  File "/home/soultransit/devtony/GoPyt/gopyt/parser.py", line 969, in parse_module
+    return Parser(src, file, role).parse()
+           ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^^
+  File "/home/soultransit/devtony/GoPyt/gopyt/parser.py", line 150, in parse
+    m.items.append(self.attach(self.parse_item(), leading))
+                               ~~~~~~~~~~~~~~~^^
+  File "/home/soultransit/devtony/GoPyt/gopyt/parser.py", line 247, in parse_item
+    return self.parse_fn("task")
+           ~~~~~~~~~~~~~^^^^^^^^
+  File "/home/soultransit/devtony/GoPyt/gopyt/parser.py", line 400, in parse_fn
+    body = self.parse_block()
+  File "/home/soultransit/devtony/GoPyt/gopyt/parser.py", line 582, in parse_block
+    stmts.append(self.attach(self.parse_stmt(), leading))
+                             ~~~~~~~~~~~~~~~^^
+  File "/home/soultransit/devtony/GoPyt/gopyt/parser.py", line 616, in parse_stmt
+    e = self.parse_expr()
+  File "/home/soultransit/devtony/GoPyt/gopyt/parser.py", line 709, in parse_expr
+    return self.parse_or()
+           ~~~~~~~~~~~~~^^
+  File "/home/soultransit/devtony/GoPyt/gopyt/parser.py", line 712, in parse_or
+    e = self.parse_and()
+  File "/home/soultransit/devtony/GoPyt/gopyt/parser.py", line 720, in parse_and
+    e = self.parse_not()
+  File "/home/soultransit/devtony/GoPyt/gopyt/parser.py", line 732, in parse_not
+    return self.parse_cmp()
+           ~~~~~~~~~~~~~~^^
+  File "/home/soultransit/devtony/GoPyt/gopyt/parser.py", line 735, in parse_cmp
+    e = self.parse_add()
+  File "/home/soultransit/devtony/GoPyt/gopyt/parser.py", line 745, in parse_add
+    e = self.parse_mul()
+  File "/home/soultransit/devtony/GoPyt/gopyt/parser.py", line 756, in parse_mul
+    e = self.parse_unary()
+  File "/home/soultransit/devtony/GoPyt/gopyt/parser.py", line 769, in parse_unary
+    return self.parse_prefix()
+           ~~~~~~~~~~~~~~~~~^^
+  File "/home/soultransit/devtony/GoPyt/gopyt/parser.py", line 772, in parse_prefix
+    e = self.parse_primary()
+  File "/home/soultransit/devtony/GoPyt/gopyt/parser.py", line 817, in parse_primary
+    return self._parse_primary()
+           ~~~~~~~~~~~~~~~~~~~^^
+  File "/home/soultransit/devtony/GoPyt/gopyt/parser.py", line 862, in _parse_primary
+    raise self.err(11)
+gopyt.diag.CompileError: GOPYT_E011 parse
+file: impl/demo.gopyt
+line: 10
+repair-bytes: 0
+
+
+----------------------------------------------------------------------
+Ran 9 tests in 2.538s
+
+FAILED (errors=1)
