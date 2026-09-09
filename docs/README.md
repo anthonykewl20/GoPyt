@@ -1,6 +1,8 @@
 # Current repository baseline
 
-See [release validation](release-baseline.md), [security operation](../SECURITY.md),
+See the [architecture checklist review](architecture-checklist-review-2026-09-09.md),
+[atomic data-backend validation](architecture-validation-2026-09-09.md),
+[release validation](release-baseline.md), [security operation](../SECURITY.md),
 [editor support](editor.md) and [roadmap](ROADMAP.md). Earlier reports below may
 refer to evidence archives outside this language-only checkout.
 

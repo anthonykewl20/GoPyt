@@ -1,0 +1,5 @@
+{
+  "compiled": false,
+  "exception": "CompileError",
+  "detail": "GOPYT_E010 lex\nfile: impl/numeric.gopyt\nline: 5\nrepair-bytes: 0\n"
+}

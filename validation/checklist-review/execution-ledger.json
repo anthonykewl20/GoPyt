@@ -1,0 +1,71 @@
+{
+  "audited_commit": "e2537c1362a5f3a350c456b5bf5303eb40395191",
+  "reviewed_at_utc": "2026-09-09T11:10:39.830098+00:00",
+  "host": {
+    "python": "3.14.7 (main, Sep  1 2026, 14:18:09) [Clang 22.1.3 ]",
+    "platform": "Linux-7.0.0-30-generic-x86_64-with-glibc2.39",
+    "sqlite": "3.53.1",
+    "cpu_count": 16,
+    "load_average": [
+      12.38916015625,
+      13.8193359375,
+      13.8359375
+    ]
+  },
+  "commands": [
+    {
+      "command": "python -u -m unittest discover -s gopyt -t . -v",
+      "result": "669 tests passed",
+      "log": "language-tests.log"
+    },
+    {
+      "command": "python -m unittest benchmarks.language_guard.calibration.test_boundary_probe",
+      "result": "17 tests passed",
+      "log": "boundary-tests.log"
+    },
+    {
+      "command": "python tools/check_stdlib_sync.py",
+      "result": "passed",
+      "log": "stdlib-sync.log"
+    },
+    {
+      "command": "python examples/ticket_contracts/demo.py",
+      "result": "passed",
+      "log": "contract-demo.log"
+    },
+    {
+      "command": "python tools/checklist_review_probes.py --output validation/checklist-review/probes-final.json",
+      "result": "observations collected; includes unresolved defects",
+      "log": "probes-final.log"
+    },
+    {
+      "command": "/home/soultransit/.local/share/uv/python/cpython-3.11-linux-x86_64-gnu/bin/python tools/checklist_review_probes.py --boundary-only --output validation/checklist-review/probes-python311-final.json",
+      "result": "observations collected; includes unresolved defects",
+      "log": "probes-python311-final.log"
+    },
+    {
+      "command": "python tools/checklist_evidence_review.py --data /tmp/gopyt-real-data/prepared-v2 --xlsx '/tmp/gopyt-real-data/Online Retail.xlsx' --output validation/checklist-review/evidence-reconciliation.json",
+      "result": "all source/data hashes, workbook rows and retained VM report arithmetic reconciled",
+      "log": "evidence-reconciliation.log"
+    },
+    {
+      "command": "python tools/retail_http_probe.py --data /tmp/gopyt-real-data/prepared-v2 --rows 541909 --output validation/checklist-review/retail-http-full.json",
+      "result": "complete; exact result after forced restart",
+      "log": "retail-http-full.log"
+    },
+    {
+      "command": "gh run view 34341535606 --repo anthonykewl20/GoPyt --json jobs,conclusion,headSha,url",
+      "result": "all four main CI jobs passed",
+      "log": "main-ci.json"
+    }
+  ],
+  "new_review_source_sha256": {
+    "tools/checklist_review_probes.py": "4f31692cfbd4edc46dad19f95ea297cf70c506d3010fc48e3d2dd97a05183be1",
+    "tools/checklist_evidence_review.py": "5b339b1217f7661e895afcd15c48eeef73a2577175affb0604940ff64811f0cf"
+  },
+  "limitations": [
+    "No runtime source was modified in this review.",
+    "No independent security audit, physical power-loss test, deployed TLS gateway, customer SLO or beyond-RAM qualification performed.",
+    "All secrets and store fixtures were temporary; no credential contents retained."
+  ]
+}
