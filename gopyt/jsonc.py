@@ -87,81 +87,181 @@ def parse(text: str):
     return value
 
 
+class _Encoder:
+    def __init__(self, max_bytes=None, check_context=None, max_depth=None):
+        import io
+        self.max_bytes = max_bytes
+        self.check_context = check_context
+        self.max_depth = max_depth
+        self.output = io.StringIO() if max_bytes is None else bytearray()
+
+    def check(self):
+        if self.check_context is not None:
+            self.check_context()
+
+    def minimum(self, size):
+        if self.max_bytes is not None and size > self.max_bytes - len(self.output):
+            raise ConvertFail('size')
+
+    def token(self, text):
+        self.check()
+        if self.max_bytes is None:
+            self.output.write(text)
+        else:
+            try:
+                raw = text.encode('utf-8')
+            except UnicodeEncodeError as error:
+                raise ConvertFail('utf8') from error
+            self.minimum(len(raw))
+            self.output.extend(raw)
+
+    def string(self, text):
+        # Bound escaping/UTF-8 temporaries even for a single enormous string.
+        self.minimum(len(text) + 2)
+        self.token('"')
+        for offset in range(0, len(text), 4096):
+            self.token(json.dumps(text[offset:offset + 4096], ensure_ascii=False)[1:-1])
+        self.token('"')
+
+    def result(self):
+        self.check()
+        return self.output.getvalue() if self.max_bytes is None else bytes(self.output)
+
+
 def encode(art: Artifact, value: object, te_ix: int) -> str:
-    return _enc(art, value, te_ix)
+    output = _Encoder()
+    _emit(art, value, te_ix, output, 0)
+    return output.result()
 
 
-def _enc(art: Artifact, value: object, te_ix: int) -> str:
+def encode_bytes(art: Artifact, value: object, te_ix: int, *, max_bytes: int,
+                 max_depth: int = 128, check_context=None) -> bytes:
+    if type(max_bytes) is not int or max_bytes < 0 or type(max_depth) is not int or max_depth < 1:
+        raise ValueError('JSON encoding bounds')
+    output = _Encoder(max_bytes, check_context, max_depth)
+    try:
+        _emit(art, value, te_ix, output, 0)
+        return output.result()
+    except RecursionError as error:
+        raise ConvertFail('depth') from error
+
+
+def _emit(art, value, te_ix, out, depth):
+    out.check()
+    if out.max_depth is not None and depth > out.max_depth:
+        raise ConvertFail('depth')
     te = art.texprs[te_ix]
     tag = te.tag
+    if (out.max_depth is not None and depth >= out.max_depth
+            and tag in (TE_LIST, TE_MAP, TE_NOM, TE_UNION)):
+        raise ConvertFail('depth')
     if tag in (TE_F64, TE_BYTES):
         raise NotJson()
     if tag == TE_BOOL:
         if not isinstance(value, bool):
-            raise ConvertFail("bool")
-        return "true" if value else "false"
-    if tag in INT_RANGE:
+            raise ConvertFail('bool')
+        out.token('true' if value else 'false')
+    elif tag in INT_RANGE:
         if isinstance(value, bool) or not isinstance(value, int):
-            raise ConvertFail("int")
+            raise ConvertFail('int')
         lo, hi = INT_RANGE[tag]
-        if not (lo <= value <= hi):
-            raise ConvertFail("range")
-        return str(value)
-    if tag == TE_STR:
+        if not lo <= value <= hi:
+            raise ConvertFail('range')
+        out.token(str(value))
+    elif tag == TE_STR:
         if not isinstance(value, str):
-            raise ConvertFail("str")
-        return json.dumps(value, ensure_ascii=False)
-    if tag == TE_UNIT:
-        return "{}"
-    if tag == TE_OPT:
+            raise ConvertFail('str')
+        out.string(value)
+    elif tag == TE_UNIT:
+        out.token('{}')
+    elif tag == TE_OPT:
         if isinstance(value, NoneValue):
-            return "null"
-        if not isinstance(value, Some):
-            raise ConvertFail("optional")
-        return _enc(art, value.value, te.a)
-    if tag == TE_LIST:
+            out.token('null')
+        elif isinstance(value, Some):
+            _emit(art, value.value, te.a, out, depth + 1)
+        else:
+            raise ConvertFail('optional')
+    elif tag == TE_LIST:
         if not isinstance(value, list):
-            raise ConvertFail("list")
-        return "[" + ",".join(_enc(art, v, te.a) for v in value) + "]"
-    if tag == TE_MAP:
+            raise ConvertFail('list')
+        out.minimum(max(2, 2 * len(value) + 1))
+        out.token('[')
+        for index, item in enumerate(value):
+            if index:
+                out.token(',')
+            _emit(art, item, te.a, out, depth + 1)
+        out.token(']')
+    elif tag == TE_MAP:
         if art.texprs[te.a].tag != TE_STR:
             raise NotJson()
         if not isinstance(value, dict):
-            raise ConvertFail("map")
-        keys = sorted(value, key=lambda k: k.encode("utf-8"))
-        inner = ",".join(json.dumps(k, ensure_ascii=False) + ":" + _enc(art, value[k], te.b) for k in keys)
-        return "{" + inner + "}"
-    if tag == TE_NOM:
-        return _enc_nom(art, value, te.a)
-    if tag == TE_UNION:
-        for mem in te.members:
-            if _matches(art, value, mem):
-                name = _member_name(art, mem)
-                return "{" + json.dumps(name, ensure_ascii=False) + ":" + _enc(art, value, mem) + "}"
-        raise ConvertFail("union")
-    raise NotJson()
+            raise ConvertFail('map')
+        # Before sorting, bound key references and UTF-8 sort-key allocation.
+        minimum = max(2, 5 * len(value) + 1)
+        out.minimum(minimum)
+        for key in value:
+            out.check()
+            if not isinstance(key, str):
+                raise ConvertFail('map key')
+            minimum += len(key)
+            out.minimum(minimum)
+        try:
+            keys = sorted(value, key=lambda key: key.encode('utf-8'))
+        except UnicodeEncodeError as error:
+            raise ConvertFail('utf8') from error
+        out.check()
+        out.token('{')
+        for index, key in enumerate(keys):
+            if index:
+                out.token(',')
+            out.string(key)
+            out.token(':')
+            _emit(art, value[key], te.b, out, depth + 1)
+        out.token('}')
+    elif tag == TE_NOM:
+        _emit_nom(art, value, te.a, out, depth)
+    elif tag == TE_UNION:
+        for member in te.members:
+            if _matches(art, value, member):
+                out.token('{')
+                out.string(_member_name(art, member))
+                out.token(':')
+                _emit(art, value, member, out, depth + 1)
+                out.token('}')
+                return
+        raise ConvertFail('union')
+    else:
+        raise NotJson()
 
 
-def _enc_nom(art: Artifact, value: object, type_id: int) -> str:
+def _emit_nom(art, value, type_id, out, depth):
     td = art.types[type_id]
     if td.kind == 3:
         raise NotJson()
     if td.kind == 1:
         if not isinstance(value, Record) or value.type_id != type_id:
-            raise ConvertFail("record")
-        parts = []
-        for (fname, fty), fval in zip(td.fields, value.fields):
-            key = art.const_str(fname)
-            parts.append(json.dumps(key, ensure_ascii=False) + ":" + _enc(art, fval, fty))
-        return "{" + ",".join(parts) + "}"
-    if not isinstance(value, EnumVal) or value.type_id != type_id:
-        raise ConvertFail("enum")
-    vname, fields = td.variants[value.variant]
-    parts = []
-    for (fname, fty), fval in zip(fields, value.fields):
-        parts.append(json.dumps(art.const_str(fname), ensure_ascii=False) + ":" + _enc(art, fval, fty))
-    body = "{" + ",".join(parts) + "}"
-    return "{" + json.dumps(art.const_str(vname), ensure_ascii=False) + ":" + body + "}"
+            raise ConvertFail('record')
+        fields = td.fields
+    else:
+        if not isinstance(value, EnumVal) or value.type_id != type_id:
+            raise ConvertFail('enum')
+        vname, fields = td.variants[value.variant]
+        if out.max_depth is not None and depth + 1 >= out.max_depth:
+            raise ConvertFail('depth')
+        out.token('{')
+        out.string(art.const_str(vname))
+        out.token(':')
+        depth += 1
+    out.token('{')
+    for index, ((fname, fty), item) in enumerate(zip(fields, value.fields)):
+        if index:
+            out.token(',')
+        out.string(art.const_str(fname))
+        out.token(':')
+        _emit(art, item, fty, out, depth + 1)
+    out.token('}')
+    if td.kind != 1:
+        out.token('}')
 
 
 def _member_name(art: Artifact, te_ix: int) -> str:

@@ -266,3 +266,5 @@ blocking-I/O and graceful-drain qualification under #13 remains open.
 [Deadline boundary specification](deadline-boundaries.md) covers every shipped
 native, generated conversion form and structured cleanup boundary, including
 noninterruptible host work and commit ambiguity.
+
+HTTP responses follow the [serialization byte/depth budget](parallel-admission-amendment-2026-09-10.md#http-response-serialization-budget); oversize output is an empty 500 before success headers, without rollback of handler effects.
