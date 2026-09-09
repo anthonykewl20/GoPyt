@@ -53,6 +53,27 @@ class _DeadlineReader(io.RawIOBase):
         return self.connection.recv_into(buffer)
 
 
+class _DeadlineWriter(io.RawIOBase):
+    """Bound each response write by the same absolute request budget."""
+
+    def __init__(self, connection, vm):
+        self.connection = connection
+        self.vm = vm
+
+    def writable(self):
+        return True
+
+    def write(self, data):
+        self.vm.check_cancelled()
+        if self.vm.deadline_ns is not None:
+            remaining = (self.vm.deadline_ns - time.monotonic_ns()) / 1_000_000_000
+            if remaining <= 0:
+                raise Trap(ops.TRAP_TIMEOUT)
+            self.connection.settimeout(remaining)
+        self.connection.sendall(data)
+        return len(data)
+
+
 def _addr() -> tuple[str, int] | None:
     raw = os.environ.get("GOPYT_HTTP_ADDR")
     if not raw:
@@ -129,19 +150,38 @@ def serve(vm, module: str):
         def setup(self):
             super().setup()
             self.rfile.close()
+            self.wfile.close()
+            self.wfile = _DeadlineWriter(self.connection, vm)
+            self.first_deadline_ns = vm._tl.http_request_deadline_ns
             # Keep the deadline on the reader: a closure capturing this handler
             # would retain its headers and buffers until Python's cyclic GC.
             self.rfile = io.BufferedReader(_DeadlineReader(
                 self.connection, time.monotonic() + REQUEST_TIMEOUT_SECONDS))
 
         def handle_one_request(self):
-            self.rfile.raw.deadline = time.monotonic() + REQUEST_TIMEOUT_SECONDS
-            super().handle_one_request()
+            previous_deadline = vm.deadline_ns
+            deadline = self.first_deadline_ns
+            self.first_deadline_ns = None
+            if deadline is None:
+                deadline = time.monotonic_ns() + int(REQUEST_TIMEOUT_SECONDS * 1_000_000_000)
+            if previous_deadline is not None:
+                deadline = min(deadline, previous_deadline)
+            vm.deadline_ns = deadline
+            self.rfile.raw.deadline = deadline / 1_000_000_000
+            try:
+                vm.check_cancelled()
+                super().handle_one_request()
+            finally:
+                vm.deadline_ns = previous_deadline
 
         def handle(self):
             try:
                 super().handle()
             except (BrokenPipeError, ConnectionResetError, ConnectionAbortedError, Cancelled):
+                self.close_connection = True
+            except Trap as error:
+                if error.code != ops.TRAP_TIMEOUT:
+                    raise
                 self.close_connection = True
 
         def log_message(self, *a):  # no request log in v0
@@ -253,7 +293,6 @@ def serve(vm, module: str):
                             self._empty(400)
                             return
                     try:
-                        vm.cancels = (stop,)
                         result = vm.call(fn_id, args)
                     except Cancelled:
                         self.close_connection = True
@@ -334,6 +373,7 @@ def serve(vm, module: str):
             vm.check_cancelled()
 
         def process_request(self, request, address):
+            deadline = time.monotonic_ns() + int(REQUEST_TIMEOUT_SECONDS * 1_000_000_000)
             try:
                 vm.check_cancelled()
             except (Cancelled, Trap):
@@ -342,7 +382,7 @@ def serve(vm, module: str):
             with self.connection_lock:
                 self.connections.add(request)
             try:
-                self.pending.put_nowait((request, address))
+                self.pending.put_nowait((request, address, deadline))
             except queue.Full:
                 try:
                     request.sendall(b"HTTP/1.1 503 Service Unavailable\r\nContent-Length: 0\r\nConnection: close\r\n\r\n")
@@ -361,8 +401,9 @@ def serve(vm, module: str):
                 try:
                     if item is None:
                         return
-                    request, address = item
-                    if stop.is_set():
+                    request, address, deadline = item
+                    vm._tl.http_request_deadline_ns = deadline
+                    if stop.is_set() or time.monotonic_ns() >= deadline:
                         self.shutdown_request(request)
                     else:
                         self.process_request_thread(request, address)
@@ -370,6 +411,8 @@ def serve(vm, module: str):
                         self.connections.discard(request)
                 finally:
                     vm.heap.release_result()
+                    if hasattr(vm._tl, 'http_request_deadline_ns'):
+                        del vm._tl.http_request_deadline_ns
                     self.pending.task_done()
 
         def server_close(self):

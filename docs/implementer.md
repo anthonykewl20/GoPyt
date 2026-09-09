@@ -169,7 +169,7 @@ absolute input deadlines, truncated-body rejection, and TCP_NODELAY.
   body parameter. Query parameters do not exist in v0. Handler return is `unit`
   or must implement `Json`; otherwise E097.
 - No route → response status 404, body empty.
-- Trap in handler → body empty: worker-admission trap 7 returns 503, timeout trap 6 returns 504, and other traps return 500.
+- Trap in handler → body empty: worker-admission trap 7 returns 503, nested timeout trap 6 returns 504 while output time remains, and other traps return 500. Expiration of the whole ten-second request budget (queue, input, cooperative execution and output) closes the connection; see the parallel-admission amendment.
 - Handler success: status **200**, body = UTF-8 JSON of the **return value** (`Json`). If return is `unit`, body empty.
 - **No status-code mapping from `NotFound` etc.** Clients decode the JSON union/record.
 - `get`: no request body. Extra body ignored (not an error).

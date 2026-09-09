@@ -10,6 +10,7 @@ import tempfile
 import threading
 import time
 import unittest
+from types import SimpleNamespace
 from unittest.mock import patch
 
 from gopyt.cli import build
@@ -290,7 +291,10 @@ class HttpIdentities(unittest.TestCase):
                         admitted.set()
                         if not release.wait(3): raise RuntimeError('test release missing')
                     return original(fn_id, *args, **kwargs)
-                with patch('gopyt.resource_authority.time.monotonic_ns', side_effect=lambda:clock[0]):
+                # Isolate authority expiry from the real HTTP/socket deadline clock.
+                socket_clock = time.monotonic_ns
+                with patch('gopyt.resource_authority.time', SimpleNamespace(monotonic_ns=lambda: clock[0])):
+                    self.assertIs(time.monotonic_ns, socket_clock)
                     self.provision('alice', 'alpha')
                     token = self.broker.issue('alice', 'alpha', ttl_ms=100)
                     changes = [{'key':'tenant/alpha/key','expected':'a','value':'bad'}]

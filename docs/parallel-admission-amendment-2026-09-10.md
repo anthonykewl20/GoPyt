@@ -56,7 +56,7 @@ before the timeout/cancellation is reported. Use the [transaction outcome and
 receipt rules](transaction-outcomes-amendment-2026-09-09.md) to reconcile ambiguity;
 never infer rollback from a missing return value. Existing network/DNS/filesystem
 blocking boundaries do not yet consume this budget uniformly. HTTP input, queue,
-execution and response deadlines are not yet one end-to-end request budget.
+execution and response share the per-request budget defined below.
 Graceful draining and sustained all-native leak qualification remain open in #13.
 
 ## Validation and reference scope
@@ -96,7 +96,7 @@ deadline on each accept-loop service tick (100 ms requested polling interval).
 It closes a newly accepted connection without queuing it if that context has
 already expired. Handler workers inherit the serving context and observe server
 stop alongside ancestor cancellation at VM/native cooperative checks. These
-are service-lifetime limits; they do not yet establish a whole-request budget.
+are service-lifetime limits, distinct from the per-request budget below.
 
 Context termination leaves the accept loop through its normal cleanup path,
 closes sockets and joins all handler workers before propagating cancellation or
@@ -105,3 +105,26 @@ native handlers stop; noncooperative natives still delay joining and may commit
 before an error reaches the caller. This is not a graceful response-delivery
 or OS wakeup-latency guarantee. A timeout response may be lost when the serving
 context closes its connection; durable outcome reconciliation remains necessary.
+
+## Per-request budget
+
+The HTTP request timeout is ten seconds total across queue residence, input,
+cooperative handler execution and response writes. The first request's absolute
+monotonic deadline starts when the accepted connection reaches request admission,
+before taking the connection-set lock or entering the bounded queue. An expired
+queued connection closes without invoking a handler. Each later keep-alive
+request receives a new ten-second budget beginning when the worker starts waiting
+for it; idle time counts. Every budget is capped by the serving deadline.
+
+The same deadline is installed in the worker VM context for parsing/dispatch and
+response generation, then restored afterward. Input and response writes consume
+remaining time; output backpressure cannot reset the budget on each write.
+Handler dispatch preserves ancestor cancellation. Expiration of the whole request
+closes the connection; it does not promise a 504 response after the output budget
+has expired. A shorter nested parallel timeout can still return 504 while the
+request budget remains available. Queue-full rejection remains 503.
+
+Noncooperative native work can still exceed the budget before joining. Requests
+are not retried by the server, and missing/partial responses do not prove rollback.
+These finite time and queue bounds do not establish fairness among keep-alive
+connections, a bound on arbitrary handler-generated values, or graceful draining.

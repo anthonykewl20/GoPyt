@@ -1,0 +1,15 @@
+echo
+.echo
+..echo
+echo
+.echo
+.echo
+.charge
+..echo
+echo
+......echo
+..
+----------------------------------------------------------------------
+Ran 16 tests in 6.311s
+
+OK
