@@ -1,0 +1,12 @@
+{
+  "python-downloads-identity": {
+    "sha": "6576fed5f0df684716d12ca48b6139db1c22bc1f",
+    "html_url": "https://github.com/astral-sh/python-build-standalone/blob/4bb01f09aaf362c71e891be4a41cb6d6ddf830b3/pythonbuild/downloads.py",
+    "path": "pythonbuild/downloads.py"
+  },
+  "python-licenses-identity": {
+    "sha": "cfc2a2335573b7a9e93a3b5266737081e1deef2a",
+    "html_url": "https://github.com/astral-sh/python-build-standalone/blob/4bb01f09aaf362c71e891be4a41cb6d6ddf830b3/python-licenses.rst",
+    "path": "python-licenses.rst"
+  }
+}

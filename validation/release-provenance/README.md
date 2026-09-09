@@ -21,3 +21,5 @@ that still require execution after merge. GitHub/Sigstore and the verifier remai
 explicit trust dependencies. No runtime dependency or compiler source changed.
 
 Final local full suite: 762 tests passed in 303.091 seconds. All frozen source hashes matched after completion. Guard calibration and stdlib parity passed.
+
+The signed-368ad3 directory now retains actual signed-run and separate local verification evidence. It qualifies wheel and report signing at that source; it does not attest the later component-inventory feature. Earlier pending statements above describe the initial implementation stage.

@@ -1,0 +1,891 @@
+{
+  "checkout": {
+    "sha": "3d3c42e5aac5ba805825da76410c181273ba90b1",
+    "records": [
+      {
+        "path": ".github/workflows/licensed.yml",
+        "mode": "100644",
+        "type": "blob",
+        "sha": "3d55d03addc31734281618814f14a1c7b1de3697",
+        "size": 245,
+        "url": "https://api.github.com/repos/actions/checkout/git/blobs/3d55d03addc31734281618814f14a1c7b1de3697"
+      },
+      {
+        "path": ".licensed.yml",
+        "mode": "100644",
+        "type": "blob",
+        "sha": "e10431b31f9ddab1f7e95b2c684f6264cfd4066c",
+        "size": 175,
+        "url": "https://api.github.com/repos/actions/checkout/git/blobs/e10431b31f9ddab1f7e95b2c684f6264cfd4066c"
+      },
+      {
+        "path": ".licenses/npm/@actions/core.dep.yml",
+        "mode": "100644",
+        "type": "blob",
+        "sha": "081715159ecd03858a85fe9ba117a92f70e374f2",
+        "size": 1303,
+        "url": "https://api.github.com/repos/actions/checkout/git/blobs/081715159ecd03858a85fe9ba117a92f70e374f2"
+      },
+      {
+        "path": ".licenses/npm/@actions/exec.dep.yml",
+        "mode": "100644",
+        "type": "blob",
+        "sha": "003562f8bc30ef3a98ef8fe4a8a931a1a42b88ab",
+        "size": 1303,
+        "url": "https://api.github.com/repos/actions/checkout/git/blobs/003562f8bc30ef3a98ef8fe4a8a931a1a42b88ab"
+      },
+      {
+        "path": ".licenses/npm/@actions/github.dep.yml",
+        "mode": "100644",
+        "type": "blob",
+        "sha": "2c221d7ee7c53a5477057832381996e6fb8564f8",
+        "size": 1309,
+        "url": "https://api.github.com/repos/actions/checkout/git/blobs/2c221d7ee7c53a5477057832381996e6fb8564f8"
+      },
+      {
+        "path": ".licenses/npm/@actions/http-client-3.0.2.dep.yml",
+        "mode": "100644",
+        "type": "blob",
+        "sha": "dd1f80dd78460715005f2049c59e272b69955eaa",
+        "size": 1408,
+        "url": "https://api.github.com/repos/actions/checkout/git/blobs/dd1f80dd78460715005f2049c59e272b69955eaa"
+      },
+      {
+        "path": ".licenses/npm/@actions/http-client-4.0.1.dep.yml",
+        "mode": "100644",
+        "type": "blob",
+        "sha": "dc741537d30ae7aecfcc7579d03a43dcc7e20e42",
+        "size": 1408,
+        "url": "https://api.github.com/repos/actions/checkout/git/blobs/dc741537d30ae7aecfcc7579d03a43dcc7e20e42"
+      },
+      {
+        "path": ".licenses/npm/@actions/io.dep.yml",
+        "mode": "100644",
+        "type": "blob",
+        "sha": "dadddb4ed5dd55c150cb912fb396d0e12d1534e7",
+        "size": 1297,
+        "url": "https://api.github.com/repos/actions/checkout/git/blobs/dadddb4ed5dd55c150cb912fb396d0e12d1534e7"
+      },
+      {
+        "path": ".licenses/npm/@actions/tool-cache.dep.yml",
+        "mode": "100644",
+        "type": "blob",
+        "sha": "e7bf5bf0f0e814593117d1e9ee827a810593b84a",
+        "size": 1321,
+        "url": "https://api.github.com/repos/actions/checkout/git/blobs/e7bf5bf0f0e814593117d1e9ee827a810593b84a"
+      },
+      {
+        "path": ".licenses/npm/@octokit/auth-token.dep.yml",
+        "mode": "100644",
+        "type": "blob",
+        "sha": "27b25043fb191ad878f135751d2e4f6b720e1fe0",
+        "size": 1393,
+        "url": "https://api.github.com/repos/actions/checkout/git/blobs/27b25043fb191ad878f135751d2e4f6b720e1fe0"
+      },
+      {
+        "path": ".licenses/npm/@octokit/core.dep.yml",
+        "mode": "100644",
+        "type": "blob",
+        "sha": "0d7056b20c9564f95efe3b805925a3112d00b983",
+        "size": 1381,
+        "url": "https://api.github.com/repos/actions/checkout/git/blobs/0d7056b20c9564f95efe3b805925a3112d00b983"
+      },
+      {
+        "path": ".licenses/npm/@octokit/endpoint.dep.yml",
+        "mode": "100644",
+        "type": "blob",
+        "sha": "62d348e3658eda297d225f79870bf06988d809ec",
+        "size": 1389,
+        "url": "https://api.github.com/repos/actions/checkout/git/blobs/62d348e3658eda297d225f79870bf06988d809ec"
+      },
+      {
+        "path": ".licenses/npm/@octokit/graphql.dep.yml",
+        "mode": "100644",
+        "type": "blob",
+        "sha": "b407006cd517053b3d25cd1940622e5d6d057eb5",
+        "size": 1381,
+        "url": "https://api.github.com/repos/actions/checkout/git/blobs/b407006cd517053b3d25cd1940622e5d6d057eb5"
+      },
+      {
+        "path": ".licenses/npm/@octokit/openapi-types.dep.yml",
+        "mode": "100644",
+        "type": "blob",
+        "sha": "5619d7b61f9eaf4d132abadd163af205b0946459",
+        "size": 1359,
+        "url": "https://api.github.com/repos/actions/checkout/git/blobs/5619d7b61f9eaf4d132abadd163af205b0946459"
+      },
+      {
+        "path": ".licenses/npm/@octokit/plugin-paginate-rest.dep.yml",
+        "mode": "100644",
+        "type": "blob",
+        "sha": "d7afbb9e603cae8fbe0724f61455aadfe6d527ac",
+        "size": 1376,
+        "url": "https://api.github.com/repos/actions/checkout/git/blobs/d7afbb9e603cae8fbe0724f61455aadfe6d527ac"
+      },
+      {
+        "path": ".licenses/npm/@octokit/plugin-rest-endpoint-methods.dep.yml",
+        "mode": "100644",
+        "type": "blob",
+        "sha": "a7ade1fa73ff8201bd3545e95ac156c5b43552ce",
+        "size": 1407,
+        "url": "https://api.github.com/repos/actions/checkout/git/blobs/a7ade1fa73ff8201bd3545e95ac156c5b43552ce"
+      },
+      {
+        "path": ".licenses/npm/@octokit/request-error.dep.yml",
+        "mode": "100644",
+        "type": "blob",
+        "sha": "021cab3ac1f55826fa34fc7768faec68a2099e7a",
+        "size": 1378,
+        "url": "https://api.github.com/repos/actions/checkout/git/blobs/021cab3ac1f55826fa34fc7768faec68a2099e7a"
+      },
+      {
+        "path": ".licenses/npm/@octokit/request.dep.yml",
+        "mode": "100644",
+        "type": "blob",
+        "sha": "2f10b29b296036312a49e05cbca9a81b0fb0bfe4",
+        "size": 1426,
+        "url": "https://api.github.com/repos/actions/checkout/git/blobs/2f10b29b296036312a49e05cbca9a81b0fb0bfe4"
+      },
+      {
+        "path": ".licenses/npm/@octokit/types.dep.yml",
+        "mode": "100644",
+        "type": "blob",
+        "sha": "5b37005a991a9e6fe4537cb94a767e2f295c0ef9",
+        "size": 1357,
+        "url": "https://api.github.com/repos/actions/checkout/git/blobs/5b37005a991a9e6fe4537cb94a767e2f295c0ef9"
+      },
+      {
+        "path": ".licenses/npm/before-after-hook.dep.yml",
+        "mode": "100644",
+        "type": "blob",
+        "sha": "d47933488ce7aaa48ae27f1ba679388fb5f87c08",
+        "size": 12308,
+        "url": "https://api.github.com/repos/actions/checkout/git/blobs/d47933488ce7aaa48ae27f1ba679388fb5f87c08"
+      },
+      {
+        "path": ".licenses/npm/content-type.dep.yml",
+        "mode": "100644",
+        "type": "blob",
+        "sha": "6fd1ccc9bbe1333b0fe12531406558c132d5a075",
+        "size": 2087,
+        "url": "https://api.github.com/repos/actions/checkout/git/blobs/6fd1ccc9bbe1333b0fe12531406558c132d5a075"
+      },
+      {
+        "path": ".licenses/npm/json-with-bigint.dep.yml",
+        "mode": "100644",
+        "type": "blob",
+        "sha": "ac5904459e13b100d7eff12a3c5779a1ce4b5728",
+        "size": 1364,
+        "url": "https://api.github.com/repos/actions/checkout/git/blobs/ac5904459e13b100d7eff12a3c5779a1ce4b5728"
+      },
+      {
+        "path": ".licenses/npm/semver.dep.yml",
+        "mode": "100644",
+        "type": "blob",
+        "sha": "1d9e9566aa17be7706b4996c8faa5459efd5be7d",
+        "size": 980,
+        "url": "https://api.github.com/repos/actions/checkout/git/blobs/1d9e9566aa17be7706b4996c8faa5459efd5be7d"
+      },
+      {
+        "path": ".licenses/npm/tunnel.dep.yml",
+        "mode": "100644",
+        "type": "blob",
+        "sha": "9a7111da96a36c81dd1160453ab32caa08c8707f",
+        "size": 1488,
+        "url": "https://api.github.com/repos/actions/checkout/git/blobs/9a7111da96a36c81dd1160453ab32caa08c8707f"
+      },
+      {
+        "path": ".licenses/npm/undici.dep.yml",
+        "mode": "100644",
+        "type": "blob",
+        "sha": "c46a5c7bff13518993f1b33ce194be381f516fde",
+        "size": 1396,
+        "url": "https://api.github.com/repos/actions/checkout/git/blobs/c46a5c7bff13518993f1b33ce194be381f516fde"
+      },
+      {
+        "path": ".licenses/npm/universal-user-agent.dep.yml",
+        "mode": "100644",
+        "type": "blob",
+        "sha": "f49f39a32fcb440355efb483dd37c69d0bdd7d76",
+        "size": 1088,
+        "url": "https://api.github.com/repos/actions/checkout/git/blobs/f49f39a32fcb440355efb483dd37c69d0bdd7d76"
+      },
+      {
+        "path": "LICENSE",
+        "mode": "100644",
+        "type": "blob",
+        "sha": "a67dca8b4f65d6bd351f6b1e333ce2cd84d843a5",
+        "size": 1097,
+        "url": "https://api.github.com/repos/actions/checkout/git/blobs/a67dca8b4f65d6bd351f6b1e333ce2cd84d843a5"
+      },
+      {
+        "path": "action.yml",
+        "mode": "100644",
+        "type": "blob",
+        "sha": "5b0524f730db83f9513c18ab31a6c086c7239076",
+        "size": 5144,
+        "url": "https://api.github.com/repos/actions/checkout/git/blobs/5b0524f730db83f9513c18ab31a6c086c7239076"
+      },
+      {
+        "path": "package-lock.json",
+        "mode": "100644",
+        "type": "blob",
+        "sha": "faf0e22120b3e68dd2d480968fe3ae5227079ad4",
+        "size": 294209,
+        "url": "https://api.github.com/repos/actions/checkout/git/blobs/faf0e22120b3e68dd2d480968fe3ae5227079ad4"
+      },
+      {
+        "path": "package.json",
+        "mode": "100644",
+        "type": "blob",
+        "sha": "9b02e96595db9e2d3a735a8adbda17a61e56fd5f",
+        "size": 1580,
+        "url": "https://api.github.com/repos/actions/checkout/git/blobs/9b02e96595db9e2d3a735a8adbda17a61e56fd5f"
+      },
+      {
+        "path": "src/misc/licensed-check.sh",
+        "mode": "100755",
+        "type": "blob",
+        "sha": "81987b6ca6901bdf8f794dcc1f6ee055e621d568",
+        "size": 120,
+        "url": "https://api.github.com/repos/actions/checkout/git/blobs/81987b6ca6901bdf8f794dcc1f6ee055e621d568"
+      },
+      {
+        "path": "src/misc/licensed-download.sh",
+        "mode": "100755",
+        "type": "blob",
+        "sha": "973e8e217658fd8bc24856a5c64403ffd14c4f51",
+        "size": 663,
+        "url": "https://api.github.com/repos/actions/checkout/git/blobs/973e8e217658fd8bc24856a5c64403ffd14c4f51"
+      },
+      {
+        "path": "src/misc/licensed-generate.sh",
+        "mode": "100755",
+        "type": "blob",
+        "sha": "d2e18774de43b5a6a7b8a8c9eab719b448ac21d6",
+        "size": 119,
+        "url": "https://api.github.com/repos/actions/checkout/git/blobs/d2e18774de43b5a6a7b8a8c9eab719b448ac21d6"
+      }
+    ]
+  },
+  "setup-python": {
+    "sha": "5fda3b95a4ea91299a34e894583c3862153e4b97",
+    "records": [
+      {
+        "path": ".github/workflows/licensed.yml",
+        "mode": "100644",
+        "type": "blob",
+        "sha": "a00d7744aa3583f4003f19823c0bdd916fe1a4cc",
+        "size": 214,
+        "url": "https://api.github.com/repos/actions/setup-python/git/blobs/a00d7744aa3583f4003f19823c0bdd916fe1a4cc"
+      },
+      {
+        "path": ".licensed.yml",
+        "mode": "100644",
+        "type": "blob",
+        "sha": "ac762c6f010d3c3a442fea5b4ad9924865c80396",
+        "size": 242,
+        "url": "https://api.github.com/repos/actions/setup-python/git/blobs/ac762c6f010d3c3a442fea5b4ad9924865c80396"
+      },
+      {
+        "path": ".licenses/npm/@actions/cache.dep.yml",
+        "mode": "100644",
+        "type": "blob",
+        "sha": "9433ea0f051d8954fcdc6da3214ee007b72d6fd4",
+        "size": 1306,
+        "url": "https://api.github.com/repos/actions/setup-python/git/blobs/9433ea0f051d8954fcdc6da3214ee007b72d6fd4"
+      },
+      {
+        "path": ".licenses/npm/@actions/core.dep.yml",
+        "mode": "100644",
+        "type": "blob",
+        "sha": "081715159ecd03858a85fe9ba117a92f70e374f2",
+        "size": 1303,
+        "url": "https://api.github.com/repos/actions/setup-python/git/blobs/081715159ecd03858a85fe9ba117a92f70e374f2"
+      },
+      {
+        "path": ".licenses/npm/@actions/exec.dep.yml",
+        "mode": "100644",
+        "type": "blob",
+        "sha": "003562f8bc30ef3a98ef8fe4a8a931a1a42b88ab",
+        "size": 1303,
+        "url": "https://api.github.com/repos/actions/setup-python/git/blobs/003562f8bc30ef3a98ef8fe4a8a931a1a42b88ab"
+      },
+      {
+        "path": ".licenses/npm/@actions/glob-0.6.1.dep.yml",
+        "mode": "100644",
+        "type": "blob",
+        "sha": "ae9067396a66e06abc678a8ca071f185a02bf98a",
+        "size": 1303,
+        "url": "https://api.github.com/repos/actions/setup-python/git/blobs/ae9067396a66e06abc678a8ca071f185a02bf98a"
+      },
+      {
+        "path": ".licenses/npm/@actions/glob-0.7.0.dep.yml",
+        "mode": "100644",
+        "type": "blob",
+        "sha": "24d3f6916a497940ca9b48b1fe266ba17b6e33f0",
+        "size": 1303,
+        "url": "https://api.github.com/repos/actions/setup-python/git/blobs/24d3f6916a497940ca9b48b1fe266ba17b6e33f0"
+      },
+      {
+        "path": ".licenses/npm/@actions/http-client.dep.yml",
+        "mode": "100644",
+        "type": "blob",
+        "sha": "dc741537d30ae7aecfcc7579d03a43dcc7e20e42",
+        "size": 1408,
+        "url": "https://api.github.com/repos/actions/setup-python/git/blobs/dc741537d30ae7aecfcc7579d03a43dcc7e20e42"
+      },
+      {
+        "path": ".licenses/npm/@actions/io.dep.yml",
+        "mode": "100644",
+        "type": "blob",
+        "sha": "dadddb4ed5dd55c150cb912fb396d0e12d1534e7",
+        "size": 1297,
+        "url": "https://api.github.com/repos/actions/setup-python/git/blobs/dadddb4ed5dd55c150cb912fb396d0e12d1534e7"
+      },
+      {
+        "path": ".licenses/npm/@actions/tool-cache.dep.yml",
+        "mode": "100644",
+        "type": "blob",
+        "sha": "e7bf5bf0f0e814593117d1e9ee827a810593b84a",
+        "size": 1321,
+        "url": "https://api.github.com/repos/actions/setup-python/git/blobs/e7bf5bf0f0e814593117d1e9ee827a810593b84a"
+      },
+      {
+        "path": ".licenses/npm/@azure/abort-controller.dep.yml",
+        "mode": "100644",
+        "type": "blob",
+        "sha": "934bd3bfa5c143958cdf2846334ca9e852e6e768",
+        "size": 1421,
+        "url": "https://api.github.com/repos/actions/setup-python/git/blobs/934bd3bfa5c143958cdf2846334ca9e852e6e768"
+      },
+      {
+        "path": ".licenses/npm/@azure/core-auth.dep.yml",
+        "mode": "100644",
+        "type": "blob",
+        "sha": "193d51d60c550ac4c7a2c8dcd54e25eff6aebc10",
+        "size": 1444,
+        "url": "https://api.github.com/repos/actions/setup-python/git/blobs/193d51d60c550ac4c7a2c8dcd54e25eff6aebc10"
+      },
+      {
+        "path": ".licenses/npm/@azure/core-client.dep.yml",
+        "mode": "100644",
+        "type": "blob",
+        "sha": "93ed4b687c88ad1f24dc778efbafd5564361cbcf",
+        "size": 1414,
+        "url": "https://api.github.com/repos/actions/setup-python/git/blobs/93ed4b687c88ad1f24dc778efbafd5564361cbcf"
+      },
+      {
+        "path": ".licenses/npm/@azure/core-http-compat.dep.yml",
+        "mode": "100644",
+        "type": "blob",
+        "sha": "8a8b5c17674ef99cdace19d32025fd815f38429d",
+        "size": 1441,
+        "url": "https://api.github.com/repos/actions/setup-python/git/blobs/8a8b5c17674ef99cdace19d32025fd815f38429d"
+      },
+      {
+        "path": ".licenses/npm/@azure/core-lro.dep.yml",
+        "mode": "100644",
+        "type": "blob",
+        "sha": "46cbe6e51f1ca8762f472e162120cfc571f86c35",
+        "size": 1451,
+        "url": "https://api.github.com/repos/actions/setup-python/git/blobs/46cbe6e51f1ca8762f472e162120cfc571f86c35"
+      },
+      {
+        "path": ".licenses/npm/@azure/core-paging.dep.yml",
+        "mode": "100644",
+        "type": "blob",
+        "sha": "cc31605849731e23e1d4ae5e0376b7eeec6e0c32",
+        "size": 1413,
+        "url": "https://api.github.com/repos/actions/setup-python/git/blobs/cc31605849731e23e1d4ae5e0376b7eeec6e0c32"
+      },
+      {
+        "path": ".licenses/npm/@azure/core-rest-pipeline.dep.yml",
+        "mode": "100644",
+        "type": "blob",
+        "sha": "3db95a85134d2a34370d8471a13f55a33c59e0a0",
+        "size": 1454,
+        "url": "https://api.github.com/repos/actions/setup-python/git/blobs/3db95a85134d2a34370d8471a13f55a33c59e0a0"
+      },
+      {
+        "path": ".licenses/npm/@azure/core-tracing.dep.yml",
+        "mode": "100644",
+        "type": "blob",
+        "sha": "71f7b7f0930907d501319d70017f2efe8630596c",
+        "size": 1440,
+        "url": "https://api.github.com/repos/actions/setup-python/git/blobs/71f7b7f0930907d501319d70017f2efe8630596c"
+      },
+      {
+        "path": ".licenses/npm/@azure/core-util.dep.yml",
+        "mode": "100644",
+        "type": "blob",
+        "sha": "a0564854427cf337654d12b16ccfb076d3680f23",
+        "size": 1392,
+        "url": "https://api.github.com/repos/actions/setup-python/git/blobs/a0564854427cf337654d12b16ccfb076d3680f23"
+      },
+      {
+        "path": ".licenses/npm/@azure/core-xml.dep.yml",
+        "mode": "100644",
+        "type": "blob",
+        "sha": "4987b552e35ad39eb9f118eedfe39e3309a25a97",
+        "size": 1396,
+        "url": "https://api.github.com/repos/actions/setup-python/git/blobs/4987b552e35ad39eb9f118eedfe39e3309a25a97"
+      },
+      {
+        "path": ".licenses/npm/@azure/logger.dep.yml",
+        "mode": "100644",
+        "type": "blob",
+        "sha": "065ecaa55d86c13464642060b7571e7e6f59e866",
+        "size": 1398,
+        "url": "https://api.github.com/repos/actions/setup-python/git/blobs/065ecaa55d86c13464642060b7571e7e6f59e866"
+      },
+      {
+        "path": ".licenses/npm/@azure/storage-blob.dep.yml",
+        "mode": "100644",
+        "type": "blob",
+        "sha": "f611da3146401b10769ceb32c2ed310a1328018d",
+        "size": 1421,
+        "url": "https://api.github.com/repos/actions/setup-python/git/blobs/f611da3146401b10769ceb32c2ed310a1328018d"
+      },
+      {
+        "path": ".licenses/npm/@azure/storage-common.dep.yml",
+        "mode": "100644",
+        "type": "blob",
+        "sha": "1241630c14f5a55fa8886da0e4b4bd2c9682896a",
+        "size": 1428,
+        "url": "https://api.github.com/repos/actions/setup-python/git/blobs/1241630c14f5a55fa8886da0e4b4bd2c9682896a"
+      },
+      {
+        "path": ".licenses/npm/@iarna/toml.dep.yml",
+        "mode": "100644",
+        "type": "blob",
+        "sha": "11f3979811c8beecf277c80ccdff1ef07d972a28",
+        "size": 1050,
+        "url": "https://api.github.com/repos/actions/setup-python/git/blobs/11f3979811c8beecf277c80ccdff1ef07d972a28"
+      },
+      {
+        "path": ".licenses/npm/@nodable/entities.dep.yml",
+        "mode": "100644",
+        "type": "blob",
+        "sha": "c11ab9f1e5c749847f43fa85db7a7c7c8f4c69da",
+        "size": 219,
+        "url": "https://api.github.com/repos/actions/setup-python/git/blobs/c11ab9f1e5c749847f43fa85db7a7c7c8f4c69da"
+      },
+      {
+        "path": ".licenses/npm/@protobuf-ts/runtime-rpc.dep.yml",
+        "mode": "100644",
+        "type": "blob",
+        "sha": "79644b5d703ed100287cc788187367d38b1b3dd8",
+        "size": 11008,
+        "url": "https://api.github.com/repos/actions/setup-python/git/blobs/79644b5d703ed100287cc788187367d38b1b3dd8"
+      },
+      {
+        "path": ".licenses/npm/@protobuf-ts/runtime.dep.yml",
+        "mode": "100644",
+        "type": "blob",
+        "sha": "7a210232df09120472c5d1251411bb2b902a0d66",
+        "size": 10997,
+        "url": "https://api.github.com/repos/actions/setup-python/git/blobs/7a210232df09120472c5d1251411bb2b902a0d66"
+      },
+      {
+        "path": ".licenses/npm/@typespec/ts-http-runtime.dep.yml",
+        "mode": "100644",
+        "type": "blob",
+        "sha": "bad51e86f4ce2265724ae27e1868358ef0fb7813",
+        "size": 1450,
+        "url": "https://api.github.com/repos/actions/setup-python/git/blobs/bad51e86f4ce2265724ae27e1868358ef0fb7813"
+      },
+      {
+        "path": ".licenses/npm/agent-base.dep.yml",
+        "mode": "100644",
+        "type": "blob",
+        "sha": "54c324a342da9afb80e43995cdf7831dbfb48d1f",
+        "size": 1350,
+        "url": "https://api.github.com/repos/actions/setup-python/git/blobs/54c324a342da9afb80e43995cdf7831dbfb48d1f"
+      },
+      {
+        "path": ".licenses/npm/anynum.dep.yml",
+        "mode": "100644",
+        "type": "blob",
+        "sha": "7272d18bffe6b947c90a274209f444d4e053c283",
+        "size": 1433,
+        "url": "https://api.github.com/repos/actions/setup-python/git/blobs/7272d18bffe6b947c90a274209f444d4e053c283"
+      },
+      {
+        "path": ".licenses/npm/balanced-match-1.0.2.dep.yml",
+        "mode": "100644",
+        "type": "blob",
+        "sha": "36095592b7638eb5cace9a13698a3b9cda74b142",
+        "size": 2592,
+        "url": "https://api.github.com/repos/actions/setup-python/git/blobs/36095592b7638eb5cace9a13698a3b9cda74b142"
+      },
+      {
+        "path": ".licenses/npm/balanced-match-4.0.4.dep.yml",
+        "mode": "100644",
+        "type": "blob",
+        "sha": "cdc7f86c19fa005cffee3d5d049b56486d399a55",
+        "size": 1414,
+        "url": "https://api.github.com/repos/actions/setup-python/git/blobs/cdc7f86c19fa005cffee3d5d049b56486d399a55"
+      },
+      {
+        "path": ".licenses/npm/brace-expansion-1.1.15.dep.yml",
+        "mode": "100644",
+        "type": "blob",
+        "sha": "cc67fe7595e35e56dec926b8bba94db29722dd54",
+        "size": 2581,
+        "url": "https://api.github.com/repos/actions/setup-python/git/blobs/cc67fe7595e35e56dec926b8bba94db29722dd54"
+      },
+      {
+        "path": ".licenses/npm/brace-expansion-5.0.6.dep.yml",
+        "mode": "100644",
+        "type": "blob",
+        "sha": "af66077e36a049d911b0170e55bf2bb4f008adec",
+        "size": 1390,
+        "url": "https://api.github.com/repos/actions/setup-python/git/blobs/af66077e36a049d911b0170e55bf2bb4f008adec"
+      },
+      {
+        "path": ".licenses/npm/concat-map.dep.yml",
+        "mode": "100644",
+        "type": "blob",
+        "sha": "20216b958a5dad1d375f3762384fce62ca190930",
+        "size": 1379,
+        "url": "https://api.github.com/repos/actions/setup-python/git/blobs/20216b958a5dad1d375f3762384fce62ca190930"
+      },
+      {
+        "path": ".licenses/npm/debug.dep.yml",
+        "mode": "100644",
+        "type": "blob",
+        "sha": "b49c69e920e68e1030eb120d9c03d2fe3604f709",
+        "size": 2634,
+        "url": "https://api.github.com/repos/actions/setup-python/git/blobs/b49c69e920e68e1030eb120d9c03d2fe3604f709"
+      },
+      {
+        "path": ".licenses/npm/events.dep.yml",
+        "mode": "100644",
+        "type": "blob",
+        "sha": "baae3b6b914042522ae9c40b23cee0a954eac499",
+        "size": 1484,
+        "url": "https://api.github.com/repos/actions/setup-python/git/blobs/baae3b6b914042522ae9c40b23cee0a954eac499"
+      },
+      {
+        "path": ".licenses/npm/fast-xml-builder.dep.yml",
+        "mode": "100644",
+        "type": "blob",
+        "sha": "feb4a643ccb2c467d8cc200478cf02fa3923e059",
+        "size": 1331,
+        "url": "https://api.github.com/repos/actions/setup-python/git/blobs/feb4a643ccb2c467d8cc200478cf02fa3923e059"
+      },
+      {
+        "path": ".licenses/npm/fast-xml-parser.dep.yml",
+        "mode": "100644",
+        "type": "blob",
+        "sha": "8f13da7e0913f19569ad237f44260c210cd9ba31",
+        "size": 1439,
+        "url": "https://api.github.com/repos/actions/setup-python/git/blobs/8f13da7e0913f19569ad237f44260c210cd9ba31"
+      },
+      {
+        "path": ".licenses/npm/http-proxy-agent.dep.yml",
+        "mode": "100644",
+        "type": "blob",
+        "sha": "bcd275739f261e85263fe447f2ca7739e9cf8e92",
+        "size": 1363,
+        "url": "https://api.github.com/repos/actions/setup-python/git/blobs/bcd275739f261e85263fe447f2ca7739e9cf8e92"
+      },
+      {
+        "path": ".licenses/npm/https-proxy-agent.dep.yml",
+        "mode": "100644",
+        "type": "blob",
+        "sha": "7b6e176d72a781e0e2aff342b8a3f811e35fdb13",
+        "size": 1366,
+        "url": "https://api.github.com/repos/actions/setup-python/git/blobs/7b6e176d72a781e0e2aff342b8a3f811e35fdb13"
+      },
+      {
+        "path": ".licenses/npm/is-unsafe.dep.yml",
+        "mode": "100644",
+        "type": "blob",
+        "sha": "02edc8dd4624250662be7590e8cc8d644a9fe33a",
+        "size": 1434,
+        "url": "https://api.github.com/repos/actions/setup-python/git/blobs/02edc8dd4624250662be7590e8cc8d644a9fe33a"
+      },
+      {
+        "path": ".licenses/npm/minimatch-10.2.5.dep.yml",
+        "mode": "100644",
+        "type": "blob",
+        "sha": "d13280f6d05b00f38457b40fd2ea02d260adcb84",
+        "size": 1873,
+        "url": "https://api.github.com/repos/actions/setup-python/git/blobs/d13280f6d05b00f38457b40fd2ea02d260adcb84"
+      },
+      {
+        "path": ".licenses/npm/minimatch-3.1.5.dep.yml",
+        "mode": "100644",
+        "type": "blob",
+        "sha": "81a9735725590215dd391261885420c8f2e77236",
+        "size": 970,
+        "url": "https://api.github.com/repos/actions/setup-python/git/blobs/81a9735725590215dd391261885420c8f2e77236"
+      },
+      {
+        "path": ".licenses/npm/ms.dep.yml",
+        "mode": "100644",
+        "type": "blob",
+        "sha": "5a303e4d6c2bda820d7c978f5a3dd8e26464facf",
+        "size": 1307,
+        "url": "https://api.github.com/repos/actions/setup-python/git/blobs/5a303e4d6c2bda820d7c978f5a3dd8e26464facf"
+      },
+      {
+        "path": ".licenses/npm/path-expression-matcher.dep.yml",
+        "mode": "100644",
+        "type": "blob",
+        "sha": "dcb076d56e8d35755e8f04e5573a98e6d5cb123b",
+        "size": 1402,
+        "url": "https://api.github.com/repos/actions/setup-python/git/blobs/dcb076d56e8d35755e8f04e5573a98e6d5cb123b"
+      },
+      {
+        "path": ".licenses/npm/semver.dep.yml",
+        "mode": "100644",
+        "type": "blob",
+        "sha": "c5813fabe7b108e85b7150347862192517d287d5",
+        "size": 979,
+        "url": "https://api.github.com/repos/actions/setup-python/git/blobs/c5813fabe7b108e85b7150347862192517d287d5"
+      },
+      {
+        "path": ".licenses/npm/strnum.dep.yml",
+        "mode": "100644",
+        "type": "blob",
+        "sha": "3daa33abe43dfb8929e0002e717885f20421a733",
+        "size": 1317,
+        "url": "https://api.github.com/repos/actions/setup-python/git/blobs/3daa33abe43dfb8929e0002e717885f20421a733"
+      },
+      {
+        "path": ".licenses/npm/tslib.dep.yml",
+        "mode": "100644",
+        "type": "blob",
+        "sha": "4611137caf00d137851f68d9ddeb31c7631fc554",
+        "size": 895,
+        "url": "https://api.github.com/repos/actions/setup-python/git/blobs/4611137caf00d137851f68d9ddeb31c7631fc554"
+      },
+      {
+        "path": ".licenses/npm/tunnel.dep.yml",
+        "mode": "100644",
+        "type": "blob",
+        "sha": "9a7111da96a36c81dd1160453ab32caa08c8707f",
+        "size": 1488,
+        "url": "https://api.github.com/repos/actions/setup-python/git/blobs/9a7111da96a36c81dd1160453ab32caa08c8707f"
+      },
+      {
+        "path": ".licenses/npm/undici.dep.yml",
+        "mode": "100644",
+        "type": "blob",
+        "sha": "c46a5c7bff13518993f1b33ce194be381f516fde",
+        "size": 1396,
+        "url": "https://api.github.com/repos/actions/setup-python/git/blobs/c46a5c7bff13518993f1b33ce194be381f516fde"
+      },
+      {
+        "path": ".licenses/npm/xml-naming.dep.yml",
+        "mode": "100644",
+        "type": "blob",
+        "sha": "6871fb555f839d534ec409673de4e063d48420bd",
+        "size": 234,
+        "url": "https://api.github.com/repos/actions/setup-python/git/blobs/6871fb555f839d534ec409673de4e063d48420bd"
+      },
+      {
+        "path": "LICENSE",
+        "mode": "100644",
+        "type": "blob",
+        "sha": "a426ef259d6c5d705e9c1405075c3b318093c65e",
+        "size": 1096,
+        "url": "https://api.github.com/repos/actions/setup-python/git/blobs/a426ef259d6c5d705e9c1405075c3b318093c65e"
+      },
+      {
+        "path": "action.yml",
+        "mode": "100644",
+        "type": "blob",
+        "sha": "df6c8235b476652b6402d31d92a2a89cdea74bb9",
+        "size": 2502,
+        "url": "https://api.github.com/repos/actions/setup-python/git/blobs/df6c8235b476652b6402d31d92a2a89cdea74bb9"
+      },
+      {
+        "path": "package-lock.json",
+        "mode": "100644",
+        "type": "blob",
+        "sha": "925d97f2f609839e798a0a5170ce590e4e94b00c",
+        "size": 234526,
+        "url": "https://api.github.com/repos/actions/setup-python/git/blobs/925d97f2f609839e798a0a5170ce590e4e94b00c"
+      },
+      {
+        "path": "package.json",
+        "mode": "100644",
+        "type": "blob",
+        "sha": "12beef0318d70fef40169a47ba82a0a23c376788",
+        "size": 1878,
+        "url": "https://api.github.com/repos/actions/setup-python/git/blobs/12beef0318d70fef40169a47ba82a0a23c376788"
+      }
+    ]
+  },
+  "upload-artifact": {
+    "sha": "043fb46d1a93c77aae656e7c1c64a875d1fc6a0a",
+    "records": [
+      {
+        "path": ".github/workflows/licensed.yml",
+        "mode": "100644",
+        "type": "blob",
+        "sha": "6c8fe65d0e9d24c8d4fef90ef171b0fdc41f4dc3",
+        "size": 554,
+        "url": "https://api.github.com/repos/actions/upload-artifact/git/blobs/6c8fe65d0e9d24c8d4fef90ef171b0fdc41f4dc3"
+      },
+      {
+        "path": ".licensed.yml",
+        "mode": "100644",
+        "type": "blob",
+        "sha": "becee5326096fd473baef267d06fa58ceb54d84e",
+        "size": 743,
+        "url": "https://api.github.com/repos/actions/upload-artifact/git/blobs/becee5326096fd473baef267d06fa58ceb54d84e"
+      },
+      {
+        "path": ".licenses/npm/@actions/artifact.dep.yml",
+        "mode": "100644",
+        "type": "blob",
+        "sha": "4976215aac0f2937cac3e21ba9942828bf0689fd",
+        "size": 1315,
+        "url": "https://api.github.com/repos/actions/upload-artifact/git/blobs/4976215aac0f2937cac3e21ba9942828bf0689fd"
+      },
+      {
+        "path": ".licenses/npm/@actions/core.dep.yml",
+        "mode": "100644",
+        "type": "blob",
+        "sha": "33f5fd8dc426a7d5e841b79c36279f828843e6fe",
+        "size": 1303,
+        "url": "https://api.github.com/repos/actions/upload-artifact/git/blobs/33f5fd8dc426a7d5e841b79c36279f828843e6fe"
+      },
+      {
+        "path": ".licenses/npm/@actions/github.dep.yml",
+        "mode": "100644",
+        "type": "blob",
+        "sha": "09817e46c8b0365f7fe4b567c07c2e9c651a40cf",
+        "size": 1309,
+        "url": "https://api.github.com/repos/actions/upload-artifact/git/blobs/09817e46c8b0365f7fe4b567c07c2e9c651a40cf"
+      },
+      {
+        "path": ".licenses/npm/@actions/glob.dep.yml",
+        "mode": "100644",
+        "type": "blob",
+        "sha": "ae9067396a66e06abc678a8ca071f185a02bf98a",
+        "size": 1303,
+        "url": "https://api.github.com/repos/actions/upload-artifact/git/blobs/ae9067396a66e06abc678a8ca071f185a02bf98a"
+      },
+      {
+        "path": ".licenses/npm/@actions/io.dep.yml",
+        "mode": "100644",
+        "type": "blob",
+        "sha": "dadddb4ed5dd55c150cb912fb396d0e12d1534e7",
+        "size": 1297,
+        "url": "https://api.github.com/repos/actions/upload-artifact/git/blobs/dadddb4ed5dd55c150cb912fb396d0e12d1534e7"
+      },
+      {
+        "path": ".licenses/npm/minimatch.dep.yml",
+        "mode": "100644",
+        "type": "blob",
+        "sha": "8ed580aa7aa5b30ce979c447d053918f1b25b51c",
+        "size": 1846,
+        "url": "https://api.github.com/repos/actions/upload-artifact/git/blobs/8ed580aa7aa5b30ce979c447d053918f1b25b51c"
+      },
+      {
+        "path": "LICENSE",
+        "mode": "100644",
+        "type": "blob",
+        "sha": "a67dca8b4f65d6bd351f6b1e333ce2cd84d843a5",
+        "size": 1097,
+        "url": "https://api.github.com/repos/actions/upload-artifact/git/blobs/a67dca8b4f65d6bd351f6b1e333ce2cd84d843a5"
+      },
+      {
+        "path": "action.yml",
+        "mode": "100644",
+        "type": "blob",
+        "sha": "7cb4d1e81db55320b41217e1a78a1a46e3d2baef",
+        "size": 3603,
+        "url": "https://api.github.com/repos/actions/upload-artifact/git/blobs/7cb4d1e81db55320b41217e1a78a1a46e3d2baef"
+      },
+      {
+        "path": "package-lock.json",
+        "mode": "100644",
+        "type": "blob",
+        "sha": "7b5e8775fc15bcc6a4a83897ccc9d00b722d5284",
+        "size": 351963,
+        "url": "https://api.github.com/repos/actions/upload-artifact/git/blobs/7b5e8775fc15bcc6a4a83897ccc9d00b722d5284"
+      },
+      {
+        "path": "package.json",
+        "mode": "100644",
+        "type": "blob",
+        "sha": "73f775442988196e7485c6abafebc6bd53a88329",
+        "size": 1832,
+        "url": "https://api.github.com/repos/actions/upload-artifact/git/blobs/73f775442988196e7485c6abafebc6bd53a88329"
+      }
+    ]
+  },
+  "attest-build-provenance": {
+    "sha": "4d101475d8b20a2381f78447822ac1eab6504dd8",
+    "records": [
+      {
+        "path": "LICENSE",
+        "mode": "100644",
+        "type": "blob",
+        "sha": "5f9e342dcc1e39277b96077541676ce6307de2c7",
+        "size": 1053,
+        "url": "https://api.github.com/repos/actions/attest-build-provenance/git/blobs/5f9e342dcc1e39277b96077541676ce6307de2c7"
+      },
+      {
+        "path": "action.yml",
+        "mode": "100644",
+        "type": "blob",
+        "sha": "22d0e61252b70431a96c667ee1b7e96708886241",
+        "size": 4116,
+        "url": "https://api.github.com/repos/actions/attest-build-provenance/git/blobs/22d0e61252b70431a96c667ee1b7e96708886241"
+      }
+    ]
+  },
+  "attest": {
+    "sha": "508db95dd578ae2727ebd6217d5ba78e4fbda05d",
+    "records": [
+      {
+        "path": "LICENSE",
+        "mode": "100644",
+        "type": "blob",
+        "sha": "5f9e342dcc1e39277b96077541676ce6307de2c7",
+        "size": 1053,
+        "url": "https://api.github.com/repos/actions/attest/git/blobs/5f9e342dcc1e39277b96077541676ce6307de2c7"
+      },
+      {
+        "path": "action.yml",
+        "mode": "100644",
+        "type": "blob",
+        "sha": "f3d593f3020cf14b65d2789e3788d015354475e9",
+        "size": 4048,
+        "url": "https://api.github.com/repos/actions/attest/git/blobs/f3d593f3020cf14b65d2789e3788d015354475e9"
+      },
+      {
+        "path": "dist/licenses.txt",
+        "mode": "100644",
+        "type": "blob",
+        "sha": "6cfe240fb47b09b57c3fa74ae6c89befb2c357e3",
+        "size": 2194,
+        "url": "https://api.github.com/repos/actions/attest/git/blobs/6cfe240fb47b09b57c3fa74ae6c89befb2c357e3"
+      },
+      {
+        "path": "package-lock.json",
+        "mode": "100644",
+        "type": "blob",
+        "sha": "7b90d5299b9a2dafbb2cd8fd02eefbcf2a33fb1e",
+        "size": 380928,
+        "url": "https://api.github.com/repos/actions/attest/git/blobs/7b90d5299b9a2dafbb2cd8fd02eefbcf2a33fb1e"
+      },
+      {
+        "path": "package.json",
+        "mode": "100644",
+        "type": "blob",
+        "sha": "22a01a54c3e0b8d327adc5b847525d25140c8191",
+        "size": 2757,
+        "url": "https://api.github.com/repos/actions/attest/git/blobs/22a01a54c3e0b8d327adc5b847525d25140c8191"
+      }
+    ]
+  }
+}

@@ -88,10 +88,18 @@ qualified backup/migration procedure.
 
 ## Qualification status
 
-Local policy regression tests cover rejection behavior. Actual signed workflow
-execution, downloaded-bundle positive verification and wrong-source rejection
-must be retained after the workflow reaches main. Until that happens, signed
-end-to-end qualification is pending. Complete bundled component and repository
-adaptation/license inventories remain separate unfinished parts of #23.
+The first signed run qualified source `368ad3cd178154bb82913df72d43dcf7e524f277`
+after its full platform matrix passed. [Run 34368496244](https://github.com/anthonykewl20/GoPyt/actions/runs/34368496244)
+reproduced and signed the wheel and build report, verified the bundle, and rejected
+corruption and a wrong source commit. A separate local verification authenticated
+the downloaded report and wheel. Direct wrong-source verification failed with
+SourceRepositoryDigest mismatch; local corruption failed the approved-hash gate.
+
+The wheel SHA256 is `c33b719e310ac9f7592380712c00bc0ca38e80a3e577067b47d5ba92d22d7883`.
+[Retained bundle, reports and controls](../validation/release-provenance/signed-368ad3/)
+preserve the evidence. This initial run signed two subjects (wheel and report);
+it does not qualify later workflow revisions or claim an attested component
+inventory. Complete component and repository adaptation/license inventories
+remain separate unfinished parts of #23.
 
 Reference: [GitHub artifact attestations](https://docs.github.com/en/actions/how-tos/secure-your-work/use-artifact-attestations/use-artifact-attestations).
