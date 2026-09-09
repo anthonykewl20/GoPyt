@@ -31,6 +31,10 @@ REQUEST_TIMEOUT_SECONDS = 10.0
 TCP_NODELAY = True
 
 
+class _DrainRequested(Exception):
+    """Leave the serving loop normally without cancelling active handlers."""
+
+
 class _WorkerStartError(Exception):
     """Handler pool could not be started; its resources have been reclaimed."""
 
@@ -140,6 +144,7 @@ def serve(vm, module: str):
         vm.serving = False
         return _status(vm, "ListenError", "no routes")
     stop = threading.Event()
+    draining = threading.Event()
     inherited_cancels = vm.cancels
     inherited_deadline = vm.deadline_ns
 
@@ -263,6 +268,20 @@ def serve(vm, module: str):
                 self._dispatch(fn_id, names, placeholders, binds, body, method_num)
 
         def _dispatch(self, fn_id, names, placeholders, binds, body, method_num) -> None:
+            with self.server.connection_lock:
+                if draining.is_set():
+                    self.close_connection = True
+                    return
+                self.server.active_connections.add(self.connection)
+            try:
+                self._dispatch_active(fn_id, names, placeholders, binds, body, method_num)
+            finally:
+                with self.server.connection_lock:
+                    self.server.active_connections.discard(self.connection)
+                    if draining.is_set():
+                        self.close_connection = True
+
+        def _dispatch_active(self, fn_id, names, placeholders, binds, body, method_num) -> None:
             import time as _time
 
             started = _time.monotonic()
@@ -354,6 +373,7 @@ def serve(vm, module: str):
             try:
                 self.pending = queue.Queue(maxsize=QUEUE)
                 self.connections = set()
+                self.active_connections = set()
                 self.connection_lock = threading.Lock()
                 self.workers = []
                 for _ in range(MAX_HANDLERS):
@@ -367,10 +387,18 @@ def serve(vm, module: str):
                 self.server_close()
                 raise
 
+        def shutdown(self):
+            # Prevent dispatch races before waiting for the accept loop to stop.
+            with self.connection_lock:
+                draining.set()
+            super().shutdown()
+
         def service_actions(self):
             # Runs in the serving coordinator; raising leaves serve_forever's
             # finally block intact and avoids shutdown()'s same-thread deadlock.
             vm.check_cancelled()
+            if draining.is_set():
+                raise _DrainRequested()
 
         def process_request(self, request, address):
             deadline = time.monotonic_ns() + int(REQUEST_TIMEOUT_SECONDS * 1_000_000_000)
@@ -379,10 +407,13 @@ def serve(vm, module: str):
             except (Cancelled, Trap):
                 self.shutdown_request(request)
                 return  # service_actions reports the context exit to the caller.
-            with self.connection_lock:
-                self.connections.add(request)
             try:
-                self.pending.put_nowait((request, address, deadline))
+                with self.connection_lock:
+                    if draining.is_set():
+                        self.shutdown_request(request)
+                        return
+                    self.connections.add(request)
+                    self.pending.put_nowait((request, address, deadline))
             except queue.Full:
                 try:
                     request.sendall(b"HTTP/1.1 503 Service Unavailable\r\nContent-Length: 0\r\nConnection: close\r\n\r\n")
@@ -397,40 +428,65 @@ def serve(vm, module: str):
             vm.cancels = inherited_cancels + (stop,)
             vm.deadline_ns = inherited_deadline
             while True:
-                item = self.pending.get()
+                try:
+                    item = self.pending.get(timeout=0.1)
+                except queue.Empty:
+                    if draining.is_set():
+                        return
+                    continue
+                request = None
                 try:
                     if item is None:
                         return
                     request, address, deadline = item
                     vm._tl.http_request_deadline_ns = deadline
-                    if stop.is_set() or time.monotonic_ns() >= deadline:
+                    if stop.is_set() or draining.is_set() or time.monotonic_ns() >= deadline:
                         self.shutdown_request(request)
                     else:
                         self.process_request_thread(request, address)
-                    with self.connection_lock:
-                        self.connections.discard(request)
                 finally:
+                    if request is not None:
+                        with self.connection_lock:
+                            self.connections.discard(request)
                     vm.heap.release_result()
                     if hasattr(vm._tl, 'http_request_deadline_ns'):
                         del vm._tl.http_request_deadline_ns
                     self.pending.task_done()
 
+        def discard_pending(self):
+            while True:
+                try:
+                    item = self.pending.get_nowait()
+                except queue.Empty:
+                    return
+                try:
+                    if item is not None:
+                        request, _address, _deadline = item
+                        self.shutdown_request(request)
+                        with self.connection_lock:
+                            self.connections.discard(request)
+                finally:
+                    self.pending.task_done()
+
         def server_close(self):
-            stop.set()
+            draining.set()
+            super().server_close()
             if hasattr(self, "workers"):
                 with self.connection_lock:
                     for connection in self.connections:
+                        if not stop.is_set() and connection in self.active_connections:
+                            continue
                         try:
                             connection.shutdown(socket.SHUT_RDWR)
                         except OSError:
                             pass
+                self.discard_pending()
                 started = [worker for worker in self.workers if worker.ident is not None]
-                for _worker in started:
-                    self.pending.put(None)
                 for worker in started:
                     worker.join()
                 self.workers.clear()
-            super().server_close()
+                self.discard_pending()
+            stop.set()
 
     try:
         httpd = Server(addr, Handler)
@@ -446,8 +502,7 @@ def serve(vm, module: str):
     vm.httpd = httpd  # SIGINT/SIGTERM and in-process callers stop it here
 
     def shutdown(_signum, _frame):
-        stop.set()
-        threading.Thread(target=httpd.shutdown, daemon=True).start()
+        draining.set()
 
     previous_signals = {}
     try:
@@ -458,6 +513,11 @@ def serve(vm, module: str):
         previous_signals = {}
     try:
         httpd.serve_forever(poll_interval=0.1)
+    except _DrainRequested:
+        pass
+    except BaseException:
+        stop.set()
+        raise
     finally:
         httpd.server_close()
         for sig, handler in previous_signals.items():

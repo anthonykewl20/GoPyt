@@ -270,6 +270,158 @@ class ApplicationHttpRuntime(unittest.TestCase):
                     vm.deadline_ns = None
                     writer.close()
 
+    def test_shutdown_drains_durable_active_response_without_starting_pipeline(self):
+        from gopyt.values import UNIT
+        from gopyt.storage import Store
+        entered, release = threading.Event(), threading.Event()
+        calls = []
+        with running_server(MAX_HANDLERS=1) as (vm, port):
+            vm.natives = dict(vm.natives)
+            def commit(*args):
+                calls.append(1)
+                vm.db.put('drain/key', 'committed')
+                entered.set()
+                release.wait(2)
+                return UNIT
+            vm.natives['core.log.write'] = commit
+            with socket.create_connection(('127.0.0.1', port), timeout=2) as client:
+                client.sendall(b'GET /echo/abc HTTP/1.1\r\nHost: localhost\r\n\r\n'
+                               b'GET /echo/second HTTP/1.1\r\nHost: localhost\r\n\r\n')
+                try:
+                    self.assertTrue(entered.wait(2))
+                    self.assertEqual(Store(vm.root).get('drain/key'), 'committed')
+                    vm.httpd.shutdown()
+                finally:
+                    release.set()
+                response = http.client.HTTPResponse(client)
+                response.begin()
+                self.assertEqual((response.status, response.read()), (200, b'{"amount":3}'))
+                self.assertEqual(client.recv(4096), b'')
+                self.assertEqual(calls, [1])
+                self.assertEqual(Store(vm.root).get('drain/key'), 'committed')
+
+    def test_sigterm_delivers_active_durable_response_and_exits(self):
+        import select
+        import signal
+        import subprocess
+        import sys
+        from gopyt.storage import Store
+        code = """
+import sys, signal
+from gopyt.cli import build, make_vm
+from gopyt.values import UNIT
+root = sys.argv[1]
+prog, art, ids = build(root)
+vm = make_vm(root, prog, art, ids)
+vm.natives = dict(vm.natives)
+def commit(*args):
+    vm.db.put('signal/key', 'committed')
+    print('COMMITTED', flush=True)
+    if not sys.stdin.readline():
+        raise RuntimeError('test release missing')
+    return UNIT
+vm.natives['core.log.write'] = commit
+install_signal = signal.signal
+def observe_signal(signum, handler):
+    if signum == signal.SIGTERM and callable(handler):
+        def observed(number, frame):
+            handler(number, frame)
+            print('DRAINING', flush=True)
+        return install_signal(signum, observed)
+    return install_signal(signum, handler)
+signal.signal = observe_signal
+vm.call(ids['api.serve'], [])
+"""
+        with tempfile.TemporaryDirectory() as root:
+            write_pkg(root, fixtures.API_FILES)
+            with socket.socket() as reservation:
+                reservation.bind(('127.0.0.1', 0))
+                port = reservation.getsockname()[1]
+            env = dict(os.environ, GOPYT_HTTP_ADDR=f'127.0.0.1:{port}')
+            process = subprocess.Popen([sys.executable, '-u', '-c', code, root],
+                                       env=env, stdin=subprocess.PIPE,
+                                       stdout=subprocess.PIPE, stderr=subprocess.PIPE)
+            try:
+                until = time.monotonic() + 3
+                while True:
+                    try:
+                        client = socket.create_connection(('127.0.0.1', port), timeout=2)
+                        break
+                    except ConnectionRefusedError:
+                        if time.monotonic() >= until:
+                            self.fail('child listener did not start')
+                        time.sleep(.01)
+                with client:
+                    client.sendall(b'GET /echo/abc HTTP/1.1\r\nHost: localhost\r\n\r\n')
+                    self.assertTrue(select.select([process.stdout], [], [], 3)[0])
+                    self.assertEqual(process.stdout.readline(), b'COMMITTED\n')
+                    process.send_signal(signal.SIGTERM)
+                    self.assertTrue(select.select([process.stdout], [], [], 3)[0])
+                    self.assertEqual(process.stdout.readline(), b'DRAINING\n')
+                    process.stdin.write(b'release\n')
+                    process.stdin.flush()
+                    response = http.client.HTTPResponse(client)
+                    response.begin()
+                    self.assertEqual((response.status, response.read()), (200, b'{"amount":3}'))
+                stdout, stderr = process.communicate(timeout=3)
+                self.assertEqual(process.returncode, 0, stderr.decode())
+                self.assertEqual(Store(root).get('signal/key'), 'committed')
+            finally:
+                if process.poll() is None:
+                    process.kill()
+                process.communicate(timeout=3)
+
+    def test_draining_keeps_the_active_request_deadline(self):
+        entered, exited = threading.Event(), threading.Event()
+        with running_server(MAX_HANDLERS=1, REQUEST_TIMEOUT_SECONDS=.2) as (vm, port):
+            vm.natives = dict(vm.natives)
+            def wait(*args):
+                entered.set()
+                try:
+                    return vm.natives['core.time.sleep_ms'](vm, [30_000], None)
+                finally:
+                    exited.set()
+            vm.natives['core.log.write'] = wait
+            with socket.create_connection(('127.0.0.1', port), timeout=2) as client:
+                client.sendall(b'GET /echo/abc HTTP/1.1\r\nHost: localhost\r\n\r\n')
+                self.assertTrue(entered.wait(2))
+                vm.httpd.shutdown()
+                self.assertEqual(client.recv(4096), b'')
+                self.assertTrue(exited.is_set())
+
+    def test_shutdown_reclaims_queue_after_worker_exits(self):
+        entered, release = threading.Event(), threading.Event()
+        with contextlib.ExitStack() as clients:
+            with running_server(MAX_HANDLERS=1, QUEUE=1) as (vm, port):
+                vm.natives = dict(vm.natives)
+                def terminate(*args):
+                    entered.set()
+                    release.wait(2)
+                    raise SystemExit('injected worker exit')
+                vm.natives['core.log.write'] = terminate
+                first = clients.enter_context(socket.create_connection(('127.0.0.1', port), timeout=2))
+                first.sendall(b'GET /echo/abc HTTP/1.1\r\nHost: localhost\r\n\r\n')
+                try:
+                    self.assertTrue(entered.wait(2))
+                    second = clients.enter_context(socket.create_connection(('127.0.0.1', port), timeout=2))
+                    second.sendall(b'GET /echo/abc HTTP/1.1\r\nHost: localhost\r\n\r\n')
+                    until = time.monotonic() + 2
+                    while vm.httpd.pending.qsize() != 1 and time.monotonic() < until:
+                        time.sleep(.005)
+                    self.assertEqual(vm.httpd.pending.qsize(), 1)
+                finally:
+                    release.set()
+                self.assertEqual(first.recv(4096), b'')
+            self.assertEqual(vm.httpd.pending.unfinished_tasks, 0)
+            self.assertTrue(vm.httpd.pending.empty())
+            self.assertFalse(vm.httpd.connections)
+            self.assertFalse(vm.httpd.active_connections)
+            try:
+                received = second.recv(4096)
+            except ConnectionResetError:
+                received = b''
+            self.assertEqual(received, b'')
+
     def test_listener_startup_does_not_depend_on_reverse_dns(self):
         with patch('socket.getfqdn', side_effect=AssertionError('reverse DNS must not run')):
             with running_server() as (_, port):
