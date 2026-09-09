@@ -88,3 +88,20 @@ No request is admitted before the pool has started. Unexpected initialization
 exceptions also reclaim initialized resources and reset serving state before
 propagating. Cleanup does not join an unstarted thread. This startup guarantee
 does not complete graceful draining of an already serving application.
+
+## Serving context cancellation
+
+The HTTP serving coordinator observes its caller's cancellation and absolute
+deadline on each accept-loop service tick (100 ms requested polling interval).
+It closes a newly accepted connection without queuing it if that context has
+already expired. Handler workers inherit the serving context and observe server
+stop alongside ancestor cancellation at VM/native cooperative checks. These
+are service-lifetime limits; they do not yet establish a whole-request budget.
+
+Context termination leaves the accept loop through its normal cleanup path,
+closes sockets and joins all handler workers before propagating cancellation or
+timeout. Partial-input clients are interrupted by socket shutdown. Cooperative
+native handlers stop; noncooperative natives still delay joining and may commit
+before an error reaches the caller. This is not a graceful response-delivery
+or OS wakeup-latency guarantee. A timeout response may be lost when the serving
+context closes its connection; durable outcome reconciliation remains necessary.

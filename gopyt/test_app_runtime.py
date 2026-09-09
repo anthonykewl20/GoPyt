@@ -117,6 +117,71 @@ class ApplicationHttpRuntime(unittest.TestCase):
                                 worker.join(2)
                             server.socket.close()
 
+    def test_serving_context_stops_idle_input_and_native_workers(self):
+        from gopyt.vm import Cancelled, Trap
+        for mode in ('deadline', 'cancel'):
+            for activity in ('idle', 'input', 'native'):
+                with self.subTest(mode=mode, activity=activity), \
+                        tempfile.TemporaryDirectory() as root, \
+                        patch('gopyt.server._addr', return_value=('127.0.0.1', 0)), \
+                        patch('gopyt.server.MAX_HANDLERS', 2):
+                    write_pkg(root, fixtures.API_FILES)
+                    prog, art, ids = build(root)
+                    vm = make_vm(root, prog, art, ids)
+                    cancel, entered, exited = (threading.Event() for _ in range(3))
+                    outcome = []
+                    vm.natives = dict(vm.natives)
+                    def slow_log(*args):
+                        entered.set()
+                        try:
+                            return vm.natives['core.time.sleep_ms'](vm, [30_000], None)
+                        finally:
+                            exited.set()
+                    vm.natives['core.log.write'] = slow_log
+                    def invoke():
+                        vm.cancels = (cancel,)
+                        if mode == 'deadline':
+                            vm.deadline_ns = time.monotonic_ns() + 1_000_000_000
+                        try:
+                            vm.call(ids['api.serve'], [])
+                        except BaseException as error:
+                            outcome.append(error)
+                    host = threading.Thread(target=invoke, daemon=True)
+                    host.start()
+                    connection = None
+                    try:
+                        until = time.monotonic() + 2
+                        while getattr(vm, 'httpd', None) is None and time.monotonic() < until:
+                            time.sleep(.005)
+                        self.assertIsNotNone(getattr(vm, 'httpd', None))
+                        workers = tuple(vm.httpd.workers)
+                        if activity != 'idle':
+                            connection = socket.create_connection(vm.httpd.server_address, timeout=2)
+                            connection.sendall(b'GET /echo/abc HTTP/1.1\r\nHost: localhost\r\n' +
+                                               (b'\r\n' if activity == 'native' else b''))
+                        if activity == 'native':
+                            self.assertTrue(entered.wait(2))
+                        if mode == 'cancel':
+                            cancel.set()
+                        host.join(3)
+                        self.assertFalse(host.is_alive(), 'serve ignored its calling context')
+                        self.assertEqual(len(outcome), 1)
+                        self.assertIsInstance(outcome[0], Trap if mode == 'deadline' else Cancelled)
+                        if mode == 'deadline':
+                            self.assertEqual(outcome[0].code, 6)
+                        self.assertFalse(vm.serving)
+                        self.assertEqual(vm.httpd.socket.fileno(), -1)
+                        self.assertFalse(any(worker.is_alive() for worker in workers))
+                        if activity == 'native':
+                            self.assertTrue(exited.is_set())
+                    finally:
+                        cancel.set()
+                        if connection is not None:
+                            connection.close()
+                        if getattr(vm, 'httpd', None) is not None:
+                            vm.httpd.shutdown()
+                        host.join(5)
+
     def test_listener_startup_does_not_depend_on_reverse_dns(self):
         with patch('socket.getfqdn', side_effect=AssertionError('reverse DNS must not run')):
             with running_server() as (_, port):

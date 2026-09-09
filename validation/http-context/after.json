@@ -1,0 +1,16 @@
+{
+  "runtime_sha256": "cd7220d595342b048b575aa3271e870eb41f308899ced7e5688fc05296970e7a",
+  "probe_sha256": "fb5503a09bdf0b5385521a5646882d2c8634e63b89b4e58783b7d9c2c4f2a2f9",
+  "fixture_sha256": "93925fdfc64a0def281130d699a51b5c5d18ffb9b9169727d02f88915f57ab30",
+  "deadline_ms": 300,
+  "manual_shutdown_after_ms": 600,
+  "elapsed_ms": 301.567231,
+  "still_running_after_deadline": false,
+  "joined_after_manual_shutdown": true,
+  "outcome": [
+    {
+      "trap": 6
+    }
+  ],
+  "serving_after_cleanup": false
+}
