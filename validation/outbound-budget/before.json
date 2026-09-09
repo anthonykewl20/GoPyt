@@ -1,0 +1,25 @@
+{
+  "runtime_sha256": "faec9a9a10e6a9331c15ed9d316a2dee9848409118ac7277e197a5360b4c0b51",
+  "probe_sha256": "d8fa8443b314e325d309969447e9b1e4f0c1cd4a573efb3fb562b2b91efaf3a4",
+  "fixture_sha256": "b0f4b51244e0c8119b92f05826918c4a2e5bb21b98d7842e1003467bf4adac64",
+  "deadline_ms": 100,
+  "body_delay_ms": 300,
+  "cases": [
+    {
+      "mode": "http",
+      "outcome": {
+        "trap": 6
+      },
+      "elapsed_ms": 303.119352,
+      "body_ready_before_return": true
+    },
+    {
+      "mode": "model",
+      "outcome": {
+        "trap": 6
+      },
+      "elapsed_ms": 301.927512,
+      "body_ready_before_return": true
+    }
+  ]
+}

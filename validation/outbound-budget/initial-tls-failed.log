@@ -1,0 +1,75 @@
+.......EE
+======================================================================
+ERROR: test_tls_poll_timeout_can_resume_a_valid_response (gopyt.test_netio.OutboundBudgets.test_tls_poll_timeout_can_resume_a_valid_response)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/home/soultransit/devtony/gopyt-milestone-work/gopyt/test_netio.py", line 162, in test_tls_poll_timeout_can_resume_a_valid_response
+    context = self.tls()
+  File "/home/soultransit/devtony/gopyt-milestone-work/gopyt/test_netio.py", line 138, in tls
+    self.change_origin(self.fixture.origin.replace('http:', 'https:'))
+    ~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/soultransit/devtony/gopyt-milestone-work/gopyt/test_netio.py", line 145, in change_origin
+    _, art, ids = build(self.fixture.root)
+                  ~~~~~^^^^^^^^^^^^^^^^^^^
+  File "/home/soultransit/devtony/gopyt-milestone-work/gopyt/transaction.py", line 114, in wrapped
+    return fn(root, *args, **kwargs)
+  File "/home/soultransit/devtony/gopyt-milestone-work/gopyt/cli.py", line 50, in build
+    prog = check_package(pkg)
+  File "/home/soultransit/devtony/gopyt-milestone-work/gopyt/check.py", line 2462, in check_package
+    check_lock(pkg)
+    ~~~~~~~~~~^^^^^
+  File "/home/soultransit/devtony/gopyt-milestone-work/gopyt/check.py", line 2423, in check_lock
+    raise err(41, "gopyt.lock", 1, repair=want)
+gopyt.diag.CompileError: GOPYT_E041 lock_stale
+file: gopyt.lock
+line: 1
+repair-bytes: 243
+
+toolchain = "gopyt-0.1.000+sha256:6724c4c2622e722065d719f9c0792b1b15b1801d6763ff85861970a4c02ef07a"
+
+[[pkg]]
+name = "test_package"
+version = "0.1.0"
+path = "."
+digest = "sha256:f422ac0d007358bf4f94c42e23731e949acedcf5e557a6d64da1b1f60c2141e3"
+
+
+======================================================================
+ERROR: test_tls_trust_hostname_and_delayed_read (gopyt.test_netio.OutboundBudgets.test_tls_trust_hostname_and_delayed_read)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/home/soultransit/devtony/gopyt-milestone-work/gopyt/test_netio.py", line 150, in test_tls_trust_hostname_and_delayed_read
+    context = self.tls()
+  File "/home/soultransit/devtony/gopyt-milestone-work/gopyt/test_netio.py", line 138, in tls
+    self.change_origin(self.fixture.origin.replace('http:', 'https:'))
+    ~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/soultransit/devtony/gopyt-milestone-work/gopyt/test_netio.py", line 145, in change_origin
+    _, art, ids = build(self.fixture.root)
+                  ~~~~~^^^^^^^^^^^^^^^^^^^
+  File "/home/soultransit/devtony/gopyt-milestone-work/gopyt/transaction.py", line 114, in wrapped
+    return fn(root, *args, **kwargs)
+  File "/home/soultransit/devtony/gopyt-milestone-work/gopyt/cli.py", line 50, in build
+    prog = check_package(pkg)
+  File "/home/soultransit/devtony/gopyt-milestone-work/gopyt/check.py", line 2462, in check_package
+    check_lock(pkg)
+    ~~~~~~~~~~^^^^^
+  File "/home/soultransit/devtony/gopyt-milestone-work/gopyt/check.py", line 2423, in check_lock
+    raise err(41, "gopyt.lock", 1, repair=want)
+gopyt.diag.CompileError: GOPYT_E041 lock_stale
+file: gopyt.lock
+line: 1
+repair-bytes: 243
+
+toolchain = "gopyt-0.1.000+sha256:6724c4c2622e722065d719f9c0792b1b15b1801d6763ff85861970a4c02ef07a"
+
+[[pkg]]
+name = "test_package"
+version = "0.1.0"
+path = "."
+digest = "sha256:2616bac30a04245bbabf435790c504ef1cfc05afee491defcc21be47b8ea90a8"
+
+
+----------------------------------------------------------------------
+Ran 9 tests in 5.824s
+
+FAILED (errors=2)

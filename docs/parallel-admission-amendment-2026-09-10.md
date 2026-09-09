@@ -157,3 +157,29 @@ Shutdown discards queued sockets itself and joins all started workers, including
 workers already terminated by an unexpected native exit. Idle workers observe
 draining through bounded queue waits, so shutdown never blocks trying to enqueue
 a sentinel into a full queue whose consumers have exited.
+
+## Outbound HTTP and model budgets
+
+`net.http.request` and the remote `core.model.complete` transport each receive a
+30-second elapsed-time budget, capped by the calling VM's absolute deadline.
+DNS resolution, connection attempts, TLS negotiation, request writes, response
+headers, chunk framing and response bodies all consume this same budget; progress
+does not reset it. Response reads poll cancellation with a requested maximum
+50 ms socket wait. Socket ownership remains live until the response closes, and
+polling timeouts preserve buffered HTTP parsing and TLS state.
+
+Host DNS resolution remains uninterruptible. Its elapsed time counts, and an
+expired context cannot start a subsequent connection attempt. Connect, TLS
+handshake and each bounded request write use the remaining deadline; explicit
+cancellation is checked around these operations, but cannot interrupt an already
+blocked operation sooner than its socket timeout. These are cooperative bounds,
+not OS scheduling or DNS latency guarantees.
+
+Inherited cancellation and deadlines retain VM cancellation/timeout semantics.
+Exhausting the transport's own budget returns `HttpError` or `ModelError` as
+appropriate. HTTP error-status response bodies consume the same read budget;
+remote model error statuses close their responses without consuming the body.
+The existing 8 MiB response cap, source/operator egress intersection, disabled
+ambient proxies and redirects, and default TLS certificate/hostname verification
+remain in force. No request is automatically retried. A timeout or missing
+response cannot establish that the remote operation did not commit.

@@ -594,17 +594,19 @@ def _http_request(vm, args, func):
     if "@" in url.split("://", 1)[1].split("/", 1)[0]:
         return _status(vm, "HttpError", "userinfo")
     request = urllib.request.Request(url, data=body or None, method=method.upper())
+    from gopyt.netio import Budget, opener
+    budget = Budget(vm, HTTP_TIMEOUT_MS)
     try:
-        opener = urllib.request.build_opener(urllib.request.ProxyHandler({}), _NoRedirect())
-        with opener.open(request, timeout=HTTP_TIMEOUT_MS / 1000.0) as resp:
-            data = resp.read(MAX_BODY + 1)
-            status = resp.status
-    except urllib.error.HTTPError as e:
         try:
-            data = e.read(MAX_BODY + 1)
-            status = e.code
-        finally:
-            e.close()
+            resp = opener(budget, _NoRedirect()).open(request, timeout=budget.remaining())
+        except urllib.error.HTTPError as error:
+            resp = error
+        with resp:
+            data = resp.read(MAX_BODY + 1)
+            status = resp.code if isinstance(resp, urllib.error.HTTPError) else resp.status
+        budget.remaining()
+    except (Trap, Cancelled):
+        raise
     except Exception:
         return _status(vm, "HttpError", "network")
     if len(data) > MAX_BODY:
@@ -644,18 +646,26 @@ def _model_complete(vm, args, func):
     request = urllib.request.Request(
         url, data=payload, method="POST", headers={"Content-Type": "application/json"}
     )
+    from gopyt.netio import Budget, opener
+    budget = Budget(vm, HTTP_TIMEOUT_MS)
     try:
-        opener = urllib.request.build_opener(urllib.request.ProxyHandler({}), _NoRedirect())
-        with opener.open(request, timeout=HTTP_TIMEOUT_MS / 1000.0) as resp:
+        try:
+            resp = opener(budget, _NoRedirect()).open(request, timeout=budget.remaining())
+        except urllib.error.HTTPError as exc:
+            exc.close()
+            budget.remaining()
+            return _status(vm, "ModelError", "status")
+        with resp:
+            budget.remaining()
             if not (200 <= resp.status < 300):
                 return _status(vm, "ModelError", "status")
             raw = resp.read(MAX_BODY + 1)
             if len(raw) > MAX_BODY:
                 return _status(vm, "ModelError", "body too large")
             data = raw.decode("utf-8")
-    except urllib.error.HTTPError as exc:
-        exc.close()
-        return _status(vm, "ModelError", "status")
+        budget.remaining()
+    except (Trap, Cancelled):
+        raise
     except Exception:
         return _status(vm, "ModelError", "network")
     try:
