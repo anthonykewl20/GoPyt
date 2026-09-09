@@ -245,3 +245,6 @@ app `ffi`, `eval`/`exec`/`shell`, or open outbound HTTP without `egress`.
 GoPyT compiler and VM. It adds no language syntax, native signatures, bytecode
 version or GoPyT CLI commands. Model output remains subject to explicit grants
 and real checks; local execution is not an adversarial OS sandbox.
+
+[Finite binary64 amendment](finite-f64-amendment-2026-09-10.md) defines literal
+rounding, overflow and nonfinite rejection at bytecode and VM boundaries.

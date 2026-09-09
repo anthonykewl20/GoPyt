@@ -116,6 +116,7 @@ Unknown codes are themselves `GOPYT_E001 internal`. Do not invent codes at runti
 | E115 | evolve_gate | candidate failed `gopyt check` | discard; do not apply |
 | E116 | evolve_hot | patch live bytecode | restart on the new digest |
 | E117 | observe_bound | reservoir/max not > 0 | set positive integers |
+| E118 | numeric_range | float literal overflows finite binary64 | use a representable finite literal |
 
 Trap numbers in `docs/bytecode.md` stay 1–14. They surface as `GOPYT_E101 trap` plus `trap: 3` (overflow, etc.).
 

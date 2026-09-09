@@ -7,6 +7,7 @@ GOPYT_E100 before the VM sees a single instruction.
 from __future__ import annotations
 
 import struct
+import math
 from dataclasses import dataclass, field
 
 from gopyt import ops
@@ -175,6 +176,8 @@ def encode(art: Artifact) -> bytes:
         if c.tag == TAG_I64:
             w.i64(c.value)
         elif c.tag == TAG_F64:
+            if type(c.value) is not float or not math.isfinite(c.value):
+                raise e100()
             w.f64(c.value)
         elif c.tag == TAG_STR:
             w.blob(c.value.encode("utf-8"))
@@ -410,6 +413,8 @@ def validate(art: Artifact) -> None:
     ntype = len(art.types)
     nfn = len(art.funcs)
     for c in art.consts:
+        if c.tag == TAG_F64 and (type(c.value) is not float or not math.isfinite(c.value)):
+            raise e100()
         if c.tag == TAG_TYPE and c.value >= ntype:
             raise e100()
         if c.tag == TAG_FN and c.value >= nfn:
