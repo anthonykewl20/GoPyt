@@ -427,6 +427,7 @@ Requires `Json` for `T`. No `encode_pretty`.
 ```
 module store.db
 
+use core.convert { Json }
 use core.status { DbError, NotFound }
 use core.str { len }
 
@@ -441,6 +442,27 @@ task put(key: str, value: str) -> unit | DbError
 task compare_exchange(key: str, expected: str?, value: str) -> bool | DbError
     effects { database.read, database.write, ffi }
     requires core.str.len(key) > 0
+
+
+type Change {
+    key: str
+    expected: str?
+    value: str?
+}
+
+type Snapshot {
+    values: list[str?]
+}
+
+provide Json for Change
+
+provide Json for Snapshot
+
+task get_many(keys: list[str]) -> Snapshot | DbError
+    effects { database.read, ffi }
+
+task compare_exchange_many(changes: list[Change]) -> bool | DbError
+    effects { database.read, database.write, ffi }
 ```
 
 String KV only. No SQL string in v0 (agents hallucinate dialects). `ffi` is listed because the host DB is foreign; it does **not** propagate. Callers declare `database.read` / `database.write` only (S9).
@@ -451,6 +473,12 @@ when `expected` is `none`, or replaces an existing value equal to `some(text)`.
 It returns `true` only when that write commits; an absent key or unequal value
 returns `false` without a write. `get` and `put` remain separate operations;
 use `compare_exchange` to reject a stale update. Errors return `DbError`.
+
+`get_many` returns an ordered consistent snapshot. `compare_exchange_many`
+atomically checks and applies a bounded set of `Change` records, including
+deletion using `value: none`. Every condition must match or no key changes.
+See the [batch amendment](batch-storage-amendment-2026-09-09.md) for bounds,
+ambiguous failure outcomes, read conditions and operator namespace authority.
 
 The implementation serializes cooperating processes and bounds the database
 snapshot to 64 MiB. Read misses load the snapshot; successful writes replace the

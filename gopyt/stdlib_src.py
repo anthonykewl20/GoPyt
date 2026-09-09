@@ -279,6 +279,7 @@ fn decode[T](text: str) -> T | ConvertError
 """,
     'store.db': """module store.db
 
+use core.convert { Json }
 use core.status { DbError, NotFound }
 use core.str { len }
 
@@ -293,6 +294,27 @@ task put(key: str, value: str) -> unit | DbError
 task compare_exchange(key: str, expected: str?, value: str) -> bool | DbError
     effects { database.read, database.write, ffi }
     requires core.str.len(key) > 0
+
+
+type Change {
+    key: str
+    expected: str?
+    value: str?
+}
+
+type Snapshot {
+    values: list[str?]
+}
+
+provide Json for Change
+
+provide Json for Snapshot
+
+task get_many(keys: list[str]) -> Snapshot | DbError
+    effects { database.read, ffi }
+
+task compare_exchange_many(changes: list[Change]) -> bool | DbError
+    effects { database.read, database.write, ffi }
 """,
 }
 

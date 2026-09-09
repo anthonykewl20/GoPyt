@@ -3,6 +3,12 @@
 This repository is the GoPyT language workspace. The separate model-training
 workspace is not part of this release.
 
+The active [architecture programme](architecture-programme.md) tracks the expanded
+production goals and their unclosed acceptance gates. Atomic batches, service
+database authority and authenticated key rotation are the first implementation
+increment; see [batch storage](batch-storage-amendment-2026-09-09.md) and
+[key rotation](storage-key-rotation.md).
+
 Cybersecurity takes precedence across compiler, tooling, persistence and HTTP.
 Independent review, deployment authorization, encrypted migrations and rollback
 protection remain explicit follow-up work.

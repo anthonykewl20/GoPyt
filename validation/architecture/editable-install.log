@@ -1,0 +1,21 @@
+Obtaining file:///home/soultransit/devtony/GoPyt
+  Installing build dependencies: started
+  Installing build dependencies: finished with status 'done'
+  Checking if build backend supports build_editable: started
+  Checking if build backend supports build_editable: finished with status 'done'
+  Getting requirements to build editable: started
+  Getting requirements to build editable: finished with status 'done'
+  Preparing editable metadata (pyproject.toml): started
+  Preparing editable metadata (pyproject.toml): finished with status 'done'
+Building wheels for collected packages: gopyt
+  Building editable for gopyt (pyproject.toml): started
+  Building editable for gopyt (pyproject.toml): finished with status 'done'
+  Created wheel for gopyt: filename=gopyt-0.1.0-0.editable-py3-none-any.whl size=4264 sha256=a69367f8d1bb9510a5461929e0321bdbc27d9282d41e90c95aaa8eaf73617ac3
+  Stored in directory: /tmp/pip-ephem-wheel-cache-z3cye0ku/wheels/7b/1c/49/db5b7cd155fa87bf7655b3bc73d6fc4af8594fbe61b55e0ea0
+Successfully built gopyt
+Installing collected packages: gopyt
+  Attempting uninstall: gopyt
+    Found existing installation: gopyt 0.1.0
+    Uninstalling gopyt-0.1.0:
+      Successfully uninstalled gopyt-0.1.0
+Successfully installed gopyt-0.1.0

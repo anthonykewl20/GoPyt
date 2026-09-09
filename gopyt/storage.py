@@ -25,6 +25,8 @@ DIRECTORY = '.gopyt-state'
 DATABASE = 'store.sqlite3'
 CACHE_ENTRIES = 256
 CACHE_BYTES = 1024 * 1024
+MAX_BATCH_KEYS = 256
+MAX_BATCH_BYTES = 8 * 1024 * 1024
 
 
 class StorageError(Exception):
@@ -71,6 +73,9 @@ class Store:
         size = len(key.encode('utf-8')) + (len(value.encode('utf-8')) if value is not None else 0)
         if size > CACHE_BYTES or CACHE_ENTRIES <= 0:
             return
+        previous = self._cache.pop(key, None)
+        if previous is not None:
+            self._cache_bytes -= previous[1]
         while self._cache and (len(self._cache) >= CACHE_ENTRIES or self._cache_bytes + size > CACHE_BYTES):
             _, (_, previous_size) = self._cache.popitem(last=False)
             self._cache_bytes -= previous_size
@@ -194,19 +199,27 @@ class Store:
 
     def _operate_locked(self, operation, key, value, expected, deadline):
         try:
+            from gopyt.capabilities import database_authority
+            authority = database_authority(self.root)
+            keys = (key if operation == 'get_many' else tuple(row[0] for row in key)
+                    if operation == 'compare_exchange_many' else (key,))
+            if authority is not None and not authority.permits(
+                    keys, read=operation != 'put', write=operation not in ('get', 'get_many')):
+                raise StorageError('database authority denied')
             self._security = storage_cipher(self.root)
             identity = None if self._security is None else self._security[2]
             if identity != self._security_identity:
                 self._clear_cache()
                 self._security_identity = identity
             # A single input must not allocate an unbounded SQLite snapshot.
+            inputs = (key, value, expected) if operation not in ('get_many', 'compare_exchange_many') else ()
             if any(len(s) > MAX_BYTES // 2 or len(s.encode('utf-8')) > MAX_BYTES // 2
-                   for s in (key, value, expected) if s is not None):
+                   for s in inputs if s is not None):
                 raise StorageError('database input size limit exceeded')
             with self._locked(deadline) as directory:
                 # Writes always begin from disk, and any failure (including an
                 # ambiguous post-rename fsync failure) leaves no cached result.
-                if operation != 'get':
+                if operation not in ('get', 'get_many'):
                     self._clear_cache()
                 with self._snapshot(directory) as (fd, identity):
                     if identity != self._cache_identity:
@@ -215,6 +228,14 @@ class Store:
                     if operation == 'get' and identity is not None and key in self._cache:
                         self._cache.move_to_end(key)
                         return self._cache[key][0]
+                    if (operation == 'get_many' and identity is not None
+                            and all(item in self._cache for item in key)):
+                        cached = [self._cache[item][0] for item in key]
+                        if sum(len(v.encode('utf-8')) for v in cached if v is not None) > MAX_BATCH_BYTES:
+                            raise StorageError('database batch result size limit exceeded')
+                        for item in key:
+                            self._cache.move_to_end(item)
+                        return cached
                     db = sqlite3.connect(':memory:')
                     try:
                         if not hasattr(db, 'serialize') or not hasattr(db, 'deserialize'):
@@ -224,6 +245,45 @@ class Store:
                         self._load(fd, identity, db)
                         page_size = db.execute('PRAGMA page_size').fetchone()[0]
                         db.execute(f'PRAGMA max_page_count={MAX_BYTES // page_size}')
+                        if operation == 'rekey':
+                            if fd is None or self._security is None:
+                                raise StorageError('rekey requires an existing authenticated store')
+                            self._save(directory, db)
+                            return True
+                        if operation in ('get_many', 'compare_exchange_many'):
+                            keys = key if operation == 'get_many' else tuple(row[0] for row in key)
+                            current, result_bytes = [], 0
+                            for item in keys:
+                                row = db.execute('SELECT value FROM kv WHERE key=?', (item,)).fetchone()
+                                if row is not None and not isinstance(row[0], str):
+                                    raise StorageError('invalid database value')
+                                if operation == 'get_many' and row is not None:
+                                    result_bytes += len(row[0].encode('utf-8'))
+                                    if result_bytes > MAX_BATCH_BYTES:
+                                        raise StorageError('database batch result size limit exceeded')
+                                current.append(None if row is None else row[0])
+                            if operation == 'get_many':
+                                if identity is not None:
+                                    for item, found in zip(keys, current):
+                                        self._remember(item, found)
+                                return current
+                            # Every condition is evaluated against one locked snapshot,
+                            # before any mutation. A conflict publishes nothing.
+                            if any(old != change[1] for old, change in zip(current, key)):
+                                return False
+                            changed = False
+                            for old, (item, _, replacement) in zip(current, key):
+                                if old == replacement:
+                                    continue
+                                changed = True
+                                if replacement is None:
+                                    db.execute('DELETE FROM kv WHERE key=?', (item,))
+                                else:
+                                    db.execute('INSERT INTO kv VALUES (?, ?) ON CONFLICT(key) DO UPDATE SET value=excluded.value', (item, replacement))
+                            if changed:
+                                db.commit()
+                                self._save(directory, db)
+                            return True
                         if operation == 'get':
                             row = db.execute('SELECT value FROM kv WHERE key=?', (key,)).fetchone()
                             if row is not None and not isinstance(row[0], str):
@@ -262,3 +322,50 @@ class Store:
 
     def compare_exchange(self, key, expected, value):
         return self._operate('compare_exchange', key, value, expected)
+
+    @staticmethod
+    def _batch(rows, changes=False):
+        # Freeze caller-owned containers before taking locks. Iterators are not
+        # accepted: materializing an unbounded producer would defeat this limit.
+        if not isinstance(rows, (list, tuple)) or not 1 <= len(rows) <= MAX_BATCH_KEYS:
+            raise StorageError('database batch requires 1..256 keys')
+        frozen, seen, size = [], set(), 0
+        for row in rows:
+            if changes:
+                if not isinstance(row, (list, tuple)) or len(row) != 3:
+                    raise StorageError('invalid database change')
+                row = tuple(row)
+                key, expected, value = row
+                strings = row
+            else:
+                key, strings = row, (row,)
+            if not isinstance(key, str) or not key or key in seen:
+                raise StorageError('database batch keys must be nonempty and unique')
+            seen.add(key)
+            for text in strings:
+                if text is None:
+                    continue
+                if not isinstance(text, str):
+                    raise StorageError('database batch values must be strings or absent')
+                if len(text) > MAX_BATCH_BYTES:
+                    raise StorageError('database batch input size limit exceeded')
+                try:
+                    size += len(text.encode('utf-8'))
+                except UnicodeError as exc:
+                    raise StorageError('invalid database text') from exc
+                if size > MAX_BATCH_BYTES:
+                    raise StorageError('database batch input size limit exceeded')
+            frozen.append(row)
+        return tuple(frozen)
+
+    def get_many(self, keys):
+        """Read an ordered, bounded group from one consistent snapshot."""
+        return self._operate('get_many', self._batch(keys))
+
+    def compare_exchange_many(self, changes):
+        """Atomically compare and replace/delete every (key, expected, value)."""
+        return self._operate('compare_exchange_many', self._batch(changes, changes=True))
+
+    def rekey(self):
+        """Trusted maintenance only; authenticate then republish using active key."""
+        return self._operate('rekey', '*')

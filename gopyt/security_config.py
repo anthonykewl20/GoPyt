@@ -1,5 +1,6 @@
 """Opt-in host security controls; secrets remain outside application packages."""
 import hashlib
+import json
 import os
 from pathlib import Path
 import secrets
@@ -43,12 +44,18 @@ def secret_file(path,root,maximum):
 
 def storage_cipher(root):
     path=os.environ.get('GOPYT_STORE_KEY_FILE')
-    if not path:
+    ring_path=os.environ.get('GOPYT_STORE_KEYRING_FILE')
+    if path and ring_path:raise SecurityError('select one storage key source')
+    if not path and not ring_path:
         if strict():raise SecurityError('strict profile requires a storage key')
         return None
     strict()
-    key=secret_file(path,root,32)
-    if len(key)!=32:raise SecurityError('storage key must contain exactly 32 bytes')
+    if ring_path:
+        keys, active = _keyring(secret_file(ring_path,root,4096))
+    else:
+        key=secret_file(path,root,32)
+        if len(key)!=32:raise SecurityError('storage key must contain exactly 32 bytes')
+        keys, active = {'single': key}, 'single'
     context=os.environ.get('GOPYT_STORE_ID','')
     if not context or len(context.encode())>256:raise SecurityError('stable storage context required')
     try:
@@ -56,11 +63,54 @@ def storage_cipher(root):
         from cryptography.exceptions import UnsupportedAlgorithm
     except ImportError as exc:raise SecurityError('supported security extra required') from exc
     try:
-        cipher=AESGCMSIV(key)
+        ciphers={name:AESGCMSIV(key) for name,key in keys.items()}
     except (ValueError,UnsupportedAlgorithm) as exc:
         raise SecurityError('supported security extra required') from exc
     aad=MAGIC+context.encode()
-    return cipher,aad,hashlib.sha256(key+aad).digest()
+    cipher = _KeyringCipher(ciphers, active)
+    identity = json.dumps({'active':active,'keys':{name:key.hex() for name,key in keys.items()}},sort_keys=True).encode()
+    return cipher,aad,hashlib.sha256(identity+aad).digest()
+
+
+def _keyring(raw):
+    def unique(pairs):
+        result={}
+        for name,value in pairs:
+            if name in result:raise SecurityError('duplicate keyring field')
+            result[name]=value
+        return result
+    try:data=json.loads(raw,object_pairs_hook=unique)
+    except (ValueError,UnicodeError,RecursionError) as exc:raise SecurityError('invalid storage keyring') from exc
+    if (not isinstance(data,dict) or set(data)!={'version','active','keys'}
+        or type(data['version']) is not int or data['version']!=1
+        or not isinstance(data['keys'],dict) or not 1<=len(data['keys'])<=4
+        or not isinstance(data['active'],str) or data['active'] not in data['keys']):
+        raise SecurityError('invalid storage keyring schema')
+    keys={}
+    for name,value in data['keys'].items():
+        if (not name or len(name)>32 or any(c not in 'abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789_-' for c in name)
+            or not isinstance(value,str) or len(value)!=64 or any(c not in '0123456789abcdefABCDEF' for c in value)):
+            raise SecurityError('invalid storage keyring entry')
+        keys[name]=bytes.fromhex(value)
+    if len(set(keys.values()))!=len(keys):raise SecurityError('duplicate storage key material')
+    return keys,data['active']
+
+
+class _KeyringCipher:
+    """Bounded authenticated fallback; the existing snapshot format is retained."""
+    def __init__(self,ciphers,active):
+        self.active=ciphers[active]
+        self.readers=[self.active]+[cipher for name,cipher in ciphers.items() if name!=active]
+
+    def encrypt(self,nonce,data,aad):
+        return self.active.encrypt(nonce,data,aad)
+
+    def decrypt(self,nonce,data,aad):
+        from cryptography.exceptions import InvalidTag
+        for cipher in self.readers:
+            try:return cipher.decrypt(nonce,data,aad)
+            except InvalidTag:pass
+        raise InvalidTag
 
 
 def seal(data,setting):
