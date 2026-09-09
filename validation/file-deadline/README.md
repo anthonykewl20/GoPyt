@@ -43,3 +43,23 @@ bounds; issue #13 remains open.
 `source-reference.json` records the CPython FileIO reference used to preserve
 short-I/O and nonprogress semantics. No dependency was added, and no upstream
 source was copied or executed.
+
+## CI publication-test correction
+
+The first PR CI run on Ubuntu/Python 3.11 failed in the diagnostic audit's replay
+of `test_parallel_timeout_waits_for_admitted_publication_then_traps`. The test
+assumed its store could reach replacement within a 20 ms parallel deadline;
+the new prepublication checks correctly rejected it earlier, so replacement was
+never observed. The complete job log is retained as
+`ci-ubuntu311-admission-failed.log` (run 34396866829, job 102618642568).
+
+The revised test freezes the monotonic-nanosecond deadline clock until the
+replacement hook is entered, then advances it beyond the actual inherited
+deadline and waits for the real coordinator stop event. Wall-time waits and
+joins remain real. It still requires timeout, a committed atomic outcome and
+receipt reconciliation, without assuming a 20 ms admission latency. This test
+correction changes no runtime code or production deadline check. The revised
+18-test transaction/storage deadline suite passes on both Python versions. The
+fresh full Python 3.14.7 run passes all 837 tests in 325.503 seconds, and contracts
+pass again (`corrected-*` logs). Runtime/build inputs are unchanged, so the
+previous wheel/install checks still apply; CI must qualify the new commit.
