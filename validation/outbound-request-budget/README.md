@@ -25,3 +25,7 @@ decoding and OS operations retain their existing synchronous boundaries. Restric
 egress, TLS verification, no ambient proxies/redirects and no automatic retry remain
 in force. These tests do not qualify hostile local providers or complete issue
 #13's sustained resource/fairness/shutdown requirements.
+
+The refreshed [deadline inventory](deadline-inventory.json) pins this runtime.
+Verify with `python tools/check_deadline_inventory.py validation/outbound-request-budget/deadline-inventory.json`.
+Older inventories remain immutable reviews of earlier runtimes.
