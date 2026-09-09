@@ -1,0 +1,10 @@
+test_duplicate_and_oversized_inventory_are_rejected (gopyt.test_release_build.WheelIntegrity.test_duplicate_and_oversized_inventory_are_rejected) ... ok
+test_extra_payload_and_missing_source_are_rejected (gopyt.test_release_build.WheelIntegrity.test_extra_payload_and_missing_source_are_rejected) ... ok
+test_modified_source_even_with_updated_record_is_rejected (gopyt.test_release_build.WheelIntegrity.test_modified_source_even_with_updated_record_is_rejected) ... ok
+test_record_tampering_is_rejected (gopyt.test_release_build.WheelIntegrity.test_record_tampering_is_rejected) ... ok
+test_valid_wheel_matches_source (gopyt.test_release_build.WheelIntegrity.test_valid_wheel_matches_source) ... ok
+
+----------------------------------------------------------------------
+Ran 5 tests in 0.006s
+
+OK

@@ -1,0 +1,14 @@
+test_filtered_extraction_rejects_escape (gopyt.test_ci_python.InterpreterInstall.test_filtered_extraction_rejects_escape) ... ok
+test_size_mismatch_rejects_download (gopyt.test_ci_python.InterpreterInstall.test_size_mismatch_rejects_download) ... ok
+test_version_mismatch_does_not_provide_python_command (gopyt.test_ci_python.InterpreterInstall.test_version_mismatch_does_not_provide_python_command) ... ok
+test_wrong_hash_never_opens_archive (gopyt.test_ci_python.InterpreterInstall.test_wrong_hash_never_opens_archive) ... ok
+test_duplicate_and_oversized_inventory_are_rejected (gopyt.test_release_build.WheelIntegrity.test_duplicate_and_oversized_inventory_are_rejected) ... ok
+test_extra_payload_and_missing_source_are_rejected (gopyt.test_release_build.WheelIntegrity.test_extra_payload_and_missing_source_are_rejected) ... ok
+test_modified_source_even_with_updated_record_is_rejected (gopyt.test_release_build.WheelIntegrity.test_modified_source_even_with_updated_record_is_rejected) ... ok
+test_record_tampering_is_rejected (gopyt.test_release_build.WheelIntegrity.test_record_tampering_is_rejected) ... ok
+test_valid_wheel_matches_source (gopyt.test_release_build.WheelIntegrity.test_valid_wheel_matches_source) ... ok
+
+----------------------------------------------------------------------
+Ran 9 tests in 0.025s
+
+OK

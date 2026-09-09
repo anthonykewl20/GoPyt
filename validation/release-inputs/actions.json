@@ -1,0 +1,29 @@
+[
+  {
+    "repository": "actions/checkout",
+    "commit": "3d3c42e5aac5ba805825da76410c181273ba90b1",
+    "release": "v7.0.1",
+    "runtime": "node24",
+    "action_blob": "5b0524f730db83f9513c18ab31a6c086c7239076",
+    "readme_blob": "5509e7d17642d051e38cac68c6ffa675d6e834e3",
+    "source_url": "https://github.com/actions/checkout/tree/3d3c42e5aac5ba805825da76410c181273ba90b1"
+  },
+  {
+    "repository": "actions/setup-python",
+    "commit": "5fda3b95a4ea91299a34e894583c3862153e4b97",
+    "release": "v7.0.0",
+    "runtime": "node24",
+    "action_blob": "df6c8235b476652b6402d31d92a2a89cdea74bb9",
+    "readme_blob": "c05a2e2b6ea8552395023ad3858537e3eb52e065",
+    "source_url": "https://github.com/actions/setup-python/tree/5fda3b95a4ea91299a34e894583c3862153e4b97"
+  },
+  {
+    "repository": "actions/upload-artifact",
+    "commit": "043fb46d1a93c77aae656e7c1c64a875d1fc6a0a",
+    "release": "v7.0.1",
+    "runtime": "node24",
+    "action_blob": "7cb4d1e81db55320b41217e1a78a1a46e3d2baef",
+    "readme_blob": "b708eb322c6cbc798af63dc0314eb9f7fb112d95",
+    "source_url": "https://github.com/actions/upload-artifact/tree/043fb46d1a93c77aae656e7c1c64a875d1fc6a0a"
+  }
+]

@@ -7,29 +7,50 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        os: [ubuntu-latest, macos-latest]
-        python: ['3.11', '3.14']
+        os: [ubuntu-24.04, macos-15]
+        python: ['3.11.16', '3.14.7']
     runs-on: ${{ matrix.os }}
     timeout-minutes: 20
     steps:
       - run: echo "TMPDIR=$RUNNER_TEMP" >> "$GITHUB_ENV"
-      - uses: actions/checkout@v4
-      - uses: actions/setup-python@v5
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
         with:
-          python-version: ${{ matrix.python }}
-      - run: python -m pip install -e '.[security]'
+          persist-credentials: false
+      - uses: actions/setup-python@5fda3b95a4ea91299a34e894583c3862153e4b97 # v7.0.0
+        with:
+          python-version: '3.14.7'
+      - name: Install checksum-pinned job Python
+        run: python tools/install_ci_python.py --version '${{ matrix.python }}' --output "$RUNNER_TEMP/gopyt-python"
+      - name: Verify job interpreter
+        run: python -c "import sys; assert sys.version_info[:3] == tuple(map(int, '${{ matrix.python }}'.split('.')))"
+      - name: Install hash-checked build and security inputs
+        run: |
+          python -m pip install --require-hashes --only-binary=:all: -r requirements/build.txt -r requirements/security.txt
+          python -m pip install --no-deps --no-build-isolation -e .
       - name: Language regression suite
         timeout-minutes: 15
         run: python -u -m unittest discover -s gopyt -t . -v
       - run: python -m unittest benchmarks.language_guard.calibration.test_boundary_probe
       - run: python tools/check_stdlib_sync.py
       - run: python examples/ticket_contracts/demo.py
-      - run: python -m pip wheel --no-deps . --wheel-dir dist
+      - name: Reproduce and verify runtime wheel
+        run: |
+          GOPYT_BUILD_EPOCH=$(git log -1 --format=%ct)
+          python tools/reproducible_wheel.py --output "$RUNNER_TEMP/gopyt-repro" --epoch "$GOPYT_BUILD_EPOCH"
+          mkdir -p dist
+          cp "$RUNNER_TEMP/gopyt-repro/0/gopyt-0.1.0-py3-none-any.whl" dist/
       - run: python tools/wheel_smoke.py dist/gopyt-0.1.0-py3-none-any.whl
       - name: Installed compiler/runtime upgrade and rollback
         run: |
           git fetch --depth 1 origin 710152358087dcf0b7e171f22a7f9a0eed557a01
           mkdir -p "$RUNNER_TEMP/gopyt-baseline" "$RUNNER_TEMP/gopyt-old-wheel"
           git archive 710152358087dcf0b7e171f22a7f9a0eed557a01 gopyt pyproject.toml README.md | tar -x -C "$RUNNER_TEMP/gopyt-baseline"
-          python -m pip wheel --no-deps "$RUNNER_TEMP/gopyt-baseline" --wheel-dir "$RUNNER_TEMP/gopyt-old-wheel"
+          python -m pip wheel --no-deps --no-build-isolation "$RUNNER_TEMP/gopyt-baseline" --wheel-dir "$RUNNER_TEMP/gopyt-old-wheel"
           python tools/upgrade_smoke.py "$RUNNER_TEMP/gopyt-old-wheel/gopyt-0.1.0-py3-none-any.whl" dist/gopyt-0.1.0-py3-none-any.whl
+      - name: Retain wheel verification evidence
+        if: always()
+        uses: actions/upload-artifact@043fb46d1a93c77aae656e7c1c64a875d1fc6a0a # v7.0.1
+        with:
+          name: wheel-verification-${{ matrix.os }}-${{ matrix.python }}
+          path: ${{ runner.temp }}/gopyt-repro/
+          retention-days: 30

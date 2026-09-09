@@ -72,3 +72,7 @@ explicit; the milestone is not production-qualified.
 binds locks and artifacts to exact runtime sources and exercises explicit
 dependency review, rebuild and installed compiler/runtime rollback. Release
 provenance and application data recovery remain separate qualification gates.
+
+[Build-input qualification](release-inputs-amendment-2026-09-09.md) pins actions,
+Python distributions and build/security wheels and verifies repeated wheel builds.
+Signed provenance, complete bundled inventory and vulnerability response remain open.

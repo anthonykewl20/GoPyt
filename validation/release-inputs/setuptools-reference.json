@@ -1,0 +1,114 @@
+{
+  "spec": "pypi:setuptools@82.0.1",
+  "paths": {
+    "api_index": "/home/soultransit/.leitir/api/pypi/setuptools/82.0.1/index.json",
+    "examples_index": "/home/soultransit/.leitir/examples/pypi/setuptools/82.0.1/index.json",
+    "tree": "/home/soultransit/.leitir/repos/github.com/pypa/setuptools/5a13876673a41e3cd21d4d6e587f53d0fb4fd8e5"
+  },
+  "provenance": {
+    "artifact_checksum": "sha256:7d872682c5d01cfde07da7bccc7b65469d3dca203318515ada1de5eda35efbf9",
+    "artifact_kind": "sdist",
+    "commit_sha": "5a13876673a41e3cd21d4d6e587f53d0fb4fd8e5",
+    "degraded_provenance": null,
+    "fetched_at": "2026-09-09T14:11:56.317333Z",
+    "host": "github.com",
+    "owner": "pypa",
+    "repo": "setuptools",
+    "repo_url": "https://github.com/pypa/setuptools",
+    "source": "registry-artifact",
+    "subpath": null,
+    "verified": true,
+    "verified_at": "2026-09-09T14:11:56.317333Z",
+    "version": "82.0.1",
+    "version_source": "explicit"
+  },
+  "parity": {
+    "files_compared": 502,
+    "only_in_artifact": 8,
+    "only_in_git": 44,
+    "parity": "drift"
+  },
+  "license": {
+    "confidence": "low",
+    "identifier": null,
+    "method": "unknown"
+  },
+  "routing": {
+    "reason": "license-undetermined",
+    "verdict": "study-only"
+  },
+  "trust": {
+    "breakdown": [
+      {
+        "evidence": {
+          "days_at_fetch": 184,
+          "reason": "age measured at cached fetch time",
+          "source": "published_at",
+          "state": "known"
+        },
+        "factor": "age",
+        "score": 100,
+        "weight": 15
+      },
+      {
+        "evidence": {
+          "artifact_kind": "sdist",
+          "reason": "cached artifact checksum and kind are present",
+          "state": "present"
+        },
+        "factor": "artifact_checksum",
+        "score": 100,
+        "weight": 15
+      },
+      {
+        "evidence": {
+          "docs_urls": true,
+          "entry_points": true,
+          "reason": "cached docs and entry-point presence",
+          "state": "docs-and-entry-points"
+        },
+        "factor": "documentation",
+        "score": 100,
+        "weight": 10
+      },
+      {
+        "evidence": {
+          "method": "unknown",
+          "reason": "license confidence is low",
+          "state": "low"
+        },
+        "factor": "license",
+        "score": 25,
+        "weight": 15
+      },
+      {
+        "evidence": {
+          "reason": "cached parity result",
+          "state": "drift"
+        },
+        "factor": "parity",
+        "score": 0,
+        "weight": 15
+      },
+      {
+        "evidence": {
+          "reason": "cached Git tree tests/ presence",
+          "state": "absent"
+        },
+        "factor": "tests",
+        "score": 0,
+        "weight": 10
+      },
+      {
+        "evidence": {
+          "reason": "cached verification state is True",
+          "state": true
+        },
+        "factor": "verification",
+        "score": 100,
+        "weight": 20
+      }
+    ],
+    "score": 64
+  }
+}
