@@ -110,7 +110,7 @@ def _match(pattern: str, path: str) -> dict[str, str] | None:
 def serve(vm, module: str):
     from gopyt.natives import _status
 
-    with vm.lock:
+    with vm.native_admission():
         # implementer.md 12: one outstanding serve per process.
         if vm.serving:
             return _status(vm, "ListenError", "already serving")

@@ -1,0 +1,25 @@
+...echo
+..echo
+..echo
+echo
+.echo
+.echo
+.charge
+..echo
+echo
+.........echo
+..E............
+======================================================================
+ERROR: test_scheduling (unittest.loader._FailedTest.test_scheduling)
+----------------------------------------------------------------------
+ImportError: Failed to import test module: test_scheduling
+Traceback (most recent call last):
+  File "/home/soultransit/.local/share/uv/python/cpython-3.14.7-linux-x86_64-gnu/lib/python3.14/unittest/loader.py", line 141, in loadTestsFromName
+    module = __import__(module_name)
+ModuleNotFoundError: No module named 'gopyt.test_scheduling'
+
+
+----------------------------------------------------------------------
+Ran 36 tests in 10.748s
+
+FAILED (errors=1)

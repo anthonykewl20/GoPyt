@@ -231,6 +231,23 @@ class VM:
             if time.monotonic_ns() >= deadline:
                 raise Trap(ops.TRAP_TIMEOUT)
 
+    @contextmanager
+    def native_admission(self):
+        """Wait cooperatively for shared native state, then check admission."""
+        import time
+        while True:
+            self.check_cancelled()
+            remaining = .05
+            if self.deadline_ns is not None:
+                remaining = min(remaining, max(0, self.deadline_ns - time.monotonic_ns()) / 1_000_000_000)
+            if self.lock.acquire(timeout=remaining):
+                break
+        try:
+            self.check_cancelled()
+            yield
+        finally:
+            self.lock.release()
+
     # -- calling ---------------------------------------------------------
 
     def call(self, fn_id: int, args: list, caller_effects: int | None = None) -> object:

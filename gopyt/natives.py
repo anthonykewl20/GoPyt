@@ -455,8 +455,8 @@ def _limit_allow(vm, args, func):
     key, tokens, refill_ms = args
     _requires(tokens > 0)
     _requires(refill_ms > 0)
-    now = time.monotonic()
-    with vm.lock:
+    with vm.native_admission():
+        now = time.monotonic()
         allowed = vm.limiter.allow(key, tokens, refill_ms, now)
     if not allowed:
         vm.observe.deny("limit")
@@ -475,7 +475,7 @@ def _evolve_propose(vm, args, func):
     bounds = vm.evolve_bounds(module)
     if bounds is None:
         return Record(vm.type_id_of("core.evolve.EvolveError"), ["no evolve block"])
-    with vm.lock:
+    with vm.native_admission():
         if vm.evolve_in_flight:
             # Little's law (hardening.md): at most one propose in flight.
             return Record(vm.type_id_of("core.evolve.EvolveError"), ["in flight"])

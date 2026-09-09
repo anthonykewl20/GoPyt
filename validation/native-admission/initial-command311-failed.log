@@ -1,0 +1,26 @@
+...echo
+..echo
+..echo
+echo
+.echo
+.echo
+.charge
+..echo
+echo
+.........echo
+..E............
+======================================================================
+ERROR: test_scheduling (unittest.loader._FailedTest.test_scheduling)
+----------------------------------------------------------------------
+ImportError: Failed to import test module: test_scheduling
+Traceback (most recent call last):
+  File "/tmp/gopyt-python31116/python/lib/python3.11/unittest/loader.py", line 162, in loadTestsFromName
+    module = __import__(module_name)
+             ^^^^^^^^^^^^^^^^^^^^^^^
+ModuleNotFoundError: No module named 'gopyt.test_scheduling'
+
+
+----------------------------------------------------------------------
+Ran 36 tests in 11.070s
+
+FAILED (errors=1)
