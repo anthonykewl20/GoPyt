@@ -1,0 +1,34 @@
+Traceback (most recent call last):
+  File "/tmp/gopyt-json-allocation-initial.py", line 14, in <module>
+    prog, art, ids = build(root)
+                     ~~~~~^^^^^^
+  File "/home/soultransit/devtony/gopyt-milestone-work/gopyt/transaction.py", line 137, in wrapped
+    return fn(root, *args, **kwargs)
+  File "/home/soultransit/devtony/gopyt-milestone-work/gopyt/cli.py", line 50, in build
+    prog = check_package(pkg)
+  File "/home/soultransit/devtony/gopyt-milestone-work/gopyt/check.py", line 2455, in check_package
+    ck.check_functions()
+    ~~~~~~~~~~~~~~~~~~^^
+  File "/home/soultransit/devtony/gopyt-milestone-work/gopyt/check.py", line 2335, in _check_functions
+    fc = FnChecker(self, sig, targs).run()
+  File "/home/soultransit/devtony/gopyt-milestone-work/gopyt/check.py", line 1341, in run
+    term = self.block(self.fc.body)
+  File "/home/soultransit/devtony/gopyt-milestone-work/gopyt/check.py", line 1401, in block
+    term = self.stmt(st)
+  File "/home/soultransit/devtony/gopyt-milestone-work/gopyt/check.py", line 1420, in stmt
+    ty = self.expr(st.expr, self.fc.ret)
+  File "/home/soultransit/devtony/gopyt-milestone-work/gopyt/check.py", line 1488, in expr
+    return self.call(e, expect)
+           ~~~~~~~~~^^^^^^^^^^^
+  File "/home/soultransit/devtony/gopyt-milestone-work/gopyt/check.py", line 1938, in _fn_call
+    self.require_use(module, parts[-1], line)
+    ~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/soultransit/devtony/gopyt-milestone-work/gopyt/check.py", line 1960, in _require_use
+    raise err(13, self.m.file, line, repair=f"use {module} {{ {name} }}\n")
+gopyt.diag.CompileError: GOPYT_E013 missing_use
+file: impl/demo.gopyt
+line: 7
+repair-bytes: 25
+
+use data.json { encode }
+

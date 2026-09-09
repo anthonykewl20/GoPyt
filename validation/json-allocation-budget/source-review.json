@@ -1,0 +1,11 @@
+{
+  "runtime_sha256": "fc6c1aa55709c81e2c6560deb7d0e52a168c5ff5842aafd1f36df6ec41c6eada",
+  "probe_sha256": "4cf2eff56ec490d4b59f441fef6dbec5b579415b8f82bcfafcd14faa02f44919",
+  "test_sha256": {
+    "gopyt/test_json_allocation.py": "83b9f3b2c36da3e19518b9882073c78017ed54226b95da9ceed1bc335618da3b",
+    "gopyt/test_response_budget.py": "f36c0213663ce1b600b9650e5b9932293859732ca96275384bc9a0fe9ecc66ff"
+  },
+  "qualification": "874 full tests passed; focused suites and packaging checks passed",
+  "full_tests": 874,
+  "full_seconds": 316.585
+}

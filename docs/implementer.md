@@ -151,6 +151,14 @@ Type-expression and constant pools use first-seen order during that traversal.
 
 Keep traps 1–11 as in bytecode.md.
 
+Ordinary JSON encoding (including generated `Json.to_json` and `gopyt run`
+result serialization) checks the existing allocation ceiling against escaped
+UTF-8 output bytes before accumulation. Overflow is trap 14; the CLI exits 2
+with E101 and prints no partial JSON result. This per-value limit does not bound
+aggregate object graphs, Python string overhead, sorting scratch space or output
+copies. Network-specific encoding limits retain their documented typed-error
+behavior and smaller budgets.
+
 ## 12. HTTP server (`task serve`)
 
 Amended by [HTTP input deadlines and framing](http-input-amendment-2026-09-05.md):

@@ -113,3 +113,12 @@ and leak observations, failed trials and an independent correctness oracle.
 Existing unit regressions establish individual boundaries; they do not substitute
 for that sustained workload qualification. Aggregate runtime memory and broader
 production qualification also intersect issues #5, #8 and #18.
+
+## Subsequent conversion qualification
+
+[Ordinary JSON allocation qualification](../validation/json-allocation-budget/README.md)
+repairs the encoded-output gap above using the existing per-value allocation
+ceiling, including generated conversion and CLI output. Aggregate decoding
+memory, evolution retention and the remaining A2–A4 review/qualification scope
+remain open. The table and original findings describe the earlier reviewed
+runtime named at the start of this document.

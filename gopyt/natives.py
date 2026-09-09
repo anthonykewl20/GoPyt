@@ -574,6 +574,8 @@ def _json_encode(vm, args, func):
     param_te = func.params[0]
     try:
         return jsonc.encode(vm.art, args[0], param_te)
+    except jsonc.AllocationLimit:
+        raise Trap(ops.TRAP_ALLOC)
     except ConvertFail as e:
         return _convert_error(vm, e.message)
     except NotJson:

@@ -1,0 +1,128 @@
+output
+output
+......echo
+echo
+echo
+echo
+.echo
+echo
+...........F..............................probe
+probe
+probe
+......arithmetic
+..probe
+.charge
+...................cell
+.e
+o
+e
+o
+e
+o
+e
+..charging
+..........echo
+......user
+.ping
+..charge
+.........wire
+.alloc
+...........1
+1
+.E...found
+...go
+..go
+.0
+1
+2
+3
+..go
+...go
+....go
+.......and
+.order
+.contract
+.div
+.enum
+.int
+...opt
+.or
+.range
+.mod
+.slice
+.len
+.encode
+..encode
+decode
+..get
+..bools
+..empty
+..keys
+.map
+...
+======================================================================
+ERROR: test_the_auth_example (gopyt.test_vm.ProgramMatchesArtifact.test_the_auth_example)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/home/soultransit/devtony/gopyt-milestone-work/gopyt/test_vm.py", line 2192, in test_the_auth_example
+    self.check_package(str(work))
+  File "/home/soultransit/devtony/gopyt-milestone-work/gopyt/test_vm.py", line 2164, in check_package
+    prog, art, fn_ids = build(root)
+                        ^^^^^^^^^^^
+  File "/home/soultransit/devtony/gopyt-milestone-work/gopyt/transaction.py", line 137, in wrapped
+    return fn(root, *args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/soultransit/devtony/gopyt-milestone-work/gopyt/cli.py", line 50, in build
+    prog = check_package(pkg)
+           ^^^^^^^^^^^^^^^^^^
+  File "/home/soultransit/devtony/gopyt-milestone-work/gopyt/check.py", line 2462, in check_package
+    check_lock(pkg)
+  File "/home/soultransit/devtony/gopyt-milestone-work/gopyt/check.py", line 2421, in check_lock
+    raise err(40, "gopyt.lock", 1, repair=want)
+gopyt.diag.CompileError: GOPYT_E040 toolchain
+file: gopyt.lock
+line: 1
+repair-bytes: 243
+
+toolchain = "gopyt-0.1.000+sha256:fc6c1aa55709c81e2c6560deb7d0e52a168c5ff5842aafd1f36df6ec41c6eada"
+
+[[pkg]]
+name = "auth_example"
+version = "0.1.0"
+path = "."
+digest = "sha256:8a3466ed3972227f7b307bbc795f502e0911a018437ad394e13cad07acca03af"
+
+
+======================================================================
+FAIL: test_apply_failure_rolls_back_sources (gopyt.test_audit.EvolutionAudit.test_apply_failure_rolls_back_sources)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/home/soultransit/devtony/gopyt-milestone-work/gopyt/test_audit.py", line 504, in test_apply_failure_rolls_back_sources
+    self.assertEqual(run_cli(root, "check"), (0, ""))
+AssertionError: Tuples differ: (1, 'GOPYT_E040 toolchain\nfile: gopyt.loc[280 chars]"\n') != (0, '')
+
+First differing element 0:
+1
+0
+
++ (0, '')
+- (1,
+-  'GOPYT_E040 toolchain\n'
+-  'file: gopyt.lock\n'
+-  'line: 1\n'
+-  'repair-bytes: 243\n'
+-  '\n'
+-  'toolchain = '
+-  '"gopyt-0.1.000+sha256:fc6c1aa55709c81e2c6560deb7d0e52a168c5ff5842aafd1f36df6ec41c6eada"\n'
+-  '\n'
+-  '[[pkg]]\n'
+-  'name = "auth_example"\n'
+-  'version = "0.1.0"\n'
+-  'path = "."\n'
+-  'digest = '
+-  '"sha256:8a3466ed3972227f7b307bbc795f502e0911a018437ad394e13cad07acca03af"\n')
+
+----------------------------------------------------------------------
+Ran 175 tests in 9.400s
+
+FAILED (failures=1, errors=1)
