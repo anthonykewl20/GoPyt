@@ -1,0 +1,10 @@
+test_missing_installed_code_rejected (gopyt.test_component_inventory.InventoryTests.test_missing_installed_code_rejected) ... ok
+test_modified_installed_code_rejected (gopyt.test_component_inventory.InventoryTests.test_modified_installed_code_rejected) ... ok
+test_nested_metadata_vendor_pins_and_sboms_preserved (gopyt.test_component_inventory.InventoryTests.test_nested_metadata_vendor_pins_and_sboms_preserved) ... ok
+test_unhashed_code_is_not_treated_as_installer_metadata (gopyt.test_component_inventory.InventoryTests.test_unhashed_code_is_not_treated_as_installer_metadata) ... ok
+test_unknown_vendor_declaration_rejected (gopyt.test_component_inventory.InventoryTests.test_unknown_vendor_declaration_rejected) ... ok
+
+----------------------------------------------------------------------
+Ran 5 tests in 0.016s
+
+OK

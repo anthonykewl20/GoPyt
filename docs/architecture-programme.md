@@ -78,3 +78,5 @@ Python distributions and build/security wheels and verifies repeated wheel build
 Signed provenance, complete bundled inventory and vulnerability response remain open.
 
 Release provenance: [workflow, verification and withdrawal policy](release-provenance.md). Signed end-to-end qualification and complete component/adaptation inventory remain open under #23.
+
+[Installed release component inventory](component-inventory.md) retains bundled metadata and its current coverage limits under #23.

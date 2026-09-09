@@ -25,7 +25,7 @@ jobs:
         run: python -c "import sys; assert sys.version_info[:3] == tuple(map(int, '${{ matrix.python }}'.split('.')))"
       - name: Install hash-checked build and security inputs
         run: |
-          python -m pip install --require-hashes --only-binary=:all: -r requirements/build.txt -r requirements/security.txt
+          python -m pip install --force-reinstall --require-hashes --only-binary=:all: -r requirements/build.txt -r requirements/security.txt
           python -m pip install --no-deps --no-build-isolation -e .
       - name: Language regression suite
         timeout-minutes: 15
@@ -37,6 +37,7 @@ jobs:
         run: |
           GOPYT_BUILD_EPOCH=$(git log -1 --format=%ct)
           python tools/reproducible_wheel.py --output "$RUNNER_TEMP/gopyt-repro" --epoch "$GOPYT_BUILD_EPOCH"
+          python tools/component_inventory.py > "$RUNNER_TEMP/gopyt-repro/component-inventory.json"
           mkdir -p dist
           cp "$RUNNER_TEMP/gopyt-repro/0/gopyt-0.1.0-py3-none-any.whl" dist/
       - run: python tools/wheel_smoke.py dist/gopyt-0.1.0-py3-none-any.whl

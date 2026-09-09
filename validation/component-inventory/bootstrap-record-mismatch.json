@@ -1,0 +1,12 @@
+{
+  "archive": "cpython-3.11.16+20260901-x86_64-unknown-linux-gnu-install_only.tar.gz",
+  "archive_sha256": "faa0758583a63f14c5eee516af82738403b59c13edda6fc0a21d953febd89eed",
+  "launcher_text": "#!/bin/sh\n'''exec' \"$(dirname -- \"$(realpath -- \"$0\")\")/python3.11\" \"$0\" \"$@\"\n' '''\nimport sys\nfrom pip._internal.cli.main import main\nif __name__ == '__main__':\n    sys.argv[0] = sys.argv[0].removesuffix('.exe')\n    sys.exit(main())\n",
+  "record_row": [
+    "../../../bin/pip",
+    "sha256=BiWfWFSUEM0XsijfaTABdjIRi9eEqv-6AXWqKRR7mMU",
+    "190"
+  ],
+  "actual_size": 234,
+  "actual_record_digest": "sha256=nKkFROt8GDD80HJtZ5q_ZhhdXe6TSCcMOihfnBhhkjA"
+}
