@@ -83,6 +83,11 @@ identity. No cross-fingerprint semantic compatibility is implicitly promised.
 The focused tests exercise header/version rejection, host-artifact mismatch,
 matching source copies, separate-process changed-runtime rejection, unchanged old
 locks on E040, explicit lock replacement/rebuild, and rollback to the matching
-runtime/artifact. Historical released compiler/runtime combinations, dependency
-upgrade scenarios and full release qualification remain required under #22.
-This amendment and finite tests alone do not close that issue.
+runtime/artifact. [Dependency and installed upgrade qualification](../validation/dependency-upgrades/README.md)
+adds transitive source/version/contract/API changes, deterministic relocation and
+rollback, and an installed-wheel matrix against the pinned format-2 development
+baseline. The matrix checks both matching runtime pairs and required cross-format
+rejection, followed by explicit source rebuild and matching-wheel rollback.
+It does not claim interoperability with untested revisions or data rollback safety.
+See the evidence for final validation and publication gates; release provenance
+and signing remain separate #23 requirements.

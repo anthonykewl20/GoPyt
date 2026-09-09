@@ -67,3 +67,8 @@ where configured; this is not authenticated tenant identity or OS isolation.
 issued credentials to subject/tenant grants at the real HTTP and native resource
 boundaries. Deployment TLS/IdP/MFA responsibilities and independent audit remain
 explicit; the milestone is not production-qualified.
+
+[Toolchain upgrade qualification](toolchain-compatibility-amendment-2026-09-09.md)
+binds locks and artifacts to exact runtime sources and exercises explicit
+dependency review, rebuild and installed compiler/runtime rollback. Release
+provenance and application data recovery remain separate qualification gates.
