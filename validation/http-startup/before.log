@@ -1,0 +1,53 @@
+EEFF
+======================================================================
+ERROR: test_partial_worker_start_failure_closes_listener_and_joins_workers (gopyt.test_app_runtime.ApplicationHttpRuntime.test_partial_worker_start_failure_closes_listener_and_joins_workers) (error='RuntimeError', fail_at=1)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/home/soultransit/devtony/gopyt-milestone-work/gopyt/test_app_runtime.py", line 101, in test_partial_worker_start_failure_closes_listener_and_joins_workers
+    result = serve(vm, 'api')
+  File "/home/soultransit/devtony/gopyt-milestone-work/gopyt/server.py", line 365, in serve
+    httpd = Server(addr, Handler)
+  File "/home/soultransit/devtony/gopyt-milestone-work/gopyt/server.py", line 315, in __init__
+    worker.start()
+    ~~~~~~~~~~~~^^
+  File "/home/soultransit/devtony/gopyt-milestone-work/gopyt/test_app_runtime.py", line 95, in start
+    raise error_type('injected worker start failure')
+RuntimeError: injected worker start failure
+
+======================================================================
+ERROR: test_partial_worker_start_failure_closes_listener_and_joins_workers (gopyt.test_app_runtime.ApplicationHttpRuntime.test_partial_worker_start_failure_closes_listener_and_joins_workers) (error='RuntimeError', fail_at=2)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/home/soultransit/devtony/gopyt-milestone-work/gopyt/test_app_runtime.py", line 101, in test_partial_worker_start_failure_closes_listener_and_joins_workers
+    result = serve(vm, 'api')
+  File "/home/soultransit/devtony/gopyt-milestone-work/gopyt/server.py", line 365, in serve
+    httpd = Server(addr, Handler)
+  File "/home/soultransit/devtony/gopyt-milestone-work/gopyt/server.py", line 315, in __init__
+    worker.start()
+    ~~~~~~~~~~~~^^
+  File "/home/soultransit/devtony/gopyt-milestone-work/gopyt/test_app_runtime.py", line 95, in start
+    raise error_type('injected worker start failure')
+RuntimeError: injected worker start failure
+
+======================================================================
+FAIL: test_partial_worker_start_failure_closes_listener_and_joins_workers (gopyt.test_app_runtime.ApplicationHttpRuntime.test_partial_worker_start_failure_closes_listener_and_joins_workers) (error='OSError', fail_at=1)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/home/soultransit/devtony/gopyt-milestone-work/gopyt/test_app_runtime.py", line 105, in test_partial_worker_start_failure_closes_listener_and_joins_workers
+    self.assertEqual(servers[0].socket.fileno(), -1)
+    ~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+AssertionError: 3 != -1
+
+======================================================================
+FAIL: test_partial_worker_start_failure_closes_listener_and_joins_workers (gopyt.test_app_runtime.ApplicationHttpRuntime.test_partial_worker_start_failure_closes_listener_and_joins_workers) (error='OSError', fail_at=2)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/home/soultransit/devtony/gopyt-milestone-work/gopyt/test_app_runtime.py", line 104, in test_partial_worker_start_failure_closes_listener_and_joins_workers
+    self.assertFalse(any(worker.is_alive() for worker in workers))
+    ~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+AssertionError: True is not false
+
+----------------------------------------------------------------------
+Ran 1 test in 0.109s
+
+FAILED (failures=2, errors=2)

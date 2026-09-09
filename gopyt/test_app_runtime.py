@@ -77,6 +77,46 @@ def request(port, method='GET', path='/echo/abc', body=None):
 
 
 class ApplicationHttpRuntime(unittest.TestCase):
+    def test_partial_worker_start_failure_closes_listener_and_joins_workers(self):
+        from gopyt.server import serve
+        for error_type in (RuntimeError, OSError):
+            for fail_at in (1, 2):
+                with self.subTest(error=error_type.__name__, fail_at=fail_at), \
+                        tempfile.TemporaryDirectory() as root:
+                    write_pkg(root, fixtures.API_FILES)
+                    prog, art, ids = build(root)
+                    vm = make_vm(root, prog, art, ids)
+                    servers, workers = [], []
+                    original_start = threading.Thread.start
+                    def start(worker):
+                        servers.append(worker._target.__self__)
+                        workers.append(worker)
+                        if len(workers) == fail_at:
+                            raise error_type('injected worker start failure')
+                        original_start(worker)
+                    try:
+                        with patch('gopyt.server._addr', return_value=('127.0.0.1', 0)), \
+                                patch('gopyt.server.MAX_HANDLERS', 3), \
+                                patch('gopyt.server.threading.Thread.start', new=start):
+                            result = serve(vm, 'api')
+                        self.assertEqual(vm.type_name(result.type_id), 'core.status.ListenError')
+                        self.assertFalse(vm.serving)
+                        self.assertFalse(any(worker.is_alive() for worker in workers))
+                        self.assertEqual(servers[0].socket.fileno(), -1)
+                        self.assertEqual(servers[0].pending.unfinished_tasks, 0)
+                        # The listening address can immediately be reused.
+                        with socket.socket() as replacement:
+                            replacement.bind(servers[0].server_address)
+                    finally:
+                        # Keep a failing pre-fix regression from leaking its real workers.
+                        for server in set(servers):
+                            live = [worker for worker in workers if worker.is_alive()]
+                            for worker in live:
+                                server.pending.put(None)
+                            for worker in live:
+                                worker.join(2)
+                            server.socket.close()
+
     def test_listener_startup_does_not_depend_on_reverse_dns(self):
         with patch('socket.getfqdn', side_effect=AssertionError('reverse DNS must not run')):
             with running_server() as (_, port):
