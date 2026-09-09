@@ -1,0 +1,12 @@
+test_decimal_text_rounding_oracle (gopyt.test_money.MoneyTests.test_decimal_text_rounding_oracle) ... ok
+test_exact_mode_and_add_subtract_oracle (gopyt.test_money.MoneyTests.test_exact_mode_and_add_subtract_oracle) ... ok
+test_invalid_inputs_return_convert_error (gopyt.test_money.MoneyTests.test_invalid_inputs_return_convert_error) ... ok
+test_mismatch_and_overflow_are_explicit (gopyt.test_money.MoneyTests.test_mismatch_and_overflow_are_explicit) ... ok
+test_parse_format_and_integer_extremes (gopyt.test_money.MoneyTests.test_parse_format_and_integer_extremes) ... ok
+test_record_and_enum_validation_at_each_operation (gopyt.test_money.MoneyTests.test_record_and_enum_validation_at_each_operation) ... ok
+test_signed_rounding_matches_decimal_oracle (gopyt.test_money.MoneyTests.test_signed_rounding_matches_decimal_oracle) ... ok
+
+----------------------------------------------------------------------
+Ran 7 tests in 0.430s
+
+OK

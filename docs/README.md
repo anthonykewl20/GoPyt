@@ -107,3 +107,6 @@ Release provenance: [workflow, verification and withdrawal policy](release-prove
 
 [Finite binary64 amendment](finite-f64-amendment-2026-09-10.md) defines literal
 rounding, overflow and nonfinite rejection at bytecode and VM boundaries.
+
+[Exact monetary values](money-amendment-2026-09-10.md) defines checked fixed-point
+arithmetic, explicit rounding, currency validation and decimal text boundaries.

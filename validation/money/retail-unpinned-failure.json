@@ -1,0 +1,22 @@
+{
+  "status": "failed",
+  "source_sha256": "43465a06f2ccf7c8b5bd2892bc7defb52f97487934fe93b16ae4c3936424676d",
+  "source_url": "https://archive.ics.uci.edu/static/public/352/online+retail.zip",
+  "citation": "Chen, D. (2015). Online Retail. UCI. doi:10.24432/C5BW33. CC BY 4.0.",
+  "runtime_sha256": "c6077e515ab9be931d24f7ae9b28e83eaba5a16327a7c439fb840da1a738c745",
+  "tool_sha256": "eeadcef82c2675647d418d7901c30c9397b4d3a396da7c2761c24f97c2638d89",
+  "python": "3.14.7 (main, Sep  1 2026, 14:18:09) [Clang 22.1.3 ]",
+  "acceptance": "all 541909 rows; zero line/aggregate mismatches",
+  "policy": "Preserve exact workbook decimal cells, expanding exponent syntax only; round unit price once to GBP scale 2 HalfEven, then multiply by signed quantity exactly. This is a declared test policy, not evidence of amounts charged.",
+  "counts": {
+    "rows": 95,
+    "negative_quantity": 0,
+    "negative_price": 0,
+    "zero_price": 0,
+    "rounded_unit_price": 9,
+    "rounding_order_difference": 0
+  },
+  "examples": [],
+  "error": "AssertionError: ('unexpected result', 'line', Record(type_id=2, fields=['invalid Money record']))",
+  "seconds": 0.154958178056404
+}

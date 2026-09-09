@@ -1,0 +1,17 @@
+{
+  "results": [
+    {
+      "commit_sha": "823f0323ee6ec1402088b73bce1a38473cac36dc",
+      "path": "/home/soultransit/.leitir/repos/github.com/python/cpython/823f0323ee6ec1402088b73bce1a38473cac36dc",
+      "source": "git-commit",
+      "spec": "github:python/cpython@823f0323ee6ec1402088b73bce1a38473cac36dc",
+      "verified": "sampled"
+    }
+  ],
+  "schema_version": 1,
+  "reviewed_files": {
+    "Lib/_pydecimal.py": "b9da2f4c7c740b8ff0d9fa57a0c567898569e5ee740b83c8aef7222fe953e103",
+    "LICENSE": "b0e25a78cffb43f4d92de8b61ccfa1f1f98ecbc22330b54b5251e7b6ba010231"
+  },
+  "scope": "Rounding helpers read as reference only; no copying, donor execution or runtime dependency. Tests use installed standard-library Decimal, not the reference checkout."
+}
