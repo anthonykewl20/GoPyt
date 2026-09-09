@@ -330,3 +330,6 @@ Roots: stack, locals, scheduler arm stacks. Tracing mark-sweep. No opcode. FFI p
 ## What is not in v0 bytecode
 
 Register ISA, SSA, native JIT, WASM, exceptions, threads without PARALLEL, mutable in-place list ops (append returns a new list; opcode LIST_APPEND is semantically copy-plus-push, implementation may reuse storage if uniquely owned and unobservable).
+
+[Finite binary64 amendment](finite-f64-amendment-2026-09-10.md) defines literal
+rounding, overflow and nonfinite rejection at bytecode and VM boundaries.

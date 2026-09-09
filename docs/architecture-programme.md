@@ -80,3 +80,5 @@ Signed provenance, complete bundled inventory and vulnerability response remain 
 Release provenance: [workflow, verification and withdrawal policy](release-provenance.md). Signed end-to-end qualification and complete component/adaptation inventory remain open under #23.
 
 [Installed release component inventory](component-inventory.md) retains bundled metadata and its current coverage limits under #23.
+
+Finite floating-point boundaries are specified by the [binary64 amendment](finite-f64-amendment-2026-09-10.md). Overflowing literals and nonfinite bytecode/host/native values are rejected. Issue #17 remains open for exact money, typed time and real-data qualification.

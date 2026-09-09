@@ -89,6 +89,7 @@ IDS = {
     115: "evolve_gate",
     116: "evolve_hot",
     117: "observe_bound",
+    118: "numeric_range",
 }
 
 

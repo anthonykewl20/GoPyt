@@ -7,6 +7,7 @@ bytecode. Every rule here cites a locked document; nothing is invented.
 from __future__ import annotations
 
 import os
+import math
 import re
 from dataclasses import dataclass, field, fields
 
@@ -1450,6 +1451,8 @@ class FnChecker:
         if isinstance(e, IntLit):
             return self.note(e, I64)
         if isinstance(e, FloatLit):
+            if not math.isfinite(float(e.value)):
+                raise err(118, self.m.file, line)
             return self.note(e, F64)
         if isinstance(e, StrLit):
             return self.note(e, STR)

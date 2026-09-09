@@ -7,6 +7,7 @@ natives; there is no opcode for FFI, eval, or unstructured concurrency.
 from __future__ import annotations
 
 import struct
+import math
 import threading
 from contextlib import contextmanager
 from dataclasses import dataclass, field
@@ -46,6 +47,10 @@ class VM:
         from gopyt.toolchain import FINGERPRINT
         if art.toolchain != FINGERPRINT:
             raise gobyte.e100()
+        for constant in art.consts:
+            if constant.tag == gobyte.TAG_F64 and (type(constant.value) is not float
+                                                  or not math.isfinite(constant.value)):
+                raise gobyte.e100()
         import sys
         from gopyt.limiter import Limiter
         from gopyt.heap import Heap
@@ -208,9 +213,16 @@ class VM:
     def call(self, fn_id: int, args: list, caller_effects: int | None = None) -> object:
         import time
         started = time.monotonic()
+        func = self.art.funcs[fn_id]
+        boundary = self.depth == 0 or func.kind == ops.KIND_NATIVE
+        if boundary:
+            require_finite_values(args)
         with self.heap.pin(args):
-            result = self.heap.handoff(self._call(fn_id, args, caller_effects))
-            func = self.art.funcs[fn_id]
+            result = self._call(fn_id, args, caller_effects)
+            if boundary:
+                require_finite_values(args)
+                require_finite_values(result)
+            result = self.heap.handoff(result)
             if not self.names[fn_id].startswith("core.observe.") and (func.kind in (ops.KIND_TASK, ops.KIND_WORKFLOW) or (func.kind == ops.KIND_NATIVE and func.effects)):
                 tag = self.type_name(result.type_id) if isinstance(result, (Record, EnumVal, Secret)) else type(result).__name__
                 if isinstance(result, EnumVal):
@@ -695,3 +707,20 @@ def value_eq(a: object, b: object) -> bool:
     if type(a) is not type(b):
         raise Trap(ops.TRAP_TYPE)
     return a == b
+
+
+def require_finite_values(value: object) -> None:
+    """Check host/native value graphs at each admission boundary, cycle-safe."""
+    from gopyt.heap import children
+    pending = [value]
+    seen = set()
+    while pending:
+        item = pending.pop()
+        if isinstance(item, float):
+            if not math.isfinite(item):
+                raise Trap(ops.TRAP_TYPE)
+        elif isinstance(item, (list, dict, Record, EnumVal, Some)):
+            identity = id(item)
+            if identity not in seen:
+                seen.add(identity)
+                pending.extend(children(item))
