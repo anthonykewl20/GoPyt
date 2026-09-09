@@ -78,3 +78,13 @@ installed supported Python interpreters.
 The [retained validation report](../validation/parallel-admission/README.md) includes
 frozen workload identities, actual latency/resource observations and the initial
 trial that motivated the sleep-wait correction.
+
+## HTTP worker startup failure
+
+If an HTTP handler worker cannot start, the server joins every worker already
+started and closes the listening socket before returning ListenError with
+`worker startup`. The VM's serving flag is reset so a later attempt is possible.
+No request is admitted before the pool has started. Unexpected initialization
+exceptions also reclaim initialized resources and reset serving state before
+propagating. Cleanup does not join an unstarted thread. This startup guarantee
+does not complete graceful draining of an already serving application.

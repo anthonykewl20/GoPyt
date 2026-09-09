@@ -31,6 +31,10 @@ REQUEST_TIMEOUT_SECONDS = 10.0
 TCP_NODELAY = True
 
 
+class _WorkerStartError(Exception):
+    """Handler pool could not be started; its resources have been reclaimed."""
+
+
 class _DeadlineReader(io.RawIOBase):
     """Bound total request input time, including clients sending one byte at a time."""
 
@@ -306,13 +310,21 @@ def serve(vm, module: str):
 
         def __init__(self, *args):
             super().__init__(*args)
-            self.pending = queue.Queue(maxsize=QUEUE)
-            self.connections = set()
-            self.connection_lock = threading.Lock()
-            self.workers = [threading.Thread(target=self.worker, daemon=True)
-                            for _ in range(MAX_HANDLERS)]
-            for worker in self.workers:
-                worker.start()
+            try:
+                self.pending = queue.Queue(maxsize=QUEUE)
+                self.connections = set()
+                self.connection_lock = threading.Lock()
+                self.workers = []
+                for _ in range(MAX_HANDLERS):
+                    worker = threading.Thread(target=self.worker, daemon=True)
+                    self.workers.append(worker)
+                    try:
+                        worker.start()
+                    except (RuntimeError, OSError) as error:
+                        raise _WorkerStartError() from error
+            except BaseException:
+                self.server_close()
+                raise
 
         def process_request(self, request, address):
             with self.connection_lock:
@@ -355,17 +367,25 @@ def serve(vm, module: str):
                             connection.shutdown(socket.SHUT_RDWR)
                         except OSError:
                             pass
-                for _worker in self.workers:
+                started = [worker for worker in self.workers if worker.ident is not None]
+                for _worker in started:
                     self.pending.put(None)
-                for worker in self.workers:
+                for worker in started:
                     worker.join()
+                self.workers.clear()
             super().server_close()
 
     try:
         httpd = Server(addr, Handler)
+    except _WorkerStartError:
+        vm.serving = False
+        return _status(vm, "ListenError", "worker startup")
     except OSError:
         vm.serving = False
         return _status(vm, "ListenError", "bind")
+    except BaseException:
+        vm.serving = False
+        raise
     vm.httpd = httpd  # SIGINT/SIGTERM and in-process callers stop it here
 
     def shutdown(_signum, _frame):
