@@ -100,3 +100,5 @@ binds format-3 artifacts and locks to runtime sources and specifies upgrade step
 
 [Pinned build inputs and wheel verification](release-inputs-amendment-2026-09-09.md)
 defines current build pins, reproduction checks and remaining release gates.
+
+Release provenance: [workflow, verification and withdrawal policy](release-provenance.md). Signed end-to-end qualification and complete component/adaptation inventory remain open under #23.

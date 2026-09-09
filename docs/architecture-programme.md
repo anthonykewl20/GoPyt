@@ -76,3 +76,5 @@ provenance and application data recovery remain separate qualification gates.
 [Build-input qualification](release-inputs-amendment-2026-09-09.md) pins actions,
 Python distributions and build/security wheels and verifies repeated wheel builds.
 Signed provenance, complete bundled inventory and vulnerability response remain open.
+
+Release provenance: [workflow, verification and withdrawal policy](release-provenance.md). Signed end-to-end qualification and complete component/adaptation inventory remain open under #23.

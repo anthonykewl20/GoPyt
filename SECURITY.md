@@ -33,3 +33,5 @@ The LSP accepts local, bounded package snapshots and invokes the checker with CP
 ## Reporting
 
 Do not publish credentials or exploit details in an ordinary issue. Private vulnerability reporting is enabled: use the repository Security tab to report privately. Dependency vulnerability alerts are also enabled.
+
+Release compromise, withdrawal and replacement handling follows the [release provenance policy](docs/release-provenance.md). Consumers must check current source/artifact revocations as well as signed identity.

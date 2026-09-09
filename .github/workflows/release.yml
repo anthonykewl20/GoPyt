@@ -1,0 +1,78 @@
+name: release-provenance
+on:
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  attest:
+    if: github.repository == 'anthonykewl20/GoPyt' && github.ref == 'refs/heads/main'
+    runs-on: ubuntu-24.04
+    timeout-minutes: 20
+    permissions:
+      contents: read
+      actions: read
+      id-token: write
+      attestations: write
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          persist-credentials: false
+      - name: Require successful validation of this exact source
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          gh run list --workflow validate.yml --event push --commit "$GITHUB_SHA" --limit 100 --json databaseId,headSha,status,conclusion > "$RUNNER_TEMP/validation-runs.json"
+          python3 - <<'PY'
+          import json, os
+          runs = json.load(open(os.environ['RUNNER_TEMP'] + '/validation-runs.json'))
+          assert runs, 'No validation run for source'
+          latest = max(runs, key=lambda run: run['databaseId'])
+          assert latest['headSha'] == os.environ['GITHUB_SHA']
+          assert latest['status'] == 'completed' and latest['conclusion'] == 'success', latest
+          PY
+      - uses: actions/setup-python@5fda3b95a4ea91299a34e894583c3862153e4b97 # v7.0.0
+        with:
+          python-version: '3.14.7'
+      - name: Install reviewed interpreter and build inputs
+        run: python tools/install_ci_python.py --version 3.14.7 --output "$RUNNER_TEMP/gopyt-python"
+      - name: Reproduce verified wheel
+        run: |
+          python -c "import sys; assert sys.version_info[:3] == (3, 14, 7)"
+          python -m pip install --require-hashes --only-binary=:all: -r requirements/build.txt -r requirements/security.txt
+          python tools/reproducible_wheel.py --output "$RUNNER_TEMP/release" --epoch "$(git log -1 --format=%ct)"
+          python tools/wheel_smoke.py "$RUNNER_TEMP/release/0/gopyt-0.1.0-py3-none-any.whl"
+      - name: Attest wheel and build report
+        id: provenance
+        uses: actions/attest-build-provenance@4d101475d8b20a2381f78447822ac1eab6504dd8 # v4.2.2
+        with:
+          subject-path: |
+            ${{ runner.temp }}/release/0/gopyt-0.1.0-py3-none-any.whl
+            ${{ runner.temp }}/release/report.json
+      - name: Retain provenance bundle and validation identity
+        env:
+          BUNDLE_PATH: ${{ steps.provenance.outputs.bundle-path }}
+        run: |
+          cp "$BUNDLE_PATH" "$RUNNER_TEMP/release/provenance.jsonl"
+          cp "$RUNNER_TEMP/validation-runs.json" "$RUNNER_TEMP/release/validation-runs.json"
+      - name: Verify release policy and reject corrupted bytes
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          GOPYT_WHEEL="$RUNNER_TEMP/release/0/gopyt-0.1.0-py3-none-any.whl"
+          GOPYT_DIGEST=$(sha256sum "$GOPYT_WHEEL" | cut -d ' ' -f 1)
+          python tools/verify_release.py "$GOPYT_WHEEL" --source-sha "$GITHUB_SHA" --sha256 "$GOPYT_DIGEST" --revocations release/revocations.json --bundle "$RUNNER_TEMP/release/provenance.jsonl" > "$RUNNER_TEMP/release/verification.json"
+          cp "$GOPYT_WHEEL" "$RUNNER_TEMP/corrupt.whl"
+          printf 'corruption' >> "$RUNNER_TEMP/corrupt.whl"
+          if python tools/verify_release.py "$RUNNER_TEMP/corrupt.whl" --source-sha "$GITHUB_SHA" --sha256 "$GOPYT_DIGEST" --revocations release/revocations.json --bundle "$RUNNER_TEMP/release/provenance.jsonl" > "$RUNNER_TEMP/release/negative.log" 2>&1; then
+            exit 1
+          fi
+          if python tools/verify_release.py "$GOPYT_WHEEL" --source-sha 0000000000000000000000000000000000000000 --sha256 "$GOPYT_DIGEST" --revocations release/revocations.json --bundle "$RUNNER_TEMP/release/provenance.jsonl" > "$RUNNER_TEMP/release/wrong-source.log" 2>&1; then
+            exit 1
+          fi
+      - name: Retain release candidate
+        if: always()
+        uses: actions/upload-artifact@043fb46d1a93c77aae656e7c1c64a875d1fc6a0a # v7.0.1
+        with:
+          name: release-${{ github.sha }}
+          path: ${{ runner.temp }}/release/
+          retention-days: 90

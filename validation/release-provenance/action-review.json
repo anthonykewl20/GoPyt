@@ -1,0 +1,28 @@
+{
+  "wrapper_ref": {
+    "object": {
+      "sha": "4d101475d8b20a2381f78447822ac1eab6504dd8",
+      "type": "commit",
+      "url": "https://api.github.com/repos/actions/attest-build-provenance/git/commits/4d101475d8b20a2381f78447822ac1eab6504dd8"
+    }
+  },
+  "wrapper_action": {
+    "sha": "22d0e61252b70431a96c667ee1b7e96708886241",
+    "html_url": "https://github.com/actions/attest-build-provenance/blob/4d101475d8b20a2381f78447822ac1eab6504dd8/action.yml"
+  },
+  "implementation_action": {
+    "sha": "f3d593f3020cf14b65d2789e3788d015354475e9",
+    "html_url": "https://github.com/actions/attest/blob/508db95dd578ae2727ebd6217d5ba78e4fbda05d/action.yml"
+  },
+  "implementation_readme": {
+    "sha": "4f6c74d11ae4715e6730ed39952eac12b4489a3c",
+    "html_url": "https://github.com/actions/attest/blob/508db95dd578ae2727ebd6217d5ba78e4fbda05d/README.md"
+  },
+  "review": {
+    "wrapper": "4d101475d8b20a2381f78447822ac1eab6504dd8",
+    "implementation": "508db95dd578ae2727ebd6217d5ba78e4fbda05d",
+    "runtime": "node24",
+    "adoption": "CI signing only; no GoPyT runtime library added",
+    "limits": "GitHub/Sigstore and bundled action implementation are trusted; not an independent dependency audit"
+  }
+}
