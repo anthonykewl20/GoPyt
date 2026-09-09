@@ -132,6 +132,7 @@ class ApplicationHttpRuntime(unittest.TestCase):
                     outcome = []
                     vm.natives = dict(vm.natives)
                     def slow_log(*args):
+                        self.assertIn(cancel, vm.cancels)
                         entered.set()
                         try:
                             return vm.natives['core.time.sleep_ms'](vm, [30_000], None)
@@ -181,6 +182,81 @@ class ApplicationHttpRuntime(unittest.TestCase):
                         if getattr(vm, 'httpd', None) is not None:
                             vm.httpd.shutdown()
                         host.join(5)
+
+    def test_expired_queued_connection_never_invokes_handler(self):
+        from gopyt.values import UNIT
+        entered, release = threading.Event(), threading.Event()
+        calls = []
+        with running_server(MAX_HANDLERS=1, REQUEST_TIMEOUT_SECONDS=.15) as (vm, port):
+            vm.natives = dict(vm.natives)
+            def hold(*args):
+                calls.append(1)
+                entered.set()
+                release.wait(2)
+                return UNIT
+            vm.natives['core.log.write'] = hold
+            with contextlib.ExitStack() as stack:
+                first = stack.enter_context(socket.create_connection(('127.0.0.1', port), timeout=2))
+                first.sendall(b'GET /echo/abc HTTP/1.1\r\nHost: localhost\r\n\r\n')
+                self.assertTrue(entered.wait(2))
+                second = stack.enter_context(socket.create_connection(('127.0.0.1', port), timeout=2))
+                second.sendall(b'GET /echo/abc HTTP/1.1\r\nHost: localhost\r\n\r\n')
+                until = time.monotonic() + 2
+                while vm.httpd.pending.qsize() != 1 and time.monotonic() < until:
+                    time.sleep(.005)
+                self.assertEqual(vm.httpd.pending.qsize(), 1)
+                time.sleep(.2)
+                release.set()
+                try:
+                    received = second.recv(4096)
+                except ConnectionResetError:
+                    received = b''
+                self.assertEqual(received, b'')
+                self.assertEqual(calls, [1])
+
+    def test_request_execution_budget_and_keepalive_reset(self):
+        from gopyt.values import UNIT
+        with running_server(MAX_HANDLERS=1, REQUEST_TIMEOUT_SECONDS=.2) as (vm, port):
+            vm.natives = dict(vm.natives)
+            def short(*args):
+                time.sleep(.12)
+                return UNIT
+            vm.natives['core.log.write'] = short
+            connection = http.client.HTTPConnection('127.0.0.1', port, timeout=2)
+            try:
+                for _ in range(2):
+                    connection.request('GET', '/echo/abc')
+                    response = connection.getresponse()
+                    self.assertEqual(response.status, 200)
+                    response.read()
+            finally:
+                connection.close()
+            exited = threading.Event()
+            def long(*args):
+                try:
+                    return vm.natives['core.time.sleep_ms'](vm, [30_000], None)
+                finally:
+                    exited.set()
+            vm.natives['core.log.write'] = long
+            with socket.create_connection(('127.0.0.1', port), timeout=2) as client:
+                client.sendall(b'GET /echo/abc HTTP/1.1\r\nHost: localhost\r\n\r\n')
+                self.assertEqual(client.recv(4096), b'')
+            self.assertTrue(exited.is_set())
+
+    def test_response_backpressure_consumes_remaining_budget(self):
+        from gopyt.server import _DeadlineWriter
+        with running_server(MAX_HANDLERS=1) as (vm, _):
+            sender, receiver = socket.socketpair()
+            with sender, receiver:
+                sender.setsockopt(socket.SOL_SOCKET, socket.SO_SNDBUF, 4096)
+                vm.deadline_ns = time.monotonic_ns() + 100_000_000
+                writer = _DeadlineWriter(sender, vm)
+                try:
+                    with self.assertRaises(TimeoutError):
+                        writer.write(b'x' * 1_048_576)
+                finally:
+                    vm.deadline_ns = None
+                    writer.close()
 
     def test_listener_startup_does_not_depend_on_reverse_dns(self):
         with patch('socket.getfqdn', side_effect=AssertionError('reverse DNS must not run')):
