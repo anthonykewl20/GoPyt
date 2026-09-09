@@ -37,3 +37,5 @@ hosted-CI trust boundary remains explicit. This report is not an assertion that
 all code on a runner is enumerated, a vulnerability scan, or an independent audit.
 
 This increment advances #23; the complete inventory criterion remains open.
+
+All workflows force-reinstall the hash-pinned build/security wheels, including already-present versions. The standalone archive includes a portable pip launcher whose bytes differ from its packaged RECORD. An ordinary same-version install leaves that launcher untouched. The initial inventory CI rejected it on all four platform/version combinations; reinstalling the approved wheel regenerates consistent entry points and RECORD metadata. The verifier remains strict; the bootstrap mismatch and failed CI are retained under validation/component-inventory.

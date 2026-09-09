@@ -83,3 +83,5 @@ The installation controls follow [pip's secure-install guidance](https://pip.pyp
 [Retained evidence](../validation/release-inputs/README.md) separates local results,
 CI qualification and remaining release gates. Finite tests do not establish
 universal correctness, publisher authenticity or an independent security audit.
+
+All workflows force-reinstall the hash-pinned build/security wheels, including already-present versions. The standalone archive includes a portable pip launcher whose bytes differ from its packaged RECORD. An ordinary same-version install leaves that launcher untouched. The initial inventory CI rejected it on all four platform/version combinations; reinstalling the approved wheel regenerates consistent entry points and RECORD metadata. The verifier remains strict; the bootstrap mismatch and failed CI are retained under validation/component-inventory.

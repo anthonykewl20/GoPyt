@@ -25,7 +25,7 @@ jobs:
         run: python -c "import sys; assert sys.version_info[:3] == tuple(map(int, '${{ matrix.python }}'.split('.')))"
       - name: Install hash-checked build and security inputs
         run: |
-          python -m pip install --require-hashes --only-binary=:all: -r requirements/build.txt -r requirements/security.txt
+          python -m pip install --force-reinstall --require-hashes --only-binary=:all: -r requirements/build.txt -r requirements/security.txt
           python -m pip install --no-deps --no-build-isolation -e .
       - name: Language regression suite
         timeout-minutes: 15

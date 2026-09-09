@@ -1,0 +1,104 @@
+language (ubuntu-24.04, 3.14.7)	Reproduce and verify runtime wheel	﻿2026-09-09T15:13:30.7317042Z ##[group]Run GOPYT_BUILD_EPOCH=$(git log -1 --format=%ct)
+language (ubuntu-24.04, 3.14.7)	Reproduce and verify runtime wheel	2026-09-09T15:13:30.7317604Z ^[[36;1mGOPYT_BUILD_EPOCH=$(git log -1 --format=%ct)^[[0m
+language (ubuntu-24.04, 3.14.7)	Reproduce and verify runtime wheel	2026-09-09T15:13:30.7318308Z ^[[36;1mpython tools/reproducible_wheel.py --output "$RUNNER_TEMP/gopyt-repro" --epoch "$GOPYT_BUILD_EPOCH"^[[0m
+language (ubuntu-24.04, 3.14.7)	Reproduce and verify runtime wheel	2026-09-09T15:13:30.7319175Z ^[[36;1mpython tools/component_inventory.py > "$RUNNER_TEMP/gopyt-repro/component-inventory.json"^[[0m
+language (ubuntu-24.04, 3.14.7)	Reproduce and verify runtime wheel	2026-09-09T15:13:30.7319784Z ^[[36;1mmkdir -p dist^[[0m
+language (ubuntu-24.04, 3.14.7)	Reproduce and verify runtime wheel	2026-09-09T15:13:30.7320249Z ^[[36;1mcp "$RUNNER_TEMP/gopyt-repro/0/gopyt-0.1.0-py3-none-any.whl" dist/^[[0m
+language (ubuntu-24.04, 3.14.7)	Reproduce and verify runtime wheel	2026-09-09T15:13:30.7344849Z shell: /usr/bin/bash -e {0}
+language (ubuntu-24.04, 3.14.7)	Reproduce and verify runtime wheel	2026-09-09T15:13:30.7345096Z env:
+language (ubuntu-24.04, 3.14.7)	Reproduce and verify runtime wheel	2026-09-09T15:13:30.7345284Z   TMPDIR: /home/runner/work/_temp
+language (ubuntu-24.04, 3.14.7)	Reproduce and verify runtime wheel	2026-09-09T15:13:30.7345567Z   pythonLocation: /opt/hostedtoolcache/Python/3.14.7/x64
+language (ubuntu-24.04, 3.14.7)	Reproduce and verify runtime wheel	2026-09-09T15:13:30.7345922Z   PKG_CONFIG_PATH: /opt/hostedtoolcache/Python/3.14.7/x64/lib/pkgconfig
+language (ubuntu-24.04, 3.14.7)	Reproduce and verify runtime wheel	2026-09-09T15:13:30.7346262Z   Python_ROOT_DIR: /opt/hostedtoolcache/Python/3.14.7/x64
+language (ubuntu-24.04, 3.14.7)	Reproduce and verify runtime wheel	2026-09-09T15:13:30.7346633Z   Python2_ROOT_DIR: /opt/hostedtoolcache/Python/3.14.7/x64
+language (ubuntu-24.04, 3.14.7)	Reproduce and verify runtime wheel	2026-09-09T15:13:30.7346942Z   Python3_ROOT_DIR: /opt/hostedtoolcache/Python/3.14.7/x64
+language (ubuntu-24.04, 3.14.7)	Reproduce and verify runtime wheel	2026-09-09T15:13:30.7347250Z   LD_LIBRARY_PATH: /opt/hostedtoolcache/Python/3.14.7/x64/lib
+language (ubuntu-24.04, 3.14.7)	Reproduce and verify runtime wheel	2026-09-09T15:13:30.7347521Z ##[endgroup]
+language (ubuntu-24.04, 3.14.7)	Reproduce and verify runtime wheel	2026-09-09T15:13:32.9073452Z {"bitwise_equal": true, "wheel_sha256": "2daf0907108204bbc1efd00ceb8c3604dd07d62819d193dc6b90502d1ea1d5f1", "runtime_files": 42}
+language (ubuntu-24.04, 3.14.7)	Reproduce and verify runtime wheel	2026-09-09T15:13:32.9754462Z Traceback (most recent call last):
+language (ubuntu-24.04, 3.14.7)	Reproduce and verify runtime wheel	2026-09-09T15:13:32.9756966Z   File "/home/runner/work/GoPyt/GoPyt/tools/component_inventory.py", line 65, in <module>
+language (ubuntu-24.04, 3.14.7)	Reproduce and verify runtime wheel	2026-09-09T15:13:32.9757865Z     'distributions': [inventory(name) for name in ('pip','setuptools','cryptography','cffi','pycparser')],
+language (ubuntu-24.04, 3.14.7)	Reproduce and verify runtime wheel	2026-09-09T15:13:32.9758327Z                       ~~~~~~~~~^^^^^^
+language (ubuntu-24.04, 3.14.7)	Reproduce and verify runtime wheel	2026-09-09T15:13:32.9758838Z   File "/home/runner/work/GoPyt/GoPyt/tools/component_inventory.py", line 29, in inventory
+language (ubuntu-24.04, 3.14.7)	Reproduce and verify runtime wheel	2026-09-09T15:13:32.9759541Z     raise ValueError('installed bytes differ from RECORD: ' + str(item))
+language (ubuntu-24.04, 3.14.7)	Reproduce and verify runtime wheel	2026-09-09T15:13:32.9760107Z ValueError: installed bytes differ from RECORD: ../../../bin/pip
+language (ubuntu-24.04, 3.14.7)	Reproduce and verify runtime wheel	2026-09-09T15:13:32.9852397Z ##[error]Process completed with exit code 1.
+language (macos-15, 3.11.16)	Reproduce and verify runtime wheel	﻿2026-09-09T15:13:50.7829350Z ##[group]Run GOPYT_BUILD_EPOCH=$(git log -1 --format=%ct)
+language (macos-15, 3.11.16)	Reproduce and verify runtime wheel	2026-09-09T15:13:50.7829760Z ^[[36;1mGOPYT_BUILD_EPOCH=$(git log -1 --format=%ct)^[[0m
+language (macos-15, 3.11.16)	Reproduce and verify runtime wheel	2026-09-09T15:13:50.7830250Z ^[[36;1mpython tools/reproducible_wheel.py --output "$RUNNER_TEMP/gopyt-repro" --epoch "$GOPYT_BUILD_EPOCH"^[[0m
+language (macos-15, 3.11.16)	Reproduce and verify runtime wheel	2026-09-09T15:13:50.7830940Z ^[[36;1mpython tools/component_inventory.py > "$RUNNER_TEMP/gopyt-repro/component-inventory.json"^[[0m
+language (macos-15, 3.11.16)	Reproduce and verify runtime wheel	2026-09-09T15:13:50.7831350Z ^[[36;1mmkdir -p dist^[[0m
+language (macos-15, 3.11.16)	Reproduce and verify runtime wheel	2026-09-09T15:13:50.7831640Z ^[[36;1mcp "$RUNNER_TEMP/gopyt-repro/0/gopyt-0.1.0-py3-none-any.whl" dist/^[[0m
+language (macos-15, 3.11.16)	Reproduce and verify runtime wheel	2026-09-09T15:13:50.7885360Z shell: /bin/bash -e {0}
+language (macos-15, 3.11.16)	Reproduce and verify runtime wheel	2026-09-09T15:13:50.7885640Z env:
+language (macos-15, 3.11.16)	Reproduce and verify runtime wheel	2026-09-09T15:13:50.7885810Z   TMPDIR: /Users/runner/work/_temp
+language (macos-15, 3.11.16)	Reproduce and verify runtime wheel	2026-09-09T15:13:50.7886140Z   pythonLocation: /Users/runner/hostedtoolcache/Python/3.14.7/arm64
+language (macos-15, 3.11.16)	Reproduce and verify runtime wheel	2026-09-09T15:13:50.7886660Z   PKG_CONFIG_PATH: /Users/runner/hostedtoolcache/Python/3.14.7/arm64/lib/pkgconfig
+language (macos-15, 3.11.16)	Reproduce and verify runtime wheel	2026-09-09T15:13:50.7887110Z   Python_ROOT_DIR: /Users/runner/hostedtoolcache/Python/3.14.7/arm64
+language (macos-15, 3.11.16)	Reproduce and verify runtime wheel	2026-09-09T15:13:50.7887660Z   Python2_ROOT_DIR: /Users/runner/hostedtoolcache/Python/3.14.7/arm64
+language (macos-15, 3.11.16)	Reproduce and verify runtime wheel	2026-09-09T15:13:50.7888040Z   Python3_ROOT_DIR: /Users/runner/hostedtoolcache/Python/3.14.7/arm64
+language (macos-15, 3.11.16)	Reproduce and verify runtime wheel	2026-09-09T15:13:50.7888420Z ##[endgroup]
+language (macos-15, 3.11.16)	Reproduce and verify runtime wheel	2026-09-09T15:13:53.4871000Z {"bitwise_equal": true, "wheel_sha256": "2daf0907108204bbc1efd00ceb8c3604dd07d62819d193dc6b90502d1ea1d5f1", "runtime_files": 42}
+language (macos-15, 3.11.16)	Reproduce and verify runtime wheel	2026-09-09T15:13:53.6504080Z Traceback (most recent call last):
+language (macos-15, 3.11.16)	Reproduce and verify runtime wheel	2026-09-09T15:13:53.6505940Z   File "/Users/runner/work/GoPyt/GoPyt/tools/component_inventory.py", line 65, in <module>
+language (macos-15, 3.11.16)	Reproduce and verify runtime wheel	2026-09-09T15:13:53.6507760Z     'distributions': [inventory(name) for name in ('pip','setuptools','cryptography','cffi','pycparser')],
+language (macos-15, 3.11.16)	Reproduce and verify runtime wheel	2026-09-09T15:13:53.6509150Z                      ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+language (macos-15, 3.11.16)	Reproduce and verify runtime wheel	2026-09-09T15:13:53.6510540Z   File "/Users/runner/work/GoPyt/GoPyt/tools/component_inventory.py", line 65, in <listcomp>
+language (macos-15, 3.11.16)	Reproduce and verify runtime wheel	2026-09-09T15:13:53.6512200Z     'distributions': [inventory(name) for name in ('pip','setuptools','cryptography','cffi','pycparser')],
+language (macos-15, 3.11.16)	Reproduce and verify runtime wheel	2026-09-09T15:13:53.6513560Z                       ^^^^^^^^^^^^^^^
+language (macos-15, 3.11.16)	Reproduce and verify runtime wheel	2026-09-09T15:13:53.6518520Z   File "/Users/runner/work/GoPyt/GoPyt/tools/component_inventory.py", line 29, in inventory
+language (macos-15, 3.11.16)	Reproduce and verify runtime wheel	2026-09-09T15:13:53.6519920Z     raise ValueError('installed bytes differ from RECORD: ' + str(item))
+language (macos-15, 3.11.16)	Reproduce and verify runtime wheel	2026-09-09T15:13:53.6520890Z ValueError: installed bytes differ from RECORD: ../../../bin/pip
+language (macos-15, 3.11.16)	Reproduce and verify runtime wheel	2026-09-09T15:13:53.6612100Z ##[error]Process completed with exit code 1.
+language (ubuntu-24.04, 3.11.16)	Reproduce and verify runtime wheel	﻿2026-09-09T15:14:29.5357952Z ##[group]Run GOPYT_BUILD_EPOCH=$(git log -1 --format=%ct)
+language (ubuntu-24.04, 3.11.16)	Reproduce and verify runtime wheel	2026-09-09T15:14:29.5358314Z ^[[36;1mGOPYT_BUILD_EPOCH=$(git log -1 --format=%ct)^[[0m
+language (ubuntu-24.04, 3.11.16)	Reproduce and verify runtime wheel	2026-09-09T15:14:29.5358742Z ^[[36;1mpython tools/reproducible_wheel.py --output "$RUNNER_TEMP/gopyt-repro" --epoch "$GOPYT_BUILD_EPOCH"^[[0m
+language (ubuntu-24.04, 3.11.16)	Reproduce and verify runtime wheel	2026-09-09T15:14:29.5359279Z ^[[36;1mpython tools/component_inventory.py > "$RUNNER_TEMP/gopyt-repro/component-inventory.json"^[[0m
+language (ubuntu-24.04, 3.11.16)	Reproduce and verify runtime wheel	2026-09-09T15:14:29.5359969Z ^[[36;1mmkdir -p dist^[[0m
+language (ubuntu-24.04, 3.11.16)	Reproduce and verify runtime wheel	2026-09-09T15:14:29.5360286Z ^[[36;1mcp "$RUNNER_TEMP/gopyt-repro/0/gopyt-0.1.0-py3-none-any.whl" dist/^[[0m
+language (ubuntu-24.04, 3.11.16)	Reproduce and verify runtime wheel	2026-09-09T15:14:29.5379306Z shell: /usr/bin/bash -e {0}
+language (ubuntu-24.04, 3.11.16)	Reproduce and verify runtime wheel	2026-09-09T15:14:29.5379751Z env:
+language (ubuntu-24.04, 3.11.16)	Reproduce and verify runtime wheel	2026-09-09T15:14:29.5379947Z   TMPDIR: /home/runner/work/_temp
+language (ubuntu-24.04, 3.11.16)	Reproduce and verify runtime wheel	2026-09-09T15:14:29.5380230Z   pythonLocation: /opt/hostedtoolcache/Python/3.14.7/x64
+language (ubuntu-24.04, 3.11.16)	Reproduce and verify runtime wheel	2026-09-09T15:14:29.5380594Z   PKG_CONFIG_PATH: /opt/hostedtoolcache/Python/3.14.7/x64/lib/pkgconfig
+language (ubuntu-24.04, 3.11.16)	Reproduce and verify runtime wheel	2026-09-09T15:14:29.5380947Z   Python_ROOT_DIR: /opt/hostedtoolcache/Python/3.14.7/x64
+language (ubuntu-24.04, 3.11.16)	Reproduce and verify runtime wheel	2026-09-09T15:14:29.5381290Z   Python2_ROOT_DIR: /opt/hostedtoolcache/Python/3.14.7/x64
+language (ubuntu-24.04, 3.11.16)	Reproduce and verify runtime wheel	2026-09-09T15:14:29.5381692Z   Python3_ROOT_DIR: /opt/hostedtoolcache/Python/3.14.7/x64
+language (ubuntu-24.04, 3.11.16)	Reproduce and verify runtime wheel	2026-09-09T15:14:29.5382042Z   LD_LIBRARY_PATH: /opt/hostedtoolcache/Python/3.14.7/x64/lib
+language (ubuntu-24.04, 3.11.16)	Reproduce and verify runtime wheel	2026-09-09T15:14:29.5382321Z ##[endgroup]
+language (ubuntu-24.04, 3.11.16)	Reproduce and verify runtime wheel	2026-09-09T15:14:30.6208795Z {"bitwise_equal": true, "wheel_sha256": "2daf0907108204bbc1efd00ceb8c3604dd07d62819d193dc6b90502d1ea1d5f1", "runtime_files": 42}
+language (ubuntu-24.04, 3.11.16)	Reproduce and verify runtime wheel	2026-09-09T15:14:30.6703117Z Traceback (most recent call last):
+language (ubuntu-24.04, 3.11.16)	Reproduce and verify runtime wheel	2026-09-09T15:14:30.6703914Z   File "/home/runner/work/GoPyt/GoPyt/tools/component_inventory.py", line 65, in <module>
+language (ubuntu-24.04, 3.11.16)	Reproduce and verify runtime wheel	2026-09-09T15:14:30.6704564Z     'distributions': [inventory(name) for name in ('pip','setuptools','cryptography','cffi','pycparser')],
+language (ubuntu-24.04, 3.11.16)	Reproduce and verify runtime wheel	2026-09-09T15:14:30.6705004Z                      ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+language (ubuntu-24.04, 3.11.16)	Reproduce and verify runtime wheel	2026-09-09T15:14:30.6705437Z   File "/home/runner/work/GoPyt/GoPyt/tools/component_inventory.py", line 65, in <listcomp>
+language (ubuntu-24.04, 3.11.16)	Reproduce and verify runtime wheel	2026-09-09T15:14:30.6705953Z     'distributions': [inventory(name) for name in ('pip','setuptools','cryptography','cffi','pycparser')],
+language (ubuntu-24.04, 3.11.16)	Reproduce and verify runtime wheel	2026-09-09T15:14:30.6710101Z                       ^^^^^^^^^^^^^^^
+language (ubuntu-24.04, 3.11.16)	Reproduce and verify runtime wheel	2026-09-09T15:14:30.6710637Z   File "/home/runner/work/GoPyt/GoPyt/tools/component_inventory.py", line 29, in inventory
+language (ubuntu-24.04, 3.11.16)	Reproduce and verify runtime wheel	2026-09-09T15:14:30.6711364Z     raise ValueError('installed bytes differ from RECORD: ' + str(item))
+language (ubuntu-24.04, 3.11.16)	Reproduce and verify runtime wheel	2026-09-09T15:14:30.6711920Z ValueError: installed bytes differ from RECORD: ../../../bin/pip
+language (ubuntu-24.04, 3.11.16)	Reproduce and verify runtime wheel	2026-09-09T15:14:30.6784065Z ##[error]Process completed with exit code 1.
+language (macos-15, 3.14.7)	Reproduce and verify runtime wheel	﻿2026-09-09T15:14:23.2555650Z ##[group]Run GOPYT_BUILD_EPOCH=$(git log -1 --format=%ct)
+language (macos-15, 3.14.7)	Reproduce and verify runtime wheel	2026-09-09T15:14:23.2556030Z ^[[36;1mGOPYT_BUILD_EPOCH=$(git log -1 --format=%ct)^[[0m
+language (macos-15, 3.14.7)	Reproduce and verify runtime wheel	2026-09-09T15:14:23.2556540Z ^[[36;1mpython tools/reproducible_wheel.py --output "$RUNNER_TEMP/gopyt-repro" --epoch "$GOPYT_BUILD_EPOCH"^[[0m
+language (macos-15, 3.14.7)	Reproduce and verify runtime wheel	2026-09-09T15:14:23.2557150Z ^[[36;1mpython tools/component_inventory.py > "$RUNNER_TEMP/gopyt-repro/component-inventory.json"^[[0m
+language (macos-15, 3.14.7)	Reproduce and verify runtime wheel	2026-09-09T15:14:23.2557530Z ^[[36;1mmkdir -p dist^[[0m
+language (macos-15, 3.14.7)	Reproduce and verify runtime wheel	2026-09-09T15:14:23.2557820Z ^[[36;1mcp "$RUNNER_TEMP/gopyt-repro/0/gopyt-0.1.0-py3-none-any.whl" dist/^[[0m
+language (macos-15, 3.14.7)	Reproduce and verify runtime wheel	2026-09-09T15:14:23.2594220Z shell: /bin/bash -e {0}
+language (macos-15, 3.14.7)	Reproduce and verify runtime wheel	2026-09-09T15:14:23.2594430Z env:
+language (macos-15, 3.14.7)	Reproduce and verify runtime wheel	2026-09-09T15:14:23.2594860Z   TMPDIR: /Users/runner/work/_temp
+language (macos-15, 3.14.7)	Reproduce and verify runtime wheel	2026-09-09T15:14:23.2595970Z   pythonLocation: /Users/runner/hostedtoolcache/Python/3.14.7/arm64
+language (macos-15, 3.14.7)	Reproduce and verify runtime wheel	2026-09-09T15:14:23.2596490Z   PKG_CONFIG_PATH: /Users/runner/hostedtoolcache/Python/3.14.7/arm64/lib/pkgconfig
+language (macos-15, 3.14.7)	Reproduce and verify runtime wheel	2026-09-09T15:14:23.2596900Z   Python_ROOT_DIR: /Users/runner/hostedtoolcache/Python/3.14.7/arm64
+language (macos-15, 3.14.7)	Reproduce and verify runtime wheel	2026-09-09T15:14:23.2597350Z   Python2_ROOT_DIR: /Users/runner/hostedtoolcache/Python/3.14.7/arm64
+language (macos-15, 3.14.7)	Reproduce and verify runtime wheel	2026-09-09T15:14:23.2597700Z   Python3_ROOT_DIR: /Users/runner/hostedtoolcache/Python/3.14.7/arm64
+language (macos-15, 3.14.7)	Reproduce and verify runtime wheel	2026-09-09T15:14:23.2598000Z ##[endgroup]
+language (macos-15, 3.14.7)	Reproduce and verify runtime wheel	2026-09-09T15:14:25.8191200Z {"bitwise_equal": true, "wheel_sha256": "2daf0907108204bbc1efd00ceb8c3604dd07d62819d193dc6b90502d1ea1d5f1", "runtime_files": 42}
+language (macos-15, 3.14.7)	Reproduce and verify runtime wheel	2026-09-09T15:14:25.9595980Z Traceback (most recent call last):
+language (macos-15, 3.14.7)	Reproduce and verify runtime wheel	2026-09-09T15:14:25.9597380Z   File "/Users/runner/work/GoPyt/GoPyt/tools/component_inventory.py", line 65, in <module>
+language (macos-15, 3.14.7)	Reproduce and verify runtime wheel	2026-09-09T15:14:25.9598870Z     'distributions': [inventory(name) for name in ('pip','setuptools','cryptography','cffi','pycparser')],
+language (macos-15, 3.14.7)	Reproduce and verify runtime wheel	2026-09-09T15:14:25.9600030Z                       ~~~~~~~~~^^^^^^
+language (macos-15, 3.14.7)	Reproduce and verify runtime wheel	2026-09-09T15:14:25.9601010Z   File "/Users/runner/work/GoPyt/GoPyt/tools/component_inventory.py", line 29, in inventory
+language (macos-15, 3.14.7)	Reproduce and verify runtime wheel	2026-09-09T15:14:25.9602360Z     raise ValueError('installed bytes differ from RECORD: ' + str(item))
+language (macos-15, 3.14.7)	Reproduce and verify runtime wheel	2026-09-09T15:14:25.9603480Z ValueError: installed bytes differ from RECORD: ../../../bin/pip
+language (macos-15, 3.14.7)	Reproduce and verify runtime wheel	2026-09-09T15:14:25.9700390Z ##[error]Process completed with exit code 1.
