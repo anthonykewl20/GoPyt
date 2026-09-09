@@ -1,0 +1,82 @@
+{
+  "issue": 7,
+  "scope": "Original bounded batch acceptance criteria; no replacement backend, hard native deadline, or production qualification claim.",
+  "criteria": [
+    {
+      "id": "A1",
+      "requirement": "Specify the supported isolation model, read/write conditions, version/ABA behavior and the boundary of transaction atomicity.",
+      "previously_checked": true,
+      "evidence": [
+        "docs/batch-storage-amendment-2026-09-09.md",
+        "docs/transaction-outcomes-amendment-2026-09-09.md",
+        "gopyt/storage.py"
+      ]
+    },
+    {
+      "id": "A2",
+      "requirement": "Define commit outcomes during cancellation, timeout, process death and failed fsync; clients must reconcile ambiguous outcomes.",
+      "previously_checked": false,
+      "evidence": [
+        "docs/transaction-outcomes-amendment-2026-09-09.md",
+        "gopyt/test_transaction_cancellation.py",
+        "gopyt/test_storage_publication.py"
+      ]
+    },
+    {
+      "id": "A3",
+      "requirement": "Provide documented patterns for idempotency markers, multi-aggregate invariants and bounded conflict retries.",
+      "previously_checked": true,
+      "evidence": [
+        "docs/transaction-outcomes-amendment-2026-09-09.md",
+        "examples/retail_replay",
+        "gopyt/test_storage_transactions.py"
+      ]
+    },
+    {
+      "id": "A4",
+      "requirement": "Verify concurrent histories and independent state models, including stale reads, duplicate delivery and failures around every publication boundary.",
+      "previously_checked": false,
+      "evidence": [
+        "gopyt/test_transaction_histories.py",
+        "validation/transaction-histories/histories.json",
+        "gopyt/test_storage_publication.py",
+        "gopyt/test_storage_transactions.py"
+      ]
+    },
+    {
+      "id": "E1",
+      "requirement": "Retain reviewed design decisions, implementation references, meaningful regression/end-to-end tests, and failure evidence appropriate to this scope.",
+      "previously_checked": false,
+      "evidence": [
+        "validation/transaction-histories/README.md",
+        "validation/transaction-publication/README.md",
+        "docs/transaction-outcomes-amendment-2026-09-09.md"
+      ]
+    },
+    {
+      "id": "E2",
+      "requirement": "For performance/data claims, freeze workload/source identities before tuning, compare with an independent oracle, and report actual limits and unsuccessful trials.",
+      "previously_checked": false,
+      "evidence": [
+        "validation/transaction-histories/source.json",
+        "validation/transaction-histories/initial.log",
+        "validation/transaction-histories/README.md"
+      ]
+    },
+    {
+      "id": "E3",
+      "requirement": "Update user-facing documentation and the architecture tracker; do not equate finite passing tests with universal correctness or security.",
+      "previously_checked": false,
+      "evidence": [
+        "docs/README.md",
+        "docs/batch-storage-amendment-2026-09-09.md",
+        "docs/transaction-outcomes-amendment-2026-09-09.md"
+      ]
+    }
+  ],
+  "publication_gates": [
+    "Final source-hash verification and full regression result",
+    "Final-head Linux/macOS Python3.11/3.14 CI success and merged PR",
+    "Update original issue and architecture tracker using immutable evidence links"
+  ]
+}

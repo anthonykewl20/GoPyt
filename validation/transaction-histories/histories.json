@@ -1,0 +1,7018 @@
+{
+  "gopyt.test_transaction_histories.ConcurrentHistories.test_thread_histories": [
+    {
+      "initial": {
+        "left": "30",
+        "right": "0"
+      },
+      "history": [
+        {
+          "start": 796169860895323,
+          "end": 796169861763938,
+          "kind": "read",
+          "args": [
+            "left",
+            "right",
+            "receipt"
+          ],
+          "result": [
+            "30",
+            "0",
+            null
+          ]
+        },
+        {
+          "start": 796169861766412,
+          "end": 796169863881396,
+          "kind": "cas",
+          "args": [
+            [
+              "left",
+              "30",
+              "29"
+            ],
+            [
+              "right",
+              "0",
+              "1"
+            ],
+            [
+              "receipt",
+              null,
+              "request"
+            ]
+          ],
+          "result": true
+        },
+        {
+          "start": 796169861106162,
+          "end": 796169865964781,
+          "kind": "read",
+          "args": [
+            "left",
+            "right",
+            "receipt"
+          ],
+          "result": [
+            "29",
+            "1",
+            "request"
+          ]
+        },
+        {
+          "start": 796169865967967,
+          "end": 796169866322789,
+          "kind": "cas",
+          "args": [
+            [
+              "left",
+              "29",
+              "28"
+            ],
+            [
+              "right",
+              "1",
+              "2"
+            ],
+            [
+              "receipt",
+              null,
+              "request"
+            ]
+          ],
+          "result": false
+        },
+        {
+          "start": 796169861352849,
+          "end": 796169868060038,
+          "kind": "read",
+          "args": [
+            "left",
+            "right",
+            "receipt"
+          ],
+          "result": [
+            "29",
+            "1",
+            "request"
+          ]
+        },
+        {
+          "start": 796169868062252,
+          "end": 796169868335980,
+          "kind": "cas",
+          "args": [
+            [
+              "left",
+              "29",
+              "28"
+            ],
+            [
+              "right",
+              "1",
+              "2"
+            ],
+            [
+              "receipt",
+              null,
+              "request"
+            ]
+          ],
+          "result": false
+        },
+        {
+          "start": 796169868503878,
+          "end": 796169868841096,
+          "kind": "read",
+          "args": [
+            "left",
+            "right",
+            "receipt"
+          ],
+          "result": [
+            "29",
+            "1",
+            "request"
+          ]
+        }
+      ],
+      "witness": [
+        0,
+        1,
+        2,
+        3,
+        4,
+        5,
+        6
+      ]
+    },
+    {
+      "initial": {
+        "left": "31",
+        "right": "1"
+      },
+      "history": [
+        {
+          "start": 796169871934964,
+          "end": 796169876894363,
+          "kind": "read",
+          "args": [
+            "left",
+            "right",
+            "receipt"
+          ],
+          "result": [
+            "30",
+            "2",
+            "request"
+          ]
+        },
+        {
+          "start": 796169876896447,
+          "end": 796169877207025,
+          "kind": "cas",
+          "args": [
+            [
+              "left",
+              "30",
+              "29"
+            ],
+            [
+              "right",
+              "2",
+              "3"
+            ],
+            [
+              "receipt",
+              null,
+              "request"
+            ]
+          ],
+          "result": false
+        },
+        {
+          "start": 796169872059790,
+          "end": 796169872697247,
+          "kind": "read",
+          "args": [
+            "left",
+            "right",
+            "receipt"
+          ],
+          "result": [
+            "31",
+            "1",
+            null
+          ]
+        },
+        {
+          "start": 796169872699130,
+          "end": 796169874487947,
+          "kind": "cas",
+          "args": [
+            [
+              "left",
+              "31",
+              "30"
+            ],
+            [
+              "right",
+              "1",
+              "2"
+            ],
+            [
+              "receipt",
+              null,
+              "request"
+            ]
+          ],
+          "result": true
+        },
+        {
+          "start": 796169872198202,
+          "end": 796169874760082,
+          "kind": "read",
+          "args": [
+            "left",
+            "right",
+            "receipt"
+          ],
+          "result": [
+            "30",
+            "2",
+            "request"
+          ]
+        },
+        {
+          "start": 796169874762076,
+          "end": 796169875020696,
+          "kind": "cas",
+          "args": [
+            [
+              "left",
+              "30",
+              "29"
+            ],
+            [
+              "right",
+              "2",
+              "3"
+            ],
+            [
+              "receipt",
+              null,
+              "request"
+            ]
+          ],
+          "result": false
+        },
+        {
+          "start": 796169877379892,
+          "end": 796169877732319,
+          "kind": "read",
+          "args": [
+            "left",
+            "right",
+            "receipt"
+          ],
+          "result": [
+            "30",
+            "2",
+            "request"
+          ]
+        }
+      ],
+      "witness": [
+        2,
+        3,
+        0,
+        4,
+        5,
+        1,
+        6
+      ]
+    },
+    {
+      "initial": {
+        "left": "32",
+        "right": "2"
+      },
+      "history": [
+        {
+          "start": 796169881286588,
+          "end": 796169884063866,
+          "kind": "read",
+          "args": [
+            "left",
+            "right",
+            "receipt"
+          ],
+          "result": [
+            "31",
+            "3",
+            "request"
+          ]
+        },
+        {
+          "start": 796169884065760,
+          "end": 796169884329118,
+          "kind": "cas",
+          "args": [
+            [
+              "left",
+              "31",
+              "30"
+            ],
+            [
+              "right",
+              "3",
+              "4"
+            ],
+            [
+              "receipt",
+              null,
+              "request"
+            ]
+          ],
+          "result": false
+        },
+        {
+          "start": 796169881410974,
+          "end": 796169886275914,
+          "kind": "read",
+          "args": [
+            "left",
+            "right",
+            "receipt"
+          ],
+          "result": [
+            "31",
+            "3",
+            "request"
+          ]
+        },
+        {
+          "start": 796169886278339,
+          "end": 796169886546567,
+          "kind": "cas",
+          "args": [
+            [
+              "left",
+              "31",
+              "30"
+            ],
+            [
+              "right",
+              "3",
+              "4"
+            ],
+            [
+              "receipt",
+              null,
+              "request"
+            ]
+          ],
+          "result": false
+        },
+        {
+          "start": 796169881532063,
+          "end": 796169881951447,
+          "kind": "read",
+          "args": [
+            "left",
+            "right",
+            "receipt"
+          ],
+          "result": [
+            "32",
+            "2",
+            null
+          ]
+        },
+        {
+          "start": 796169881953671,
+          "end": 796169883667626,
+          "kind": "cas",
+          "args": [
+            [
+              "left",
+              "32",
+              "31"
+            ],
+            [
+              "right",
+              "2",
+              "3"
+            ],
+            [
+              "receipt",
+              null,
+              "request"
+            ]
+          ],
+          "result": true
+        },
+        {
+          "start": 796169886723822,
+          "end": 796169887112187,
+          "kind": "read",
+          "args": [
+            "left",
+            "right",
+            "receipt"
+          ],
+          "result": [
+            "31",
+            "3",
+            "request"
+          ]
+        }
+      ],
+      "witness": [
+        4,
+        5,
+        0,
+        1,
+        2,
+        3,
+        6
+      ]
+    },
+    {
+      "initial": {
+        "left": "33",
+        "right": "3"
+      },
+      "history": [
+        {
+          "start": 796169890304912,
+          "end": 796169897275589,
+          "kind": "read",
+          "args": [
+            "left",
+            "right",
+            "receipt"
+          ],
+          "result": [
+            "32",
+            "4",
+            "request"
+          ]
+        },
+        {
+          "start": 796169897278825,
+          "end": 796169897519741,
+          "kind": "cas",
+          "args": [
+            [
+              "left",
+              "32",
+              "31"
+            ],
+            [
+              "right",
+              "4",
+              "5"
+            ],
+            [
+              "receipt",
+              null,
+              "request"
+            ]
+          ],
+          "result": false
+        },
+        {
+          "start": 796169890432995,
+          "end": 796169895299217,
+          "kind": "read",
+          "args": [
+            "left",
+            "right",
+            "receipt"
+          ],
+          "result": [
+            "32",
+            "4",
+            "request"
+          ]
+        },
+        {
+          "start": 796169895303095,
+          "end": 796169895649440,
+          "kind": "cas",
+          "args": [
+            [
+              "left",
+              "32",
+              "31"
+            ],
+            [
+              "right",
+              "4",
+              "5"
+            ],
+            [
+              "receipt",
+              null,
+              "request"
+            ]
+          ],
+          "result": false
+        },
+        {
+          "start": 796169890547732,
+          "end": 796169891099667,
+          "kind": "read",
+          "args": [
+            "left",
+            "right",
+            "receipt"
+          ],
+          "result": [
+            "33",
+            "3",
+            null
+          ]
+        },
+        {
+          "start": 796169891101741,
+          "end": 796169893687907,
+          "kind": "cas",
+          "args": [
+            [
+              "left",
+              "33",
+              "32"
+            ],
+            [
+              "right",
+              "3",
+              "4"
+            ],
+            [
+              "receipt",
+              null,
+              "request"
+            ]
+          ],
+          "result": true
+        },
+        {
+          "start": 796169897703098,
+          "end": 796169898080884,
+          "kind": "read",
+          "args": [
+            "left",
+            "right",
+            "receipt"
+          ],
+          "result": [
+            "32",
+            "4",
+            "request"
+          ]
+        }
+      ],
+      "witness": [
+        4,
+        5,
+        0,
+        2,
+        3,
+        1,
+        6
+      ]
+    },
+    {
+      "initial": {
+        "left": "34",
+        "right": "4"
+      },
+      "history": [
+        {
+          "start": 796169901300770,
+          "end": 796169907526857,
+          "kind": "read",
+          "args": [
+            "left",
+            "right",
+            "receipt"
+          ],
+          "result": [
+            "33",
+            "5",
+            "request"
+          ]
+        },
+        {
+          "start": 796169907529612,
+          "end": 796169907828939,
+          "kind": "cas",
+          "args": [
+            [
+              "left",
+              "33",
+              "32"
+            ],
+            [
+              "right",
+              "5",
+              "6"
+            ],
+            [
+              "receipt",
+              null,
+              "request"
+            ]
+          ],
+          "result": false
+        },
+        {
+          "start": 796169901433100,
+          "end": 796169910117902,
+          "kind": "read",
+          "args": [
+            "left",
+            "right",
+            "receipt"
+          ],
+          "result": [
+            "33",
+            "5",
+            "request"
+          ]
+        },
+        {
+          "start": 796169910120517,
+          "end": 796169910413632,
+          "kind": "cas",
+          "args": [
+            [
+              "left",
+              "33",
+              "32"
+            ],
+            [
+              "right",
+              "5",
+              "6"
+            ],
+            [
+              "receipt",
+              null,
+              "request"
+            ]
+          ],
+          "result": false
+        },
+        {
+          "start": 796169901571061,
+          "end": 796169903278624,
+          "kind": "read",
+          "args": [
+            "left",
+            "right",
+            "receipt"
+          ],
+          "result": [
+            "34",
+            "4",
+            null
+          ]
+        },
+        {
+          "start": 796169903281199,
+          "end": 796169906625891,
+          "kind": "cas",
+          "args": [
+            [
+              "left",
+              "34",
+              "33"
+            ],
+            [
+              "right",
+              "4",
+              "5"
+            ],
+            [
+              "receipt",
+              null,
+              "request"
+            ]
+          ],
+          "result": true
+        },
+        {
+          "start": 796169910626485,
+          "end": 796169910943034,
+          "kind": "read",
+          "args": [
+            "left",
+            "right",
+            "receipt"
+          ],
+          "result": [
+            "33",
+            "5",
+            "request"
+          ]
+        }
+      ],
+      "witness": [
+        4,
+        5,
+        0,
+        1,
+        2,
+        3,
+        6
+      ]
+    },
+    {
+      "initial": {
+        "left": "35",
+        "right": "5"
+      },
+      "history": [
+        {
+          "start": 796169914325007,
+          "end": 796169915202669,
+          "kind": "read",
+          "args": [
+            "left",
+            "right",
+            "receipt"
+          ],
+          "result": [
+            "35",
+            "5",
+            null
+          ]
+        },
+        {
+          "start": 796169915207207,
+          "end": 796169917416771,
+          "kind": "cas",
+          "args": [
+            [
+              "left",
+              "35",
+              "34"
+            ],
+            [
+              "right",
+              "5",
+              "6"
+            ],
+            [
+              "receipt",
+              null,
+              "request"
+            ]
+          ],
+          "result": true
+        },
+        {
+          "start": 796169914466806,
+          "end": 796169919935890,
+          "kind": "read",
+          "args": [
+            "left",
+            "right",
+            "receipt"
+          ],
+          "result": [
+            "34",
+            "6",
+            "request"
+          ]
+        },
+        {
+          "start": 796169919937643,
+          "end": 796169920173369,
+          "kind": "cas",
+          "args": [
+            [
+              "left",
+              "34",
+              "33"
+            ],
+            [
+              "right",
+              "6",
+              "7"
+            ],
+            [
+              "receipt",
+              null,
+              "request"
+            ]
+          ],
+          "result": false
+        },
+        {
+          "start": 796169914624384,
+          "end": 796169919418550,
+          "kind": "read",
+          "args": [
+            "left",
+            "right",
+            "receipt"
+          ],
+          "result": [
+            "34",
+            "6",
+            "request"
+          ]
+        },
+        {
+          "start": 796169919422338,
+          "end": 796169919703340,
+          "kind": "cas",
+          "args": [
+            [
+              "left",
+              "34",
+              "33"
+            ],
+            [
+              "right",
+              "6",
+              "7"
+            ],
+            [
+              "receipt",
+              null,
+              "request"
+            ]
+          ],
+          "result": false
+        },
+        {
+          "start": 796169920354793,
+          "end": 796169920760351,
+          "kind": "read",
+          "args": [
+            "left",
+            "right",
+            "receipt"
+          ],
+          "result": [
+            "34",
+            "6",
+            "request"
+          ]
+        }
+      ],
+      "witness": [
+        0,
+        1,
+        2,
+        4,
+        5,
+        3,
+        6
+      ]
+    },
+    {
+      "initial": {
+        "left": "36",
+        "right": "6"
+      },
+      "history": [
+        {
+          "start": 796169925466130,
+          "end": 796169926150425,
+          "kind": "read",
+          "args": [
+            "left",
+            "right",
+            "receipt"
+          ],
+          "result": [
+            "36",
+            "6",
+            null
+          ]
+        },
+        {
+          "start": 796169926152840,
+          "end": 796169927770603,
+          "kind": "cas",
+          "args": [
+            [
+              "left",
+              "36",
+              "35"
+            ],
+            [
+              "right",
+              "6",
+              "7"
+            ],
+            [
+              "receipt",
+              null,
+              "request"
+            ]
+          ],
+          "result": true
+        },
+        {
+          "start": 796169925579655,
+          "end": 796169928240422,
+          "kind": "read",
+          "args": [
+            "left",
+            "right",
+            "receipt"
+          ],
+          "result": [
+            "35",
+            "7",
+            "request"
+          ]
+        },
+        {
+          "start": 796169928242847,
+          "end": 796169928523979,
+          "kind": "cas",
+          "args": [
+            [
+              "left",
+              "35",
+              "34"
+            ],
+            [
+              "right",
+              "7",
+              "8"
+            ],
+            [
+              "receipt",
+              null,
+              "request"
+            ]
+          ],
+          "result": false
+        },
+        {
+          "start": 796169925734688,
+          "end": 796169930348974,
+          "kind": "read",
+          "args": [
+            "left",
+            "right",
+            "receipt"
+          ],
+          "result": [
+            "35",
+            "7",
+            "request"
+          ]
+        },
+        {
+          "start": 796169930351228,
+          "end": 796169930615909,
+          "kind": "cas",
+          "args": [
+            [
+              "left",
+              "35",
+              "34"
+            ],
+            [
+              "right",
+              "7",
+              "8"
+            ],
+            [
+              "receipt",
+              null,
+              "request"
+            ]
+          ],
+          "result": false
+        },
+        {
+          "start": 796169930749081,
+          "end": 796169931059529,
+          "kind": "read",
+          "args": [
+            "left",
+            "right",
+            "receipt"
+          ],
+          "result": [
+            "35",
+            "7",
+            "request"
+          ]
+        }
+      ],
+      "witness": [
+        0,
+        1,
+        2,
+        3,
+        4,
+        5,
+        6
+      ]
+    },
+    {
+      "initial": {
+        "left": "37",
+        "right": "7"
+      },
+      "history": [
+        {
+          "start": 796169934292660,
+          "end": 796169936849591,
+          "kind": "read",
+          "args": [
+            "left",
+            "right",
+            "receipt"
+          ],
+          "result": [
+            "36",
+            "8",
+            "request"
+          ]
+        },
+        {
+          "start": 796169936851425,
+          "end": 796169937085698,
+          "kind": "cas",
+          "args": [
+            [
+              "left",
+              "36",
+              "35"
+            ],
+            [
+              "right",
+              "8",
+              "9"
+            ],
+            [
+              "receipt",
+              null,
+              "request"
+            ]
+          ],
+          "result": false
+        },
+        {
+          "start": 796169934394183,
+          "end": 796169934937421,
+          "kind": "read",
+          "args": [
+            "left",
+            "right",
+            "receipt"
+          ],
+          "result": [
+            "37",
+            "7",
+            null
+          ]
+        },
+        {
+          "start": 796169934939846,
+          "end": 796169936535737,
+          "kind": "cas",
+          "args": [
+            [
+              "left",
+              "37",
+              "36"
+            ],
+            [
+              "right",
+              "7",
+              "8"
+            ],
+            [
+              "receipt",
+              null,
+              "request"
+            ]
+          ],
+          "result": true
+        },
+        {
+          "start": 796169934764824,
+          "end": 796169939283810,
+          "kind": "read",
+          "args": [
+            "left",
+            "right",
+            "receipt"
+          ],
+          "result": [
+            "36",
+            "8",
+            "request"
+          ]
+        },
+        {
+          "start": 796169939285703,
+          "end": 796169939538061,
+          "kind": "cas",
+          "args": [
+            [
+              "left",
+              "36",
+              "35"
+            ],
+            [
+              "right",
+              "8",
+              "9"
+            ],
+            [
+              "receipt",
+              null,
+              "request"
+            ]
+          ],
+          "result": false
+        },
+        {
+          "start": 796169939687795,
+          "end": 796169940026626,
+          "kind": "read",
+          "args": [
+            "left",
+            "right",
+            "receipt"
+          ],
+          "result": [
+            "36",
+            "8",
+            "request"
+          ]
+        }
+      ],
+      "witness": [
+        2,
+        3,
+        0,
+        1,
+        4,
+        5,
+        6
+      ]
+    },
+    {
+      "initial": {
+        "left": "38",
+        "right": "8"
+      },
+      "history": [
+        {
+          "start": 796169942840664,
+          "end": 796169947677992,
+          "kind": "read",
+          "args": [
+            "left",
+            "right",
+            "receipt"
+          ],
+          "result": [
+            "37",
+            "9",
+            "request"
+          ]
+        },
+        {
+          "start": 796169947680015,
+          "end": 796169947923617,
+          "kind": "cas",
+          "args": [
+            [
+              "left",
+              "37",
+              "36"
+            ],
+            [
+              "right",
+              "9",
+              "10"
+            ],
+            [
+              "receipt",
+              null,
+              "request"
+            ]
+          ],
+          "result": false
+        },
+        {
+          "start": 796169942935934,
+          "end": 796169943518517,
+          "kind": "read",
+          "args": [
+            "left",
+            "right",
+            "receipt"
+          ],
+          "result": [
+            "38",
+            "8",
+            null
+          ]
+        },
+        {
+          "start": 796169943520350,
+          "end": 796169945132102,
+          "kind": "cas",
+          "args": [
+            [
+              "left",
+              "38",
+              "37"
+            ],
+            [
+              "right",
+              "8",
+              "9"
+            ],
+            [
+              "receipt",
+              null,
+              "request"
+            ]
+          ],
+          "result": true
+        },
+        {
+          "start": 796169943043978,
+          "end": 796169945597032,
+          "kind": "read",
+          "args": [
+            "left",
+            "right",
+            "receipt"
+          ],
+          "result": [
+            "37",
+            "9",
+            "request"
+          ]
+        },
+        {
+          "start": 796169945598986,
+          "end": 796169945860010,
+          "kind": "cas",
+          "args": [
+            [
+              "left",
+              "37",
+              "36"
+            ],
+            [
+              "right",
+              "9",
+              "10"
+            ],
+            [
+              "receipt",
+              null,
+              "request"
+            ]
+          ],
+          "result": false
+        },
+        {
+          "start": 796169948086525,
+          "end": 796169948394057,
+          "kind": "read",
+          "args": [
+            "left",
+            "right",
+            "receipt"
+          ],
+          "result": [
+            "37",
+            "9",
+            "request"
+          ]
+        }
+      ],
+      "witness": [
+        2,
+        3,
+        0,
+        4,
+        5,
+        1,
+        6
+      ]
+    },
+    {
+      "initial": {
+        "left": "39",
+        "right": "9"
+      },
+      "history": [
+        {
+          "start": 796169951255114,
+          "end": 796169951906106,
+          "kind": "read",
+          "args": [
+            "left",
+            "right",
+            "receipt"
+          ],
+          "result": [
+            "39",
+            "9",
+            null
+          ]
+        },
+        {
+          "start": 796169951908481,
+          "end": 796169953282913,
+          "kind": "cas",
+          "args": [
+            [
+              "left",
+              "39",
+              "38"
+            ],
+            [
+              "right",
+              "9",
+              "10"
+            ],
+            [
+              "receipt",
+              null,
+              "request"
+            ]
+          ],
+          "result": true
+        },
+        {
+          "start": 796169951371113,
+          "end": 796169956172654,
+          "kind": "read",
+          "args": [
+            "left",
+            "right",
+            "receipt"
+          ],
+          "result": [
+            "38",
+            "10",
+            "request"
+          ]
+        },
+        {
+          "start": 796169956174838,
+          "end": 796169956457583,
+          "kind": "cas",
+          "args": [
+            [
+              "left",
+              "38",
+              "37"
+            ],
+            [
+              "right",
+              "10",
+              "11"
+            ],
+            [
+              "receipt",
+              null,
+              "request"
+            ]
+          ],
+          "result": false
+        },
+        {
+          "start": 796169951515296,
+          "end": 796169954081124,
+          "kind": "read",
+          "args": [
+            "left",
+            "right",
+            "receipt"
+          ],
+          "result": [
+            "38",
+            "10",
+            "request"
+          ]
+        },
+        {
+          "start": 796169954083348,
+          "end": 796169954325637,
+          "kind": "cas",
+          "args": [
+            [
+              "left",
+              "38",
+              "37"
+            ],
+            [
+              "right",
+              "10",
+              "11"
+            ],
+            [
+              "receipt",
+              null,
+              "request"
+            ]
+          ],
+          "result": false
+        },
+        {
+          "start": 796169956598470,
+          "end": 796169956882498,
+          "kind": "read",
+          "args": [
+            "left",
+            "right",
+            "receipt"
+          ],
+          "result": [
+            "38",
+            "10",
+            "request"
+          ]
+        }
+      ],
+      "witness": [
+        0,
+        1,
+        2,
+        4,
+        5,
+        3,
+        6
+      ]
+    },
+    {
+      "initial": {
+        "left": "40",
+        "right": "10"
+      },
+      "history": [
+        {
+          "start": 796169959884892,
+          "end": 796169960827055,
+          "kind": "read",
+          "args": [
+            "left",
+            "right",
+            "receipt"
+          ],
+          "result": [
+            "40",
+            "10",
+            null
+          ]
+        },
+        {
+          "start": 796169960829810,
+          "end": 796169962600883,
+          "kind": "cas",
+          "args": [
+            [
+              "left",
+              "40",
+              "39"
+            ],
+            [
+              "right",
+              "10",
+              "11"
+            ],
+            [
+              "receipt",
+              null,
+              "request"
+            ]
+          ],
+          "result": true
+        },
+        {
+          "start": 796169959979571,
+          "end": 796169962959061,
+          "kind": "read",
+          "args": [
+            "left",
+            "right",
+            "receipt"
+          ],
+          "result": [
+            "39",
+            "11",
+            "request"
+          ]
+        },
+        {
+          "start": 796169962961516,
+          "end": 796169963291941,
+          "kind": "cas",
+          "args": [
+            [
+              "left",
+              "39",
+              "38"
+            ],
+            [
+              "right",
+              "11",
+              "12"
+            ],
+            [
+              "receipt",
+              null,
+              "request"
+            ]
+          ],
+          "result": false
+        },
+        {
+          "start": 796169960406529,
+          "end": 796169964941785,
+          "kind": "read",
+          "args": [
+            "left",
+            "right",
+            "receipt"
+          ],
+          "result": [
+            "39",
+            "11",
+            "request"
+          ]
+        },
+        {
+          "start": 796169964943718,
+          "end": 796169965214000,
+          "kind": "cas",
+          "args": [
+            [
+              "left",
+              "39",
+              "38"
+            ],
+            [
+              "right",
+              "11",
+              "12"
+            ],
+            [
+              "receipt",
+              null,
+              "request"
+            ]
+          ],
+          "result": false
+        },
+        {
+          "start": 796169965353855,
+          "end": 796169965648863,
+          "kind": "read",
+          "args": [
+            "left",
+            "right",
+            "receipt"
+          ],
+          "result": [
+            "39",
+            "11",
+            "request"
+          ]
+        }
+      ],
+      "witness": [
+        0,
+        1,
+        2,
+        3,
+        4,
+        5,
+        6
+      ]
+    },
+    {
+      "initial": {
+        "left": "41",
+        "right": "11"
+      },
+      "history": [
+        {
+          "start": 796169968644695,
+          "end": 796169969289766,
+          "kind": "read",
+          "args": [
+            "left",
+            "right",
+            "receipt"
+          ],
+          "result": [
+            "41",
+            "11",
+            null
+          ]
+        },
+        {
+          "start": 796169969291900,
+          "end": 796169971024540,
+          "kind": "cas",
+          "args": [
+            [
+              "left",
+              "41",
+              "40"
+            ],
+            [
+              "right",
+              "11",
+              "12"
+            ],
+            [
+              "receipt",
+              null,
+              "request"
+            ]
+          ],
+          "result": true
+        },
+        {
+          "start": 796169968726991,
+          "end": 796169971317795,
+          "kind": "read",
+          "args": [
+            "left",
+            "right",
+            "receipt"
+          ],
+          "result": [
+            "40",
+            "12",
+            "request"
+          ]
+        },
+        {
+          "start": 796169971319789,
+          "end": 796169971566446,
+          "kind": "cas",
+          "args": [
+            [
+              "left",
+              "40",
+              "39"
+            ],
+            [
+              "right",
+              "12",
+              "13"
+            ],
+            [
+              "receipt",
+              null,
+              "request"
+            ]
+          ],
+          "result": false
+        },
+        {
+          "start": 796169968843100,
+          "end": 796169973465511,
+          "kind": "read",
+          "args": [
+            "left",
+            "right",
+            "receipt"
+          ],
+          "result": [
+            "40",
+            "12",
+            "request"
+          ]
+        },
+        {
+          "start": 796169973467575,
+          "end": 796169973720213,
+          "kind": "cas",
+          "args": [
+            [
+              "left",
+              "40",
+              "39"
+            ],
+            [
+              "right",
+              "12",
+              "13"
+            ],
+            [
+              "receipt",
+              null,
+              "request"
+            ]
+          ],
+          "result": false
+        },
+        {
+          "start": 796169973838487,
+          "end": 796169974248253,
+          "kind": "read",
+          "args": [
+            "left",
+            "right",
+            "receipt"
+          ],
+          "result": [
+            "40",
+            "12",
+            "request"
+          ]
+        }
+      ],
+      "witness": [
+        0,
+        1,
+        2,
+        3,
+        4,
+        5,
+        6
+      ]
+    }
+  ],
+  "gopyt.test_transaction_histories.ConcurrentHistories.test_process_histories": [
+    {
+      "initial": {
+        "left": "30",
+        "right": "0"
+      },
+      "history": [
+        {
+          "start": 796170098192152,
+          "end": 796170100274003,
+          "kind": "read",
+          "args": [
+            "left",
+            "right",
+            "receipt"
+          ],
+          "result": [
+            "29",
+            "1",
+            "request"
+          ]
+        },
+        {
+          "start": 796170100278872,
+          "end": 796170100687466,
+          "kind": "cas",
+          "args": [
+            [
+              "left",
+              "29",
+              "28"
+            ],
+            [
+              "right",
+              "1",
+              "2"
+            ],
+            [
+              "receipt",
+              null,
+              "request"
+            ]
+          ],
+          "result": false
+        },
+        {
+          "start": 796170091817374,
+          "end": 796170093215681,
+          "kind": "read",
+          "args": [
+            "left",
+            "right",
+            "receipt"
+          ],
+          "result": [
+            "30",
+            "0",
+            null
+          ]
+        },
+        {
+          "start": 796170093219618,
+          "end": 796170095345864,
+          "kind": "cas",
+          "args": [
+            [
+              "left",
+              "30",
+              "29"
+            ],
+            [
+              "right",
+              "0",
+              "1"
+            ],
+            [
+              "receipt",
+              null,
+              "request"
+            ]
+          ],
+          "result": true
+        },
+        {
+          "start": 796170134677352,
+          "end": 796170136184024,
+          "kind": "read",
+          "args": [
+            "left",
+            "right",
+            "receipt"
+          ],
+          "result": [
+            "29",
+            "1",
+            "request"
+          ]
+        },
+        {
+          "start": 796170136188894,
+          "end": 796170136517917,
+          "kind": "cas",
+          "args": [
+            [
+              "left",
+              "29",
+              "28"
+            ],
+            [
+              "right",
+              "1",
+              "2"
+            ],
+            [
+              "receipt",
+              null,
+              "request"
+            ]
+          ],
+          "result": false
+        },
+        {
+          "start": 796170171199733,
+          "end": 796170171614999,
+          "kind": "read",
+          "args": [
+            "left",
+            "right",
+            "receipt"
+          ],
+          "result": [
+            "29",
+            "1",
+            "request"
+          ]
+        }
+      ],
+      "witness": [
+        2,
+        3,
+        0,
+        1,
+        4,
+        5,
+        6
+      ]
+    },
+    {
+      "initial": {
+        "left": "31",
+        "right": "1"
+      },
+      "history": [
+        {
+          "start": 796170273892030,
+          "end": 796170274923493,
+          "kind": "read",
+          "args": [
+            "left",
+            "right",
+            "receipt"
+          ],
+          "result": [
+            "31",
+            "1",
+            null
+          ]
+        },
+        {
+          "start": 796170274926198,
+          "end": 796170276739521,
+          "kind": "cas",
+          "args": [
+            [
+              "left",
+              "31",
+              "30"
+            ],
+            [
+              "right",
+              "1",
+              "2"
+            ],
+            [
+              "receipt",
+              null,
+              "request"
+            ]
+          ],
+          "result": true
+        },
+        {
+          "start": 796170276996728,
+          "end": 796170278066633,
+          "kind": "read",
+          "args": [
+            "left",
+            "right",
+            "receipt"
+          ],
+          "result": [
+            "30",
+            "2",
+            "request"
+          ]
+        },
+        {
+          "start": 796170278069278,
+          "end": 796170278347265,
+          "kind": "cas",
+          "args": [
+            [
+              "left",
+              "30",
+              "29"
+            ],
+            [
+              "right",
+              "2",
+              "3"
+            ],
+            [
+              "receipt",
+              null,
+              "request"
+            ]
+          ],
+          "result": false
+        },
+        {
+          "start": 796170277030893,
+          "end": 796170280291445,
+          "kind": "read",
+          "args": [
+            "left",
+            "right",
+            "receipt"
+          ],
+          "result": [
+            "30",
+            "2",
+            "request"
+          ]
+        },
+        {
+          "start": 796170280295112,
+          "end": 796170280605760,
+          "kind": "cas",
+          "args": [
+            [
+              "left",
+              "30",
+              "29"
+            ],
+            [
+              "right",
+              "2",
+              "3"
+            ],
+            [
+              "receipt",
+              null,
+              "request"
+            ]
+          ],
+          "result": false
+        },
+        {
+          "start": 796170311477564,
+          "end": 796170312046180,
+          "kind": "read",
+          "args": [
+            "left",
+            "right",
+            "receipt"
+          ],
+          "result": [
+            "30",
+            "2",
+            "request"
+          ]
+        }
+      ],
+      "witness": [
+        0,
+        1,
+        2,
+        3,
+        4,
+        5,
+        6
+      ]
+    },
+    {
+      "initial": {
+        "left": "32",
+        "right": "2"
+      },
+      "history": [
+        {
+          "start": 796170420589574,
+          "end": 796170423741100,
+          "kind": "read",
+          "args": [
+            "left",
+            "right",
+            "receipt"
+          ],
+          "result": [
+            "31",
+            "3",
+            "request"
+          ]
+        },
+        {
+          "start": 796170423744287,
+          "end": 796170424047050,
+          "kind": "cas",
+          "args": [
+            [
+              "left",
+              "31",
+              "30"
+            ],
+            [
+              "right",
+              "3",
+              "4"
+            ],
+            [
+              "receipt",
+              null,
+              "request"
+            ]
+          ],
+          "result": false
+        },
+        {
+          "start": 796170417596208,
+          "end": 796170418932497,
+          "kind": "read",
+          "args": [
+            "left",
+            "right",
+            "receipt"
+          ],
+          "result": [
+            "32",
+            "2",
+            null
+          ]
+        },
+        {
+          "start": 796170418935082,
+          "end": 796170421582995,
+          "kind": "cas",
+          "args": [
+            [
+              "left",
+              "32",
+              "31"
+            ],
+            [
+              "right",
+              "2",
+              "3"
+            ],
+            [
+              "receipt",
+              null,
+              "request"
+            ]
+          ],
+          "result": true
+        },
+        {
+          "start": 796170418572095,
+          "end": 796170426112991,
+          "kind": "read",
+          "args": [
+            "left",
+            "right",
+            "receipt"
+          ],
+          "result": [
+            "31",
+            "3",
+            "request"
+          ]
+        },
+        {
+          "start": 796170426118531,
+          "end": 796170426411356,
+          "kind": "cas",
+          "args": [
+            [
+              "left",
+              "31",
+              "30"
+            ],
+            [
+              "right",
+              "3",
+              "4"
+            ],
+            [
+              "receipt",
+              null,
+              "request"
+            ]
+          ],
+          "result": false
+        },
+        {
+          "start": 796170445293622,
+          "end": 796170445700211,
+          "kind": "read",
+          "args": [
+            "left",
+            "right",
+            "receipt"
+          ],
+          "result": [
+            "31",
+            "3",
+            "request"
+          ]
+        }
+      ],
+      "witness": [
+        2,
+        3,
+        0,
+        1,
+        4,
+        5,
+        6
+      ]
+    },
+    {
+      "initial": {
+        "left": "33",
+        "right": "3"
+      },
+      "history": [
+        {
+          "start": 796170549367715,
+          "end": 796170550473659,
+          "kind": "read",
+          "args": [
+            "left",
+            "right",
+            "receipt"
+          ],
+          "result": [
+            "33",
+            "3",
+            null
+          ]
+        },
+        {
+          "start": 796170550477145,
+          "end": 796170553153031,
+          "kind": "cas",
+          "args": [
+            [
+              "left",
+              "33",
+              "32"
+            ],
+            [
+              "right",
+              "3",
+              "4"
+            ],
+            [
+              "receipt",
+              null,
+              "request"
+            ]
+          ],
+          "result": true
+        },
+        {
+          "start": 796170550858086,
+          "end": 796170553985286,
+          "kind": "read",
+          "args": [
+            "left",
+            "right",
+            "receipt"
+          ],
+          "result": [
+            "32",
+            "4",
+            "request"
+          ]
+        },
+        {
+          "start": 796170553988493,
+          "end": 796170554295754,
+          "kind": "cas",
+          "args": [
+            [
+              "left",
+              "32",
+              "31"
+            ],
+            [
+              "right",
+              "4",
+              "5"
+            ],
+            [
+              "receipt",
+              null,
+              "request"
+            ]
+          ],
+          "result": false
+        },
+        {
+          "start": 796170551136934,
+          "end": 796170556416870,
+          "kind": "read",
+          "args": [
+            "left",
+            "right",
+            "receipt"
+          ],
+          "result": [
+            "32",
+            "4",
+            "request"
+          ]
+        },
+        {
+          "start": 796170556420667,
+          "end": 796170556677904,
+          "kind": "cas",
+          "args": [
+            [
+              "left",
+              "32",
+              "31"
+            ],
+            [
+              "right",
+              "4",
+              "5"
+            ],
+            [
+              "receipt",
+              null,
+              "request"
+            ]
+          ],
+          "result": false
+        },
+        {
+          "start": 796170581682320,
+          "end": 796170582050417,
+          "kind": "read",
+          "args": [
+            "left",
+            "right",
+            "receipt"
+          ],
+          "result": [
+            "32",
+            "4",
+            "request"
+          ]
+        }
+      ],
+      "witness": [
+        0,
+        1,
+        2,
+        3,
+        4,
+        5,
+        6
+      ]
+    },
+    {
+      "initial": {
+        "left": "34",
+        "right": "4"
+      },
+      "history": [
+        {
+          "start": 796170688948947,
+          "end": 796170690258496,
+          "kind": "read",
+          "args": [
+            "left",
+            "right",
+            "receipt"
+          ],
+          "result": [
+            "33",
+            "5",
+            "request"
+          ]
+        },
+        {
+          "start": 796170690262063,
+          "end": 796170690551401,
+          "kind": "cas",
+          "args": [
+            [
+              "left",
+              "33",
+              "32"
+            ],
+            [
+              "right",
+              "5",
+              "6"
+            ],
+            [
+              "receipt",
+              null,
+              "request"
+            ]
+          ],
+          "result": false
+        },
+        {
+          "start": 796170689340518,
+          "end": 796170692806650,
+          "kind": "read",
+          "args": [
+            "left",
+            "right",
+            "receipt"
+          ],
+          "result": [
+            "33",
+            "5",
+            "request"
+          ]
+        },
+        {
+          "start": 796170692810467,
+          "end": 796170693219311,
+          "kind": "cas",
+          "args": [
+            [
+              "left",
+              "33",
+              "32"
+            ],
+            [
+              "right",
+              "5",
+              "6"
+            ],
+            [
+              "receipt",
+              null,
+              "request"
+            ]
+          ],
+          "result": false
+        },
+        {
+          "start": 796170683072302,
+          "end": 796170684256604,
+          "kind": "read",
+          "args": [
+            "left",
+            "right",
+            "receipt"
+          ],
+          "result": [
+            "34",
+            "4",
+            null
+          ]
+        },
+        {
+          "start": 796170684259810,
+          "end": 796170686225762,
+          "kind": "cas",
+          "args": [
+            [
+              "left",
+              "34",
+              "33"
+            ],
+            [
+              "right",
+              "4",
+              "5"
+            ],
+            [
+              "receipt",
+              null,
+              "request"
+            ]
+          ],
+          "result": true
+        },
+        {
+          "start": 796170738237075,
+          "end": 796170738684602,
+          "kind": "read",
+          "args": [
+            "left",
+            "right",
+            "receipt"
+          ],
+          "result": [
+            "33",
+            "5",
+            "request"
+          ]
+        }
+      ],
+      "witness": [
+        4,
+        5,
+        0,
+        1,
+        2,
+        3,
+        6
+      ]
+    },
+    {
+      "initial": {
+        "left": "35",
+        "right": "5"
+      },
+      "history": [
+        {
+          "start": 796170844421293,
+          "end": 796170845517347,
+          "kind": "read",
+          "args": [
+            "left",
+            "right",
+            "receipt"
+          ],
+          "result": [
+            "34",
+            "6",
+            "request"
+          ]
+        },
+        {
+          "start": 796170845520073,
+          "end": 796170845776198,
+          "kind": "cas",
+          "args": [
+            [
+              "left",
+              "34",
+              "33"
+            ],
+            [
+              "right",
+              "6",
+              "7"
+            ],
+            [
+              "receipt",
+              null,
+              "request"
+            ]
+          ],
+          "result": false
+        },
+        {
+          "start": 796170842202733,
+          "end": 796170843299349,
+          "kind": "read",
+          "args": [
+            "left",
+            "right",
+            "receipt"
+          ],
+          "result": [
+            "35",
+            "5",
+            null
+          ]
+        },
+        {
+          "start": 796170843302484,
+          "end": 796170844886593,
+          "kind": "cas",
+          "args": [
+            [
+              "left",
+              "35",
+              "34"
+            ],
+            [
+              "right",
+              "5",
+              "6"
+            ],
+            [
+              "receipt",
+              null,
+              "request"
+            ]
+          ],
+          "result": true
+        },
+        {
+          "start": 796170846631206,
+          "end": 796170847624386,
+          "kind": "read",
+          "args": [
+            "left",
+            "right",
+            "receipt"
+          ],
+          "result": [
+            "34",
+            "6",
+            "request"
+          ]
+        },
+        {
+          "start": 796170847627122,
+          "end": 796170847855384,
+          "kind": "cas",
+          "args": [
+            [
+              "left",
+              "34",
+              "33"
+            ],
+            [
+              "right",
+              "6",
+              "7"
+            ],
+            [
+              "receipt",
+              null,
+              "request"
+            ]
+          ],
+          "result": false
+        },
+        {
+          "start": 796170870819076,
+          "end": 796170871283996,
+          "kind": "read",
+          "args": [
+            "left",
+            "right",
+            "receipt"
+          ],
+          "result": [
+            "34",
+            "6",
+            "request"
+          ]
+        }
+      ],
+      "witness": [
+        2,
+        3,
+        0,
+        1,
+        4,
+        5,
+        6
+      ]
+    },
+    {
+      "initial": {
+        "left": "36",
+        "right": "6"
+      },
+      "history": [
+        {
+          "start": 796170976235899,
+          "end": 796170977265639,
+          "kind": "read",
+          "args": [
+            "left",
+            "right",
+            "receipt"
+          ],
+          "result": [
+            "36",
+            "6",
+            null
+          ]
+        },
+        {
+          "start": 796170977268464,
+          "end": 796170979322192,
+          "kind": "cas",
+          "args": [
+            [
+              "left",
+              "36",
+              "35"
+            ],
+            [
+              "right",
+              "6",
+              "7"
+            ],
+            [
+              "receipt",
+              null,
+              "request"
+            ]
+          ],
+          "result": true
+        },
+        {
+          "start": 796170985263559,
+          "end": 796170986386284,
+          "kind": "read",
+          "args": [
+            "left",
+            "right",
+            "receipt"
+          ],
+          "result": [
+            "35",
+            "7",
+            "request"
+          ]
+        },
+        {
+          "start": 796170986389590,
+          "end": 796170986663048,
+          "kind": "cas",
+          "args": [
+            [
+              "left",
+              "35",
+              "34"
+            ],
+            [
+              "right",
+              "7",
+              "8"
+            ],
+            [
+              "receipt",
+              null,
+              "request"
+            ]
+          ],
+          "result": false
+        },
+        {
+          "start": 796170980783528,
+          "end": 796170982034656,
+          "kind": "read",
+          "args": [
+            "left",
+            "right",
+            "receipt"
+          ],
+          "result": [
+            "35",
+            "7",
+            "request"
+          ]
+        },
+        {
+          "start": 796170982037762,
+          "end": 796170982328743,
+          "kind": "cas",
+          "args": [
+            [
+              "left",
+              "35",
+              "34"
+            ],
+            [
+              "right",
+              "7",
+              "8"
+            ],
+            [
+              "receipt",
+              null,
+              "request"
+            ]
+          ],
+          "result": false
+        },
+        {
+          "start": 796171015825472,
+          "end": 796171016346258,
+          "kind": "read",
+          "args": [
+            "left",
+            "right",
+            "receipt"
+          ],
+          "result": [
+            "35",
+            "7",
+            "request"
+          ]
+        }
+      ],
+      "witness": [
+        0,
+        1,
+        4,
+        5,
+        2,
+        3,
+        6
+      ]
+    },
+    {
+      "initial": {
+        "left": "37",
+        "right": "7"
+      },
+      "history": [
+        {
+          "start": 796171137812293,
+          "end": 796171139270102,
+          "kind": "read",
+          "args": [
+            "left",
+            "right",
+            "receipt"
+          ],
+          "result": [
+            "36",
+            "8",
+            "request"
+          ]
+        },
+        {
+          "start": 796171139273378,
+          "end": 796171139556324,
+          "kind": "cas",
+          "args": [
+            [
+              "left",
+              "36",
+              "35"
+            ],
+            [
+              "right",
+              "8",
+              "9"
+            ],
+            [
+              "receipt",
+              null,
+              "request"
+            ]
+          ],
+          "result": false
+        },
+        {
+          "start": 796171130921609,
+          "end": 796171132546795,
+          "kind": "read",
+          "args": [
+            "left",
+            "right",
+            "receipt"
+          ],
+          "result": [
+            "37",
+            "7",
+            null
+          ]
+        },
+        {
+          "start": 796171132551424,
+          "end": 796171137816200,
+          "kind": "cas",
+          "args": [
+            [
+              "left",
+              "37",
+              "36"
+            ],
+            [
+              "right",
+              "7",
+              "8"
+            ],
+            [
+              "receipt",
+              null,
+              "request"
+            ]
+          ],
+          "result": true
+        },
+        {
+          "start": 796171155924198,
+          "end": 796171157520129,
+          "kind": "read",
+          "args": [
+            "left",
+            "right",
+            "receipt"
+          ],
+          "result": [
+            "36",
+            "8",
+            "request"
+          ]
+        },
+        {
+          "start": 796171157524277,
+          "end": 796171157841037,
+          "kind": "cas",
+          "args": [
+            [
+              "left",
+              "36",
+              "35"
+            ],
+            [
+              "right",
+              "8",
+              "9"
+            ],
+            [
+              "receipt",
+              null,
+              "request"
+            ]
+          ],
+          "result": false
+        },
+        {
+          "start": 796171176577405,
+          "end": 796171177159727,
+          "kind": "read",
+          "args": [
+            "left",
+            "right",
+            "receipt"
+          ],
+          "result": [
+            "36",
+            "8",
+            "request"
+          ]
+        }
+      ],
+      "witness": [
+        2,
+        3,
+        0,
+        1,
+        4,
+        5,
+        6
+      ]
+    },
+    {
+      "initial": {
+        "left": "38",
+        "right": "8"
+      },
+      "history": [
+        {
+          "start": 796171286614995,
+          "end": 796171287651948,
+          "kind": "read",
+          "args": [
+            "left",
+            "right",
+            "receipt"
+          ],
+          "result": [
+            "38",
+            "8",
+            null
+          ]
+        },
+        {
+          "start": 796171287654774,
+          "end": 796171289488996,
+          "kind": "cas",
+          "args": [
+            [
+              "left",
+              "38",
+              "37"
+            ],
+            [
+              "right",
+              "8",
+              "9"
+            ],
+            [
+              "receipt",
+              null,
+              "request"
+            ]
+          ],
+          "result": true
+        },
+        {
+          "start": 796171288987587,
+          "end": 796171290017166,
+          "kind": "read",
+          "args": [
+            "left",
+            "right",
+            "receipt"
+          ],
+          "result": [
+            "37",
+            "9",
+            "request"
+          ]
+        },
+        {
+          "start": 796171290019690,
+          "end": 796171290277909,
+          "kind": "cas",
+          "args": [
+            [
+              "left",
+              "37",
+              "36"
+            ],
+            [
+              "right",
+              "9",
+              "10"
+            ],
+            [
+              "receipt",
+              null,
+              "request"
+            ]
+          ],
+          "result": false
+        },
+        {
+          "start": 796171288319422,
+          "end": 796171291407998,
+          "kind": "read",
+          "args": [
+            "left",
+            "right",
+            "receipt"
+          ],
+          "result": [
+            "37",
+            "9",
+            "request"
+          ]
+        },
+        {
+          "start": 796171291411044,
+          "end": 796171291702326,
+          "kind": "cas",
+          "args": [
+            [
+              "left",
+              "37",
+              "36"
+            ],
+            [
+              "right",
+              "9",
+              "10"
+            ],
+            [
+              "receipt",
+              null,
+              "request"
+            ]
+          ],
+          "result": false
+        },
+        {
+          "start": 796171324672468,
+          "end": 796171325201800,
+          "kind": "read",
+          "args": [
+            "left",
+            "right",
+            "receipt"
+          ],
+          "result": [
+            "37",
+            "9",
+            "request"
+          ]
+        }
+      ],
+      "witness": [
+        0,
+        1,
+        2,
+        3,
+        4,
+        5,
+        6
+      ]
+    },
+    {
+      "initial": {
+        "left": "39",
+        "right": "9"
+      },
+      "history": [
+        {
+          "start": 796171449787079,
+          "end": 796171451349016,
+          "kind": "read",
+          "args": [
+            "left",
+            "right",
+            "receipt"
+          ],
+          "result": [
+            "38",
+            "10",
+            "request"
+          ]
+        },
+        {
+          "start": 796171451353064,
+          "end": 796171451708787,
+          "kind": "cas",
+          "args": [
+            [
+              "left",
+              "38",
+              "37"
+            ],
+            [
+              "right",
+              "10",
+              "11"
+            ],
+            [
+              "receipt",
+              null,
+              "request"
+            ]
+          ],
+          "result": false
+        },
+        {
+          "start": 796171435104706,
+          "end": 796171436124897,
+          "kind": "read",
+          "args": [
+            "left",
+            "right",
+            "receipt"
+          ],
+          "result": [
+            "39",
+            "9",
+            null
+          ]
+        },
+        {
+          "start": 796171436127762,
+          "end": 796171440266888,
+          "kind": "cas",
+          "args": [
+            [
+              "left",
+              "39",
+              "38"
+            ],
+            [
+              "right",
+              "9",
+              "10"
+            ],
+            [
+              "receipt",
+              null,
+              "request"
+            ]
+          ],
+          "result": true
+        },
+        {
+          "start": 796171435054521,
+          "end": 796171442411046,
+          "kind": "read",
+          "args": [
+            "left",
+            "right",
+            "receipt"
+          ],
+          "result": [
+            "38",
+            "10",
+            "request"
+          ]
+        },
+        {
+          "start": 796171442414864,
+          "end": 796171442715823,
+          "kind": "cas",
+          "args": [
+            [
+              "left",
+              "38",
+              "37"
+            ],
+            [
+              "right",
+              "10",
+              "11"
+            ],
+            [
+              "receipt",
+              null,
+              "request"
+            ]
+          ],
+          "result": false
+        },
+        {
+          "start": 796171480546156,
+          "end": 796171481080818,
+          "kind": "read",
+          "args": [
+            "left",
+            "right",
+            "receipt"
+          ],
+          "result": [
+            "38",
+            "10",
+            "request"
+          ]
+        }
+      ],
+      "witness": [
+        2,
+        3,
+        4,
+        5,
+        0,
+        1,
+        6
+      ]
+    },
+    {
+      "initial": {
+        "left": "40",
+        "right": "10"
+      },
+      "history": [
+        {
+          "start": 796171590326440,
+          "end": 796171591639455,
+          "kind": "read",
+          "args": [
+            "left",
+            "right",
+            "receipt"
+          ],
+          "result": [
+            "39",
+            "11",
+            "request"
+          ]
+        },
+        {
+          "start": 796171591643593,
+          "end": 796171591945394,
+          "kind": "cas",
+          "args": [
+            [
+              "left",
+              "39",
+              "38"
+            ],
+            [
+              "right",
+              "11",
+              "12"
+            ],
+            [
+              "receipt",
+              null,
+              "request"
+            ]
+          ],
+          "result": false
+        },
+        {
+          "start": 796171611856616,
+          "end": 796171613630674,
+          "kind": "read",
+          "args": [
+            "left",
+            "right",
+            "receipt"
+          ],
+          "result": [
+            "39",
+            "11",
+            "request"
+          ]
+        },
+        {
+          "start": 796171613635023,
+          "end": 796171614057222,
+          "kind": "cas",
+          "args": [
+            [
+              "left",
+              "39",
+              "38"
+            ],
+            [
+              "right",
+              "11",
+              "12"
+            ],
+            [
+              "receipt",
+              null,
+              "request"
+            ]
+          ],
+          "result": false
+        },
+        {
+          "start": 796171585927983,
+          "end": 796171587020802,
+          "kind": "read",
+          "args": [
+            "left",
+            "right",
+            "receipt"
+          ],
+          "result": [
+            "40",
+            "10",
+            null
+          ]
+        },
+        {
+          "start": 796171587024048,
+          "end": 796171588940075,
+          "kind": "cas",
+          "args": [
+            [
+              "left",
+              "40",
+              "39"
+            ],
+            [
+              "right",
+              "10",
+              "11"
+            ],
+            [
+              "receipt",
+              null,
+              "request"
+            ]
+          ],
+          "result": true
+        },
+        {
+          "start": 796171642605604,
+          "end": 796171643110279,
+          "kind": "read",
+          "args": [
+            "left",
+            "right",
+            "receipt"
+          ],
+          "result": [
+            "39",
+            "11",
+            "request"
+          ]
+        }
+      ],
+      "witness": [
+        4,
+        5,
+        0,
+        1,
+        2,
+        3,
+        6
+      ]
+    },
+    {
+      "initial": {
+        "left": "41",
+        "right": "11"
+      },
+      "history": [
+        {
+          "start": 796171745970663,
+          "end": 796171747140658,
+          "kind": "read",
+          "args": [
+            "left",
+            "right",
+            "receipt"
+          ],
+          "result": [
+            "41",
+            "11",
+            null
+          ]
+        },
+        {
+          "start": 796171747143884,
+          "end": 796171749526404,
+          "kind": "cas",
+          "args": [
+            [
+              "left",
+              "41",
+              "40"
+            ],
+            [
+              "right",
+              "11",
+              "12"
+            ],
+            [
+              "receipt",
+              null,
+              "request"
+            ]
+          ],
+          "result": true
+        },
+        {
+          "start": 796171746105699,
+          "end": 796171751429427,
+          "kind": "read",
+          "args": [
+            "left",
+            "right",
+            "receipt"
+          ],
+          "result": [
+            "40",
+            "12",
+            "request"
+          ]
+        },
+        {
+          "start": 796171751433685,
+          "end": 796171751761926,
+          "kind": "cas",
+          "args": [
+            [
+              "left",
+              "40",
+              "39"
+            ],
+            [
+              "right",
+              "12",
+              "13"
+            ],
+            [
+              "receipt",
+              null,
+              "request"
+            ]
+          ],
+          "result": false
+        },
+        {
+          "start": 796171760350394,
+          "end": 796171761755324,
+          "kind": "read",
+          "args": [
+            "left",
+            "right",
+            "receipt"
+          ],
+          "result": [
+            "40",
+            "12",
+            "request"
+          ]
+        },
+        {
+          "start": 796171761758580,
+          "end": 796171762102471,
+          "kind": "cas",
+          "args": [
+            [
+              "left",
+              "40",
+              "39"
+            ],
+            [
+              "right",
+              "12",
+              "13"
+            ],
+            [
+              "receipt",
+              null,
+              "request"
+            ]
+          ],
+          "result": false
+        },
+        {
+          "start": 796171783080161,
+          "end": 796171783474598,
+          "kind": "read",
+          "args": [
+            "left",
+            "right",
+            "receipt"
+          ],
+          "result": [
+            "40",
+            "12",
+            "request"
+          ]
+        }
+      ],
+      "witness": [
+        0,
+        1,
+        2,
+        3,
+        4,
+        5,
+        6
+      ]
+    }
+  ],
+  "gopyt.test_transaction_histories.EncryptedHistories.test_thread_histories": [
+    {
+      "initial": {
+        "left": "30",
+        "right": "0"
+      },
+      "history": [
+        {
+          "start": 796171799219283,
+          "end": 796171800459310,
+          "kind": "read",
+          "args": [
+            "left",
+            "right",
+            "receipt"
+          ],
+          "result": [
+            "30",
+            "0",
+            null
+          ]
+        },
+        {
+          "start": 796171800461334,
+          "end": 796171802852901,
+          "kind": "cas",
+          "args": [
+            [
+              "left",
+              "30",
+              "29"
+            ],
+            [
+              "right",
+              "0",
+              "1"
+            ],
+            [
+              "receipt",
+              null,
+              "request"
+            ]
+          ],
+          "result": true
+        },
+        {
+          "start": 796171799456281,
+          "end": 796171804621820,
+          "kind": "read",
+          "args": [
+            "left",
+            "right",
+            "receipt"
+          ],
+          "result": [
+            "29",
+            "1",
+            "request"
+          ]
+        },
+        {
+          "start": 796171804625126,
+          "end": 796171805165048,
+          "kind": "cas",
+          "args": [
+            [
+              "left",
+              "29",
+              "28"
+            ],
+            [
+              "right",
+              "1",
+              "2"
+            ],
+            [
+              "receipt",
+              null,
+              "request"
+            ]
+          ],
+          "result": false
+        },
+        {
+          "start": 796171799613098,
+          "end": 796171806698250,
+          "kind": "read",
+          "args": [
+            "left",
+            "right",
+            "receipt"
+          ],
+          "result": [
+            "29",
+            "1",
+            "request"
+          ]
+        },
+        {
+          "start": 796171806701086,
+          "end": 796171807120139,
+          "kind": "cas",
+          "args": [
+            [
+              "left",
+              "29",
+              "28"
+            ],
+            [
+              "right",
+              "1",
+              "2"
+            ],
+            [
+              "receipt",
+              null,
+              "request"
+            ]
+          ],
+          "result": false
+        },
+        {
+          "start": 796171807302604,
+          "end": 796171807721618,
+          "kind": "read",
+          "args": [
+            "left",
+            "right",
+            "receipt"
+          ],
+          "result": [
+            "29",
+            "1",
+            "request"
+          ]
+        }
+      ],
+      "witness": [
+        0,
+        1,
+        2,
+        3,
+        4,
+        5,
+        6
+      ]
+    },
+    {
+      "initial": {
+        "left": "31",
+        "right": "1"
+      },
+      "history": [
+        {
+          "start": 796171811801270,
+          "end": 796171813116069,
+          "kind": "read",
+          "args": [
+            "left",
+            "right",
+            "receipt"
+          ],
+          "result": [
+            "31",
+            "1",
+            null
+          ]
+        },
+        {
+          "start": 796171813118614,
+          "end": 796171816289857,
+          "kind": "cas",
+          "args": [
+            [
+              "left",
+              "31",
+              "30"
+            ],
+            [
+              "right",
+              "1",
+              "2"
+            ],
+            [
+              "receipt",
+              null,
+              "request"
+            ]
+          ],
+          "result": true
+        },
+        {
+          "start": 796171811968617,
+          "end": 796171819304073,
+          "kind": "read",
+          "args": [
+            "left",
+            "right",
+            "receipt"
+          ],
+          "result": [
+            "30",
+            "2",
+            "request"
+          ]
+        },
+        {
+          "start": 796171819307109,
+          "end": 796171819772009,
+          "kind": "cas",
+          "args": [
+            [
+              "left",
+              "30",
+              "29"
+            ],
+            [
+              "right",
+              "2",
+              "3"
+            ],
+            [
+              "receipt",
+              null,
+              "request"
+            ]
+          ],
+          "result": false
+        },
+        {
+          "start": 796171812186870,
+          "end": 796171817294739,
+          "kind": "read",
+          "args": [
+            "left",
+            "right",
+            "receipt"
+          ],
+          "result": [
+            "30",
+            "2",
+            "request"
+          ]
+        },
+        {
+          "start": 796171817298587,
+          "end": 796171817787392,
+          "kind": "cas",
+          "args": [
+            [
+              "left",
+              "30",
+              "29"
+            ],
+            [
+              "right",
+              "2",
+              "3"
+            ],
+            [
+              "receipt",
+              null,
+              "request"
+            ]
+          ],
+          "result": false
+        },
+        {
+          "start": 796171819929066,
+          "end": 796171820348109,
+          "kind": "read",
+          "args": [
+            "left",
+            "right",
+            "receipt"
+          ],
+          "result": [
+            "30",
+            "2",
+            "request"
+          ]
+        }
+      ],
+      "witness": [
+        0,
+        1,
+        2,
+        4,
+        5,
+        3,
+        6
+      ]
+    },
+    {
+      "initial": {
+        "left": "32",
+        "right": "2"
+      },
+      "history": [
+        {
+          "start": 796171823426687,
+          "end": 796171830630314,
+          "kind": "read",
+          "args": [
+            "left",
+            "right",
+            "receipt"
+          ],
+          "result": [
+            "31",
+            "3",
+            "request"
+          ]
+        },
+        {
+          "start": 796171830632187,
+          "end": 796171830999583,
+          "kind": "cas",
+          "args": [
+            [
+              "left",
+              "31",
+              "30"
+            ],
+            [
+              "right",
+              "3",
+              "4"
+            ],
+            [
+              "receipt",
+              null,
+              "request"
+            ]
+          ],
+          "result": false
+        },
+        {
+          "start": 796171823552125,
+          "end": 796171828516031,
+          "kind": "read",
+          "args": [
+            "left",
+            "right",
+            "receipt"
+          ],
+          "result": [
+            "31",
+            "3",
+            "request"
+          ]
+        },
+        {
+          "start": 796171828518035,
+          "end": 796171828898696,
+          "kind": "cas",
+          "args": [
+            [
+              "left",
+              "31",
+              "30"
+            ],
+            [
+              "right",
+              "3",
+              "4"
+            ],
+            [
+              "receipt",
+              null,
+              "request"
+            ]
+          ],
+          "result": false
+        },
+        {
+          "start": 796171823668916,
+          "end": 796171824389961,
+          "kind": "read",
+          "args": [
+            "left",
+            "right",
+            "receipt"
+          ],
+          "result": [
+            "32",
+            "2",
+            null
+          ]
+        },
+        {
+          "start": 796171824391754,
+          "end": 796171826762151,
+          "kind": "cas",
+          "args": [
+            [
+              "left",
+              "32",
+              "31"
+            ],
+            [
+              "right",
+              "2",
+              "3"
+            ],
+            [
+              "receipt",
+              null,
+              "request"
+            ]
+          ],
+          "result": true
+        },
+        {
+          "start": 796171831171708,
+          "end": 796171831579440,
+          "kind": "read",
+          "args": [
+            "left",
+            "right",
+            "receipt"
+          ],
+          "result": [
+            "31",
+            "3",
+            "request"
+          ]
+        }
+      ],
+      "witness": [
+        4,
+        5,
+        0,
+        2,
+        3,
+        1,
+        6
+      ]
+    },
+    {
+      "initial": {
+        "left": "33",
+        "right": "3"
+      },
+      "history": [
+        {
+          "start": 796171835130292,
+          "end": 796171836151465,
+          "kind": "read",
+          "args": [
+            "left",
+            "right",
+            "receipt"
+          ],
+          "result": [
+            "33",
+            "3",
+            null
+          ]
+        },
+        {
+          "start": 796171836153289,
+          "end": 796171838457741,
+          "kind": "cas",
+          "args": [
+            [
+              "left",
+              "33",
+              "32"
+            ],
+            [
+              "right",
+              "3",
+              "4"
+            ],
+            [
+              "receipt",
+              null,
+              "request"
+            ]
+          ],
+          "result": true
+        },
+        {
+          "start": 796171835276509,
+          "end": 796171840262507,
+          "kind": "read",
+          "args": [
+            "left",
+            "right",
+            "receipt"
+          ],
+          "result": [
+            "32",
+            "4",
+            "request"
+          ]
+        },
+        {
+          "start": 796171840264411,
+          "end": 796171840637677,
+          "kind": "cas",
+          "args": [
+            [
+              "left",
+              "32",
+              "31"
+            ],
+            [
+              "right",
+              "4",
+              "5"
+            ],
+            [
+              "receipt",
+              null,
+              "request"
+            ]
+          ],
+          "result": false
+        },
+        {
+          "start": 796171835426914,
+          "end": 796171842324901,
+          "kind": "read",
+          "args": [
+            "left",
+            "right",
+            "receipt"
+          ],
+          "result": [
+            "32",
+            "4",
+            "request"
+          ]
+        },
+        {
+          "start": 796171842326625,
+          "end": 796171842688329,
+          "kind": "cas",
+          "args": [
+            [
+              "left",
+              "32",
+              "31"
+            ],
+            [
+              "right",
+              "4",
+              "5"
+            ],
+            [
+              "receipt",
+              null,
+              "request"
+            ]
+          ],
+          "result": false
+        },
+        {
+          "start": 796171842858411,
+          "end": 796171843347497,
+          "kind": "read",
+          "args": [
+            "left",
+            "right",
+            "receipt"
+          ],
+          "result": [
+            "32",
+            "4",
+            "request"
+          ]
+        }
+      ],
+      "witness": [
+        0,
+        1,
+        2,
+        3,
+        4,
+        5,
+        6
+      ]
+    },
+    {
+      "initial": {
+        "left": "34",
+        "right": "4"
+      },
+      "history": [
+        {
+          "start": 796171847395931,
+          "end": 796171852543826,
+          "kind": "read",
+          "args": [
+            "left",
+            "right",
+            "receipt"
+          ],
+          "result": [
+            "33",
+            "5",
+            "request"
+          ]
+        },
+        {
+          "start": 796171852545719,
+          "end": 796171852932522,
+          "kind": "cas",
+          "args": [
+            [
+              "left",
+              "33",
+              "32"
+            ],
+            [
+              "right",
+              "5",
+              "6"
+            ],
+            [
+              "receipt",
+              null,
+              "request"
+            ]
+          ],
+          "result": false
+        },
+        {
+          "start": 796171847541717,
+          "end": 796171848395233,
+          "kind": "read",
+          "args": [
+            "left",
+            "right",
+            "receipt"
+          ],
+          "result": [
+            "34",
+            "4",
+            null
+          ]
+        },
+        {
+          "start": 796171848397026,
+          "end": 796171850686059,
+          "kind": "cas",
+          "args": [
+            [
+              "left",
+              "34",
+              "33"
+            ],
+            [
+              "right",
+              "4",
+              "5"
+            ],
+            [
+              "receipt",
+              null,
+              "request"
+            ]
+          ],
+          "result": true
+        },
+        {
+          "start": 796171847682794,
+          "end": 796171854613053,
+          "kind": "read",
+          "args": [
+            "left",
+            "right",
+            "receipt"
+          ],
+          "result": [
+            "33",
+            "5",
+            "request"
+          ]
+        },
+        {
+          "start": 796171854615317,
+          "end": 796171855024892,
+          "kind": "cas",
+          "args": [
+            [
+              "left",
+              "33",
+              "32"
+            ],
+            [
+              "right",
+              "5",
+              "6"
+            ],
+            [
+              "receipt",
+              null,
+              "request"
+            ]
+          ],
+          "result": false
+        },
+        {
+          "start": 796171855155099,
+          "end": 796171855564524,
+          "kind": "read",
+          "args": [
+            "left",
+            "right",
+            "receipt"
+          ],
+          "result": [
+            "33",
+            "5",
+            "request"
+          ]
+        }
+      ],
+      "witness": [
+        2,
+        3,
+        0,
+        1,
+        4,
+        5,
+        6
+      ]
+    },
+    {
+      "initial": {
+        "left": "35",
+        "right": "5"
+      },
+      "history": [
+        {
+          "start": 796171858671085,
+          "end": 796171863778383,
+          "kind": "read",
+          "args": [
+            "left",
+            "right",
+            "receipt"
+          ],
+          "result": [
+            "34",
+            "6",
+            "request"
+          ]
+        },
+        {
+          "start": 796171863780276,
+          "end": 796171864153252,
+          "kind": "cas",
+          "args": [
+            [
+              "left",
+              "34",
+              "33"
+            ],
+            [
+              "right",
+              "6",
+              "7"
+            ],
+            [
+              "receipt",
+              null,
+              "request"
+            ]
+          ],
+          "result": false
+        },
+        {
+          "start": 796171858808394,
+          "end": 796171859653334,
+          "kind": "read",
+          "args": [
+            "left",
+            "right",
+            "receipt"
+          ],
+          "result": [
+            "35",
+            "5",
+            null
+          ]
+        },
+        {
+          "start": 796171859655087,
+          "end": 796171861488047,
+          "kind": "cas",
+          "args": [
+            [
+              "left",
+              "35",
+              "34"
+            ],
+            [
+              "right",
+              "5",
+              "6"
+            ],
+            [
+              "receipt",
+              null,
+              "request"
+            ]
+          ],
+          "result": true
+        },
+        {
+          "start": 796171859058077,
+          "end": 796171861759671,
+          "kind": "read",
+          "args": [
+            "left",
+            "right",
+            "receipt"
+          ],
+          "result": [
+            "34",
+            "6",
+            "request"
+          ]
+        },
+        {
+          "start": 796171861761485,
+          "end": 796171862175719,
+          "kind": "cas",
+          "args": [
+            [
+              "left",
+              "34",
+              "33"
+            ],
+            [
+              "right",
+              "6",
+              "7"
+            ],
+            [
+              "receipt",
+              null,
+              "request"
+            ]
+          ],
+          "result": false
+        },
+        {
+          "start": 796171864279852,
+          "end": 796171864671734,
+          "kind": "read",
+          "args": [
+            "left",
+            "right",
+            "receipt"
+          ],
+          "result": [
+            "34",
+            "6",
+            "request"
+          ]
+        }
+      ],
+      "witness": [
+        2,
+        3,
+        0,
+        4,
+        5,
+        1,
+        6
+      ]
+    },
+    {
+      "initial": {
+        "left": "36",
+        "right": "6"
+      },
+      "history": [
+        {
+          "start": 796171867460924,
+          "end": 796171872514610,
+          "kind": "read",
+          "args": [
+            "left",
+            "right",
+            "receipt"
+          ],
+          "result": [
+            "35",
+            "7",
+            "request"
+          ]
+        },
+        {
+          "start": 796171872516714,
+          "end": 796171872876255,
+          "kind": "cas",
+          "args": [
+            [
+              "left",
+              "35",
+              "34"
+            ],
+            [
+              "right",
+              "7",
+              "8"
+            ],
+            [
+              "receipt",
+              null,
+              "request"
+            ]
+          ],
+          "result": false
+        },
+        {
+          "start": 796171867598424,
+          "end": 796171874664881,
+          "kind": "read",
+          "args": [
+            "left",
+            "right",
+            "receipt"
+          ],
+          "result": [
+            "35",
+            "7",
+            "request"
+          ]
+        },
+        {
+          "start": 796171874666624,
+          "end": 796171875040442,
+          "kind": "cas",
+          "args": [
+            [
+              "left",
+              "35",
+              "34"
+            ],
+            [
+              "right",
+              "7",
+              "8"
+            ],
+            [
+              "receipt",
+              null,
+              "request"
+            ]
+          ],
+          "result": false
+        },
+        {
+          "start": 796171867721808,
+          "end": 796171868399180,
+          "kind": "read",
+          "args": [
+            "left",
+            "right",
+            "receipt"
+          ],
+          "result": [
+            "36",
+            "6",
+            null
+          ]
+        },
+        {
+          "start": 796171868401033,
+          "end": 796171870595698,
+          "kind": "cas",
+          "args": [
+            [
+              "left",
+              "36",
+              "35"
+            ],
+            [
+              "right",
+              "6",
+              "7"
+            ],
+            [
+              "receipt",
+              null,
+              "request"
+            ]
+          ],
+          "result": true
+        },
+        {
+          "start": 796171875185025,
+          "end": 796171875550036,
+          "kind": "read",
+          "args": [
+            "left",
+            "right",
+            "receipt"
+          ],
+          "result": [
+            "35",
+            "7",
+            "request"
+          ]
+        }
+      ],
+      "witness": [
+        4,
+        5,
+        0,
+        1,
+        2,
+        3,
+        6
+      ]
+    },
+    {
+      "initial": {
+        "left": "37",
+        "right": "7"
+      },
+      "history": [
+        {
+          "start": 796171878496043,
+          "end": 796171883948945,
+          "kind": "read",
+          "args": [
+            "left",
+            "right",
+            "receipt"
+          ],
+          "result": [
+            "36",
+            "8",
+            "request"
+          ]
+        },
+        {
+          "start": 796171883950999,
+          "end": 796171884338723,
+          "kind": "cas",
+          "args": [
+            [
+              "left",
+              "36",
+              "35"
+            ],
+            [
+              "right",
+              "8",
+              "9"
+            ],
+            [
+              "receipt",
+              null,
+              "request"
+            ]
+          ],
+          "result": false
+        },
+        {
+          "start": 796171878767277,
+          "end": 796171879629248,
+          "kind": "read",
+          "args": [
+            "left",
+            "right",
+            "receipt"
+          ],
+          "result": [
+            "37",
+            "7",
+            null
+          ]
+        },
+        {
+          "start": 796171879631202,
+          "end": 796171881455926,
+          "kind": "cas",
+          "args": [
+            [
+              "left",
+              "37",
+              "36"
+            ],
+            [
+              "right",
+              "7",
+              "8"
+            ],
+            [
+              "receipt",
+              null,
+              "request"
+            ]
+          ],
+          "result": true
+        },
+        {
+          "start": 796171878918373,
+          "end": 796171881719906,
+          "kind": "read",
+          "args": [
+            "left",
+            "right",
+            "receipt"
+          ],
+          "result": [
+            "36",
+            "8",
+            "request"
+          ]
+        },
+        {
+          "start": 796171881721559,
+          "end": 796171882104514,
+          "kind": "cas",
+          "args": [
+            [
+              "left",
+              "36",
+              "35"
+            ],
+            [
+              "right",
+              "8",
+              "9"
+            ],
+            [
+              "receipt",
+              null,
+              "request"
+            ]
+          ],
+          "result": false
+        },
+        {
+          "start": 796171884480842,
+          "end": 796171884927598,
+          "kind": "read",
+          "args": [
+            "left",
+            "right",
+            "receipt"
+          ],
+          "result": [
+            "36",
+            "8",
+            "request"
+          ]
+        }
+      ],
+      "witness": [
+        2,
+        3,
+        0,
+        4,
+        5,
+        1,
+        6
+      ]
+    },
+    {
+      "initial": {
+        "left": "38",
+        "right": "8"
+      },
+      "history": [
+        {
+          "start": 796171888249456,
+          "end": 796171891322584,
+          "kind": "read",
+          "args": [
+            "left",
+            "right",
+            "receipt"
+          ],
+          "result": [
+            "37",
+            "9",
+            "request"
+          ]
+        },
+        {
+          "start": 796171891324838,
+          "end": 796171891674821,
+          "kind": "cas",
+          "args": [
+            [
+              "left",
+              "37",
+              "36"
+            ],
+            [
+              "right",
+              "9",
+              "10"
+            ],
+            [
+              "receipt",
+              null,
+              "request"
+            ]
+          ],
+          "result": false
+        },
+        {
+          "start": 796171888404219,
+          "end": 796171889282402,
+          "kind": "read",
+          "args": [
+            "left",
+            "right",
+            "receipt"
+          ],
+          "result": [
+            "38",
+            "8",
+            null
+          ]
+        },
+        {
+          "start": 796171889284736,
+          "end": 796171890972261,
+          "kind": "cas",
+          "args": [
+            [
+              "left",
+              "38",
+              "37"
+            ],
+            [
+              "right",
+              "8",
+              "9"
+            ],
+            [
+              "receipt",
+              null,
+              "request"
+            ]
+          ],
+          "result": true
+        },
+        {
+          "start": 796171888579361,
+          "end": 796171893437447,
+          "kind": "read",
+          "args": [
+            "left",
+            "right",
+            "receipt"
+          ],
+          "result": [
+            "37",
+            "9",
+            "request"
+          ]
+        },
+        {
+          "start": 796171893439441,
+          "end": 796171893823177,
+          "kind": "cas",
+          "args": [
+            [
+              "left",
+              "37",
+              "36"
+            ],
+            [
+              "right",
+              "9",
+              "10"
+            ],
+            [
+              "receipt",
+              null,
+              "request"
+            ]
+          ],
+          "result": false
+        },
+        {
+          "start": 796171893961168,
+          "end": 796171894372537,
+          "kind": "read",
+          "args": [
+            "left",
+            "right",
+            "receipt"
+          ],
+          "result": [
+            "37",
+            "9",
+            "request"
+          ]
+        }
+      ],
+      "witness": [
+        2,
+        3,
+        0,
+        1,
+        4,
+        5,
+        6
+      ]
+    },
+    {
+      "initial": {
+        "left": "39",
+        "right": "9"
+      },
+      "history": [
+        {
+          "start": 796171897385761,
+          "end": 796171902674142,
+          "kind": "read",
+          "args": [
+            "left",
+            "right",
+            "receipt"
+          ],
+          "result": [
+            "38",
+            "10",
+            "request"
+          ]
+        },
+        {
+          "start": 796171902676306,
+          "end": 796171903061906,
+          "kind": "cas",
+          "args": [
+            [
+              "left",
+              "38",
+              "37"
+            ],
+            [
+              "right",
+              "10",
+              "11"
+            ],
+            [
+              "receipt",
+              null,
+              "request"
+            ]
+          ],
+          "result": false
+        },
+        {
+          "start": 796171897530415,
+          "end": 796171900468186,
+          "kind": "read",
+          "args": [
+            "left",
+            "right",
+            "receipt"
+          ],
+          "result": [
+            "38",
+            "10",
+            "request"
+          ]
+        },
+        {
+          "start": 796171900470350,
+          "end": 796171900834390,
+          "kind": "cas",
+          "args": [
+            [
+              "left",
+              "38",
+              "37"
+            ],
+            [
+              "right",
+              "10",
+              "11"
+            ],
+            [
+              "receipt",
+              null,
+              "request"
+            ]
+          ],
+          "result": false
+        },
+        {
+          "start": 796171897685248,
+          "end": 796171898429086,
+          "kind": "read",
+          "args": [
+            "left",
+            "right",
+            "receipt"
+          ],
+          "result": [
+            "39",
+            "9",
+            null
+          ]
+        },
+        {
+          "start": 796171898430940,
+          "end": 796171900150244,
+          "kind": "cas",
+          "args": [
+            [
+              "left",
+              "39",
+              "38"
+            ],
+            [
+              "right",
+              "9",
+              "10"
+            ],
+            [
+              "receipt",
+              null,
+              "request"
+            ]
+          ],
+          "result": true
+        },
+        {
+          "start": 796171903226548,
+          "end": 796171903641844,
+          "kind": "read",
+          "args": [
+            "left",
+            "right",
+            "receipt"
+          ],
+          "result": [
+            "38",
+            "10",
+            "request"
+          ]
+        }
+      ],
+      "witness": [
+        4,
+        5,
+        0,
+        2,
+        3,
+        1,
+        6
+      ]
+    },
+    {
+      "initial": {
+        "left": "40",
+        "right": "10"
+      },
+      "history": [
+        {
+          "start": 796171907680980,
+          "end": 796171916245783,
+          "kind": "read",
+          "args": [
+            "left",
+            "right",
+            "receipt"
+          ],
+          "result": [
+            "39",
+            "11",
+            "request"
+          ]
+        },
+        {
+          "start": 796171916247406,
+          "end": 796171916575908,
+          "kind": "cas",
+          "args": [
+            [
+              "left",
+              "39",
+              "38"
+            ],
+            [
+              "right",
+              "11",
+              "12"
+            ],
+            [
+              "receipt",
+              null,
+              "request"
+            ]
+          ],
+          "result": false
+        },
+        {
+          "start": 796171907995315,
+          "end": 796171915366779,
+          "kind": "read",
+          "args": [
+            "left",
+            "right",
+            "receipt"
+          ],
+          "result": [
+            "39",
+            "11",
+            "request"
+          ]
+        },
+        {
+          "start": 796171915370156,
+          "end": 796171915760815,
+          "kind": "cas",
+          "args": [
+            [
+              "left",
+              "39",
+              "38"
+            ],
+            [
+              "right",
+              "11",
+              "12"
+            ],
+            [
+              "receipt",
+              null,
+              "request"
+            ]
+          ],
+          "result": false
+        },
+        {
+          "start": 796171908173122,
+          "end": 796171908995328,
+          "kind": "read",
+          "args": [
+            "left",
+            "right",
+            "receipt"
+          ],
+          "result": [
+            "40",
+            "10",
+            null
+          ]
+        },
+        {
+          "start": 796171908998304,
+          "end": 796171914150276,
+          "kind": "cas",
+          "args": [
+            [
+              "left",
+              "40",
+              "39"
+            ],
+            [
+              "right",
+              "10",
+              "11"
+            ],
+            [
+              "receipt",
+              null,
+              "request"
+            ]
+          ],
+          "result": true
+        },
+        {
+          "start": 796171916714531,
+          "end": 796171917133063,
+          "kind": "read",
+          "args": [
+            "left",
+            "right",
+            "receipt"
+          ],
+          "result": [
+            "39",
+            "11",
+            "request"
+          ]
+        }
+      ],
+      "witness": [
+        4,
+        5,
+        0,
+        2,
+        3,
+        1,
+        6
+      ]
+    },
+    {
+      "initial": {
+        "left": "41",
+        "right": "11"
+      },
+      "history": [
+        {
+          "start": 796171920508813,
+          "end": 796171921498106,
+          "kind": "read",
+          "args": [
+            "left",
+            "right",
+            "receipt"
+          ],
+          "result": [
+            "41",
+            "11",
+            null
+          ]
+        },
+        {
+          "start": 796171921500190,
+          "end": 796171923181232,
+          "kind": "cas",
+          "args": [
+            [
+              "left",
+              "41",
+              "40"
+            ],
+            [
+              "right",
+              "11",
+              "12"
+            ],
+            [
+              "receipt",
+              null,
+              "request"
+            ]
+          ],
+          "result": true
+        },
+        {
+          "start": 796171920690106,
+          "end": 796171923514663,
+          "kind": "read",
+          "args": [
+            "left",
+            "right",
+            "receipt"
+          ],
+          "result": [
+            "40",
+            "12",
+            "request"
+          ]
+        },
+        {
+          "start": 796171923516216,
+          "end": 796171923813850,
+          "kind": "cas",
+          "args": [
+            [
+              "left",
+              "40",
+              "39"
+            ],
+            [
+              "right",
+              "12",
+              "13"
+            ],
+            [
+              "receipt",
+              null,
+              "request"
+            ]
+          ],
+          "result": false
+        },
+        {
+          "start": 796171920837155,
+          "end": 796171924341218,
+          "kind": "read",
+          "args": [
+            "left",
+            "right",
+            "receipt"
+          ],
+          "result": [
+            "40",
+            "12",
+            "request"
+          ]
+        },
+        {
+          "start": 796171924342691,
+          "end": 796171924634002,
+          "kind": "cas",
+          "args": [
+            [
+              "left",
+              "40",
+              "39"
+            ],
+            [
+              "right",
+              "12",
+              "13"
+            ],
+            [
+              "receipt",
+              null,
+              "request"
+            ]
+          ],
+          "result": false
+        },
+        {
+          "start": 796171924762145,
+          "end": 796171925078784,
+          "kind": "read",
+          "args": [
+            "left",
+            "right",
+            "receipt"
+          ],
+          "result": [
+            "40",
+            "12",
+            "request"
+          ]
+        }
+      ],
+      "witness": [
+        0,
+        1,
+        2,
+        3,
+        4,
+        5,
+        6
+      ]
+    }
+  ],
+  "gopyt.test_transaction_histories.EncryptedHistories.test_process_histories": [
+    {
+      "initial": {
+        "left": "30",
+        "right": "0"
+      },
+      "history": [
+        {
+          "start": 796172045075317,
+          "end": 796172059127146,
+          "kind": "read",
+          "args": [
+            "left",
+            "right",
+            "receipt"
+          ],
+          "result": [
+            "29",
+            "1",
+            "request"
+          ]
+        },
+        {
+          "start": 796172059131805,
+          "end": 796172059669763,
+          "kind": "cas",
+          "args": [
+            [
+              "left",
+              "29",
+              "28"
+            ],
+            [
+              "right",
+              "1",
+              "2"
+            ],
+            [
+              "receipt",
+              null,
+              "request"
+            ]
+          ],
+          "result": false
+        },
+        {
+          "start": 796172042160450,
+          "end": 796172053590095,
+          "kind": "read",
+          "args": [
+            "left",
+            "right",
+            "receipt"
+          ],
+          "result": [
+            "30",
+            "0",
+            null
+          ]
+        },
+        {
+          "start": 796172053594313,
+          "end": 796172055971663,
+          "kind": "cas",
+          "args": [
+            [
+              "left",
+              "30",
+              "29"
+            ],
+            [
+              "right",
+              "0",
+              "1"
+            ],
+            [
+              "receipt",
+              null,
+              "request"
+            ]
+          ],
+          "result": true
+        },
+        {
+          "start": 796172044850402,
+          "end": 796172058395301,
+          "kind": "read",
+          "args": [
+            "left",
+            "right",
+            "receipt"
+          ],
+          "result": [
+            "29",
+            "1",
+            "request"
+          ]
+        },
+        {
+          "start": 796172058400070,
+          "end": 796172061082838,
+          "kind": "cas",
+          "args": [
+            [
+              "left",
+              "29",
+              "28"
+            ],
+            [
+              "right",
+              "1",
+              "2"
+            ],
+            [
+              "receipt",
+              null,
+              "request"
+            ]
+          ],
+          "result": false
+        },
+        {
+          "start": 796172121787284,
+          "end": 796172122372983,
+          "kind": "read",
+          "args": [
+            "left",
+            "right",
+            "receipt"
+          ],
+          "result": [
+            "29",
+            "1",
+            "request"
+          ]
+        }
+      ],
+      "witness": [
+        2,
+        3,
+        0,
+        4,
+        1,
+        5,
+        6
+      ]
+    },
+    {
+      "initial": {
+        "left": "31",
+        "right": "1"
+      },
+      "history": [
+        {
+          "start": 796172227951781,
+          "end": 796172238336048,
+          "kind": "read",
+          "args": [
+            "left",
+            "right",
+            "receipt"
+          ],
+          "result": [
+            "30",
+            "2",
+            "request"
+          ]
+        },
+        {
+          "start": 796172238340025,
+          "end": 796172238729613,
+          "kind": "cas",
+          "args": [
+            [
+              "left",
+              "30",
+              "29"
+            ],
+            [
+              "right",
+              "2",
+              "3"
+            ],
+            [
+              "receipt",
+              null,
+              "request"
+            ]
+          ],
+          "result": false
+        },
+        {
+          "start": 796172223500826,
+          "end": 796172233054550,
+          "kind": "read",
+          "args": [
+            "left",
+            "right",
+            "receipt"
+          ],
+          "result": [
+            "31",
+            "1",
+            null
+          ]
+        },
+        {
+          "start": 796172233058748,
+          "end": 796172235076217,
+          "kind": "cas",
+          "args": [
+            [
+              "left",
+              "31",
+              "30"
+            ],
+            [
+              "right",
+              "1",
+              "2"
+            ],
+            [
+              "receipt",
+              null,
+              "request"
+            ]
+          ],
+          "result": true
+        },
+        {
+          "start": 796172251065292,
+          "end": 796172262212192,
+          "kind": "read",
+          "args": [
+            "left",
+            "right",
+            "receipt"
+          ],
+          "result": [
+            "30",
+            "2",
+            "request"
+          ]
+        },
+        {
+          "start": 796172262216100,
+          "end": 796172262609785,
+          "kind": "cas",
+          "args": [
+            [
+              "left",
+              "30",
+              "29"
+            ],
+            [
+              "right",
+              "2",
+              "3"
+            ],
+            [
+              "receipt",
+              null,
+              "request"
+            ]
+          ],
+          "result": false
+        },
+        {
+          "start": 796172281207418,
+          "end": 796172281746999,
+          "kind": "read",
+          "args": [
+            "left",
+            "right",
+            "receipt"
+          ],
+          "result": [
+            "30",
+            "2",
+            "request"
+          ]
+        }
+      ],
+      "witness": [
+        2,
+        3,
+        0,
+        1,
+        4,
+        5,
+        6
+      ]
+    },
+    {
+      "initial": {
+        "left": "32",
+        "right": "2"
+      },
+      "history": [
+        {
+          "start": 796172377176436,
+          "end": 796172388397176,
+          "kind": "read",
+          "args": [
+            "left",
+            "right",
+            "receipt"
+          ],
+          "result": [
+            "31",
+            "3",
+            "request"
+          ]
+        },
+        {
+          "start": 796172388400602,
+          "end": 796172388976913,
+          "kind": "cas",
+          "args": [
+            [
+              "left",
+              "31",
+              "30"
+            ],
+            [
+              "right",
+              "3",
+              "4"
+            ],
+            [
+              "receipt",
+              null,
+              "request"
+            ]
+          ],
+          "result": false
+        },
+        {
+          "start": 796172378093572,
+          "end": 796172387843618,
+          "kind": "read",
+          "args": [
+            "left",
+            "right",
+            "receipt"
+          ],
+          "result": [
+            "31",
+            "3",
+            "request"
+          ]
+        },
+        {
+          "start": 796172387847435,
+          "end": 796172390406800,
+          "kind": "cas",
+          "args": [
+            [
+              "left",
+              "31",
+              "30"
+            ],
+            [
+              "right",
+              "3",
+              "4"
+            ],
+            [
+              "receipt",
+              null,
+              "request"
+            ]
+          ],
+          "result": false
+        },
+        {
+          "start": 796172375586226,
+          "end": 796172384590060,
+          "kind": "read",
+          "args": [
+            "left",
+            "right",
+            "receipt"
+          ],
+          "result": [
+            "32",
+            "2",
+            null
+          ]
+        },
+        {
+          "start": 796172384593025,
+          "end": 796172386323290,
+          "kind": "cas",
+          "args": [
+            [
+              "left",
+              "32",
+              "31"
+            ],
+            [
+              "right",
+              "2",
+              "3"
+            ],
+            [
+              "receipt",
+              null,
+              "request"
+            ]
+          ],
+          "result": true
+        },
+        {
+          "start": 796172417960806,
+          "end": 796172418612801,
+          "kind": "read",
+          "args": [
+            "left",
+            "right",
+            "receipt"
+          ],
+          "result": [
+            "31",
+            "3",
+            "request"
+          ]
+        }
+      ],
+      "witness": [
+        4,
+        5,
+        0,
+        2,
+        1,
+        3,
+        6
+      ]
+    },
+    {
+      "initial": {
+        "left": "33",
+        "right": "3"
+      },
+      "history": [
+        {
+          "start": 796172505650794,
+          "end": 796172520100746,
+          "kind": "read",
+          "args": [
+            "left",
+            "right",
+            "receipt"
+          ],
+          "result": [
+            "33",
+            "3",
+            null
+          ]
+        },
+        {
+          "start": 796172520103912,
+          "end": 796172521699782,
+          "kind": "cas",
+          "args": [
+            [
+              "left",
+              "33",
+              "32"
+            ],
+            [
+              "right",
+              "3",
+              "4"
+            ],
+            [
+              "receipt",
+              null,
+              "request"
+            ]
+          ],
+          "result": true
+        },
+        {
+          "start": 796172507692188,
+          "end": 796172522595418,
+          "kind": "read",
+          "args": [
+            "left",
+            "right",
+            "receipt"
+          ],
+          "result": [
+            "32",
+            "4",
+            "request"
+          ]
+        },
+        {
+          "start": 796172522598624,
+          "end": 796172523051531,
+          "kind": "cas",
+          "args": [
+            [
+              "left",
+              "32",
+              "31"
+            ],
+            [
+              "right",
+              "4",
+              "5"
+            ],
+            [
+              "receipt",
+              null,
+              "request"
+            ]
+          ],
+          "result": false
+        },
+        {
+          "start": 796172510153326,
+          "end": 796172523667146,
+          "kind": "read",
+          "args": [
+            "left",
+            "right",
+            "receipt"
+          ],
+          "result": [
+            "32",
+            "4",
+            "request"
+          ]
+        },
+        {
+          "start": 796172523671194,
+          "end": 796172524113752,
+          "kind": "cas",
+          "args": [
+            [
+              "left",
+              "32",
+              "31"
+            ],
+            [
+              "right",
+              "4",
+              "5"
+            ],
+            [
+              "receipt",
+              null,
+              "request"
+            ]
+          ],
+          "result": false
+        },
+        {
+          "start": 796172547713984,
+          "end": 796172548268183,
+          "kind": "read",
+          "args": [
+            "left",
+            "right",
+            "receipt"
+          ],
+          "result": [
+            "32",
+            "4",
+            "request"
+          ]
+        }
+      ],
+      "witness": [
+        0,
+        1,
+        2,
+        3,
+        4,
+        5,
+        6
+      ]
+    },
+    {
+      "initial": {
+        "left": "34",
+        "right": "4"
+      },
+      "history": [
+        {
+          "start": 796172644225530,
+          "end": 796172652932240,
+          "kind": "read",
+          "args": [
+            "left",
+            "right",
+            "receipt"
+          ],
+          "result": [
+            "34",
+            "4",
+            null
+          ]
+        },
+        {
+          "start": 796172652935416,
+          "end": 796172654553850,
+          "kind": "cas",
+          "args": [
+            [
+              "left",
+              "34",
+              "33"
+            ],
+            [
+              "right",
+              "4",
+              "5"
+            ],
+            [
+              "receipt",
+              null,
+              "request"
+            ]
+          ],
+          "result": true
+        },
+        {
+          "start": 796172645320763,
+          "end": 796172656318039,
+          "kind": "read",
+          "args": [
+            "left",
+            "right",
+            "receipt"
+          ],
+          "result": [
+            "33",
+            "5",
+            "request"
+          ]
+        },
+        {
+          "start": 796172656321726,
+          "end": 796172656767500,
+          "kind": "cas",
+          "args": [
+            [
+              "left",
+              "33",
+              "32"
+            ],
+            [
+              "right",
+              "5",
+              "6"
+            ],
+            [
+              "receipt",
+              null,
+              "request"
+            ]
+          ],
+          "result": false
+        },
+        {
+          "start": 796172644570533,
+          "end": 796172655256109,
+          "kind": "read",
+          "args": [
+            "left",
+            "right",
+            "receipt"
+          ],
+          "result": [
+            "33",
+            "5",
+            "request"
+          ]
+        },
+        {
+          "start": 796172655259596,
+          "end": 796172655690822,
+          "kind": "cas",
+          "args": [
+            [
+              "left",
+              "33",
+              "32"
+            ],
+            [
+              "right",
+              "5",
+              "6"
+            ],
+            [
+              "receipt",
+              null,
+              "request"
+            ]
+          ],
+          "result": false
+        },
+        {
+          "start": 796172685103727,
+          "end": 796172685610867,
+          "kind": "read",
+          "args": [
+            "left",
+            "right",
+            "receipt"
+          ],
+          "result": [
+            "33",
+            "5",
+            "request"
+          ]
+        }
+      ],
+      "witness": [
+        0,
+        1,
+        2,
+        4,
+        5,
+        3,
+        6
+      ]
+    },
+    {
+      "initial": {
+        "left": "35",
+        "right": "5"
+      },
+      "history": [
+        {
+          "start": 796172781019395,
+          "end": 796172791414722,
+          "kind": "read",
+          "args": [
+            "left",
+            "right",
+            "receipt"
+          ],
+          "result": [
+            "35",
+            "5",
+            null
+          ]
+        },
+        {
+          "start": 796172791418529,
+          "end": 796172794428126,
+          "kind": "cas",
+          "args": [
+            [
+              "left",
+              "35",
+              "34"
+            ],
+            [
+              "right",
+              "5",
+              "6"
+            ],
+            [
+              "receipt",
+              null,
+              "request"
+            ]
+          ],
+          "result": true
+        },
+        {
+          "start": 796172784015165,
+          "end": 796172799053070,
+          "kind": "read",
+          "args": [
+            "left",
+            "right",
+            "receipt"
+          ],
+          "result": [
+            "34",
+            "6",
+            "request"
+          ]
+        },
+        {
+          "start": 796172799058130,
+          "end": 796172799593022,
+          "kind": "cas",
+          "args": [
+            [
+              "left",
+              "34",
+              "33"
+            ],
+            [
+              "right",
+              "6",
+              "7"
+            ],
+            [
+              "receipt",
+              null,
+              "request"
+            ]
+          ],
+          "result": false
+        },
+        {
+          "start": 796172787175257,
+          "end": 796172796352999,
+          "kind": "read",
+          "args": [
+            "left",
+            "right",
+            "receipt"
+          ],
+          "result": [
+            "34",
+            "6",
+            "request"
+          ]
+        },
+        {
+          "start": 796172796356596,
+          "end": 796172796720355,
+          "kind": "cas",
+          "args": [
+            [
+              "left",
+              "34",
+              "33"
+            ],
+            [
+              "right",
+              "6",
+              "7"
+            ],
+            [
+              "receipt",
+              null,
+              "request"
+            ]
+          ],
+          "result": false
+        },
+        {
+          "start": 796172842694338,
+          "end": 796172843245161,
+          "kind": "read",
+          "args": [
+            "left",
+            "right",
+            "receipt"
+          ],
+          "result": [
+            "34",
+            "6",
+            "request"
+          ]
+        }
+      ],
+      "witness": [
+        0,
+        1,
+        2,
+        4,
+        5,
+        3,
+        6
+      ]
+    },
+    {
+      "initial": {
+        "left": "36",
+        "right": "6"
+      },
+      "history": [
+        {
+          "start": 796172949973345,
+          "end": 796172960347842,
+          "kind": "read",
+          "args": [
+            "left",
+            "right",
+            "receipt"
+          ],
+          "result": [
+            "36",
+            "6",
+            null
+          ]
+        },
+        {
+          "start": 796172960351118,
+          "end": 796172962150695,
+          "kind": "cas",
+          "args": [
+            [
+              "left",
+              "36",
+              "35"
+            ],
+            [
+              "right",
+              "6",
+              "7"
+            ],
+            [
+              "receipt",
+              null,
+              "request"
+            ]
+          ],
+          "result": true
+        },
+        {
+          "start": 796172961820119,
+          "end": 796172971470034,
+          "kind": "read",
+          "args": [
+            "left",
+            "right",
+            "receipt"
+          ],
+          "result": [
+            "35",
+            "7",
+            "request"
+          ]
+        },
+        {
+          "start": 796172971473651,
+          "end": 796172971894327,
+          "kind": "cas",
+          "args": [
+            [
+              "left",
+              "35",
+              "34"
+            ],
+            [
+              "right",
+              "7",
+              "8"
+            ],
+            [
+              "receipt",
+              null,
+              "request"
+            ]
+          ],
+          "result": false
+        },
+        {
+          "start": 796172958308382,
+          "end": 796172967685992,
+          "kind": "read",
+          "args": [
+            "left",
+            "right",
+            "receipt"
+          ],
+          "result": [
+            "35",
+            "7",
+            "request"
+          ]
+        },
+        {
+          "start": 796172967689328,
+          "end": 796172968061713,
+          "kind": "cas",
+          "args": [
+            [
+              "left",
+              "35",
+              "34"
+            ],
+            [
+              "right",
+              "7",
+              "8"
+            ],
+            [
+              "receipt",
+              null,
+              "request"
+            ]
+          ],
+          "result": false
+        },
+        {
+          "start": 796172997053718,
+          "end": 796172997878569,
+          "kind": "read",
+          "args": [
+            "left",
+            "right",
+            "receipt"
+          ],
+          "result": [
+            "35",
+            "7",
+            "request"
+          ]
+        }
+      ],
+      "witness": [
+        0,
+        1,
+        2,
+        4,
+        5,
+        3,
+        6
+      ]
+    },
+    {
+      "initial": {
+        "left": "37",
+        "right": "7"
+      },
+      "history": [
+        {
+          "start": 796173093867405,
+          "end": 796173108290524,
+          "kind": "read",
+          "args": [
+            "left",
+            "right",
+            "receipt"
+          ],
+          "result": [
+            "36",
+            "8",
+            "request"
+          ]
+        },
+        {
+          "start": 796173108295103,
+          "end": 796173108820497,
+          "kind": "cas",
+          "args": [
+            [
+              "left",
+              "36",
+              "35"
+            ],
+            [
+              "right",
+              "8",
+              "9"
+            ],
+            [
+              "receipt",
+              null,
+              "request"
+            ]
+          ],
+          "result": false
+        },
+        {
+          "start": 796173094740868,
+          "end": 796173109808367,
+          "kind": "read",
+          "args": [
+            "left",
+            "right",
+            "receipt"
+          ],
+          "result": [
+            "36",
+            "8",
+            "request"
+          ]
+        },
+        {
+          "start": 796173109813307,
+          "end": 796173111784938,
+          "kind": "cas",
+          "args": [
+            [
+              "left",
+              "36",
+              "35"
+            ],
+            [
+              "right",
+              "8",
+              "9"
+            ],
+            [
+              "receipt",
+              null,
+              "request"
+            ]
+          ],
+          "result": false
+        },
+        {
+          "start": 796173092827556,
+          "end": 796173103555582,
+          "kind": "read",
+          "args": [
+            "left",
+            "right",
+            "receipt"
+          ],
+          "result": [
+            "37",
+            "7",
+            null
+          ]
+        },
+        {
+          "start": 796173103559981,
+          "end": 796173107147841,
+          "kind": "cas",
+          "args": [
+            [
+              "left",
+              "37",
+              "36"
+            ],
+            [
+              "right",
+              "7",
+              "8"
+            ],
+            [
+              "receipt",
+              null,
+              "request"
+            ]
+          ],
+          "result": true
+        },
+        {
+          "start": 796173142553657,
+          "end": 796173143150817,
+          "kind": "read",
+          "args": [
+            "left",
+            "right",
+            "receipt"
+          ],
+          "result": [
+            "36",
+            "8",
+            "request"
+          ]
+        }
+      ],
+      "witness": [
+        4,
+        5,
+        0,
+        1,
+        2,
+        3,
+        6
+      ]
+    },
+    {
+      "initial": {
+        "left": "38",
+        "right": "8"
+      },
+      "history": [
+        {
+          "start": 796173244453390,
+          "end": 796173254737626,
+          "kind": "read",
+          "args": [
+            "left",
+            "right",
+            "receipt"
+          ],
+          "result": [
+            "38",
+            "8",
+            null
+          ]
+        },
+        {
+          "start": 796173254740892,
+          "end": 796173256966745,
+          "kind": "cas",
+          "args": [
+            [
+              "left",
+              "38",
+              "37"
+            ],
+            [
+              "right",
+              "8",
+              "9"
+            ],
+            [
+              "receipt",
+              null,
+              "request"
+            ]
+          ],
+          "result": true
+        },
+        {
+          "start": 796173247073349,
+          "end": 796173261216649,
+          "kind": "read",
+          "args": [
+            "left",
+            "right",
+            "receipt"
+          ],
+          "result": [
+            "37",
+            "9",
+            "request"
+          ]
+        },
+        {
+          "start": 796173261221208,
+          "end": 796173261746071,
+          "kind": "cas",
+          "args": [
+            [
+              "left",
+              "37",
+              "36"
+            ],
+            [
+              "right",
+              "9",
+              "10"
+            ],
+            [
+              "receipt",
+              null,
+              "request"
+            ]
+          ],
+          "result": false
+        },
+        {
+          "start": 796173245885711,
+          "end": 796173258622809,
+          "kind": "read",
+          "args": [
+            "left",
+            "right",
+            "receipt"
+          ],
+          "result": [
+            "37",
+            "9",
+            "request"
+          ]
+        },
+        {
+          "start": 796173258626777,
+          "end": 796173259090415,
+          "kind": "cas",
+          "args": [
+            [
+              "left",
+              "37",
+              "36"
+            ],
+            [
+              "right",
+              "9",
+              "10"
+            ],
+            [
+              "receipt",
+              null,
+              "request"
+            ]
+          ],
+          "result": false
+        },
+        {
+          "start": 796173287340305,
+          "end": 796173287891859,
+          "kind": "read",
+          "args": [
+            "left",
+            "right",
+            "receipt"
+          ],
+          "result": [
+            "37",
+            "9",
+            "request"
+          ]
+        }
+      ],
+      "witness": [
+        0,
+        1,
+        2,
+        4,
+        5,
+        3,
+        6
+      ]
+    },
+    {
+      "initial": {
+        "left": "39",
+        "right": "9"
+      },
+      "history": [
+        {
+          "start": 796173378627581,
+          "end": 796173388261997,
+          "kind": "read",
+          "args": [
+            "left",
+            "right",
+            "receipt"
+          ],
+          "result": [
+            "39",
+            "9",
+            null
+          ]
+        },
+        {
+          "start": 796173388264843,
+          "end": 796173390221967,
+          "kind": "cas",
+          "args": [
+            [
+              "left",
+              "39",
+              "38"
+            ],
+            [
+              "right",
+              "9",
+              "10"
+            ],
+            [
+              "receipt",
+              null,
+              "request"
+            ]
+          ],
+          "result": true
+        },
+        {
+          "start": 796173385133456,
+          "end": 796173393823294,
+          "kind": "read",
+          "args": [
+            "left",
+            "right",
+            "receipt"
+          ],
+          "result": [
+            "38",
+            "10",
+            "request"
+          ]
+        },
+        {
+          "start": 796173393826379,
+          "end": 796173396271478,
+          "kind": "cas",
+          "args": [
+            [
+              "left",
+              "38",
+              "37"
+            ],
+            [
+              "right",
+              "10",
+              "11"
+            ],
+            [
+              "receipt",
+              null,
+              "request"
+            ]
+          ],
+          "result": false
+        },
+        {
+          "start": 796173386194183,
+          "end": 796173394253287,
+          "kind": "read",
+          "args": [
+            "left",
+            "right",
+            "receipt"
+          ],
+          "result": [
+            "38",
+            "10",
+            "request"
+          ]
+        },
+        {
+          "start": 796173394255852,
+          "end": 796173394599172,
+          "kind": "cas",
+          "args": [
+            [
+              "left",
+              "38",
+              "37"
+            ],
+            [
+              "right",
+              "10",
+              "11"
+            ],
+            [
+              "receipt",
+              null,
+              "request"
+            ]
+          ],
+          "result": false
+        },
+        {
+          "start": 796173425871453,
+          "end": 796173426379605,
+          "kind": "read",
+          "args": [
+            "left",
+            "right",
+            "receipt"
+          ],
+          "result": [
+            "38",
+            "10",
+            "request"
+          ]
+        }
+      ],
+      "witness": [
+        0,
+        1,
+        2,
+        3,
+        4,
+        5,
+        6
+      ]
+    },
+    {
+      "initial": {
+        "left": "40",
+        "right": "10"
+      },
+      "history": [
+        {
+          "start": 796173538215035,
+          "end": 796173547933389,
+          "kind": "read",
+          "args": [
+            "left",
+            "right",
+            "receipt"
+          ],
+          "result": [
+            "39",
+            "11",
+            "request"
+          ]
+        },
+        {
+          "start": 796173547936996,
+          "end": 796173548339117,
+          "kind": "cas",
+          "args": [
+            [
+              "left",
+              "39",
+              "38"
+            ],
+            [
+              "right",
+              "11",
+              "12"
+            ],
+            [
+              "receipt",
+              null,
+              "request"
+            ]
+          ],
+          "result": false
+        },
+        {
+          "start": 796173528840721,
+          "end": 796173540931096,
+          "kind": "read",
+          "args": [
+            "left",
+            "right",
+            "receipt"
+          ],
+          "result": [
+            "39",
+            "11",
+            "request"
+          ]
+        },
+        {
+          "start": 796173540934873,
+          "end": 796173541469274,
+          "kind": "cas",
+          "args": [
+            [
+              "left",
+              "39",
+              "38"
+            ],
+            [
+              "right",
+              "11",
+              "12"
+            ],
+            [
+              "receipt",
+              null,
+              "request"
+            ]
+          ],
+          "result": false
+        },
+        {
+          "start": 796173526961695,
+          "end": 796173537708646,
+          "kind": "read",
+          "args": [
+            "left",
+            "right",
+            "receipt"
+          ],
+          "result": [
+            "40",
+            "10",
+            null
+          ]
+        },
+        {
+          "start": 796173537711682,
+          "end": 796173540199711,
+          "kind": "cas",
+          "args": [
+            [
+              "left",
+              "40",
+              "39"
+            ],
+            [
+              "right",
+              "10",
+              "11"
+            ],
+            [
+              "receipt",
+              null,
+              "request"
+            ]
+          ],
+          "result": true
+        },
+        {
+          "start": 796173570128219,
+          "end": 796173570692958,
+          "kind": "read",
+          "args": [
+            "left",
+            "right",
+            "receipt"
+          ],
+          "result": [
+            "39",
+            "11",
+            "request"
+          ]
+        }
+      ],
+      "witness": [
+        4,
+        5,
+        0,
+        2,
+        3,
+        1,
+        6
+      ]
+    },
+    {
+      "initial": {
+        "left": "41",
+        "right": "11"
+      },
+      "history": [
+        {
+          "start": 796173659342051,
+          "end": 796173667947810,
+          "kind": "read",
+          "args": [
+            "left",
+            "right",
+            "receipt"
+          ],
+          "result": [
+            "41",
+            "11",
+            null
+          ]
+        },
+        {
+          "start": 796173667950505,
+          "end": 796173670797513,
+          "kind": "cas",
+          "args": [
+            [
+              "left",
+              "41",
+              "40"
+            ],
+            [
+              "right",
+              "11",
+              "12"
+            ],
+            [
+              "receipt",
+              null,
+              "request"
+            ]
+          ],
+          "result": true
+        },
+        {
+          "start": 796173664409693,
+          "end": 796173673771623,
+          "kind": "read",
+          "args": [
+            "left",
+            "right",
+            "receipt"
+          ],
+          "result": [
+            "40",
+            "12",
+            "request"
+          ]
+        },
+        {
+          "start": 796173673774739,
+          "end": 796173674205704,
+          "kind": "cas",
+          "args": [
+            [
+              "left",
+              "40",
+              "39"
+            ],
+            [
+              "right",
+              "12",
+              "13"
+            ],
+            [
+              "receipt",
+              null,
+              "request"
+            ]
+          ],
+          "result": false
+        },
+        {
+          "start": 796173676892770,
+          "end": 796173687774828,
+          "kind": "read",
+          "args": [
+            "left",
+            "right",
+            "receipt"
+          ],
+          "result": [
+            "40",
+            "12",
+            "request"
+          ]
+        },
+        {
+          "start": 796173687778825,
+          "end": 796173688223968,
+          "kind": "cas",
+          "args": [
+            [
+              "left",
+              "40",
+              "39"
+            ],
+            [
+              "right",
+              "12",
+              "13"
+            ],
+            [
+              "receipt",
+              null,
+              "request"
+            ]
+          ],
+          "result": false
+        },
+        {
+          "start": 796173714876876,
+          "end": 796173715460440,
+          "kind": "read",
+          "args": [
+            "left",
+            "right",
+            "receipt"
+          ],
+          "result": [
+            "40",
+            "12",
+            "request"
+          ]
+        }
+      ],
+      "witness": [
+        0,
+        1,
+        2,
+        3,
+        4,
+        5,
+        6
+      ]
+    }
+  ]
+}

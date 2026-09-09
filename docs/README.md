@@ -91,3 +91,6 @@ Full experimental coder training: [verified repair data to LoRA to paired evalua
 - [Delegated resource authority](resource-authority-amendment-2026-09-09.md): host-issued attenuated resource handles, revocation and native enforcement.
 
 - [Verified request identity](request-identity-amendment-2026-09-09.md): operator-provisioned subjects, tenant-bound sessions, per-request authorization, expiry and revocation.
+
+[Transaction outcome and cancellation amendment](transaction-outcomes-amendment-2026-09-09.md)
+defines publication, acknowledgment and receipt-based reconciliation boundaries.

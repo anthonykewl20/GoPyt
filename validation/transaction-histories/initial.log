@@ -1,0 +1,161 @@
+test_process_histories (gopyt.test_transaction_histories.ConcurrentHistories.test_process_histories) ... ok
+test_thread_histories (gopyt.test_transaction_histories.ConcurrentHistories.test_thread_histories) ... ok
+test_process_histories (gopyt.test_transaction_histories.EncryptedHistories.test_process_histories) ... ok
+test_thread_histories (gopyt.test_transaction_histories.EncryptedHistories.test_thread_histories) ... ok
+test_absence_empty_deletion_and_read_conditions (gopyt.test_transaction_histories.HistoryOracle.test_absence_empty_deletion_and_read_conditions) ... ok
+test_accepts_overlap_and_respects_completed_before_invoked (gopyt.test_transaction_histories.HistoryOracle.test_accepts_overlap_and_respects_completed_before_invoked) ... ok
+test_bounded_input (gopyt.test_transaction_histories.HistoryOracle.test_bounded_input) ... ok
+test_rejects_double_success_torn_read_and_false_conflict (gopyt.test_transaction_histories.HistoryOracle.test_rejects_double_success_torn_read_and_false_conflict) ... ok
+test_cancellation_before_call_has_no_effect (gopyt.test_transaction_cancellation.TransactionCancellation.test_cancellation_before_call_has_no_effect) ... ERROR
+test_cancellation_can_hide_post_replace_db_error (gopyt.test_transaction_cancellation.TransactionCancellation.test_cancellation_can_hide_post_replace_db_error) ... ERROR
+test_cancellation_during_native_does_not_roll_back_commit (gopyt.test_transaction_cancellation.TransactionCancellation.test_cancellation_during_native_does_not_roll_back_commit) ... ERROR
+test_parallel_timeout_waits_for_admitted_publication_then_traps (gopyt.test_transaction_cancellation.TransactionCancellation.test_parallel_timeout_waits_for_admitted_publication_then_traps) ... ERROR
+
+======================================================================
+ERROR: test_cancellation_before_call_has_no_effect (gopyt.test_transaction_cancellation.TransactionCancellation.test_cancellation_before_call_has_no_effect)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/home/soultransit/devtony/gopyt-milestone-work/gopyt/test_transaction_cancellation.py", line 53, in setUp
+    _, art, self.ids = build(self.root)
+                       ~~~~~^^^^^^^^^^^
+  File "/home/soultransit/devtony/gopyt-milestone-work/gopyt/transaction.py", line 114, in wrapped
+    return fn(root, *args, **kwargs)
+  File "/home/soultransit/devtony/gopyt-milestone-work/gopyt/cli.py", line 50, in build
+    prog = check_package(pkg)
+  File "/home/soultransit/devtony/gopyt-milestone-work/gopyt/check.py", line 2452, in check_package
+    ck.check_functions()
+    ~~~~~~~~~~~~~~~~~~^^
+  File "/home/soultransit/devtony/gopyt-milestone-work/gopyt/check.py", line 2332, in _check_functions
+    fc = FnChecker(self, sig, targs).run()
+  File "/home/soultransit/devtony/gopyt-milestone-work/gopyt/check.py", line 1340, in run
+    term = self.block(self.fc.body)
+  File "/home/soultransit/devtony/gopyt-milestone-work/gopyt/check.py", line 1400, in block
+    term = self.stmt(st)
+  File "/home/soultransit/devtony/gopyt-milestone-work/gopyt/check.py", line 1419, in stmt
+    ty = self.expr(st.expr, self.fc.ret)
+  File "/home/soultransit/devtony/gopyt-milestone-work/gopyt/check.py", line 1502, in expr
+    return self.parallel(e, expect)
+           ~~~~~~~~~~~~~^^^^^^^^^^^
+  File "/home/soultransit/devtony/gopyt-milestone-work/gopyt/check.py", line 1789, in parallel
+    self.use_effect(frozenset({"time"}), line)
+    ~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/soultransit/devtony/gopyt-milestone-work/gopyt/check.py", line 1312, in use_effect
+    raise err(50, self.m.file, line)
+gopyt.diag.CompileError: GOPYT_E050 effect_missing
+file: impl/demo.gopyt
+line: 27
+repair-bytes: 0
+
+
+======================================================================
+ERROR: test_cancellation_can_hide_post_replace_db_error (gopyt.test_transaction_cancellation.TransactionCancellation.test_cancellation_can_hide_post_replace_db_error)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/home/soultransit/devtony/gopyt-milestone-work/gopyt/test_transaction_cancellation.py", line 53, in setUp
+    _, art, self.ids = build(self.root)
+                       ~~~~~^^^^^^^^^^^
+  File "/home/soultransit/devtony/gopyt-milestone-work/gopyt/transaction.py", line 114, in wrapped
+    return fn(root, *args, **kwargs)
+  File "/home/soultransit/devtony/gopyt-milestone-work/gopyt/cli.py", line 50, in build
+    prog = check_package(pkg)
+  File "/home/soultransit/devtony/gopyt-milestone-work/gopyt/check.py", line 2452, in check_package
+    ck.check_functions()
+    ~~~~~~~~~~~~~~~~~~^^
+  File "/home/soultransit/devtony/gopyt-milestone-work/gopyt/check.py", line 2332, in _check_functions
+    fc = FnChecker(self, sig, targs).run()
+  File "/home/soultransit/devtony/gopyt-milestone-work/gopyt/check.py", line 1340, in run
+    term = self.block(self.fc.body)
+  File "/home/soultransit/devtony/gopyt-milestone-work/gopyt/check.py", line 1400, in block
+    term = self.stmt(st)
+  File "/home/soultransit/devtony/gopyt-milestone-work/gopyt/check.py", line 1419, in stmt
+    ty = self.expr(st.expr, self.fc.ret)
+  File "/home/soultransit/devtony/gopyt-milestone-work/gopyt/check.py", line 1502, in expr
+    return self.parallel(e, expect)
+           ~~~~~~~~~~~~~^^^^^^^^^^^
+  File "/home/soultransit/devtony/gopyt-milestone-work/gopyt/check.py", line 1789, in parallel
+    self.use_effect(frozenset({"time"}), line)
+    ~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/soultransit/devtony/gopyt-milestone-work/gopyt/check.py", line 1312, in use_effect
+    raise err(50, self.m.file, line)
+gopyt.diag.CompileError: GOPYT_E050 effect_missing
+file: impl/demo.gopyt
+line: 27
+repair-bytes: 0
+
+
+======================================================================
+ERROR: test_cancellation_during_native_does_not_roll_back_commit (gopyt.test_transaction_cancellation.TransactionCancellation.test_cancellation_during_native_does_not_roll_back_commit)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/home/soultransit/devtony/gopyt-milestone-work/gopyt/test_transaction_cancellation.py", line 53, in setUp
+    _, art, self.ids = build(self.root)
+                       ~~~~~^^^^^^^^^^^
+  File "/home/soultransit/devtony/gopyt-milestone-work/gopyt/transaction.py", line 114, in wrapped
+    return fn(root, *args, **kwargs)
+  File "/home/soultransit/devtony/gopyt-milestone-work/gopyt/cli.py", line 50, in build
+    prog = check_package(pkg)
+  File "/home/soultransit/devtony/gopyt-milestone-work/gopyt/check.py", line 2452, in check_package
+    ck.check_functions()
+    ~~~~~~~~~~~~~~~~~~^^
+  File "/home/soultransit/devtony/gopyt-milestone-work/gopyt/check.py", line 2332, in _check_functions
+    fc = FnChecker(self, sig, targs).run()
+  File "/home/soultransit/devtony/gopyt-milestone-work/gopyt/check.py", line 1340, in run
+    term = self.block(self.fc.body)
+  File "/home/soultransit/devtony/gopyt-milestone-work/gopyt/check.py", line 1400, in block
+    term = self.stmt(st)
+  File "/home/soultransit/devtony/gopyt-milestone-work/gopyt/check.py", line 1419, in stmt
+    ty = self.expr(st.expr, self.fc.ret)
+  File "/home/soultransit/devtony/gopyt-milestone-work/gopyt/check.py", line 1502, in expr
+    return self.parallel(e, expect)
+           ~~~~~~~~~~~~~^^^^^^^^^^^
+  File "/home/soultransit/devtony/gopyt-milestone-work/gopyt/check.py", line 1789, in parallel
+    self.use_effect(frozenset({"time"}), line)
+    ~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/soultransit/devtony/gopyt-milestone-work/gopyt/check.py", line 1312, in use_effect
+    raise err(50, self.m.file, line)
+gopyt.diag.CompileError: GOPYT_E050 effect_missing
+file: impl/demo.gopyt
+line: 27
+repair-bytes: 0
+
+
+======================================================================
+ERROR: test_parallel_timeout_waits_for_admitted_publication_then_traps (gopyt.test_transaction_cancellation.TransactionCancellation.test_parallel_timeout_waits_for_admitted_publication_then_traps)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/home/soultransit/devtony/gopyt-milestone-work/gopyt/test_transaction_cancellation.py", line 53, in setUp
+    _, art, self.ids = build(self.root)
+                       ~~~~~^^^^^^^^^^^
+  File "/home/soultransit/devtony/gopyt-milestone-work/gopyt/transaction.py", line 114, in wrapped
+    return fn(root, *args, **kwargs)
+  File "/home/soultransit/devtony/gopyt-milestone-work/gopyt/cli.py", line 50, in build
+    prog = check_package(pkg)
+  File "/home/soultransit/devtony/gopyt-milestone-work/gopyt/check.py", line 2452, in check_package
+    ck.check_functions()
+    ~~~~~~~~~~~~~~~~~~^^
+  File "/home/soultransit/devtony/gopyt-milestone-work/gopyt/check.py", line 2332, in _check_functions
+    fc = FnChecker(self, sig, targs).run()
+  File "/home/soultransit/devtony/gopyt-milestone-work/gopyt/check.py", line 1340, in run
+    term = self.block(self.fc.body)
+  File "/home/soultransit/devtony/gopyt-milestone-work/gopyt/check.py", line 1400, in block
+    term = self.stmt(st)
+  File "/home/soultransit/devtony/gopyt-milestone-work/gopyt/check.py", line 1419, in stmt
+    ty = self.expr(st.expr, self.fc.ret)
+  File "/home/soultransit/devtony/gopyt-milestone-work/gopyt/check.py", line 1502, in expr
+    return self.parallel(e, expect)
+           ~~~~~~~~~~~~~^^^^^^^^^^^
+  File "/home/soultransit/devtony/gopyt-milestone-work/gopyt/check.py", line 1789, in parallel
+    self.use_effect(frozenset({"time"}), line)
+    ~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/soultransit/devtony/gopyt-milestone-work/gopyt/check.py", line 1312, in use_effect
+    raise err(50, self.m.file, line)
+gopyt.diag.CompileError: GOPYT_E050 effect_missing
+file: impl/demo.gopyt
+line: 27
+repair-bytes: 0
+
+
+----------------------------------------------------------------------
+Ran 12 tests in 3.407s
+
+FAILED (errors=4)
