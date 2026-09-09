@@ -1,0 +1,20 @@
+{
+  "version": 1,
+  "phases": ["slow_clients", "saturation", "cancellation_storm", "lock_contention", "shutdown_write"],
+  "warmup_episodes": 3,
+  "minimum_measured_episodes_per_phase": 30,
+  "minimum_measured_seconds_per_phase": 60,
+  "sample_seconds": 0.05,
+  "http_workers": 64,
+  "http_queue": 1024,
+  "storm_groups": 8,
+  "storm_arms_per_group": 8,
+  "lock_callers": 32,
+  "coordination_watchdog_seconds": 10,
+  "maximum_episode_seconds": 20,
+  "maximum_post_gc_fd_growth": 0,
+  "maximum_post_gc_thread_growth": 0,
+  "maximum_post_gc_child_growth": 0,
+  "maximum_post_gc_rss_growth_bytes": 67108864,
+  "scope": "Controlled Linux runtime stress; episode latency includes setup, compilation, coordination and cleanup. Not a production request-latency SLO, aggregate memory guarantee, disaster recovery or security audit."
+}
