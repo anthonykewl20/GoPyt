@@ -113,3 +113,6 @@ arithmetic, explicit rounding, currency validation and decimal text boundaries.
 
 [Typed time amendment](time-amendment-2026-09-10.md) defines nanosecond timestamps,
 durations, explicit-offset serialization, clock origins and anomaly behavior.
+
+[Combined numeric/time qualification](numeric-time-qualification.md) maps issue
+#17 to its implementation, independent oracles, full data trials and limits.
