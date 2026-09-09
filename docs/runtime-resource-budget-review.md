@@ -67,13 +67,44 @@ also do not establish an aggregate application object-graph limit. Serialization
 scratch space, sorting keys, decoding and success-path copies must be counted
 separately from final payload limits.
 
-Before checking A2, complete the boundary inventory for HTTP request/header and
-trailer parsing, generated conversions, local model/provider buffering, and
-persistent evolution candidate/cache accumulation. Classify each as fixed,
-configured, caller-owned, or still unbounded; retain supporting source and focused
-boundary evidence. In particular, a body cap alone is not proof of a total HTTP
-connection-memory cap. Review all native groups in the deadline inventory rather
-than inferring completeness from networking tests.
+The follow-up review found the following boundaries:
+
+- **HTTP parsing:** the pinned Python 3.11.16 and 3.14.7 implementations limit
+  request lines to 65,536 bytes and header lines to 65,536 bytes each. The header
+  parser accepts at most 100 lines including the terminating blank line (99
+  ordinary headers plus terminator). It materializes the lines and parsed header
+  objects, so the 1 MiB body cap is not the whole connection buffer budget.
+  Outbound chunked trailers have a 65,536-byte line limit and at most 100
+  nonterminating lines; the parser discards them. GoPyt rejects inbound
+  Transfer-Encoding with 400. These are pinned-host parser policies, not a new
+  GoPyt aggregate-memory guarantee. The [12 boundary probes on each pinned
+  Python](../validation/resource-budget-review/README.md) verify parser limits,
+  wire rejection before handler invocation, and recovery.
+- **Generated/ordinary conversions:** `data.json.encode` and the generated Json
+  provide call ordinary `jsonc.encode`, whose StringIO output has no configured
+  byte limit. Ordinary decode materializes the parsed graph and typed result;
+  input size does not bound the combined object overhead or all intermediate
+  buffers. These paths do not inherit the HTTP response encoder's 8 MiB / depth
+  128 limits. A2 needs an explicit conversion allocation policy and enforcement,
+  with compatibility and boundary tests.
+- **Local model provider:** the shipped wrapper delegates to optional
+  `peon.local.complete`; the language-only installation does not bundle that
+  provider. Missing providers produce typed ModelError. The wrapper does not
+  establish a provider memory or output budget; optional-provider qualification
+  must cover the separately installed implementation.
+- **Evolution retention:** current generation produces at most four candidate
+  edit sets (also capped by declared max). Each wave writes snapshots beneath
+  `evolve/<package-digest>/candidate_<index>`. A repeated candidate at the same
+  digest replaces its tree, but old digest directories are not reclaimed.
+  `weights.json` reads are capped at 4,097 bytes for a 4,096-byte acceptance
+  limit; that cap does not cover candidate trees. Accumulation across distinct
+  package digests remains unbounded on disk, including interrupted preparation.
+  A2/A3 need a defined retention/cleanup policy that preserves admitted apply
+  ownership and does not delete another proposal's active candidate.
+
+A2 remains open for the explicit conversion and evolution policies above and
+completion of the native-group coverage review. Aggregate application memory
+cannot be inferred from the independent payload limits in the table.
 
 A3 still requires a cleanup-ownership review covering server admission/drain,
 worker and child joins, descriptor release, and durable commit acknowledgment.
