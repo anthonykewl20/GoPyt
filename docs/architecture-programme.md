@@ -82,3 +82,6 @@ Release provenance: [workflow, verification and withdrawal policy](release-prove
 [Installed release component inventory](component-inventory.md) retains bundled metadata and its current coverage limits under #23.
 
 Finite floating-point boundaries are specified by the [binary64 amendment](finite-f64-amendment-2026-09-10.md). Overflowing literals and nonfinite bytecode/host/native values are rejected. Issue #17 remains open for exact money, typed time and real-data qualification.
+
+The [money amendment](money-amendment-2026-09-10.md) adds exact fixed-point monetary
+operations. Typed time and full numeric/time data qualification remain open in #17.

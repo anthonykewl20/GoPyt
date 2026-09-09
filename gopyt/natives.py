@@ -743,6 +743,9 @@ class _NativeTable(dict):
         return default
 
 
+from gopyt.money import install as _install_money
+
+_install_money(NATIVES)
 NATIVES = _NativeTable(NATIVES)
 
 

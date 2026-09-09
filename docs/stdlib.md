@@ -515,3 +515,46 @@ net.http.request(req)
 GoPyT compiler and VM. It adds no language syntax, native signatures, bytecode
 version or GoPyT CLI commands. Model output remains subject to explicit grants
 and real checks; local execution is not an adversarial OS sandbox.
+
+## Exact monetary values
+
+See [the fixed-point amendment](money-amendment-2026-09-10.md) for bounds, rounding
+and validation. Currency codes are caller-assigned; no exchange-rate or currency
+registry policy is inferred.
+
+```
+module core.money
+
+use core.status { ConvertError }
+
+type Money {
+    units: i64
+    scale: i64
+    currency: str
+}
+
+enum Rounding {
+    Exact
+    HalfEven
+    HalfAway
+    TowardZero
+    Floor
+    Ceiling
+}
+
+fn make(units: i64, scale: i64, currency: str) -> Money | ConvertError
+
+fn parse(text: str, scale: i64, currency: str, rounding: Rounding) -> Money | ConvertError
+
+fn format(value: Money) -> str | ConvertError
+
+fn add(left: Money, right: Money) -> Money | ConvertError
+
+fn subtract(left: Money, right: Money) -> Money | ConvertError
+
+fn compare(left: Money, right: Money) -> i64 | ConvertError
+
+fn rescale(value: Money, scale: i64, rounding: Rounding) -> Money | ConvertError
+
+fn multiply_ratio(value: Money, numerator: i64, denominator: i64, rounding: Rounding) -> Money | ConvertError
+```

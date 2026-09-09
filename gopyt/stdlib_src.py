@@ -110,6 +110,41 @@ fn to_i32(value: i64) -> i32 | ConvertError
 fn to_u32(value: i64) -> u32 | ConvertError
 fn to_u64(value: i64) -> u64 | ConvertError
 """,
+    'core.money': """module core.money
+
+use core.status { ConvertError }
+
+type Money {
+    units: i64
+    scale: i64
+    currency: str
+}
+
+enum Rounding {
+    Exact
+    HalfEven
+    HalfAway
+    TowardZero
+    Floor
+    Ceiling
+}
+
+fn make(units: i64, scale: i64, currency: str) -> Money | ConvertError
+
+fn parse(text: str, scale: i64, currency: str, rounding: Rounding) -> Money | ConvertError
+
+fn format(value: Money) -> str | ConvertError
+
+fn add(left: Money, right: Money) -> Money | ConvertError
+
+fn subtract(left: Money, right: Money) -> Money | ConvertError
+
+fn compare(left: Money, right: Money) -> i64 | ConvertError
+
+fn rescale(value: Money, scale: i64, rounding: Rounding) -> Money | ConvertError
+
+fn multiply_ratio(value: Money, numerator: i64, denominator: i64, rounding: Rounding) -> Money | ConvertError
+""",
     'core.convert': """module core.convert
 
 use core.status { ConvertError }
