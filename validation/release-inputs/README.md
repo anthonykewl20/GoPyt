@@ -43,3 +43,7 @@ wheel trials use exact frozen input/epoch identities and byte comparisons. Their
 success does not establish reproducibility for arbitrary host versions, signed
 publisher provenance, data rollback safety or universal correctness. Deliberate
 negative controls are retained; unintentional failures, if any, remain visible.
+
+The local Python 3.11.16 archive installation subsequently completed successfully;
+`python31116-install.json` records the verified size/hash/version and local path.
+The final CI matrix also qualified both selected interpreter versions.

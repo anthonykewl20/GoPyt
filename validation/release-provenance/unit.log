@@ -1,0 +1,11 @@
+test_abbreviated_source_and_symlink_rejected (gopyt.test_release_provenance.ReleaseVerificationTests.test_abbreviated_source_and_symlink_rejected) ... ok
+test_hash_mismatch_rejected_before_attestation (gopyt.test_release_provenance.ReleaseVerificationTests.test_hash_mismatch_rejected_before_attestation) ... ok
+test_missing_or_malformed_policy_fails_closed (gopyt.test_release_provenance.ReleaseVerificationTests.test_missing_or_malformed_policy_fails_closed) ... ok
+test_revoked_source_or_artifact_rejected (gopyt.test_release_provenance.ReleaseVerificationTests.test_revoked_source_or_artifact_rejected) ... ok
+test_signature_failure_cannot_be_accepted (gopyt.test_release_provenance.ReleaseVerificationTests.test_signature_failure_cannot_be_accepted) ... ok
+test_verifier_constrains_signed_identity (gopyt.test_release_provenance.ReleaseVerificationTests.test_verifier_constrains_signed_identity) ... ok
+
+----------------------------------------------------------------------
+Ran 6 tests in 0.008s
+
+OK

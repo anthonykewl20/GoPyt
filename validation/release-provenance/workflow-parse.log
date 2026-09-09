@@ -1,0 +1,3 @@
+YAML parsed. Manual trigger and nine steps verified.
+Initial inspection asserted ten steps and failed; inspection confirmed nine intended steps. No workflow change was needed.
+All run steps passed bash -n shell syntax validation.
