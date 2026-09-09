@@ -194,7 +194,7 @@ def serve(vm, module: str):
 
         def _empty(self, status: int) -> None:
             if status in (400, 401, 403, 404, 413, 503):
-                vm.observe.http(getattr(self, "route_tag", "unmatched"), str(status), 0.0)
+                vm.observe.http(getattr(self, "route_tag", "unmatched"), str(status), 0.0, context=vm)
             self.send_response(status)
             self.send_header("Content-Length", "0")
             if status == 401:
@@ -320,21 +320,21 @@ def serve(vm, module: str):
                         status = (503 if error.code == ops.TRAP_PAR_MAX else
                                   504 if error.code == ops.TRAP_TIMEOUT else 500)
                         if status != 503:  # _empty records overload admission itself.
-                            vm.observe.http(self.route_tag, str(status), (_time.monotonic() - started) * 1000.0)
+                            vm.observe.http(self.route_tag, str(status), (_time.monotonic() - started) * 1000.0, context=vm)
                         self._empty(status)
                         return
                     if isinstance(result, Unit):
-                        vm.observe.http(self.route_tag, "ok", (_time.monotonic() - started) * 1000.0)
+                        vm.observe.http(self.route_tag, "ok", (_time.monotonic() - started) * 1000.0, context=vm)
                         self._empty(200)
                         return
                     try:
                         text = jsonc.encode(vm.art, result, func.ret)
                     except (ConvertFail, NotJson):
-                        vm.observe.http(self.route_tag, "ConvertError", (_time.monotonic() - started) * 1000.0)
+                        vm.observe.http(self.route_tag, "ConvertError", (_time.monotonic() - started) * 1000.0, context=vm)
                         self._empty(500)
                         return
                     raw = text.encode("utf-8")
-                    vm.observe.http(self.route_tag, "ok", (_time.monotonic() - started) * 1000.0)
+                    vm.observe.http(self.route_tag, "ok", (_time.monotonic() - started) * 1000.0, context=vm)
                     self.send_response(200)
                     self.send_header("Content-Type", "application/json")
                     self.send_header("Content-Length", str(len(raw)))
@@ -417,7 +417,7 @@ def serve(vm, module: str):
             except queue.Full:
                 try:
                     request.sendall(b"HTTP/1.1 503 Service Unavailable\r\nContent-Length: 0\r\nConnection: close\r\n\r\n")
-                    vm.observe.http("unmatched", "503", 0.0)
+                    vm.observe.http("unmatched", "503", 0.0, context=vm)
                 finally:
                     self.shutdown_request(request)
                     with self.connection_lock:

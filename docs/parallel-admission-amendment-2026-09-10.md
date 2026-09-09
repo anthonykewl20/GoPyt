@@ -252,7 +252,8 @@ after successful admission rather than before a potentially long lock wait.
 Every admitted critical section releases this lock when its body returns or
 raises. Expiration after an operation has been admitted cannot undo its state
 changes. This admission rule does not promise FIFO fairness or extend to
-unrelated heap/observation locks and cleanup barriers. Evolution preparation and apply follow the additional rules below.
+unrelated heap locks and cleanup barriers. Evolution and observation admission
+follow the additional rules below.
 
 
 ## Evolution wave deadlines and cleanup
@@ -291,3 +292,30 @@ committed source change; missing `Applied` does not establish rollback. Existing
 source-authority checks, next-process activation and transaction reconciliation
 rules remain in force. This does not establish aggregate cache/memory bounds or
 complete all-native shutdown qualification.
+
+
+## Observation admission and terminal telemetry
+
+VM task counters, explicit notes, denial events, outcome events, reports and
+evolution snapshots acquire the observation lock with inherited cancellation and
+deadline checks. Requested waits are at most 50 ms, capped by remaining time; a
+second check after acquisition prevents an expired waiter from updating sketches
+or reading a snapshot. Standalone host observations, snapshots and trace dumps
+without a VM context retain their synchronous behavior.
+
+Trap and HTTP outcome telemetry also consumes the caller's budget, but cannot
+replace an existing application trap or transport outcome with a telemetry
+admission timeout. If its context cannot admit that telemetry, the event is
+omitted. The original trap still propagates; there is no second blocking attempt
+while unwinding. No deferred event queue or background writer is created. Counts
+and reservoirs therefore describe admitted observations, not a lossless audit log
+of cancelled/expired operations. In particular, overload/timeout telemetry must
+not be treated as an exact count of requests whose responses were lost.
+
+Once an observation update is admitted, its bounded sketch update finishes and
+the lock releases. Existing Welford, Count-Min, Bloom, CUSUM and reservoir
+algorithms are unchanged. An operation may have changed application state before
+outcome telemetry expires; a missing result does not establish rollback. An
+unreturned result's heap handoff is released during error cleanup. Heap cleanup
+and OS scheduling remain separate barriers; this admission policy does not claim
+hard physical latency or complete all-native resource qualification.

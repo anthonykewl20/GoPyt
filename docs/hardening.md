@@ -24,6 +24,8 @@ An app (e.g. authentication) that keeps running must **collect bounded real tele
 
 Compiler abstract interpretation (Cousot & Cousot 1977) stays on `gopyt check`. Runtime does **not** run a theorem prover per request.
 
+Amended by [observation admission and terminal telemetry](parallel-admission-amendment-2026-09-10.md#observation-admission-and-terminal-telemetry): cancelled or expired contexts may omit terminal telemetry; sketches are not lossless audit logs.
+
 ## Effect `observe`
 
 Local sketches + reservoir only. No stderr, no network. Bit 11.
