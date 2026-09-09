@@ -5,7 +5,7 @@ Scope: the GoPyT language, runtime, Guard and tools. Model training is excluded.
 
 The [2026-09-09 checklist review](architecture-checklist-review-2026-09-09.md)
 maps all 193 original milestone/tracker checkboxes to the merged source and
-retained or newly executed evidence. Three individual criteria are supported;
+retained or newly executed evidence. At that baseline, three criteria were supported;
 all 24 architectural issues remain open. It records three reproduced native or
 configuration error-boundary defects and distinguishes existing v0 behavior
 from requested extensions and deployment decisions. GitHub dependency links
@@ -19,7 +19,7 @@ remain open; the historical checklist review describes its pinned baseline.
 
 | Gap | Required outcome | Current increment |
 | --- | --- | --- |
-| Resource capabilities | Non-forgeable, least-privilege authority across database, filesystem and network; revocation and delegation semantics | Host-owned database namespace policy implemented; remaining resources and language-level delegation open |
+| Resource capabilities | Non-forgeable, least-privilege authority across database, filesystem and network; revocation and delegation semantics | Host-issued delegated DB/file/network/secret/listen authority implemented; authenticated tenant integration and independent qualification remain open |
 | Resource lifetimes | Safe close, sharing and view lifetimes; bounded native-memory accounting; cancellation cleanup | Design gate open; mapped prototype remains outside the runtime |
 | Transactional data | Atomic multi-record changes, consistent reads, recovery, schema evolution and a scalable backend | Bounded multi-key CAS and snapshot reads implemented; snapshot scalability and schema APIs open |
 | Identity and keys | Tenant authorization, credential provisioning, rotation, migration and rollback detection | Bounded keyring and authenticated rekey implemented; tenant identity, plaintext migration and rollback detection open |
@@ -56,3 +56,8 @@ with a direct SQLite path without a sidecar/confinement design is not equivalent
 No new runtime dependency is selected by reference research. The existing SQLite
 host module and separately selected cryptography extra remain the implementation
 facilities for this increment.
+
+[Delegated resource authority](resource-authority-amendment-2026-09-09.md) adds
+host-issued handles and inherited per-call scope. GoPyT code cannot construct or
+widen these handles. Existing namespace policy and source egress remain required
+where configured; this is not authenticated tenant identity or OS isolation.

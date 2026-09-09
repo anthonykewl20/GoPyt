@@ -8,6 +8,7 @@ from __future__ import annotations
 
 import struct
 import threading
+from contextlib import contextmanager
 from dataclasses import dataclass, field
 
 from gopyt import gobyte, ops
@@ -41,11 +42,16 @@ class Frame:
 
 
 class VM:
-    def __init__(self, art: Artifact, root: str | None = None) -> None:
+    def __init__(self, art: Artifact, root: str | None = None, *, authority=None) -> None:
         import sys
         from gopyt.limiter import Limiter
         from gopyt.heap import Heap
         from gopyt.storage import Store
+        from gopyt.resource_authority import ResourceAuthority
+
+        if authority is not None and type(authority) is not ResourceAuthority:
+            raise TypeError('authority must be a host ResourceAuthority handle')
+        self._authority = authority
 
         if sys.getrecursionlimit() < 8192:
             sys.setrecursionlimit(8192)
@@ -77,6 +83,28 @@ class VM:
         verify_natives(art)
 
     # -- helpers ---------------------------------------------------------
+
+    @property
+    def authority(self):
+        return getattr(self._tl, 'authority', self._authority)
+
+    @contextmanager
+    def authority_scope(self, authority):
+        """Host-only attenuation for one call tree, inherited by task children."""
+        from gopyt.resource_authority import ResourceAuthority, AuthorityError
+        previous = self.authority
+        if (type(authority) is not ResourceAuthority
+                or previous is not None and not authority.is_descendant_of(previous)):
+            raise AuthorityError('scope requires a descendant authority')
+        self._tl.authority = authority
+        try:
+            yield
+        finally:
+            self._tl.authority = previous
+
+    def allows_resources(self, *requests):
+        authority = self.authority
+        return authority is None or authority.admits(requests)
 
     @property
     def depth(self) -> int:
@@ -181,7 +209,9 @@ class VM:
                 native = self.natives.get(self.names[fn_id])
                 if native is None:
                     raise gobyte.e100()
-                result = native(self, args, func)
+                from gopyt.natives import resource_denial
+                denial = resource_denial(self, self.names[fn_id], args)
+                result = denial if denial is not None else native(self, args, func)
                 if any(cancel.is_set() for cancel in self.cancels):
                     raise Cancelled()
                 return result
@@ -464,10 +494,12 @@ class VM:
         schedule = threading.Lock()
 
         inherited = self.cancels
+        authority = self.authority
 
         def worker() -> None:
             try:
                 self.cancels = inherited + (stop,)
+                self._tl.authority = authority
                 while True:
                     with schedule:
                         if any(cancel.is_set() for cancel in self.cancels):

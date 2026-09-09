@@ -1,0 +1,28 @@
+test_restricted_vm_never_enters_evolution_host_code (gopyt.test_resource_authority.EvolutionAuthority.test_restricted_vm_never_enters_evolution_host_code) ... ok
+test_attenuation_and_namespace_boundaries (gopyt.test_resource_authority.Grants.test_attenuation_and_namespace_boundaries) ... ok
+test_invalid_grants_and_bounded_delegation (gopyt.test_resource_authority.Grants.test_invalid_grants_and_bounded_delegation) ... ok
+test_parent_revocation_and_sibling_independence (gopyt.test_resource_authority.Grants.test_parent_revocation_and_sibling_independence) ... ok
+test_operator_grant_does_not_replace_source_egress (gopyt.test_resource_authority.NetworkCalls.test_operator_grant_does_not_replace_source_egress) ... ok
+test_real_http_and_model_egress_require_operator_and_source_grants (gopyt.test_resource_authority.NetworkCalls.test_real_http_and_model_egress_require_operator_and_source_grants) ... ok
+test_file_exact_grant_traversal_and_link_denial (gopyt.test_resource_authority.ResourceCalls.test_file_exact_grant_traversal_and_link_denial) ... ok
+test_file_replacement_after_admission_cannot_follow_link (gopyt.test_resource_authority.ResourceCalls.test_file_replacement_after_admission_cannot_follow_link) ... ok
+test_mixed_authority_batch_is_atomic (gopyt.test_resource_authority.ResourceCalls.test_mixed_authority_batch_is_atomic) ... ok
+test_operator_policy_intersects_delegated_grants (gopyt.test_resource_authority.ResourceCalls.test_operator_policy_intersects_delegated_grants) ... ok
+test_revocation_precedes_cached_access (gopyt.test_resource_authority.ResourceCalls.test_revocation_precedes_cached_access) ... ok
+test_revoke_does_not_abort_an_admitted_commit (gopyt.test_resource_authority.ResourceCalls.test_revoke_does_not_abort_an_admitted_commit) ... ok
+test_scope_propagates_to_parallel_arms_and_restores_after_exception (gopyt.test_resource_authority.ResourceCalls.test_scope_propagates_to_parallel_arms_and_restores_after_exception) ... ok
+test_secret_acquisition_is_scoped_and_revocable (gopyt.test_resource_authority.ResourceCalls.test_secret_acquisition_is_scoped_and_revocable) ... ok
+test_simultaneous_host_scopes_do_not_share_authority (gopyt.test_resource_authority.ResourceCalls.test_simultaneous_host_scopes_do_not_share_authority) ... ok
+test_unmediated_provider_never_imported_and_forged_scope_refused (gopyt.test_resource_authority.ResourceCalls.test_unmediated_provider_never_imported_and_forged_scope_refused) ... ok
+test_warm_cache_and_transitive_deputy_cannot_expand_scope (gopyt.test_resource_authority.ResourceCalls.test_warm_cache_and_transitive_deputy_cannot_expand_scope) ... ok
+test_listener_and_worker_inherit_attenuated_scope (gopyt.test_resource_authority.ServingAuthority.test_listener_and_worker_inherit_attenuated_scope) ... ok
+test_batch_denial_is_all_or_nothing (gopyt.test_capabilities.Capabilities.test_batch_denial_is_all_or_nothing) ... ok
+test_explicit_wildcard_and_empty_deny_all (gopyt.test_capabilities.Capabilities.test_explicit_wildcard_and_empty_deny_all) ... ok
+test_malformed_missing_or_public_policy_fails_closed (gopyt.test_capabilities.Capabilities.test_malformed_missing_or_public_policy_fails_closed) ... ok
+test_namespace_does_not_grant_nearby_tenant_or_unscoped_keys (gopyt.test_capabilities.Capabilities.test_namespace_does_not_grant_nearby_tenant_or_unscoped_keys) ... ok
+test_revocation_precedes_cache_and_read_write_are_separate (gopyt.test_capabilities.Capabilities.test_revocation_precedes_cache_and_read_write_are_separate) ... ok
+
+----------------------------------------------------------------------
+Ran 23 tests in 1.880s
+
+OK

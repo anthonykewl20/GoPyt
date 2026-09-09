@@ -33,6 +33,46 @@ MAX_REQUEST_BODY = 1_048_576
 MAX_HANDLERS = 64
 
 
+def resource_denial(vm, name, args):
+    """Uniform host authority admission before native I/O or cache access."""
+    if vm.authority is None:
+        return None
+    requests = []
+    error = None
+    if name.startswith('store.db.'):
+        operation = name.removeprefix('store.db.')
+        if operation in ('get_many', 'compare_exchange_many'):
+            from gopyt.storage import MAX_BATCH_KEYS
+            if not 1 <= len(args[0]) <= MAX_BATCH_KEYS:
+                return _status(vm, 'DbError', 'database batch requires 1..256 keys')
+        keys = (args[0] if operation == 'get_many' else
+                [row.fields[0] for row in args[0]] if operation == 'compare_exchange_many'
+                else [args[0]])
+        if operation != 'put':
+            requests.extend(('database_read', key) for key in keys)
+        if operation not in ('get', 'get_many'):
+            requests.extend(('database_write', key) for key in keys)
+        error = 'DbError'
+    elif name in ('core.file.read', 'core.file.write'):
+        requests = [('file_' + name.rsplit('.', 1)[1], args[0])]
+        error = 'IoError'
+    elif name == 'core.secret.get':
+        if not vm.allows_resources(('secrets', args[0])):
+            vm.observe.deny('resource')
+            return _status(vm, 'NotFound')
+    elif name == 'core.model.local':
+        # Companion imports execute arbitrary Python and cannot inherit this
+        # VM's mediation. Restricted VMs never enter that integration.
+        return _status(vm, 'ModelError', 'resource authority: unmediated provider')
+    elif name == 'core.evolve.propose':
+        # Evolution writes source and launches host processes outside VM natives.
+        return Record(vm.type_id_of('core.evolve.EvolveError'), ['resource authority: unmediated evolution'])
+    if error is not None and not vm.allows_resources(*requests):
+        vm.observe.deny('resource')
+        return _status(vm, error, 'resource authority denied')
+    return None
+
+
 def native(name: str):
     def wrap(fn):
         NATIVES[name] = fn
@@ -537,7 +577,7 @@ def _http_request(vm, args, func):
 
     origin = _origin(url)
     norm = normalize_origin(origin) if origin else None
-    if norm is None or norm not in allowed:
+    if norm is None or norm not in allowed or not vm.allows_resources(('network', norm)):
         vm.observe.deny("egress")
         return _status(vm, "HttpError", "egress")
     if "@" in url.split("://", 1)[1].split("/", 1)[0]:
@@ -583,7 +623,8 @@ def _model_complete(vm, args, func):
     module = vm.module_stack[-1] if vm.module_stack else ""
     origin = _origin(url)
     norm = normalize_origin(origin) if origin else None
-    if norm is None or norm not in set(vm.egress_for(module)):
+    if (norm is None or norm not in set(vm.egress_for(module))
+            or not vm.allows_resources(('network', norm))):
         vm.observe.deny("egress")
         return _status(vm, "ModelError", "egress")
     import json as _json

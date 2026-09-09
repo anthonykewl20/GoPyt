@@ -7,7 +7,7 @@ merged main `e2537c1`. These results qualify only the repairs described in
 - `before-python314.log`: first five new tests before implementation; absent
   provider and injected parser recursion error, maximum sleep fails wait bound.
   Deep real JSON is already normalized on Python 3.14 as the audit reported.
-- `focused-python311.log`: six new compiled regressions plus six existing
+- `focused-python311.log`: six new compiled regressions plus five existing
   authority tests, including the real deeply nested input, pass on Python 3.11.15.
 - `language-python314.log`: full language regression command
   `python3 -u -m unittest discover -s gopyt -t . -v` on Python 3.14.7: 675 tests passed in 205.057 seconds.
