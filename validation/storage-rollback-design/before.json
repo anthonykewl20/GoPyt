@@ -1,0 +1,9 @@
+{
+  "runtime_sha256": "a9c68e8f882d9928dedf039330832856fe4d74ea0f133ec0a80457ce73b4b7fa",
+  "probe_sha256": "9d0764dc034aa2f7d34b1c9605036b52f1ea261372f99b69ae660d6f22339869",
+  "before_replay": "9",
+  "after_replay": "10",
+  "older_ciphertext_sha256": "4d61cd9e003caf7427e59d219a0019a742cde38e7747b836d4894b479643595e",
+  "newer_ciphertext_sha256": "60b67096d7ccb66f3d4f305f14d2dccab293803a42f917a17379a580a9086678",
+  "replay_accepted": true
+}

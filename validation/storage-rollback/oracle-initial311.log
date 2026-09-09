@@ -1,0 +1,8 @@
+Traceback (most recent call last):
+  File "/tmp/gopyt-rollback-oracle.py", line 30, in <module>
+    store=Store(root);store.enroll_anchor();store.put('balance','10');observations.append(inspect(1,[['balance','10']]))
+                                                                                          ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/tmp/gopyt-rollback-oracle.py", line 22, in inspect
+    assert raw[:10]==b'GOPYT-SIV1\0'
+           ^^^^^^^^^^^^^^^^^^^^^^^^^
+AssertionError

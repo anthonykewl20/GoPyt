@@ -1,0 +1,56 @@
+{
+  "status": "passed",
+  "observations": [
+    {
+      "generation": 1,
+      "digest": "c18725b7b5686d3c9d518705ef4d2cc2eaa76b90ea618dd2fbd8e0b9dc8bd447",
+      "rows": [
+        [
+          "balance",
+          "10"
+        ]
+      ]
+    },
+    {
+      "generation": 2,
+      "digest": "8a5f6c8f18a472ed408426b830beea2c61e91e6df0c032f846b4496d258bd002",
+      "rows": [
+        [
+          "balance",
+          "9"
+        ]
+      ]
+    },
+    {
+      "generation": 3,
+      "digest": "75745dfa461aedf6b1e288852145bbce3f3194b89e14abe2a2600a651554bfe7",
+      "rows": [
+        [
+          "balance",
+          "10"
+        ]
+      ]
+    },
+    {
+      "generation": 4,
+      "digest": "6cdc97e7d70ba2d5ecd1632025da7a1c05e07eebdd3063896f0d7b7b242d5034",
+      "rows": [
+        [
+          "balance",
+          "10"
+        ]
+      ]
+    }
+  ],
+  "replay_rejected": true,
+  "receipt": {
+    "backup_digest": "c18725b7b5686d3c9d518705ef4d2cc2eaa76b90ea618dd2fbd8e0b9dc8bd447",
+    "generation": 3,
+    "previous_generation": 2,
+    "reason": "oracle recovery",
+    "store": "oracle-store",
+    "version": 1
+  },
+  "wrong_state_oracle_rejected": true,
+  "scope": "Functional encrypted-state and generation checks, not throughput/power-loss/security-audit qualification."
+}

@@ -1,0 +1,23 @@
+test_corruption_is_not_reencrypted_or_overwritten (gopyt.test_key_rotation.KeyRotation.test_corruption_is_not_reencrypted_or_overwritten) ... ok
+test_encrypted_batch_conflict_and_delete_survive_restart (gopyt.test_key_rotation.KeyRotation.test_encrypted_batch_conflict_and_delete_survive_restart) ... ok
+test_failed_publish_keeps_old_key_readable_and_retry_succeeds (gopyt.test_key_rotation.KeyRotation.test_failed_publish_keeps_old_key_readable_and_retry_succeeds) ... ok
+test_multiple_key_sources_and_malformed_rings_rejected (gopyt.test_key_rotation.KeyRotation.test_multiple_key_sources_and_malformed_rings_rejected) ... ok
+test_rekey_legacy_snapshot_then_retire_old_key (gopyt.test_key_rotation.KeyRotation.test_rekey_legacy_snapshot_then_retire_old_key) ... FAIL
+test_retiring_key_early_invalidates_cached_plaintext (gopyt.test_key_rotation.KeyRotation.test_retiring_key_early_invalidates_cached_plaintext) ... ok
+
+======================================================================
+FAIL: test_rekey_legacy_snapshot_then_retire_old_key (gopyt.test_key_rotation.KeyRotation.test_rekey_legacy_snapshot_then_retire_old_key)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/home/soultransit/devtony/gopyt-milestone-work/gopyt/test_key_rotation.py", line 45, in test_rekey_legacy_snapshot_then_retire_old_key
+    self.assertEqual(result.returncode,0,result.stderr)
+    ~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+AssertionError: 2 != 0 : usage: python -m gopyt.store_admin [-h] --root ROOT
+                                   {enroll,status,restore} ...
+python -m gopyt.store_admin: error: argument command: invalid choice: 'rekey' (choose from 'enroll', 'status', 'restore')
+
+
+----------------------------------------------------------------------
+Ran 6 tests in 0.124s
+
+FAILED (failures=1)

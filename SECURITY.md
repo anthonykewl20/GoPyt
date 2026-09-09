@@ -35,3 +35,5 @@ The LSP accepts local, bounded package snapshots and invokes the checker with CP
 Do not publish credentials or exploit details in an ordinary issue. Private vulnerability reporting is enabled: use the repository Security tab to report privately. Dependency vulnerability alerts are also enabled.
 
 Release compromise, withdrawal and replacement handling follows the [release provenance policy](docs/release-provenance.md). Consumers must check current source/artifact revocations as well as signed identity.
+
+Opt-in [trusted snapshot generations](docs/storage-rollback-amendment-2026-09-10.md) detect application-snapshot replay when the operator protects a separate authority from rollback. The baseline replay exclusion above continues to apply without that configuration and to rollback of the authority itself. Explicit restoration advances the authority rather than disabling detection.

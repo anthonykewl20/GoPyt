@@ -1,0 +1,18 @@
+{
+  "runtime_sha256": "b612d392140aaf04a9f93edd1e110cdc61cee08d563a806ea3dc094ab3202cba",
+  "sources": {
+    "gopyt/rollback.py": "36e16c69a2619d9fbc68f7528e1c2ad5a511c79a8c7e7ec68ec77dd2d11da4c4",
+    "gopyt/storage.py": "a7c3eeda439ced416dab5db7edd5aa5fb77a21e513c9ecbc75eda3ba56c550a5",
+    "gopyt/store_admin.py": "76a25b66eb1920e7b59315ef072bf35e42d4249566ec3a85035003137c91f6e5",
+    "gopyt/test_rollback.py": "5600e885f02f6563adba80294fa52096151db291d4bdb75e6fd8a6bafd6f9a2b",
+    "gopyt/test_key_rotation.py": "f2e92d160e859fc04e7be542fca2ab1f6415bcb08b36059c50822dc24d961ae3"
+  },
+  "reference": {
+    "repository": "python/cpython",
+    "commit": "823f0323ee6ec1402088b73bce1a38473cac36dc",
+    "path": "Lib/tempfile.py",
+    "sha256": "3714372b63f6bc05a5273425d446f6ad3a2112a659c71c321bb4575fd082d634",
+    "scope": "Private O_EXCL/O_NOFOLLOW creation and 0600 modes inspected; reference only, no source copied or donor executed, no dependency changes."
+  },
+  "qualification": "898 full tests passed in 358.152 seconds; 73 focused tests on each pinned Python; Guard/stdlib/repro/install/upgrade and independent state oracle passed. Contracts example passed."
+}
