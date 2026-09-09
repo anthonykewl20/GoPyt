@@ -1,0 +1,11 @@
+{
+  "repository": "python/cpython",
+  "commit": "823f0323ee6ec1402088b73bce1a38473cac36dc",
+  "leitir_verification": "sampled",
+  "scope": "Reference for finite nonnegative Lock.acquire timeout/return semantics and flock LOCK_NB wrapper/error handling. No source copying, donor execution or target dependency change. Target behavior validated through compiled storage tasks and real locks on both supported Python versions.",
+  "reviewed_files": {
+    "Modules/_threadmodule.c": "7d65aee1595a29b4914450cad36434b283acd054e1dec675387389dfd026bd50",
+    "Modules/fcntlmodule.c": "288fb57c511a3f9a0cb9de2d9a66d3d9c99f8fb0a77f38e1b7eb697928f4c5f3",
+    "LICENSE": "b0e25a78cffb43f4d92de8b61ccfa1f1f98ecbc22330b54b5251e7b6ba010231"
+  }
+}

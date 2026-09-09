@@ -33,10 +33,11 @@ class StorageError(Exception):
     pass
 
 
-def _open_lock(directory, deadline):
+def _open_lock(directory, deadline, check_context=lambda: None):
     """Open an existing lock or create it exclusively, tolerating creation races."""
     flags = os.O_RDWR | os.O_NOFOLLOW | os.O_NONBLOCK
     while True:
+        check_context()
         try:
             return os.open('lock', flags, dir_fd=directory)
         except FileNotFoundError:
@@ -51,7 +52,9 @@ def _open_lock(directory, deadline):
 
 
 class Store:
-    def __init__(self, root=None):
+    def __init__(self, root=None, *, context=None):
+        # The VM owns this store; its context must not retain the entire VM.
+        self._context = weakref.proxy(context) if context is not None else None
         self.root = os.path.abspath(root) if root is not None else None
         self._temporary = None
         self._operation_lock = threading.Lock()
@@ -63,6 +66,21 @@ class Store:
         self._cache_bytes = 0
         self._security = None
         self._security_identity = None
+
+    def _check_context(self):
+        if self._context is not None:
+            self._context.check_cancelled()
+
+    def _lock_remaining(self, deadline):
+        self._check_context()
+        remaining = deadline - time.monotonic()
+        if self._context is not None and self._context.deadline_ns is not None:
+            remaining = min(remaining,
+                            (self._context.deadline_ns - time.monotonic_ns()) / 1_000_000_000)
+        if remaining <= 0:
+            self._check_context()
+            raise StorageError('database busy')
+        return remaining
 
     def _clear_cache(self):
         self._cache.clear()
@@ -98,27 +116,29 @@ class Store:
                 pass
             directory = os.open(name, os.O_RDONLY | os.O_DIRECTORY | os.O_NOFOLLOW, dir_fd=root)
         try:
-            lock = _open_lock(directory, deadline)
+            lock = _open_lock(directory, deadline, self._check_context)
             try:
                 info = os.fstat(lock)
                 if not stat.S_ISREG(info.st_mode) or info.st_nlink != 1:
                     raise StorageError('invalid database lock')
                 while True:
+                    self._lock_remaining(deadline)
                     try:
                         fcntl.flock(lock, fcntl.LOCK_EX | fcntl.LOCK_NB)
                         break
                     except BlockingIOError:
-                        if time.monotonic() >= deadline:
-                            raise StorageError('database busy')
-                        time.sleep(0.002)
+                        time.sleep(min(0.002, self._lock_remaining(deadline)))
+                self._check_context()
                 # An uncooperative unlink/replacement must not split our lock.
                 current = os.stat('lock', dir_fd=directory, follow_symlinks=False)
                 if (current.st_dev, current.st_ino) != (info.st_dev, info.st_ino):
                     raise StorageError('database lock changed')
                 for stale in os.listdir(directory):
+                    self._check_context()
                     suffix = stale.removeprefix('.pending-')
                     if stale.startswith('.pending-') and len(suffix) == 24 and all(c in '0123456789abcdef' for c in suffix):
                         os.unlink(stale, dir_fd=directory)
+                self._check_context()
                 yield directory
             finally:
                 os.close(lock)
@@ -162,10 +182,12 @@ class Store:
             raise StorageError('invalid database schema')
 
     def _save(self, directory, db):
+        self._check_context()
         data = db.serialize()
         if len(data) > MAX_BYTES:
             raise StorageError('database size limit exceeded')
         data = seal(data, self._security)
+        self._check_context()
         temporary = '.pending-' + secrets.token_hex(12)
         fd = os.open(temporary, os.O_WRONLY | os.O_CREAT | os.O_EXCL | os.O_NOFOLLOW,
                      0o600, dir_fd=directory)
@@ -174,6 +196,9 @@ class Store:
                 stream.write(data)
                 stream.flush()
                 os.fsync(stream.fileno())
+            # Publication admission: cancellation after entering replace cannot
+            # undo the rename or abandon the directory durability barrier.
+            self._check_context()
             os.replace(temporary, DATABASE, src_dir_fd=directory, dst_dir_fd=directory)
             os.fsync(directory)
         finally:
@@ -183,6 +208,7 @@ class Store:
                 pass
 
     def _operate(self, operation, key, value=None, expected=None):
+        self._check_context()
         if self._pid != os.getpid():
             # A parent thread may have owned the operation lock at fork. Plain
             # cached values own no inherited SQLite connection or descriptor.
@@ -190,10 +216,13 @@ class Store:
             self._clear_cache()
             self._pid = os.getpid()
         deadline = time.monotonic() + LOCK_TIMEOUT
-        if not self._operation_lock.acquire(timeout=LOCK_TIMEOUT):
-            raise StorageError('database busy')
+        while not self._operation_lock.acquire(timeout=min(.05, self._lock_remaining(deadline))):
+            pass
         try:
-            return self._operate_locked(operation, key, value, expected, deadline)
+            self._check_context()
+            result = self._operate_locked(operation, key, value, expected, deadline)
+            self._check_context()
+            return result
         finally:
             self._operation_lock.release()
 
@@ -243,6 +272,7 @@ class Store:
                         db.execute('PRAGMA trusted_schema=OFF')
                         db.setlimit(sqlite3.SQLITE_LIMIT_LENGTH, MAX_BYTES)
                         self._load(fd, identity, db)
+                        self._check_context()
                         page_size = db.execute('PRAGMA page_size').fetchone()[0]
                         db.execute(f'PRAGMA max_page_count={MAX_BYTES // page_size}')
                         if operation == 'rekey':

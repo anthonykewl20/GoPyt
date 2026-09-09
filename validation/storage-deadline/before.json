@@ -1,0 +1,11 @@
+{
+  "runtime_sha256": "e43bf4e4f40490035e85c73f66a61dee72a6962f579b80d5205c153e07d2a362",
+  "probe_sha256": "e8e0cbde20737da636febef690ec39f5f92abdb207eb79f2afb96c78cb2b2103",
+  "deadline_ms": 100,
+  "lock_release_ms": 300,
+  "elapsed_ms": 303.881455,
+  "outcome": {
+    "trap": 6
+  },
+  "durable_value_after_timeout": "committed"
+}
