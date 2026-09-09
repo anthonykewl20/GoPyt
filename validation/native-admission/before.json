@@ -1,0 +1,16 @@
+{
+  "runtime_sha256": "8954ed5f0c219bcc3342118ef7842d3548bc8e2d07e27761ce7aa704330912d3",
+  "probe_sha256": "285667b4b2db8ab4a7aea3639367a189459a2b5ceffce7117fdcbe723aa9e11f",
+  "deadline_ms": 100,
+  "lock_release_ms": 300,
+  "elapsed_ms": 300.265812,
+  "outcome": {
+    "trap": 6
+  },
+  "buckets_after_timeout": [
+    {
+      "level": 0.0,
+      "tokens": 1
+    }
+  ]
+}

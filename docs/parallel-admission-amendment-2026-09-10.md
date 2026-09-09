@@ -237,3 +237,21 @@ or atomic-file-replacement promise for `core.file.write`. Unbuffered writes avoi
 later flushing of a user-space buffer during cancellation cleanup. All descriptors
 close before return, and no background writer is abandoned. This is not an fsync,
 power-loss durability, disk-latency or aggregate-process-memory guarantee.
+
+## Shared native admission lock
+
+Limiter admission, evolution admission and HTTP serving admission share a VM
+state lock. Waiting to acquire it now observes inherited cancellation and the
+absolute VM deadline through requested waits of at most 50 ms, capped by the
+remaining deadline. The context is checked again after acquiring the lock and
+before consuming limiter tokens, changing evolution cooldown/in-flight state,
+or marking the server active. A context rejected at that boundary releases the
+lock without beginning the protected operation. Limiter refill time is sampled
+after successful admission rather than before a potentially long lock wait.
+
+Every admitted critical section releases this lock when its body returns or
+raises. Expiration after an operation has been admitted cannot undo its state
+changes. This admission rule does not promise FIFO fairness or extend to
+unrelated heap/observation locks and cleanup barriers. It also does not make an
+already-admitted evolution preparation/apply wave interruptible by the VM context;
+that wave retains its separately specified timeout and journal recovery rules.
