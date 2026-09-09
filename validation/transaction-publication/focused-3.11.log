@@ -1,0 +1,45 @@
+test_io_errors_at_publication_edges (gopyt.test_storage_publication.EncryptedPublication.test_io_errors_at_publication_edges) ... ok
+test_process_death_at_publication_edges (gopyt.test_storage_publication.EncryptedPublication.test_process_death_at_publication_edges) ... ok
+test_io_errors_at_publication_edges (gopyt.test_storage_publication.Publication.test_io_errors_at_publication_edges) ... ok
+test_process_death_at_publication_edges (gopyt.test_storage_publication.Publication.test_process_death_at_publication_edges) ... ok
+test_batch_cache_reuse_does_not_double_count_or_return_stale_values (gopyt.test_storage_transactions.Transactions.test_batch_cache_reuse_does_not_double_count_or_return_stale_values) ... ok
+test_competing_processes_preserve_transfer_invariant (gopyt.test_storage_transactions.Transactions.test_competing_processes_preserve_transfer_invariant) ... ok
+test_compiled_native_types_effects_and_atomicity (gopyt.test_storage_transactions.Transactions.test_compiled_native_types_effects_and_atomicity) ... ok
+test_conflict_changes_nothing_and_delete_distinguishes_absent_empty (gopyt.test_storage_transactions.Transactions.test_conflict_changes_nothing_and_delete_distinguishes_absent_empty) ... ok
+test_directory_sync_failure_has_ambiguous_commit_but_no_torn_batch (gopyt.test_storage_transactions.Transactions.test_directory_sync_failure_has_ambiguous_commit_but_no_torn_batch) ... ok
+test_failure_before_publish_preserves_all_old_values (gopyt.test_storage_transactions.Transactions.test_failure_before_publish_preserves_all_old_values) ... ok
+test_oversized_batch_response_is_an_error (gopyt.test_storage_transactions.Transactions.test_oversized_batch_response_is_an_error) ... ok
+test_process_death_before_and_after_publish_never_tears_batch (gopyt.test_storage_transactions.Transactions.test_process_death_before_and_after_publish_never_tears_batch) ... ok
+test_read_only_conditions_and_noop_do_not_publish (gopyt.test_storage_transactions.Transactions.test_read_only_conditions_and_noop_do_not_publish) ... ok
+test_rejects_duplicate_malformed_and_unbounded_batches (gopyt.test_storage_transactions.Transactions.test_rejects_duplicate_malformed_and_unbounded_batches) ... ok
+test_seeded_state_machine_against_independent_dictionary (gopyt.test_storage_transactions.Transactions.test_seeded_state_machine_against_independent_dictionary) ... ok
+test_absent_is_distinct_from_empty_and_unicode_values (gopyt.test_storage.Storage.test_absent_is_distinct_from_empty_and_unicode_values) ... ok
+test_acknowledged_write_survives_abrupt_process_exit (gopyt.test_storage.Storage.test_acknowledged_write_survives_abrupt_process_exit) ... ok
+test_cache_lru_bounds_utf8_payload_and_entry_count (gopyt.test_storage.Storage.test_cache_lru_bounds_utf8_payload_and_entry_count) ... ok
+test_crash_before_commit_preserves_database_and_cleans_temporary (gopyt.test_storage.Storage.test_crash_before_commit_preserves_database_and_cleans_temporary) ... ok
+test_database_and_lock_links_are_rejected (gopyt.test_storage.Storage.test_database_and_lock_links_are_rejected) ... ok
+test_database_hardlink_fifo_and_corruption_are_rejected (gopyt.test_storage.Storage.test_database_hardlink_fifo_and_corruption_are_rejected) ... ok
+test_directory_symlink_cannot_escape (gopyt.test_storage.Storage.test_directory_symlink_cannot_escape) ... ok
+test_failed_commit_preserves_prior_database (gopyt.test_storage.Storage.test_failed_commit_preserves_prior_database) ... ok
+test_failed_write_never_exposes_unpersisted_cached_value (gopyt.test_storage.Storage.test_failed_write_never_exposes_unpersisted_cached_value) ... ok
+test_fork_discards_inherited_cache_and_locked_python_mutex (gopyt.test_storage.Storage.test_fork_discards_inherited_cache_and_locked_python_mutex) ... ok
+test_in_place_change_with_restored_mtime_invalidates_cache (gopyt.test_storage.Storage.test_in_place_change_with_restored_mtime_invalidates_cache) ... ok
+test_lock_creation_retries_a_transient_missing_name (gopyt.test_storage.Storage.test_lock_creation_retries_a_transient_missing_name) ... ok
+test_lock_wait_is_bounded (gopyt.test_storage.Storage.test_lock_wait_is_bounded) ... ok
+test_native_compiles_without_app_ffi_and_persists_between_vms (gopyt.test_storage.Storage.test_native_compiles_without_app_ffi_and_persists_between_vms) ... ok
+test_one_winner_for_process_stale_updates (gopyt.test_storage.Storage.test_one_winner_for_process_stale_updates) ... ok
+test_one_winner_for_threaded_conditional_insert (gopyt.test_storage.Storage.test_one_winner_for_threaded_conditional_insert) ... ok
+test_post_rename_failure_reads_back_actual_persisted_state (gopyt.test_storage.Storage.test_post_rename_failure_reads_back_actual_persisted_state) ... ok
+test_process_cas_increment_has_no_lost_updates (gopyt.test_storage.Storage.test_process_cas_increment_has_no_lost_updates) ... ok
+test_removed_and_recreated_database_invalidates_cached_value (gopyt.test_storage.Storage.test_removed_and_recreated_database_invalidates_cached_value) ... ok
+test_same_store_threads_share_atomic_cas_and_bounded_lock_wait (gopyt.test_storage.Storage.test_same_store_threads_share_atomic_cas_and_bounded_lock_wait) ... ok
+test_separate_packages_and_implicit_stores_are_isolated (gopyt.test_storage.Storage.test_separate_packages_and_implicit_stores_are_isolated) ... ok
+test_size_error_does_not_replace_existing_value (gopyt.test_storage.Storage.test_size_error_does_not_replace_existing_value) ... ok
+test_warm_cache_rejects_unsafe_replacement_and_corruption (gopyt.test_storage.Storage.test_warm_cache_rejects_unsafe_replacement_and_corruption) ... ok
+test_warm_cache_revalidates_schema_and_value_types (gopyt.test_storage.Storage.test_warm_cache_revalidates_schema_and_value_types) ... ok
+test_warm_reads_and_absence_reuse_only_validated_results (gopyt.test_storage.Storage.test_warm_reads_and_absence_reuse_only_validated_results) ... ok
+
+----------------------------------------------------------------------
+Ran 40 tests in 11.090s
+
+OK
