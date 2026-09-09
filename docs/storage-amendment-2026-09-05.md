@@ -50,7 +50,9 @@ Descriptor-relative atomic replacement cannot follow a destination symlink.
 
 Each operation holds an advisory `flock` across load, comparison and persistence.
 Lock acquisition waits at most five seconds before returning `DbError`; disk
-I/O itself has no imposed deadline. Successful writes fsync the replacement,
+I/O itself is not asynchronously interrupted. VM-owned stores additionally obey
+the [storage admission and publication checkpoints](parallel-admission-amendment-2026-09-10.md#storage-admission-and-publication).
+Successful writes fsync the replacement,
 atomically rename it over the database, and fsync the directory before returning.
 A process killed before rename leaves the old state. The next operation removes
 orphan temporary snapshots. A process killed after rename can leave the new

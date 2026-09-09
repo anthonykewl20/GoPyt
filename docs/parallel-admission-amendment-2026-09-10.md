@@ -183,3 +183,32 @@ The existing 8 MiB response cap, source/operator egress intersection, disabled
 ambient proxies and redirects, and default TLS certificate/hostname verification
 remain in force. No request is automatically retried. A timeout or missing
 response cannot establish that the remote operation did not commit.
+
+## Storage admission and publication
+
+The VM-owned store observes the calling thread's cancellation and absolute
+monotonic deadline. Local lock acquisition polls at most every requested 50 ms,
+capped by the remaining VM deadline and the existing five-second combined local
+and process lock-acquisition budget. Process `flock` contention retains its
+requested 2 ms polling interval, also capped by remaining time. Lock-creation
+races check context between attempts. An expired or cancelled waiter releases
+any acquired resources without loading or publishing a new database snapshot.
+Exhausting only the store's lock budget still returns `DbError` (`database busy`).
+Standalone host stores without a VM context retain that lock budget.
+
+Additional context checks follow snapshot loading, precede serialization and
+temporary-file creation, and precede publication after the temporary snapshot's
+fsync. Cancellation or expiry observed before this last admission check discards
+the unpublished temporary snapshot and leaves the database unchanged. SQLite
+and encryption work and individual filesystem calls are not asynchronously
+interrupted; their elapsed time counts toward the next VM check. This extends
+storage's cancellation checkpoints without claiming a hard disk-I/O deadline.
+
+Once atomic replacement is entered, the runtime completes its directory fsync
+and cleanup before propagating cancellation/timeout. A cancellation racing with
+replacement can therefore coexist with a committed change. The VM store checks
+context again before returning, including cache hits. Locks and descriptors are
+released on every exit path; no detached writer continues after return. These
+rules preserve the transaction receipt/reconciliation requirements and do not
+claim rollback from a timeout, filesystem durability beyond the stated POSIX
+assumptions, fairness among contenders, or all-native shutdown qualification.

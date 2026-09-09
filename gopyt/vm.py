@@ -78,7 +78,7 @@ class VM:
         from secrets import token_hex
         self.clock_id = token_hex(16)
         self.observe = Observe(reservoir_k=32)
-        self.db = Store(root)
+        self.db = Store(root, context=self)
         self.limiter = Limiter()
         self.buckets = self.limiter.buckets
         self.serving = False
