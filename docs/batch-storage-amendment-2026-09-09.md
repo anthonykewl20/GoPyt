@@ -70,3 +70,8 @@ Leitir-discovered [nq source](https://github.com/leahneukirchen/nq/blob/8bad1d01
 at commit `8bad1d011bc1da3c7c8cf58eb7cf19481a73de9d`, especially exclusive
 creation, flock, rename and directory fsync. The latter is queue code, not a
 database proof. No donor code or dependency was installed into GoPyT.
+
+Additional [publication-edge failure evidence](../validation/transaction-publication/README.md)
+checks actual interrupted writes, I/O errors and process exits with plaintext and
+authenticated snapshots. Live-host recovery is distinct from power-loss durability;
+this finite matrix does not close concurrent-history and cancellation qualification.
