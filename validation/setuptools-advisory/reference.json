@@ -1,0 +1,34 @@
+{
+  "paths": {
+    "api_index": "/home/soultransit/.leitir/api/pypi/setuptools/84.0.0/index.json",
+    "examples_index": "/home/soultransit/.leitir/examples/pypi/setuptools/84.0.0/index.json",
+    "tree": "/home/soultransit/.leitir/repos/github.com/pypa/setuptools/72e919a8b10aaafc041205d4e3ae0e6a2e1e5f87"
+  },
+  "provenance": {
+    "artifact_checksum": "sha256:f4695c21257f0d9b537ec2692c941d02ee143b7cc1276941349a546573b2ef73",
+    "artifact_kind": "sdist",
+    "commit_sha": "72e919a8b10aaafc041205d4e3ae0e6a2e1e5f87",
+    "degraded_provenance": null,
+    "fetched_at": "2026-09-09T15:38:32.044675Z",
+    "host": "github.com",
+    "owner": "pypa",
+    "repo": "setuptools",
+    "repo_url": "https://github.com/pypa/setuptools",
+    "source": "registry-artifact",
+    "subpath": null,
+    "verified": true,
+    "verified_at": "2026-09-09T15:38:32.044675Z",
+    "version": "84.0.0",
+    "version_source": "explicit"
+  },
+  "license": {
+    "confidence": "low",
+    "identifier": null,
+    "method": "unknown"
+  },
+  "routing": {
+    "reason": "license-undetermined",
+    "verdict": "study-only"
+  },
+  "limits": "Reference-only. Preserve registry checksum and Git drift; no claim of Git-byte parity. Source license routing is inconclusive; installed wheel declares its license separately. No donor code transplanted."
+}

@@ -67,7 +67,7 @@ def main():
     if not 315532800 <= args.epoch <= 4354819198:
         raise ValueError('epoch outside ZIP timestamp range')
     versions = {n: importlib.metadata.version(n) for n in ('pip', 'setuptools')}
-    if versions != {'pip': '26.2.1', 'setuptools': '82.0.1'}:
+    if versions != {'pip': '26.2.1', 'setuptools': '84.0.0'}:
         raise ValueError('install the pinned requirements/build.txt before building')
     source = args.source.resolve()
     paths = [source / 'pyproject.toml', source / 'README.md']

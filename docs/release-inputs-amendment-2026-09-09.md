@@ -5,7 +5,7 @@ It does not establish signed release provenance or close the release programme.
 
 ## Selected inputs
 
-`requirements/build.txt` pins pip 26.2.1 and setuptools 82.0.1, with SHA-256 hashes
+`requirements/build.txt` pins pip 26.2.1 and setuptools 84.0.0, with SHA-256 hashes
 for their published wheels. `pyproject.toml` requires that exact backend version.
 `requirements/security.txt` pins the already selected cryptography 50.0.1 extra
 and its CPython dependencies cffi 2.1.1 and pycparser 3.0, again with binary-wheel
@@ -87,3 +87,5 @@ universal correctness, publisher authenticity or an independent security audit.
 All workflows force-reinstall the hash-pinned build/security wheels, including already-present versions. The standalone archive includes a portable pip launcher whose bytes differ from its packaged RECORD. An ordinary same-version install leaves that launcher untouched. The initial inventory CI rejected it on all four platform/version combinations; reinstalling the approved wheel regenerates consistent entry points and RECORD metadata. The verifier remains strict; the bootstrap mismatch and failed CI are retained under validation/component-inventory.
 
 Packaging-input correction: reproduction now includes existing setup.py, setup.cfg and MANIFEST.in, so repository hooks/configuration participate in the build and source hash report. Build subprocesses use an explicit 0022 umask to normalize ZIP permissions. The old hook omission and caller-umask difference are reproduced under validation/packaging-inputs; final platform qualification of the correction is required.
+
+Security correction: setuptools 82.0.1 was affected by GHSA-h35f-9h28-mq5c (MANIFEST.in Unicode-normalization exclusion bypass for sdists). The reviewed backend is now 84.0.0, pinned by wheel SHA256. Historical 82.0.1 evidence remains labeled as such. A real source-distribution regression checks an NFD filename against an NFC exclusion. GoPyT release workflows emit allowlisted wheels, not sdists; no exposure of private files was observed in the recorded artifacts. The backend is updated rather than treating that limited build recipe as a substitute for the patch.
