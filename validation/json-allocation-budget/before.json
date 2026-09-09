@@ -1,0 +1,43 @@
+{
+  "runtime_sha256": "faea6f96806f0d65399a0cbc1700d4d84651d1be5f946a1d2d9efc81c7291c99",
+  "injected_allocation_limit": 16,
+  "scope": "reduced-limit compiled native probe, not a 2 GiB allocation trial",
+  "trials": [
+    {
+      "input_bytes": 14,
+      "oracle_encoded_bytes": 16,
+      "expected": "str",
+      "actual": {
+        "kind": "str",
+        "encoded_bytes": 16
+      }
+    },
+    {
+      "input_bytes": 15,
+      "oracle_encoded_bytes": 17,
+      "expected": "Trap14",
+      "actual": {
+        "kind": "str",
+        "encoded_bytes": 17
+      }
+    },
+    {
+      "input_bytes": 3,
+      "oracle_encoded_bytes": 20,
+      "expected": "Trap14",
+      "actual": {
+        "kind": "str",
+        "encoded_bytes": 20
+      }
+    },
+    {
+      "input_bytes": 16,
+      "oracle_encoded_bytes": 18,
+      "expected": "Trap14",
+      "actual": {
+        "kind": "str",
+        "encoded_bytes": 18
+      }
+    }
+  ]
+}

@@ -97,6 +97,10 @@ def cmd_run(root: str, target: str) -> int:
         return EXIT_OK
     try:
         text = jsonc.encode(art, result, art.funcs[fn_id].ret)
+    except jsonc.AllocationLimit:
+        from gopyt.ops import TRAP_ALLOC
+        sys.stdout.write(format_diag(Diag(101, None, None, 0, trap=TRAP_ALLOC)))
+        return EXIT_TRAP
     except (ConvertFail, NotJson):
         sys.stdout.write(format_diag(Diag(97, fc.file, None, 0)))
         return EXIT_ERROR

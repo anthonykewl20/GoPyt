@@ -506,10 +506,14 @@ vm.call(ids['api.serve'], [])
     def test_idle_connections_eventually_release_workers(self):
         with running_server(MAX_HANDLERS=2, REQUEST_TIMEOUT_SECONDS=.15) as (_, port):
             with contextlib.ExitStack() as sockets:
-                for _ in range(2):
-                    sockets.enter_context(socket.create_connection(('127.0.0.1', port), timeout=2))
-                time.sleep(.05)
-                self.assertEqual(request(port), (200, b'{"amount":3}'))
+                idle = [sockets.enter_context(socket.create_connection(
+                    ('127.0.0.1', port), timeout=2)) for _ in range(2)]
+                # Observe server-driven timeout closure, not an assumed sleep.
+                for connection in idle:
+                    self.assertEqual(connection.recv(1), b'')
+                # Recovery is a fresh request, with its own normal input budget.
+                with patch('gopyt.server.REQUEST_TIMEOUT_SECONDS', 10.0):
+                    self.assertEqual(request(port), (200, b'{"amount":3}'))
 
     def test_drip_fed_body_cannot_extend_request_deadline(self):
         with running_server(MAX_HANDLERS=1, REQUEST_TIMEOUT_SECONDS=.2) as (_, port):

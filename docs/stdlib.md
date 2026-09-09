@@ -599,3 +599,9 @@ fn rescale(value: Money, scale: i64, rounding: Rounding) -> Money | ConvertError
 
 fn multiply_ratio(value: Money, numerator: i64, denominator: i64, rounding: Rounding) -> Money | ConvertError
 ```
+
+Ordinary `data.json.encode` and generated `Json.to_json` obey the existing
+2,147,483,647-byte allocation ceiling for canonical escaped UTF-8 output;
+exceeding it traps 14 before returning a partial string. This is a per-value
+limit, separate from the smaller HTTP request/response budgets and aggregate
+process memory. See [implementer allocation rules](implementer.md#11-stack--limits-traps).

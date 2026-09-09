@@ -50,6 +50,11 @@ class NotJson(Exception):
     pass
 
 
+class AllocationLimit(Exception):
+    """Canonical text would exceed the VM per-value allocation limit."""
+
+
+
 def _pairs(pairs):
     out = {}
     for k, v in pairs:
@@ -88,32 +93,35 @@ def parse(text: str):
 
 
 class _Encoder:
-    def __init__(self, max_bytes=None, check_context=None, max_depth=None):
+    def __init__(self, max_bytes, check_context=None, max_depth=None, *, text=False):
         import io
         self.max_bytes = max_bytes
         self.check_context = check_context
         self.max_depth = max_depth
-        self.output = io.StringIO() if max_bytes is None else bytearray()
+        self.text = text
+        self.size = 0
+        self.output = io.StringIO() if text else bytearray()
 
     def check(self):
         if self.check_context is not None:
             self.check_context()
 
     def minimum(self, size):
-        if self.max_bytes is not None and size > self.max_bytes - len(self.output):
+        if size > self.max_bytes - self.size:
             raise ConvertFail('size')
 
     def token(self, text):
         self.check()
-        if self.max_bytes is None:
+        try:
+            raw = text.encode('utf-8')
+        except UnicodeEncodeError as error:
+            raise ConvertFail('utf8') from error
+        self.minimum(len(raw))
+        if self.text:
             self.output.write(text)
         else:
-            try:
-                raw = text.encode('utf-8')
-            except UnicodeEncodeError as error:
-                raise ConvertFail('utf8') from error
-            self.minimum(len(raw))
             self.output.extend(raw)
+        self.size += len(raw)
 
     def string(self, text):
         # Bound escaping/UTF-8 temporaries even for a single enormous string.
@@ -125,13 +133,19 @@ class _Encoder:
 
     def result(self):
         self.check()
-        return self.output.getvalue() if self.max_bytes is None else bytes(self.output)
+        return self.output.getvalue() if self.text else bytes(self.output)
 
 
 def encode(art: Artifact, value: object, te_ix: int) -> str:
-    output = _Encoder()
-    _emit(art, value, te_ix, output, 0)
-    return output.result()
+    from gopyt import ops
+    output = _Encoder(ops.MAX_ALLOC, text=True)
+    try:
+        _emit(art, value, te_ix, output, 0)
+        return output.result()
+    except ConvertFail as error:
+        if error.message == 'size':
+            raise AllocationLimit() from error
+        raise
 
 
 def encode_bytes(art: Artifact, value: object, te_ix: int, *, max_bytes: int,

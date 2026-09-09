@@ -1,6 +1,7 @@
 """Bounded canonical encoding and real HTTP rejection/recovery."""
 import http.client
 import json
+import threading
 import unittest
 from unittest.mock import patch
 
@@ -69,13 +70,23 @@ class ResponseBudget(unittest.TestCase):
         # The ordinary typed response is exactly 12 bytes: {"amount":3}.
         for cap, expected in ((12, (200, b'{"amount":3}')), (11, (500, b''))):
             with self.subTest(cap=cap), fixture.running_server(MAX_HANDLERS=1, MAX_RESPONSE_BODY=cap) as (vm, port):
+                released = threading.Event()
+                original_release = vm.heap.release_result
+                def release_result():
+                    original_release()
+                    released.set()
+                vm.heap.release_result = release_result
                 connection = http.client.HTTPConnection('127.0.0.1', port, timeout=2)
                 try:
                     for _ in range(2):
+                        released.clear()
                         connection.request('GET', '/echo/abc')
                         response = connection.getresponse()
                         self.assertEqual((response.status, response.read()), expected)
                         self.assertEqual(response.getheader('Content-Length'), str(len(expected[1])))
+                        # Receiving bytes does not join the handler's finally block.
+                        self.assertTrue(released.wait(2), 'handler did not release its result')
+                        self.assertEqual(vm.heap.handoffs, {})
                 finally:
                     connection.close()
                 self.assertEqual(vm.heap.handoffs, {})

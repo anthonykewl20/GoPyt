@@ -1,0 +1,8 @@
+{
+  "runtime_sha256": "fc6c1aa55709c81e2c6560deb7d0e52a168c5ff5842aafd1f36df6ec41c6eada",
+  "unchanged_packaging_inputs": 49,
+  "test_source": "gopyt/test_app_runtime.py",
+  "test_sha256": "0024d64a9fef732127ddc54319c5c1dbd075e8fd75c8481f4c5d254b0abbb6a1",
+  "full_tests": 874,
+  "seconds": 307.537
+}
