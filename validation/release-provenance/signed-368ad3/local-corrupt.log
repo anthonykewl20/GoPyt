@@ -1,0 +1,12 @@
+Traceback (most recent call last):
+  File "/home/soultransit/devtony/gopyt-milestone-work/tools/verify_release.py", line 61, in <module>
+    main()
+    ~~~~^^
+  File "/home/soultransit/devtony/gopyt-milestone-work/tools/verify_release.py", line 56, in main
+    print(json.dumps(verify(args.artifact, args.source_sha, args.sha256,
+                     ~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+                            args.revocations, args.bundle), indent=2))
+                            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/soultransit/devtony/gopyt-milestone-work/tools/verify_release.py", line 33, in verify
+    raise ValueError('artifact does not match approved SHA256')
+ValueError: artifact does not match approved SHA256

@@ -1,0 +1,56 @@
+{
+  "status": "review in progress; not complete repository attribution audit",
+  "entries": [
+    {
+      "source": "a-darwish/memfd-examples",
+      "revision": "172d805b24e0c3283934ba009bfdadcc3ab92bf7",
+      "use": "seal-before-sharing pattern adapted in Python prototype",
+      "recipient": "prototypes/mapped_data/sealed_column.py",
+      "license_record": "Unlicense; validation/release/leitir-references.json",
+      "dependency": false
+    },
+    {
+      "source": "leahneukirchen/nq",
+      "revision": "8bad1d011bc1da3c7c8cf58eb7cf19481a73de9d",
+      "use": "publication sequence reference; no donor code installed per amendment",
+      "recipient": "docs/batch-storage-amendment-2026-09-09.md",
+      "dependency": false
+    },
+    {
+      "source": "apple-oss-distributions/xnu",
+      "revision": "f6217f891ac0bb64f3d375211650a4c1ff8ca1ea",
+      "use": "Darwin TCP_NODELAY flag behavior reference",
+      "recipient": "docs/release-baseline.md",
+      "dependency": false
+    },
+    {
+      "source": "pypa/setuptools",
+      "version": "82.0.1",
+      "artifact_sha256": "7d872682c5d01cfde07da7bccc7b65469d3dca203318515ada1de5eda35efbf9",
+      "use": "reference-only inspection of existing build backend",
+      "recipient": "docs/release-inputs-amendment-2026-09-09.md",
+      "limits": "Registry checksum verified; Git drift and uncertain license routing retained. Actual wheel dependency separately pinned."
+    },
+    {
+      "source": "NousResearch/hermes-agent-self-evolution",
+      "revision": null,
+      "use": "documented conceptual prior art",
+      "recipient": "docs/evolve.md",
+      "limits": "Document does not pin donor revision; source-copy review unresolved. No donor dependency declared."
+    },
+    {
+      "source": "giltene/wrk2",
+      "revision": null,
+      "use": "coordinated-omission methodology reference",
+      "recipient": "docs/benchmark-methodology.md",
+      "limits": "Unpinned design link; no code dependency declared."
+    },
+    {
+      "source": "unisonweb/unison; koka-lang/koka",
+      "revision": null,
+      "use": "language design bibliography",
+      "recipient": "docs/gopyt-native-ai-programming-languge.md",
+      "limits": "Conceptual references, not evidence of code adoption."
+    }
+  ]
+}
