@@ -30,6 +30,7 @@ I64 = (-(2**63), 2**63 - 1)
 HTTP_TIMEOUT_MS = 30_000
 MAX_BODY = 8_388_608
 MAX_REQUEST_BODY = 1_048_576
+MAX_OUTBOUND_URL_BYTES = 8192
 MAX_HANDLERS = 64
 
 
@@ -595,27 +596,45 @@ def _json_decode(vm, args, func):
 METHOD_NAMES = ["Get", "Post", "Put", "Patch", "Delete"]
 
 
+def _outbound_url_error(url):
+    # Reject by character count first, so UTF-8 checking cannot copy a huge URL.
+    if len(url) > MAX_OUTBOUND_URL_BYTES:
+        return "url too large"
+    try:
+        if len(url.encode("utf-8")) > MAX_OUTBOUND_URL_BYTES:
+            return "url too large"
+    except UnicodeEncodeError:
+        return "url encoding"
+    return None
+
+
 @native("net.http.request")
 def _http_request(vm, args, func):
     req = args[0]
     method_val, url, body = req.fields
     method = METHOD_NAMES[method_val.variant] if isinstance(method_val, EnumVal) else "Get"
     _requires(len(url) > 0)
-    module = vm.module_stack[-1] if vm.module_stack else ""
-    allowed = set(vm.egress_for(module))
-    from gopyt.check import normalize_origin
-
-    origin = _origin(url)
-    norm = normalize_origin(origin) if origin else None
-    if norm is None or norm not in allowed or not vm.allows_resources(('network', norm)):
-        vm.observe.deny("egress", context=vm)
-        return _status(vm, "HttpError", "egress")
-    if "@" in url.split("://", 1)[1].split("/", 1)[0]:
-        return _status(vm, "HttpError", "userinfo")
-    request = urllib.request.Request(url, data=body or None, method=method.upper())
     from gopyt.netio import Budget, opener
     budget = Budget(vm, HTTP_TIMEOUT_MS)
     try:
+        budget.remaining()
+        error = _outbound_url_error(url)
+        if error is not None:
+            return _status(vm, "HttpError", error)
+        if len(body) > MAX_REQUEST_BODY:
+            return _status(vm, "HttpError", "body too large")
+        module = vm.module_stack[-1] if vm.module_stack else ""
+        allowed = set(vm.egress_for(module))
+        from gopyt.check import normalize_origin
+        origin = _origin(url)
+        norm = normalize_origin(origin) if origin else None
+        if norm is None or norm not in allowed or not vm.allows_resources(('network', norm)):
+            vm.observe.deny("egress", context=vm)
+            return _status(vm, "HttpError", "egress")
+        if "@" in url.split("://", 1)[1].split("/", 1)[0]:
+            return _status(vm, "HttpError", "userinfo")
+        budget.remaining()
+        request = urllib.request.Request(url, data=body or None, method=method.upper())
         try:
             resp = opener(budget, _NoRedirect()).open(request, timeout=budget.remaining())
         except urllib.error.HTTPError as error:
@@ -647,27 +666,34 @@ def _origin(url: str) -> str | None:
 @native("core.model.complete")
 def _model_complete(vm, args, func):
     prompt = args[0]
-    url = os.environ.get("GOPYT_MODEL_URL")
-    if not url:
-        return _status(vm, "ModelError", "no model url")
-    from gopyt.check import normalize_origin
-
-    module = vm.module_stack[-1] if vm.module_stack else ""
-    origin = _origin(url)
-    norm = normalize_origin(origin) if origin else None
-    if (norm is None or norm not in set(vm.egress_for(module))
-            or not vm.allows_resources(('network', norm))):
-        vm.observe.deny("egress", context=vm)
-        return _status(vm, "ModelError", "egress")
-    import json as _json
-
-    payload = _json.dumps({"prompt": prompt}, ensure_ascii=False, separators=(",", ":")).encode("utf-8")
-    request = urllib.request.Request(
-        url, data=payload, method="POST", headers={"Content-Type": "application/json"}
-    )
     from gopyt.netio import Budget, opener
     budget = Budget(vm, HTTP_TIMEOUT_MS)
     try:
+        budget.remaining()
+        url = os.environ.get("GOPYT_MODEL_URL")
+        if not url:
+            return _status(vm, "ModelError", "no model url")
+        error = _outbound_url_error(url)
+        if error is not None:
+            return _status(vm, "ModelError", error)
+        from gopyt.check import normalize_origin
+        module = vm.module_stack[-1] if vm.module_stack else ""
+        origin = _origin(url)
+        norm = normalize_origin(origin) if origin else None
+        if (norm is None or norm not in set(vm.egress_for(module))
+                or not vm.allows_resources(('network', norm))):
+            vm.observe.deny("egress", context=vm)
+            return _status(vm, "ModelError", "egress")
+        try:
+            encoded = jsonc.encode_bytes(vm.art, prompt, func.params[0],
+                                         max_bytes=MAX_REQUEST_BODY - 11,
+                                         check_context=budget.remaining)
+        except ConvertFail as error:
+            return _status(vm, "ModelError", "body too large" if error.message == "size" else "encode")
+        payload = b'{"prompt":' + encoded + b'}'
+        budget.remaining()
+        request = urllib.request.Request(
+            url, data=payload, method="POST", headers={"Content-Type": "application/json"})
         try:
             resp = opener(budget, _NoRedirect()).open(request, timeout=budget.remaining())
         except urllib.error.HTTPError as exc:

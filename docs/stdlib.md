@@ -327,7 +327,8 @@ task local(prompt: str, max_tokens: i64) -> str | ModelError
 ```
 
 No streaming, no tool-calling API here. Agent tools are app `task`s. Caller module
-needs `egress` containing `GOPYT_MODEL_URL`'s exact normalized origin.
+needs `egress` containing `GOPYT_MODEL_URL`'s exact normalized origin. Remote
+model requests follow the [URL and JSON payload limits](parallel-admission-amendment-2026-09-10.md#outbound-request-preparation-bounds).
 
 ---
 
@@ -447,7 +448,8 @@ task serve() -> unit | ListenError
 `net.http.serve` may **only** be called from a module-local `task serve` in a module that has `http { }`. Routes come from that table. The compiler binds them; there is no handler list value.
 
 `net.http.request` requires the calling module's `egress { }` (S30). Its parsed
-origin must match an entry exactly.
+origin must match an entry exactly. Outbound requests follow the
+[URL and payload limits](parallel-admission-amendment-2026-09-10.md#outbound-request-preparation-bounds).
 
 `HttpResponse.status` produced by stdlib is an `i64` in `100` … `599`.
 
