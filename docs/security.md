@@ -115,3 +115,11 @@ adds optional host-issued authority to the embedding VM. Grants attenuate and
 revoke across task descendants; they intersect existing source egress and DB
 operator policy. The trusted Python embedding boundary and unsupported companion
 integrations are explicit in the amendment.
+
+## Verified request sessions
+
+The [request identity amendment](request-identity-amendment-2026-09-09.md) defines
+operator provisioning, tenant-bound bearer sessions, exact route permission,
+monotonic expiry and revocation. It specifies the strict TLS-gateway boundary,
+identity-provider/MFA responsibilities, broker audience and process lifetime.
+Unverified forwarding/tenant headers never substitute for a valid credential.

@@ -141,3 +141,11 @@ same process can bypass Python objects; OS containment is issue #6. Authenticate
 cross-tenant deployment and independent security review remain issues #10/#26.
 No throughput, bounded native-memory, production SLO or universal safety claim
 follows from these tests. The full milestone remains open.
+
+## Request identity integration
+
+The [request identity amendment](request-identity-amendment-2026-09-09.md) now
+provides the per-request broker/tenant integration described above as separate
+work. It also adds optional monotonic expiry to delegated host authority. The
+original authority tests remain retained at their named source snapshot; identity
+HTTP/encrypted/concurrent-policy tests add evidence for that integration.

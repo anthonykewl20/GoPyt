@@ -130,9 +130,11 @@ def unseal(data,setting):
     except Exception as exc:raise SecurityError('storage authentication failed') from exc
 
 
-def http_token(root,address):
+def http_token(root,address,*,session_auth=False):
     required=strict()
     path=os.environ.get('GOPYT_HTTP_TOKEN_FILE')
+    if session_auth and path:
+        raise SecurityError('select service token or verified sessions, not both')
     if required:
         import ipaddress
         try:local=ipaddress.ip_address(address[0]).is_loopback
@@ -140,7 +142,7 @@ def http_token(root,address):
         if not local:raise SecurityError('strict HTTP requires loopback behind a TLS gateway')
         storage_cipher(root)
     if not path:
-        if required:raise SecurityError('strict HTTP requires an authentication token')
+        if required and not session_auth:raise SecurityError('strict HTTP requires an authentication token')
         return None
     token=secret_file(path,root,256).strip()
     if not 32<=len(token)<=256 or any(ch<33 or ch>126 for ch in token):

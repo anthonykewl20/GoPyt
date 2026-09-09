@@ -1,0 +1,185 @@
+{
+  "scope": "All original acceptance/evidence criteria for issues #4 and #10; milestone production/deployment gates remain separate and open.",
+  "criteria": [
+    {
+      "issue": 4,
+      "criterion": "A1",
+      "original_requirement": "Specify non-forgeable resource authority for database namespaces, filesystem operations and network origins.",
+      "assessment": "Host-issued DB/file/origin authority is not a GoPyT value; forged host scope values are rejected.",
+      "evidence": [
+        "gopyt/resource_authority.py",
+        "gopyt/natives.py",
+        "gopyt/test_resource_authority.py::ResourceCalls.test_unmediated_provider_never_imported_and_forged_scope_refused",
+        "docs/resource-authority-amendment-2026-09-09.md"
+      ]
+    },
+    {
+      "issue": 4,
+      "criterion": "A2",
+      "original_requirement": "Define grant attenuation, delegation, revocation and in-flight operation behavior; applications cannot widen their own authority.",
+      "assessment": "Delegation only attenuates, ancestors revoke descendants, expiry is monotonic, and admitted operations may finish.",
+      "evidence": [
+        "gopyt/resource_authority.py::ResourceAuthority",
+        "gopyt/test_resource_authority.py::Grants",
+        "gopyt/test_resource_authority.py::ResourceCalls.test_revoke_does_not_abort_an_admitted_commit",
+        "gopyt/test_identity.py::Sessions.test_expiry_applies_to_retained_authority_and_descendants_without_wall_clock"
+      ]
+    },
+    {
+      "issue": 4,
+      "criterion": "A3",
+      "original_requirement": "Enforce authority consistently across transitive calls, native boundaries, caches and concurrent tasks.",
+      "assessment": "VM/native admission covers transitive calls, cached reads, atomic batches, parallel children and HTTP workers.",
+      "evidence": [
+        "gopyt/vm.py",
+        "gopyt/server.py",
+        "gopyt/natives.py::resource_denial",
+        "gopyt/test_resource_authority.py::ResourceCalls",
+        "gopyt/test_identity.py::HttpIdentities.test_concurrent_users_and_policy_changes_do_not_cross_scopes"
+      ]
+    },
+    {
+      "issue": 4,
+      "criterion": "A4",
+      "original_requirement": "Test cross-tenant access, confused-deputy cases, policy changes, traversal/link races and mixed-authority atomic batches.",
+      "assessment": "Real HTTP verifies distinct bearer principals and mixed-tenant batch denial; resource regressions cover deputies, policy changes and file replacement after admission.",
+      "evidence": [
+        "gopyt/test_identity.py::HttpIdentities",
+        "gopyt/test_identity.py::StrictHttpIdentities",
+        "gopyt/test_resource_authority.py::ResourceCalls.test_file_replacement_after_admission_cannot_follow_link",
+        "gopyt/test_resource_authority.py::ResourceCalls.test_warm_cache_and_transitive_deputy_cannot_expand_scope"
+      ]
+    },
+    {
+      "issue": 4,
+      "criterion": "E1",
+      "original_requirement": "Retain reviewed design decisions, implementation references, meaningful regression/end-to-end tests, and failure evidence appropriate to this scope.",
+      "assessment": "Reviewed native/thread/audience decisions, implementation references, regressions and unsuccessful fixture/environment trials are retained. This is not an independent security audit.",
+      "evidence": [
+        "docs/request-identity-amendment-2026-09-09.md",
+        "docs/resource-authority-amendment-2026-09-09.md",
+        "validation/request-identity/README.md",
+        "validation/resource-authority/README.md"
+      ]
+    },
+    {
+      "issue": 4,
+      "criterion": "E2",
+      "original_requirement": "For performance/data claims, freeze workload/source identities before tuning, compare with an independent oracle, and report actual limits and unsuccessful trials.",
+      "assessment": "No performance/SLO or real-data-campaign claim is made. Regression sources/fixtures are frozen, fixed expected tenant results are asserted independently of permission lookup, and failures/limits are retained.",
+      "evidence": [
+        "validation/request-identity/source-sha256.json",
+        "validation/request-identity/language-python314.log",
+        "validation/request-identity/focused-python311.log",
+        "gopyt/test_identity.py",
+        "validation/request-identity/README.md"
+      ]
+    },
+    {
+      "issue": 4,
+      "criterion": "E3",
+      "original_requirement": "Update user-facing documentation and the architecture tracker; do not equate finite passing tests with universal correctness or security.",
+      "assessment": "User-facing security/architecture documents define supported behavior and limits. Remote tracker/issue publication must be verified after merge; finite tests do not imply universal security.",
+      "evidence": [
+        "docs/security.md",
+        "docs/architecture-programme.md",
+        "docs/request-identity-amendment-2026-09-09.md"
+      ]
+    },
+    {
+      "issue": 10,
+      "criterion": "A1",
+      "original_requirement": "Define verified request identity, tenant context and authorization policy interfaces with least privilege and deny-by-default behavior.",
+      "assessment": "Broker-issued opaque sessions carry immutable verified subject/tenant context, deny omitted rights, and reject mismatched module/VM audiences.",
+      "evidence": [
+        "gopyt/identity.py",
+        "gopyt/vm.py::VM.request_scope",
+        "gopyt/server.py",
+        "gopyt/test_identity.py::Sessions",
+        "gopyt/test_identity.py::HttpIdentities.test_wrong_audience_and_reused_broker_are_refused"
+      ]
+    },
+    {
+      "issue": 10,
+      "criterion": "A2",
+      "original_requirement": "Bind authorization to the resource operation and authenticated identity, never to an unverified client-supplied tenant identifier.",
+      "assessment": "A credential selects host-provisioned tenant grants; header/body/URL tenant claims cannot widen them. Every native resource admission checks the session authority.",
+      "evidence": [
+        "gopyt/identity.py::SessionBroker.provision",
+        "gopyt/natives.py::resource_denial",
+        "gopyt/test_identity.py::HttpIdentities.test_cross_tenant_reads_writes_batch_and_forged_identity_headers",
+        "gopyt/test_identity.py::HttpIdentities.test_expiry_and_policy_revocation_between_authentication_and_resource_operation"
+      ]
+    },
+    {
+      "issue": 10,
+      "criterion": "A3",
+      "original_requirement": "Specify provisioning, revocation, token/session expiry and supported gateway or identity-provider integration, including MFA responsibilities.",
+      "assessment": "Operator provisioning, revocation/replacement, one-hour bounded monotonic sessions and the strict TLS-gateway credential contract are specified. Upstream human authentication/MFA is an explicit trusted-host responsibility; no OAuth/JWT validation is claimed.",
+      "evidence": [
+        "docs/request-identity-amendment-2026-09-09.md",
+        "gopyt/identity.py::SessionBroker",
+        "gopyt/security_config.py::http_token",
+        "gopyt/test_identity.py::Sessions.test_strict_sessions_require_loopback_keys_and_unambiguous_auth_mode",
+        "gopyt/test_identity.py::Sessions.test_policy_replacement_revoke_and_reprovision_invalidate_old_credentials"
+      ]
+    },
+    {
+      "issue": 10,
+      "criterion": "A4",
+      "original_requirement": "Test cross-tenant reads/writes, privilege escalation, stale credentials, batch authorization and concurrent policy changes through real HTTP.",
+      "assessment": "Real HTTP and encrypted strict-profile tests verify cross-tenant reads/writes, route escalation, stale credentials, atomic batches, reused connections, and concurrent policy changes.",
+      "evidence": [
+        "gopyt/test_identity.py::HttpIdentities",
+        "gopyt/test_identity.py::StrictHttpIdentities"
+      ]
+    },
+    {
+      "issue": 10,
+      "criterion": "E1",
+      "original_requirement": "Retain reviewed design decisions, implementation references, meaningful regression/end-to-end tests, and failure evidence appropriate to this scope.",
+      "assessment": "Reviewed native/thread/audience decisions, implementation references, regressions and unsuccessful fixture/environment trials are retained. This is not an independent security audit.",
+      "evidence": [
+        "docs/request-identity-amendment-2026-09-09.md",
+        "docs/resource-authority-amendment-2026-09-09.md",
+        "validation/request-identity/README.md",
+        "validation/resource-authority/README.md"
+      ]
+    },
+    {
+      "issue": 10,
+      "criterion": "E2",
+      "original_requirement": "For performance/data claims, freeze workload/source identities before tuning, compare with an independent oracle, and report actual limits and unsuccessful trials.",
+      "assessment": "No performance/SLO or real-data-campaign claim is made. Regression sources/fixtures are frozen, fixed expected tenant results are asserted independently of permission lookup, and failures/limits are retained.",
+      "evidence": [
+        "validation/request-identity/source-sha256.json",
+        "validation/request-identity/language-python314.log",
+        "validation/request-identity/focused-python311.log",
+        "gopyt/test_identity.py",
+        "validation/request-identity/README.md"
+      ]
+    },
+    {
+      "issue": 10,
+      "criterion": "E3",
+      "original_requirement": "Update user-facing documentation and the architecture tracker; do not equate finite passing tests with universal correctness or security.",
+      "assessment": "User-facing security/architecture documents define supported behavior and limits. Remote tracker/issue publication must be verified after merge; finite tests do not imply universal security.",
+      "evidence": [
+        "docs/security.md",
+        "docs/architecture-programme.md",
+        "docs/request-identity-amendment-2026-09-09.md"
+      ]
+    }
+  ],
+  "publication_gates": [
+    "Merge implementation with passing supported-platform CI at the final head.",
+    "Publish current evidence on both issues and update the architecture parent.",
+    "Verify remote body/checklist/state changes before treating issue closure as complete."
+  ],
+  "limitations": [
+    "Trusted Python host; no protection from hostile Python in the same process.",
+    "Supported authentication mode is operator-provisioned opaque bearer sessions; upstream human MFA/IdP verification belongs to the trusted host integration.",
+    "No deployed TLS/gateway/MFA/IdP security qualification or independent audit claimed.",
+    "No throughput, beyond-RAM, SLO, recovery or universal safety claim."
+  ]
+}

@@ -94,9 +94,14 @@ def serve(vm, module: str):
         vm.serving = False
         return _status(vm, "ListenError", "resource authority denied")
     authority = vm.authority
+    identities = vm.identities
+    if identities is not None and (identities.module != module
+            or not identities.authority.is_descendant_of(authority)):
+        vm.serving = False
+        return _status(vm, "ListenError", "identity broker audience or serving authority mismatch")
     from gopyt.security_config import http_token, SecurityError
     try:
-        authorization = http_token(vm.root, addr)
+        authorization = http_token(vm.root, addr, session_auth=identities is not None)
     except SecurityError:
         vm.serving = False
         return _status(vm, "ListenError", "security configuration")
@@ -137,14 +142,24 @@ def serve(vm, module: str):
             return
 
         def _empty(self, status: int) -> None:
-            if status in (400, 404, 413, 503):
+            if status in (400, 401, 403, 404, 413, 503):
                 vm.observe.http(getattr(self, "route_tag", "unmatched"), str(status), 0.0)
             self.send_response(status)
             self.send_header("Content-Length", "0")
+            if status == 401:
+                self.send_header("WWW-Authenticate", 'Bearer realm="gopyt"')
             self.end_headers()
 
         def handle_one(self, method_num: int) -> None:
             self.route_tag = "unmatched"
+            session = None
+            if identities is not None:
+                headers = self.headers.get_all("Authorization", [])
+                session = identities.authenticate(headers[0]) if len(headers) == 1 else None
+                if session is None:
+                    self.close_connection = True
+                    self._empty(401)
+                    return
             if authorization is not None:
                 headers = self.headers.get_all("Authorization", [])
                 try:
@@ -188,7 +203,18 @@ def serve(vm, module: str):
                 self._empty(404)
                 return
             fn_id, (names, placeholders), binds = hit
-            self._dispatch(fn_id, names, placeholders, binds, body, method_num)
+            if session is not None:
+                if (self.command, self.route_tag) not in session.routes:
+                    self._empty(403)
+                    return
+                if not session.authority.admits(()):
+                    self.close_connection = True
+                    self._empty(401)
+                    return
+                with vm.request_scope(session):
+                    self._dispatch(fn_id, names, placeholders, binds, body, method_num)
+            else:
+                self._dispatch(fn_id, names, placeholders, binds, body, method_num)
 
         def _dispatch(self, fn_id, names, placeholders, binds, body, method_num) -> None:
             import time as _time

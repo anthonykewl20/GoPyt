@@ -89,3 +89,5 @@ Full experimental coder training: [verified repair data to LoRA to paired evalua
 - [Native boundary amendment](native-boundary-amendment-2026-09-09.md): full-range cancellable sleep, optional-provider errors and malformed policy handling.
 
 - [Delegated resource authority](resource-authority-amendment-2026-09-09.md): host-issued attenuated resource handles, revocation and native enforcement.
+
+- [Verified request identity](request-identity-amendment-2026-09-09.md): operator-provisioned subjects, tenant-bound sessions, per-request authorization, expiry and revocation.
