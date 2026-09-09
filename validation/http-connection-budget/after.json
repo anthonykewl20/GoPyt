@@ -1,0 +1,14 @@
+{
+  "runtime_sha256": "9a53c86ef726f1b26a7dcba7e7d8cb3a24190065d47a96029e622c4352e183c7",
+  "probe_sha256": "e98050eff18c41502ece5c1b2d042ec804bb838950f0f6bada93777d21f063e8",
+  "worker_limit": 1,
+  "request_quota": 2,
+  "final_connection_header": "close",
+  "queued_client_served_before_peer_close": true,
+  "queued_result": [
+    [
+      200,
+      12
+    ]
+  ]
+}

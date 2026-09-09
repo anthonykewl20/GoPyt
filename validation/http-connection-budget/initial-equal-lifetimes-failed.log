@@ -1,0 +1,49 @@
+echo
+Exception in thread Thread-3 (<lambda>):
+Traceback (most recent call last):
+  File "/home/soultransit/.local/share/uv/python/cpython-3.14.7-linux-x86_64-gnu/lib/python3.14/threading.py", line 1082, in _bootstrap_inner
+    self._context.run(self.run)
+    ~~~~~~~~~~~~~~~~~^^^^^^^^^^
+  File "/home/soultransit/.local/share/uv/python/cpython-3.14.7-linux-x86_64-gnu/lib/python3.14/threading.py", line 1024, in run
+    self._target(*self._args, **self._kwargs)
+    ~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/soultransit/devtony/gopyt-milestone-work/gopyt/test_connection_budget.py", line 86, in <lambda>
+    second = threading.Thread(target=lambda: outcomes.append(fixture.request(port)))
+                                                             ~~~~~~~~~~~~~~~^^^^^^
+  File "/home/soultransit/devtony/gopyt-milestone-work/gopyt/test_app_runtime.py", line 73, in request
+    response = connection.getresponse()
+  File "/home/soultransit/.local/share/uv/python/cpython-3.14.7-linux-x86_64-gnu/lib/python3.14/http/client.py", line 1478, in getresponse
+    response.begin()
+    ~~~~~~~~~~~~~~^^
+  File "/home/soultransit/.local/share/uv/python/cpython-3.14.7-linux-x86_64-gnu/lib/python3.14/http/client.py", line 343, in begin
+    version, status, reason = self._read_status()
+                              ~~~~~~~~~~~~~~~~~^^
+  File "/home/soultransit/.local/share/uv/python/cpython-3.14.7-linux-x86_64-gnu/lib/python3.14/http/client.py", line 312, in _read_status
+    raise RemoteDisconnected("Remote end closed connection without"
+                             " response")
+http.client.RemoteDisconnected: Remote end closed connection without response
+F.echo
+..echo
+echo
+echo
+.
+======================================================================
+FAIL: test_idle_connection_lifetime_releases_queued_client (gopyt.test_connection_budget.ConnectionBudget.test_idle_connection_lifetime_releases_queued_client)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/home/soultransit/devtony/gopyt-milestone-work/gopyt/test_connection_budget.py", line 96, in test_idle_connection_lifetime_releases_queued_client
+    self.assertEqual(outcomes, [(200, b'{"amount":3}')])
+    ~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+AssertionError: Lists differ: [] != [(200, b'{"amount":3}')]
+
+Second list contains 1 additional elements.
+First extra element 0:
+(200, b'{"amount":3}')
+
+- []
++ [(200, b'{"amount":3}')]
+
+----------------------------------------------------------------------
+Ran 5 tests in 1.681s
+
+FAILED (failures=1)
