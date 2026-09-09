@@ -11,6 +11,10 @@ configuration error-boundary defects and distinguishes existing v0 behavior
 from requested extensions and deployment decisions. GitHub dependency links
 describe proposed sequencing, not prerequisites enforced by the compiler.
 
+The [native boundary amendment](native-boundary-amendment-2026-09-09.md)
+repairs R1–R3 with compiled regression coverage. Broader issue requirements
+remain open; the historical checklist review describes its pinned baseline.
+
 ## Acceptance gates
 
 | Gap | Required outcome | Current increment |

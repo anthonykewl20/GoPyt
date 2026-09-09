@@ -85,3 +85,5 @@ Full experimental coder training: [verified repair data to LoRA to paired evalua
 
 - [Peon ZCode coder operations](peon-zcode-automation-v1.md): scheduled training, benchmarks, dogfooding, calibration and reporting.
 - [Peon verified action distillation](peon-distillation-v1.md): teacher provenance, executable filtering and student evaluation.
+
+- [Native boundary amendment](native-boundary-amendment-2026-09-09.md): full-range cancellable sleep, optional-provider errors and malformed policy handling.

@@ -39,7 +39,7 @@ def database_authority(root):
     data = secret_file(path, root, 65536)
     try:
         policy = json.loads(data, object_pairs_hook=_unique)
-    except (ValueError, UnicodeError) as exc:
+    except (ValueError, UnicodeError, RecursionError) as exc:
         raise SecurityError('invalid database policy') from exc
     if (not isinstance(policy, dict) or set(policy) != {'version', 'read', 'write'}
             or type(policy['version']) is not int or policy['version'] != 1):
