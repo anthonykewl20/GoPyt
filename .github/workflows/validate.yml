@@ -37,6 +37,7 @@ jobs:
         run: |
           GOPYT_BUILD_EPOCH=$(git log -1 --format=%ct)
           python tools/reproducible_wheel.py --output "$RUNNER_TEMP/gopyt-repro" --epoch "$GOPYT_BUILD_EPOCH"
+          python tools/component_inventory.py > "$RUNNER_TEMP/gopyt-repro/component-inventory.json"
           mkdir -p dist
           cp "$RUNNER_TEMP/gopyt-repro/0/gopyt-0.1.0-py3-none-any.whl" dist/
       - run: python tools/wheel_smoke.py dist/gopyt-0.1.0-py3-none-any.whl

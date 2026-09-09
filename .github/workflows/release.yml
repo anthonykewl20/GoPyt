@@ -40,6 +40,7 @@ jobs:
           python -c "import sys; assert sys.version_info[:3] == (3, 14, 7)"
           python -m pip install --require-hashes --only-binary=:all: -r requirements/build.txt -r requirements/security.txt
           python tools/reproducible_wheel.py --output "$RUNNER_TEMP/release" --epoch "$(git log -1 --format=%ct)"
+          python tools/component_inventory.py > "$RUNNER_TEMP/release/component-inventory.json"
           python tools/wheel_smoke.py "$RUNNER_TEMP/release/0/gopyt-0.1.0-py3-none-any.whl"
       - name: Attest wheel and build report
         id: provenance
@@ -48,6 +49,7 @@ jobs:
           subject-path: |
             ${{ runner.temp }}/release/0/gopyt-0.1.0-py3-none-any.whl
             ${{ runner.temp }}/release/report.json
+            ${{ runner.temp }}/release/component-inventory.json
       - name: Retain provenance bundle and validation identity
         env:
           BUNDLE_PATH: ${{ steps.provenance.outputs.bundle-path }}
