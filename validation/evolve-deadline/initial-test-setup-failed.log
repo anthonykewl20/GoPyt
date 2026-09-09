@@ -1,0 +1,19 @@
+E.....
+======================================================================
+ERROR: test_apply_lock_cancellation_never_enters_recovery (gopyt.test_evolve_deadlines.EvolutionDeadlines.test_apply_lock_cancellation_never_enters_recovery)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/home/soultransit/devtony/gopyt-milestone-work/gopyt/test_evolve_deadlines.py", line 203, in test_apply_lock_cancellation_never_enters_recovery
+    with patch('gopyt.transaction.fcntl.flock', flock), patch('gopyt.transaction.recover') as recover:
+         ~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/soultransit/.local/share/uv/python/cpython-3.14.7-linux-x86_64-gnu/lib/python3.14/unittest/mock.py", line 1494, in __enter__
+    self.target = self.getter()
+                  ~~~~~~~~~~~^^
+  File "/home/soultransit/.local/share/uv/python/cpython-3.14.7-linux-x86_64-gnu/lib/python3.14/pkgutil.py", line 473, in resolve_name
+    result = getattr(result, p)
+AttributeError: module 'gopyt.transaction' has no attribute 'fcntl'
+
+----------------------------------------------------------------------
+Ran 6 tests in 1.762s
+
+FAILED (errors=1)

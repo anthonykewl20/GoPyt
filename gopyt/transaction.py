@@ -8,6 +8,7 @@ import functools
 import json
 import os
 import threading
+import time
 from contextlib import contextmanager
 from gopyt.files import atomic_write, parent_directory, regular_file, segments
 
@@ -73,11 +74,13 @@ def recover(root):
 
 
 @contextmanager
-def guard(root):
+def guard(root, *, context=None):
     import fcntl
     from gopyt.diag import CompileError, Diag
     from gopyt.manifest import reject_symlinks
 
+    if context is not None:
+        context.check_cancelled()
     root = os.path.abspath(root)
     held = getattr(LOCAL, 'held', None)
     if held is None:
@@ -88,15 +91,35 @@ def guard(root):
     reject_symlinks(root)
     try:
         with parent_directory(root, LOCK) as (directory, name):
+            if context is not None:
+                context.check_cancelled()
             fd = os.open(name, os.O_RDWR | os.O_CREAT | os.O_NOFOLLOW | os.O_NONBLOCK, 0o600, dir_fd=directory)
         try:
             import stat
             if not stat.S_ISREG(os.fstat(fd).st_mode):
                 raise OSError('lock type')
-            fcntl.flock(fd, fcntl.LOCK_EX | (fcntl.LOCK_NB if held else 0))
+            if context is None or held:
+                # Nested cross-root acquisition stays fail-fast to avoid deadlock.
+                fcntl.flock(fd, fcntl.LOCK_EX | (fcntl.LOCK_NB if held else 0))
+            else:
+                while True:
+                    context.check_cancelled()
+                    try:
+                        fcntl.flock(fd, fcntl.LOCK_EX | fcntl.LOCK_NB)
+                        break
+                    except BlockingIOError:
+                        left = .002
+                        if context.deadline_ns is not None:
+                            left = min(left, max(0, context.deadline_ns - time.monotonic_ns()) / 1_000_000_000)
+                        time.sleep(left)
             held[root] = fd
             try:
+                if context is not None:
+                    context.check_cancelled()
+                # Recovery already admitted under the lock must finish.
                 recover(root)
+                if context is not None:
+                    context.check_cancelled()
                 yield
             finally:
                 del held[root]

@@ -34,7 +34,8 @@ agent BillingAgent
 ```
 
 - `max` = candidates (Little’s law: in-flight evolve work ≤ `max`).
-- `timeout_ms` = wall bound for the wave.
+- `timeout_ms` = elapsed budget for preparation and apply, subject to the
+  [deadline and cleanup rules](parallel-admission-amendment-2026-09-10.md#evolution-wave-deadlines-and-cleanup).
 - `reservoir` = Vitter reservoir size for traces (hardening.md).
 - Requires `model` on the agent (`GOPYT_E114`).
 - Absent `evolve` → no self-modification.

@@ -486,7 +486,9 @@ def _evolve_propose(vm, args, func):
         vm.evolve_last = now
         vm.evolve_in_flight = True
     try:
-        outcome = _evolve.propose(vm.root, True, bounds[0], timeout_ms=bounds[1], module=module, traces=vm.observe.snapshot())
+        outcome = _evolve.propose(vm.root, True, bounds[0], timeout_ms=bounds[1], module=module, traces=vm.observe.snapshot(), context=vm)
+    except (Trap, Cancelled):
+        raise
     except Exception as exc:  # a broken wave must not take the VM with it
         return Record(vm.type_id_of("core.evolve.EvolveError"), [type(exc).__name__])
     finally:

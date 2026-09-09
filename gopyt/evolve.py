@@ -16,6 +16,7 @@ from __future__ import annotations
 import os
 import json
 import shutil
+import socket
 import time
 from dataclasses import dataclass, fields, is_dataclass
 
@@ -23,7 +24,7 @@ from gopyt.check import check_package, load_package
 from gopyt.diag import CompileError
 from gopyt.manifest import lock_text, package_digest, reject_symlinks
 from gopyt.files import atomic_write, segments, regular_file
-from gopyt.transaction import guarded, commit
+from gopyt.transaction import guard, guarded, commit
 
 SKIP_DIRS = ("build", "evolve", ".git")
 
@@ -34,6 +35,146 @@ class Outcome:
     digest: str = ""
     message: str = ""
     candidate_digest: str = ""
+
+
+
+MAX_OUTCOME_BYTES = 16_384
+_OUTCOME_FIELDS = ('kind', 'digest', 'message', 'candidate_digest')
+
+
+class _WaveTimeout(Exception):
+    pass
+
+
+class _WaveBudget:
+    def __init__(self, context, timeout_ms):
+        self.context = context
+        self.deadline_ns = None if timeout_ms is None else time.monotonic_ns() + timeout_ms * 1_000_000
+        if context is not None and context.deadline_ns is not None:
+            self.deadline_ns = (context.deadline_ns if self.deadline_ns is None else
+                                min(self.deadline_ns, context.deadline_ns))
+
+    def check_cancelled(self):
+        if self.context is not None:
+            self.context.check_cancelled()
+        if self.deadline_ns is not None and time.monotonic_ns() >= self.deadline_ns:
+            raise _WaveTimeout()
+
+    def remaining(self):
+        self.check_cancelled()
+        if self.deadline_ns is None:
+            return .05
+        left = self.deadline_ns - time.monotonic_ns()
+        if left <= 0:
+            self.check_cancelled()
+            raise _WaveTimeout()
+        return min(.05, left / 1_000_000_000)
+
+
+def _outcome_record(record):
+    if (not isinstance(record, dict) or set(record) != set(_OUTCOME_FIELDS)
+            or any(type(record[name]) is not str for name in _OUTCOME_FIELDS)
+            or record['kind'] not in ('Prepared', 'NoChange', 'EvolveError')):
+        raise ValueError('invalid preparation outcome')
+    return Outcome(**record)
+
+
+class _OutcomeWriter:
+    """Spawn transfers only the socket; results use a bounded JSON frame."""
+    def __init__(self, sock):
+        self.sock = sock
+
+    def send(self, outcome):
+        record = {name: getattr(outcome, name) for name in _OUTCOME_FIELDS}
+        _outcome_record(record)
+        payload = json.dumps(record, ensure_ascii=False, separators=(',', ':')).encode('utf-8')
+        if len(payload) > MAX_OUTCOME_BYTES:
+            raise ValueError('preparation outcome too large')
+        self.sock.sendall(len(payload).to_bytes(4, 'big') + payload)
+
+    def close(self):
+        self.sock.close()
+
+
+def _receive_outcome(sock, budget):
+    def receive(size):
+        while True:
+            sock.settimeout(budget.remaining())
+            try:
+                data = sock.recv(size)
+                budget.check_cancelled()
+                return data
+            except TimeoutError:
+                budget.check_cancelled()
+
+    def exact(size):
+        data = bytearray()
+        while len(data) < size:
+            chunk = receive(size - len(data))
+            if not chunk:
+                raise EOFError('incomplete preparation outcome')
+            data.extend(chunk)
+        return bytes(data)
+
+    def unique(pairs):
+        record = {}
+        for key, value in pairs:
+            if key in record:
+                raise ValueError('duplicate outcome field')
+            record[key] = value
+        return record
+
+    size = int.from_bytes(exact(4), 'big')
+    if not 0 < size <= MAX_OUTCOME_BYTES:
+        raise OSError('preparation outcome size')
+    payload = exact(size)
+    if receive(1):
+        raise OSError('trailing preparation outcome')
+    try:
+        return _outcome_record(json.loads(payload.decode('utf-8'), object_pairs_hook=unique))
+    except (ValueError, TypeError, RecursionError) as exc:
+        raise OSError('preparation outcome format') from exc
+
+
+def _prepare_child(root, max_candidates, module, traces, budget):
+    import multiprocessing
+    budget.check_cancelled()
+    reader, sender = socket.socketpair()
+    process = None
+    received = False
+    try:
+        writer = _OutcomeWriter(sender)
+        process = multiprocessing.get_context('spawn').Process(
+            target=_prepare_worker, args=(writer, root, max_candidates, module, traces))
+        budget.check_cancelled()
+        process.start()
+        writer.close()
+        budget.check_cancelled()
+        plan = _receive_outcome(reader, budget)
+        received = True
+        return plan
+    finally:
+        sender.close()
+        reader.close()
+        if process is not None:
+            try:
+                if process.pid is not None:
+                    if received:
+                        process.join(.05)
+                    if process.is_alive():
+                        try:
+                            process.terminate()
+                        except ProcessLookupError:
+                            pass
+                        process.join(.25)
+                        if process.is_alive():
+                            try:
+                                process.kill()
+                            except ProcessLookupError:
+                                pass
+                    process.join()
+            finally:
+                process.close()
 
 
 def _copy_package(src: str, dst: str) -> None:
@@ -210,12 +351,23 @@ def _prepare_worker(connection, root, max_candidates, module, traces):
         connection.close()
 
 
-@guarded
-def _apply(root, plan):
+def _apply(root, plan, *, context=None):
+    with guard(root, context=context):
+        return _apply_locked(root, plan, context)
+
+
+def _apply_locked(root, plan, context):
+    def check_context():
+        if context is not None:
+            context.check_cancelled()
+
+    check_context()
     chosen = plan.message
     if not plan.candidate_digest or package_digest(chosen) != plan.candidate_digest:
         return Outcome("EvolveError", message="candidate changed")
+    check_context()
     base_egress, base_ffi = _survey(root)
+    check_context()
     new_egress, new_ffi = _survey(chosen)
     if new_egress != base_egress or new_ffi - base_ffi:
         return Outcome("EvolveError", message="candidate authority changed")
@@ -223,11 +375,13 @@ def _apply(root, plan):
         return Outcome("EvolveError", message="dependencies changed")
     if package_digest(root) != plan.digest:
         return Outcome("EvolveError", message="source changed")
+    check_context()
     changes = []
     for folder in ("spec", "impl", "test"):
         source = os.path.join(chosen, folder)
         for dirpath, _dirs, names in os.walk(source):
             for name in sorted(names):
+                check_context()
                 full = os.path.join(dirpath, name)
                 rel = os.path.relpath(full, chosen)
                 with regular_file(chosen, rel) as stream:
@@ -243,50 +397,39 @@ def _apply(root, plan):
     changes.append(("gopyt.lock", old_lock, new_lock))
     if package_digest(chosen) != plan.candidate_digest:
         return Outcome("EvolveError", message="candidate changed")
+    check_context()
     try:
+        # Once journal publication begins, finish commit/recovery cleanup.
         commit(root, changes, writer=atomic_write)
     except OSError:
         return Outcome("EvolveError", message="apply failed")
-    return Outcome("Applied", digest=package_digest(root))
+    result = Outcome("Applied", digest=package_digest(root))
+    check_context()
+    return result
 
 
 def propose(root: str, alarm: bool, max_candidates: int,
-            timeout_ms: int | None = None, module: str | None = None, traces=None) -> Outcome:
-    """Prepare in an interruptible child when called by the VM; apply last.
-
-    Preparation is bounded; a journal makes interruption during commit
-    recoverable before any cooperating reader loads the source tree.
-    """
+            timeout_ms: int | None = None, module: str | None = None, traces=None,
+            context=None) -> Outcome:
+    """Bound preparation and apply admission; finish admitted journal cleanup."""
     if not alarm:
         return Outcome("NoChange")
     if max_candidates < 1:
         return Outcome("EvolveError", message="max")
+    budget = None
     try:
-        if timeout_ms is None:
+        if timeout_ms is None and context is None:
             plan = _prepare(root, max_candidates, module, traces)
         else:
-            import multiprocessing
-
-            if timeout_ms < 1:
-                return Outcome("EvolveError", message="timeout")
-            deadline = time.monotonic() + timeout_ms / 1000
-            context = multiprocessing.get_context("spawn")
-            reader, writer = context.Pipe(duplex=False)
-            process = context.Process(target=_prepare_worker,
-                                      args=(writer, root, max_candidates, module, traces))
-            process.start()
-            writer.close()
-            try:
-                if not reader.poll(max(0, deadline - time.monotonic())):
-                    return Outcome("EvolveError", message="timeout")
-                plan = reader.recv()
-            finally:
-                reader.close()
-                if process.is_alive():
-                    process.terminate()
-                process.join()
-            if time.monotonic() >= deadline:
-                return Outcome("EvolveError", message="timeout")
-        return _apply(root, plan) if plan.kind == "Prepared" else plan
+            budget = _WaveBudget(context, timeout_ms)
+            budget.check_cancelled()
+            plan = _prepare_child(root, max_candidates, module, traces, budget)
+            budget.check_cancelled()
+        result = _apply(root, plan, context=budget) if plan.kind == "Prepared" else plan
+        if budget is not None:
+            budget.check_cancelled()
+        return result
+    except _WaveTimeout:
+        return Outcome("EvolveError", message="timeout")
     except (CompileError, OSError, EOFError) as exc:
         return Outcome("EvolveError", message=type(exc).__name__)
