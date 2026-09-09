@@ -94,3 +94,6 @@ Full experimental coder training: [verified repair data to LoRA to paired evalua
 
 [Transaction outcome and cancellation amendment](transaction-outcomes-amendment-2026-09-09.md)
 defines publication, acknowledgment and receipt-based reconciliation boundaries.
+
+[Exact toolchain compatibility](toolchain-compatibility-amendment-2026-09-09.md)
+binds format-3 artifacts and locks to runtime sources and specifies upgrade steps.

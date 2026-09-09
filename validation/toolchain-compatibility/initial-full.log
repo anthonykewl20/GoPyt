@@ -1,0 +1,1522 @@
+echo
+.echo
+.echo
+echo
+.echo
+.echo
+.charge
+.echo
+echo
+...echo
+....................................probe
+probe
+probe
+......arithmetic
+..probe
+............x
+...x
+...charge
+..............................................start
+.......decode
+.................................................echo
+echo
+echo
+echo
+echo
+echo
+charge
+echo
+echo
+echo
+probe
+probe
+probe
+arithmetic
+probe
+x
+x
+charge
+start
+decode
+start
+guard prepare: duplicate JSON key: cases
+guard prepare: preparation policy exceeds byte limit
+echo
+echo
+echo
+echo
+echo
+echo
+obligations: FileExistsError: [Errno 17] File exists: '/tmp/tmpsx7arnti/report.json'
+obligations: FileExistsError: [Errno 17] File exists: '/tmp/tmp83074xvs/report.json'
+obligations: FileExistsError: [Errno 17] File exists: '/tmp/tmpg53wwj2i/report.json'
+obligations: FileExistsError: [Errno 17] File exists: '/tmp/tmpkv3_5hu7/report.json'
+project context: FileExistsError: [Errno 17] File exists: '/tmp/tmpbc1o0op0/receipt.json'
+decode
+charge
+cell
+e
+o
+e
+o
+e
+o
+e
+charging
+echo
+user
+ping
+charge
+wire
+alloc
+1
+1
+found
+go
+go
+0
+1
+2
+3
+go
+go
+go
+and
+order
+contract
+div
+enum
+int
+opt
+or
+range
+mod
+slice
+len
+encode
+encode
+decode
+get
+bools
+empty
+keys
+map
+F/home/soultransit/.local/share/uv/python/cpython-3.14.7-linux-x86_64-gnu/lib/python3.14/tempfile.py:962: ResourceWarning: Implicitly cleaning up <TemporaryDirectory '/tmp/tmpoqiowm3a'>
+  _warnings.warn(warn_message, ResourceWarning)
+/home/soultransit/.local/share/uv/python/cpython-3.14.7-linux-x86_64-gnu/lib/python3.14/tempfile.py:962: ResourceWarning: Implicitly cleaning up <TemporaryDirectory '/tmp/tmpi7qtb94l'>
+  _warnings.warn(warn_message, ResourceWarning)
+/home/soultransit/.local/share/uv/python/cpython-3.14.7-linux-x86_64-gnu/lib/python3.14/tempfile.py:962: ResourceWarning: Implicitly cleaning up <TemporaryDirectory '/tmp/tmpqvy8mrle'>
+  _warnings.warn(warn_message, ResourceWarning)
+/home/soultransit/.local/share/uv/python/cpython-3.14.7-linux-x86_64-gnu/lib/python3.14/tempfile.py:962: ResourceWarning: Implicitly cleaning up <TemporaryDirectory '/tmp/tmpox5js8cr'>
+  _warnings.warn(warn_message, ResourceWarning)
+/home/soultransit/.local/share/uv/python/cpython-3.14.7-linux-x86_64-gnu/lib/python3.14/tempfile.py:962: ResourceWarning: Implicitly cleaning up <TemporaryDirectory '/tmp/tmpd8byq319'>
+  _warnings.warn(warn_message, ResourceWarning)
+/home/soultransit/.local/share/uv/python/cpython-3.14.7-linux-x86_64-gnu/lib/python3.14/tempfile.py:962: ResourceWarning: Implicitly cleaning up <TemporaryDirectory '/tmp/tmpq4a8w8vm'>
+  _warnings.warn(warn_message, ResourceWarning)
+/home/soultransit/.local/share/uv/python/cpython-3.14.7-linux-x86_64-gnu/lib/python3.14/tempfile.py:962: ResourceWarning: Implicitly cleaning up <TemporaryDirectory '/tmp/tmp8tfq4wul'>
+  _warnings.warn(warn_message, ResourceWarning)
+/home/soultransit/.local/share/uv/python/cpython-3.14.7-linux-x86_64-gnu/lib/python3.14/tempfile.py:962: ResourceWarning: Implicitly cleaning up <TemporaryDirectory '/tmp/tmpd1rmjdiy'>
+  _warnings.warn(warn_message, ResourceWarning)
+/home/soultransit/.local/share/uv/python/cpython-3.14.7-linux-x86_64-gnu/lib/python3.14/tempfile.py:962: ResourceWarning: Implicitly cleaning up <TemporaryDirectory '/tmp/tmppnb3lrhp'>
+  _warnings.warn(warn_message, ResourceWarning)
+/home/soultransit/.local/share/uv/python/cpython-3.14.7-linux-x86_64-gnu/lib/python3.14/tempfile.py:962: ResourceWarning: Implicitly cleaning up <TemporaryDirectory '/tmp/tmplcixez_d'>
+  _warnings.warn(warn_message, ResourceWarning)
+/home/soultransit/.local/share/uv/python/cpython-3.14.7-linux-x86_64-gnu/lib/python3.14/tempfile.py:962: ResourceWarning: Implicitly cleaning up <TemporaryDirectory '/tmp/tmpnxtwurxd'>
+  _warnings.warn(warn_message, ResourceWarning)
+/home/soultransit/.local/share/uv/python/cpython-3.14.7-linux-x86_64-gnu/lib/python3.14/tempfile.py:962: ResourceWarning: Implicitly cleaning up <TemporaryDirectory '/tmp/tmppw7vnjbp'>
+  _warnings.warn(warn_message, ResourceWarning)
+/home/soultransit/.local/share/uv/python/cpython-3.14.7-linux-x86_64-gnu/lib/python3.14/tempfile.py:962: ResourceWarning: Implicitly cleaning up <TemporaryDirectory '/tmp/tmp4_vx3wp9'>
+  _warnings.warn(warn_message, ResourceWarning)
+/home/soultransit/.local/share/uv/python/cpython-3.14.7-linux-x86_64-gnu/lib/python3.14/tempfile.py:962: ResourceWarning: Implicitly cleaning up <TemporaryDirectory '/tmp/tmpgxeho9rb'>
+  _warnings.warn(warn_message, ResourceWarning)
+/home/soultransit/.local/share/uv/python/cpython-3.14.7-linux-x86_64-gnu/lib/python3.14/tempfile.py:962: ResourceWarning: Implicitly cleaning up <TemporaryDirectory '/tmp/tmpqe_ffe9d'>
+  _warnings.warn(warn_message, ResourceWarning)
+/home/soultransit/.local/share/uv/python/cpython-3.14.7-linux-x86_64-gnu/lib/python3.14/tempfile.py:962: ResourceWarning: Implicitly cleaning up <TemporaryDirectory '/tmp/tmp37lfirac'>
+  _warnings.warn(warn_message, ResourceWarning)
+/home/soultransit/.local/share/uv/python/cpython-3.14.7-linux-x86_64-gnu/lib/python3.14/tempfile.py:962: ResourceWarning: Implicitly cleaning up <TemporaryDirectory '/tmp/tmppvq2u1ni'>
+  _warnings.warn(warn_message, ResourceWarning)
+/home/soultransit/.local/share/uv/python/cpython-3.14.7-linux-x86_64-gnu/lib/python3.14/tempfile.py:962: ResourceWarning: Implicitly cleaning up <TemporaryDirectory '/tmp/tmp6x1jlm35'>
+  _warnings.warn(warn_message, ResourceWarning)
+/home/soultransit/.local/share/uv/python/cpython-3.14.7-linux-x86_64-gnu/lib/python3.14/tempfile.py:962: ResourceWarning: Implicitly cleaning up <TemporaryDirectory '/tmp/tmpx7hjtq7l'>
+  _warnings.warn(warn_message, ResourceWarning)
+/home/soultransit/.local/share/uv/python/cpython-3.14.7-linux-x86_64-gnu/lib/python3.14/tempfile.py:962: ResourceWarning: Implicitly cleaning up <TemporaryDirectory '/tmp/tmp7f6k1oy9'>
+  _warnings.warn(warn_message, ResourceWarning)
+/home/soultransit/.local/share/uv/python/cpython-3.14.7-linux-x86_64-gnu/lib/python3.14/tempfile.py:962: ResourceWarning: Implicitly cleaning up <TemporaryDirectory '/tmp/tmpqz_bve93'>
+  _warnings.warn(warn_message, ResourceWarning)
+/home/soultransit/.local/share/uv/python/cpython-3.14.7-linux-x86_64-gnu/lib/python3.14/tempfile.py:962: ResourceWarning: Implicitly cleaning up <TemporaryDirectory '/tmp/tmpl2eh03mq'>
+  _warnings.warn(warn_message, ResourceWarning)
+.echo
+echo
+echo
+echo
+echo
+echo
+charge
+echo
+echo
+echo
+4d041dfc4c20722c2936b60947c14cc89853f7917fb8790a5541f3a6e7c2eb94
+{
+  "schema": "gopyt.guard.receipt.v1",
+  "accepted": true,
+  "bundle_sha256": "4d041dfc4c20722c2936b60947c14cc89853f7917fb8790a5541f3a6e7c2eb94",
+  "engine_sha256": "45d58c1aac7968294f403f6af0bceb3a95639a692570859347424392aa8ef033",
+  "limitations": [
+    "Finite acceptance cases, not a proof.",
+    "Listed obligations are declarations; this gate executes only the supplied cases, not HTTP or database tests.",
+    "Caller, bundle pin, and executor must be protected outside candidate authority.",
+    "No guarantee about external payment processors or undisclosed policies."
+  ],
+  "candidate_sha256": "abd5f15d629b9dea8d8c36cdf16ef00f28ef6889eabb7ec3b377c897a2426749",
+  "changed_files": [],
+  "obligations": {
+    "stock": "Reservation preserves nonnegative stock."
+  },
+  "protected_contract_helpers": [],
+  "passed": 3,
+  "total": 3,
+  "failures": []
+}
+
+50 modules checked in 39 ms
+
+check 20 ms, 10000 logins 2478 ms
+probe
+probe
+probe
+arithmetic
+probe
+x
+x
+charge
+start
+decode
+start
+guard prepare: duplicate JSON key: cases
+guard prepare: preparation policy exceeds byte limit
+echo
+echo
+echo
+echo
+echo
+echo
+obligations: FileExistsError: [Errno 17] File exists: '/tmp/tmp9kj_6bvd/report.json'
+obligations: FileExistsError: [Errno 17] File exists: '/tmp/tmpmns7y1gw/report.json'
+obligations: FileExistsError: [Errno 17] File exists: '/tmp/tmph9t60ey9/report.json'
+obligations: FileExistsError: [Errno 17] File exists: '/tmp/tmpsju2yebv/report.json'
+project context: FileExistsError: [Errno 17] File exists: '/tmp/tmp3o216buj/receipt.json'
+decode
+charge
+cell
+e
+o
+e
+o
+e
+o
+e
+charging
+echo
+user
+ping
+charge
+wire
+alloc
+1
+1
+found
+go
+go
+0
+1
+2
+3
+go
+go
+go
+and
+order
+contract
+div
+enum
+int
+opt
+or
+range
+mod
+slice
+len
+encode
+encode
+decode
+get
+bools
+empty
+keys
+map
+F/home/soultransit/.local/share/uv/python/cpython-3.14.7-linux-x86_64-gnu/lib/python3.14/tempfile.py:962: ResourceWarning: Implicitly cleaning up <TemporaryDirectory '/tmp/tmphxy74a8e'>
+  _warnings.warn(warn_message, ResourceWarning)
+/home/soultransit/.local/share/uv/python/cpython-3.14.7-linux-x86_64-gnu/lib/python3.14/tempfile.py:962: ResourceWarning: Implicitly cleaning up <TemporaryDirectory '/tmp/tmp9e5yjh2v'>
+  _warnings.warn(warn_message, ResourceWarning)
+/home/soultransit/.local/share/uv/python/cpython-3.14.7-linux-x86_64-gnu/lib/python3.14/tempfile.py:962: ResourceWarning: Implicitly cleaning up <TemporaryDirectory '/tmp/tmp7hqh8lld'>
+  _warnings.warn(warn_message, ResourceWarning)
+/home/soultransit/.local/share/uv/python/cpython-3.14.7-linux-x86_64-gnu/lib/python3.14/tempfile.py:962: ResourceWarning: Implicitly cleaning up <TemporaryDirectory '/tmp/tmpxa0k9nkr'>
+  _warnings.warn(warn_message, ResourceWarning)
+/home/soultransit/.local/share/uv/python/cpython-3.14.7-linux-x86_64-gnu/lib/python3.14/tempfile.py:962: ResourceWarning: Implicitly cleaning up <TemporaryDirectory '/tmp/tmp4h3iaed1'>
+  _warnings.warn(warn_message, ResourceWarning)
+/home/soultransit/.local/share/uv/python/cpython-3.14.7-linux-x86_64-gnu/lib/python3.14/tempfile.py:962: ResourceWarning: Implicitly cleaning up <TemporaryDirectory '/tmp/tmppn_n3rr2'>
+  _warnings.warn(warn_message, ResourceWarning)
+/home/soultransit/.local/share/uv/python/cpython-3.14.7-linux-x86_64-gnu/lib/python3.14/tempfile.py:962: ResourceWarning: Implicitly cleaning up <TemporaryDirectory '/tmp/tmpybuq6h8i'>
+  _warnings.warn(warn_message, ResourceWarning)
+/home/soultransit/.local/share/uv/python/cpython-3.14.7-linux-x86_64-gnu/lib/python3.14/tempfile.py:962: ResourceWarning: Implicitly cleaning up <TemporaryDirectory '/tmp/tmpi005k8e9'>
+  _warnings.warn(warn_message, ResourceWarning)
+/home/soultransit/.local/share/uv/python/cpython-3.14.7-linux-x86_64-gnu/lib/python3.14/tempfile.py:962: ResourceWarning: Implicitly cleaning up <TemporaryDirectory '/tmp/tmp62r4nzfv'>
+  _warnings.warn(warn_message, ResourceWarning)
+/home/soultransit/.local/share/uv/python/cpython-3.14.7-linux-x86_64-gnu/lib/python3.14/tempfile.py:962: ResourceWarning: Implicitly cleaning up <TemporaryDirectory '/tmp/tmptqxmfwnj'>
+  _warnings.warn(warn_message, ResourceWarning)
+/home/soultransit/.local/share/uv/python/cpython-3.14.7-linux-x86_64-gnu/lib/python3.14/tempfile.py:962: ResourceWarning: Implicitly cleaning up <TemporaryDirectory '/tmp/tmpc_eldqvd'>
+  _warnings.warn(warn_message, ResourceWarning)
+/home/soultransit/.local/share/uv/python/cpython-3.14.7-linux-x86_64-gnu/lib/python3.14/tempfile.py:962: ResourceWarning: Implicitly cleaning up <TemporaryDirectory '/tmp/tmp7mfunyr4'>
+  _warnings.warn(warn_message, ResourceWarning)
+/home/soultransit/.local/share/uv/python/cpython-3.14.7-linux-x86_64-gnu/lib/python3.14/tempfile.py:962: ResourceWarning: Implicitly cleaning up <TemporaryDirectory '/tmp/tmp147lxuay'>
+  _warnings.warn(warn_message, ResourceWarning)
+/home/soultransit/.local/share/uv/python/cpython-3.14.7-linux-x86_64-gnu/lib/python3.14/tempfile.py:962: ResourceWarning: Implicitly cleaning up <TemporaryDirectory '/tmp/tmp1q0b_gx5'>
+  _warnings.warn(warn_message, ResourceWarning)
+/home/soultransit/.local/share/uv/python/cpython-3.14.7-linux-x86_64-gnu/lib/python3.14/tempfile.py:962: ResourceWarning: Implicitly cleaning up <TemporaryDirectory '/tmp/tmpmbgaqr49'>
+  _warnings.warn(warn_message, ResourceWarning)
+/home/soultransit/.local/share/uv/python/cpython-3.14.7-linux-x86_64-gnu/lib/python3.14/tempfile.py:962: ResourceWarning: Implicitly cleaning up <TemporaryDirectory '/tmp/tmpwap506fu'>
+  _warnings.warn(warn_message, ResourceWarning)
+/home/soultransit/.local/share/uv/python/cpython-3.14.7-linux-x86_64-gnu/lib/python3.14/tempfile.py:962: ResourceWarning: Implicitly cleaning up <TemporaryDirectory '/tmp/tmp487ovc97'>
+  _warnings.warn(warn_message, ResourceWarning)
+/home/soultransit/.local/share/uv/python/cpython-3.14.7-linux-x86_64-gnu/lib/python3.14/tempfile.py:962: ResourceWarning: Implicitly cleaning up <TemporaryDirectory '/tmp/tmpnyo52pzl'>
+  _warnings.warn(warn_message, ResourceWarning)
+/home/soultransit/.local/share/uv/python/cpython-3.14.7-linux-x86_64-gnu/lib/python3.14/tempfile.py:962: ResourceWarning: Implicitly cleaning up <TemporaryDirectory '/tmp/tmpsy16mivl'>
+  _warnings.warn(warn_message, ResourceWarning)
+/home/soultransit/.local/share/uv/python/cpython-3.14.7-linux-x86_64-gnu/lib/python3.14/tempfile.py:962: ResourceWarning: Implicitly cleaning up <TemporaryDirectory '/tmp/tmpc062y6qc'>
+  _warnings.warn(warn_message, ResourceWarning)
+/home/soultransit/.local/share/uv/python/cpython-3.14.7-linux-x86_64-gnu/lib/python3.14/tempfile.py:962: ResourceWarning: Implicitly cleaning up <TemporaryDirectory '/tmp/tmpgf81tkm7'>
+  _warnings.warn(warn_message, ResourceWarning)
+/home/soultransit/.local/share/uv/python/cpython-3.14.7-linux-x86_64-gnu/lib/python3.14/tempfile.py:962: ResourceWarning: Implicitly cleaning up <TemporaryDirectory '/tmp/tmpzj7rmipj'>
+  _warnings.warn(warn_message, ResourceWarning)
+..................................................................................4d041dfc4c20722c2936b60947c14cc89853f7917fb8790a5541f3a6e7c2eb94
+{
+  "schema": "gopyt.guard.receipt.v1",
+  "accepted": true,
+  "bundle_sha256": "4d041dfc4c20722c2936b60947c14cc89853f7917fb8790a5541f3a6e7c2eb94",
+  "engine_sha256": "45d58c1aac7968294f403f6af0bceb3a95639a692570859347424392aa8ef033",
+  "limitations": [
+    "Finite acceptance cases, not a proof.",
+    "Listed obligations are declarations; this gate executes only the supplied cases, not HTTP or database tests.",
+    "Caller, bundle pin, and executor must be protected outside candidate authority.",
+    "No guarantee about external payment processors or undisclosed policies."
+  ],
+  "candidate_sha256": "abd5f15d629b9dea8d8c36cdf16ef00f28ef6889eabb7ec3b377c897a2426749",
+  "changed_files": [],
+  "obligations": {
+    "stock": "Reservation preserves nonnegative stock."
+  },
+  "protected_contract_helpers": [],
+  "passed": 3,
+  "total": 3,
+  "failures": []
+}
+
+50 modules checked in 22 ms
+
+check 13 ms, 10000 logins 2649 ms
+...............start
+F..................................EEEEEEEEEEEEEEEEEEEEEE.........guard prepare: duplicate JSON key: cases
+...........guard prepare: preparation policy exceeds byte limit
+......................echo
+echo
+echo
+echo
+echo
+echo
+.............................................obligations: FileExistsError: [Errno 17] File exists: '/tmp/tmpqpgvldpp/report.json'
+...................obligations: FileExistsError: [Errno 17] File exists: '/tmp/tmpszjh04w1/report.json'
+..................obligations: FileExistsError: [Errno 17] File exists: '/tmp/tmp852cutqe/report.json'
+...............obligations: FileExistsError: [Errno 17] File exists: '/tmp/tmpkfiyji86/report.json'
+............................project context: FileExistsError: [Errno 17] File exists: '/tmp/tmp7tgblpd3/receipt.json'
+......................................................................................................................F....decode
+.....charge
+...................cell
+.e
+o
+e
+o
+e
+o
+e
+..charging
+..........echo
+......user
+.ping
+..charge
+.........wire
+.alloc
+...........1
+1
+.....found
+...go
+..go
+.0
+1
+2
+3
+..go
+...go
+....go
+.......and
+.order
+.contract
+.div
+.enum
+.int
+...opt
+.or
+.range
+.mod
+.slice
+.len
+.encode
+..encode
+decode
+..get
+..bools
+..empty
+..keys
+.map
+...
+======================================================================
+ERROR: test_both_contract_copies_cannot_erase_rule (gopyt.test_guard.GuardTests.test_both_contract_copies_cannot_erase_rule)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/home/soultransit/devtony/gopyt-milestone-work/gopyt/test_guard.py", line 24, in setUp
+    self.bundle = bundle()
+                  ~~~~~~^^
+  File "/home/soultransit/devtony/gopyt-milestone-work/examples/guarded_refunds/freeze.py", line 12, in bundle
+    result = json.loads(prepare_bundle(HERE/'policy', ['impl/refund_policy.gopyt'], cases(), OBLIGATIONS))
+                        ~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/soultransit/devtony/gopyt-milestone-work/gopyt/guard.py", line 121, in prepare_bundle
+    raise ValueError('unsupported package file: ' + rel)
+ValueError: unsupported package file: .gopyt-transaction.lock
+
+======================================================================
+ERROR: test_bundle_and_engine_tampering (gopyt.test_guard.GuardTests.test_bundle_and_engine_tampering)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/home/soultransit/devtony/gopyt-milestone-work/gopyt/test_guard.py", line 24, in setUp
+    self.bundle = bundle()
+                  ~~~~~~^^
+  File "/home/soultransit/devtony/gopyt-milestone-work/examples/guarded_refunds/freeze.py", line 12, in bundle
+    result = json.loads(prepare_bundle(HERE/'policy', ['impl/refund_policy.gopyt'], cases(), OBLIGATIONS))
+                        ~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/soultransit/devtony/gopyt-milestone-work/gopyt/guard.py", line 121, in prepare_bundle
+    raise ValueError('unsupported package file: ' + rel)
+ValueError: unsupported package file: .gopyt-transaction.lock
+
+======================================================================
+ERROR: test_candidate_cannot_replace_gate_or_tests (gopyt.test_guard.GuardTests.test_candidate_cannot_replace_gate_or_tests)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/home/soultransit/devtony/gopyt-milestone-work/gopyt/test_guard.py", line 24, in setUp
+    self.bundle = bundle()
+                  ~~~~~~^^
+  File "/home/soultransit/devtony/gopyt-milestone-work/examples/guarded_refunds/freeze.py", line 12, in bundle
+    result = json.loads(prepare_bundle(HERE/'policy', ['impl/refund_policy.gopyt'], cases(), OBLIGATIONS))
+                        ~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/soultransit/devtony/gopyt-milestone-work/gopyt/guard.py", line 121, in prepare_bundle
+    raise ValueError('unsupported package file: ' + rel)
+ValueError: unsupported package file: .gopyt-transaction.lock
+
+======================================================================
+ERROR: test_clean_and_legitimate_body_change (gopyt.test_guard.GuardTests.test_clean_and_legitimate_body_change)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/home/soultransit/devtony/gopyt-milestone-work/gopyt/test_guard.py", line 24, in setUp
+    self.bundle = bundle()
+                  ~~~~~~^^
+  File "/home/soultransit/devtony/gopyt-milestone-work/examples/guarded_refunds/freeze.py", line 12, in bundle
+    result = json.loads(prepare_bundle(HERE/'policy', ['impl/refund_policy.gopyt'], cases(), OBLIGATIONS))
+                        ~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/soultransit/devtony/gopyt-milestone-work/gopyt/guard.py", line 121, in prepare_bundle
+    raise ValueError('unsupported package file: ' + rel)
+ValueError: unsupported package file: .gopyt-transaction.lock
+
+======================================================================
+ERROR: test_lock_is_derived_not_an_authority (gopyt.test_guard.GuardTests.test_lock_is_derived_not_an_authority)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/home/soultransit/devtony/gopyt-milestone-work/gopyt/test_guard.py", line 24, in setUp
+    self.bundle = bundle()
+                  ~~~~~~^^
+  File "/home/soultransit/devtony/gopyt-milestone-work/examples/guarded_refunds/freeze.py", line 12, in bundle
+    result = json.loads(prepare_bundle(HERE/'policy', ['impl/refund_policy.gopyt'], cases(), OBLIGATIONS))
+                        ~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/soultransit/devtony/gopyt-milestone-work/gopyt/guard.py", line 121, in prepare_bundle
+    raise ValueError('unsupported package file: ' + rel)
+ValueError: unsupported package file: .gopyt-transaction.lock
+
+======================================================================
+ERROR: test_manifest_and_spec_deletion_refused (gopyt.test_guard.GuardTests.test_manifest_and_spec_deletion_refused)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/home/soultransit/devtony/gopyt-milestone-work/gopyt/test_guard.py", line 24, in setUp
+    self.bundle = bundle()
+                  ~~~~~~^^
+  File "/home/soultransit/devtony/gopyt-milestone-work/examples/guarded_refunds/freeze.py", line 12, in bundle
+    result = json.loads(prepare_bundle(HERE/'policy', ['impl/refund_policy.gopyt'], cases(), OBLIGATIONS))
+                        ~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/soultransit/devtony/gopyt-milestone-work/gopyt/guard.py", line 121, in prepare_bundle
+    raise ValueError('unsupported package file: ' + rel)
+ValueError: unsupported package file: .gopyt-transaction.lock
+
+======================================================================
+ERROR: test_oversized_input_refused (gopyt.test_guard.GuardTests.test_oversized_input_refused)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/home/soultransit/devtony/gopyt-milestone-work/gopyt/test_guard.py", line 24, in setUp
+    self.bundle = bundle()
+                  ~~~~~~^^
+  File "/home/soultransit/devtony/gopyt-milestone-work/examples/guarded_refunds/freeze.py", line 12, in bundle
+    result = json.loads(prepare_bundle(HERE/'policy', ['impl/refund_policy.gopyt'], cases(), OBLIGATIONS))
+                        ~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/soultransit/devtony/gopyt-milestone-work/gopyt/guard.py", line 121, in prepare_bundle
+    raise ValueError('unsupported package file: ' + rel)
+ValueError: unsupported package file: .gopyt-transaction.lock
+
+======================================================================
+ERROR: test_symlink_directory_and_file_refused (gopyt.test_guard.GuardTests.test_symlink_directory_and_file_refused)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/home/soultransit/devtony/gopyt-milestone-work/gopyt/test_guard.py", line 24, in setUp
+    self.bundle = bundle()
+                  ~~~~~~^^
+  File "/home/soultransit/devtony/gopyt-milestone-work/examples/guarded_refunds/freeze.py", line 12, in bundle
+    result = json.loads(prepare_bundle(HERE/'policy', ['impl/refund_policy.gopyt'], cases(), OBLIGATIONS))
+                        ~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/soultransit/devtony/gopyt-milestone-work/gopyt/guard.py", line 121, in prepare_bundle
+    raise ValueError('unsupported package file: ' + rel)
+ValueError: unsupported package file: .gopyt-transaction.lock
+
+======================================================================
+ERROR: test_timeout_fails_closed (gopyt.test_guard.GuardTests.test_timeout_fails_closed)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/home/soultransit/devtony/gopyt-milestone-work/gopyt/test_guard.py", line 24, in setUp
+    self.bundle = bundle()
+                  ~~~~~~^^
+  File "/home/soultransit/devtony/gopyt-milestone-work/examples/guarded_refunds/freeze.py", line 12, in bundle
+    result = json.loads(prepare_bundle(HERE/'policy', ['impl/refund_policy.gopyt'], cases(), OBLIGATIONS))
+                        ~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/soultransit/devtony/gopyt-milestone-work/gopyt/guard.py", line 121, in prepare_bundle
+    raise ValueError('unsupported package file: ' + rel)
+ValueError: unsupported package file: .gopyt-transaction.lock
+
+======================================================================
+ERROR: test_wrong_body_fails_executable_contract (gopyt.test_guard.GuardTests.test_wrong_body_fails_executable_contract)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/home/soultransit/devtony/gopyt-milestone-work/gopyt/test_guard.py", line 24, in setUp
+    self.bundle = bundle()
+                  ~~~~~~^^
+  File "/home/soultransit/devtony/gopyt-milestone-work/examples/guarded_refunds/freeze.py", line 12, in bundle
+    result = json.loads(prepare_bundle(HERE/'policy', ['impl/refund_policy.gopyt'], cases(), OBLIGATIONS))
+                        ~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/soultransit/devtony/gopyt-milestone-work/gopyt/guard.py", line 121, in prepare_bundle
+    raise ValueError('unsupported package file: ' + rel)
+ValueError: unsupported package file: .gopyt-transaction.lock
+
+======================================================================
+ERROR: test_bad_adapter_pin_prevents_start (gopyt.test_guard.LedgerTests.test_bad_adapter_pin_prevents_start)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/home/soultransit/devtony/gopyt-milestone-work/gopyt/test_guard.py", line 100, in setUp
+    self.bundle=bundle()
+                ~~~~~~^^
+  File "/home/soultransit/devtony/gopyt-milestone-work/examples/guarded_refunds/freeze.py", line 12, in bundle
+    result = json.loads(prepare_bundle(HERE/'policy', ['impl/refund_policy.gopyt'], cases(), OBLIGATIONS))
+                        ~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/soultransit/devtony/gopyt-milestone-work/gopyt/guard.py", line 121, in prepare_bundle
+    raise ValueError('unsupported package file: ' + rel)
+ValueError: unsupported package file: .gopyt-transaction.lock
+
+======================================================================
+ERROR: test_concurrent_identical_requests_replay_one_commit (gopyt.test_guard.LedgerTests.test_concurrent_identical_requests_replay_one_commit)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/home/soultransit/devtony/gopyt-milestone-work/gopyt/test_guard.py", line 100, in setUp
+    self.bundle=bundle()
+                ~~~~~~^^
+  File "/home/soultransit/devtony/gopyt-milestone-work/examples/guarded_refunds/freeze.py", line 12, in bundle
+    result = json.loads(prepare_bundle(HERE/'policy', ['impl/refund_policy.gopyt'], cases(), OBLIGATIONS))
+                        ~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/soultransit/devtony/gopyt-milestone-work/gopyt/guard.py", line 121, in prepare_bundle
+    raise ValueError('unsupported package file: ' + rel)
+ValueError: unsupported package file: .gopyt-transaction.lock
+
+======================================================================
+ERROR: test_concurrent_unique_requests_cannot_double_spend (gopyt.test_guard.LedgerTests.test_concurrent_unique_requests_cannot_double_spend)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/home/soultransit/devtony/gopyt-milestone-work/gopyt/test_guard.py", line 100, in setUp
+    self.bundle=bundle()
+                ~~~~~~^^
+  File "/home/soultransit/devtony/gopyt-milestone-work/examples/guarded_refunds/freeze.py", line 12, in bundle
+    result = json.loads(prepare_bundle(HERE/'policy', ['impl/refund_policy.gopyt'], cases(), OBLIGATIONS))
+                        ~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/soultransit/devtony/gopyt-milestone-work/gopyt/guard.py", line 121, in prepare_bundle
+    raise ValueError('unsupported package file: ' + rel)
+ValueError: unsupported package file: .gopyt-transaction.lock
+
+======================================================================
+ERROR: test_db_failure_between_update_and_receipt_rolls_back (gopyt.test_guard.LedgerTests.test_db_failure_between_update_and_receipt_rolls_back)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/home/soultransit/devtony/gopyt-milestone-work/gopyt/test_guard.py", line 100, in setUp
+    self.bundle=bundle()
+                ~~~~~~^^
+  File "/home/soultransit/devtony/gopyt-milestone-work/examples/guarded_refunds/freeze.py", line 12, in bundle
+    result = json.loads(prepare_bundle(HERE/'policy', ['impl/refund_policy.gopyt'], cases(), OBLIGATIONS))
+                        ~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/soultransit/devtony/gopyt-milestone-work/gopyt/guard.py", line 121, in prepare_bundle
+    raise ValueError('unsupported package file: ' + rel)
+ValueError: unsupported package file: .gopyt-transaction.lock
+
+======================================================================
+ERROR: test_missing_wrong_and_cross_customer_credentials (gopyt.test_guard.LedgerTests.test_missing_wrong_and_cross_customer_credentials)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/home/soultransit/devtony/gopyt-milestone-work/gopyt/test_guard.py", line 100, in setUp
+    self.bundle=bundle()
+                ~~~~~~^^
+  File "/home/soultransit/devtony/gopyt-milestone-work/examples/guarded_refunds/freeze.py", line 12, in bundle
+    result = json.loads(prepare_bundle(HERE/'policy', ['impl/refund_policy.gopyt'], cases(), OBLIGATIONS))
+                        ~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/soultransit/devtony/gopyt-milestone-work/gopyt/guard.py", line 121, in prepare_bundle
+    raise ValueError('unsupported package file: ' + rel)
+ValueError: unsupported package file: .gopyt-transaction.lock
+
+======================================================================
+ERROR: test_process_death_between_update_and_receipt_rolls_back (gopyt.test_guard.LedgerTests.test_process_death_between_update_and_receipt_rolls_back)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/home/soultransit/devtony/gopyt-milestone-work/gopyt/test_guard.py", line 100, in setUp
+    self.bundle=bundle()
+                ~~~~~~^^
+  File "/home/soultransit/devtony/gopyt-milestone-work/examples/guarded_refunds/freeze.py", line 12, in bundle
+    result = json.loads(prepare_bundle(HERE/'policy', ['impl/refund_policy.gopyt'], cases(), OBLIGATIONS))
+                        ~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/soultransit/devtony/gopyt-milestone-work/gopyt/guard.py", line 121, in prepare_bundle
+    raise ValueError('unsupported package file: ' + rel)
+ValueError: unsupported package file: .gopyt-transaction.lock
+
+======================================================================
+ERROR: test_remaining_balance_stale_version_closed_customer (gopyt.test_guard.LedgerTests.test_remaining_balance_stale_version_closed_customer)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/home/soultransit/devtony/gopyt-milestone-work/gopyt/test_guard.py", line 100, in setUp
+    self.bundle=bundle()
+                ~~~~~~^^
+  File "/home/soultransit/devtony/gopyt-milestone-work/examples/guarded_refunds/freeze.py", line 12, in bundle
+    result = json.loads(prepare_bundle(HERE/'policy', ['impl/refund_policy.gopyt'], cases(), OBLIGATIONS))
+                        ~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/soultransit/devtony/gopyt-milestone-work/gopyt/guard.py", line 121, in prepare_bundle
+    raise ValueError('unsupported package file: ' + rel)
+ValueError: unsupported package file: .gopyt-transaction.lock
+
+======================================================================
+ERROR: test_replay_conflict_and_restart (gopyt.test_guard.LedgerTests.test_replay_conflict_and_restart)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/home/soultransit/devtony/gopyt-milestone-work/gopyt/test_guard.py", line 100, in setUp
+    self.bundle=bundle()
+                ~~~~~~^^
+  File "/home/soultransit/devtony/gopyt-milestone-work/examples/guarded_refunds/freeze.py", line 12, in bundle
+    result = json.loads(prepare_bundle(HERE/'policy', ['impl/refund_policy.gopyt'], cases(), OBLIGATIONS))
+                        ~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/soultransit/devtony/gopyt-milestone-work/gopyt/guard.py", line 121, in prepare_bundle
+    raise ValueError('unsupported package file: ' + rel)
+ValueError: unsupported package file: .gopyt-transaction.lock
+
+======================================================================
+ERROR: test_runtime_trap_and_cancel_roll_back (gopyt.test_guard.LedgerTests.test_runtime_trap_and_cancel_roll_back)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/home/soultransit/devtony/gopyt-milestone-work/gopyt/test_guard.py", line 100, in setUp
+    self.bundle=bundle()
+                ~~~~~~^^
+  File "/home/soultransit/devtony/gopyt-milestone-work/examples/guarded_refunds/freeze.py", line 12, in bundle
+    result = json.loads(prepare_bundle(HERE/'policy', ['impl/refund_policy.gopyt'], cases(), OBLIGATIONS))
+                        ~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/soultransit/devtony/gopyt-milestone-work/gopyt/guard.py", line 121, in prepare_bundle
+    raise ValueError('unsupported package file: ' + rel)
+ValueError: unsupported package file: .gopyt-transaction.lock
+
+======================================================================
+ERROR: test_strict_input (gopyt.test_guard.LedgerTests.test_strict_input)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/home/soultransit/devtony/gopyt-milestone-work/gopyt/test_guard.py", line 100, in setUp
+    self.bundle=bundle()
+                ~~~~~~^^
+  File "/home/soultransit/devtony/gopyt-milestone-work/examples/guarded_refunds/freeze.py", line 12, in bundle
+    result = json.loads(prepare_bundle(HERE/'policy', ['impl/refund_policy.gopyt'], cases(), OBLIGATIONS))
+                        ~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/soultransit/devtony/gopyt-milestone-work/gopyt/guard.py", line 121, in prepare_bundle
+    raise ValueError('unsupported package file: ' + rel)
+ValueError: unsupported package file: .gopyt-transaction.lock
+
+======================================================================
+ERROR: test_two_independent_ledgers_share_database_safely (gopyt.test_guard.LedgerTests.test_two_independent_ledgers_share_database_safely)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/home/soultransit/devtony/gopyt-milestone-work/gopyt/test_guard.py", line 100, in setUp
+    self.bundle=bundle()
+                ~~~~~~^^
+  File "/home/soultransit/devtony/gopyt-milestone-work/examples/guarded_refunds/freeze.py", line 12, in bundle
+    result = json.loads(prepare_bundle(HERE/'policy', ['impl/refund_policy.gopyt'], cases(), OBLIGATIONS))
+                        ~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/soultransit/devtony/gopyt-milestone-work/gopyt/guard.py", line 121, in prepare_bundle
+    raise ValueError('unsupported package file: ' + rel)
+ValueError: unsupported package file: .gopyt-transaction.lock
+
+======================================================================
+ERROR: test_unseen_wrong_body_is_blocked_by_real_runtime_contract (gopyt.test_guard.LedgerTests.test_unseen_wrong_body_is_blocked_by_real_runtime_contract)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/home/soultransit/devtony/gopyt-milestone-work/gopyt/test_guard.py", line 100, in setUp
+    self.bundle=bundle()
+                ~~~~~~^^
+  File "/home/soultransit/devtony/gopyt-milestone-work/examples/guarded_refunds/freeze.py", line 12, in bundle
+    result = json.loads(prepare_bundle(HERE/'policy', ['impl/refund_policy.gopyt'], cases(), OBLIGATIONS))
+                        ~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/soultransit/devtony/gopyt-milestone-work/gopyt/guard.py", line 121, in prepare_bundle
+    raise ValueError('unsupported package file: ' + rel)
+ValueError: unsupported package file: .gopyt-transaction.lock
+
+======================================================================
+FAIL: test_every_documented_code_is_raised_or_declared (gopyt.test_diagnostics.Coverage.test_every_documented_code_is_raised_or_declared)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/home/soultransit/devtony/gopyt-milestone-work/gopyt/test_diagnostics.py", line 79, in test_every_documented_code_is_raised_or_declared
+    seen = raised_codes()
+  File "/home/soultransit/devtony/gopyt-milestone-work/gopyt/test_diagnostics.py", line 71, in raised_codes
+    raise AssertionError("the rest of the suite must pass before auditing codes\n" + output.getvalue())
+AssertionError: the rest of the suite must pass before auditing codes
+======================================================================
+ERROR: test_both_contract_copies_cannot_erase_rule (gopyt.test_guard.GuardTests.test_both_contract_copies_cannot_erase_rule)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/home/soultransit/devtony/gopyt-milestone-work/gopyt/test_guard.py", line 24, in setUp
+    self.bundle = bundle()
+                  ~~~~~~^^
+  File "/home/soultransit/devtony/gopyt-milestone-work/examples/guarded_refunds/freeze.py", line 12, in bundle
+    result = json.loads(prepare_bundle(HERE/'policy', ['impl/refund_policy.gopyt'], cases(), OBLIGATIONS))
+                        ~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/soultransit/devtony/gopyt-milestone-work/gopyt/guard.py", line 121, in prepare_bundle
+    raise ValueError('unsupported package file: ' + rel)
+ValueError: unsupported package file: .gopyt-transaction.lock
+
+======================================================================
+ERROR: test_bundle_and_engine_tampering (gopyt.test_guard.GuardTests.test_bundle_and_engine_tampering)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/home/soultransit/devtony/gopyt-milestone-work/gopyt/test_guard.py", line 24, in setUp
+    self.bundle = bundle()
+                  ~~~~~~^^
+  File "/home/soultransit/devtony/gopyt-milestone-work/examples/guarded_refunds/freeze.py", line 12, in bundle
+    result = json.loads(prepare_bundle(HERE/'policy', ['impl/refund_policy.gopyt'], cases(), OBLIGATIONS))
+                        ~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/soultransit/devtony/gopyt-milestone-work/gopyt/guard.py", line 121, in prepare_bundle
+    raise ValueError('unsupported package file: ' + rel)
+ValueError: unsupported package file: .gopyt-transaction.lock
+
+======================================================================
+ERROR: test_candidate_cannot_replace_gate_or_tests (gopyt.test_guard.GuardTests.test_candidate_cannot_replace_gate_or_tests)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/home/soultransit/devtony/gopyt-milestone-work/gopyt/test_guard.py", line 24, in setUp
+    self.bundle = bundle()
+                  ~~~~~~^^
+  File "/home/soultransit/devtony/gopyt-milestone-work/examples/guarded_refunds/freeze.py", line 12, in bundle
+    result = json.loads(prepare_bundle(HERE/'policy', ['impl/refund_policy.gopyt'], cases(), OBLIGATIONS))
+                        ~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/soultransit/devtony/gopyt-milestone-work/gopyt/guard.py", line 121, in prepare_bundle
+    raise ValueError('unsupported package file: ' + rel)
+ValueError: unsupported package file: .gopyt-transaction.lock
+
+======================================================================
+ERROR: test_clean_and_legitimate_body_change (gopyt.test_guard.GuardTests.test_clean_and_legitimate_body_change)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/home/soultransit/devtony/gopyt-milestone-work/gopyt/test_guard.py", line 24, in setUp
+    self.bundle = bundle()
+                  ~~~~~~^^
+  File "/home/soultransit/devtony/gopyt-milestone-work/examples/guarded_refunds/freeze.py", line 12, in bundle
+    result = json.loads(prepare_bundle(HERE/'policy', ['impl/refund_policy.gopyt'], cases(), OBLIGATIONS))
+                        ~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/soultransit/devtony/gopyt-milestone-work/gopyt/guard.py", line 121, in prepare_bundle
+    raise ValueError('unsupported package file: ' + rel)
+ValueError: unsupported package file: .gopyt-transaction.lock
+
+======================================================================
+ERROR: test_lock_is_derived_not_an_authority (gopyt.test_guard.GuardTests.test_lock_is_derived_not_an_authority)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/home/soultransit/devtony/gopyt-milestone-work/gopyt/test_guard.py", line 24, in setUp
+    self.bundle = bundle()
+                  ~~~~~~^^
+  File "/home/soultransit/devtony/gopyt-milestone-work/examples/guarded_refunds/freeze.py", line 12, in bundle
+    result = json.loads(prepare_bundle(HERE/'policy', ['impl/refund_policy.gopyt'], cases(), OBLIGATIONS))
+                        ~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/soultransit/devtony/gopyt-milestone-work/gopyt/guard.py", line 121, in prepare_bundle
+    raise ValueError('unsupported package file: ' + rel)
+ValueError: unsupported package file: .gopyt-transaction.lock
+
+======================================================================
+ERROR: test_manifest_and_spec_deletion_refused (gopyt.test_guard.GuardTests.test_manifest_and_spec_deletion_refused)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/home/soultransit/devtony/gopyt-milestone-work/gopyt/test_guard.py", line 24, in setUp
+    self.bundle = bundle()
+                  ~~~~~~^^
+  File "/home/soultransit/devtony/gopyt-milestone-work/examples/guarded_refunds/freeze.py", line 12, in bundle
+    result = json.loads(prepare_bundle(HERE/'policy', ['impl/refund_policy.gopyt'], cases(), OBLIGATIONS))
+                        ~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/soultransit/devtony/gopyt-milestone-work/gopyt/guard.py", line 121, in prepare_bundle
+    raise ValueError('unsupported package file: ' + rel)
+ValueError: unsupported package file: .gopyt-transaction.lock
+
+======================================================================
+ERROR: test_oversized_input_refused (gopyt.test_guard.GuardTests.test_oversized_input_refused)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/home/soultransit/devtony/gopyt-milestone-work/gopyt/test_guard.py", line 24, in setUp
+    self.bundle = bundle()
+                  ~~~~~~^^
+  File "/home/soultransit/devtony/gopyt-milestone-work/examples/guarded_refunds/freeze.py", line 12, in bundle
+    result = json.loads(prepare_bundle(HERE/'policy', ['impl/refund_policy.gopyt'], cases(), OBLIGATIONS))
+                        ~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/soultransit/devtony/gopyt-milestone-work/gopyt/guard.py", line 121, in prepare_bundle
+    raise ValueError('unsupported package file: ' + rel)
+ValueError: unsupported package file: .gopyt-transaction.lock
+
+======================================================================
+ERROR: test_symlink_directory_and_file_refused (gopyt.test_guard.GuardTests.test_symlink_directory_and_file_refused)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/home/soultransit/devtony/gopyt-milestone-work/gopyt/test_guard.py", line 24, in setUp
+    self.bundle = bundle()
+                  ~~~~~~^^
+  File "/home/soultransit/devtony/gopyt-milestone-work/examples/guarded_refunds/freeze.py", line 12, in bundle
+    result = json.loads(prepare_bundle(HERE/'policy', ['impl/refund_policy.gopyt'], cases(), OBLIGATIONS))
+                        ~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/soultransit/devtony/gopyt-milestone-work/gopyt/guard.py", line 121, in prepare_bundle
+    raise ValueError('unsupported package file: ' + rel)
+ValueError: unsupported package file: .gopyt-transaction.lock
+
+======================================================================
+ERROR: test_timeout_fails_closed (gopyt.test_guard.GuardTests.test_timeout_fails_closed)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/home/soultransit/devtony/gopyt-milestone-work/gopyt/test_guard.py", line 24, in setUp
+    self.bundle = bundle()
+                  ~~~~~~^^
+  File "/home/soultransit/devtony/gopyt-milestone-work/examples/guarded_refunds/freeze.py", line 12, in bundle
+    result = json.loads(prepare_bundle(HERE/'policy', ['impl/refund_policy.gopyt'], cases(), OBLIGATIONS))
+                        ~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/soultransit/devtony/gopyt-milestone-work/gopyt/guard.py", line 121, in prepare_bundle
+    raise ValueError('unsupported package file: ' + rel)
+ValueError: unsupported package file: .gopyt-transaction.lock
+
+======================================================================
+ERROR: test_wrong_body_fails_executable_contract (gopyt.test_guard.GuardTests.test_wrong_body_fails_executable_contract)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/home/soultransit/devtony/gopyt-milestone-work/gopyt/test_guard.py", line 24, in setUp
+    self.bundle = bundle()
+                  ~~~~~~^^
+  File "/home/soultransit/devtony/gopyt-milestone-work/examples/guarded_refunds/freeze.py", line 12, in bundle
+    result = json.loads(prepare_bundle(HERE/'policy', ['impl/refund_policy.gopyt'], cases(), OBLIGATIONS))
+                        ~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/soultransit/devtony/gopyt-milestone-work/gopyt/guard.py", line 121, in prepare_bundle
+    raise ValueError('unsupported package file: ' + rel)
+ValueError: unsupported package file: .gopyt-transaction.lock
+
+======================================================================
+ERROR: test_bad_adapter_pin_prevents_start (gopyt.test_guard.LedgerTests.test_bad_adapter_pin_prevents_start)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/home/soultransit/devtony/gopyt-milestone-work/gopyt/test_guard.py", line 100, in setUp
+    self.bundle=bundle()
+                ~~~~~~^^
+  File "/home/soultransit/devtony/gopyt-milestone-work/examples/guarded_refunds/freeze.py", line 12, in bundle
+    result = json.loads(prepare_bundle(HERE/'policy', ['impl/refund_policy.gopyt'], cases(), OBLIGATIONS))
+                        ~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/soultransit/devtony/gopyt-milestone-work/gopyt/guard.py", line 121, in prepare_bundle
+    raise ValueError('unsupported package file: ' + rel)
+ValueError: unsupported package file: .gopyt-transaction.lock
+
+======================================================================
+ERROR: test_concurrent_identical_requests_replay_one_commit (gopyt.test_guard.LedgerTests.test_concurrent_identical_requests_replay_one_commit)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/home/soultransit/devtony/gopyt-milestone-work/gopyt/test_guard.py", line 100, in setUp
+    self.bundle=bundle()
+                ~~~~~~^^
+  File "/home/soultransit/devtony/gopyt-milestone-work/examples/guarded_refunds/freeze.py", line 12, in bundle
+    result = json.loads(prepare_bundle(HERE/'policy', ['impl/refund_policy.gopyt'], cases(), OBLIGATIONS))
+                        ~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/soultransit/devtony/gopyt-milestone-work/gopyt/guard.py", line 121, in prepare_bundle
+    raise ValueError('unsupported package file: ' + rel)
+ValueError: unsupported package file: .gopyt-transaction.lock
+
+======================================================================
+ERROR: test_concurrent_unique_requests_cannot_double_spend (gopyt.test_guard.LedgerTests.test_concurrent_unique_requests_cannot_double_spend)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/home/soultransit/devtony/gopyt-milestone-work/gopyt/test_guard.py", line 100, in setUp
+    self.bundle=bundle()
+                ~~~~~~^^
+  File "/home/soultransit/devtony/gopyt-milestone-work/examples/guarded_refunds/freeze.py", line 12, in bundle
+    result = json.loads(prepare_bundle(HERE/'policy', ['impl/refund_policy.gopyt'], cases(), OBLIGATIONS))
+                        ~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/soultransit/devtony/gopyt-milestone-work/gopyt/guard.py", line 121, in prepare_bundle
+    raise ValueError('unsupported package file: ' + rel)
+ValueError: unsupported package file: .gopyt-transaction.lock
+
+======================================================================
+ERROR: test_db_failure_between_update_and_receipt_rolls_back (gopyt.test_guard.LedgerTests.test_db_failure_between_update_and_receipt_rolls_back)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/home/soultransit/devtony/gopyt-milestone-work/gopyt/test_guard.py", line 100, in setUp
+    self.bundle=bundle()
+                ~~~~~~^^
+  File "/home/soultransit/devtony/gopyt-milestone-work/examples/guarded_refunds/freeze.py", line 12, in bundle
+    result = json.loads(prepare_bundle(HERE/'policy', ['impl/refund_policy.gopyt'], cases(), OBLIGATIONS))
+                        ~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/soultransit/devtony/gopyt-milestone-work/gopyt/guard.py", line 121, in prepare_bundle
+    raise ValueError('unsupported package file: ' + rel)
+ValueError: unsupported package file: .gopyt-transaction.lock
+
+======================================================================
+ERROR: test_missing_wrong_and_cross_customer_credentials (gopyt.test_guard.LedgerTests.test_missing_wrong_and_cross_customer_credentials)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/home/soultransit/devtony/gopyt-milestone-work/gopyt/test_guard.py", line 100, in setUp
+    self.bundle=bundle()
+                ~~~~~~^^
+  File "/home/soultransit/devtony/gopyt-milestone-work/examples/guarded_refunds/freeze.py", line 12, in bundle
+    result = json.loads(prepare_bundle(HERE/'policy', ['impl/refund_policy.gopyt'], cases(), OBLIGATIONS))
+                        ~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/soultransit/devtony/gopyt-milestone-work/gopyt/guard.py", line 121, in prepare_bundle
+    raise ValueError('unsupported package file: ' + rel)
+ValueError: unsupported package file: .gopyt-transaction.lock
+
+======================================================================
+ERROR: test_process_death_between_update_and_receipt_rolls_back (gopyt.test_guard.LedgerTests.test_process_death_between_update_and_receipt_rolls_back)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/home/soultransit/devtony/gopyt-milestone-work/gopyt/test_guard.py", line 100, in setUp
+    self.bundle=bundle()
+                ~~~~~~^^
+  File "/home/soultransit/devtony/gopyt-milestone-work/examples/guarded_refunds/freeze.py", line 12, in bundle
+    result = json.loads(prepare_bundle(HERE/'policy', ['impl/refund_policy.gopyt'], cases(), OBLIGATIONS))
+                        ~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/soultransit/devtony/gopyt-milestone-work/gopyt/guard.py", line 121, in prepare_bundle
+    raise ValueError('unsupported package file: ' + rel)
+ValueError: unsupported package file: .gopyt-transaction.lock
+
+======================================================================
+ERROR: test_remaining_balance_stale_version_closed_customer (gopyt.test_guard.LedgerTests.test_remaining_balance_stale_version_closed_customer)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/home/soultransit/devtony/gopyt-milestone-work/gopyt/test_guard.py", line 100, in setUp
+    self.bundle=bundle()
+                ~~~~~~^^
+  File "/home/soultransit/devtony/gopyt-milestone-work/examples/guarded_refunds/freeze.py", line 12, in bundle
+    result = json.loads(prepare_bundle(HERE/'policy', ['impl/refund_policy.gopyt'], cases(), OBLIGATIONS))
+                        ~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/soultransit/devtony/gopyt-milestone-work/gopyt/guard.py", line 121, in prepare_bundle
+    raise ValueError('unsupported package file: ' + rel)
+ValueError: unsupported package file: .gopyt-transaction.lock
+
+======================================================================
+ERROR: test_replay_conflict_and_restart (gopyt.test_guard.LedgerTests.test_replay_conflict_and_restart)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/home/soultransit/devtony/gopyt-milestone-work/gopyt/test_guard.py", line 100, in setUp
+    self.bundle=bundle()
+                ~~~~~~^^
+  File "/home/soultransit/devtony/gopyt-milestone-work/examples/guarded_refunds/freeze.py", line 12, in bundle
+    result = json.loads(prepare_bundle(HERE/'policy', ['impl/refund_policy.gopyt'], cases(), OBLIGATIONS))
+                        ~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/soultransit/devtony/gopyt-milestone-work/gopyt/guard.py", line 121, in prepare_bundle
+    raise ValueError('unsupported package file: ' + rel)
+ValueError: unsupported package file: .gopyt-transaction.lock
+
+======================================================================
+ERROR: test_runtime_trap_and_cancel_roll_back (gopyt.test_guard.LedgerTests.test_runtime_trap_and_cancel_roll_back)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/home/soultransit/devtony/gopyt-milestone-work/gopyt/test_guard.py", line 100, in setUp
+    self.bundle=bundle()
+                ~~~~~~^^
+  File "/home/soultransit/devtony/gopyt-milestone-work/examples/guarded_refunds/freeze.py", line 12, in bundle
+    result = json.loads(prepare_bundle(HERE/'policy', ['impl/refund_policy.gopyt'], cases(), OBLIGATIONS))
+                        ~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/soultransit/devtony/gopyt-milestone-work/gopyt/guard.py", line 121, in prepare_bundle
+    raise ValueError('unsupported package file: ' + rel)
+ValueError: unsupported package file: .gopyt-transaction.lock
+
+======================================================================
+ERROR: test_strict_input (gopyt.test_guard.LedgerTests.test_strict_input)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/home/soultransit/devtony/gopyt-milestone-work/gopyt/test_guard.py", line 100, in setUp
+    self.bundle=bundle()
+                ~~~~~~^^
+  File "/home/soultransit/devtony/gopyt-milestone-work/examples/guarded_refunds/freeze.py", line 12, in bundle
+    result = json.loads(prepare_bundle(HERE/'policy', ['impl/refund_policy.gopyt'], cases(), OBLIGATIONS))
+                        ~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/soultransit/devtony/gopyt-milestone-work/gopyt/guard.py", line 121, in prepare_bundle
+    raise ValueError('unsupported package file: ' + rel)
+ValueError: unsupported package file: .gopyt-transaction.lock
+
+======================================================================
+ERROR: test_two_independent_ledgers_share_database_safely (gopyt.test_guard.LedgerTests.test_two_independent_ledgers_share_database_safely)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/home/soultransit/devtony/gopyt-milestone-work/gopyt/test_guard.py", line 100, in setUp
+    self.bundle=bundle()
+                ~~~~~~^^
+  File "/home/soultransit/devtony/gopyt-milestone-work/examples/guarded_refunds/freeze.py", line 12, in bundle
+    result = json.loads(prepare_bundle(HERE/'policy', ['impl/refund_policy.gopyt'], cases(), OBLIGATIONS))
+                        ~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/soultransit/devtony/gopyt-milestone-work/gopyt/guard.py", line 121, in prepare_bundle
+    raise ValueError('unsupported package file: ' + rel)
+ValueError: unsupported package file: .gopyt-transaction.lock
+
+======================================================================
+ERROR: test_unseen_wrong_body_is_blocked_by_real_runtime_contract (gopyt.test_guard.LedgerTests.test_unseen_wrong_body_is_blocked_by_real_runtime_contract)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/home/soultransit/devtony/gopyt-milestone-work/gopyt/test_guard.py", line 100, in setUp
+    self.bundle=bundle()
+                ~~~~~~^^
+  File "/home/soultransit/devtony/gopyt-milestone-work/examples/guarded_refunds/freeze.py", line 12, in bundle
+    result = json.loads(prepare_bundle(HERE/'policy', ['impl/refund_policy.gopyt'], cases(), OBLIGATIONS))
+                        ~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/soultransit/devtony/gopyt-milestone-work/gopyt/guard.py", line 121, in prepare_bundle
+    raise ValueError('unsupported package file: ' + rel)
+ValueError: unsupported package file: .gopyt-transaction.lock
+
+======================================================================
+FAIL: test_fixtures (gopyt.test_fixtures.Fixtures.test_fixtures)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/home/soultransit/devtony/gopyt-milestone-work/gopyt/test_fixtures.py", line 128, in test_fixtures
+    self.assertEqual(failures, [], "conformance/ fixtures disagree:\n" + "\n".join(failures))
+    ~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+AssertionError: Lists differ: ['C030: expect E041, got E040'] != []
+
+First list contains 1 additional elements.
+First extra element 0:
+'C030: expect E041, got E040'
+
+- ['C030: expect E041, got E040']
++ [] : conformance/ fixtures disagree:
+C030: expect E041, got E040
+
+======================================================================
+FAIL: test_the_fixture_runner_agrees_with_the_compiler (gopyt.test_validation.P1Conformance.test_the_fixture_runner_agrees_with_the_compiler)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/home/soultransit/devtony/gopyt-milestone-work/gopyt/test_validation.py", line 97, in test_the_fixture_runner_agrees_with_the_compiler
+    self.assertEqual(proc.returncode, 0, proc.stdout + proc.stderr)
+    ~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+AssertionError: 1 != 0 : start
+F.
+======================================================================
+FAIL: test_fixtures (__main__.Fixtures.test_fixtures)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/home/soultransit/devtony/gopyt-milestone-work/gopyt/test_fixtures.py", line 128, in test_fixtures
+    self.assertEqual(failures, [], "conformance/ fixtures disagree:\n" + "\n".join(failures))
+    ~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+AssertionError: Lists differ: ['C030: expect E041, got E040'] != []
+
+First list contains 1 additional elements.
+First extra element 0:
+'C030: expect E041, got E040'
+
+- ['C030: expect E041, got E040']
++ [] : conformance/ fixtures disagree:
+C030: expect E041, got E040
+
+----------------------------------------------------------------------
+Ran 2 tests in 4.037s
+
+FAILED (failures=1)
+
+
+----------------------------------------------------------------------
+Ran 739 tests in 77.621s
+
+FAILED (failures=2, errors=22)
+
+
+======================================================================
+FAIL: test_untested_list_stays_honest (gopyt.test_diagnostics.Coverage.test_untested_list_stays_honest)
+A code that a test does reach must not sit in UNTESTED.
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/home/soultransit/devtony/gopyt-milestone-work/gopyt/test_diagnostics.py", line 85, in test_untested_list_stays_honest
+    seen = raised_codes()
+  File "/home/soultransit/devtony/gopyt-milestone-work/gopyt/test_diagnostics.py", line 71, in raised_codes
+    raise AssertionError("the rest of the suite must pass before auditing codes\n" + output.getvalue())
+AssertionError: the rest of the suite must pass before auditing codes
+======================================================================
+ERROR: test_both_contract_copies_cannot_erase_rule (gopyt.test_guard.GuardTests.test_both_contract_copies_cannot_erase_rule)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/home/soultransit/devtony/gopyt-milestone-work/gopyt/test_guard.py", line 24, in setUp
+    self.bundle = bundle()
+                  ~~~~~~^^
+  File "/home/soultransit/devtony/gopyt-milestone-work/examples/guarded_refunds/freeze.py", line 12, in bundle
+    result = json.loads(prepare_bundle(HERE/'policy', ['impl/refund_policy.gopyt'], cases(), OBLIGATIONS))
+                        ~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/soultransit/devtony/gopyt-milestone-work/gopyt/guard.py", line 121, in prepare_bundle
+    raise ValueError('unsupported package file: ' + rel)
+ValueError: unsupported package file: .gopyt-transaction.lock
+
+======================================================================
+ERROR: test_bundle_and_engine_tampering (gopyt.test_guard.GuardTests.test_bundle_and_engine_tampering)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/home/soultransit/devtony/gopyt-milestone-work/gopyt/test_guard.py", line 24, in setUp
+    self.bundle = bundle()
+                  ~~~~~~^^
+  File "/home/soultransit/devtony/gopyt-milestone-work/examples/guarded_refunds/freeze.py", line 12, in bundle
+    result = json.loads(prepare_bundle(HERE/'policy', ['impl/refund_policy.gopyt'], cases(), OBLIGATIONS))
+                        ~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/soultransit/devtony/gopyt-milestone-work/gopyt/guard.py", line 121, in prepare_bundle
+    raise ValueError('unsupported package file: ' + rel)
+ValueError: unsupported package file: .gopyt-transaction.lock
+
+======================================================================
+ERROR: test_candidate_cannot_replace_gate_or_tests (gopyt.test_guard.GuardTests.test_candidate_cannot_replace_gate_or_tests)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/home/soultransit/devtony/gopyt-milestone-work/gopyt/test_guard.py", line 24, in setUp
+    self.bundle = bundle()
+                  ~~~~~~^^
+  File "/home/soultransit/devtony/gopyt-milestone-work/examples/guarded_refunds/freeze.py", line 12, in bundle
+    result = json.loads(prepare_bundle(HERE/'policy', ['impl/refund_policy.gopyt'], cases(), OBLIGATIONS))
+                        ~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/soultransit/devtony/gopyt-milestone-work/gopyt/guard.py", line 121, in prepare_bundle
+    raise ValueError('unsupported package file: ' + rel)
+ValueError: unsupported package file: .gopyt-transaction.lock
+
+======================================================================
+ERROR: test_clean_and_legitimate_body_change (gopyt.test_guard.GuardTests.test_clean_and_legitimate_body_change)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/home/soultransit/devtony/gopyt-milestone-work/gopyt/test_guard.py", line 24, in setUp
+    self.bundle = bundle()
+                  ~~~~~~^^
+  File "/home/soultransit/devtony/gopyt-milestone-work/examples/guarded_refunds/freeze.py", line 12, in bundle
+    result = json.loads(prepare_bundle(HERE/'policy', ['impl/refund_policy.gopyt'], cases(), OBLIGATIONS))
+                        ~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/soultransit/devtony/gopyt-milestone-work/gopyt/guard.py", line 121, in prepare_bundle
+    raise ValueError('unsupported package file: ' + rel)
+ValueError: unsupported package file: .gopyt-transaction.lock
+
+======================================================================
+ERROR: test_lock_is_derived_not_an_authority (gopyt.test_guard.GuardTests.test_lock_is_derived_not_an_authority)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/home/soultransit/devtony/gopyt-milestone-work/gopyt/test_guard.py", line 24, in setUp
+    self.bundle = bundle()
+                  ~~~~~~^^
+  File "/home/soultransit/devtony/gopyt-milestone-work/examples/guarded_refunds/freeze.py", line 12, in bundle
+    result = json.loads(prepare_bundle(HERE/'policy', ['impl/refund_policy.gopyt'], cases(), OBLIGATIONS))
+                        ~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/soultransit/devtony/gopyt-milestone-work/gopyt/guard.py", line 121, in prepare_bundle
+    raise ValueError('unsupported package file: ' + rel)
+ValueError: unsupported package file: .gopyt-transaction.lock
+
+======================================================================
+ERROR: test_manifest_and_spec_deletion_refused (gopyt.test_guard.GuardTests.test_manifest_and_spec_deletion_refused)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/home/soultransit/devtony/gopyt-milestone-work/gopyt/test_guard.py", line 24, in setUp
+    self.bundle = bundle()
+                  ~~~~~~^^
+  File "/home/soultransit/devtony/gopyt-milestone-work/examples/guarded_refunds/freeze.py", line 12, in bundle
+    result = json.loads(prepare_bundle(HERE/'policy', ['impl/refund_policy.gopyt'], cases(), OBLIGATIONS))
+                        ~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/soultransit/devtony/gopyt-milestone-work/gopyt/guard.py", line 121, in prepare_bundle
+    raise ValueError('unsupported package file: ' + rel)
+ValueError: unsupported package file: .gopyt-transaction.lock
+
+======================================================================
+ERROR: test_oversized_input_refused (gopyt.test_guard.GuardTests.test_oversized_input_refused)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/home/soultransit/devtony/gopyt-milestone-work/gopyt/test_guard.py", line 24, in setUp
+    self.bundle = bundle()
+                  ~~~~~~^^
+  File "/home/soultransit/devtony/gopyt-milestone-work/examples/guarded_refunds/freeze.py", line 12, in bundle
+    result = json.loads(prepare_bundle(HERE/'policy', ['impl/refund_policy.gopyt'], cases(), OBLIGATIONS))
+                        ~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/soultransit/devtony/gopyt-milestone-work/gopyt/guard.py", line 121, in prepare_bundle
+    raise ValueError('unsupported package file: ' + rel)
+ValueError: unsupported package file: .gopyt-transaction.lock
+
+======================================================================
+ERROR: test_symlink_directory_and_file_refused (gopyt.test_guard.GuardTests.test_symlink_directory_and_file_refused)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/home/soultransit/devtony/gopyt-milestone-work/gopyt/test_guard.py", line 24, in setUp
+    self.bundle = bundle()
+                  ~~~~~~^^
+  File "/home/soultransit/devtony/gopyt-milestone-work/examples/guarded_refunds/freeze.py", line 12, in bundle
+    result = json.loads(prepare_bundle(HERE/'policy', ['impl/refund_policy.gopyt'], cases(), OBLIGATIONS))
+                        ~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/soultransit/devtony/gopyt-milestone-work/gopyt/guard.py", line 121, in prepare_bundle
+    raise ValueError('unsupported package file: ' + rel)
+ValueError: unsupported package file: .gopyt-transaction.lock
+
+======================================================================
+ERROR: test_timeout_fails_closed (gopyt.test_guard.GuardTests.test_timeout_fails_closed)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/home/soultransit/devtony/gopyt-milestone-work/gopyt/test_guard.py", line 24, in setUp
+    self.bundle = bundle()
+                  ~~~~~~^^
+  File "/home/soultransit/devtony/gopyt-milestone-work/examples/guarded_refunds/freeze.py", line 12, in bundle
+    result = json.loads(prepare_bundle(HERE/'policy', ['impl/refund_policy.gopyt'], cases(), OBLIGATIONS))
+                        ~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/soultransit/devtony/gopyt-milestone-work/gopyt/guard.py", line 121, in prepare_bundle
+    raise ValueError('unsupported package file: ' + rel)
+ValueError: unsupported package file: .gopyt-transaction.lock
+
+======================================================================
+ERROR: test_wrong_body_fails_executable_contract (gopyt.test_guard.GuardTests.test_wrong_body_fails_executable_contract)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/home/soultransit/devtony/gopyt-milestone-work/gopyt/test_guard.py", line 24, in setUp
+    self.bundle = bundle()
+                  ~~~~~~^^
+  File "/home/soultransit/devtony/gopyt-milestone-work/examples/guarded_refunds/freeze.py", line 12, in bundle
+    result = json.loads(prepare_bundle(HERE/'policy', ['impl/refund_policy.gopyt'], cases(), OBLIGATIONS))
+                        ~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/soultransit/devtony/gopyt-milestone-work/gopyt/guard.py", line 121, in prepare_bundle
+    raise ValueError('unsupported package file: ' + rel)
+ValueError: unsupported package file: .gopyt-transaction.lock
+
+======================================================================
+ERROR: test_bad_adapter_pin_prevents_start (gopyt.test_guard.LedgerTests.test_bad_adapter_pin_prevents_start)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/home/soultransit/devtony/gopyt-milestone-work/gopyt/test_guard.py", line 100, in setUp
+    self.bundle=bundle()
+                ~~~~~~^^
+  File "/home/soultransit/devtony/gopyt-milestone-work/examples/guarded_refunds/freeze.py", line 12, in bundle
+    result = json.loads(prepare_bundle(HERE/'policy', ['impl/refund_policy.gopyt'], cases(), OBLIGATIONS))
+                        ~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/soultransit/devtony/gopyt-milestone-work/gopyt/guard.py", line 121, in prepare_bundle
+    raise ValueError('unsupported package file: ' + rel)
+ValueError: unsupported package file: .gopyt-transaction.lock
+
+======================================================================
+ERROR: test_concurrent_identical_requests_replay_one_commit (gopyt.test_guard.LedgerTests.test_concurrent_identical_requests_replay_one_commit)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/home/soultransit/devtony/gopyt-milestone-work/gopyt/test_guard.py", line 100, in setUp
+    self.bundle=bundle()
+                ~~~~~~^^
+  File "/home/soultransit/devtony/gopyt-milestone-work/examples/guarded_refunds/freeze.py", line 12, in bundle
+    result = json.loads(prepare_bundle(HERE/'policy', ['impl/refund_policy.gopyt'], cases(), OBLIGATIONS))
+                        ~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/soultransit/devtony/gopyt-milestone-work/gopyt/guard.py", line 121, in prepare_bundle
+    raise ValueError('unsupported package file: ' + rel)
+ValueError: unsupported package file: .gopyt-transaction.lock
+
+======================================================================
+ERROR: test_concurrent_unique_requests_cannot_double_spend (gopyt.test_guard.LedgerTests.test_concurrent_unique_requests_cannot_double_spend)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/home/soultransit/devtony/gopyt-milestone-work/gopyt/test_guard.py", line 100, in setUp
+    self.bundle=bundle()
+                ~~~~~~^^
+  File "/home/soultransit/devtony/gopyt-milestone-work/examples/guarded_refunds/freeze.py", line 12, in bundle
+    result = json.loads(prepare_bundle(HERE/'policy', ['impl/refund_policy.gopyt'], cases(), OBLIGATIONS))
+                        ~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/soultransit/devtony/gopyt-milestone-work/gopyt/guard.py", line 121, in prepare_bundle
+    raise ValueError('unsupported package file: ' + rel)
+ValueError: unsupported package file: .gopyt-transaction.lock
+
+======================================================================
+ERROR: test_db_failure_between_update_and_receipt_rolls_back (gopyt.test_guard.LedgerTests.test_db_failure_between_update_and_receipt_rolls_back)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/home/soultransit/devtony/gopyt-milestone-work/gopyt/test_guard.py", line 100, in setUp
+    self.bundle=bundle()
+                ~~~~~~^^
+  File "/home/soultransit/devtony/gopyt-milestone-work/examples/guarded_refunds/freeze.py", line 12, in bundle
+    result = json.loads(prepare_bundle(HERE/'policy', ['impl/refund_policy.gopyt'], cases(), OBLIGATIONS))
+                        ~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/soultransit/devtony/gopyt-milestone-work/gopyt/guard.py", line 121, in prepare_bundle
+    raise ValueError('unsupported package file: ' + rel)
+ValueError: unsupported package file: .gopyt-transaction.lock
+
+======================================================================
+ERROR: test_missing_wrong_and_cross_customer_credentials (gopyt.test_guard.LedgerTests.test_missing_wrong_and_cross_customer_credentials)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/home/soultransit/devtony/gopyt-milestone-work/gopyt/test_guard.py", line 100, in setUp
+    self.bundle=bundle()
+                ~~~~~~^^
+  File "/home/soultransit/devtony/gopyt-milestone-work/examples/guarded_refunds/freeze.py", line 12, in bundle
+    result = json.loads(prepare_bundle(HERE/'policy', ['impl/refund_policy.gopyt'], cases(), OBLIGATIONS))
+                        ~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/soultransit/devtony/gopyt-milestone-work/gopyt/guard.py", line 121, in prepare_bundle
+    raise ValueError('unsupported package file: ' + rel)
+ValueError: unsupported package file: .gopyt-transaction.lock
+
+======================================================================
+ERROR: test_process_death_between_update_and_receipt_rolls_back (gopyt.test_guard.LedgerTests.test_process_death_between_update_and_receipt_rolls_back)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/home/soultransit/devtony/gopyt-milestone-work/gopyt/test_guard.py", line 100, in setUp
+    self.bundle=bundle()
+                ~~~~~~^^
+  File "/home/soultransit/devtony/gopyt-milestone-work/examples/guarded_refunds/freeze.py", line 12, in bundle
+    result = json.loads(prepare_bundle(HERE/'policy', ['impl/refund_policy.gopyt'], cases(), OBLIGATIONS))
+                        ~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/soultransit/devtony/gopyt-milestone-work/gopyt/guard.py", line 121, in prepare_bundle
+    raise ValueError('unsupported package file: ' + rel)
+ValueError: unsupported package file: .gopyt-transaction.lock
+
+======================================================================
+ERROR: test_remaining_balance_stale_version_closed_customer (gopyt.test_guard.LedgerTests.test_remaining_balance_stale_version_closed_customer)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/home/soultransit/devtony/gopyt-milestone-work/gopyt/test_guard.py", line 100, in setUp
+    self.bundle=bundle()
+                ~~~~~~^^
+  File "/home/soultransit/devtony/gopyt-milestone-work/examples/guarded_refunds/freeze.py", line 12, in bundle
+    result = json.loads(prepare_bundle(HERE/'policy', ['impl/refund_policy.gopyt'], cases(), OBLIGATIONS))
+                        ~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/soultransit/devtony/gopyt-milestone-work/gopyt/guard.py", line 121, in prepare_bundle
+    raise ValueError('unsupported package file: ' + rel)
+ValueError: unsupported package file: .gopyt-transaction.lock
+
+======================================================================
+ERROR: test_replay_conflict_and_restart (gopyt.test_guard.LedgerTests.test_replay_conflict_and_restart)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/home/soultransit/devtony/gopyt-milestone-work/gopyt/test_guard.py", line 100, in setUp
+    self.bundle=bundle()
+                ~~~~~~^^
+  File "/home/soultransit/devtony/gopyt-milestone-work/examples/guarded_refunds/freeze.py", line 12, in bundle
+    result = json.loads(prepare_bundle(HERE/'policy', ['impl/refund_policy.gopyt'], cases(), OBLIGATIONS))
+                        ~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/soultransit/devtony/gopyt-milestone-work/gopyt/guard.py", line 121, in prepare_bundle
+    raise ValueError('unsupported package file: ' + rel)
+ValueError: unsupported package file: .gopyt-transaction.lock
+
+======================================================================
+ERROR: test_runtime_trap_and_cancel_roll_back (gopyt.test_guard.LedgerTests.test_runtime_trap_and_cancel_roll_back)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/home/soultransit/devtony/gopyt-milestone-work/gopyt/test_guard.py", line 100, in setUp
+    self.bundle=bundle()
+                ~~~~~~^^
+  File "/home/soultransit/devtony/gopyt-milestone-work/examples/guarded_refunds/freeze.py", line 12, in bundle
+    result = json.loads(prepare_bundle(HERE/'policy', ['impl/refund_policy.gopyt'], cases(), OBLIGATIONS))
+                        ~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/soultransit/devtony/gopyt-milestone-work/gopyt/guard.py", line 121, in prepare_bundle
+    raise ValueError('unsupported package file: ' + rel)
+ValueError: unsupported package file: .gopyt-transaction.lock
+
+======================================================================
+ERROR: test_strict_input (gopyt.test_guard.LedgerTests.test_strict_input)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/home/soultransit/devtony/gopyt-milestone-work/gopyt/test_guard.py", line 100, in setUp
+    self.bundle=bundle()
+                ~~~~~~^^
+  File "/home/soultransit/devtony/gopyt-milestone-work/examples/guarded_refunds/freeze.py", line 12, in bundle
+    result = json.loads(prepare_bundle(HERE/'policy', ['impl/refund_policy.gopyt'], cases(), OBLIGATIONS))
+                        ~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/soultransit/devtony/gopyt-milestone-work/gopyt/guard.py", line 121, in prepare_bundle
+    raise ValueError('unsupported package file: ' + rel)
+ValueError: unsupported package file: .gopyt-transaction.lock
+
+======================================================================
+ERROR: test_two_independent_ledgers_share_database_safely (gopyt.test_guard.LedgerTests.test_two_independent_ledgers_share_database_safely)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/home/soultransit/devtony/gopyt-milestone-work/gopyt/test_guard.py", line 100, in setUp
+    self.bundle=bundle()
+                ~~~~~~^^
+  File "/home/soultransit/devtony/gopyt-milestone-work/examples/guarded_refunds/freeze.py", line 12, in bundle
+    result = json.loads(prepare_bundle(HERE/'policy', ['impl/refund_policy.gopyt'], cases(), OBLIGATIONS))
+                        ~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/soultransit/devtony/gopyt-milestone-work/gopyt/guard.py", line 121, in prepare_bundle
+    raise ValueError('unsupported package file: ' + rel)
+ValueError: unsupported package file: .gopyt-transaction.lock
+
+======================================================================
+ERROR: test_unseen_wrong_body_is_blocked_by_real_runtime_contract (gopyt.test_guard.LedgerTests.test_unseen_wrong_body_is_blocked_by_real_runtime_contract)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/home/soultransit/devtony/gopyt-milestone-work/gopyt/test_guard.py", line 100, in setUp
+    self.bundle=bundle()
+                ~~~~~~^^
+  File "/home/soultransit/devtony/gopyt-milestone-work/examples/guarded_refunds/freeze.py", line 12, in bundle
+    result = json.loads(prepare_bundle(HERE/'policy', ['impl/refund_policy.gopyt'], cases(), OBLIGATIONS))
+                        ~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/soultransit/devtony/gopyt-milestone-work/gopyt/guard.py", line 121, in prepare_bundle
+    raise ValueError('unsupported package file: ' + rel)
+ValueError: unsupported package file: .gopyt-transaction.lock
+
+======================================================================
+FAIL: test_fixtures (gopyt.test_fixtures.Fixtures.test_fixtures)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/home/soultransit/devtony/gopyt-milestone-work/gopyt/test_fixtures.py", line 128, in test_fixtures
+    self.assertEqual(failures, [], "conformance/ fixtures disagree:\n" + "\n".join(failures))
+    ~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+AssertionError: Lists differ: ['C030: expect E041, got E040'] != []
+
+First list contains 1 additional elements.
+First extra element 0:
+'C030: expect E041, got E040'
+
+- ['C030: expect E041, got E040']
++ [] : conformance/ fixtures disagree:
+C030: expect E041, got E040
+
+======================================================================
+FAIL: test_the_fixture_runner_agrees_with_the_compiler (gopyt.test_validation.P1Conformance.test_the_fixture_runner_agrees_with_the_compiler)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/home/soultransit/devtony/gopyt-milestone-work/gopyt/test_validation.py", line 97, in test_the_fixture_runner_agrees_with_the_compiler
+    self.assertEqual(proc.returncode, 0, proc.stdout + proc.stderr)
+    ~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+AssertionError: 1 != 0 : start
+F.
+======================================================================
+FAIL: test_fixtures (__main__.Fixtures.test_fixtures)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/home/soultransit/devtony/gopyt-milestone-work/gopyt/test_fixtures.py", line 128, in test_fixtures
+    self.assertEqual(failures, [], "conformance/ fixtures disagree:\n" + "\n".join(failures))
+    ~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+AssertionError: Lists differ: ['C030: expect E041, got E040'] != []
+
+First list contains 1 additional elements.
+First extra element 0:
+'C030: expect E041, got E040'
+
+- ['C030: expect E041, got E040']
++ [] : conformance/ fixtures disagree:
+C030: expect E041, got E040
+
+----------------------------------------------------------------------
+Ran 2 tests in 1.293s
+
+FAILED (failures=1)
+
+
+----------------------------------------------------------------------
+Ran 739 tests in 58.112s
+
+FAILED (failures=2, errors=22)
+
+
+======================================================================
+FAIL: test_fixtures (gopyt.test_fixtures.Fixtures.test_fixtures)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/home/soultransit/devtony/gopyt-milestone-work/gopyt/test_fixtures.py", line 128, in test_fixtures
+    self.assertEqual(failures, [], "conformance/ fixtures disagree:\n" + "\n".join(failures))
+    ~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+AssertionError: Lists differ: ['C030: expect E041, got E040'] != []
+
+First list contains 1 additional elements.
+First extra element 0:
+'C030: expect E041, got E040'
+
+- ['C030: expect E041, got E040']
++ [] : conformance/ fixtures disagree:
+C030: expect E041, got E040
+
+======================================================================
+FAIL: test_the_fixture_runner_agrees_with_the_compiler (gopyt.test_validation.P1Conformance.test_the_fixture_runner_agrees_with_the_compiler)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/home/soultransit/devtony/gopyt-milestone-work/gopyt/test_validation.py", line 97, in test_the_fixture_runner_agrees_with_the_compiler
+    self.assertEqual(proc.returncode, 0, proc.stdout + proc.stderr)
+    ~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+AssertionError: 1 != 0 : start
+F.
+======================================================================
+FAIL: test_fixtures (__main__.Fixtures.test_fixtures)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/home/soultransit/devtony/gopyt-milestone-work/gopyt/test_fixtures.py", line 128, in test_fixtures
+    self.assertEqual(failures, [], "conformance/ fixtures disagree:\n" + "\n".join(failures))
+    ~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+AssertionError: Lists differ: ['C030: expect E041, got E040'] != []
+
+First list contains 1 additional elements.
+First extra element 0:
+'C030: expect E041, got E040'
+
+- ['C030: expect E041, got E040']
++ [] : conformance/ fixtures disagree:
+C030: expect E041, got E040
+
+----------------------------------------------------------------------
+Ran 2 tests in 1.435s
+
+FAILED (failures=1)
+
+
+----------------------------------------------------------------------
+Ran 742 tests in 194.339s
+
+FAILED (failures=4, errors=22)
+4d041dfc4c20722c2936b60947c14cc89853f7917fb8790a5541f3a6e7c2eb94
+{
+  "schema": "gopyt.guard.receipt.v1",
+  "accepted": true,
+  "bundle_sha256": "4d041dfc4c20722c2936b60947c14cc89853f7917fb8790a5541f3a6e7c2eb94",
+  "engine_sha256": "45d58c1aac7968294f403f6af0bceb3a95639a692570859347424392aa8ef033",
+  "limitations": [
+    "Finite acceptance cases, not a proof.",
+    "Listed obligations are declarations; this gate executes only the supplied cases, not HTTP or database tests.",
+    "Caller, bundle pin, and executor must be protected outside candidate authority.",
+    "No guarantee about external payment processors or undisclosed policies."
+  ],
+  "candidate_sha256": "abd5f15d629b9dea8d8c36cdf16ef00f28ef6889eabb7ec3b377c897a2426749",
+  "changed_files": [],
+  "obligations": {
+    "stock": "Reservation preserves nonnegative stock."
+  },
+  "protected_contract_helpers": [],
+  "passed": 3,
+  "total": 3,
+  "failures": []
+}
+
+50 modules checked in 33 ms
+
+check 15 ms, 10000 logins 2622 ms

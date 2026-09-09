@@ -14,7 +14,7 @@ from dataclasses import dataclass, field
 from gopyt.diag import CompileError, Diag
 from gopyt.files import regular_file
 
-TOOLCHAIN = "gopyt-0.1.000"
+from gopyt.toolchain import TOOLCHAIN
 SOURCE_DIRS = ("spec", "impl", "test")
 
 

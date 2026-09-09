@@ -12,8 +12,9 @@ The VM is a stack machine with a tracing GC (D12). There is **one** instruction 
 
 ```
 magic     "GPYT"
-version   u8 = 2
+version   u8 = 3
 flags     u8 = 0
+toolchain bytes[32] — exact runtime-source fingerprint
 effects   — encoded per function, not globally
 constn    u32
 consts    Const[constn]
@@ -35,7 +36,8 @@ Endian: little. Integers two’s complement.
 
 `EvolvePolicy` is `(module: u32 str-constant index, max: u32, timeout_ms: u32,
 reservoir: u32)`. Entries are module-sorted and unique; bounds are in
-`1..2147483647`. Version 1 artifacts must be rebuilt by toolchain 0.1.000.
+`1..2147483647`. Versions 1 and 2 must be rebuilt under the
+[exact toolchain compatibility amendment](toolchain-compatibility-amendment-2026-09-09.md).
 
 ### Const
 

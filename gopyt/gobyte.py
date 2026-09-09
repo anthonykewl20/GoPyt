@@ -10,10 +10,11 @@ import struct
 from dataclasses import dataclass, field
 
 from gopyt import ops
+from gopyt.toolchain import FINGERPRINT
 from gopyt.diag import CompileError, Diag
 
 MAGIC = b"GPYT"
-VERSION = 2
+VERSION = 3
 FLAGS = 0
 
 TAG_I64 = 1
@@ -121,6 +122,8 @@ class Artifact:
     egress: list[EgressEntry] = field(default_factory=list)
     evolve: list[EvolveEntry] = field(default_factory=list)
 
+    toolchain: bytes = FINGERPRINT
+
     def const_str(self, index: int) -> str:
         c = self.consts[index]
         if c.tag != TAG_STR:
@@ -159,10 +162,13 @@ class Writer:
 
 
 def encode(art: Artifact) -> bytes:
+    if art.toolchain != FINGERPRINT:
+        raise e100()
     w = Writer()
     w.buf += MAGIC
     w.u8(VERSION)
     w.u8(FLAGS)
+    w.buf += art.toolchain
     w.u32(len(art.consts))
     for c in art.consts:
         w.u8(c.tag)
@@ -293,7 +299,10 @@ def decode(data: bytes) -> Artifact:
     r = Reader(data)
     if r.take(4) != MAGIC or r.u8() != VERSION or r.u8() != FLAGS:
         raise e100()
-    art = Artifact()
+    fingerprint = r.take(32)
+    if fingerprint != FINGERPRINT:
+        raise e100()
+    art = Artifact(toolchain=fingerprint)
     for _ in range(r.u32()):
         tag = r.u8()
         if tag == TAG_I64:
@@ -394,6 +403,8 @@ def decode(data: bytes) -> Artifact:
 
 
 def validate(art: Artifact) -> None:
+    if art.toolchain != FINGERPRINT:
+        raise e100()
     nconst = len(art.consts)
     ntexpr = len(art.texprs)
     ntype = len(art.types)

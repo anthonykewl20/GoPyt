@@ -1,0 +1,14 @@
+{
+  "baseline_commit": "710152358087dcf0b7e171f22a7f9a0eed557a01",
+  "old_format": 2,
+  "new_format": 3,
+  "old_runtime_old_artifact_result": 7,
+  "new_runtime_new_artifact_result": 7,
+  "old_runtime_new_artifact_error": 100,
+  "new_runtime_old_artifact_error": 100,
+  "new_compiler_old_lock_error": 40,
+  "lock_unchanged_on_rejection": true,
+  "operator_rebuild_result": 7,
+  "old_artifact_sha256": "072dcf2cb9786f2dd235051b690a7241917d511595cfbf7d684bc0b8c986c147",
+  "new_artifact_sha256": "6fe9659a2533db845c31893ddadbe7e053f8d097d330b52d24f6c2ae85ea2eff"
+}
