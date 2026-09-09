@@ -1,0 +1,10 @@
+{
+  "repository": "python/cpython",
+  "commit": "823f0323ee6ec1402088b73bce1a38473cac36dc",
+  "leitir_verification": "sampled",
+  "scope": "Reused reviewed CPython JSON per-string encoding reference and the target bounded emitter from the response-budget change. No donor copying/execution or dependency change; URL/body admission and model-envelope accounting are target-native.",
+  "reviewed_files": {
+    "Lib/json/encoder.py": "d68a4d04d2cfd95897498307f29349058b42c3f48ea6aa6739714a09200a7d01",
+    "LICENSE": "b0e25a78cffb43f4d92de8b61ccfa1f1f98ecbc22330b54b5251e7b6ba010231"
+  }
+}

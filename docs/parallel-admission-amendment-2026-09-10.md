@@ -384,3 +384,32 @@ Quota closure and lifetime expiry do not undo handler effects or acknowledge
 requests that never ran. Reconcile durable outcomes before application retries.
 These limits advance connection occupancy policy without claiming aggregate
 memory, arbitrary application retry bounds or sustained production fairness.
+
+
+## Outbound request preparation bounds
+
+`net.http.request` accepts at most 1,048,576 body bytes. The remote
+`core.model.complete` payload, including the canonical `{"prompt":...}` envelope,
+is limited to the same number of UTF-8 JSON bytes. Exactly the limit is accepted;
+oversize data returns `HttpError` or `ModelError` with `body too large`, without
+opening a connection. JSON escapes and multibyte characters count as their actual
+encoded bytes. Model encoding reuses the bounded canonical emitter and checks
+the transport budget between chunks; it does not first allocate an unbounded
+JSON string. The pre-existing prompt/body value and bounded temporary/copy storage
+are separate from the encoded payload limit.
+
+Both APIs limit their URL string to 8,192 UTF-8 bytes, checked before origin
+parsing or transport construction. An oversized URL returns the native's error
+type with `url too large`; invalid UTF-8 returns `url encoding`. URLs are not
+truncated or automatically percent-encoded. Passing this size check does not
+establish URL validity or egress authority; all existing checks still apply.
+
+The existing 30-second transport budget now starts before URL validation and
+payload preparation, and still caps DNS/connect/TLS/write/response reception by
+the VM deadline. Exhausting that own budget during preparation returns the
+existing typed network error; inherited expiry/cancellation retains VM semantics.
+No DNS lookup or connection begins after a preparation budget check has rejected
+admission. Host parsing and bounded buffer-copy operations remain synchronous.
+Local model companions are a separate, unmediated integration and are not covered
+by these remote payload limits. No operation retries automatically. A request
+which was admitted to transport may still have remote effects before timeout.
