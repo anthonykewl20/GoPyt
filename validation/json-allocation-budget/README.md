@@ -65,3 +65,21 @@ remaining issue #13 resource, cleanup and sustained-load criteria remain open.
 The fresh `deadline-inventory.json` records source identity and native coverage;
 it is not behavioral proof. Historical inventories remain immutable. Verify with
 `python tools/check_deadline_inventory.py validation/json-allocation-budget/deadline-inventory.json`.
+
+## Subsequent macOS CI test correction
+
+The first PR60 matrix passed seven jobs but failed macOS 3.14.7 job
+102665873406 (run 34411233334). The idle-connection regression gave a fresh
+recovery request the same 150 ms test budget as the deliberately idle clients;
+that request expired under runner load. `ci-macos-initial-failure.log` retains
+this failure. The test now observes server-driven EOF on each still-open idle
+client, then gives the fresh recovery request its normal ten-second input budget.
+It preserves the idle closure and successful recovery requirements without an
+assumed sleep or retries.
+
+All 35 focused tests pass on Python 3.14.7 (10.308 s) and 3.11.16 (10.333 s).
+A fresh full run passes 874 tests in 307.537 s, and the contracts example passes.
+The runtime and all 49 packaging-input hashes remain unchanged, so the recorded
+wheel/build/upgrade qualification still applies. `ci-correction.json` pins the
+corrected test source. This update is test-only; original failed and successful
+local trials remain retained above.
