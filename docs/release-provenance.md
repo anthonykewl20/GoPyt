@@ -103,3 +103,5 @@ inventory. Complete component and repository adaptation/license inventories
 remain separate unfinished parts of #23.
 
 Reference: [GitHub artifact attestations](https://docs.github.com/en/actions/how-tos/secure-your-work/use-artifact-attestations/use-artifact-attestations).
+
+The later [inventory signing run 34370512225](https://github.com/anthonykewl20/GoPyt/actions/runs/34370512225) qualified source e1f36ab126e98041ced7e3641fa04609728f6a0c after its matrix passed. Separate local verification authenticated all three subjects: wheel, build report and component inventory. [Retained evidence](../validation/release-provenance/signed-e1f36ab/) preserves that bundle and verification. This proves the signed identity of the collected metadata, not independent completeness of its component claims.

@@ -67,3 +67,72 @@ class WheelIntegrity(unittest.TestCase):
         self.wheel({**self.expected, 'gopyt-0.1.0.dist-info/METADATA': b'x' * 1048577})
         with self.assertRaisesRegex(ValueError, 'budget'):
             inspect_wheel(self.path, self.expected)
+
+
+class PackagingInputIntegration(unittest.TestCase):
+    def test_hook_is_applied_and_caller_umask_does_not_change_wheel(self):
+        import importlib.metadata
+        import json
+        import subprocess
+        import sys
+        from email.parser import BytesParser
+
+        versions = {name: importlib.metadata.version(name) for name in ('pip', 'setuptools')}
+        if versions != {'pip': '26.2.1', 'setuptools': '84.0.0'}:
+            self.skipTest('integration requires reviewed requirements/build.txt')
+        script = Path(__file__).resolve().parents[1] / 'tools/reproducible_wheel.py'
+        with tempfile.TemporaryDirectory() as directory:
+            root = Path(directory)
+            source = root / 'source'
+            (source / 'gopyt').mkdir(parents=True)
+            (source / 'gopyt/__init__.py').write_text('VALUE = 42\n')
+            (source / 'README.md').write_text('packaging integration fixture\n')
+            (source / 'pyproject.toml').write_text(
+                '[build-system]\nrequires = ["setuptools==84.0.0"]\n'
+                'build-backend = "setuptools.build_meta"\n'
+                '[project]\nname = "gopyt"\nversion = "0.1.0"\n'
+                'dynamic = ["description"]\n')
+            hook = 'from setuptools import setup\nsetup(description="HOOK_EXECUTED")\n'
+            (source / 'setup.py').write_text(hook)
+            hashes = []
+            for index, mask in enumerate((0o002, 0o077)):
+                output = root / str(index)
+                result = subprocess.run([sys.executable, str(script), '--source', str(source),
+                    '--output', str(output), '--epoch', '1788964852'],
+                    capture_output=True, text=True, umask=mask, timeout=120)
+                self.assertEqual(result.returncode, 0, result.stdout + result.stderr)
+                report = json.loads((output / 'report.json').read_text())
+                self.assertEqual(report['source_sha256']['setup.py'],
+                                 hashlib.sha256(hook.encode()).hexdigest())
+                with zipfile.ZipFile(next((output / '0').glob('*.whl'))) as wheel:
+                    metadata = BytesParser().parsebytes(wheel.read('gopyt-0.1.0.dist-info/METADATA'))
+                    self.assertEqual(metadata['Summary'], 'HOOK_EXECUTED')
+                hashes.append(report['builds'][0]['sha256'])
+            self.assertEqual(hashes[0], hashes[1])
+
+    def test_unicode_equivalent_manifest_exclusion(self):
+        import importlib.metadata
+        import subprocess
+        import sys
+        import tarfile
+        import unicodedata
+
+        if importlib.metadata.version('setuptools') != '84.0.0':
+            self.skipTest('integration requires reviewed setuptools 84.0.0')
+        with tempfile.TemporaryDirectory() as directory:
+            root = Path(directory)
+            (root / 'setup.py').write_text(
+                'from setuptools import setup\n'
+                'setup(name="manifest_fixture", version="0.0.0", py_modules=["module"])\n')
+            (root / 'module.py').write_text('VALUE = 42\n')
+            composed = 'caf\u00e9.secret'
+            decomposed = unicodedata.normalize('NFD', composed)
+            (root / decomposed).write_text('NOT_A_SECRET_TEST_MARKER\n')
+            (root / 'MANIFEST.in').write_text('include *.secret\nexclude ' + composed + '\n')
+            result = subprocess.run([sys.executable, 'setup.py', 'sdist'], cwd=root,
+                                    capture_output=True, text=True, timeout=120)
+            self.assertEqual(result.returncode, 0, result.stdout + result.stderr)
+            with tarfile.open(next((root / 'dist').glob('*.tar.gz'))) as archive:
+                names = archive.getnames()
+            self.assertTrue(any(name.endswith('/module.py') for name in names))
+            self.assertFalse(any(name.endswith('.secret') for name in names), names)

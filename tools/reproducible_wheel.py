@@ -67,10 +67,12 @@ def main():
     if not 315532800 <= args.epoch <= 4354819198:
         raise ValueError('epoch outside ZIP timestamp range')
     versions = {n: importlib.metadata.version(n) for n in ('pip', 'setuptools')}
-    if versions != {'pip': '26.2.1', 'setuptools': '82.0.1'}:
+    if versions != {'pip': '26.2.1', 'setuptools': '84.0.0'}:
         raise ValueError('install the pinned requirements/build.txt before building')
     source = args.source.resolve()
     paths = [source / 'pyproject.toml', source / 'README.md']
+    paths += [source / name for name in ('setup.py', 'setup.cfg', 'MANIFEST.in')
+              if (source / name).exists()]
     paths += sorted(p for p in (source / 'gopyt').glob('*.py') if not p.name.startswith('test_'))
     paths += sorted({p for pattern in ('LICENSE*', 'NOTICE*') for p in source.glob(pattern) if p.is_file()})
     if any(p.is_symlink() for p in paths):
@@ -81,7 +83,7 @@ def main():
     output.mkdir(parents=True, exist_ok=False)
     report = {'epoch': args.epoch, 'python': sys.version, 'platform': platform.platform(),
               'runner': {k: os.environ.get(k) for k in ('ImageOS', 'ImageVersion', 'RUNNER_ARCH')},
-              'build_versions': versions,
+              'build_versions': versions, 'build_umask': '0022',
               'source_sha256': {p: hashlib.sha256(data).hexdigest() for p, data in frozen.items()},
               'builds': []}
     with tempfile.TemporaryDirectory(prefix='gopyt-reproduce-') as directory:
@@ -100,7 +102,7 @@ def main():
             env = dict(os.environ, SOURCE_DATE_EPOCH=str(args.epoch), PYTHONHASHSEED=str(trial + 1))
             result = subprocess.run([sys.executable, '-m', 'pip', 'wheel', '--no-deps',
                 '--no-build-isolation', '--no-cache-dir', '--no-index', str(staging),
-                '--wheel-dir', str(destination)], env=env, capture_output=True, text=True, timeout=120)
+                '--wheel-dir', str(destination)], env=env, umask=0o022, capture_output=True, text=True, timeout=120)
             (destination / 'build.log').write_text(result.stdout + result.stderr)
             if result.returncode:
                 raise RuntimeError('wheel build failed; see ' + str(destination / 'build.log'))

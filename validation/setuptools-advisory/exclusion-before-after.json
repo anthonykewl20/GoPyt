@@ -1,0 +1,39 @@
+{
+  "82.0.1": {
+    "files": [
+      "manifest_fixture-0.0.0",
+      "manifest_fixture-0.0.0/MANIFEST.in",
+      "manifest_fixture-0.0.0/PKG-INFO",
+      "manifest_fixture-0.0.0/cafe\u0301.secret",
+      "manifest_fixture-0.0.0/manifest_fixture.egg-info",
+      "manifest_fixture-0.0.0/manifest_fixture.egg-info/PKG-INFO",
+      "manifest_fixture-0.0.0/manifest_fixture.egg-info/SOURCES.txt",
+      "manifest_fixture-0.0.0/manifest_fixture.egg-info/dependency_links.txt",
+      "manifest_fixture-0.0.0/manifest_fixture.egg-info/top_level.txt",
+      "manifest_fixture-0.0.0/module.py",
+      "manifest_fixture-0.0.0/setup.cfg",
+      "manifest_fixture-0.0.0/setup.py"
+    ],
+    "excluded": false,
+    "stdout": "running sdist\nrunning egg_info\ncreating manifest_fixture.egg-info\nwriting manifest_fixture.egg-info/PKG-INFO\nwriting dependency_links to manifest_fixture.egg-info/dependency_links.txt\nwriting top-level names to manifest_fixture.egg-info/top_level.txt\nwriting manifest file 'manifest_fixture.egg-info/SOURCES.txt'\nreading manifest file 'manifest_fixture.egg-info/SOURCES.txt'\nreading manifest template 'MANIFEST.in'\nwriting manifest file 'manifest_fixture.egg-info/SOURCES.txt'\nrunning check\ncreating manifest_fixture-0.0.0\ncreating manifest_fixture-0.0.0/manifest_fixture.egg-info\ncopying files to manifest_fixture-0.0.0...\ncopying MANIFEST.in -> manifest_fixture-0.0.0\ncopying cafe\u0301.secret -> manifest_fixture-0.0.0\ncopying module.py -> manifest_fixture-0.0.0\ncopying setup.py -> manifest_fixture-0.0.0\ncopying manifest_fixture.egg-info/PKG-INFO -> manifest_fixture-0.0.0/manifest_fixture.egg-info\ncopying manifest_fixture.egg-info/SOURCES.txt -> manifest_fixture-0.0.0/manifest_fixture.egg-info\ncopying manifest_fixture.egg-info/dependency_links.txt -> manifest_fixture-0.0.0/manifest_fixture.egg-info\ncopying manifest_fixture.egg-info/top_level.txt -> manifest_fixture-0.0.0/manifest_fixture.egg-info\ncopying manifest_fixture.egg-info/SOURCES.txt -> manifest_fixture-0.0.0/manifest_fixture.egg-info\nWriting manifest_fixture-0.0.0/setup.cfg\ncreating dist\nCreating tar archive\nremoving 'manifest_fixture-0.0.0' (and everything under it)\n",
+    "stderr": "warning: no previously-included files found matching 'caf\u00e9.secret'\nwarning: sdist: standard file not found: should have one of README, README.rst, README.txt, README.md\n\n"
+  },
+  "84.0.0": {
+    "files": [
+      "manifest_fixture-0.0.0",
+      "manifest_fixture-0.0.0/MANIFEST.in",
+      "manifest_fixture-0.0.0/PKG-INFO",
+      "manifest_fixture-0.0.0/manifest_fixture.egg-info",
+      "manifest_fixture-0.0.0/manifest_fixture.egg-info/PKG-INFO",
+      "manifest_fixture-0.0.0/manifest_fixture.egg-info/SOURCES.txt",
+      "manifest_fixture-0.0.0/manifest_fixture.egg-info/dependency_links.txt",
+      "manifest_fixture-0.0.0/manifest_fixture.egg-info/top_level.txt",
+      "manifest_fixture-0.0.0/module.py",
+      "manifest_fixture-0.0.0/setup.cfg",
+      "manifest_fixture-0.0.0/setup.py"
+    ],
+    "excluded": true,
+    "stdout": "running sdist\nrunning egg_info\ncreating manifest_fixture.egg-info\nwriting manifest_fixture.egg-info/PKG-INFO\nwriting dependency_links to manifest_fixture.egg-info/dependency_links.txt\nwriting top-level names to manifest_fixture.egg-info/top_level.txt\nwriting manifest file 'manifest_fixture.egg-info/SOURCES.txt'\nreading manifest file 'manifest_fixture.egg-info/SOURCES.txt'\nreading manifest template 'MANIFEST.in'\nwriting manifest file 'manifest_fixture.egg-info/SOURCES.txt'\nrunning check\ncreating manifest_fixture-0.0.0\ncreating manifest_fixture-0.0.0/manifest_fixture.egg-info\ncopying files to manifest_fixture-0.0.0...\ncopying MANIFEST.in -> manifest_fixture-0.0.0\ncopying module.py -> manifest_fixture-0.0.0\ncopying setup.py -> manifest_fixture-0.0.0\ncopying manifest_fixture.egg-info/PKG-INFO -> manifest_fixture-0.0.0/manifest_fixture.egg-info\ncopying manifest_fixture.egg-info/SOURCES.txt -> manifest_fixture-0.0.0/manifest_fixture.egg-info\ncopying manifest_fixture.egg-info/dependency_links.txt -> manifest_fixture-0.0.0/manifest_fixture.egg-info\ncopying manifest_fixture.egg-info/top_level.txt -> manifest_fixture-0.0.0/manifest_fixture.egg-info\nWriting manifest_fixture-0.0.0/setup.cfg\ncreating dist\nCreating tar archive\nremoving 'manifest_fixture-0.0.0' (and everything under it)\n",
+    "stderr": "warning: sdist: standard file not found: should have one of README, README.rst, README.txt, README.md\n\n"
+  }
+}
