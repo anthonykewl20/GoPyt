@@ -9,8 +9,8 @@ dequeued. The repaired test verifies that this connection closes and its handler
 never runs. A preceding noncooperative handler deliberately exceeds its own budget;
 its effect is not undone and no rollback is inferred from the closed connection.
 
-Additional real runtime checks exercise two keep-alive requests whose combined
-execution exceeds one budget but whose individual work fits, a cooperative
+Additional real runtime checks verify that two requests on the same keep-alive
+socket receive strictly increasing absolute deadlines, and exercise a cooperative
 30-second sleep stopped by a 200 ms request budget, and an unread socket pair
 whose bounded send buffer forces a one-MiB response write to time out. The latter
 uses the actual response writer under an inherited VM deadline. The serving
@@ -40,3 +40,16 @@ only resource_authority's clock namespace, preserving real networking time and
 all existing expiry/revocation and unchanged-database assertions. No runtime check
 was disabled. Diagnostic-audit failures in that run propagated the same four
 identity subcase failures; they were not separate compiler diagnostic regressions.
+
+The initial macOS Python 3.14 CI run (`initial-macos-ci-failed.log`) expired the
+keep-alive test's 200 ms budget around a 120 ms sleep plus network processing.
+That was a success-latency assumption, not part of the reset contract. The test
+now observes the two handler deadlines, verifies they increase on the same socket,
+and retains a separate real 30-second sleep/200 ms timeout check. This preserves
+the fresh-budget and execution-expiry assertions without requiring sub-200 ms
+successful network scheduling. The runtime and build identities are unchanged.
+
+After the timing-test revision, all 813 tests pass locally again
+(`revised-full314.log`). A final explicit non-null socket assertion prevents
+silent reconnects from satisfying the keep-alive check; the subsequent focused
+HTTP reruns include that assertion. No runtime source changed.

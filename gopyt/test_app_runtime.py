@@ -216,21 +216,33 @@ class ApplicationHttpRuntime(unittest.TestCase):
 
     def test_request_execution_budget_and_keepalive_reset(self):
         from gopyt.values import UNIT
-        with running_server(MAX_HANDLERS=1, REQUEST_TIMEOUT_SECONDS=.2) as (vm, port):
+        deadlines = []
+        with running_server(MAX_HANDLERS=1, REQUEST_TIMEOUT_SECONDS=2) as (vm, port):
             vm.natives = dict(vm.natives)
-            def short(*args):
-                time.sleep(.12)
+            def observe(*args):
+                deadlines.append(vm.deadline_ns)
                 return UNIT
-            vm.natives['core.log.write'] = short
-            connection = http.client.HTTPConnection('127.0.0.1', port, timeout=2)
+            vm.natives['core.log.write'] = observe
+            connection = http.client.HTTPConnection('127.0.0.1', port, timeout=3)
             try:
+                first_socket = None
                 for _ in range(2):
                     connection.request('GET', '/echo/abc')
                     response = connection.getresponse()
                     self.assertEqual(response.status, 200)
                     response.read()
+                    self.assertIsNotNone(connection.sock)
+                    if first_socket is None:
+                        first_socket = connection.sock
+                    else:
+                        self.assertIs(connection.sock, first_socket)
+                self.assertEqual(len(deadlines), 2)
+                self.assertIsInstance(deadlines[0], int)
+                self.assertGreater(deadlines[1], deadlines[0])
             finally:
                 connection.close()
+        with running_server(MAX_HANDLERS=1, REQUEST_TIMEOUT_SECONDS=.2) as (vm, port):
+            vm.natives = dict(vm.natives)
             exited = threading.Event()
             def long(*args):
                 try:
