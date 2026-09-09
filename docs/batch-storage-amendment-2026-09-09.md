@@ -75,3 +75,6 @@ Additional [publication-edge failure evidence](../validation/transaction-publica
 checks actual interrupted writes, I/O errors and process exits with plaintext and
 authenticated snapshots. Live-host recovery is distinct from power-loss durability;
 this finite matrix does not close concurrent-history and cancellation qualification.
+
+The [transaction outcome amendment](transaction-outcomes-amendment-2026-09-09.md)
+provides the cancellation, timeout and recovery outcome table and history evidence.

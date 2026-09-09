@@ -1,0 +1,9 @@
+test_thread_histories (gopyt.test_transaction_histories.ConcurrentHistories.test_thread_histories) ... ok
+test_process_histories (gopyt.test_transaction_histories.ConcurrentHistories.test_process_histories) ... ok
+test_thread_histories (gopyt.test_transaction_histories.EncryptedHistories.test_thread_histories) ... ok
+test_process_histories (gopyt.test_transaction_histories.EncryptedHistories.test_process_histories) ... ok
+
+----------------------------------------------------------------------
+Ran 4 tests in 3.860s
+
+OK
