@@ -1,0 +1,957 @@
+﻿2026-09-10T05:26:40.6590533Z Current runner version: '2.337.0'
+2026-09-10T05:26:40.6614621Z ##[group]Runner Image Provisioner
+2026-09-10T05:26:40.6615465Z Hosted Compute Agent
+2026-09-10T05:26:40.6616121Z Version: 20260828.587
+2026-09-10T05:26:40.6616899Z Commit: abac92662cab4cc7352de4f9f9d2e2419aad9c29
+2026-09-10T05:26:40.6617667Z Build Date: 2026-08-28T16:44:25Z
+2026-09-10T05:26:40.6618832Z Worker ID: {aeee4245-261e-4138-80ae-401d674df737}
+2026-09-10T05:26:40.6619582Z Azure Region: eastus
+2026-09-10T05:26:40.6620299Z ##[endgroup]
+2026-09-10T05:26:40.6622229Z ##[group]Operating System
+2026-09-10T05:26:40.6622881Z Ubuntu
+2026-09-10T05:26:40.6623513Z 24.04.4
+2026-09-10T05:26:40.6624048Z LTS
+2026-09-10T05:26:40.6624618Z ##[endgroup]
+2026-09-10T05:26:40.6625236Z ##[group]Runner Image
+2026-09-10T05:26:40.6625841Z Image: ubuntu-24.04
+2026-09-10T05:26:40.6626473Z Version: 20260831.293.1
+2026-09-10T05:26:40.6627757Z Included Software: https://github.com/actions/runner-images/blob/ubuntu24/20260831.293/images/ubuntu/Ubuntu2404-Readme.md
+2026-09-10T05:26:40.6629680Z Image Release: https://github.com/actions/runner-images/releases/tag/ubuntu24%2F20260831.293
+2026-09-10T05:26:40.6630683Z ##[endgroup]
+2026-09-10T05:26:40.6631894Z ##[group]GITHUB_TOKEN Permissions
+2026-09-10T05:26:40.6634001Z Contents: read
+2026-09-10T05:26:40.6634763Z Metadata: read
+2026-09-10T05:26:40.6635375Z ##[endgroup]
+2026-09-10T05:26:40.6637504Z Secret source: Actions
+2026-09-10T05:26:40.6638948Z Cache mode: write
+2026-09-10T05:26:40.6639753Z Prepare workflow directory
+2026-09-10T05:26:40.6966741Z Prepare all required actions
+2026-09-10T05:26:40.7013814Z Getting action download info
+2026-09-10T05:26:40.9136775Z Download action repository 'actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1' (SHA:3d3c42e5aac5ba805825da76410c181273ba90b1)
+2026-09-10T05:26:41.0394683Z Download action repository 'actions/setup-python@5fda3b95a4ea91299a34e894583c3862153e4b97' (SHA:5fda3b95a4ea91299a34e894583c3862153e4b97)
+2026-09-10T05:26:41.1876549Z Download action repository 'actions/upload-artifact@043fb46d1a93c77aae656e7c1c64a875d1fc6a0a' (SHA:043fb46d1a93c77aae656e7c1c64a875d1fc6a0a)
+2026-09-10T05:26:41.3599029Z Complete job name: language (ubuntu-24.04, 3.11.16)
+2026-09-10T05:26:41.4301270Z ##[group]Run echo "TMPDIR=$RUNNER_TEMP" >> "$GITHUB_ENV"
+2026-09-10T05:26:41.4302097Z [36;1mecho "TMPDIR=$RUNNER_TEMP" >> "$GITHUB_ENV"[0m
+2026-09-10T05:26:41.4341808Z shell: /usr/bin/bash -e {0}
+2026-09-10T05:26:41.4342652Z ##[endgroup]
+2026-09-10T05:26:41.4696340Z ##[group]Run actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1
+2026-09-10T05:26:41.4697113Z with:
+2026-09-10T05:26:41.4697556Z   persist-credentials: false
+2026-09-10T05:26:41.4698309Z   repository: anthonykewl20/GoPyt
+2026-09-10T05:26:41.4702271Z   token: ***
+2026-09-10T05:26:41.4702702Z   ssh-strict: true
+2026-09-10T05:26:41.4703134Z   ssh-user: git
+2026-09-10T05:26:41.4703548Z   clean: true
+2026-09-10T05:26:41.4703983Z   sparse-checkout-cone-mode: true
+2026-09-10T05:26:41.4704508Z   fetch-depth: 1
+2026-09-10T05:26:41.4704935Z   fetch-tags: false
+2026-09-10T05:26:41.4705420Z   show-progress: true
+2026-09-10T05:26:41.4705864Z   lfs: false
+2026-09-10T05:26:41.4706267Z   submodules: false
+2026-09-10T05:26:41.4706713Z   set-safe-directory: true
+2026-09-10T05:26:41.4707212Z   allow-unsafe-pr-checkout: false
+2026-09-10T05:26:41.4707715Z env:
+2026-09-10T05:26:41.4708265Z   TMPDIR: /home/runner/work/_temp
+2026-09-10T05:26:41.4708785Z ##[endgroup]
+2026-09-10T05:26:41.5656680Z Syncing repository: anthonykewl20/GoPyt
+2026-09-10T05:26:41.5658838Z ##[group]Getting Git version info
+2026-09-10T05:26:41.5659566Z Working directory is '/home/runner/work/GoPyt/GoPyt'
+2026-09-10T05:26:41.5660587Z [command]/usr/bin/git version
+2026-09-10T05:26:41.5727983Z git version 2.55.0
+2026-09-10T05:26:41.5780911Z ##[endgroup]
+2026-09-10T05:26:41.5791556Z Temporarily overriding HOME='/home/runner/work/_temp/6e10defe-d318-411f-8acf-be5ca79dbcfb' before making global git config changes
+2026-09-10T05:26:41.5793052Z Adding repository directory to the temporary git global config as a safe directory
+2026-09-10T05:26:41.5797279Z [command]/usr/bin/git config --global --add safe.directory /home/runner/work/GoPyt/GoPyt
+2026-09-10T05:26:41.5841317Z Deleting the contents of '/home/runner/work/GoPyt/GoPyt'
+2026-09-10T05:26:41.5845382Z ##[group]Determining repository object format
+2026-09-10T05:26:41.5847117Z ##[endgroup]
+2026-09-10T05:26:41.5848806Z ##[group]Initializing the repository
+2026-09-10T05:26:41.5852266Z [command]/usr/bin/git init /home/runner/work/GoPyt/GoPyt
+2026-09-10T05:26:41.6031005Z hint: Using 'master' as the name for the initial branch. This default branch name
+2026-09-10T05:26:41.6032593Z hint: will change to "main" in Git 3.0. To configure the initial branch name
+2026-09-10T05:26:41.6033587Z hint: to use in all of your new repositories, which will suppress this warning,
+2026-09-10T05:26:41.6034355Z hint: call:
+2026-09-10T05:26:41.6034774Z hint:
+2026-09-10T05:26:41.6035318Z hint: 	git config --global init.defaultBranch <name>
+2026-09-10T05:26:41.6035945Z hint:
+2026-09-10T05:26:41.6036583Z hint: Names commonly chosen instead of 'master' are 'main', 'trunk' and
+2026-09-10T05:26:41.6042394Z hint: 'development'. The just-created branch can be renamed via this command:
+2026-09-10T05:26:41.6043311Z hint:
+2026-09-10T05:26:41.6043758Z hint: 	git branch -m <name>
+2026-09-10T05:26:41.6044254Z hint:
+2026-09-10T05:26:41.6044905Z hint: Disable this message with "git config set advice.defaultBranchName false"
+2026-09-10T05:26:41.6045926Z Initialized empty Git repository in /home/runner/work/GoPyt/GoPyt/.git/
+2026-09-10T05:26:41.6047943Z [command]/usr/bin/git remote add origin https://github.com/anthonykewl20/GoPyt
+2026-09-10T05:26:41.6050650Z ##[endgroup]
+2026-09-10T05:26:41.6051459Z ##[group]Disabling automatic garbage collection
+2026-09-10T05:26:41.6052151Z [command]/usr/bin/git config --local gc.auto 0
+2026-09-10T05:26:41.6054125Z ##[endgroup]
+2026-09-10T05:26:41.6055274Z ##[group]Setting up auth
+2026-09-10T05:26:41.6056007Z Removing SSH command configuration
+2026-09-10T05:26:41.6060368Z [command]/usr/bin/git config --local --name-only --get-regexp core\.sshCommand
+2026-09-10T05:26:41.6090618Z [command]/usr/bin/git submodule foreach --recursive sh -c "git config --local --name-only --get-regexp 'core\.sshCommand' && git config --local --unset-all 'core.sshCommand' || :"
+2026-09-10T05:26:41.6428854Z Removing HTTP extra header
+2026-09-10T05:26:41.6434263Z [command]/usr/bin/git config --local --name-only --get-regexp http\.https\:\/\/github\.com\/\.extraheader
+2026-09-10T05:26:41.6465062Z [command]/usr/bin/git submodule foreach --recursive sh -c "git config --local --name-only --get-regexp 'http\.https\:\/\/github\.com\/\.extraheader' && git config --local --unset-all 'http.https://github.com/.extraheader' || :"
+2026-09-10T05:26:41.6700775Z Removing includeIf entries pointing to credentials config files
+2026-09-10T05:26:41.6709131Z [command]/usr/bin/git config --local --name-only --get-regexp ^includeIf\.gitdir:
+2026-09-10T05:26:41.6758771Z [command]/usr/bin/git submodule foreach --recursive git config --local --show-origin --name-only --get-regexp remote.origin.url
+2026-09-10T05:26:41.7012571Z [command]/usr/bin/git config --file /home/runner/work/_temp/git-credentials-c979b2b4-b86c-4870-a356-7d56e7980118.config http.https://github.com/.extraheader AUTHORIZATION: basic ***
+2026-09-10T05:26:41.7052216Z [command]/usr/bin/git config --local includeIf.gitdir:/home/runner/work/GoPyt/GoPyt/.git.path /home/runner/work/_temp/git-credentials-c979b2b4-b86c-4870-a356-7d56e7980118.config
+2026-09-10T05:26:41.7085274Z [command]/usr/bin/git config --local includeIf.gitdir:/home/runner/work/GoPyt/GoPyt/.git/worktrees/*.path /home/runner/work/_temp/git-credentials-c979b2b4-b86c-4870-a356-7d56e7980118.config
+2026-09-10T05:26:41.7120308Z [command]/usr/bin/git config --local includeIf.gitdir:/github/workspace/.git.path /github/runner_temp/git-credentials-c979b2b4-b86c-4870-a356-7d56e7980118.config
+2026-09-10T05:26:41.7155088Z [command]/usr/bin/git config --local includeIf.gitdir:/github/workspace/.git/worktrees/*.path /github/runner_temp/git-credentials-c979b2b4-b86c-4870-a356-7d56e7980118.config
+2026-09-10T05:26:41.7183113Z ##[endgroup]
+2026-09-10T05:26:41.7183881Z ##[group]Fetching the repository
+2026-09-10T05:26:41.7190826Z [command]/usr/bin/git -c protocol.version=2 fetch --no-tags --prune --no-recurse-submodules --depth=1 origin +9d1807743e61d9498645efb8cc06f19303c7c9f7:refs/remotes/pull/71/merge
+2026-09-10T05:26:42.1555539Z From https://github.com/anthonykewl20/GoPyt
+2026-09-10T05:26:42.1557140Z  * [new ref]         9d1807743e61d9498645efb8cc06f19303c7c9f7 -> pull/71/merge
+2026-09-10T05:26:42.1561556Z ##[endgroup]
+2026-09-10T05:26:42.1563544Z ##[group]Determining the checkout info
+2026-09-10T05:26:42.1565679Z ##[endgroup]
+2026-09-10T05:26:42.1566989Z [command]/usr/bin/git sparse-checkout disable
+2026-09-10T05:26:42.1611444Z [command]/usr/bin/git config --local --unset-all extensions.worktreeConfig
+2026-09-10T05:26:42.1642254Z ##[group]Checking out the ref
+2026-09-10T05:26:42.1646071Z [command]/usr/bin/git checkout --progress --force refs/remotes/pull/71/merge
+2026-09-10T05:26:42.3000883Z Note: switching to 'refs/remotes/pull/71/merge'.
+2026-09-10T05:26:42.3001932Z 
+2026-09-10T05:26:42.3002651Z You are in 'detached HEAD' state. You can look around, make experimental
+2026-09-10T05:26:42.3004448Z changes and commit them, and you can discard any commits you make in this
+2026-09-10T05:26:42.3006365Z state without impacting any branches by switching back to a branch.
+2026-09-10T05:26:42.3007412Z 
+2026-09-10T05:26:42.3008295Z If you want to create a new branch to retain commits you create, you may
+2026-09-10T05:26:42.3009949Z do so (now or later) by using -c with the switch command. Example:
+2026-09-10T05:26:42.3010863Z 
+2026-09-10T05:26:42.3011260Z   git switch -c <new-branch-name>
+2026-09-10T05:26:42.3011908Z 
+2026-09-10T05:26:42.3012363Z Or undo this operation with:
+2026-09-10T05:26:42.3013248Z 
+2026-09-10T05:26:42.3014032Z   git switch -
+2026-09-10T05:26:42.3014777Z 
+2026-09-10T05:26:42.3015713Z Turn off this advice by setting config variable advice.detachedHead to false
+2026-09-10T05:26:42.3017062Z 
+2026-09-10T05:26:42.3018737Z HEAD is now at 9d18077 Merge 28086d40ce443c905bbb3cf73e8cd424cf01dfe1 into b66a757ebfad874cc85be8e31290c21b559f6efc
+2026-09-10T05:26:42.3024039Z ##[endgroup]
+2026-09-10T05:26:42.3061342Z [command]/usr/bin/git log -1 --format=%H
+2026-09-10T05:26:42.3087612Z 9d1807743e61d9498645efb8cc06f19303c7c9f7
+2026-09-10T05:26:42.3103792Z ##[group]Removing auth
+2026-09-10T05:26:42.3105203Z Removing SSH command configuration
+2026-09-10T05:26:42.3107197Z [command]/usr/bin/git config --local --name-only --get-regexp core\.sshCommand
+2026-09-10T05:26:42.3144314Z [command]/usr/bin/git submodule foreach --recursive sh -c "git config --local --name-only --get-regexp 'core\.sshCommand' && git config --local --unset-all 'core.sshCommand' || :"
+2026-09-10T05:26:42.3374964Z Removing HTTP extra header
+2026-09-10T05:26:42.3379319Z [command]/usr/bin/git config --local --name-only --get-regexp http\.https\:\/\/github\.com\/\.extraheader
+2026-09-10T05:26:42.3415681Z [command]/usr/bin/git submodule foreach --recursive sh -c "git config --local --name-only --get-regexp 'http\.https\:\/\/github\.com\/\.extraheader' && git config --local --unset-all 'http.https://github.com/.extraheader' || :"
+2026-09-10T05:26:42.3653686Z Removing includeIf entries pointing to credentials config files
+2026-09-10T05:26:42.3657019Z [command]/usr/bin/git config --local --name-only --get-regexp ^includeIf\.gitdir:
+2026-09-10T05:26:42.3683914Z includeif.gitdir:/home/runner/work/GoPyt/GoPyt/.git.path
+2026-09-10T05:26:42.3686529Z includeif.gitdir:/home/runner/work/GoPyt/GoPyt/.git/worktrees/*.path
+2026-09-10T05:26:42.3689009Z includeif.gitdir:/github/workspace/.git.path
+2026-09-10T05:26:42.3691672Z includeif.gitdir:/github/workspace/.git/worktrees/*.path
+2026-09-10T05:26:42.3696827Z [command]/usr/bin/git config --local --get-all includeif.gitdir:/home/runner/work/GoPyt/GoPyt/.git.path
+2026-09-10T05:26:42.3716428Z /home/runner/work/_temp/git-credentials-c979b2b4-b86c-4870-a356-7d56e7980118.config
+2026-09-10T05:26:42.3728447Z [command]/usr/bin/git config --local --unset includeif.gitdir:/home/runner/work/GoPyt/GoPyt/.git.path \/home\/runner\/work\/_temp\/git\-credentials\-c979b2b4\-b86c\-4870\-a356\-7d56e7980118\.config
+2026-09-10T05:26:42.3760428Z [command]/usr/bin/git config --local --get-all includeif.gitdir:/home/runner/work/GoPyt/GoPyt/.git/worktrees/*.path
+2026-09-10T05:26:42.3782324Z /home/runner/work/_temp/git-credentials-c979b2b4-b86c-4870-a356-7d56e7980118.config
+2026-09-10T05:26:42.3795451Z [command]/usr/bin/git config --local --unset includeif.gitdir:/home/runner/work/GoPyt/GoPyt/.git/worktrees/*.path \/home\/runner\/work\/_temp\/git\-credentials\-c979b2b4\-b86c\-4870\-a356\-7d56e7980118\.config
+2026-09-10T05:26:42.3831261Z [command]/usr/bin/git config --local --get-all includeif.gitdir:/github/workspace/.git.path
+2026-09-10T05:26:42.3856192Z /github/runner_temp/git-credentials-c979b2b4-b86c-4870-a356-7d56e7980118.config
+2026-09-10T05:26:42.3874457Z [command]/usr/bin/git config --local --unset includeif.gitdir:/github/workspace/.git.path \/github\/runner_temp\/git\-credentials\-c979b2b4\-b86c\-4870\-a356\-7d56e7980118\.config
+2026-09-10T05:26:42.3901098Z [command]/usr/bin/git config --local --get-all includeif.gitdir:/github/workspace/.git/worktrees/*.path
+2026-09-10T05:26:42.3923553Z /github/runner_temp/git-credentials-c979b2b4-b86c-4870-a356-7d56e7980118.config
+2026-09-10T05:26:42.3940767Z [command]/usr/bin/git config --local --unset includeif.gitdir:/github/workspace/.git/worktrees/*.path \/github\/runner_temp\/git\-credentials\-c979b2b4\-b86c\-4870\-a356\-7d56e7980118\.config
+2026-09-10T05:26:42.3972299Z [command]/usr/bin/git submodule foreach --recursive git config --local --show-origin --name-only --get-regexp remote.origin.url
+2026-09-10T05:26:42.4189763Z Removing credentials config '/home/runner/work/_temp/git-credentials-c979b2b4-b86c-4870-a356-7d56e7980118.config'
+2026-09-10T05:26:42.4196688Z ##[endgroup]
+2026-09-10T05:26:42.4498339Z ##[group]Run actions/setup-python@5fda3b95a4ea91299a34e894583c3862153e4b97
+2026-09-10T05:26:42.4500168Z with:
+2026-09-10T05:26:42.4501041Z   python-version: 3.14.7
+2026-09-10T05:26:42.4502092Z   check-latest: false
+2026-09-10T05:26:42.4512429Z   token: ***
+2026-09-10T05:26:42.4513391Z   update-environment: true
+2026-09-10T05:26:42.4514494Z   allow-prereleases: false
+2026-09-10T05:26:42.4515559Z   freethreaded: false
+2026-09-10T05:26:42.4516512Z env:
+2026-09-10T05:26:42.4517392Z   TMPDIR: /home/runner/work/_temp
+2026-09-10T05:26:42.4518745Z ##[endgroup]
+2026-09-10T05:26:42.5735484Z ##[group]Installed versions
+2026-09-10T05:26:42.5772220Z Successfully set up CPython (3.14.7)
+2026-09-10T05:26:42.5775959Z ##[endgroup]
+2026-09-10T05:26:42.5951217Z ##[group]Run python tools/install_ci_python.py --version '3.11.16' --output "$RUNNER_TEMP/gopyt-python"
+2026-09-10T05:26:42.5954263Z [36;1mpython tools/install_ci_python.py --version '3.11.16' --output "$RUNNER_TEMP/gopyt-python"[0m
+2026-09-10T05:26:42.6049772Z shell: /usr/bin/bash -e {0}
+2026-09-10T05:26:42.6050860Z env:
+2026-09-10T05:26:42.6051748Z   TMPDIR: /home/runner/work/_temp
+2026-09-10T05:26:42.6053096Z   pythonLocation: /opt/hostedtoolcache/Python/3.14.7/x64
+2026-09-10T05:26:42.6054877Z   PKG_CONFIG_PATH: /opt/hostedtoolcache/Python/3.14.7/x64/lib/pkgconfig
+2026-09-10T05:26:42.6056675Z   Python_ROOT_DIR: /opt/hostedtoolcache/Python/3.14.7/x64
+2026-09-10T05:26:42.6058569Z   Python2_ROOT_DIR: /opt/hostedtoolcache/Python/3.14.7/x64
+2026-09-10T05:26:42.6060223Z   Python3_ROOT_DIR: /opt/hostedtoolcache/Python/3.14.7/x64
+2026-09-10T05:26:42.6061874Z   LD_LIBRARY_PATH: /opt/hostedtoolcache/Python/3.14.7/x64/lib
+2026-09-10T05:26:42.6063274Z ##[endgroup]
+2026-09-10T05:26:45.3618566Z {"platform": "3.11.16/Linux/x86_64", "version": "3.11.16", "release": "20260901", "url": "https://github.com/astral-sh/python-build-standalone/releases/download/20260901/cpython-3.11.16%2B20260901-x86_64-unknown-linux-gnu-install_only.tar.gz", "sha256": "faa0758583a63f14c5eee516af82738403b59c13edda6fc0a21d953febd89eed", "size": 48910466, "bin": "/home/runner/work/_temp/gopyt-python/python/bin"}
+2026-09-10T05:26:45.3812373Z ##[group]Run python -c "import sys; assert sys.version_info[:3] == tuple(map(int, '3.11.16'.split('.')))"
+2026-09-10T05:26:45.3813188Z [36;1mpython -c "import sys; assert sys.version_info[:3] == tuple(map(int, '3.11.16'.split('.')))"[0m
+2026-09-10T05:26:45.3852123Z shell: /usr/bin/bash -e {0}
+2026-09-10T05:26:45.3852437Z env:
+2026-09-10T05:26:45.3852734Z   TMPDIR: /home/runner/work/_temp
+2026-09-10T05:26:45.3853123Z   pythonLocation: /opt/hostedtoolcache/Python/3.14.7/x64
+2026-09-10T05:26:45.3853614Z   PKG_CONFIG_PATH: /opt/hostedtoolcache/Python/3.14.7/x64/lib/pkgconfig
+2026-09-10T05:26:45.3854104Z   Python_ROOT_DIR: /opt/hostedtoolcache/Python/3.14.7/x64
+2026-09-10T05:26:45.3854553Z   Python2_ROOT_DIR: /opt/hostedtoolcache/Python/3.14.7/x64
+2026-09-10T05:26:45.3854997Z   Python3_ROOT_DIR: /opt/hostedtoolcache/Python/3.14.7/x64
+2026-09-10T05:26:45.3855440Z   LD_LIBRARY_PATH: /opt/hostedtoolcache/Python/3.14.7/x64/lib
+2026-09-10T05:26:45.3855824Z ##[endgroup]
+2026-09-10T05:26:45.4070092Z ##[group]Run python -m pip install --force-reinstall --require-hashes --only-binary=:all: -r requirements/build.txt -r requirements/security.txt
+2026-09-10T05:26:45.4071329Z [36;1mpython -m pip install --force-reinstall --require-hashes --only-binary=:all: -r requirements/build.txt -r requirements/security.txt[0m
+2026-09-10T05:26:45.4072114Z [36;1mpython -m pip install --no-deps --no-build-isolation -e .[0m
+2026-09-10T05:26:45.4110343Z shell: /usr/bin/bash -e {0}
+2026-09-10T05:26:45.4110670Z env:
+2026-09-10T05:26:45.4110928Z   TMPDIR: /home/runner/work/_temp
+2026-09-10T05:26:45.4111317Z   pythonLocation: /opt/hostedtoolcache/Python/3.14.7/x64
+2026-09-10T05:26:45.4111802Z   PKG_CONFIG_PATH: /opt/hostedtoolcache/Python/3.14.7/x64/lib/pkgconfig
+2026-09-10T05:26:45.4112295Z   Python_ROOT_DIR: /opt/hostedtoolcache/Python/3.14.7/x64
+2026-09-10T05:26:45.4112742Z   Python2_ROOT_DIR: /opt/hostedtoolcache/Python/3.14.7/x64
+2026-09-10T05:26:45.4113213Z   Python3_ROOT_DIR: /opt/hostedtoolcache/Python/3.14.7/x64
+2026-09-10T05:26:45.4113648Z   LD_LIBRARY_PATH: /opt/hostedtoolcache/Python/3.14.7/x64/lib
+2026-09-10T05:26:45.4114027Z ##[endgroup]
+2026-09-10T05:26:46.5553764Z Collecting pip==26.2.1 (from -r requirements/build.txt (line 2))
+2026-09-10T05:26:46.5727197Z   Downloading pip-26.2.1-py3-none-any.whl (1.8 MB)
+2026-09-10T05:26:46.5916323Z      ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ 1.8/1.8 MB 150.6 MB/s  0:00:00
+2026-09-10T05:26:46.6692303Z Collecting setuptools==84.0.0 (from -r requirements/build.txt (line 4))
+2026-09-10T05:26:46.6730559Z   Downloading setuptools-84.0.0-py3-none-any.whl (818 kB)
+2026-09-10T05:26:46.6793711Z      ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ 818.2/818.2 kB 135.4 MB/s  0:00:00
+2026-09-10T05:26:46.8272349Z Collecting cryptography==50.0.1 (from -r requirements/security.txt (line 2))
+2026-09-10T05:26:46.8314592Z   Downloading cryptography-50.0.1-cp311-abi3-manylinux_2_34_x86_64.whl (4.7 MB)
+2026-09-10T05:26:46.8485291Z      ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ 4.7/4.7 MB 304.2 MB/s  0:00:00
+2026-09-10T05:26:46.9383225Z Collecting cffi==2.1.1 (from -r requirements/security.txt (line 48))
+2026-09-10T05:26:46.9418757Z   Downloading cffi-2.1.1-cp311-cp311-manylinux2014_x86_64.manylinux_2_17_x86_64.whl (217 kB)
+2026-09-10T05:26:46.9530621Z Collecting pycparser==3.0 (from -r requirements/security.txt (line 148))
+2026-09-10T05:26:46.9563838Z   Downloading pycparser-3.0-py3-none-any.whl (48 kB)
+2026-09-10T05:26:47.0218425Z Installing collected packages: setuptools, pycparser, pip, cffi, cryptography
+2026-09-10T05:26:47.0232225Z   Attempting uninstall: setuptools
+2026-09-10T05:26:47.0244867Z     Found existing installation: setuptools 84.0.0
+2026-09-10T05:26:47.0429114Z     Uninstalling setuptools-84.0.0:
+2026-09-10T05:26:47.0511252Z       Successfully uninstalled setuptools-84.0.0
+2026-09-10T05:26:47.4331543Z   Attempting uninstall: pip
+2026-09-10T05:26:47.4342850Z     Found existing installation: pip 26.2.1
+2026-09-10T05:26:47.4645737Z     Uninstalling pip-26.2.1:
+2026-09-10T05:26:47.4697422Z       Successfully uninstalled pip-26.2.1
+2026-09-10T05:26:48.4071612Z 
+2026-09-10T05:26:48.4081084Z Successfully installed cffi-2.1.1 cryptography-50.0.1 pip-26.2.1 pycparser-3.0 setuptools-84.0.0
+2026-09-10T05:26:48.7191380Z Obtaining file:///home/runner/work/GoPyt/GoPyt
+2026-09-10T05:26:48.7209955Z   Checking if build backend supports build_editable: started
+2026-09-10T05:26:48.8726092Z   Checking if build backend supports build_editable: finished with status 'done'
+2026-09-10T05:26:48.8749003Z   Preparing editable metadata (pyproject.toml): started
+2026-09-10T05:26:49.0420370Z   Preparing editable metadata (pyproject.toml): finished with status 'done'
+2026-09-10T05:26:49.0450162Z Building wheels for collected packages: gopyt
+2026-09-10T05:26:49.0457889Z   Building editable for gopyt (pyproject.toml): started
+2026-09-10T05:26:49.2359500Z   Building editable for gopyt (pyproject.toml): finished with status 'done'
+2026-09-10T05:26:49.2365990Z   Created wheel for gopyt: filename=gopyt-0.1.0-0.editable-py3-none-any.whl size=4257 sha256=ee2b70493509e71accb05e2da9261678fbccfcdf6123e838de36edaeb6a482d3
+2026-09-10T05:26:49.2368529Z   Stored in directory: /home/runner/work/_temp/pip-ephem-wheel-cache-8qm5ip8o/wheels/db/f7/fe/0949ec38bf14158f03555fb5de18759e72f1eec03ad5cdd796
+2026-09-10T05:26:49.2386232Z Successfully built gopyt
+2026-09-10T05:26:49.2475165Z Installing collected packages: gopyt
+2026-09-10T05:26:49.2564160Z Successfully installed gopyt-0.1.0
+2026-09-10T05:26:49.3031493Z ##[group]Run python -u tools/run_language_tests.py discover -s gopyt -t . -v
+2026-09-10T05:26:49.3032075Z [36;1mpython -u tools/run_language_tests.py discover -s gopyt -t . -v[0m
+2026-09-10T05:26:49.3067947Z shell: /usr/bin/bash -e {0}
+2026-09-10T05:26:49.3068329Z env:
+2026-09-10T05:26:49.3068529Z   TMPDIR: /home/runner/work/_temp
+2026-09-10T05:26:49.3068855Z   pythonLocation: /opt/hostedtoolcache/Python/3.14.7/x64
+2026-09-10T05:26:49.3069296Z   PKG_CONFIG_PATH: /opt/hostedtoolcache/Python/3.14.7/x64/lib/pkgconfig
+2026-09-10T05:26:49.3069731Z   Python_ROOT_DIR: /opt/hostedtoolcache/Python/3.14.7/x64
+2026-09-10T05:26:49.3070105Z   Python2_ROOT_DIR: /opt/hostedtoolcache/Python/3.14.7/x64
+2026-09-10T05:26:49.3070474Z   Python3_ROOT_DIR: /opt/hostedtoolcache/Python/3.14.7/x64
+2026-09-10T05:26:49.3070854Z   LD_LIBRARY_PATH: /opt/hostedtoolcache/Python/3.14.7/x64/lib
+2026-09-10T05:26:49.3071180Z ##[endgroup]
+2026-09-10T05:26:49.9306959Z test_ambiguous_or_oversized_framing_is_rejected (gopyt.test_app_runtime.ApplicationHttpRuntime.test_ambiguous_or_oversized_framing_is_rejected) ... echo
+2026-09-10T05:26:50.0333947Z ok
+2026-09-10T05:26:50.3822365Z test_draining_keeps_the_active_request_deadline (gopyt.test_app_runtime.ApplicationHttpRuntime.test_draining_keeps_the_active_request_deadline) ... ok
+2026-09-10T05:26:50.6216068Z test_drip_fed_body_cannot_extend_request_deadline (gopyt.test_app_runtime.ApplicationHttpRuntime.test_drip_fed_body_cannot_extend_request_deadline) ... echo
+2026-09-10T05:26:50.7242878Z ok
+2026-09-10T05:26:51.0644827Z test_expired_queued_connection_never_invokes_handler (gopyt.test_app_runtime.ApplicationHttpRuntime.test_expired_queued_connection_never_invokes_handler) ... ok
+2026-09-10T05:26:51.1079992Z test_full_queue_returns_503_and_recovers_after_clients_close (gopyt.test_app_runtime.ApplicationHttpRuntime.test_full_queue_returns_503_and_recovers_after_clients_close) ... echo
+2026-09-10T05:26:51.1130480Z echo
+2026-09-10T05:26:51.2153708Z ok
+2026-09-10T05:26:51.4035209Z test_idle_connections_eventually_release_workers (gopyt.test_app_runtime.ApplicationHttpRuntime.test_idle_connections_eventually_release_workers) ... echo
+2026-09-10T05:26:51.5059406Z ok
+2026-09-10T05:26:51.5435285Z test_listener_startup_does_not_depend_on_reverse_dns (gopyt.test_app_runtime.ApplicationHttpRuntime.test_listener_startup_does_not_depend_on_reverse_dns) ... echo
+2026-09-10T05:26:51.6458845Z ok
+2026-09-10T05:26:51.6900084Z test_malformed_json_is_rejected_and_connection_remains_usable (gopyt.test_app_runtime.ApplicationHttpRuntime.test_malformed_json_is_rejected_and_connection_remains_usable) ... charge
+2026-09-10T05:26:51.7924613Z ok
+2026-09-10T05:26:52.1024570Z test_partial_worker_start_failure_closes_listener_and_joins_workers (gopyt.test_app_runtime.ApplicationHttpRuntime.test_partial_worker_start_failure_closes_listener_and_joins_workers) ... ok
+2026-09-10T05:26:52.1487921Z test_pipelined_requests_preserve_response_boundaries (gopyt.test_app_runtime.ApplicationHttpRuntime.test_pipelined_requests_preserve_response_boundaries) ... echo
+2026-09-10T05:26:52.1494883Z echo
+2026-09-10T05:26:52.2517271Z ok
+2026-09-10T05:26:52.7393894Z test_request_execution_budget_and_keepalive_reset (gopyt.test_app_runtime.ApplicationHttpRuntime.test_request_execution_budget_and_keepalive_reset) ... ok
+2026-09-10T05:26:52.9685467Z test_response_backpressure_consumes_remaining_budget (gopyt.test_app_runtime.ApplicationHttpRuntime.test_response_backpressure_consumes_remaining_budget) ... ok
+2026-09-10T05:26:57.0756813Z test_serving_context_stops_idle_input_and_native_workers (gopyt.test_app_runtime.ApplicationHttpRuntime.test_serving_context_stops_idle_input_and_native_workers) ... ok
+2026-09-10T05:26:57.3164915Z test_shutdown_drains_durable_active_response_without_starting_pipeline (gopyt.test_app_runtime.ApplicationHttpRuntime.test_shutdown_drains_durable_active_response_without_starting_pipeline) ... ok
+2026-09-10T05:26:57.5654252Z test_shutdown_interrupts_partial_headers_and_partial_bodies (gopyt.test_app_runtime.ApplicationHttpRuntime.test_shutdown_interrupts_partial_headers_and_partial_bodies) ... ok
+2026-09-10T05:26:57.7058530Z test_shutdown_reclaims_queue_after_worker_exits (gopyt.test_app_runtime.ApplicationHttpRuntime.test_shutdown_reclaims_queue_after_worker_exits) ... ok
+2026-09-10T05:26:57.9876248Z test_sigterm_delivers_active_durable_response_and_exits (gopyt.test_app_runtime.ApplicationHttpRuntime.test_sigterm_delivers_active_durable_response_and_exits) ... ok
+2026-09-10T05:26:58.1308468Z test_small_responses_disable_nagle_on_the_accepted_socket (gopyt.test_app_runtime.ApplicationHttpRuntime.test_small_responses_disable_nagle_on_the_accepted_socket) ... ok
+2026-09-10T05:26:58.1685290Z test_truncated_declared_body_does_not_invoke_post_handler (gopyt.test_app_runtime.ApplicationHttpRuntime.test_truncated_declared_body_does_not_invoke_post_handler) ... echo
+2026-09-10T05:26:58.2709087Z ok
+2026-09-10T05:26:58.4100738Z test_truncated_ignored_get_body_is_still_bad_framing (gopyt.test_app_runtime.ApplicationHttpRuntime.test_truncated_ignored_get_body_is_still_bad_framing) ... ok
+2026-09-10T05:26:58.4323980Z test_dependency_formatting_is_checked (gopyt.test_audit.DependencyAudit.test_dependency_formatting_is_checked) ... ok
+2026-09-10T05:26:58.4331109Z test_digest_path_cannot_inject_additional_entries (gopyt.test_audit.DependencyAudit.test_digest_path_cannot_inject_additional_entries) ... ok
+2026-09-10T05:26:58.4452483Z test_transitive_lock_paths_and_order (gopyt.test_audit.DependencyAudit.test_transitive_lock_paths_and_order) ... ok
+2026-09-10T05:26:58.7305199Z test_apply_failure_rolls_back_sources (gopyt.test_audit.EvolutionAudit.test_apply_failure_rolls_back_sources) ... ok
+2026-09-10T05:26:58.7531176Z test_candidate_does_not_rewrite_string_literals (gopyt.test_audit.EvolutionAudit.test_candidate_does_not_rewrite_string_literals) ... ok
+2026-09-10T05:26:59.0693097Z test_candidates_keep_path_dependencies_resolvable (gopyt.test_audit.EvolutionAudit.test_candidates_keep_path_dependencies_resolvable) ... ok
+2026-09-10T05:26:59.0852202Z test_timeout_leaves_live_sources_and_lock_unchanged (gopyt.test_audit.EvolutionAudit.test_timeout_leaves_live_sources_and_lock_unchanged) ... ok
+2026-09-10T05:26:59.2240723Z test_bad_input_observation_uses_route_template (gopyt.test_audit.HttpBoundaryAudit.test_bad_input_observation_uses_route_template) ... ok
+2026-09-10T05:26:59.3646270Z test_invalid_content_lengths_return_400 (gopyt.test_audit.HttpBoundaryAudit.test_invalid_content_lengths_return_400) ... ok
+2026-09-10T05:26:59.6503656Z test_worker_count_and_accepted_queue_are_bounded (gopyt.test_audit.HttpQueueAudit.test_worker_count_and_accepted_queue_are_bounded) ... ok
+2026-09-10T05:26:59.6506766Z test_decimal_integer_does_not_round_through_float (gopyt.test_audit.JsonAudit.test_decimal_integer_does_not_round_through_float) ... ok
+2026-09-10T05:26:59.6510232Z test_integer_union_round_trip_preserves_tag (gopyt.test_audit.JsonAudit.test_integer_union_round_trip_preserves_tag) ... ok
+2026-09-10T05:26:59.6512619Z test_json_whitespace_and_unicode_validity (gopyt.test_audit.JsonAudit.test_json_whitespace_and_unicode_validity) ... ok
+2026-09-10T05:26:59.6514984Z test_application_ffi_is_rejected (gopyt.test_audit.LoaderAudit.test_application_ffi_is_rejected) ... ok
+2026-09-10T05:26:59.6516579Z test_bad_constant_index (gopyt.test_audit.LoaderAudit.test_bad_constant_index) ... ok
+2026-09-10T05:26:59.6517904Z test_cyclic_type_expression_is_rejected (gopyt.test_audit.LoaderAudit.test_cyclic_type_expression_is_rejected) ... ok
+2026-09-10T05:26:59.6519739Z test_dead_instruction_still_validates_indices (gopyt.test_audit.LoaderAudit.test_dead_instruction_still_validates_indices) ... ok
+2026-09-10T05:26:59.6521329Z test_falling_off_function_is_rejected (gopyt.test_audit.LoaderAudit.test_falling_off_function_is_rejected) ... ok
+2026-09-10T05:26:59.6522977Z test_float_equality_is_rejected_before_execution (gopyt.test_audit.LoaderAudit.test_float_equality_is_rejected_before_execution) ... ok
+2026-09-10T05:26:59.6525184Z test_forged_provide_signature (gopyt.test_audit.LoaderAudit.test_forged_provide_signature) ... ok
+2026-09-10T05:26:59.6526585Z test_forged_stdlib_record_layout (gopyt.test_audit.LoaderAudit.test_forged_stdlib_record_layout) ... ok
+2026-09-10T05:26:59.6527812Z test_join_type_mismatch (gopyt.test_audit.LoaderAudit.test_join_type_mismatch) ... ok
+2026-09-10T05:26:59.6529327Z test_native_argument_type_mismatch (gopyt.test_audit.LoaderAudit.test_native_argument_type_mismatch) ... ok
+2026-09-10T05:26:59.6530604Z test_return_type_mismatch (gopyt.test_audit.LoaderAudit.test_return_type_mismatch) ... ok
+2026-09-10T05:26:59.6731168Z test_seeded_bytecode_mutations_never_crash_decoder (gopyt.test_audit.LoaderAudit.test_seeded_bytecode_mutations_never_crash_decoder) ... ok
+2026-09-10T05:26:59.7352499Z test_model_redirect_cannot_reach_an_unlisted_origin (gopyt.test_audit.NetworkAudit.test_model_redirect_cannot_reach_an_unlisted_origin) ... ok
+2026-09-10T05:26:59.7354488Z test_origin_parser_accepts_query_without_path (gopyt.test_audit.NetworkAudit.test_origin_parser_accepts_query_without_path) ... ok
+2026-09-10T05:26:59.7840408Z test_parallel_arm_keeps_its_modules_egress (gopyt.test_audit.NetworkAudit.test_parallel_arm_keeps_its_modules_egress) ... ok
+2026-09-10T05:26:59.7844315Z test_file_io_rejects_nonregular_entries_without_blocking (gopyt.test_audit.ResourceAudit.test_file_io_rejects_nonregular_entries_without_blocking) ... ok
+2026-09-10T05:26:59.7846015Z test_native_collection_growth_checks_allocation_limit (gopyt.test_audit.ResourceAudit.test_native_collection_growth_checks_allocation_limit) ... ok
+2026-09-10T05:26:59.8178823Z test_build_directory_symlink_does_not_write_outside_package (gopyt.test_audit.SourceAudit.test_build_directory_symlink_does_not_write_outside_package) ... ok
+2026-09-10T05:26:59.8584563Z test_direct_polymorphic_recursion_is_e029_even_when_unused (gopyt.test_audit.SourceAudit.test_direct_polymorphic_recursion_is_e029_even_when_unused) ... ok
+2026-09-10T05:26:59.8908613Z test_duplicate_enum_payload_fields_are_rejected (gopyt.test_audit.SourceAudit.test_duplicate_enum_payload_fields_are_rejected) ... ok
+2026-09-10T05:26:59.9234739Z test_enum_with_float_payload_has_no_equality (gopyt.test_audit.SourceAudit.test_enum_with_float_payload_has_no_equality) ... ok
+2026-09-10T05:26:59.9579730Z test_integer_conversion_keeps_union_variant (gopyt.test_audit.SourceAudit.test_integer_conversion_keeps_union_variant) ... probe
+2026-09-10T05:26:59.9936069Z probe
+2026-09-10T05:27:00.0299486Z probe
+2026-09-10T05:27:00.0313538Z ok
+2026-09-10T05:27:00.0332541Z test_long_number_is_a_lexical_error (gopyt.test_audit.SourceAudit.test_long_number_is_a_lexical_error) ... ok
+2026-09-10T05:27:00.0663404Z test_mutual_polymorphic_recursion_is_e029 (gopyt.test_audit.SourceAudit.test_mutual_polymorphic_recursion_is_e029) ... ok
+2026-09-10T05:27:00.0672388Z test_nested_directory_symlink_is_not_ignored (gopyt.test_audit.SourceAudit.test_nested_directory_symlink_is_not_ignored) ... ok
+2026-09-10T05:27:00.0674909Z test_non_ascii_names_and_numbers_are_rejected (gopyt.test_audit.SourceAudit.test_non_ascii_names_and_numbers_are_rejected) ... ok
+2026-09-10T05:27:00.1011643Z test_recursive_record_equality_terminates (gopyt.test_audit.SourceAudit.test_recursive_record_equality_terminates) ... ok
+2026-09-10T05:27:00.3012824Z test_seeded_arithmetic_matches_integer_reference (gopyt.test_audit.SourceAudit.test_seeded_arithmetic_matches_integer_reference) ... arithmetic
+2026-09-10T05:27:00.3292398Z ok
+2026-09-10T05:27:00.3301875Z test_source_directory_symlink_rejected_before_fmt (gopyt.test_audit.SourceAudit.test_source_directory_symlink_rejected_before_fmt) ... ok
+2026-09-10T05:27:00.3654912Z test_union_equality_different_active_members_is_false (gopyt.test_audit.SourceAudit.test_union_equality_different_active_members_is_false) ... probe
+2026-09-10T05:27:00.3669829Z ok
+2026-09-10T05:27:00.3748558Z test_collection_during_reserve_preserves_counter_update (gopyt.test_budget_finalizers.BudgetFinalizers.test_collection_during_reserve_preserves_counter_update) ... ok
+2026-09-10T05:27:00.4563613Z test_collection_under_lock_completes_in_bounded_process (gopyt.test_budget_finalizers.BudgetFinalizers.test_collection_under_lock_completes_in_bounded_process) ... ok
+2026-09-10T05:27:00.4566049Z test_failed_drain_preserves_charge_and_retries (gopyt.test_budget_finalizers.BudgetFinalizers.test_failed_drain_preserves_charge_and_retries) ... ok
+2026-09-10T05:27:00.4632857Z test_batch_denial_is_all_or_nothing (gopyt.test_capabilities.Capabilities.test_batch_denial_is_all_or_nothing) ... ok
+2026-09-10T05:27:00.4699613Z test_explicit_wildcard_and_empty_deny_all (gopyt.test_capabilities.Capabilities.test_explicit_wildcard_and_empty_deny_all) ... ok
+2026-09-10T05:27:00.4768776Z test_malformed_missing_or_public_policy_fails_closed (gopyt.test_capabilities.Capabilities.test_malformed_missing_or_public_policy_fails_closed) ... ok
+2026-09-10T05:27:00.4833716Z test_namespace_does_not_grant_nearby_tenant_or_unscoped_keys (gopyt.test_capabilities.Capabilities.test_namespace_does_not_grant_nearby_tenant_or_unscoped_keys) ... ok
+2026-09-10T05:27:00.4912847Z test_revocation_precedes_cache_and_read_write_are_separate (gopyt.test_capabilities.Capabilities.test_revocation_precedes_cache_and_read_write_are_separate) ... ok
+2026-09-10T05:27:00.4961160Z test_filtered_extraction_rejects_escape (gopyt.test_ci_python.InterpreterInstall.test_filtered_extraction_rejects_escape) ... ok
+2026-09-10T05:27:00.4968211Z test_size_mismatch_rejects_download (gopyt.test_ci_python.InterpreterInstall.test_size_mismatch_rejects_download) ... ok
+2026-09-10T05:27:00.4986050Z test_version_mismatch_does_not_provide_python_command (gopyt.test_ci_python.InterpreterInstall.test_version_mismatch_does_not_provide_python_command) ... ok
+2026-09-10T05:27:00.4995508Z test_wrong_hash_never_opens_archive (gopyt.test_ci_python.InterpreterInstall.test_wrong_hash_never_opens_archive) ... ok
+2026-09-10T05:27:00.5102592Z test_check_takes_no_argument (gopyt.test_cli.Commands.test_check_takes_no_argument) ... ok
+2026-09-10T05:27:00.5336590Z test_check_writes_the_artifact (gopyt.test_cli.Commands.test_check_writes_the_artifact) ... ok
+2026-09-10T05:27:00.5442163Z test_no_command (gopyt.test_cli.Commands.test_no_command) ... ok
+2026-09-10T05:27:00.5546623Z test_no_manifest_is_e046 (gopyt.test_cli.Commands.test_no_manifest_is_e046) ... ok
+2026-09-10T05:27:00.5649831Z test_run_needs_exactly_one_target (gopyt.test_cli.Commands.test_run_needs_exactly_one_target) ... ok
+2026-09-10T05:27:00.5650983Z test_run_of_a_fn_is_e074 (gopyt.test_cli.Commands.test_run_of_a_fn_is_e074)
+2026-09-10T05:27:00.5880383Z implementer.md 9: run targets a task or workflow. ... ok
+2026-09-10T05:27:00.6106225Z test_run_of_a_task_prints_json (gopyt.test_cli.Commands.test_run_of_a_task_prints_json) ... x
+2026-09-10T05:27:00.6119548Z ok
+2026-09-10T05:27:00.6446268Z test_run_of_a_task_with_arguments_is_e022 (gopyt.test_cli.Commands.test_run_of_a_task_with_arguments_is_e022) ... ok
+2026-09-10T05:27:00.6677296Z test_run_of_an_unknown_target_is_e074 (gopyt.test_cli.Commands.test_run_of_an_unknown_target_is_e074) ... ok
+2026-09-10T05:27:00.7001928Z test_run_prints_nothing_for_unit (gopyt.test_cli.Commands.test_run_prints_nothing_for_unit) ... x
+2026-09-10T05:27:00.7014055Z ok
+2026-09-10T05:27:00.7118573Z test_unknown_command (gopyt.test_cli.Commands.test_unknown_command) ... ok
+2026-09-10T05:27:00.7214483Z test_a_module_header_must_match_a_nested_path (gopyt.test_cli.NestedModules.test_a_module_header_must_match_a_nested_path) ... ok
+2026-09-10T05:27:00.7716063Z test_nested_spec_impl_and_test_modules (gopyt.test_cli.NestedModules.test_nested_spec_impl_and_test_modules) ... charge
+2026-09-10T05:27:00.7731758Z ok
+2026-09-10T05:27:00.8188630Z test_a_failing_test_exits_two_at_the_first_trap (gopyt.test_cli.TestOrdering.test_a_failing_test_exits_two_at_the_first_trap) ... ok
+2026-09-10T05:27:00.8679050Z test_tests_run_in_lexicographic_order (gopyt.test_cli.TestOrdering.test_tests_run_in_lexicographic_order) ... ok
+2026-09-10T05:27:00.8684107Z test_back_edge_cannot_exempt_a_double_store (gopyt.test_closure.ArtifactPolicy.test_back_edge_cannot_exempt_a_double_store) ... ok
+2026-09-10T05:27:00.8686137Z test_duplicate_union_types_with_different_indices_are_rejected (gopyt.test_closure.ArtifactPolicy.test_duplicate_union_types_with_different_indices_are_rejected) ... ok
+2026-09-10T05:27:00.8688303Z test_evolve_round_trip_and_validation (gopyt.test_closure.ArtifactPolicy.test_evolve_round_trip_and_validation) ... ok
+2026-09-10T05:27:00.9512662Z test_multiple_agents_require_identical_bounds (gopyt.test_closure.ArtifactPolicy.test_multiple_agents_require_identical_bounds) ... ok
+2026-09-10T05:27:00.9514837Z test_reset_parameters_and_load_after_reset_are_rejected (gopyt.test_closure.ArtifactPolicy.test_reset_parameters_and_load_after_reset_are_rejected) ... ok
+2026-09-10T05:27:01.7156318Z test_rich_artifact_mutations_never_raise_host_exceptions (gopyt.test_closure.ArtifactPolicy.test_rich_artifact_mutations_never_raise_host_exceptions) ... ok
+2026-09-10T05:27:01.7603507Z test_custom_trait_stub_has_all_members (gopyt.test_closure.Authoring.test_custom_trait_stub_has_all_members) ... ok
+2026-09-10T05:27:01.7933357Z test_derived_from_str_cannot_be_overridden (gopyt.test_closure.Authoring.test_derived_from_str_cannot_be_overridden) ... ok
+2026-09-10T05:27:01.8446709Z test_identity_and_constructor_are_determined (gopyt.test_closure.Authoring.test_identity_and_constructor_are_determined) ... ok
+2026-09-10T05:27:01.8773789Z test_missing_member_repair_preserves_completed_body (gopyt.test_closure.Authoring.test_missing_member_repair_preserves_completed_body) ... ok
+2026-09-10T05:27:01.9209398Z test_missing_test_has_safe_canonical_file_repair (gopyt.test_closure.Authoring.test_missing_test_has_safe_canonical_file_repair) ... ok
+2026-09-10T05:27:01.9533984Z test_serve_body_is_compiler_determined (gopyt.test_closure.Authoring.test_serve_body_is_compiler_determined) ... ok
+2026-09-10T05:27:01.9886332Z test_serve_cannot_add_an_arbitrary_body (gopyt.test_closure.Authoring.test_serve_cannot_add_an_arbitrary_body) ... ok
+2026-09-10T05:27:02.0913586Z test_bloom_and_trace_dump_have_fixed_bounds (gopyt.test_closure.BoundedState.test_bloom_and_trace_dump_have_fixed_bounds) ... ok
+2026-09-10T05:27:02.0996427Z test_full_bucket_pressure_does_not_rescan_before_refill (gopyt.test_closure.BoundedState.test_full_bucket_pressure_does_not_rescan_before_refill) ... ok
+2026-09-10T05:27:02.0998473Z test_parameter_change_cannot_bypass_limit (gopyt.test_closure.BoundedState.test_parameter_change_cannot_bypass_limit) ... ok
+2026-09-10T05:27:02.1077472Z test_pressure_does_not_reset_depleted_keys (gopyt.test_closure.BoundedState.test_pressure_does_not_reset_depleted_keys) ... ok
+2026-09-10T05:27:02.1673665Z test_vm_counts_nominal_failure_without_manual_note (gopyt.test_closure.BoundedState.test_vm_counts_nominal_failure_without_manual_note) ... ok
+2026-09-10T05:27:02.3041292Z test_collection_during_parallel_calls_preserves_results (gopyt.test_closure.Memory.test_collection_during_parallel_calls_preserves_results) ... ok
+2026-09-10T05:27:02.3042616Z test_cycles_are_swept_with_host_cycle_gc_disabled (gopyt.test_closure.Memory.test_cycles_are_swept_with_host_cycle_gc_disabled) ... ok
+2026-09-10T05:27:02.6309889Z test_long_lived_vm_reclaims_temporary_values (gopyt.test_closure.Memory.test_long_lived_vm_reclaims_temporary_values) ... ok
+2026-09-10T05:27:02.7857417Z test_native_only_allocations_trigger_collection (gopyt.test_closure.Memory.test_native_only_allocations_trigger_collection) ... ok
+2026-09-10T05:27:02.7859342Z test_root_keeps_transitive_graph_and_releases_it (gopyt.test_closure.Memory.test_root_keeps_transitive_graph_and_releases_it) ... ok
+2026-09-10T05:27:02.8393500Z test_ambient_proxy_does_not_receive_allowed_request (gopyt.test_closure.NetworkBoundary.test_ambient_proxy_does_not_receive_allowed_request) ... ok
+2026-09-10T05:27:03.0875843Z test_real_tls_verification_and_model_protocol (gopyt.test_closure.NetworkBoundary.test_real_tls_verification_and_model_protocol) ... ok
+2026-09-10T05:27:03.2917366Z test_candidate_tampering_is_refused_before_live_writes (gopyt.test_closure.Transactions.test_candidate_tampering_is_refused_before_live_writes) ... ok
+2026-09-10T05:27:03.4644996Z test_checked_survivors_use_persistent_weights_and_tag_replay (gopyt.test_closure.Transactions.test_checked_survivors_use_persistent_weights_and_tag_replay) ... ok
+2026-09-10T05:27:03.4793175Z test_committed_journal_is_cleaned_without_rollback (gopyt.test_closure.Transactions.test_committed_journal_is_cleaned_without_rollback) ... ok
+2026-09-10T05:27:03.5505608Z test_cooperating_reader_waits_until_commit (gopyt.test_closure.Transactions.test_cooperating_reader_waits_until_commit) ... ok
+2026-09-10T05:27:03.6066679Z test_descriptor_access_rejects_a_flipping_symlink (gopyt.test_closure.Transactions.test_descriptor_access_rejects_a_flipping_symlink) ... ok
+2026-09-10T05:27:03.6191348Z test_external_edit_conflict_is_preserved (gopyt.test_closure.Transactions.test_external_edit_conflict_is_preserved) ... ok
+2026-09-10T05:27:03.8128726Z test_process_death_after_each_write_recovers_complete_old_tree (gopyt.test_closure.Transactions.test_process_death_after_each_write_recovers_complete_old_tree) ... ok
+2026-09-10T05:27:03.8240962Z test_source_digest_must_match_bytes_that_were_parsed (gopyt.test_closure.Transactions.test_source_digest_must_match_bytes_that_were_parsed) ... ok
+2026-09-10T05:27:03.8242603Z test_a_comment_is_never_a_contract (gopyt.test_comments.Comments.test_a_comment_is_never_a_contract)
+2026-09-10T05:27:03.8243749Z fmt.md: comments never become a contract or an `open`. ... ok
+2026-09-10T05:27:03.8244764Z test_a_commented_package_checks (gopyt.test_comments.Comments.test_a_commented_package_checks)
+2026-09-10T05:27:03.8488488Z Types live in spec/ only (elaborator.md); comments live in both. ... ok
+2026-09-10T05:27:03.8491116Z test_comment_only_module_keeps_its_text (gopyt.test_comments.Comments.test_comment_only_module_keeps_its_text) ... ok
+2026-09-10T05:27:03.8614998Z test_fmt_does_not_delete_comments_on_disk (gopyt.test_comments.Comments.test_fmt_does_not_delete_comments_on_disk) ... ok
+2026-09-10T05:27:03.8630248Z test_formatting_is_idempotent_with_comments (gopyt.test_comments.Comments.test_formatting_is_idempotent_with_comments) ... ok
+2026-09-10T05:27:03.8638946Z test_formatting_keeps_every_comment (gopyt.test_comments.Comments.test_formatting_keeps_every_comment) ... ok
+2026-09-10T05:27:03.8641934Z test_trailing_whitespace_is_removed (gopyt.test_comments.Comments.test_trailing_whitespace_is_removed) ... ok
+2026-09-10T05:27:03.8651038Z test_missing_installed_code_rejected (gopyt.test_component_inventory.InventoryTests.test_missing_installed_code_rejected) ... ok
+2026-09-10T05:27:03.8659470Z test_modified_installed_code_rejected (gopyt.test_component_inventory.InventoryTests.test_modified_installed_code_rejected) ... ok
+2026-09-10T05:27:03.8675276Z test_nested_metadata_vendor_pins_and_sboms_preserved (gopyt.test_component_inventory.InventoryTests.test_nested_metadata_vendor_pins_and_sboms_preserved) ... ok
+2026-09-10T05:27:03.8682974Z test_unhashed_code_is_not_treated_as_installer_metadata (gopyt.test_component_inventory.InventoryTests.test_unhashed_code_is_not_treated_as_installer_metadata) ... ok
+2026-09-10T05:27:03.8691391Z test_unknown_vendor_declaration_rejected (gopyt.test_component_inventory.InventoryTests.test_unknown_vendor_declaration_rejected) ... ok
+2026-09-10T05:27:03.8908841Z test_c019_list_empty_type (gopyt.test_conformance.Assertions.test_c019_list_empty_type) ... ok
+2026-09-10T05:27:03.9123602Z test_c020_map_empty_type (gopyt.test_conformance.Assertions.test_c020_map_empty_type) ... ok
+2026-09-10T05:27:03.9504657Z test_c022_parallel_runs_in_source_order (gopyt.test_conformance.Assertions.test_c022_parallel_runs_in_source_order) ... ok
+2026-09-10T05:27:03.9728962Z test_c024_division_by_zero_traps (gopyt.test_conformance.Assertions.test_c024_division_by_zero_traps) ... start
+2026-09-10T05:27:03.9741518Z ok
+2026-09-10T05:27:04.0075905Z test_c026_format_is_idempotent (gopyt.test_conformance.Assertions.test_c026_format_is_idempotent) ... ok
+2026-09-10T05:27:04.0305646Z test_c027_jump_into_operand (gopyt.test_conformance.Assertions.test_c027_jump_into_operand) ... ok
+2026-09-10T05:27:04.0643205Z test_c030_stale_lock (gopyt.test_conformance.Assertions.test_c030_stale_lock) ... ok
+2026-09-10T05:27:04.1113915Z test_c031_test_effects_are_inferred (gopyt.test_conformance.Assertions.test_c031_test_effects_are_inferred) ... ok
+2026-09-10T05:27:04.1390314Z test_c032_effectful_test_uses_the_runtime (gopyt.test_conformance.Assertions.test_c032_effectful_test_uses_the_runtime) ... ok
+2026-09-10T05:27:04.1753999Z test_c033_obligation_discharged (gopyt.test_conformance.Assertions.test_c033_obligation_discharged) ... ok
+2026-09-10T05:27:04.1991951Z test_c037_json_extra_key (gopyt.test_conformance.Assertions.test_c037_json_extra_key) ... decode
+2026-09-10T05:27:04.2007438Z ok
+2026-09-10T05:27:04.2131012Z test_c040_propose_needs_evolve (gopyt.test_conformance.Assertions.test_c040_propose_needs_evolve) ... ok
+2026-09-10T05:27:04.2361923Z test_c001_pure_i64 (gopyt.test_conformance.MustAccept.test_c001_pure_i64) ... ok
+2026-09-10T05:27:04.2578741Z test_c014_param_comma (gopyt.test_conformance.MustAccept.test_c014_param_comma) ... ok
+2026-09-10T05:27:04.2799871Z test_c018_return_unit (gopyt.test_conformance.MustAccept.test_c018_return_unit) ... ok
+2026-09-10T05:27:04.3009751Z test_c002_missing_use (gopyt.test_conformance.MustReject.test_c002_missing_use) ... ok
+2026-09-10T05:27:04.3227193Z test_c003_inexhaustive_match (gopyt.test_conformance.MustReject.test_c003_inexhaustive_match) ... ok
+2026-09-10T05:27:04.3438844Z test_c004_fn_cannot_call_task (gopyt.test_conformance.MustReject.test_c004_fn_cannot_call_task) ... ok
+2026-09-10T05:27:04.3532852Z test_c005_int_is_not_a_type (gopyt.test_conformance.MustReject.test_c005_int_is_not_a_type) ... ok
+2026-09-10T05:27:04.3625046Z test_c006_userid_illegal (gopyt.test_conformance.MustReject.test_c006_userid_illegal) ... ok
+2026-09-10T05:27:04.3720806Z test_c007_leading_zero (gopyt.test_conformance.MustReject.test_c007_leading_zero) ... ok
+2026-09-10T05:27:04.3901727Z test_c008_if_is_not_an_expression (gopyt.test_conformance.MustReject.test_c008_if_is_not_an_expression) ... ok
+2026-09-10T05:27:04.4117456Z test_c009_open_fails_check (gopyt.test_conformance.MustReject.test_c009_open_fails_check) ... ok
+2026-09-10T05:27:04.4216092Z test_c010_parallel_requires_bounds (gopyt.test_conformance.MustReject.test_c010_parallel_requires_bounds) ... ok
+2026-09-10T05:27:04.4434600Z test_c011_json_requires_provide (gopyt.test_conformance.MustReject.test_c011_json_requires_provide) ... ok
+2026-09-10T05:27:04.4817262Z test_c012_serve_arity (gopyt.test_conformance.MustReject.test_c012_serve_arity) ... ok
+2026-09-10T05:27:04.4922453Z test_c013_param_comma_required (gopyt.test_conformance.MustReject.test_c013_param_comma_required) ... ok
+2026-09-10T05:27:04.5038400Z test_c015_effect_comma_required (gopyt.test_conformance.MustReject.test_c015_effect_comma_required) ... ok
+2026-09-10T05:27:04.5152454Z test_c016_no_trailing_comma (gopyt.test_conformance.MustReject.test_c016_no_trailing_comma) ... ok
+2026-09-10T05:27:04.5288181Z test_c017_missing_return_path (gopyt.test_conformance.MustReject.test_c017_missing_return_path) ... ok
+2026-09-10T05:27:04.5394820Z test_c021_map_key_is_closed (gopyt.test_conformance.MustReject.test_c021_map_key_is_closed) ... ok
+2026-09-10T05:27:04.5492558Z test_c023_parallel_max_zero (gopyt.test_conformance.MustReject.test_c023_parallel_max_zero) ... ok
+2026-09-10T05:27:04.5590626Z test_c025_if_in_value_position (gopyt.test_conformance.MustReject.test_c025_if_in_value_position) ... ok
+2026-09-10T05:27:04.5683023Z test_c028_unknown_effect (gopyt.test_conformance.MustReject.test_c028_unknown_effect) ... ok
+2026-09-10T05:27:04.5910104Z test_c029_non_test_open (gopyt.test_conformance.MustReject.test_c029_non_test_open) ... ok
+2026-09-10T05:27:04.6017183Z test_c034_app_ffi (gopyt.test_conformance.MustReject.test_c034_app_ffi) ... ok
+2026-09-10T05:27:04.6302623Z test_c035_request_without_egress (gopyt.test_conformance.MustReject.test_c035_request_without_egress) ... ok
+2026-09-10T05:27:04.6466709Z test_c036_secret_in_log (gopyt.test_conformance.MustReject.test_c036_secret_in_log) ... ok
+2026-09-10T05:27:04.6565271Z test_c038_eval (gopyt.test_conformance.MustReject.test_c038_eval) ... ok
+2026-09-10T05:27:04.6787900Z test_c039_evolve_without_model (gopyt.test_conformance.MustReject.test_c039_evolve_without_model) ... ok
+2026-09-10T05:27:04.6897283Z test_c041_evolve_bounds (gopyt.test_conformance.MustReject.test_c041_evolve_bounds) ... ok
+2026-09-10T05:27:04.7269659Z test_idle_connection_lifetime_releases_queued_client (gopyt.test_connection_budget.ConnectionBudget.test_idle_connection_lifetime_releases_queued_client) ... echo
+2026-09-10T05:27:05.7284951Z echo
+2026-09-10T05:27:05.8313833Z ok
+2026-09-10T05:27:05.9716343Z test_new_requests_cannot_extend_connection_deadline (gopyt.test_connection_budget.ConnectionBudget.test_new_requests_cannot_extend_connection_deadline) ... ok
+2026-09-10T05:27:06.0084732Z test_non_handler_responses_also_consume_request_quota (gopyt.test_connection_budget.ConnectionBudget.test_non_handler_responses_also_consume_request_quota) ... echo
+2026-09-10T05:27:06.1104536Z ok
+2026-09-10T05:27:06.2544685Z test_pipelined_excess_requests_never_dispatch (gopyt.test_connection_budget.ConnectionBudget.test_pipelined_excess_requests_never_dispatch) ... ok
+2026-09-10T05:27:06.2914815Z test_quota_releases_worker_to_already_queued_client (gopyt.test_connection_budget.ConnectionBudget.test_quota_releases_worker_to_already_queued_client) ... echo
+2026-09-10T05:27:06.2937005Z echo
+2026-09-10T05:27:06.2945888Z echo
+2026-09-10T05:27:06.3969900Z ok
+2026-09-10T05:27:06.4312482Z test_changed_contract_kind_is_drift (gopyt.test_contract_drift.ContractDriftTests.test_changed_contract_kind_is_drift) ... ok
+2026-09-10T05:27:06.4646791Z test_changed_literal_is_drift (gopyt.test_contract_drift.ContractDriftTests.test_changed_literal_is_drift) ... ok
+2026-09-10T05:27:06.4974149Z test_changed_operator_is_drift (gopyt.test_contract_drift.ContractDriftTests.test_changed_operator_is_drift) ... ok
+2026-09-10T05:27:06.5302103Z test_comments_and_source_lines_are_not_drift (gopyt.test_contract_drift.ContractDriftTests.test_comments_and_source_lines_are_not_drift) ... ok
+2026-09-10T05:27:06.5723534Z test_nested_expression_change_is_drift (gopyt.test_contract_drift.ContractDriftTests.test_nested_expression_change_is_drift) ... ok
+2026-09-10T05:27:06.6065463Z test_reordered_clauses_are_drift (gopyt.test_contract_drift.ContractDriftTests.test_reordered_clauses_are_drift) ... ok
+2026-09-10T05:27:06.7233956Z test_contract_change_is_reviewed_and_enforced_after_rebuild (gopyt.test_dependency_upgrades.DependencyUpgrades.test_contract_change_is_reviewed_and_enforced_after_rebuild) ... ok
+2026-09-10T05:27:06.8053046Z test_relocated_graph_compiles_to_identical_bytes_and_lock (gopyt.test_dependency_upgrades.DependencyUpgrades.test_relocated_graph_compiles_to_identical_bytes_and_lock) ... ok
+2026-09-10T05:27:06.9135440Z test_reviewed_lock_cannot_make_incompatible_api_typecheck (gopyt.test_dependency_upgrades.DependencyUpgrades.test_reviewed_lock_cannot_make_incompatible_api_typecheck) ... ok
+2026-09-10T05:27:07.0461351Z test_transitive_upgrade_requires_review_and_rollback_is_reproducible (gopyt.test_dependency_upgrades.DependencyUpgrades.test_transitive_upgrade_requires_review_and_rollback_is_reproducible) ... ok
+2026-09-10T05:27:07.1628857Z test_version_unchanged_does_not_hide_dependency_source_change (gopyt.test_dependency_upgrades.DependencyUpgrades.test_version_unchanged_does_not_hide_dependency_source_change) ... ok
+2026-09-10T05:27:07.1939082Z test_declaring_the_dependency_makes_the_import_legal (gopyt.test_deps.DirectImports.test_declaring_the_dependency_makes_the_import_legal) ... ok
+2026-09-10T05:27:07.2170868Z test_reaching_past_a_dependency_is_e043 (gopyt.test_deps.DirectImports.test_reaching_past_a_dependency_is_e043) ... ok
+2026-09-10T05:27:07.2290706Z test_e042_cycle (gopyt.test_deps.Graph.test_e042_cycle) ... ok
+2026-09-10T05:27:07.2400331Z test_e043_missing_path (gopyt.test_deps.Graph.test_e043_missing_path) ... ok
+2026-09-10T05:27:07.2512784Z test_e044_name_mismatch (gopyt.test_deps.Graph.test_e044_name_mismatch) ... ok
+2026-09-10T05:27:07.2659988Z test_e045_same_name_two_paths (gopyt.test_deps.Graph.test_e045_same_name_two_paths) ... ok
+2026-09-10T05:27:07.2796125Z test_a_root_module_may_not_shadow_a_dependency (gopyt.test_deps.Names.test_a_root_module_may_not_shadow_a_dependency) ... ok
+2026-09-10T05:27:07.2908571Z test_a_stdlib_prefix_may_not_be_an_app_module (gopyt.test_deps.Names.test_a_stdlib_prefix_may_not_be_an_app_module) ... ok
+2026-09-10T05:27:07.3139182Z test_dep_digest_tracks_dep_sources (gopyt.test_deps.Resolved.test_dep_digest_tracks_dep_sources) ... ok
+2026-09-10T05:27:07.3402438Z test_dep_module_is_callable_and_reaches_bytecode (gopyt.test_deps.Resolved.test_dep_module_is_callable_and_reaches_bytecode) ... ok
+2026-09-10T05:27:07.3524617Z test_lock_lists_root_first_then_deps_by_name (gopyt.test_deps.Resolved.test_lock_lists_root_first_then_deps_by_name) ... ok
+2026-09-10T05:27:07.3795908Z test_missing_lock_is_e041_then_check_passes (gopyt.test_deps.Resolved.test_missing_lock_is_e041_then_check_passes) ... ok
+2026-09-10T05:27:07.4285276Z test_every_documented_code_is_raised_or_declared (gopyt.test_diagnostics.Coverage.test_every_documented_code_is_raised_or_declared) ... echo
+2026-09-10T05:27:08.1055412Z echo
+2026-09-10T05:27:08.6115292Z echo
+2026-09-10T05:27:08.6167361Z echo
+2026-09-10T05:27:08.9072463Z echo
+2026-09-10T05:27:09.0472209Z echo
+2026-09-10T05:27:09.1910208Z charge
+2026-09-10T05:27:09.6361307Z echo
+2026-09-10T05:27:09.6369250Z echo
+2026-09-10T05:27:15.6199141Z echo
+2026-09-10T05:27:17.3876855Z probe
+2026-09-10T05:27:17.4250524Z probe
+2026-09-10T05:27:17.4614648Z probe
+2026-09-10T05:27:17.7252780Z arithmetic
+2026-09-10T05:27:17.8021846Z probe
+2026-09-10T05:27:18.0372715Z x
+2026-09-10T05:27:18.1273351Z x
+2026-09-10T05:27:18.1991201Z charge
+2026-09-10T05:27:21.4208629Z start
+2026-09-10T05:27:21.6473520Z decode
+2026-09-10T05:27:22.1588968Z echo
+2026-09-10T05:27:23.1605049Z echo
+2026-09-10T05:27:23.4414756Z echo
+2026-09-10T05:27:23.7215484Z echo
+2026-09-10T05:27:23.7236905Z echo
+2026-09-10T05:27:23.7245557Z echo
+2026-09-10T05:27:33.7762084Z start
+2026-09-10T05:27:43.0545808Z ERROR:root:Refund transaction failed
+2026-09-10T05:27:43.0546578Z Traceback (most recent call last):
+2026-09-10T05:27:43.0555766Z   File "/home/runner/work/GoPyt/GoPyt/examples/guarded_refunds/service.py", line 236, in do_POST
+2026-09-10T05:27:43.0556555Z     result = self.server.ledger.apply(body)
+2026-09-10T05:27:43.0557300Z              ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+2026-09-10T05:27:43.0557881Z   File "/home/runner/work/GoPyt/GoPyt/examples/guarded_refunds/service.py", line 143, in apply
+2026-09-10T05:27:43.0558828Z     return self._apply(body)
+2026-09-10T05:27:43.0559092Z            ^^^^^^^^^^^^^^^^^
+2026-09-10T05:27:43.0559619Z   File "/home/runner/work/GoPyt/GoPyt/examples/guarded_refunds/service.py", line 180, in _apply
+2026-09-10T05:27:43.0560396Z     conn.execute('INSERT INTO requests VALUES(?,?,?,?)', (order_id,key,payload,canonical(response).decode()))
+2026-09-10T05:27:43.0560960Z sqlite3.IntegrityError: injected
+2026-09-10T05:27:49.8423091Z ERROR:root:Refund transaction failed
+2026-09-10T05:27:49.8424439Z Traceback (most recent call last):
+2026-09-10T05:27:49.8425485Z   File "/home/runner/work/GoPyt/GoPyt/examples/guarded_refunds/service.py", line 236, in do_POST
+2026-09-10T05:27:49.8426444Z     result = self.server.ledger.apply(body)
+2026-09-10T05:27:49.8427010Z              ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+2026-09-10T05:27:49.8428281Z   File "/home/runner/work/GoPyt/GoPyt/examples/guarded_refunds/service.py", line 143, in apply
+2026-09-10T05:27:49.8429181Z     return self._apply(body)
+2026-09-10T05:27:49.8429605Z            ^^^^^^^^^^^^^^^^^
+2026-09-10T05:27:49.8430423Z   File "/home/runner/work/GoPyt/GoPyt/examples/guarded_refunds/service.py", line 168, in _apply
+2026-09-10T05:27:49.8431602Z     allowed = timed_call(self.vm, self.ids['refund_policy.allowed'],
+2026-09-10T05:27:49.8432640Z               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+2026-09-10T05:27:49.8433499Z   File "/home/runner/work/_temp/gopyt-python/python/lib/python3.11/unittest/mock.py", line 1124, in __call__
+2026-09-10T05:27:49.8434515Z     return self._mock_call(*args, **kwargs)
+2026-09-10T05:27:49.8435043Z            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+2026-09-10T05:27:49.8436073Z   File "/home/runner/work/_temp/gopyt-python/python/lib/python3.11/unittest/mock.py", line 1128, in _mock_call
+2026-09-10T05:27:49.8437097Z     return self._execute_mock_call(*args, **kwargs)
+2026-09-10T05:27:49.8437679Z            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+2026-09-10T05:27:49.8439116Z   File "/home/runner/work/_temp/gopyt-python/python/lib/python3.11/unittest/mock.py", line 1183, in _execute_mock_call
+2026-09-10T05:27:49.8440135Z     raise effect
+2026-09-10T05:27:49.8440509Z gopyt.vm.Trap: trap 2
+2026-09-10T05:27:49.8444985Z ERROR:root:Refund transaction failed
+2026-09-10T05:27:49.8446028Z Traceback (most recent call last):
+2026-09-10T05:27:49.8447341Z   File "/home/runner/work/GoPyt/GoPyt/examples/guarded_refunds/service.py", line 236, in do_POST
+2026-09-10T05:27:49.8448595Z     result = self.server.ledger.apply(body)
+2026-09-10T05:27:49.8449145Z              ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+2026-09-10T05:27:49.8450087Z   File "/home/runner/work/GoPyt/GoPyt/examples/guarded_refunds/service.py", line 143, in apply
+2026-09-10T05:27:49.8450996Z     return self._apply(body)
+2026-09-10T05:27:49.8451462Z            ^^^^^^^^^^^^^^^^^
+2026-09-10T05:27:49.8452347Z   File "/home/runner/work/GoPyt/GoPyt/examples/guarded_refunds/service.py", line 168, in _apply
+2026-09-10T05:27:49.8453413Z     allowed = timed_call(self.vm, self.ids['refund_policy.allowed'],
+2026-09-10T05:27:49.8454120Z               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+2026-09-10T05:27:49.8455156Z   File "/home/runner/work/_temp/gopyt-python/python/lib/python3.11/unittest/mock.py", line 1124, in __call__
+2026-09-10T05:27:49.8456233Z     return self._mock_call(*args, **kwargs)
+2026-09-10T05:27:49.8456760Z            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+2026-09-10T05:27:49.8457802Z   File "/home/runner/work/_temp/gopyt-python/python/lib/python3.11/unittest/mock.py", line 1128, in _mock_call
+2026-09-10T05:27:49.8459075Z     return self._execute_mock_call(*args, **kwargs)
+2026-09-10T05:27:49.8459657Z            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+2026-09-10T05:27:49.8460803Z   File "/home/runner/work/_temp/gopyt-python/python/lib/python3.11/unittest/mock.py", line 1183, in _execute_mock_call
+2026-09-10T05:27:49.8462132Z     raise effect
+2026-09-10T05:27:49.8462508Z gopyt.vm.Cancelled
+2026-09-10T05:27:53.9388333Z ERROR:root:Refund transaction failed
+2026-09-10T05:27:53.9388939Z Traceback (most recent call last):
+2026-09-10T05:27:53.9389867Z   File "/home/runner/work/GoPyt/GoPyt/examples/guarded_refunds/service.py", line 236, in do_POST
+2026-09-10T05:27:53.9390596Z     result = self.server.ledger.apply(body)
+2026-09-10T05:27:53.9390975Z              ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+2026-09-10T05:27:53.9391632Z   File "/home/runner/work/GoPyt/GoPyt/examples/guarded_refunds/service.py", line 143, in apply
+2026-09-10T05:27:53.9392265Z     return self._apply(body)
+2026-09-10T05:27:53.9392573Z            ^^^^^^^^^^^^^^^^^
+2026-09-10T05:27:53.9393158Z   File "/home/runner/work/GoPyt/GoPyt/examples/guarded_refunds/service.py", line 172, in _apply
+2026-09-10T05:27:53.9393904Z     after = timed_call(self.vm, self.ids['refund_policy.after_refund'],
+2026-09-10T05:27:53.9394692Z             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+2026-09-10T05:27:53.9395667Z   File "/home/runner/work/GoPyt/GoPyt/gopyt/guard.py", line 337, in timed_call
+2026-09-10T05:27:53.9396508Z     return vm.call(fn, list(args))
+2026-09-10T05:27:53.9396861Z            ^^^^^^^^^^^^^^^^^^^^^^^
+2026-09-10T05:27:53.9397330Z   File "/home/runner/work/GoPyt/GoPyt/gopyt/vm.py", line 304, in call
+2026-09-10T05:27:53.9398237Z     return self._call_admitted(fn_id, args, caller_effects)
+2026-09-10T05:27:53.9398977Z            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+2026-09-10T05:27:53.9399578Z   File "/home/runner/work/GoPyt/GoPyt/gopyt/vm.py", line 317, in _call_admitted
+2026-09-10T05:27:53.9400151Z     result = self._call(fn_id, args, caller_effects)
+2026-09-10T05:27:53.9400549Z              ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+2026-09-10T05:27:53.9401064Z   File "/home/runner/work/GoPyt/GoPyt/gopyt/vm.py", line 358, in _call
+2026-09-10T05:27:53.9401566Z     return self.exec(fn_id, func, args)
+2026-09-10T05:27:53.9401930Z            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+2026-09-10T05:27:53.9402297Z   File "/home/runner/work/GoPyt/GoPyt/gopyt/vm.py", line 376, in exec
+2026-09-10T05:27:53.9404347Z     return self._exec_frame(frame)
+2026-09-10T05:27:53.9404773Z            ^^^^^^^^^^^^^^^^^^^^^^^
+2026-09-10T05:27:53.9405403Z   File "/home/runner/work/GoPyt/GoPyt/gopyt/vm.py", line 381, in _exec_frame
+2026-09-10T05:27:53.9406172Z     return self._execute_frame(frame, instruction_guard)
+2026-09-10T05:27:53.9406719Z            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+2026-09-10T05:27:53.9407431Z   File "/home/runner/work/GoPyt/GoPyt/gopyt/vm.py", line 594, in _execute_frame
+2026-09-10T05:27:53.9408615Z     raise Trap(ops.TRAP_REQUIRES if op == ops.REQUIRE else ops.TRAP_ENSURES)
+2026-09-10T05:27:53.9409251Z gopyt.vm.Trap: trap 2
+2026-09-10T05:27:56.5600128Z guard prepare: duplicate JSON key: cases
+2026-09-10T05:27:57.4467130Z guard prepare: preparation policy exceeds byte limit
+2026-09-10T05:27:58.0413362Z 3953c8736faf62e59efc769fb14c37dc2ea99be34f0af8e22ef411edd1ac5802
+2026-09-10T05:27:58.2107401Z {
+2026-09-10T05:27:58.2107750Z   "schema": "gopyt.guard.receipt.v1",
+2026-09-10T05:27:58.2108214Z   "accepted": true,
+2026-09-10T05:27:58.2108615Z   "bundle_sha256": "3953c8736faf62e59efc769fb14c37dc2ea99be34f0af8e22ef411edd1ac5802",
+2026-09-10T05:27:58.2109243Z   "engine_sha256": "7bb004b6461ec4dd04d4c7754d93efd29321193d4cc93976218ccff9b735fa23",
+2026-09-10T05:27:58.2109672Z   "limitations": [
+2026-09-10T05:27:58.2109941Z     "Finite acceptance cases, not a proof.",
+2026-09-10T05:27:58.2110497Z     "Listed obligations are declarations; this gate executes only the supplied cases, not HTTP or database tests.",
+2026-09-10T05:27:58.2111163Z     "Caller, bundle pin, and executor must be protected outside candidate authority.",
+2026-09-10T05:27:58.2111697Z     "No guarantee about external payment processors or undisclosed policies."
+2026-09-10T05:27:58.2112077Z   ],
+2026-09-10T05:27:58.2112418Z   "candidate_sha256": "945b0f988c57c77146d988b58202d9417044d31e1609f59a837bc47e60b07934",
+2026-09-10T05:27:58.2113106Z   "changed_files": [],
+2026-09-10T05:27:58.2113325Z   "obligations": {
+2026-09-10T05:27:58.2113587Z     "stock": "Reservation preserves nonnegative stock."
+2026-09-10T05:27:58.2113883Z   },
+2026-09-10T05:27:58.2114077Z   "protected_contract_helpers": [],
+2026-09-10T05:27:58.2114332Z   "passed": 3,
+2026-09-10T05:27:58.2114522Z   "total": 3,
+2026-09-10T05:27:58.2114706Z   "failures": []
+2026-09-10T05:27:58.2114893Z }
+2026-09-10T05:27:59.8852823Z echo
+2026-09-10T05:27:59.8866130Z echo
+2026-09-10T05:28:00.0289111Z echo
+2026-09-10T05:28:00.0317988Z echo
+2026-09-10T05:28:00.0346784Z echo
+2026-09-10T05:28:00.3223624Z echo
+2026-09-10T05:28:00.4616681Z echo
+2026-09-10T05:28:00.6017037Z echo
+2026-09-10T05:28:00.6029596Z echo
+2026-09-10T05:28:00.6041980Z echo
+2026-09-10T05:28:00.6053834Z echo
+2026-09-10T05:28:00.6066108Z echo
+2026-09-10T05:28:00.6077786Z echo
+2026-09-10T05:28:00.7585439Z echo
+2026-09-10T05:28:00.8974652Z echo
+2026-09-10T05:28:00.8984729Z echo
+2026-09-10T05:28:26.2918536Z output
+2026-09-10T05:28:26.3051174Z output
+2026-09-10T05:28:38.6175909Z obligations: FileExistsError: [Errno 17] File exists: '/home/runner/work/_temp/tmpev16d72h/report.json'
+2026-09-10T05:28:40.6507823Z obligations: FileExistsError: [Errno 17] File exists: '/home/runner/work/_temp/tmpe6pyoa5u/report.json'
+2026-09-10T05:28:42.3298702Z obligations: FileExistsError: [Errno 17] File exists: '/home/runner/work/_temp/tmpfrawj5fs/report.json'
+2026-09-10T05:28:43.9440038Z obligations: FileExistsError: [Errno 17] File exists: '/home/runner/work/_temp/tmp7nfxlpz_/report.json'
+2026-09-10T05:28:49.3324277Z Timeout (0:02:00)!
+2026-09-10T05:28:49.3324954Z Thread 0x00007fd532ffe6c0 (most recent call first):
+2026-09-10T05:28:49.3325886Z   File "/home/runner/work/_temp/gopyt-python/python/lib/python3.11/selectors.py", line 415 in select
+2026-09-10T05:28:49.3327301Z   File "/home/runner/work/_temp/gopyt-python/python/lib/python3.11/socketserver.py", line 233 in serve_forever
+2026-09-10T05:28:49.3329065Z   File "/home/runner/work/_temp/gopyt-python/python/lib/python3.11/threading.py", line 982 in run
+2026-09-10T05:28:49.3330481Z   File "/home/runner/work/_temp/gopyt-python/python/lib/python3.11/threading.py", line 1045 in _bootstrap_inner
+2026-09-10T05:28:49.3331945Z   File "/home/runner/work/_temp/gopyt-python/python/lib/python3.11/threading.py", line 1002 in _bootstrap
+2026-09-10T05:28:49.3332715Z 
+2026-09-10T05:28:49.3332937Z Thread 0x00007fd560819740 (most recent call first):
+2026-09-10T05:28:49.3333702Z   File "/home/runner/work/_temp/gopyt-python/python/lib/python3.11/threading.py", line 327 in wait
+2026-09-10T05:28:49.3334546Z   File "/home/runner/work/_temp/gopyt-python/python/lib/python3.11/threading.py", line 629 in wait
+2026-09-10T05:28:49.3335452Z   File "/home/runner/work/_temp/gopyt-python/python/lib/python3.11/socketserver.py", line 253 in shutdown
+2026-09-10T05:28:49.3336387Z   File "/home/runner/work/_temp/gopyt-python/python/lib/python3.11/unittest/case.py", line 587 in _callCleanup
+2026-09-10T05:28:49.3337340Z   File "/home/runner/work/_temp/gopyt-python/python/lib/python3.11/unittest/case.py", line 659 in doCleanups
+2026-09-10T05:28:49.3338451Z   File "/home/runner/work/_temp/gopyt-python/python/lib/python3.11/unittest/case.py", line 587 in _callCleanup
+2026-09-10T05:28:49.3339261Z   File "/home/runner/work/_temp/gopyt-python/python/lib/python3.11/unittest/case.py", line 659 in doCleanups
+2026-09-10T05:28:49.3340005Z   File "/home/runner/work/_temp/gopyt-python/python/lib/python3.11/unittest/case.py", line 627 in run
+2026-09-10T05:28:49.3340737Z   File "/home/runner/work/_temp/gopyt-python/python/lib/python3.11/unittest/case.py", line 678 in __call__
+2026-09-10T05:28:49.3341458Z   File "/home/runner/work/_temp/gopyt-python/python/lib/python3.11/unittest/suite.py", line 122 in run
+2026-09-10T05:28:49.3342175Z   File "/home/runner/work/_temp/gopyt-python/python/lib/python3.11/unittest/suite.py", line 84 in __call__
+2026-09-10T05:28:49.3342883Z   File "/home/runner/work/_temp/gopyt-python/python/lib/python3.11/unittest/suite.py", line 122 in run
+2026-09-10T05:28:49.3343945Z   File "/home/runner/work/_temp/gopyt-python/python/lib/python3.11/unittest/suite.py", line 84 in __call__
+2026-09-10T05:28:49.3344659Z   File "/home/runner/work/_temp/gopyt-python/python/lib/python3.11/unittest/runner.py", line 217 in run
+2026-09-10T05:28:49.3345323Z   File "/home/runner/work/GoPyt/GoPyt/gopyt/test_diagnostics.py", line 67 in raised_codes
+2026-09-10T05:28:49.3346094Z   File "/home/runner/work/GoPyt/GoPyt/gopyt/test_diagnostics.py", line 79 in test_every_documented_code_is_raised_or_declared
+2026-09-10T05:28:49.3346935Z   File "/home/runner/work/_temp/gopyt-python/python/lib/python3.11/unittest/case.py", line 579 in _callTestMethod
+2026-09-10T05:28:49.3347716Z   File "/home/runner/work/_temp/gopyt-python/python/lib/python3.11/unittest/case.py", line 623 in run
+2026-09-10T05:28:49.3348727Z   File "/home/runner/work/_temp/gopyt-python/python/lib/python3.11/unittest/case.py", line 678 in __call__
+2026-09-10T05:28:49.3349473Z   File "/home/runner/work/_temp/gopyt-python/python/lib/python3.11/unittest/suite.py", line 122 in run
+2026-09-10T05:28:49.3350193Z   File "/home/runner/work/_temp/gopyt-python/python/lib/python3.11/unittest/suite.py", line 84 in __call__
+2026-09-10T05:28:49.3350905Z   File "/home/runner/work/_temp/gopyt-python/python/lib/python3.11/unittest/suite.py", line 122 in run
+2026-09-10T05:28:49.3351620Z   File "/home/runner/work/_temp/gopyt-python/python/lib/python3.11/unittest/suite.py", line 84 in __call__
+2026-09-10T05:28:49.3352510Z   File "/home/runner/work/_temp/gopyt-python/python/lib/python3.11/unittest/suite.py", line 122 in run
+2026-09-10T05:28:49.3353226Z   File "/home/runner/work/_temp/gopyt-python/python/lib/python3.11/unittest/suite.py", line 84 in __call__
+2026-09-10T05:28:49.3353939Z   File "/home/runner/work/_temp/gopyt-python/python/lib/python3.11/unittest/runner.py", line 217 in run
+2026-09-10T05:28:49.3354657Z   File "/home/runner/work/_temp/gopyt-python/python/lib/python3.11/unittest/main.py", line 274 in runTests
+2026-09-10T05:28:49.3355382Z   File "/home/runner/work/_temp/gopyt-python/python/lib/python3.11/unittest/main.py", line 102 in __init__
+2026-09-10T05:28:49.3356139Z   File "/home/runner/work/_temp/gopyt-python/python/lib/python3.11/unittest/__main__.py", line 18 in <module>
+2026-09-10T05:28:49.3356673Z   File "<frozen runpy>", line 88 in _run_code
+2026-09-10T05:28:49.3357011Z   File "<frozen runpy>", line 229 in run_module
+2026-09-10T05:28:49.3357495Z   File "/home/runner/work/GoPyt/GoPyt/tools/run_language_tests.py", line 13 in <module>
+2026-09-10T05:28:50.3581770Z arm
+2026-09-10T05:28:50.3582955Z arm
+2026-09-10T05:28:52.2286558Z 
+2026-09-10T05:28:52.2287497Z 50 modules checked in 44 ms
+2026-09-10T05:28:57.8596875Z 
+2026-09-10T05:28:57.8597994Z check 21 ms, 10000 logins 5571 ms
+2026-09-10T05:28:59.5073163Z project context: FileExistsError: [Errno 17] File exists: '/home/runner/work/_temp/tmp60701w9h/receipt.json'
+2026-09-10T05:29:07.3080923Z echo
+2026-09-10T05:29:07.3090087Z echo
+2026-09-10T05:29:07.4480932Z echo
+2026-09-10T05:29:07.4491191Z echo
+2026-09-10T05:29:07.5891578Z echo
+2026-09-10T05:29:07.5901078Z echo
+2026-09-10T05:29:33.0093110Z decode
+2026-09-10T05:29:33.1066312Z charge
+2026-09-10T05:29:33.6884138Z cell
+2026-09-10T05:29:33.7249233Z e
+2026-09-10T05:29:33.7251243Z o
+2026-09-10T05:29:33.7253484Z e
+2026-09-10T05:29:33.7255622Z o
+2026-09-10T05:29:33.7257756Z e
+2026-09-10T05:29:33.7260210Z o
+2026-09-10T05:29:33.7264064Z e
+2026-09-10T05:29:33.8123623Z charging
+2026-09-10T05:29:34.3203258Z echo
+2026-09-10T05:29:35.1696439Z user
+2026-09-10T05:29:35.3310322Z ping
+2026-09-10T05:29:35.6305907Z charge
+2026-09-10T05:29:35.7694101Z wire
+2026-09-10T05:29:35.8047479Z alloc
+2026-09-10T05:29:36.7585465Z 1
+2026-09-10T05:29:36.7744618Z 1
+2026-09-10T05:29:36.9779248Z found
+2026-09-10T05:29:37.0947223Z go
+2026-09-10T05:29:37.1973426Z go
+2026-09-10T05:29:37.2332115Z 0
+2026-09-10T05:29:37.2334170Z 1
+2026-09-10T05:29:37.2336311Z 2
+2026-09-10T05:29:37.2338428Z 3
+2026-09-10T05:29:37.3040840Z go
+2026-09-10T05:29:37.4108616Z go
+2026-09-10T05:29:37.5836024Z go
+2026-09-10T05:29:37.8097934Z and
+2026-09-10T05:29:37.8452649Z order
+2026-09-10T05:29:37.8832516Z contract
+2026-09-10T05:29:37.9182679Z div
+2026-09-10T05:29:37.9530889Z enum
+2026-09-10T05:29:37.9879449Z int
+2026-09-10T05:29:38.0227919Z opt
+2026-09-10T05:29:38.0670293Z or
+2026-09-10T05:29:38.1018908Z range
+2026-09-10T05:29:38.1373604Z mod
+2026-09-10T05:29:38.1723497Z slice
+2026-09-10T05:29:38.2092802Z len
+2026-09-10T05:29:38.2538260Z encode
+2026-09-10T05:29:38.3434984Z encode
+2026-09-10T05:29:38.3443956Z decode
+2026-09-10T05:29:38.4394100Z get
+2026-09-10T05:29:38.4754689Z bools
+2026-09-10T05:29:38.5458690Z empty
+2026-09-10T05:29:38.5922264Z keys
+2026-09-10T05:29:38.6282841Z map
+2026-09-10T05:29:39.5619923Z ok
+2026-09-10T05:29:39.5622135Z test_untested_codes_are_documented (gopyt.test_diagnostics.Coverage.test_untested_codes_are_documented) ... ok
+2026-09-10T05:29:39.5622941Z test_untested_list_stays_honest (gopyt.test_diagnostics.Coverage.test_untested_list_stays_honest)
+2026-09-10T05:29:39.6114527Z A code that a test does reach must not sit in UNTESTED. ... echo
+2026-09-10T05:29:40.2897473Z echo
+2026-09-10T05:29:40.7740885Z echo
+2026-09-10T05:29:40.7792567Z echo
+2026-09-10T05:29:41.0692876Z echo
+2026-09-10T05:29:41.2080142Z echo
+2026-09-10T05:29:41.3510017Z charge
+2026-09-10T05:29:41.8063924Z echo
+2026-09-10T05:29:41.8071281Z echo
+2026-09-10T05:29:47.7915757Z echo
+2026-09-10T05:29:49.5235391Z probe
+2026-09-10T05:29:49.5596829Z probe
+2026-09-10T05:29:49.6074530Z probe
+2026-09-10T05:29:49.8716686Z arithmetic
+2026-09-10T05:29:49.9333103Z probe
+2026-09-10T05:29:50.1705955Z x
+2026-09-10T05:29:50.2580099Z x
+2026-09-10T05:29:50.3280961Z charge
+2026-09-10T05:29:53.3920757Z start
+2026-09-10T05:29:53.6190594Z decode
+2026-09-10T05:29:54.1164831Z echo
+2026-09-10T05:29:55.1182916Z echo
+2026-09-10T05:29:55.3986491Z echo
+2026-09-10T05:29:55.6774480Z echo
+2026-09-10T05:29:55.6796222Z echo
+2026-09-10T05:29:55.6805557Z echo
+2026-09-10T05:30:05.7161747Z start
+2026-09-10T05:30:15.0004185Z ERROR:root:Refund transaction failed
+2026-09-10T05:30:15.0004715Z Traceback (most recent call last):
+2026-09-10T05:30:15.0005614Z   File "/home/runner/work/GoPyt/GoPyt/examples/guarded_refunds/service.py", line 236, in do_POST
+2026-09-10T05:30:15.0006479Z     result = self.server.ledger.apply(body)
+2026-09-10T05:30:15.0006989Z              ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+2026-09-10T05:30:15.0009363Z   File "/home/runner/work/GoPyt/GoPyt/examples/guarded_refunds/service.py", line 143, in apply
+2026-09-10T05:30:15.0009922Z     return self._apply(body)
+2026-09-10T05:30:15.0010182Z            ^^^^^^^^^^^^^^^^^
+2026-09-10T05:30:15.0010648Z   File "/home/runner/work/GoPyt/GoPyt/examples/guarded_refunds/service.py", line 180, in _apply
+2026-09-10T05:30:15.0011331Z     conn.execute('INSERT INTO requests VALUES(?,?,?,?)', (order_id,key,payload,canonical(response).decode()))
+2026-09-10T05:30:15.0011823Z sqlite3.IntegrityError: injected
+2026-09-10T05:30:21.8488758Z ERROR:root:Refund transaction failed
+2026-09-10T05:30:21.8489576Z Traceback (most recent call last):
+2026-09-10T05:30:21.8490374Z   File "/home/runner/work/GoPyt/GoPyt/examples/guarded_refunds/service.py", line 236, in do_POST
+2026-09-10T05:30:21.8491123Z     result = self.server.ledger.apply(body)
+2026-09-10T05:30:21.8491535Z              ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+2026-09-10T05:30:21.8494005Z   File "/home/runner/work/GoPyt/GoPyt/examples/guarded_refunds/service.py", line 143, in apply
+2026-09-10T05:30:21.8494898Z     return self._apply(body)
+2026-09-10T05:30:21.8495402Z            ^^^^^^^^^^^^^^^^^
+2026-09-10T05:30:21.8496340Z   File "/home/runner/work/GoPyt/GoPyt/examples/guarded_refunds/service.py", line 168, in _apply
+2026-09-10T05:30:21.8497554Z     allowed = timed_call(self.vm, self.ids['refund_policy.allowed'],
+2026-09-10T05:30:21.8498766Z               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+2026-09-10T05:30:21.8500220Z   File "/home/runner/work/_temp/gopyt-python/python/lib/python3.11/unittest/mock.py", line 1124, in __call__
+2026-09-10T05:30:21.8502093Z     return self._mock_call(*args, **kwargs)
+2026-09-10T05:30:21.8502871Z            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+2026-09-10T05:30:21.8504417Z   File "/home/runner/work/_temp/gopyt-python/python/lib/python3.11/unittest/mock.py", line 1128, in _mock_call
+2026-09-10T05:30:21.8505942Z     return self._execute_mock_call(*args, **kwargs)
+2026-09-10T05:30:21.8506794Z            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+2026-09-10T05:30:21.8508568Z   File "/home/runner/work/_temp/gopyt-python/python/lib/python3.11/unittest/mock.py", line 1183, in _execute_mock_call
+2026-09-10T05:30:21.8509583Z     raise effect
+2026-09-10T05:30:21.8509944Z gopyt.vm.Trap: trap 2
+2026-09-10T05:30:21.8510383Z ERROR:root:Refund transaction failed
+2026-09-10T05:30:21.8510878Z Traceback (most recent call last):
+2026-09-10T05:30:21.8511744Z   File "/home/runner/work/GoPyt/GoPyt/examples/guarded_refunds/service.py", line 236, in do_POST
+2026-09-10T05:30:21.8512639Z     result = self.server.ledger.apply(body)
+2026-09-10T05:30:21.8513160Z              ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+2026-09-10T05:30:21.8514038Z   File "/home/runner/work/GoPyt/GoPyt/examples/guarded_refunds/service.py", line 143, in apply
+2026-09-10T05:30:21.8514905Z     return self._apply(body)
+2026-09-10T05:30:21.8515327Z            ^^^^^^^^^^^^^^^^^
+2026-09-10T05:30:21.8516147Z   File "/home/runner/work/GoPyt/GoPyt/examples/guarded_refunds/service.py", line 168, in _apply
+2026-09-10T05:30:21.8517455Z     allowed = timed_call(self.vm, self.ids['refund_policy.allowed'],
+2026-09-10T05:30:21.8518453Z               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+2026-09-10T05:30:21.8519455Z   File "/home/runner/work/_temp/gopyt-python/python/lib/python3.11/unittest/mock.py", line 1124, in __call__
+2026-09-10T05:30:21.8520430Z     return self._mock_call(*args, **kwargs)
+2026-09-10T05:30:21.8520939Z            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+2026-09-10T05:30:21.8521864Z   File "/home/runner/work/_temp/gopyt-python/python/lib/python3.11/unittest/mock.py", line 1128, in _mock_call
+2026-09-10T05:30:21.8522873Z     return self._execute_mock_call(*args, **kwargs)
+2026-09-10T05:30:21.8523435Z            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+2026-09-10T05:30:21.8524493Z   File "/home/runner/work/_temp/gopyt-python/python/lib/python3.11/unittest/mock.py", line 1183, in _execute_mock_call
+2026-09-10T05:30:21.8525069Z     raise effect
+2026-09-10T05:30:21.8525276Z gopyt.vm.Cancelled
+2026-09-10T05:30:25.9990245Z ERROR:root:Refund transaction failed
+2026-09-10T05:30:25.9990939Z Traceback (most recent call last):
+2026-09-10T05:30:25.9991903Z   File "/home/runner/work/GoPyt/GoPyt/examples/guarded_refunds/service.py", line 236, in do_POST
+2026-09-10T05:30:25.9992821Z     result = self.server.ledger.apply(body)
+2026-09-10T05:30:25.9993327Z              ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+2026-09-10T05:30:25.9994207Z   File "/home/runner/work/GoPyt/GoPyt/examples/guarded_refunds/service.py", line 143, in apply
+2026-09-10T05:30:25.9995089Z     return self._apply(body)
+2026-09-10T05:30:25.9995509Z            ^^^^^^^^^^^^^^^^^
+2026-09-10T05:30:25.9998496Z   File "/home/runner/work/GoPyt/GoPyt/examples/guarded_refunds/service.py", line 172, in _apply
+2026-09-10T05:30:25.9999456Z     after = timed_call(self.vm, self.ids['refund_policy.after_refund'],
+2026-09-10T05:30:26.0000108Z             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+2026-09-10T05:30:26.0000866Z   File "/home/runner/work/GoPyt/GoPyt/gopyt/guard.py", line 337, in timed_call
+2026-09-10T05:30:26.0001560Z     return vm.call(fn, list(args))
+2026-09-10T05:30:26.0002001Z            ^^^^^^^^^^^^^^^^^^^^^^^
+2026-09-10T05:30:26.0002613Z   File "/home/runner/work/GoPyt/GoPyt/gopyt/vm.py", line 304, in call
+2026-09-10T05:30:26.0003337Z     return self._call_admitted(fn_id, args, caller_effects)
+2026-09-10T05:30:26.0003891Z            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+2026-09-10T05:30:26.0004584Z   File "/home/runner/work/GoPyt/GoPyt/gopyt/vm.py", line 317, in _call_admitted
+2026-09-10T05:30:26.0005481Z     result = self._call(fn_id, args, caller_effects)
+2026-09-10T05:30:26.0005799Z              ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+2026-09-10T05:30:26.0006203Z   File "/home/runner/work/GoPyt/GoPyt/gopyt/vm.py", line 358, in _call
+2026-09-10T05:30:26.0006592Z     return self.exec(fn_id, func, args)
+2026-09-10T05:30:26.0006850Z            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+2026-09-10T05:30:26.0007204Z   File "/home/runner/work/GoPyt/GoPyt/gopyt/vm.py", line 376, in exec
+2026-09-10T05:30:26.0007570Z     return self._exec_frame(frame)
+2026-09-10T05:30:26.0007811Z            ^^^^^^^^^^^^^^^^^^^^^^^
+2026-09-10T05:30:26.0008570Z   File "/home/runner/work/GoPyt/GoPyt/gopyt/vm.py", line 381, in _exec_frame
+2026-09-10T05:30:26.0009031Z     return self._execute_frame(frame, instruction_guard)
+2026-09-10T05:30:26.0009362Z            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+2026-09-10T05:30:26.0009782Z   File "/home/runner/work/GoPyt/GoPyt/gopyt/vm.py", line 594, in _execute_frame
+2026-09-10T05:30:26.0010331Z     raise Trap(ops.TRAP_REQUIRES if op == ops.REQUIRE else ops.TRAP_ENSURES)
+2026-09-10T05:30:26.0010716Z gopyt.vm.Trap: trap 2
+2026-09-10T05:30:28.6438490Z guard prepare: duplicate JSON key: cases
+2026-09-10T05:30:29.5601331Z guard prepare: preparation policy exceeds byte limit
+2026-09-10T05:30:30.1815216Z 3953c8736faf62e59efc769fb14c37dc2ea99be34f0af8e22ef411edd1ac5802
+2026-09-10T05:30:30.3588674Z {
+2026-09-10T05:30:30.3589667Z   "schema": "gopyt.guard.receipt.v1",
+2026-09-10T05:30:30.3590867Z   "accepted": true,
+2026-09-10T05:30:30.3591914Z   "bundle_sha256": "3953c8736faf62e59efc769fb14c37dc2ea99be34f0af8e22ef411edd1ac5802",
+2026-09-10T05:30:30.3593276Z   "engine_sha256": "7bb004b6461ec4dd04d4c7754d93efd29321193d4cc93976218ccff9b735fa23",
+2026-09-10T05:30:30.3594285Z   "limitations": [
+2026-09-10T05:30:30.3594879Z     "Finite acceptance cases, not a proof.",
+2026-09-10T05:30:30.3595586Z     "Listed obligations are declarations; this gate executes only the supplied cases, not HTTP or database tests.",
+2026-09-10T05:30:30.3596454Z     "Caller, bundle pin, and executor must be protected outside candidate authority.",
+2026-09-10T05:30:30.3597119Z     "No guarantee about external payment processors or undisclosed policies."
+2026-09-10T05:30:30.3597583Z   ],
+2026-09-10T05:30:30.3598223Z   "candidate_sha256": "945b0f988c57c77146d988b58202d9417044d31e1609f59a837bc47e60b07934",
+2026-09-10T05:30:30.3598797Z   "changed_files": [],
+2026-09-10T05:30:30.3599053Z   "obligations": {
+2026-09-10T05:30:30.3599360Z     "stock": "Reservation preserves nonnegative stock."
+2026-09-10T05:30:30.3599711Z   },
+2026-09-10T05:30:30.3599939Z   "protected_contract_helpers": [],
+2026-09-10T05:30:30.3600240Z   "passed": 3,
+2026-09-10T05:30:30.3600464Z   "total": 3,
+2026-09-10T05:30:30.3600713Z   "failures": []
+2026-09-10T05:30:30.3600939Z }
+2026-09-10T05:30:32.0864677Z echo
+2026-09-10T05:30:32.0878372Z echo
+2026-09-10T05:30:32.2300942Z echo
+2026-09-10T05:30:32.2329742Z echo
+2026-09-10T05:30:32.2359633Z echo
+2026-09-10T05:30:32.5305936Z echo
+2026-09-10T05:30:32.6703706Z echo
+2026-09-10T05:30:32.8103431Z echo
+2026-09-10T05:30:32.8117316Z echo
+2026-09-10T05:30:32.8129223Z echo
+2026-09-10T05:30:32.8139957Z echo
+2026-09-10T05:30:32.8150592Z echo
+2026-09-10T05:30:32.8161046Z echo
+2026-09-10T05:30:32.9666497Z echo
+2026-09-10T05:30:33.1062113Z echo
+2026-09-10T05:30:33.1072428Z echo
+2026-09-10T05:30:49.3327729Z Timeout (0:02:00)!
+2026-09-10T05:30:49.3328854Z Thread 0x00007fd560819740 (most recent call first):
+2026-09-10T05:30:49.3329792Z   File "/home/runner/work/GoPyt/GoPyt/gopyt/vm.py", line 247 in check_cancelled
+2026-09-10T05:30:49.3330828Z   File "/home/runner/work/GoPyt/GoPyt/gopyt/vm.py", line 393 in _execute_frame
+2026-09-10T05:30:49.3331707Z   File "/home/runner/work/GoPyt/GoPyt/gopyt/vm.py", line 381 in _exec_frame
+2026-09-10T05:30:49.3332418Z   File "/home/runner/work/GoPyt/GoPyt/gopyt/vm.py", line 376 in exec
+2026-09-10T05:30:49.3333149Z   File "/home/runner/work/GoPyt/GoPyt/gopyt/vm.py", line 164 in check_cancelled
+2026-09-10T05:30:49.3334256Z   File "/home/runner/work/GoPyt/GoPyt/gopyt/vm.py", line 316 in _call_admitted
+2026-09-10T05:30:49.7775093Z   File /home/runner/work/_temp/d4b3a065-95c2-4c3f-b522-866df28e1a39.sh: line 1:  2414 Segmentation fault      (core dumped) python -u tools/run_language_tests.py discover -s gopyt -t . -v
+2026-09-10T05:30:49.7865809Z ##[error]Process completed with exit code 139.
+2026-09-10T05:30:49.8019538Z ##[group]Run actions/upload-artifact@043fb46d1a93c77aae656e7c1c64a875d1fc6a0a
+2026-09-10T05:30:49.8019999Z with:
+2026-09-10T05:30:49.8020239Z   name: wheel-verification-ubuntu-24.04-3.11.16
+2026-09-10T05:30:49.8020642Z   path: /home/runner/work/_temp/gopyt-repro/
+2026-09-10T05:30:49.8020933Z   retention-days: 30
+2026-09-10T05:30:49.8021159Z   if-no-files-found: warn
+2026-09-10T05:30:49.8021398Z   compression-level: 6
+2026-09-10T05:30:49.8021610Z   overwrite: false
+2026-09-10T05:30:49.8021824Z   include-hidden-files: false
+2026-09-10T05:30:49.8022057Z   archive: true
+2026-09-10T05:30:49.8022263Z env:
+2026-09-10T05:30:49.8022455Z   TMPDIR: /home/runner/work/_temp
+2026-09-10T05:30:49.8022766Z   pythonLocation: /opt/hostedtoolcache/Python/3.14.7/x64
+2026-09-10T05:30:49.8023194Z   PKG_CONFIG_PATH: /opt/hostedtoolcache/Python/3.14.7/x64/lib/pkgconfig
+2026-09-10T05:30:49.8023681Z   Python_ROOT_DIR: /opt/hostedtoolcache/Python/3.14.7/x64
+2026-09-10T05:30:49.8024094Z   Python2_ROOT_DIR: /opt/hostedtoolcache/Python/3.14.7/x64
+2026-09-10T05:30:49.8024465Z   Python3_ROOT_DIR: /opt/hostedtoolcache/Python/3.14.7/x64
+2026-09-10T05:30:49.8024840Z   LD_LIBRARY_PATH: /opt/hostedtoolcache/Python/3.14.7/x64/lib
+2026-09-10T05:30:49.8025157Z ##[endgroup]
+2026-09-10T05:30:49.9560986Z ##[warning]No files were found with the provided path: /home/runner/work/_temp/gopyt-repro/. No artifacts will be uploaded.
+2026-09-10T05:30:49.9773853Z Post job cleanup.
+2026-09-10T05:30:50.0766216Z [command]/usr/bin/git version
+2026-09-10T05:30:50.0813739Z git version 2.55.0
+2026-09-10T05:30:50.0851285Z Temporarily overriding HOME='/home/runner/work/_temp/5685cf99-1bce-481a-825d-850d13f5faef' before making global git config changes
+2026-09-10T05:30:50.0852966Z Adding repository directory to the temporary git global config as a safe directory
+2026-09-10T05:30:50.0857569Z [command]/usr/bin/git config --global --add safe.directory /home/runner/work/GoPyt/GoPyt
+2026-09-10T05:30:50.0890802Z Removing SSH command configuration
+2026-09-10T05:30:50.0897068Z [command]/usr/bin/git config --local --name-only --get-regexp core\.sshCommand
+2026-09-10T05:30:50.0933157Z [command]/usr/bin/git submodule foreach --recursive sh -c "git config --local --name-only --get-regexp 'core\.sshCommand' && git config --local --unset-all 'core.sshCommand' || :"
+2026-09-10T05:30:50.1168849Z Removing HTTP extra header
+2026-09-10T05:30:50.1170081Z [command]/usr/bin/git config --local --name-only --get-regexp http\.https\:\/\/github\.com\/\.extraheader
+2026-09-10T05:30:50.1205778Z [command]/usr/bin/git submodule foreach --recursive sh -c "git config --local --name-only --get-regexp 'http\.https\:\/\/github\.com\/\.extraheader' && git config --local --unset-all 'http.https://github.com/.extraheader' || :"
+2026-09-10T05:30:50.1430244Z Removing includeIf entries pointing to credentials config files
+2026-09-10T05:30:50.1438599Z [command]/usr/bin/git config --local --name-only --get-regexp ^includeIf\.gitdir:
+2026-09-10T05:30:50.1471730Z [command]/usr/bin/git submodule foreach --recursive git config --local --show-origin --name-only --get-regexp remote.origin.url
+2026-09-10T05:30:50.1864726Z Cleaning up orphan processes

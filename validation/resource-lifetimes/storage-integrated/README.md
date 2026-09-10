@@ -17,3 +17,7 @@ the contract demo passed. Raw outputs are retained.
 Full Python 3.11.16 qualification passed 1022 tests in 403.254 seconds.
 Frozen source and lock hashes were verified unchanged. Full Python 3.14
 qualification remains pending.
+
+Full Python 3.14.7 qualification passed 1022 tests in 377.092 seconds.
+Frozen hashes were verified unchanged after both complete suites. Platform CI
+remains required before merge.
