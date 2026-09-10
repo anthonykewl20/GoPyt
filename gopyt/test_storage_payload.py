@@ -128,3 +128,59 @@ class SerializedPayload(unittest.TestCase):
             failure = exc
         self.assertIsNotNone(failure)
         self.assertEqual(context.resource_budget.snapshot()['active_reservations'], 0)
+
+    def test_serialize_failure_releases_reservations_with_traceback_retained(self):
+        from unittest.mock import Mock
+        db = self.database()
+        size = len(db.serialize())
+        for error in (MemoryError, sqlite3.OperationalError):
+            with self.subTest(error=error):
+                context = Context(3 * size)
+                wrapped = Mock(wraps=db)
+                wrapped.serialize.side_effect = error('injected serialization failure')
+                failure = None
+                try:
+                    with Store(context=context)._serialized_payload(wrapped, context.resource_budget):
+                        self.fail('failed serialization published')
+                except error as exc:
+                    failure = exc
+                self.assertIsNotNone(failure)
+                self.assertEqual(context.resource_budget.snapshot()['active_reservations'], 0)
+                self.assertEqual(context.resource_budget.snapshot()['peak']['native_bytes'], 3 * size)
+
+    def test_invalid_size_closes_cursor_without_serializing(self):
+        from unittest.mock import Mock
+        from gopyt.storage import StorageError, MAX_BYTES
+        for pages, page_size in ((None, 512), ((True,), 512), ((0,), 512),
+                                 ((1,), 513), ((1,), 131072),
+                                 ((MAX_BYTES // 512 + 1,), 512)):
+            with self.subTest(pages=pages, page_size=page_size):
+                db = Mock()
+                cursors = [Mock(), Mock()]
+                cursors[0].fetchone.return_value = pages
+                cursors[1].fetchone.return_value = (page_size,)
+                db.execute.side_effect = cursors
+                context = Context(100000)
+                with self.assertRaises(StorageError):
+                    with Store(context=context)._serialized_payload(db, context.resource_budget):
+                        self.fail('invalid size accepted')
+                db.serialize.assert_not_called()
+                for cursor in cursors[:db.execute.call_count]:
+                    cursor.close.assert_called_once_with()
+                self.assertEqual(context.resource_budget.snapshot()['active_reservations'], 0)
+
+    def test_changed_image_size_rejected_and_released(self):
+        from unittest.mock import Mock
+        from gopyt.storage import StorageError
+        db = self.database()
+        context = Context(3 * len(db.serialize()))
+        wrapped = Mock(wraps=db)
+        wrapped.serialize.return_value = b'bad image'
+        failure = None
+        try:
+            with Store(context=context)._serialized_payload(wrapped, context.resource_budget):
+                self.fail('changed image published')
+        except StorageError as exc:
+            failure = exc
+        self.assertIsNotNone(failure)
+        self.assertEqual(context.resource_budget.snapshot()['active_reservations'], 0)
