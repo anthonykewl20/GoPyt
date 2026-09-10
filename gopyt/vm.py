@@ -462,18 +462,26 @@ class VM:
                     if ix >= len(fields):
                         raise Trap(ops.TRAP_TYPE)
                     stack.append(fields[ix])
-                elif op == ops.NEW_RECORD:
-                    type_id, count = struct.unpack_from("<IH", code, pc)
-                    pc += 6
-                    vals = stack[len(stack) - count :]
-                    del stack[len(stack) - count :]
-                    stack.append(Record(type_id, list(vals)))
-                elif op == ops.NEW_ENUM:
-                    type_id, variant, count = struct.unpack_from("<IHH", code, pc)
-                    pc += 8
-                    vals = stack[len(stack) - count :]
-                    del stack[len(stack) - count :]
-                    stack.append(EnumVal(type_id, variant, list(vals)))
+                elif op in (ops.NEW_RECORD, ops.NEW_ENUM):
+                    if op == ops.NEW_RECORD:
+                        type_id, count = struct.unpack_from("<IH", code, pc)
+                        pc += 6
+                    else:
+                        type_id, variant, count = struct.unpack_from("<IHH", code, pc)
+                        pc += 8
+                    start = len(stack) - count
+                    owned_fields = result = None
+                    try:
+                        owned_fields = copy_list(stack, self.resource_budget,
+                                                 self.check_cancelled, start=start)
+                        result = (Record(type_id, owned_fields) if op == ops.NEW_RECORD
+                                  else EnumVal(type_id, variant, owned_fields))
+                        del stack[start:]
+                        stack.append(result)
+                    except ResourceLimitError:
+                        raise Trap(ops.TRAP_ALLOC) from None
+                    finally:
+                        owned_fields = result = None
                 elif op == ops.ENUM_TAG:
                     v = stack.pop()
                     if not isinstance(v, EnumVal):

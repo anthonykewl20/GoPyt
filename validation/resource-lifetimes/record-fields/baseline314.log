@@ -1,0 +1,14 @@
+F
+======================================================================
+FAIL: test_parent_pin_preserves_previously_pinned_owned_fields (gopyt.test_resource_records.FieldTracing.test_parent_pin_preserves_previously_pinned_owned_fields)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/tmp/gopyt-record-field-admission/gopyt/test_resource_records.py", line 20, in test_parent_pin_preserves_previously_pinned_owned_fields
+    self.assertEqual(parent.fields, ['payload'])
+    ~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+AssertionError: [] != ['payload']
+
+----------------------------------------------------------------------
+Ran 1 test in 0.001s
+
+FAILED (failures=1)

@@ -9,6 +9,7 @@ from itertools import islice
 import threading
 from gopyt.values import Record, EnumVal, Some, Secret
 from gopyt.resource_buffer import Buffer, BufferView
+from gopyt.resource_collections import OwnedList
 
 HEAP_TYPES = (str, bytes, list, dict, Record, EnumVal, Some, Secret, Buffer, BufferView)
 SCALAR_TYPES = (int, bool, float, type(None))
@@ -61,7 +62,9 @@ def children(value):
     if isinstance(value, BufferView):
         return (value.owner,)
     if isinstance(value, (Record, EnumVal)):
-        return value.fields
+        # Owned field arrays are payload owners and must themselves be marked.
+        # Plain host field lists retain the historical metadata representation.
+        return (value.fields,) if isinstance(value.fields, OwnedList) else value.fields
     if isinstance(value, Some):
         return (value.value,)
     if isinstance(value, list):

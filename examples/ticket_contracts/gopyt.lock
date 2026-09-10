@@ -1,4 +1,4 @@
-toolchain = "gopyt-0.1.000+sha256:eccbee4a7c10a70759865cb7fe6a272a53dfb87543e393705a78c69bc1c69e4a"
+toolchain = "gopyt-0.1.000+sha256:eb1be583c13b2823d6a98a4214fa498e03749fdb65d526e7da0bbe5012dbb2e7"
 
 [[pkg]]
 name = "ticket_contracts"
