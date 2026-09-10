@@ -287,3 +287,14 @@ and caller clear response references on exit. Focused resource JSON/native-bound
 tests pass both pinned runtimes, including retained text ownership, invalid-response
 cleanup and zero-budget allocation traps. Full integration/TLS and depth validation
 remain required before release qualification.
+
+Depth probe: at recursion limit 1000, sampled nested list depths 10/100/300/450
+succeed on both paths/runtimes. On 3.11, host decoding rejects 500/700/900 as depth
+while owned decoding accepts them, because it avoids comprehension recursion
+frames. At 1000/1200 the 3.11 host parser reports syntax and the owned typed path
+reports depth. On 3.14 both paths accept through sampled depth 900 and report depth
+at 1000/1200. Every owned case releases all charges with exceptions retained.
+This is an explicit relaxation of incidental host recursion limits, not exact
+rejection-message parity or a universal depth guarantee. No sampled previously
+accepted case becomes rejected. Runtime nesting remains subject to Python's
+recursion limit for typed traversal; the generic parser itself is iterative.
