@@ -149,3 +149,48 @@ def read_chunk(stream, budget, size, check):
             raise
     finally:
         scratch = None
+
+
+def read_payload(stream, budget, limit, check):
+    """Read at most limit bytes; the consumer checks its protocol size ceiling."""
+    if type(limit) is not int or limit < 0:
+        raise ValueError('nonnegative read limit required')
+    chunks = []
+    chunk = None
+    raw = None
+    payload = None
+    reservation = None
+    length = 0
+    succeeded = False
+    try:
+        while length < limit:
+            state = budget.snapshot()
+            available = state['limits']['native_bytes'] - state['used']['native_bytes']
+            size = min(65536, limit - length, max(1, available // 2))
+            chunk = read_chunk(stream, budget, size, check)
+            if not chunk:
+                chunk = None
+                break
+            length += len(chunk)
+            chunks.append(chunk)
+            chunk = None
+        check()
+        reservation = budget.reserve(native_bytes=length)
+        payload = BytePayload(reservation)
+        with budget.reserve(native_bytes=length):
+            try:
+                raw = b''.join(chunks)
+                payload.data = _ChargedBytes(raw, reservation)
+                payload._transferred = True
+            finally:
+                raw = None
+        succeeded = True
+        return payload
+    finally:
+        chunk = None
+        chunks.clear()
+        if not succeeded and reservation is not None:
+            if payload is not None:
+                payload.close()
+            else:
+                reservation.release()

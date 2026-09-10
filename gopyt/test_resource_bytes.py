@@ -6,6 +6,21 @@ from gopyt.resource_control import ResourceClosedError
 
 
 class ByteOwnership(unittest.TestCase):
+    def test_bounded_payload_reads_short_chunks_and_stops_at_limit(self):
+        import io
+        from gopyt.resource_bytes import read_payload
+        class ShortReader(io.BytesIO):
+            def readinto(self, target):
+                with memoryview(target) as view:
+                    return super().readinto(view[:2])
+        budget = self.budget(100)
+        stream = ShortReader(b'abcdefgh')
+        with read_payload(stream, budget, 5, lambda: None) as payload:
+            self.assertEqual(payload.data, b'abcde')
+            self.assertEqual(stream.tell(), 5)
+            self.assertEqual(budget.snapshot()['used']['native_bytes'], 5)
+        self.assertEqual(budget.snapshot()['active_reservations'], 0)
+
     def test_read_chunk_owns_scratch_and_returned_bytes(self):
         import io
         from gopyt.resource_bytes import read_chunk

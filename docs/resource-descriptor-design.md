@@ -411,3 +411,13 @@ partial data. Context checks bracket the read; invalid counts fail closed. Tests
 verify short-read scratch/output overlap and a failing reader retaining its partially
 filled target. This primitive is not yet wired into HTTP response consumption;
 transport-internal copies and allocator overhead remain separate accounting work.
+
+### Model response bytes
+
+read_payload combines bounded charged read chunks into an owned immutable payload,
+reserving both the joined temporary and final copy while chunks remain live. It
+stops at the requested limit or EOF; callers retain their protocol-specific size
+check. Model responses now use it with MAX_BODY + 1 and hold the final byte owner
+through UTF-8 decoding. Short-read tests verify exact limit handling; compiled
+outbound tests continue to cover response framing, TLS and deadlines. Decoded text,
+JSON parsing structures and transport-internal buffers remain unaccounted here.

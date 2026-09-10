@@ -707,10 +707,12 @@ def _model_complete(vm, args, func):
                     budget.remaining()
                     if not (200 <= resp.status < 300):
                         return _status(vm, "ModelError", "status")
-                    raw = resp.read(MAX_BODY + 1)
-                    if len(raw) > MAX_BODY:
-                        return _status(vm, "ModelError", "body too large")
-                    data = raw.decode("utf-8")
+                    from gopyt.resource_bytes import read_payload
+                    with read_payload(resp, vm.resource_budget, MAX_BODY + 1,
+                                      budget.remaining) as response_payload:
+                        if len(response_payload.data) > MAX_BODY:
+                            return _status(vm, "ModelError", "body too large")
+                        data = response_payload.data.decode("utf-8")
                 budget.remaining()
             finally:
                 if request is not None:
