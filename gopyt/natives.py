@@ -235,10 +235,15 @@ def _bytes_from_str(vm, args, func):
 
 @native("core.bytes.to_str")
 def _bytes_to_str(vm, args, func):
+    from gopyt.resource_budget import ResourceLimitError
+    from gopyt.resource_text import decode_utf8
     try:
-        return args[0].decode("utf-8")
-    except UnicodeDecodeError:
+        result = decode_utf8(args[0], vm.resource_budget, vm.check_cancelled)
+    except ResourceLimitError:
+        raise Trap(ops.TRAP_ALLOC) from None
+    if result is None:
         return _convert_error(vm, "utf8")
+    return result
 
 
 @native("core.bytes.concat")

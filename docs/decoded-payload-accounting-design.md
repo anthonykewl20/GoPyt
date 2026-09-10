@@ -34,3 +34,11 @@ Required tests include zero-budget rejection before conversion, invalid UTF-8 wi
 retained errors, astral code points, empty values, cancellation, retained aliases,
 copy overlap, GC finalizer reentrancy, and language-level roundtrip/concat/slice
 semantics. This design does not implement or qualify those boundaries yet.
+
+core.bytes.to_str now uses the owned UTF-8 helper: capacity rejection raises the
+existing allocation trap, invalid UTF-8 returns the existing conversion error,
+and successful strings retain their charge through aliases. The charge currently
+retains its conservative input-derived capacity rather than shrinking to character
+width. Other string/byte producers and JSON parsing remain unfinished. The 26-test
+resource/native selection passes on both pinned runtimes; full language integration
+and remaining producer/fault qualification are pending.

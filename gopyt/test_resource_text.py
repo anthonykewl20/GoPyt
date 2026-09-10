@@ -47,3 +47,34 @@ class TextPayload(unittest.TestCase):
             failure = error
         self.assertIsNotNone(failure)
         self.assertEqual(budget.snapshot()['active_reservations'], 0)
+
+
+class NativeTextPayload(unittest.TestCase):
+    def test_native_roundtrip_and_budget_trap(self):
+        from types import SimpleNamespace
+        from gopyt.natives import NATIVES
+        from gopyt.vm import Trap
+        from gopyt import ops
+        budget = ResourceBudget(ResourceLimits(1000, 0, 0, 0))
+        vm = SimpleNamespace(resource_budget=budget, check_cancelled=lambda: None)
+        result = NATIVES['core.bytes.to_str'](vm, ['中😀'.encode()], None)
+        self.assertEqual(result, '中😀')
+        self.assertGreater(budget.snapshot()['used']['native_bytes'], 0)
+        del result
+        self.assertEqual(budget.snapshot()['active_reservations'], 0)
+        vm.resource_budget = ResourceBudget(ResourceLimits(0, 0, 0, 0))
+        with self.assertRaises(Trap) as failure:
+            NATIVES['core.bytes.to_str'](vm, [b'hello'], None)
+        self.assertEqual(failure.exception.code, ops.TRAP_ALLOC)
+
+    def test_invalid_utf8_preserves_conversion_error(self):
+        from types import SimpleNamespace
+        from unittest.mock import patch
+        from gopyt.natives import NATIVES
+        budget = ResourceBudget(ResourceLimits(1000, 0, 0, 0))
+        vm = SimpleNamespace(resource_budget=budget, check_cancelled=lambda: None)
+        sentinel = object()
+        with patch('gopyt.natives._convert_error', return_value=sentinel) as convert:
+            self.assertIs(NATIVES['core.bytes.to_str'](vm, [b'\xff'], None), sentinel)
+            convert.assert_called_once_with(vm, 'utf8')
+        self.assertEqual(budget.snapshot()['active_reservations'], 0)
