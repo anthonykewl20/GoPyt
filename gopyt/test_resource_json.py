@@ -334,3 +334,31 @@ class JsonObjectOwnership(unittest.TestCase):
         self.assertEqual(result, {'a': 1})
         del result
         self.assertEqual(budget.snapshot()['active_reservations'], 0)
+
+
+class JsonOwnedParser(unittest.TestCase):
+    def test_nested_values_match_oracle(self):
+        from decimal import Decimal
+        from gopyt.resource_json import parse_owned
+        for source in ('null', 'true', 'false', '0', '-1.25', '1e1000000', '"é中"',
+                       '[]', '{}', '[1,"x",null]', '{"a":[1,{"b":false}],"c":{}}',
+                       ' \t\r\n {"x":1} \n'):
+            budget = ResourceBudget(ResourceLimits(100000, 0, 0, 0))
+            result = parse_owned(source, budget)
+            self.assertEqual(result, json.loads(source, parse_float=Decimal))
+            del result
+            self.assertEqual(budget.snapshot()['active_reservations'], 0)
+
+    def test_malformed_partial_graph_releases_with_error_retained(self):
+        from gopyt.resource_json import parse_owned
+        for source in ('', '[', '{', '[1,]', '{"x":1,}', '{"x" 1}',
+                       '{"x":1,"x":2}', '[1 2]', '01', 'true false',
+                       '["allocated",{"key":[1,2,]}]', '"\\ud800"'):
+            budget = ResourceBudget(ResourceLimits(100000, 0, 0, 0))
+            failure = None
+            try:
+                parse_owned(source, budget)
+            except ConvertFail as error:
+                failure = error
+            self.assertIsNotNone(failure, source)
+            self.assertEqual(budget.snapshot()['active_reservations'], 0, source)

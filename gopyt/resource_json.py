@@ -313,3 +313,110 @@ class _JsonObject(dict):
         reservation = getattr(self, '_reservation', None)
         if reservation is not None:
             reservation.finalize()
+
+
+class _Frame:
+    __slots__ = ('parent', 'container', 'key', 'phase')
+
+    def __init__(self, parent, container):
+        self.parent = parent
+        self.container = container
+        self.key = None
+        self.phase = 'first'
+
+
+def parse_owned(text, budget, check=lambda: None):
+    """Internal iterative JSON parser whose produced payloads own reservations.
+
+    Linked parser frames are metadata; container pointer/table storage and scalar
+    payloads are admitted by their producers. Production routing is pending.
+    """
+    frame = value = key = None
+    index = 0
+    try:
+        size = len(text)
+        while True:
+            check()
+            while index < size and text[index] in ' \t\r\n':
+                if index % 4096 == 0:
+                    check()
+                index += 1
+            ready = False
+            if frame is not None:
+                is_object = isinstance(frame.container, _JsonObject)
+                closing = '}' if is_object else ']'
+                if frame.phase in ('first', 'comma') and index < size and text[index] == closing:
+                    value = frame.container
+                    frame = frame.parent
+                    index += 1
+                    ready = True
+                else:
+                    if frame.phase == 'comma':
+                        if index >= size or text[index] != ',':
+                            raise ConvertFail('syntax')
+                        index += 1
+                        frame.phase = 'key' if is_object else 'value'
+                        continue
+                    if frame.phase == 'first':
+                        frame.phase = 'key' if is_object else 'value'
+                    if frame.phase == 'key':
+                        key, index = string_token(text, index, budget, check)
+                        if key in frame.container:
+                            raise ConvertFail('duplicate key')
+                        frame.key = key
+                        key = None
+                        frame.phase = 'colon'
+                        continue
+                    if frame.phase == 'colon':
+                        if index >= size or text[index] != ':':
+                            raise ConvertFail('syntax')
+                        index += 1
+                        frame.phase = 'value'
+                        continue
+            if not ready:
+                if index >= size:
+                    raise ConvertFail('syntax')
+                char = text[index]
+                if char in '[{':
+                    container = _JsonArray(budget) if char == '[' else _JsonObject(budget)
+                    try:
+                        frame = _Frame(frame, container)
+                    finally:
+                        container = None
+                    index += 1
+                    continue
+                if char == '"':
+                    value, index = string_token(text, index, budget, check)
+                elif char == '-' or '0' <= char <= '9':
+                    _, decimal = number_span(text, index, check)
+                    producer = decimal_token if decimal else integer_token
+                    value, index = producer(text, index, budget, check)
+                elif text.startswith('true', index):
+                    value = True
+                    index += 4
+                elif text.startswith('false', index):
+                    value = False
+                    index += 5
+                elif text.startswith('null', index):
+                    value = None
+                    index += 4
+                else:
+                    raise ConvertFail('syntax')
+            if frame is None:
+                while index < size and text[index] in ' \t\r\n':
+                    if index % 4096 == 0:
+                        check()
+                    index += 1
+                if index != size:
+                    raise ConvertFail('trailing')
+                check()
+                return value
+            if isinstance(frame.container, _JsonObject):
+                frame.container.insert_owned(frame.key, value, check)
+                frame.key = None
+            else:
+                frame.container.append_owned(value, check)
+            value = None
+            frame.phase = 'comma'
+    finally:
+        text = frame = value = key = None

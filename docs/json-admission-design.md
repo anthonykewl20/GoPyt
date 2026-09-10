@@ -151,3 +151,16 @@ subclass-key probe compares actual dict.__sizeof__ growth with the charge; alias
 retain ownership and duplicate/capacity rejection preserves prior contents. These
 finite tests do not qualify free-threaded delayed reclamation, arbitrary mutations,
 or complete parser/typed-graph behavior. Containers remain internal and unintegrated.
+
+Internal parser integration: parse_owned uses the admitted scalar and container
+producers with linked metadata frames, avoiding a Python recursive descent call
+per nesting level and avoiding an uncharged list stack. Whitespace scans do not
+slice input, literals use startswith offsets, object keys reject duplicates before
+producing their values, and trailing commas/input reject. Frame/container/key/value
+references clear on parser exit. Twenty-two focused tests pass on both pinned
+runtimes: nested values agree with the JSON/Decimal oracle and malformed partial
+graphs release their reservations even while exceptions remain live. Production
+jsonc.parse is unchanged. Remaining qualification includes cancellation at parser
+boundaries, retained child aliases, depth compatibility and frame-allocation faults,
+then typed conversion ownership and native routing. Linked frame/object headers
+are metadata excluded from the payload ledger; this is not whole-heap accounting.
