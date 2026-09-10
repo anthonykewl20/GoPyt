@@ -37,3 +37,6 @@ The candidate runtime wheel reproduced byte-for-byte (SHA-256
 57 runtime files). Installed smoke and old/new/rollback checks passed.
 Full regression qualification remains running; packaging does not establish
 resolution of either CI failure.
+
+Guard calibration passed 17 tests, stdlib parity passed for 22 modules, and
+the contract demo passed for the candidate runtime. Outputs are retained.
