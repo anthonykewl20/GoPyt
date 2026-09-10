@@ -5,7 +5,7 @@ from datetime import datetime, timedelta
 import re
 import time
 
-from gopyt.values import Record, UNIT
+from gopyt.values import I32, U32, U64, Record, UNIT
 
 MIN_NS = -(2**63)
 MAX_NS = 2**63 - 1
@@ -22,7 +22,7 @@ class TimeError(ValueError):
 
 
 def integer(value: object) -> int:
-    if type(value) is not int or not MIN_NS <= value <= MAX_NS:
+    if not isinstance(value, int) or isinstance(value, (bool, I32, U32, U64)) or not MIN_NS <= value <= MAX_NS:
         raise TimeError('time integer outside i64 range')
     return value
 
@@ -78,7 +78,7 @@ def instant(vm, value: object) -> tuple[int, str]:
             or len(value.fields) != 2):
         raise TimeError('invalid MonotonicInstant record')
     ticks, origin = value.fields
-    if type(origin) is not str or ORIGIN.fullmatch(origin) is None:
+    if not isinstance(origin, str) or ORIGIN.fullmatch(origin) is None:
         raise TimeError('invalid monotonic clock origin')
     return integer(ticks), origin
 
@@ -94,7 +94,7 @@ def elapsed(vm, later: Record, earlier: Record) -> Record:
 
 
 def parse_timestamp(vm, text: str) -> Record:
-    match = STAMP.fullmatch(text) if type(text) is str and len(text) <= 35 else None
+    match = STAMP.fullmatch(text) if isinstance(text, str) and len(text) <= 35 else None
     if match is None:
         raise TimeError('timestamp requires an explicit RFC3339 offset and at most nine fractional digits')
     year, month, day, hour, minute, second = map(int, match.groups()[:6])
@@ -123,7 +123,7 @@ def format_timestamp(vm, value: Record) -> str:
 
 
 def parse_duration(vm, text: str) -> Record:
-    if type(text) is not str or len(text) > 22 or DURATION.fullmatch(text) is None:
+    if not isinstance(text, str) or len(text) > 22 or DURATION.fullmatch(text) is None:
         raise TimeError('duration requires canonical signed integer nanoseconds with ns suffix')
     return duration_ns(vm, int(text[:-2]))
 

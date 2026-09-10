@@ -735,7 +735,7 @@ _CMP = {
 
 
 def _need_i64(v: object) -> None:
-    if type(v) is not int:
+    if not isinstance(v, int) or isinstance(v, (bool, I32, U32, U64)):
         raise Trap(ops.TRAP_TYPE)
 
 

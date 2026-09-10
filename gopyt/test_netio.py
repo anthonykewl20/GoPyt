@@ -77,6 +77,10 @@ class OutboundBudgets(unittest.TestCase):
             self.assertEqual(self.invoke('model'), 'local response')
         self.assertEqual(len(observed), 1)
         self.assertEqual(observed[0][0], observed[0][1])
+        # The VM retains its last result even after the host comparison ends.
+        self.assertGreater(vm.resource_budget.snapshot()['used']['native_bytes'], 0)
+        vm.heap.release_result()
+        vm.heap.collect()
         self.assertEqual(vm.resource_budget.snapshot()['used']['native_bytes'], 0)
 
     def tearDown(self):

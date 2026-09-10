@@ -682,3 +682,34 @@ class JsonModelResponse(unittest.TestCase):
             _model_response_text(NS(resource_budget=budget), '{"text":"x"}', lambda: None)
         self.assertEqual(caught.exception.code, ops.TRAP_ALLOC)
         self.assertEqual(budget.snapshot()['active_reservations'], 0)
+
+
+class JsonOwnedScalarConsumers(unittest.TestCase):
+    def test_arithmetic_money_and_time_accept_owned_i64_only(self):
+        from gopyt import money, temporal, ops, gobyte
+        from gopyt.resource_json import integer_value
+        from gopyt.vm import _arith, Trap
+        budget = ResourceBudget(ResourceLimits(10000, 0, 0, 0))
+        result = integer_value(7, gobyte.TE_I64, budget)
+        self.assertEqual(_arith(ops.ADD_I64, result, 2), 9)
+        self.assertEqual(money.integer(result), 7)
+        self.assertEqual(temporal.integer(result), 7)
+        del result
+        for tag in (gobyte.TE_I32, gobyte.TE_U32, gobyte.TE_U64):
+            result = integer_value(7, tag, budget)
+            with self.assertRaises(Trap):
+                _arith(ops.ADD_I64, result, 2)
+            with self.assertRaises(money.MoneyError):
+                money.integer(result)
+            with self.assertRaises(temporal.TimeError):
+                temporal.integer(result)
+            del result
+        self.assertEqual(budget.snapshot()['active_reservations'], 0)
+
+    def test_owned_currency_and_time_text(self):
+        from gopyt import money, temporal
+        budget = ResourceBudget(ResourceLimits(10000, 0, 0, 0))
+        currency, _ = string_token('"USD"', 0, budget)
+        self.assertEqual(money.currency_value(currency), 'USD')
+        del currency
+        self.assertEqual(budget.snapshot()['active_reservations'], 0)

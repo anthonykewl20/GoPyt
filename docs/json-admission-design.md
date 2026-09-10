@@ -298,3 +298,15 @@ This is an explicit relaxation of incidental host recursion limits, not exact
 rejection-message parity or a universal depth guarantee. No sampled previously
 accepted case becomes rejected. Runtime nesting remains subject to Python's
 recursion limit for typed traversal; the generic parser itself is iterative.
+
+Full-suite failure repair: temporal/money scalar validators and VM i64 arithmetic
+now accept owned i64 subclasses while still rejecting bool and I32/U32/U64 values;
+text validators accept owned strings. Model transport tests now explicitly retain
+the VM's last-result charge until release_result/collect, then require zero usage.
+The initial temporal/money-only repair still failed HTTP scenarios; raw
+integration-fix logs remain. After fixing _need_i64, all 155 inventory/netio/security/
+money/temporal/VM tests pass on both runtimes (scalar-fix logs), including both HTTP
+failures from the full run. Additional owned-scalar consumer regressions pass on
+both runtimes. Remaining language-facing exact-type gates include parallel limits
+and buffer ranges; review those before a new full suite. Existing wheel and full-run
+evidence identify the prior failed runtime and do not qualify these repairs.
