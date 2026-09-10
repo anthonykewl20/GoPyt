@@ -6,6 +6,33 @@ from gopyt.resource_control import ResourceClosedError
 
 
 class ByteOwnership(unittest.TestCase):
+    def test_read_chunk_owns_scratch_and_returned_bytes(self):
+        import io
+        from gopyt.resource_bytes import read_chunk
+        budget = self.budget(10)
+        chunk = read_chunk(io.BytesIO(b'abc'), budget, 5, lambda: None)
+        self.assertEqual(chunk, b'abc')
+        self.assertEqual(budget.snapshot()['peak']['native_bytes'], 8)
+        self.assertEqual(budget.snapshot()['used']['native_bytes'], 3)
+        del chunk
+        self.assertEqual(budget.snapshot()['active_reservations'], 0)
+
+    def test_read_error_retained_scratch_keeps_its_charge(self):
+        from gopyt.resource_bytes import read_chunk
+        retained = []
+        class Stream:
+            def readinto(self, target):
+                target[:3] = b'abc'
+                retained.append(target)
+                raise OSError('partial read failed')
+        budget = self.budget(10)
+        with self.assertRaises(OSError):
+            read_chunk(Stream(), budget, 5, lambda: None)
+        self.assertEqual(retained[0][:3], b'abc')
+        self.assertEqual(budget.snapshot()['used']['native_bytes'], 5)
+        retained.clear()
+        self.assertEqual(budget.snapshot()['active_reservations'], 0)
+
     def test_alias_retains_payload_charge_after_owner_close(self):
         budget = self.budget(100)
         builder = ByteBuilder(budget)

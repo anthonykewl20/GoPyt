@@ -401,3 +401,13 @@ injecting either OSError or cancellation before a response. Request.data is clea
 on both paths, the retained alias remains charged, and dropping that alias releases
 the final payload reservation. The test makes no wire-delivery claim; successful
 real HTTP/TLS tests cover the transport path separately.
+
+### Owned read chunks
+
+read_chunk reserves scratch capacity before readinto and separately admits the
+immutable returned chunk. Both use objects carrying reservations, so retained
+reader aliases preserve the scratch charge even when reading raises after writing
+partial data. Context checks bracket the read; invalid counts fail closed. Tests
+verify short-read scratch/output overlap and a failing reader retaining its partially
+filled target. This primitive is not yet wired into HTTP response consumption;
+transport-internal copies and allocator overhead remain separate accounting work.

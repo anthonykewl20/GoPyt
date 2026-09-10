@@ -109,3 +109,43 @@ class ByteBuilder:
             entry[1].release()
         self.entries.clear()
         self.size = 0
+
+
+class _ChargedBuffer(bytearray):
+    def __init__(self, size, reservation):
+        super().__init__(size)
+        self._reservation = reservation
+
+    def __del__(self):
+        reservation = getattr(self, '_reservation', None)
+        if reservation is not None:
+            reservation.release()
+
+
+def read_chunk(stream, budget, size, check):
+    """Read into admitted scratch, returning a separately charged immutable chunk."""
+    if type(size) is not int or size < 1:
+        raise ValueError('positive read size required')
+    check()
+    scratch_reservation = budget.reserve(native_bytes=size)
+    scratch = None
+    try:
+        try:
+            scratch = _ChargedBuffer(size, scratch_reservation)
+        except BaseException:
+            scratch_reservation.release()
+            raise
+        count = stream.readinto(scratch)
+        check()
+        if type(count) is not int or not 0 <= count <= size:
+            raise OSError('invalid bounded read result')
+        reservation = budget.reserve(native_bytes=count)
+        try:
+            with memoryview(scratch) as view:
+                with view[:count] as used:
+                    return _ChargedBytes(used, reservation)
+        except BaseException:
+            reservation.release()
+            raise
+    finally:
+        scratch = None
