@@ -1,0 +1,16 @@
+[
+  {
+    "version": "3.11.16",
+    "upstream_tag": "v3.11.16",
+    "peeled_commit": "41388c9cb160d0886d5ca00d2e6c8782608a4549",
+    "source": "Objects/unicodeobject.c",
+    "sha256": "5dde8eb1b99878b4ea113cd6b5f88bca3667b0e23dc8c5262a07f5ea14d0d82e"
+  },
+  {
+    "version": "3.14.7",
+    "upstream_tag": "v3.14.7",
+    "peeled_commit": "823f0323ee6ec1402088b73bce1a38473cac36dc",
+    "source": "Objects/unicodeobject.c",
+    "sha256": "dc0da0c0379a64bf3e6277d53678c5eb8181a409ceec44868150ba47f89d11a3"
+  }
+]

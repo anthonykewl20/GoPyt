@@ -19,3 +19,18 @@ runtime. Before choosing a general multiplier, inspect matching runtime sources 
 use a conversion implementation whose allocation strategy is controlled. Python
 object metadata, allocator overhead and runtime internals remain separate from
 payload-capacity accounting. No conversion behavior is changed in this commit.
+
+Resolved upstream release tags with git ls-remote: v3.14.7 peels to the existing
+823f0323ee6ec1402088b73bce1a38473cac36dc reference; v3.11.16 peels to
+41388c9cb160d0886d5ca00d2e6c8782608a4549. Leitir materialized the latter with
+sampled verification. The source hashes are retained in upstream-sources.json.
+These are matching upstream releases, not proof that standalone build patches
+are absent from the installed binaries.
+
+The 3.11 decoder begins with an ASCII allocation sized to input bytes and uses
+a Unicode writer for the remaining input, widening as necessary. Its strict-error
+path invokes the decode error handler and deallocates the writer on failure.
+The 3.14 implementation has an additional code-point counting optimization.
+Both therefore require decoder-temporary admission beyond the retained string.
+Next inspect writer initialization, finish/shrink, and str-subclass construction
+before finalizing the bound; the finite error-copy probe remains complementary.
