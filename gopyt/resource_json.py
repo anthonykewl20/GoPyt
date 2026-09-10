@@ -1,4 +1,4 @@
-"""Internal admitted JSON token producers; complete parser integration is pending."""
+"""Admitted JSON token, parser, and typed-value producers."""
 import json
 from decimal import Decimal, InvalidOperation
 from gopyt.jsonc import ConvertFail
@@ -223,53 +223,21 @@ def decimal_token(text, start, budget, check=lambda: None):
             reservation.release()
 
 
-from gopyt.resource_collections import OwnedList as _JsonArray
+from gopyt.resource_collections import OwnedList as _JsonArray, OwnedMap
 
 
-class _JsonObject(dict):
-    """Parser-private insert-only object with admitted hash-table storage."""
-    def __init__(self, budget):
-        super().__init__()
-        self._budget = budget
-        self._reservation = None
-        self._slots = 8
-
+class _JsonObject(OwnedMap):
+    """JSON adds string-key and duplicate rejection to the shared map owner."""
     def insert_owned(self, key, value, check=lambda: None):
-        import struct
-        reservation = None
         try:
             check()
             if not isinstance(key, str):
                 raise ConvertFail('key')
             if key in self:
                 raise ConvertFail('duplicate key')
-            slots = self._slots
-            while len(self) + 1 > (slots * 2) // 3:
-                slots *= 2
-            # Combined tables: each index is at most pointer-sized and each
-            # general entry contains hash/key/value. Charging four words per
-            # slot also conservatively covers the smaller Unicode entry layout.
-            # Reserve even without growth: a str subclass key can change layout.
-            reservation = self._budget.reserve(
-                native_bytes=slots * 4 * struct.calcsize('P'))
-            dict.__setitem__(self, key, value)
-            previous = self._reservation
-            self._reservation = reservation
-            self._slots = slots
-            reservation = None
-            if previous is not None:
-                previous.release()
-            check()
+            self.set_owned(key, value, check)
         finally:
-            key = value = None
-            if reservation is not None:
-                reservation.release()
-            self = None
-
-    def __del__(self):
-        reservation = getattr(self, '_reservation', None)
-        if reservation is not None:
-            reservation.finalize()
+            self = key = value = None
 
 
 class _Frame:
@@ -289,7 +257,7 @@ def parse_owned(text, budget, check=lambda: None):
     """Internal iterative JSON parser whose produced payloads own reservations.
 
     Linked parser frames are metadata; container pointer/table storage and scalar
-    payloads are admitted by their producers. Production routing is pending.
+    payloads are admitted by their producers.
     """
     frame = value = key = None
     index = 0

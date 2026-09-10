@@ -153,3 +153,149 @@ class CompiledLists(unittest.TestCase):
             if succeeds:
                 del result
             self.assertEqual(budget.snapshot()['active_reservations'], 0)
+
+
+class MapAdmission(unittest.TestCase):
+    def budget(self, size=65536):
+        return ResourceBudget(ResourceLimits(size, 0, 0, 0))
+
+    def test_persistent_update_and_utf8_order_match_oracle(self):
+        from gopyt.resource_collections import set_map, map_keys
+        budget = self.budget()
+        source = {'z': 1, 'é': 2, '中': 3, '\U0001f600': 4, '\ue000': 5}
+        result = set_map(source, 'é', 9, budget)
+        self.assertEqual(source['é'], 2)
+        self.assertEqual(result['é'], 9)
+        keys = map_keys(result, budget)
+        self.assertEqual(keys, sorted(source, key=lambda x: x.encode('utf-8')))
+        del result
+        self.assertGreater(budget.snapshot()['used']['native_bytes'], 0)
+        del keys
+        self.assertEqual(budget.snapshot()['active_reservations'], 0)
+
+    def test_retained_capacity_and_cancellation_failures_release_destinations(self):
+        from gopyt.resource_collections import set_map, map_keys
+        source = {str(i): i for i in range(20)}
+        producers = (lambda b, c: set_map(source, 'new', 21, b, c),
+                     lambda b, c: map_keys(source, b, c))
+        class Stop(Exception):
+            pass
+        for producer in producers:
+            for capacity in range(0, 3000, 31):
+                budget = self.budget(capacity)
+                failure = None
+                try:
+                    result = producer(budget, lambda: None)
+                except ResourceLimitError as error:
+                    failure = error
+                else:
+                    del result
+                self.assertEqual(budget.snapshot()['active_reservations'], 0,
+                                 (capacity, failure))
+            checks = []
+            result = producer(self.budget(), lambda: checks.append(1))
+            del result
+            for target in range(1, len(checks) + 1):
+                budget = self.budget()
+                count = 0
+                def check():
+                    nonlocal count
+                    count += 1
+                    if count == target:
+                        raise Stop()
+                failure = None
+                try:
+                    producer(budget, check)
+                except Stop as error:
+                    failure = error
+                self.assertIsNotNone(failure)
+                self.assertEqual(budget.snapshot()['active_reservations'], 0, target)
+
+    def test_existing_key_layout_transition_is_admitted(self):
+        from gopyt.resource_collections import OwnedMap
+        class Text(str):
+            pass
+        budget = self.budget()
+        result = OwnedMap(budget)
+        result.set_owned('key', 1)
+        before = budget.snapshot()['used']['native_bytes']
+        result.set_owned(Text('key'), 2)
+        self.assertEqual(result, {'key': 2})
+        self.assertGreaterEqual(budget.snapshot()['peak']['native_bytes'], 2 * before)
+        del result
+        self.assertEqual(budget.snapshot()['active_reservations'], 0)
+
+
+class CompiledMaps(unittest.TestCase):
+    def test_compiled_map_copy_sort_and_budget_rejection(self):
+        import tempfile
+        from gopyt.cli import build
+        from gopyt.testing import write_pkg
+        from gopyt.test_vm import module
+        from gopyt.vm import VM, Trap
+        from gopyt import ops
+        signature = 'fn build() -> list[i64]'
+        files = module(signature, signature + '''
+{
+    empty = core.map.empty[i64, i64]()
+    first = core.map.set(empty, 9, 1)
+    second = core.map.set(first, -3, 2)
+    third = core.map.set(second, 9, 3)
+    return core.map.keys(third)
+}
+''', uses='use core.map { empty, set, keys }')
+        with tempfile.TemporaryDirectory() as root:
+            write_pkg(root, files, fmt=True)
+            _, art, ids = build(root)
+            for capacity, succeeds in ((255, False), (65536, True)):
+                budget = ResourceBudget(ResourceLimits(capacity, 0, 0, 0))
+                with VM(art, resource_budget=budget) as vm:
+                    if succeeds:
+                        result = vm.call(ids['demo.build'], [])
+                        self.assertEqual(result, [-3, 9])
+                        self.assertGreater(budget.snapshot()['used']['native_bytes'], 0)
+                    else:
+                        with self.assertRaises(Trap) as caught:
+                            vm.call(ids['demo.build'], [])
+                        self.assertEqual(caught.exception.code, ops.TRAP_ALLOC)
+                if succeeds:
+                    del result
+                self.assertEqual(budget.snapshot()['active_reservations'], 0)
+
+    def test_verified_map_opcodes_admit_destination(self):
+        import tempfile
+        import struct
+        from gopyt import gobyte, ops
+        from gopyt.cli import build
+        from gopyt.testing import write_pkg
+        from gopyt.test_vm import module
+        from gopyt.vm import VM, Trap
+        signature = 'fn build() -> map[i64, i64]'
+        files = module(signature, signature + '''
+{
+    return core.map.set(core.map.empty[i64, i64](), 9, 1)
+}
+''', uses='use core.map { empty, set }')
+        with tempfile.TemporaryDirectory() as root:
+            write_pkg(root, files, fmt=True)
+            _, art, ids = build(root)
+            constants = {c.value: i for i, c in enumerate(art.consts)
+                         if c.tag == gobyte.TAG_I64}
+            art.funcs[ids['demo.build']].code = (
+                bytes([ops.NEW_MAP, ops.CONST]) + struct.pack('<I', constants[9]) +
+                bytes([ops.CONST]) + struct.pack('<I', constants[1]) +
+                bytes([ops.MAP_SET, ops.RETURN]))
+            art = gobyte.decode(gobyte.encode(art))
+            for capacity, succeeds in ((255, False), (65536, True)):
+                budget = ResourceBudget(ResourceLimits(capacity, 0, 0, 0))
+                with VM(art, resource_budget=budget) as vm:
+                    if succeeds:
+                        result = vm.call(ids['demo.build'], [])
+                        self.assertEqual(result, {9: 1})
+                    else:
+                        with self.assertRaises(Trap) as caught:
+                            vm.call(ids['demo.build'], [])
+                        self.assertEqual(caught.exception.code, ops.TRAP_ALLOC)
+                if succeeds:
+                    del result
+                self.assertEqual(budget.snapshot()['active_reservations'], 0)
