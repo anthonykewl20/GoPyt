@@ -166,6 +166,12 @@ def wrap_tls(sock, context, *, server_hostname, do_handshake_on_connect=True):
                                   do_handshake_on_connect=do_handshake_on_connect)
     except BaseException:
         with owner.lock:
+            target = owner.transfer_target
+            if target is not None and owner.sock is sock and target.fileno() >= 0:
+                # _create initializes an alias before detaching the source.
+                # A failure in that interval must disarm the alias, otherwise
+                # its destructor could close the source's reused FD later.
+                socket.socket.detach(target)
             owner.transfer_target = None
             if owner.state == 'transferring':
                 owner.state = 'open'

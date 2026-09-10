@@ -13,6 +13,74 @@ from gopyt.resource_sockets import open_socket, accept_socket, wrap_tls
 
 
 class SocketOwnership(unittest.TestCase):
+    def test_tls_teardown_during_descriptor_handoff(self):
+        from gopyt.resource_sockets import _Socket
+        for edge in ('before', 'after'):
+            with self.subTest(edge=edge):
+                budget, registry = self.fixture()
+                sock = open_socket(registry)
+                fd = sock.fileno()
+                entered, resume = threading.Event(), threading.Event()
+                outcomes = []
+                original = _Socket.detach
+                def detach(item):
+                    result = original(item) if edge == 'after' else None
+                    entered.set()
+                    if not resume.wait(3): raise AssertionError('transfer not resumed')
+                    return original(item) if edge == 'before' else result
+                def transfer():
+                    try:
+                        outcomes.append(wrap_tls(sock, ssl.SSLContext(ssl.PROTOCOL_TLS_CLIENT),
+                                                 server_hostname='localhost',
+                                                 do_handshake_on_connect=False))
+                    except BaseException as error:
+                        outcomes.append(error)
+                with patch.object(_Socket, 'detach', new=detach):
+                    worker = threading.Thread(target=transfer)
+                    worker.start()
+                    try:
+                        self.assertTrue(entered.wait(3))
+                        self.assertFalse(registry.close())
+                        os.fstat(fd)
+                        self.assertEqual(budget.snapshot()['used']['descriptors'], 1)
+                    finally:
+                        resume.set()
+                        worker.join(4)
+                self.assertFalse(worker.is_alive())
+                self.assertEqual(len(outcomes), 1)
+                self.assertIsInstance(outcomes[0], ResourceClosedError)
+                self.assertTrue(registry.close())
+                self.assertEqual(budget.snapshot()['active_reservations'], 0)
+                with self.assertRaises(OSError): os.fstat(fd)
+
+    def test_tls_failure_on_each_side_of_detach_closes_once(self):
+        from gopyt.resource_sockets import _Socket
+        for edge in ('before', 'after'):
+            with self.subTest(edge=edge):
+                budget, registry = self.fixture()
+                sock = open_socket(registry)
+                fd = sock.fileno()
+                original_detach = _Socket.detach
+                original_close = socket.socket._real_close
+                closed = []
+                targets = []
+                def detach(item):
+                    targets.append(item._resource_owner.transfer_target)
+                    if edge == 'after': original_detach(item)
+                    raise MemoryError('handoff interrupted')
+                def close(item):
+                    if item.fileno() >= 0: closed.append(item.fileno())
+                    original_close(item)
+                with patch.object(_Socket, 'detach', new=detach), \
+                        patch.object(socket.socket, '_real_close', new=close):
+                    with self.assertRaises(MemoryError):
+                        wrap_tls(sock, ssl.SSLContext(ssl.PROTOCOL_TLS_CLIENT),
+                                 server_hostname='localhost', do_handshake_on_connect=False)
+                self.assertEqual(closed, [fd])
+                self.assertEqual(targets[0].fileno(), -1)
+                self.assertTrue(registry.close())
+                self.assertEqual(budget.snapshot()['active_reservations'], 0)
+
     def test_tls_transfer_retains_one_charge_until_reader_close(self):
         budget, registry = self.fixture()
         sock = open_socket(registry)

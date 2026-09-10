@@ -253,3 +253,17 @@ This integrates explicit inbound/outbound network socket descriptors. It does no
 account for host resolver internals, trust-store file access, TLS native allocations,
 or all native memory. Full combined qualification and the remaining resource scope
 are still required before closing issue 5.
+
+### TLS handoff failure and teardown
+
+A failure after the TLS shell initializes but before source detach leaves two
+Python objects naming one descriptor. Cleanup now detaches that temporary alias
+before closing the original owner, preventing a delayed destructor from closing a
+reused descriptor. The regression retains the temporary TLS object and verifies
+its fileno is invalid after failure on either side of detach, with exactly one
+physical close and no remaining reservation. The initial probe exposed an unclosed
+TLS-object ResourceWarning before this correction.
+
+Barrier-driven tests pause both before and after descriptor handoff while registry
+teardown runs. Teardown reports incomplete and retains the charge; resuming the
+transfer closes the socket, rejects its return, and leaves zero reservations.
