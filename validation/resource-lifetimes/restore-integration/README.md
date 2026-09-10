@@ -10,8 +10,8 @@ d9223a335b576a5a72058d03afb0cc867ed0912232c3edb379d372e8b2936ae8,
 checks pass. All 17 guard tests, 22-module stdlib parity and the contract example pass.
 
 The full Python 3.14.7 language suite passes 1,041 tests in 363.615 seconds,
-with frozen source hashes verified unchanged. Python 3.11.16 full qualification
-and final deadline inventory remain pending. This increment
+with frozen source hashes verified unchanged. Python 3.11.16 also passes 1,041 tests in 399.087 seconds. Frozen source
+hashes remained unchanged through both full runs. This increment
 covers maintenance payload and descriptor admission, including backup production.
 It does not establish bounds on SQLite or cryptographic allocator usage, decoded
 values or explicit copies. Issue #5 remains open.
