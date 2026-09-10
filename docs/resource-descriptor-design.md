@@ -310,3 +310,9 @@ encoding traceback therefore does not keep the partial accumulator payload alive
 A regression retains size-failure tracebacks for both encoders and verifies their
 output accumulators are closed or empty. This is cleanup preparation for shared
 serialization budgeting, not admission accounting for every encoding temporary.
+
+UTF-8 token locals are also cleared in finally. A stronger retained-traceback test
+reproduced token-byte retention after size rejection in both encoder forms, then
+verified cleanup without changing the conversion error. The original failure log
+is retained during follow-up qualification. This does not charge encoding inputs,
+escaped text or host allocator overhead against the resource ledger.

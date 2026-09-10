@@ -22,6 +22,14 @@ class JsonAllocation(unittest.TestCase):
                     else:
                         jsonc.encode_bytes(art, '\x00' * 10, 0, max_bytes=20)
                 except (jsonc.ConvertFail, jsonc.AllocationLimit) as error:
+                    cause = error.__cause__ or error
+                    trace = cause.__traceback__
+                    tokens = []
+                    while trace is not None:
+                        if trace.tb_frame.f_code.co_name == 'token':
+                            tokens.append(trace.tb_frame.f_locals.get('raw'))
+                        trace = trace.tb_next
+                    self.assertEqual(tokens, [None])
                     trace = error.__traceback__
                     encoders = []
                     while trace is not None:

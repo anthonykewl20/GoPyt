@@ -111,17 +111,22 @@ class _Encoder:
             raise ConvertFail('size')
 
     def token(self, text):
-        self.check()
+        raw = None
         try:
-            raw = text.encode('utf-8')
-        except UnicodeEncodeError as error:
-            raise ConvertFail('utf8') from error
-        self.minimum(len(raw))
-        if self.text:
-            self.output.write(text)
-        else:
-            self.output.extend(raw)
-        self.size += len(raw)
+            self.check()
+            try:
+                raw = text.encode('utf-8')
+            except UnicodeEncodeError as error:
+                raise ConvertFail('utf8') from error
+            self.minimum(len(raw))
+            if self.text:
+                self.output.write(text)
+            else:
+                self.output.extend(raw)
+            self.size += len(raw)
+        finally:
+            raw = None
+            text = None
 
     def string(self, text):
         # Bound escaping/UTF-8 temporaries even for a single enormous string.
