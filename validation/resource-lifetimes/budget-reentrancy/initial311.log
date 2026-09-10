@@ -1,0 +1,7 @@
+Controlled probe timed out after 3 seconds
+Timeout (0:00:01)!
+Thread 0x00007df651573740 (most recent call first):
+  File "/tmp/gopyt-resource-followup/gopyt/resource_budget.py", line 101 in _release
+  File "/tmp/gopyt-resource-followup/gopyt/resource_budget.py", line 37 in release
+  File "/tmp/gopyt-resource-followup/gopyt/resource_bytes.py", line 21 in __del__
+  File "/tmp/gopyt-budget-gc-probe.py", line 16 in <module>

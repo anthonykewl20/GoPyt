@@ -25,6 +25,13 @@ class ResourceLimits:
                 raise ValueError('resource limits require nonnegative i64 integers')
 
 
+class _Token:
+    __slots__ = ('finalized',)
+
+    def __init__(self):
+        self.finalized = False
+
+
 class _Reservation:
     __slots__ = ('_budget', '_token')
 
@@ -36,6 +43,11 @@ class _Reservation:
         """Idempotent and thread-safe; call only after physical resource release."""
         self._budget._release(self._token)
 
+    def finalize(self):
+        """Mark physically freed payloads without locking or allocating in GC."""
+        self._token.finalized = True
+        self._budget._pending_finalizers = True
+
     def reduce(self, *, native_bytes=0, mapped_bytes=0, descriptors=0, handles=0):
         """Atomically reduce an admitted reservation after unused capacity is known."""
         self._budget._reduce(self._token, ResourceLimits(
@@ -44,6 +56,7 @@ class _Reservation:
     @property
     def released(self):
         with self._budget._lock:
+            self._budget._drain_finalizers_locked()
             return self._token not in self._budget._active
 
     def __enter__(self):
@@ -75,6 +88,7 @@ class ResourceBudget:
         self._peak = dict(self._used)
         self._active = {}
         self._rejected = 0
+        self._pending_finalizers = False
 
     @property
     def limits(self):
@@ -82,10 +96,11 @@ class ResourceBudget:
 
     def reserve(self, *, native_bytes=0, mapped_bytes=0, descriptors=0, handles=0):
         amounts = ResourceLimits(native_bytes, mapped_bytes, descriptors, handles)
-        token = object()
+        token = _Token()
         # Construct before admission, so allocation failure cannot strand a charge.
         reservation = _Reservation(self, token)
         with self._lock:
+            self._drain_finalizers_locked()
             if any(getattr(amounts, name) > getattr(self._limits, name) - self._used[name]
                    for name in self._names):
                 self._rejected += 1
@@ -97,17 +112,35 @@ class ResourceBudget:
             self._peak = peaks
         return reservation
 
+    def _drain_finalizers_locked(self):
+        # Finalizers only set existing fields. They can run during any allocation
+        # below without taking this lock or overwriting a counter transaction.
+        while self._pending_finalizers:
+            self._pending_finalizers = False
+            try:
+                for token in tuple(self._active):
+                    if token.finalized:
+                        self._release_locked(token)
+            except BaseException:
+                self._pending_finalizers = True
+                raise
+
+    def _release_locked(self, token):
+        amounts = self._active.get(token)
+        if amounts is None:
+            return
+        updated = {name: self._used[name] - getattr(amounts, name) for name in self._names}
+        del self._active[token]
+        self._used = updated
+
     def _release(self, token):
         with self._lock:
-            amounts = self._active.get(token)
-            if amounts is None:
-                return
-            updated = {name: self._used[name] - getattr(amounts, name) for name in self._names}
-            del self._active[token]
-            self._used = updated
+            self._drain_finalizers_locked()
+            self._release_locked(token)
 
     def _reduce(self, token, amounts):
         with self._lock:
+            self._drain_finalizers_locked()
             previous = self._active.get(token)
             if previous is None:
                 raise ValueError('reservation already released')
@@ -121,6 +154,7 @@ class ResourceBudget:
     def snapshot(self):
         """Independent non-secret counter copies, consistent at one lock boundary."""
         with self._lock:
+            self._drain_finalizers_locked()
             return {'limits': {name: getattr(self._limits, name) for name in self._names},
                     'used': dict(self._used), 'peak': dict(self._peak),
                     'active_reservations': len(self._active), 'rejected': self._rejected}

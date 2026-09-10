@@ -29,7 +29,7 @@ jobs:
           python -m pip install --no-deps --no-build-isolation -e .
       - name: Language regression suite
         timeout-minutes: 15
-        run: python -u -m unittest discover -s gopyt -t . -v
+        run: python -u tools/run_language_tests.py discover -s gopyt -t . -v
       - run: python -m unittest benchmarks.language_guard.calibration.test_boundary_probe
       - run: python tools/check_stdlib_sync.py
       - run: python examples/ticket_contracts/demo.py
