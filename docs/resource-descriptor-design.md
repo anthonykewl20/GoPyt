@@ -332,3 +332,15 @@ charges, reject insufficient final-copy capacity, and check failure cleanup. The
 API is not yet wired into HTTP consumers. It accounts payload bytes, not Python
 container metadata, string escaping temporaries or allocator overhead; the
 four-byte admission bound can reject even when actual UTF-8 would be smaller.
+
+### Owned HTTP response output
+
+HTTP response encoding now uses encode_owned_bytes with the VM resource budget.
+Encoding admission failure returns 503 before response headers are sent. The final
+payload remains charged through telemetry, header emission and the body write;
+context cleanup clears it on success or failure. The deadline writer clears its
+bytes argument in finally so its exception frame does not retain an exported alias.
+A live test verifies shared-capacity rejection, recovery after capacity release,
+and the exact final payload charge during the response write. Input decoding,
+escaping temporaries, HTTP header buffers and native transport allocations remain
+separate accounting work.

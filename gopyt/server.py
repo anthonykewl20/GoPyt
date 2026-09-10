@@ -100,14 +100,17 @@ class _DeadlineWriter(io.RawIOBase):
         return True
 
     def write(self, data):
-        self.vm.check_cancelled()
-        if self.vm.deadline_ns is not None:
-            remaining = (self.vm.deadline_ns - time.monotonic_ns()) / 1_000_000_000
-            if remaining <= 0:
-                raise Trap(ops.TRAP_TIMEOUT)
-            self.connection.settimeout(remaining)
-        self.connection.sendall(data)
-        return len(data)
+        try:
+            self.vm.check_cancelled()
+            if self.vm.deadline_ns is not None:
+                remaining = (self.vm.deadline_ns - time.monotonic_ns()) / 1_000_000_000
+                if remaining <= 0:
+                    raise Trap(ops.TRAP_TIMEOUT)
+                self.connection.settimeout(remaining)
+            self.connection.sendall(data)
+            return len(data)
+        finally:
+            data = None
 
 
 def _addr() -> tuple[str, int] | None:
@@ -405,20 +408,26 @@ def serve(vm, module: str):
                         self._empty(200)
                         return
                     try:
-                        raw = jsonc.encode_bytes(vm.art, result, func.ret,
+                        payload = jsonc.encode_owned_bytes(vm.art, result, func.ret,
+                                                 budget=vm.resource_budget,
                                                  max_bytes=MAX_RESPONSE_BODY,
                                                  max_depth=MAX_RESPONSE_DEPTH,
                                                  check_context=vm.check_cancelled)
+                    except ResourceLimitError:
+                        self.close_connection = True
+                        self._empty(503)
+                        return
                     except (ConvertFail, NotJson):
                         vm.observe.http(self.route_tag, "ConvertError", (_time.monotonic() - started) * 1000.0, context=vm)
                         self._empty(500)
                         return
-                    vm.observe.http(self.route_tag, "ok", (_time.monotonic() - started) * 1000.0, context=vm)
-                    self.send_response(200)
-                    self.send_header("Content-Type", "application/json")
-                    self.send_header("Content-Length", str(len(raw)))
-                    self.end_headers()
-                    self.wfile.write(raw)
+                    with payload:
+                        vm.observe.http(self.route_tag, "ok", (_time.monotonic() - started) * 1000.0, context=vm)
+                        self.send_response(200)
+                        self.send_header("Content-Type", "application/json")
+                        self.send_header("Content-Length", str(len(payload.data)))
+                        self.end_headers()
+                        self.wfile.write(payload.data)
 
                 finally:
                     vm.heap.release_result()

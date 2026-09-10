@@ -15,6 +15,31 @@ from gopyt.test_app_runtime import running_server
 
 
 class HttpRetention(unittest.TestCase):
+    def test_response_payload_admission_and_charge_during_write(self):
+        from gopyt.server import _DeadlineWriter
+        observed = []
+        original = _DeadlineWriter.write
+        def write(writer, data):
+            if data == b'{"amount":3}':
+                observed.append(writer.vm.resource_budget.snapshot()['used']['native_bytes'])
+            return original(writer, data)
+        with running_server(MAX_HANDLERS=1) as (vm, port), \
+                patch.object(_DeadlineWriter, 'write', new=write):
+            def request():
+                connection = http.client.HTTPConnection('127.0.0.1', port, timeout=2)
+                try:
+                    connection.request('GET', '/echo/abc')
+                    response = connection.getresponse()
+                    return response.status, response.read()
+                finally:
+                    connection.close()
+            with vm.resource_budget.reserve(native_bytes=
+                    vm.resource_budget.snapshot()['limits']['native_bytes']):
+                self.assertEqual(request(), (503, b''))
+            self.assertEqual(request(), (200, b'{"amount":3}'))
+        self.assertEqual(observed, [12])
+        self.assertEqual(vm.resource_budget.snapshot()['used']['native_bytes'], 0)
+
     def test_exception_traceback_does_not_retain_charged_body(self):
         errors = queue.Queue()
         def capture(server, request, address):
