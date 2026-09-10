@@ -13,3 +13,7 @@ input reads, not SQLite, plaintext or cryptographic internal allocations.
 
 Guard calibration passed 17 tests, stdlib parity passed for 22 modules and
 the contract demo passed. Raw outputs are retained.
+
+Full Python 3.11.16 qualification passed 1022 tests in 403.254 seconds.
+Frozen source and lock hashes were verified unchanged. Full Python 3.14
+qualification remains pending.
