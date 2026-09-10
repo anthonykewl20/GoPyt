@@ -92,7 +92,7 @@ and are explicitly outside this initial registry integration.
 Key-file and snapshot-file opens now use the VM registry. Snapshot acquisition
 recognizes FileNotFoundError only while opening; exceptions raised by its caller
 propagate unchanged and still close the descriptor. Directory, database-lock,
-rollback-anchor, receipt and publication-stage descriptors remain to be integrated.
+rollback-anchor and receipt descriptors remained to be integrated at this step.
 This partial implementation does not establish aggregate storage resource accounting.
 
 Storage directory traversal and database-lock acquisition now share the registry,
@@ -107,5 +107,16 @@ descriptor stays owned by CPython, rather than exposing a raw owner to the VM.
 A non-anchored read requires capacity for three overlapping descriptors (directory,
 lock, and enumeration or snapshot). Tests reject capacities zero through two without
 changing the existing database and verify exact budget return at capacity three.
-Rollback anchors, receipts and publication stages remain unintegrated; this is not
+Rollback anchors and receipts remain unintegrated; this is not
 a complete native descriptor or memory accounting claim.
+
+### Publication staging
+
+The pending snapshot now reserves its descriptor before exclusive creation. Its
+stream does not own the descriptor; registry cleanup follows stream flush and
+file fsync, before publication admission or rename. A failed creation never
+unlinks an existing staging name. Write failures remove unadmitted staging,
+while admitted recovery staging retains its existing semantics. Focused tests
+verify capacity rejection, write failure, existing-name preservation, and zero
+charged descriptors at rename. The existing exception and process-death
+publication campaigns also pass with this ownership path.

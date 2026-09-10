@@ -214,14 +214,18 @@ class Store:
     def _publish(self, directory, data, *, restore=None, authorize_writer=False):
         self._check_context()
         temporary = '.pending-' + secrets.token_hex(12)
-        fd = os.open(temporary, os.O_WRONLY | os.O_CREAT | os.O_EXCL | os.O_NOFOLLOW,
-                     0o600, dir_fd=directory)
+        owners = ExitStack()
+        fd = owners.enter_context(opened_descriptor(
+            temporary, os.O_WRONLY | os.O_CREAT | os.O_EXCL | os.O_NOFOLLOW,
+            0o600, dir_fd=directory,
+            descriptors=getattr(self._context, 'descriptors', None)))
         admitted = False
         try:
-            with os.fdopen(fd, 'wb') as stream:
-                stream.write(data)
-                stream.flush()
-                os.fsync(stream.fileno())
+            with owners:
+                with os.fdopen(fd, 'wb', closefd=False) as stream:
+                    stream.write(data)
+                    stream.flush()
+                    os.fsync(stream.fileno())
             # Publication admission: cancellation after entering replace cannot
             # undo the rename or abandon the directory durability barrier.
             self._check_context()
