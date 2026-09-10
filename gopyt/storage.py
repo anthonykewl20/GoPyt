@@ -17,6 +17,7 @@ import threading
 import time
 import weakref
 from gopyt.resource_budget import ResourceLimitError
+from gopyt.resource_bytes import read_payload
 
 from gopyt.rollback import locked_anchor, snapshot_digest
 from gopyt.files import parent_directory, opened_descriptor
@@ -184,14 +185,26 @@ class Store:
         if fd is None:
             db.execute('CREATE TABLE kv (key TEXT PRIMARY KEY, value TEXT NOT NULL) WITHOUT ROWID')
             return
+        budget = getattr(self._context, 'resource_budget', None)
         with os.fdopen(fd, 'rb', closefd=False) as stream:
-            data = stream.read(MAX_BYTES + OVERHEAD + 1)
-        if not data or len(data) > MAX_BYTES + OVERHEAD or self._identity(os.fstat(fd)) != identity:
-            raise StorageError('database changed during read')
-        if self._anchor is not None and self._anchor.record is not None:
-            if hashlib.sha256(data).hexdigest() != self._anchor.record['digest']:
-                raise SecurityError('snapshot changed after anchor validation')
-        self._deserialize(unseal(data, self._security), db)
+            if budget is not None:
+                with read_payload(stream, budget, MAX_BYTES + OVERHEAD + 1,
+                                  self._check_context) as payload:
+                    self._load_image(payload.data, fd, identity, db)
+            else:
+                self._load_image(stream.read(MAX_BYTES + OVERHEAD + 1),
+                                 fd, identity, db)
+
+    def _load_image(self, data, fd, identity, db):
+        try:
+            if not data or len(data) > MAX_BYTES + OVERHEAD or self._identity(os.fstat(fd)) != identity:
+                raise StorageError('database changed during read')
+            if self._anchor is not None and self._anchor.record is not None:
+                if hashlib.sha256(data).hexdigest() != self._anchor.record['digest']:
+                    raise SecurityError('snapshot changed after anchor validation')
+            self._deserialize(unseal(data, self._security), db)
+        finally:
+            data = None
 
     @staticmethod
     def _deserialize(data, db):

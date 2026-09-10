@@ -1,0 +1,8 @@
+test_cancellation_after_read_releases_scratch_with_traceback_retained (gopyt.test_storage_payload.SnapshotPayload.test_cancellation_after_read_releases_scratch_with_traceback_retained) ... ok
+test_failed_decoder_retained_input_keeps_charge (gopyt.test_storage_payload.SnapshotPayload.test_failed_decoder_retained_input_keeps_charge) ... ok
+test_rejection_precedes_snapshot_consumption (gopyt.test_storage_payload.SnapshotPayload.test_rejection_precedes_snapshot_consumption) ... ok
+
+----------------------------------------------------------------------
+Ran 3 tests in 0.001s
+
+OK
