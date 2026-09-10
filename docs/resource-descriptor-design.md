@@ -65,3 +65,16 @@ registration failures and parent-close failure after child acquisition. Run para
 calls sharing a budget and verify aggregate admission and VM teardown reporting.
 Retain evidence on Linux and macOS; do not infer one platform's ambiguous-close
 behavior from the other or call conservative quarantine successful cleanup.
+
+## Working implementation status
+
+The descriptor registry is now attached to each VM and shares its construction-time
+ResourceBudget. VM.close drains it after idle admission stops; unresolved descriptor
+cleanup makes teardown return false. core.file read/write pass the registry through
+parent-directory traversal and regular-file acquisition. Parent ownership transfers
+to the child before closing the old parent, so failure still unwinds the child.
+Body exceptions retain precedence while cleanup remains separately visible in the
+registry. Non-VM file helpers and other native resource paths remain outside this
+increment. Focused compiled tests cover zero/one/two descriptor budgets, rejection
+without output creation/truncation, and parent-close failure with child cleanup.
+Full and cross-platform qualification of this increment remain pending.

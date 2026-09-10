@@ -16,13 +16,67 @@ from gopyt.vm import VM, Cancelled, Trap
 
 
 class FileDeadlines(unittest.TestCase):
+    def test_descriptor_budget_rejects_before_creation_or_truncation(self):
+        from gopyt.resource_budget import ResourceBudget, ResourceLimits
+        for capacity in (0, 1, 2):
+            for existing in (False, True):
+                with self.subTest(capacity=capacity, existing=existing):
+                    if self.path.exists(): self.path.unlink()
+                    if existing: self.path.write_bytes(b'before')
+                    budget = ResourceBudget(ResourceLimits(64, 0, capacity, 0))
+                    with VM(self.vm.art, self.root, resource_budget=budget) as vm:
+                        if capacity < 2:
+                            with self.assertRaises(Trap) as caught:
+                                vm.call(self.ids['demo.persist'], [b'after'])
+                            self.assertEqual(caught.exception.code, 14)
+                            self.assertEqual(self.path.exists(), existing)
+                            if existing: self.assertEqual(self.path.read_bytes(), b'before')
+                        else:
+                            vm.call(self.ids['demo.persist'], [b'after'])
+                            self.assertEqual(vm.call(self.ids['demo.load'], []), b'after')
+                            self.assertEqual(budget.snapshot()['peak']['descriptors'], 2)
+                        self.assertEqual(vm.descriptors.pending(), 0)
+                        self.assertEqual(budget.snapshot()['active_reservations'], 0)
+
+    def test_parent_close_failure_retains_charge_and_unwinds_child(self):
+        from gopyt.resource_budget import ResourceBudget, ResourceLimits
+        from gopyt.values import Record
+        self.path.write_bytes(b'before')
+        budget = ResourceBudget(ResourceLimits(64, 0, 2, 0))
+        vm = VM(self.vm.art, self.root, resource_budget=budget)
+        close = os.close
+        opened = []
+        original_open = os.open
+        calls = []
+        def tracked(*args, **kwargs):
+            fd = original_open(*args, **kwargs)
+            opened.append(fd)
+            return fd
+        def uncertain(fd):
+            close(fd)
+            calls.append(fd)
+            if len(calls) == 1: raise OSError('injected parent close failure')
+        with patch('gopyt.resource_descriptors.os.open', side_effect=tracked):
+            with patch('gopyt.resource_descriptors.os.close', side_effect=uncertain):
+                result = vm.call(self.ids['demo.persist'], [b'after'])
+                self.assertIsInstance(result, Record)
+                self.assertFalse(vm.close())
+                self.assertFalse(vm.close())
+        self.assertEqual(len(opened), 2)
+        self.assertEqual(calls, opened)
+        for fd in opened:
+            with self.assertRaises(OSError): os.fstat(fd)
+        self.assertEqual(vm.descriptors.pending(), 1)
+        self.assertEqual(budget.snapshot()['used']['descriptors'], 1)
+        self.assertEqual(self.path.read_bytes(), b'before')
+
     def test_file_read_uses_shared_native_budget_and_preserves_trap_contract(self):
         from gopyt.resource_budget import ResourceBudget, ResourceLimits
         self.path.write_bytes(b'abcdefgh')
-        self.vm.resource_budget = ResourceBudget(ResourceLimits(32, 0, 0, 0))
+        self.vm = VM(self.vm.art, self.root, resource_budget=ResourceBudget(ResourceLimits(32, 0, 2, 0)))
         self.assertEqual(self.call('load'), b'abcdefgh')
         self.assertEqual(self.vm.resource_budget.snapshot()['active_reservations'], 0)
-        self.vm.resource_budget = ResourceBudget(ResourceLimits(4, 0, 0, 0))
+        self.vm = VM(self.vm.art, self.root, resource_budget=ResourceBudget(ResourceLimits(4, 0, 2, 0)))
         with self.assertRaises(Trap) as caught:
             self.call('load')
         self.assertEqual(caught.exception.code, 14)

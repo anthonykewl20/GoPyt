@@ -366,7 +366,8 @@ def _file_read(vm, args, func):
     if full is None:
         return _status(vm, "IoError", "path")
     try:
-        with regular_file(vm.root, args[0], check_context=vm.check_cancelled, buffering=0) as fh:
+        with regular_file(vm.root, args[0], check_context=vm.check_cancelled, buffering=0,
+                          descriptors=vm.descriptors) as fh:
             return read_bytes(fh, vm.resource_budget, vm.check_cancelled, ops.MAX_ALLOC)
     except ResourceLimitError:
         raise Trap(ops.TRAP_ALLOC) from None
@@ -379,6 +380,7 @@ def _file_read(vm, args, func):
 @native("core.file.write")
 def _file_write(vm, args, func):
     from gopyt.files import regular_file
+    from gopyt.resource_budget import ResourceLimitError
 
     path, data = args
     full = _safe_path(vm, path, write=True)
@@ -386,7 +388,8 @@ def _file_write(vm, args, func):
         return _status(vm, "IoError", "path")
     try:
         with regular_file(vm.root, path, write=True,
-                          check_context=vm.check_cancelled, buffering=0) as fh:
+                          check_context=vm.check_cancelled, buffering=0,
+                          descriptors=vm.descriptors) as fh:
             with memoryview(data) as view:
                 offset = 0
                 while offset < len(view):
@@ -396,6 +399,8 @@ def _file_write(vm, args, func):
                         raise OSError('file write made no progress')
                     offset += written
             vm.check_cancelled()
+    except ResourceLimitError:
+        raise Trap(ops.TRAP_ALLOC) from None
     except OSError:
         return _status(vm, "IoError", "write")
     return UNIT
