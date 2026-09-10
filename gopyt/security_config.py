@@ -216,3 +216,31 @@ def unseal_payload(data, setting, budget):
             yield payload.data
         finally:
             _clear_destination(payload.data)
+
+
+@contextmanager
+def seal_payload(data, setting, budget):
+    """Borrow a preadmitted framed ciphertext through its publication scope."""
+    from gopyt.resource_bytes import allocate_payload
+    if setting is None:
+        yield data
+        return
+    cipher, aad, _ = setting
+    with allocate_payload(budget, len(data) + OVERHEAD) as payload:
+        try:
+            with budget.reserve(native_bytes=12):
+                nonce = None
+                try:
+                    nonce = secrets.token_bytes(12)
+                    payload.data[:len(MAGIC)] = MAGIC
+                    payload.data[len(MAGIC):len(MAGIC) + 12] = nonce
+                    with memoryview(payload.data) as framed:
+                        with framed[len(MAGIC) + 12:] as ciphertext:
+                            count = cipher.encrypt_into(nonce, data, aad, ciphertext)
+                            if count != len(ciphertext):
+                                raise SecurityError('invalid ciphertext length')
+                finally:
+                    nonce = None
+            yield payload.data
+        finally:
+            _clear_destination(payload.data)

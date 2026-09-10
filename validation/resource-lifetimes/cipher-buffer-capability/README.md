@@ -29,3 +29,11 @@ existing input. Thirty-five focused tests pass on both runtimes; the initial
 failed injection against the retired unseal call is retained. The injection
 now targets deserialization with the same alias assertions. Ciphertext output,
 restore, SQLite and cryptographic internal accounting remain unfinished.
+
+VM storage saves now reserve framed ciphertext and nonce capacity before
+encryption, using encrypt_into and retaining the ciphertext charge through
+publication. The borrowed ciphertext is cleared on scope exit; aliases keep
+their charge until destruction. Forty-seven focused tests pass on both runtimes.
+Earlier plaintext recovery coverage passed 66 tests on each runtime. SQLite
+serialize output is still allocated before this ciphertext boundary, and
+restore plaintext and native-library internals remain unfinished.

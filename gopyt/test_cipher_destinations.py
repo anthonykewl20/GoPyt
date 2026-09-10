@@ -75,3 +75,19 @@ class CipherDestinations(unittest.TestCase):
             with unseal_payload(data, (Never(), b'', b''), budget):
                 self.fail('plaintext published')
         self.assertEqual(budget.snapshot()['active_reservations'], 0)
+
+    def test_ciphertext_scope_preserves_format_and_alias_charge(self):
+        from gopyt.resource_budget import ResourceBudget, ResourceLimits
+        from gopyt.security_config import seal_payload, unseal, OVERHEAD
+        cipher = AESGCMSIV(bytes(32))
+        setting = (_KeyringCipher({'key': cipher}, 'key', 'writer'), b'aad', b'id')
+        size = 6 + OVERHEAD
+        budget = ResourceBudget(ResourceLimits(size + 12, 0, 0, 0))
+        with seal_payload(b'secret', setting, budget) as encrypted:
+            self.assertEqual(unseal(encrypted, setting), b'secret')
+            self.assertEqual(budget.snapshot()['used']['native_bytes'], size)
+            self.assertEqual(budget.snapshot()['peak']['native_bytes'], size + 12)
+        self.assertEqual(encrypted, bytes(size))
+        self.assertEqual(budget.snapshot()['used']['native_bytes'], size)
+        del encrypted
+        self.assertEqual(budget.snapshot()['active_reservations'], 0)
