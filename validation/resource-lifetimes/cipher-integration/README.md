@@ -12,3 +12,7 @@ producer admission and native library allocator accounting remain incomplete.
 
 Guard calibration passed 17 tests, stdlib parity passed for 22 modules and
 the contract demo passed. Raw outputs are retained.
+
+Full Python 3.14.7 qualification passed 1029 tests in 364.632 seconds.
+Frozen source and lock hashes were verified unchanged. Full Python 3.11
+qualification remains pending.
