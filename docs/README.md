@@ -135,3 +135,5 @@ fixed and configured capacities, overload policies and remaining issue #13 cover
 [Live HTTP service-token rotation](http-credential-rotation-amendment-2026-09-10.md) specifies per-request reload, fail-closed admission and in-flight request semantics under issue #11.
 
 [Storage writer-key fencing](storage-writer-fence-amendment-2026-09-10.md) specifies authority version 2, explicit generation-checked key transitions and rejection of stale active-key writers under issue #11.
+
+- [Plaintext storage migration](plaintext-storage-migration-amendment-2026-09-10.md): explicit digest-checked initial encryption with a durable encrypted recovery copy.

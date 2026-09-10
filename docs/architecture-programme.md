@@ -23,7 +23,7 @@ remain open; the historical checklist review describes its pinned baseline.
 | Resource capabilities | Non-forgeable, least-privilege authority across database, filesystem and network; revocation and delegation semantics | Host-issued delegated DB/file/network/secret/listen authority implemented; authenticated HTTP tenant integration implemented; independent security/deployment qualification remains open |
 | Resource lifetimes | Safe close, sharing and view lifetimes; bounded native-memory accounting; cancellation cleanup | Design gate open; mapped prototype remains outside the runtime |
 | Transactional data | Atomic multi-record changes, consistent reads, recovery, schema evolution and a scalable backend | Bounded multi-key CAS and snapshot reads implemented; snapshot scalability and schema APIs open |
-| Identity and keys | Tenant authorization, credential provisioning, rotation, migration and rollback detection | Bounded keyring and authenticated rekey implemented; tenant-bound identity sessions implemented; plaintext migration and rollback detection open |
+| Identity and keys | Tenant authorization, credential provisioning, rotation, migration and rollback detection | Tenant-bound sessions, live service-token rotation, trusted rollback detection, fenced writer-key transitions and explicit recoverable plaintext migration implemented; remaining key-custody and lifecycle qualification open |
 | Stateful Guard | Operator-pinned transition, concurrency and fault acceptance through candidate execution | Transaction state-machine regression harness implemented; Guard integration open |
 | Execution | A measured compiled/native path conforming to reference VM semantics | Reference VM retained; backend choice requires profiles and differential acceptance |
 | Data interfaces | Exact numerical/time semantics, typed streaming/batches, bounded backpressure | Checked finite numeric, fixed-point money and typed time APIs implemented with oracle/data qualification; bounded transaction batches implemented; streaming remains open |
@@ -99,3 +99,5 @@ blocking-I/O and graceful-drain qualification under #13 remains open.
 [Live HTTP service-token rotation](http-credential-rotation-amendment-2026-09-10.md) specifies per-request reload, fail-closed admission and in-flight request semantics under issue #11.
 
 [Storage writer-key fencing](storage-writer-fence-amendment-2026-09-10.md) specifies authority version 2, explicit generation-checked key transitions and rejection of stale active-key writers under issue #11.
+
+- [Plaintext storage migration](plaintext-storage-migration-amendment-2026-09-10.md): explicit digest-checked initial encryption with a durable encrypted recovery copy.

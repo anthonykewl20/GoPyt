@@ -1,0 +1,11 @@
+{
+  "runtime_commit": "b278dae65cff5728c2b2e97ab2454e7f26af0e4a",
+  "runtime_sha256": "60646df704fc17b97d203189a4dfbafd3ee62bfc8da501ace90e2d9cdfdd2045",
+  "source_sha256": {
+    "gopyt/migration.py": "66ded2bb2d974a615da9d48df09f5dbfa5cb10ea83cd76e3a5ba4b9cf758cbd8",
+    "gopyt/storage.py": "8e6248613beacc1ce35ef9eac9b2760790b39067c5f7e3513fbe49fdbc2492bf",
+    "gopyt/store_admin.py": "3679e38a99d80e25c34ed34a04d4f5eda38a9cc37d44a194454e07e4cd1305ff",
+    "gopyt/test_migration.py": "64f306d8276f3d85fd915a5994a0e231a7edb3b22482ee157d8b9a001d0f1dc8"
+  },
+  "qualification": "919 full tests; 90 focused tests on both pinned Pythons; independent 513-row probes on both; Guard, stdlib, contracts, reproducible/installed wheels and upgrade/rollback passed."
+}

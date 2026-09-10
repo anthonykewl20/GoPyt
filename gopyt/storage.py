@@ -206,6 +206,9 @@ class Store:
         if len(data) > MAX_BYTES:
             raise StorageError('database size limit exceeded')
         data = seal(data, self._security)
+        self._publish(directory, data, restore=restore, authorize_writer=authorize_writer)
+
+    def _publish(self, directory, data, *, restore=None, authorize_writer=False):
         self._check_context()
         temporary = '.pending-' + secrets.token_hex(12)
         fd = os.open(temporary, os.O_WRONLY | os.O_CREAT | os.O_EXCL | os.O_NOFOLLOW,
@@ -272,10 +275,16 @@ class Store:
             if any(len(s) > MAX_BYTES // 2 or len(s.encode('utf-8')) > MAX_BYTES // 2
                    for s in inputs if s is not None):
                 raise StorageError('database input size limit exceeded')
+            if operation == 'migrate' and os.environ.get('GOPYT_STORE_ANCHOR_DIR'):
+                raise StorageError('migration requires unanchored storage')
             with self._locked(deadline, enroll=operation == 'enroll_anchor',
                               restore=operation in ('restore_anchor', 'anchor_status')) as directory:
                 if self._anchor is not None and operation not in ('get', 'get_many', 'anchor_status', 'enroll_anchor', 'fence_key'):
                     self._anchor.check_writer(self._security[0].write_identity)
+                if operation == 'migrate':
+                    from gopyt.migration import migrate
+                    self._clear_cache()
+                    return migrate(self, directory, value, expected, MAX_BYTES, deadline)
                 if operation == 'fence_key':
                     if self._anchor is None or self._anchor.record['generation'] != expected:
                         raise StorageError('key authorization generation mismatch')
@@ -478,6 +487,13 @@ class Store:
     def enroll_anchor(self):
         """Trusted operator enrollment; never called by language natives."""
         return self._operate('enroll_anchor', '*')
+
+    def migrate(self, *, backup, expected_digest):
+        """Trusted initial migration, with an encrypted recovery copy."""
+        if (not isinstance(expected_digest, str) or len(expected_digest) != 64
+                or any(c not in '0123456789abcdef' for c in expected_digest)):
+            raise StorageError('invalid migration digest')
+        return self._operate('migrate', '*', os.fspath(backup), expected_digest)
 
     def fence_key(self, *, expected_generation):
         """Trusted operator key transition; ordinary writes cannot grant key authority."""
