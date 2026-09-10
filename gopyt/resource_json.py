@@ -423,3 +423,60 @@ def parse_owned(text, budget, check=lambda: None):
             frame.phase = 'comma'
     finally:
         text = frame = value = key = None
+
+
+from gopyt.values import I32, U32, U64
+
+
+def _owned_integer_new(cls, value, reservation):
+    try:
+        result = int.__new__(cls, value)
+        result._reservation = reservation
+        return result
+    finally:
+        value = None
+
+
+class _ChargedI32(I32):
+    __new__ = _owned_integer_new
+    __del__ = _ChargedInteger.__del__
+
+
+class _ChargedU32(U32):
+    __new__ = _owned_integer_new
+    __del__ = _ChargedInteger.__del__
+
+
+class _ChargedU64(U64):
+    __new__ = _owned_integer_new
+    __del__ = _ChargedInteger.__del__
+
+
+def integer_value(value, tag, budget, check=lambda: None):
+    """Admit a typed destination for an already integral JSON integer token."""
+    import sys
+    from gopyt.jsonc import INT_RANGE
+    from gopyt.gobyte import TE_I32, TE_I64, TE_U32, TE_U64
+    reservation = result = None
+    transferred = False
+    try:
+        check()
+        if not isinstance(value, int) or isinstance(value, bool):
+            raise ConvertFail('int')
+        lo, hi = INT_RANGE[tag]
+        if not lo <= value <= hi:
+            raise ConvertFail('range')
+        capacity = ((64 + sys.int_info.bits_per_digit - 1) //
+                    sys.int_info.bits_per_digit) * sys.int_info.sizeof_digit
+        reservation = budget.reserve(native_bytes=capacity)
+        constructor = {TE_I32: _ChargedI32, TE_I64: _ChargedInteger,
+                       TE_U32: _ChargedU32, TE_U64: _ChargedU64}[tag]
+        with budget.reserve(native_bytes=capacity):
+            result = constructor(value, reservation)
+        transferred = True
+        check()
+        return result
+    finally:
+        value = result = None
+        if reservation is not None and not transferred:
+            reservation.release()

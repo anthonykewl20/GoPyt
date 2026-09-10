@@ -189,3 +189,15 @@ The focused JSON and VM suites pass on both pinned runtimes, including owned/pla
 nested graph equality in both directions and cross-width rejection. This removes
 one integration obstacle; typed destination producers and production routing are
 still pending.
+
+Typed integer destinations: integer_value admits a width-preserving owned wrapper
+for existing integer tokens after range validation. The bound is enough binary
+limbs for 64 bits, with a second capacity reserved for subtype conversion scratch.
+Direct I32/U32/U64 subclasses preserve scalar_type_id and structural equality.
+An initial multiple-inheritance attempt loaded on 3.14 but failed with an instance
+layout conflict on 3.11; both raw logs are retained. The corrected constructors
+pass all 27 focused tests on both runtimes, including each width's lower/upper
+bounds, bool rejection, cross-range rejection and alias lifetime. Decimal inputs
+are not handled by this helper: 3.14 dec_as_long allocates a rounded mpd temporary
+and, above signed i64, an exported-digit buffer overlapping PyLongWriter storage.
+Those paths need admission before typed decoding can route Decimal inputs here.

@@ -435,3 +435,26 @@ class JsonOwnedValueEquality(unittest.TestCase):
         self.assertFalse(value_eq(result, {'y': [1, True, 's']}))
         del result
         self.assertEqual(budget.snapshot()['active_reservations'], 0)
+
+
+class JsonTypedInteger(unittest.TestCase):
+    def test_width_boundaries_and_ownership(self):
+        from gopyt.jsonc import INT_RANGE, INT_VALUE
+        from gopyt.resource_json import integer_value
+        from gopyt.vm import scalar_type_id, value_eq
+        for tag, (lo, hi) in INT_RANGE.items():
+            budget = ResourceBudget(ResourceLimits(10000, 0, 0, 0))
+            for value in (lo, 0, hi):
+                result = integer_value(value, tag, budget)
+                expected = INT_VALUE[tag](value)
+                self.assertEqual(scalar_type_id(result), scalar_type_id(expected))
+                self.assertTrue(value_eq(result, expected))
+                alias = result
+                del result
+                self.assertGreater(budget.snapshot()['used']['native_bytes'], 0)
+                del alias
+                self.assertEqual(budget.snapshot()['active_reservations'], 0)
+            for value in (lo - 1, hi + 1, True):
+                with self.assertRaises(ConvertFail):
+                    integer_value(value, tag, budget)
+                self.assertEqual(budget.snapshot()['active_reservations'], 0)

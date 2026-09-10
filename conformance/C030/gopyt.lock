@@ -1,4 +1,4 @@
-toolchain = "gopyt-0.1.000+sha256:a15cd75cf11e4a0a608841290ec39f9857f249705b1942c7259d0b0f446985ee"
+toolchain = "gopyt-0.1.000+sha256:c1e9d792094cd610ff13f6b13cd5365e8751bd4636921151e16f3e43509f5a09"
 
 [[pkg]]
 name = "test_package"
