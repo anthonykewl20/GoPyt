@@ -30,9 +30,20 @@ class WorkloadFreeze(unittest.TestCase):
         document = json.loads(FREEZE.read_text())
         gaps = {gap['issue'] for gap in document['frozen']['known_gaps']}
         # The envelope deliberately exceeds what the shipped backend can hold and
-        # what any measurement covers; those gaps must stay recorded, not quietly
-        # dropped, until their issues close.
-        self.assertLessEqual({5, 6, 8, 24, 25, 26}, gaps)
+        # what any measurement covers. These gaps must stay recorded, not quietly
+        # dropped: a gap leaves this list only when its issue closes, and only
+        # through a revision bump that records why.
+        self.assertLessEqual({5, 6, 8, 25, 26}, gaps)
+        self.assertGreaterEqual(document['revision'], 2)
+        self.assertIn('#24', document['revision_reason'])
+
+    def test_a_removed_gap_carries_its_reason(self):
+        document = json.loads(FREEZE.read_text())
+        if document['revision'] > 1:
+            self.assertTrue(document['revision_reason'])
+            # Removing a gap must not be how a target quietly changes.
+            self.assertIn('No target, threshold, dataset identity or envelope '
+                          'value changed.', document['revision_reason'])
 
     def test_no_measurement_is_claimed(self):
         text = (ROOT / 'docs' / 'production-qualification-targets.md').read_text()

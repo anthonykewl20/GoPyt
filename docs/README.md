@@ -145,3 +145,7 @@ fixed and configured capacities, overload policies and remaining issue #13 cover
 [Transport, gateway and egress boundaries](transport-gateway-amendment-2026-09-10.md) define the trusted-gateway peer and forwarded-identity rules, this server's own inbound header bounds, identity-aware admission, and the resolved-address policy for allowlisted outbound origins under issue #24.
 
 [OS isolation profiles](os-isolation-amendment-2026-09-10.md) define the Linux namespace, private-root, no-new-privileges and rlimit boundary installed around Guard candidate acceptance and editor checking, the fail-closed policy when it cannot be installed, and what it explicitly does not provide, under issue #6.
+
+[Operations, incident response and recovery](operations.md) publishes the supported platforms, compatibility policy, deployment and monitoring runbook, severity-based incident procedure, restore drill and named release ownership under issue #26. The recovery objectives are targets from the frozen qualification document, not measured results.
+
+[Independent security review scope package](security-review-package.md) is what an external reviewer needs: the surfaces, the frozen threat model, reproduction commands, retained evidence and the known gaps. It is a package for a review, not a review; this project's security posture remains unreviewed.
