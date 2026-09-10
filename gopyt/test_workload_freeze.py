@@ -35,7 +35,9 @@ class WorkloadFreeze(unittest.TestCase):
         # through a revision bump that records why.
         self.assertLessEqual({5, 6, 8, 25, 26}, gaps)
         self.assertGreaterEqual(document['revision'], 2)
-        self.assertIn('#24', document['revision_reason'])
+        # Every gap must say what is still unmet, in its own words.
+        for gap in document['frozen']['known_gaps']:
+            self.assertTrue(gap.get('gap'), gap['issue'])
 
     def test_a_removed_gap_carries_its_reason(self):
         document = json.loads(FREEZE.read_text())

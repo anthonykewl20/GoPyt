@@ -150,8 +150,8 @@ identity or envelope value has changed since revision 1.
 
 Still unmet: the backend cannot hold the frozen retained state (#8), native and
 cryptographic internal allocations are unaccounted (#5), the isolation profile is
-qualified on one Linux kernel with no system-call filter and no tenant-separation
-evidence (#6), no measurement exists against any latency, throughput,
+qualified on one Linux kernel with no system-call filter, and its platform coverage
+is the open part of A4 (#6), no measurement exists against any latency, throughput,
 availability or recovery objective (#25), and no independent security review has
 been performed (#26).
 

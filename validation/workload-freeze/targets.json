@@ -1,5 +1,5 @@
 {
-  "digest": "sha256:a15c32fc0d25e5b17be5de6bb99b0a2320186a8ab6bf4a62d2b1cdd2d7276624",
+  "digest": "sha256:49e4987e3187acbee84c74deb08791679d24b9369ace2a71d6a9b8ca220b49e7",
   "document": "docs/production-qualification-targets.md",
   "frozen": {
     "budgets": {
@@ -133,8 +133,9 @@
         "issue": 8
       },
       {
-        "gap": "no OS isolation profile is installed by any execution path",
-        "issue": 6
+        "gap": "the isolation profile is qualified by finite hostile fixtures on one Linux kernel; macOS has no supported profile and no system-call filter is installed",
+        "issue": 6,
+        "note": "separation between concurrent evaluations was qualified in #86; platform coverage remains the open part of A4"
       },
       {
         "gap": "no measurement against any frozen latency, throughput, availability or recovery target exists",
@@ -208,7 +209,7 @@
   },
   "frozen_at": "2026-09-10",
   "frozen_before_tuning": true,
-  "revision": 2,
-  "revision_reason": "Issue #24 closed: the gateway, header and outbound address boundaries are implemented and qualified, so it is no longer an unmet gap. The #6 entry is restated to describe what the merged Linux profile does and does not cover. No target, threshold, dataset identity or envelope value changed.",
+  "revision": 3,
+  "revision_reason": "Restates the #6 gap after #86 qualified separation between concurrent evaluations, leaving platform coverage as the open part of A4. No target, threshold, dataset identity or envelope value changed.",
   "schema": "gopyt.workload-freeze.v1"
 }

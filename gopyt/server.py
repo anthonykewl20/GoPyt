@@ -336,12 +336,14 @@ def serve(vm, module: str):
                 # The deployment stated that every request arrives through the
                 # gateway, so anything else is refused before it is parsed
                 # further, rather than being served as an anonymous client.
+                vm.observe.deny('gateway', context=vm)
                 self.close_connection = True
                 self._empty(403)
                 return
             identity, problem = gateway.forwarded_identity(
                 peer, self.headers.get_all(gateway.header, []))
             if problem is not None:
+                vm.observe.deny('forwarded_identity', context=vm)
                 self.close_connection = True
                 self._empty(401 if problem == 'identity' else 400)
                 return
@@ -351,6 +353,7 @@ def serve(vm, module: str):
                 headers = self.headers.get_all("Authorization", [])
                 session = identities.authenticate(headers[0]) if len(headers) == 1 else None
                 if session is None:
+                    vm.observe.deny('identity', context=vm)
                     self.close_connection = True
                     self._empty(401)
                     return
@@ -369,6 +372,7 @@ def serve(vm, module: str):
                 except UnicodeError:
                     supplied = b''
                 if not secrets.compare_digest(supplied, authorization):
+                    vm.observe.deny('service_token', context=vm)
                     self.close_connection = True
                     self._empty(401)
                     return
@@ -493,6 +497,8 @@ def serve(vm, module: str):
                         self.close_connection = True
                         return
                     except Trap as error:
+                        if error.code == ops.TRAP_PAR_MAX:
+                            vm.observe.count('queue:worker_refused', context=vm)
                         # A configured budget refusal is overload, exactly like
                         # worker admission; the fixed language ceiling is not.
                         status = (503 if error.code == ops.TRAP_PAR_MAX
@@ -606,6 +612,7 @@ def serve(vm, module: str):
             except queue.Full:
                 try:
                     request.sendall(b"HTTP/1.1 503 Service Unavailable\r\nContent-Length: 0\r\nConnection: close\r\n\r\n")
+                    vm.observe.count('queue:connection_rejected', context=vm)
                     vm.observe.http("unmatched", "503", 0.0, context=vm)
                 finally:
                     self.shutdown_request(request)
@@ -631,6 +638,10 @@ def serve(vm, module: str):
                     vm._tl.http_request_deadline_ns = deadline
                     vm._tl.http_connection_deadline_ns = connection_deadline
                     if stop.is_set() or draining.is_set() or time.monotonic_ns() >= deadline:
+                        if time.monotonic_ns() >= deadline:
+                            # Queued long enough to lose its deadline: the
+                            # handler never runs, so nothing else records it.
+                            vm.observe.count('queue:request_expired', context=vm)
                         self.shutdown_request(request)
                     else:
                         self.process_request_thread(request, address)

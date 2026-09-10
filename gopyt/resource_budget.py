@@ -8,7 +8,16 @@ import threading
 
 
 class ResourceLimitError(Exception):
-    """A reservation exceeds one or more configured resource limits."""
+    """A reservation exceeds one or more configured resource limits.
+
+    `fields` names the limits that were actually exceeded, so a caller can
+    record which pressure refused the work without re-deriving it. It stays a
+    plain tuple of field names; nothing request-supplied is carried here.
+    """
+
+    def __init__(self, message, fields=()):
+        super().__init__(message)
+        self.fields = tuple(fields)
 
 
 @dataclass(frozen=True)
@@ -101,10 +110,12 @@ class ResourceBudget:
         reservation = _Reservation(self, token)
         with self._lock:
             self._drain_finalizers_locked()
-            if any(getattr(amounts, name) > getattr(self._limits, name) - self._used[name]
-                   for name in self._names):
+            exceeded = tuple(name for name in self._names
+                             if getattr(amounts, name)
+                             > getattr(self._limits, name) - self._used[name])
+            if exceeded:
                 self._rejected += 1
-                raise ResourceLimitError('native resource budget exceeded')
+                raise ResourceLimitError('native resource budget exceeded', exceeded)
             updated = {name: self._used[name] + getattr(amounts, name) for name in self._names}
             peaks = {name: max(self._peak[name], updated[name]) for name in self._names}
             self._active[token] = amounts

@@ -394,7 +394,14 @@ class VM:
         self.heap.collect()
         try:
             return produce(*args, **kwargs)
-        except ResourceLimitError:
+        except ResourceLimitError as error:
+            # The definitive refusal, after the sweep: record which budget field
+            # ran out before this becomes an overload trap.
+            try:
+                self.observe.refused(error.fields, context=self)
+                self.observe.count('alloc:overload_trap', context=self)
+            except Exception:
+                pass  # telemetry must never replace the trap it describes
             raise Trap(ops.TRAP_ALLOC, overload=True) from None
 
     def _exec_frame(self, frame):

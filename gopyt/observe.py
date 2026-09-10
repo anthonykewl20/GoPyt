@@ -19,6 +19,33 @@ from dataclasses import dataclass, field
 U64_MAX = 2**64 - 1
 FAILURE_NAMES = frozenset("Denied Throttled NotFound ConvertError DbError IoError HttpError ModelError ListenError EvolveError".split())
 
+# Operational counters are exact and their names are closed. A metric name that
+# could carry a key, a principal or a URL would let one request multiply this
+# table, so nothing outside this set is ever counted and the memory an operator
+# pays for telemetry does not depend on traffic.
+METRICS = (
+    # Authorization and authority refusals, one family across every surface.
+    'deny:resource', 'deny:secret', 'deny:limit', 'deny:egress', 'deny:rate',
+    'deny:database', 'deny:identity', 'deny:service_token', 'deny:gateway',
+    'deny:forwarded_identity',
+    # Admission pressure: what the configured budgets actually refused.
+    'alloc:refused_bytes', 'alloc:refused_descriptors', 'alloc:refused_mapped',
+    'alloc:refused_handles', 'alloc:overload_trap',
+    # Queue pressure at the serving edge.
+    'queue:connection_rejected', 'queue:worker_refused', 'queue:request_expired',
+    # Concurrency conflicts that a caller is expected to retry.
+    'conflict:compare_exchange', 'conflict:writer_fence', 'conflict:snapshot_generation',
+    # Contract failures, counted apart from other traps.
+    'contract:precondition', 'contract:postcondition',
+)
+METRIC_NAMES = frozenset(METRICS)
+
+# Which reservation field maps to which refusal counter.
+REFUSAL_METRICS = {'native_bytes': 'alloc:refused_bytes',
+                   'descriptors': 'alloc:refused_descriptors',
+                   'mapped_bytes': 'alloc:refused_mapped',
+                   'handles': 'alloc:refused_handles'}
+
 
 def compact(text):
     raw = text.encode("utf-8")
@@ -130,6 +157,9 @@ class Observe:
 
     def __post_init__(self) -> None:
         self.reservoir = Reservoir(self.reservoir_k)
+        # Exact, and one slot per closed name: never keyed on anything a
+        # request supplies.
+        self.counters = dict.fromkeys(METRICS, 0)
         # The VM updates these from parallel arms and HTTP handler threads. The
         # algorithms are the P0 port unchanged; only mutual exclusion is added,
         # so "the reservoir never exceeds K" holds under concurrency too.
@@ -153,7 +183,44 @@ class Observe:
                 self.reservoir.add(json.dumps({"task": task, "tag": tag, "code": code}, separators=(",", ":")))
 
     def memory_cells(self) -> int:
-        return self.cms.depth * self.cms.width + self.reservoir.k + 8 + len(self.bloom.bits)
+        return (self.cms.depth * self.cms.width + self.reservoir.k + 8
+                + len(self.bloom.bits) + len(METRICS))
+
+    def count(self, name: str, amount: int = 1, *, context=None) -> None:
+        """Increment one closed-set operational counter.
+
+        An unknown name is a programming error rather than a new metric: the
+        whole point of the closed set is that telemetry size cannot follow
+        traffic. Counters saturate instead of wrapping.
+        """
+        if name not in METRIC_NAMES:
+            raise KeyError('unknown metric: ' + name)
+        with self.admission(context):
+            self.counters[name] = min(U64_MAX, self.counters[name] + amount)
+
+    def refused(self, fields, *, context=None) -> None:
+        """Record which budget field refused a reservation."""
+        for field_name in fields:
+            metric = REFUSAL_METRICS.get(field_name)
+            if metric is not None:
+                self.count(metric, context=context)
+
+    def metrics(self, *, context=None) -> dict:
+        """A bounded operational reading: exact counters plus latency shape.
+
+        The Count-Min and Bloom structures stay internal; they estimate tag
+        frequency and cannot be presented as exact operator metrics.
+        """
+        with self.admission(context):
+            return {'schema': 'gopyt.metrics.v1',
+                    'events': self.events, 'failures': self.fail,
+                    'latency_ms_mean': self.welford.mean,
+                    'latency_ms_variance': self.welford.variance(),
+                    'anomaly_alarm': bool(self.cusum.alarm),
+                    'counters': dict(self.counters),
+                    'memory_cells': self.memory_cells(),
+                    'scope': ('bounded counters and moments over a closed metric set; '
+                              'no payloads, principals or request-supplied names')}
 
     # -- VM edges (docs/hardening.md: recorded without agent-written logs) --
 
@@ -172,6 +239,14 @@ class Observe:
         return True
 
     def trap(self, code: int, name: str, *, context=None) -> bool:
+        # Contract traps are counted apart from the rest: a precondition failure
+        # is an obligation being violated, not an ordinary runtime error.
+        contract = {1: 'contract:precondition', 2: 'contract:postcondition'}.get(code)
+        if contract is not None:
+            try:
+                self.count(contract, context=context)
+            except Exception:
+                pass  # never let telemetry replace the original trap
         return self.terminal_event(f"trap:{code}:{name}", True, 0.0, name, code,
                                    context=context)
 
@@ -183,6 +258,7 @@ class Observe:
         self.event("note:" + tag, False, 0.0, context=context)
 
     def deny(self, kind: str, *, context=None) -> None:
+        self.count("deny:" + kind, context=context)
         self.event("deny:" + kind, True, 0.0, context=context)
 
     def outcome(self, task, tag, ms, *, context=None):
