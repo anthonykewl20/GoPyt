@@ -65,3 +65,8 @@ dependency and does not by itself verify every supported Python/SQLite build.
 Restore backup input is currently an exact bytes object supplied by the trusted
 operator API; store_admin reads it before calling restore_anchor. Budgeting that
 input requires admission at its producer, not a reservation after the allocation.
+
+A failed-publication test enters Store._save with an encrypted context, verifies
+that ciphertext is charged and decryptable at publication, retains an alias,
+then verifies clearing after failure and release only after the alias is dropped.
+The 32-test cipher/publication/rollback selection passes on both pinned runtimes.
