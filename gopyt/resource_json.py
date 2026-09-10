@@ -516,3 +516,112 @@ def decimal_integer_value(value, tag, budget, check=lambda: None):
                 raw = None
     finally:
         value = rounded = raw = result = None
+
+
+def decode_value(art, data, te_ix, budget, check=lambda: None):
+    """Internal typed conversion with separately owned destination containers."""
+    from gopyt import jsonc as j
+    result = child = key = None
+    try:
+        check()
+        te = art.texprs[te_ix]
+        tag = te.tag
+        if tag in (j.TE_F64, j.TE_BYTES):
+            raise j.NotJson()
+        if tag == j.TE_BOOL:
+            if not isinstance(data, bool):
+                raise ConvertFail('bool')
+            return data
+        if tag in j.INT_RANGE:
+            producer = decimal_integer_value if isinstance(data, Decimal) else integer_value
+            return producer(data, tag, budget, check)
+        if tag == j.TE_STR:
+            if not isinstance(data, str):
+                raise ConvertFail('str')
+            return data
+        if tag == j.TE_UNIT:
+            if data != {}:
+                raise ConvertFail('unit')
+            return j.UNIT
+        if tag == j.TE_OPT:
+            if data is None:
+                return j.NONE
+            child = decode_value(art, data, te.a, budget, check)
+            return j.Some(child)
+        if tag == j.TE_LIST:
+            if not isinstance(data, list):
+                raise ConvertFail('list')
+            result = _JsonArray(budget)
+            for child in data:
+                result.append_owned(decode_value(art, child, te.a, budget, check), check)
+            return result
+        if tag == j.TE_MAP:
+            if art.texprs[te.a].tag != j.TE_STR:
+                raise j.NotJson()
+            if not isinstance(data, dict):
+                raise ConvertFail('map')
+            result = _JsonObject(budget)
+            for key, child in data.items():
+                result.insert_owned(key, decode_value(art, child, te.b, budget, check), check)
+            return result
+        if tag == j.TE_NOM:
+            return _nominal_value(art, data, te.a, budget, check)
+        if tag == j.TE_UNION:
+            if not isinstance(data, dict) or len(data) != 1:
+                raise ConvertFail('union')
+            key = next(iter(data))
+            for member in te.members:
+                if j._member_name(art, member) == key:
+                    return decode_value(art, data[key], member, budget, check)
+            raise ConvertFail('union member')
+        raise j.NotJson()
+    finally:
+        data = result = child = key = None
+
+
+def _nominal_value(art, data, type_id, budget, check):
+    from gopyt import jsonc as j
+    body = fields = names = key = None
+    try:
+        check()
+        td = art.types[type_id]
+        if td.kind == 3:
+            raise j.NotJson()
+        if not isinstance(data, dict):
+            raise ConvertFail('object')
+        variant = None
+        if td.kind == 1:
+            declarations = td.fields
+            body = data
+        else:
+            if len(data) != 1:
+                raise ConvertFail('enum')
+            key = next(iter(data))
+            for index, (name, declarations) in enumerate(td.variants):
+                if art.const_str(name) == key:
+                    variant = index
+                    break
+            if variant is None:
+                raise ConvertFail('variant')
+            body = data[key]
+            if not isinstance(body, dict):
+                raise ConvertFail('enum payload')
+        names = _JsonArray(budget)
+        for name, _ in declarations:
+            names.append_owned(art.const_str(name), check)
+        for key in body:
+            if key not in names:
+                raise ConvertFail('unknown key')
+        fields = _JsonArray(budget)
+        for (_, field_type), name in zip(declarations, names):
+            if name in body:
+                fields.append_owned(decode_value(art, body[name], field_type, budget, check), check)
+            elif art.texprs[field_type].tag == j.TE_OPT:
+                fields.append_owned(j.NONE, check)
+            else:
+                raise ConvertFail('missing field')
+        if variant is None:
+            return j.Record(type_id, fields)
+        return j.EnumVal(type_id, variant, fields)
+    finally:
+        data = body = fields = names = key = None

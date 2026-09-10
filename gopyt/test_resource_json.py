@@ -538,3 +538,24 @@ class JsonTypedNumericFailures(unittest.TestCase):
                 failure = error
             del result
             self.assertEqual(budget.snapshot()['active_reservations'], 0, limit)
+
+
+class JsonTypedGraph(unittest.TestCase):
+    def test_nested_destinations_match_existing_conversion(self):
+        from types import SimpleNamespace as NS
+        from gopyt import jsonc as j
+        from gopyt.resource_json import parse_owned, decode_value
+        from gopyt.vm import value_eq
+        art = NS(texprs=[NS(tag=j.TE_I64), NS(tag=j.TE_STR),
+                         NS(tag=j.TE_OPT, a=0), NS(tag=j.TE_LIST, a=2),
+                         NS(tag=j.TE_MAP, a=1, b=3)])
+        budget = ResourceBudget(ResourceLimits(100000, 0, 0, 0))
+        parsed = parse_owned('{"a":[1,null,2.0],"b":[]}', budget)
+        before = budget.snapshot()['used']['native_bytes']
+        result = decode_value(art, parsed, 4, budget)
+        self.assertTrue(value_eq(result, j._dec(art, parsed, 4)))
+        self.assertGreater(budget.snapshot()['used']['native_bytes'], before)
+        del parsed
+        self.assertGreater(budget.snapshot()['used']['native_bytes'], 0)
+        del result
+        self.assertEqual(budget.snapshot()['active_reservations'], 0)

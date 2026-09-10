@@ -242,3 +242,16 @@ limit from 0 through 599 bytes exercises temporary/destination admission boundar
 All reservations release after returned values or failed conversions are dropped.
 These finite cases supplement source bounds; complete typed graph decoding remains
 unimplemented and production JSON routing remains unchanged.
+
+Internal typed graph integration: decode_value now dispatches the existing type
+rules through owned integer/Decimal producers and owned destination list/map
+containers. _nominal_value builds admitted field/name pointer arrays and preserves
+record/enum field validation; optional/record/enum object headers are metadata.
+Strings and map keys retain parsed ownership by alias. Thirty-one focused tests
+pass on both runtimes; the first nested map/list/optional graph compares with _dec,
+observes simultaneous source/destination charges, and verifies independent release.
+Nominal/union/error/cancellation cases still need qualification. Artifact const_str
+and _member_name can produce text outside this helper's current admission boundary;
+that must be resolved before claiming complete typed payload coverage. Production
+routing remains unchanged, and this internal recursive typed traversal has not yet
+been depth-qualified.
