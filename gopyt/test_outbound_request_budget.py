@@ -96,7 +96,7 @@ class OutboundRequestBudget(unittest.TestCase):
             cancel = threading.Event()
             self.vm.cancels = (cancel,)
             self.vm.deadline_ns = clock[0] + 100_000_000 if condition == 'deadline' else None
-            original = jsonc.encode_bytes
+            original = jsonc.encode_owned_bytes
             def encode(*args, **kwargs):
                 if condition == 'cancel':
                     cancel.set()
@@ -107,7 +107,7 @@ class OutboundRequestBudget(unittest.TestCase):
                 with self.subTest(condition=condition), \
                         patch('time.monotonic_ns', side_effect=lambda: clock[0]), \
                         patch('gopyt.natives.HTTP_TIMEOUT_MS', 100 if condition == 'own' else 30000), \
-                        patch('gopyt.jsonc.encode_bytes', encode), patch('gopyt.netio.opener') as opener:
+                        patch('gopyt.jsonc.encode_owned_bytes', encode), patch('gopyt.netio.opener') as opener:
                     if condition == 'own':
                         result = self.model('probe')
                         self.assertEqual(self.vm.type_name(result.type_id), 'core.status.ModelError')

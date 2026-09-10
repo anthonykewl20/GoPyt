@@ -93,11 +93,11 @@ class ResponseBudget(unittest.TestCase):
 
     def test_http_serialization_expiry_sends_no_success_response(self):
         with fixture.running_server(MAX_HANDLERS=1) as (vm, port):
-            original = jsonc.encode_bytes
+            original = jsonc.encode_owned_bytes
             def encode(*args, **kwargs):
                 vm.deadline_ns = 1
                 return original(*args, **kwargs)
-            with patch('gopyt.server.jsonc.encode_bytes', encode):
+            with patch('gopyt.server.jsonc.encode_owned_bytes', encode):
                 connection = http.client.HTTPConnection('127.0.0.1', port, timeout=2)
                 try:
                     connection.request('GET', '/echo/abc')
