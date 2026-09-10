@@ -28,7 +28,8 @@ def integer(value: object) -> int:
 
 
 def record(vm, name: str, value: int) -> Record:
-    return Record(vm.type_id_of('core.time.' + name), [integer(value)])
+    from gopyt.natives import _record
+    return _record(vm, vm.type_id_of('core.time.' + name), integer(value))
 
 
 def field(vm, value: object, name: str) -> int:
@@ -144,7 +145,8 @@ def now(vm) -> Record:
 
 
 def monotonic_now(vm) -> Record:
-    return Record(vm.type_id_of('core.time.MonotonicInstant'), [clock(time.monotonic_ns), vm.clock_id])
+    from gopyt.natives import _record
+    return _record(vm, vm.type_id_of('core.time.MonotonicInstant'), clock(time.monotonic_ns), vm.clock_id)
 
 
 def wait_ns(vm, duration: int):
@@ -181,7 +183,8 @@ def install(table: dict) -> None:
             try:
                 return operation(vm, *args)
             except TimeError as error:
-                return Record(vm.type_id_of('core.status.ConvertError'), [str(error)])
+                from gopyt.natives import _status
+                return _status(vm, 'ConvertError', str(error))
         return call
     operations = {'timestamp_ns': timestamp_ns, 'timestamp_ms': timestamp_ms,
                   'duration_ns': duration_ns, 'duration_ms': duration_ms,

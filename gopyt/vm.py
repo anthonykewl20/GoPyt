@@ -26,9 +26,13 @@ I64_MAX = 2**63 - 1
 
 
 class Trap(Exception):
-    def __init__(self, code: int) -> None:
+    def __init__(self, code: int, overload: bool = False) -> None:
         self.code = code
         self.observed = False  # recorded once, at the frame that raised it
+        # A configured resource budget refused the reservation, rather than the
+        # fixed language ceiling being exceeded. Serving paths answer overload
+        # with 503; the trap code and CLI exit status are unchanged.
+        self.overload = overload
         super().__init__(f"trap {code}")
 
 
@@ -379,6 +383,20 @@ class VM:
         with self.heap.frame(frame):
             return self._exec_frame(frame)
 
+    def _sweep_retry(self, produce, *args, **kwargs):
+        """Reclaim dead managed payloads once before a budget refusal traps.
+
+        Charged managed allocations stay registered until an explicit mark and
+        sweep, so byte pressure is independent of the heap's object-count
+        collection threshold. One sweep is attempted before a configured budget
+        refusal becomes an overload trap. Only the refusal path pays for it.
+        """
+        self.heap.collect()
+        try:
+            return produce(*args, **kwargs)
+        except ResourceLimitError:
+            raise Trap(ops.TRAP_ALLOC, overload=True) from None
+
     def _exec_frame(self, frame):
         instruction_guard = self.heap.step(frame, quantum=32)
         try:
@@ -462,18 +480,29 @@ class VM:
                     if ix >= len(fields):
                         raise Trap(ops.TRAP_TYPE)
                     stack.append(fields[ix])
-                elif op == ops.NEW_RECORD:
-                    type_id, count = struct.unpack_from("<IH", code, pc)
-                    pc += 6
-                    vals = stack[len(stack) - count :]
-                    del stack[len(stack) - count :]
-                    stack.append(Record(type_id, list(vals)))
-                elif op == ops.NEW_ENUM:
-                    type_id, variant, count = struct.unpack_from("<IHH", code, pc)
-                    pc += 8
-                    vals = stack[len(stack) - count :]
-                    del stack[len(stack) - count :]
-                    stack.append(EnumVal(type_id, variant, list(vals)))
+                elif op in (ops.NEW_RECORD, ops.NEW_ENUM):
+                    if op == ops.NEW_RECORD:
+                        type_id, count = struct.unpack_from("<IH", code, pc)
+                        pc += 6
+                    else:
+                        type_id, variant, count = struct.unpack_from("<IHH", code, pc)
+                        pc += 8
+                    start = len(stack) - count
+                    owned_fields = result = None
+                    try:
+                        try:
+                            owned_fields = copy_list(stack, self.resource_budget,
+                                                     self.check_cancelled, start=start)
+                        except ResourceLimitError:
+                            owned_fields = self._sweep_retry(
+                                copy_list, stack, self.resource_budget,
+                                self.check_cancelled, start=start)
+                        result = (Record(type_id, owned_fields) if op == ops.NEW_RECORD
+                                  else EnumVal(type_id, variant, owned_fields))
+                        del stack[start:]
+                        stack.append(result)
+                    finally:
+                        owned_fields = result = None
                 elif op == ops.ENUM_TAG:
                     v = stack.pop()
                     if not isinstance(v, EnumVal):
@@ -501,7 +530,9 @@ class VM:
                         result = copy_list(stack, self.resource_budget,
                                            self.check_cancelled, start=start)
                     except ResourceLimitError:
-                        raise Trap(ops.TRAP_ALLOC) from None
+                        result = self._sweep_retry(
+                            copy_list, stack, self.resource_budget,
+                            self.check_cancelled, start=start)
                     try:
                         del stack[start:]
                         stack.append(result)
@@ -531,7 +562,9 @@ class VM:
                         stack.append(append_list(lst, item, self.resource_budget,
                                                  self.check_cancelled))
                     except ResourceLimitError:
-                        raise Trap(ops.TRAP_ALLOC) from None
+                        stack.append(self._sweep_retry(
+                            append_list, lst, item, self.resource_budget,
+                            self.check_cancelled))
                 elif op == ops.NEW_MAP:
                     stack.append(OwnedMap(self.resource_budget))
                 elif op == ops.MAP_GET:
@@ -553,7 +586,9 @@ class VM:
                         stack.append(set_map(mp, map_key(key), value,
                                              self.resource_budget, self.check_cancelled))
                     except ResourceLimitError:
-                        raise Trap(ops.TRAP_ALLOC) from None
+                        stack.append(self._sweep_retry(
+                            set_map, mp, map_key(key), value,
+                            self.resource_budget, self.check_cancelled))
                 elif op in _ARITH:
                     b = stack.pop()
                     a = stack.pop()

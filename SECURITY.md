@@ -22,6 +22,8 @@ An optional private `GOPYT_DB_POLICY_FILE` confines database reads and writes to
 
 ## Trust boundaries
 
+The unified attacker model for every surface — compiler, bytecode artifact, VM, natives, host process, editor, Guard, credentials, deployment and supply chain — is frozen in [production qualification targets](docs/production-qualification-targets.md), together with what is explicitly outside that model. The paragraphs below remain the operational detail.
+
 Application file natives reject hard links, symlink traversal, internal state and Git metadata access, and writes to source, build and package metadata. VM effects still govern native access. These checks assume a trusted host account and protected package directories. Another process with the same filesystem authority can race or replace files; root can inspect memory. Use isolated service accounts, containers or equivalent OS controls for untrusted workloads.
 
 Encryption protects snapshot confidentiality and integrity against an attacker without the key. It does not prevent deletion, replay of an older valid snapshot, memory inspection, malicious authorized requests, or exfiltration by a compromised host. Plaintext exists in RAM. Disk encryption, swap/core-dump policy, gateway TLS, tenant authorization, backup retention, monitoring and incident response remain deployment responsibilities.

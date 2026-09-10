@@ -45,8 +45,9 @@ def money_value(vm, value: object) -> tuple[int, int, str]:
 
 
 def make(vm, units: int, scale: int, currency: str) -> Record:
-    return Record(vm.type_id_of('core.money.Money'),
-                  [integer(units), scale_value(scale), currency_value(currency)])
+    from gopyt.natives import _record
+    return _record(vm, vm.type_id_of('core.money.Money'),
+                   integer(units), scale_value(scale), currency_value(currency))
 
 
 def rounding_value(vm, value: object) -> int:
@@ -141,7 +142,8 @@ def install(table: dict) -> None:
             try:
                 return operation(vm, *args)
             except MoneyError as error:
-                return Record(vm.type_id_of('core.status.ConvertError'), [str(error)])
+                from gopyt.natives import _status
+                return _status(vm, 'ConvertError', str(error))
         return call
 
     for name, operation in {'make': make, 'parse': parse, 'format': format_value,
