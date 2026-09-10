@@ -31,3 +31,9 @@ Broader resource/HTTP/model regression passed 51 tests on each pinned runtime.
 An injected counter-update MemoryError retains the charge and pending mark;
 the next snapshot retries successfully. All three finalizer regressions pass
 on both versions. Full-suite qualification remains pending.
+
+The candidate runtime wheel reproduced byte-for-byte (SHA-256
+`294532c9631e95db59139b32eae9863aaf27c2352e22892901944eff083f68de`,
+57 runtime files). Installed smoke and old/new/rollback checks passed.
+Full regression qualification remains running; packaging does not establish
+resolution of either CI failure.
