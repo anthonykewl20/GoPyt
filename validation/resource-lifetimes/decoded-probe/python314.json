@@ -1,0 +1,27 @@
+{
+  "python": "3.14.7 (main, Sep  1 2026, 14:18:09) [Clang 22.1.3 ]",
+  "cases": [
+    {
+      "input_bytes": 1,
+      "error_input_bytes": 1,
+      "error_input_type": "bytes",
+      "same_object": false,
+      "equal_content": true
+    },
+    {
+      "input_bytes": 65537,
+      "error_input_bytes": 65537,
+      "error_input_type": "bytes",
+      "same_object": false,
+      "equal_content": true
+    },
+    {
+      "input_bytes": 3,
+      "error_input_bytes": 3,
+      "error_input_type": "bytes",
+      "same_object": false,
+      "equal_content": true
+    }
+  ],
+  "scope": "finite strict UTF-8 error input-copy observations"
+}
