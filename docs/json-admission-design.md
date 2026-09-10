@@ -137,3 +137,17 @@ resize whose old/new overlap exceeds the budget while preserving prior contents,
 and retain cancellation traceback after successful insertion without retaining the
 array through the producer frame. Object/dictionary admission and actual parser
 integration remain outstanding.
+
+Object producer: _JsonObject is parser-private and insert-only. Matching release
+hash tables use two-thirds usable slots and growth based on used*3; without
+removals the required power-of-two table doubles at each threshold. General
+entries store hash/key/value, while indices are at most pointer-width. Four
+pointer words per slot conservatively admit this storage (including unused slots).
+Every insertion reserves the new table bound while retaining the old reservation,
+even without growth, because a string subclass key can switch a Unicode-only table
+to general entries. Duplicate insertion rejects before reserving or mutating.
+Twenty focused tests pass on both pinned GIL runtimes. A 1000-key mixed exact-str/
+subclass-key probe compares actual dict.__sizeof__ growth with the charge; aliases
+retain ownership and duplicate/capacity rejection preserves prior contents. These
+finite tests do not qualify free-threaded delayed reclamation, arbitrary mutations,
+or complete parser/typed-graph behavior. Containers remain internal and unintegrated.

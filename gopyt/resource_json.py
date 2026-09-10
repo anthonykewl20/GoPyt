@@ -267,3 +267,49 @@ class _JsonArray(list):
         reservation = getattr(self, '_reservation', None)
         if reservation is not None:
             reservation.finalize()
+
+
+class _JsonObject(dict):
+    """Parser-private insert-only object with admitted hash-table storage."""
+    def __init__(self, budget):
+        super().__init__()
+        self._budget = budget
+        self._reservation = None
+        self._slots = 8
+
+    def insert_owned(self, key, value, check=lambda: None):
+        import struct
+        reservation = None
+        try:
+            check()
+            if not isinstance(key, str):
+                raise ConvertFail('key')
+            if key in self:
+                raise ConvertFail('duplicate key')
+            slots = self._slots
+            while len(self) + 1 > (slots * 2) // 3:
+                slots *= 2
+            # Combined tables: each index is at most pointer-sized and each
+            # general entry contains hash/key/value. Charging four words per
+            # slot also conservatively covers the smaller Unicode entry layout.
+            # Reserve even without growth: a str subclass key can change layout.
+            reservation = self._budget.reserve(
+                native_bytes=slots * 4 * struct.calcsize('P'))
+            dict.__setitem__(self, key, value)
+            previous = self._reservation
+            self._reservation = reservation
+            self._slots = slots
+            reservation = None
+            if previous is not None:
+                previous.release()
+            check()
+        finally:
+            key = value = None
+            if reservation is not None:
+                reservation.release()
+            self = None
+
+    def __del__(self):
+        reservation = getattr(self, '_reservation', None)
+        if reservation is not None:
+            reservation.finalize()

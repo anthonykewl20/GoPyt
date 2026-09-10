@@ -299,3 +299,38 @@ class JsonArrayOwnership(unittest.TestCase):
                 self.assertIsNone(tb.tb_frame.f_locals['self'])
                 self.assertIsNone(tb.tb_frame.f_locals['value'])
             tb = tb.tb_next
+
+
+class JsonObjectOwnership(unittest.TestCase):
+    def test_growth_and_string_subclass_keys(self):
+        from gopyt.resource_json import _JsonObject
+        class Key(str):
+            pass
+        budget = ResourceBudget(ResourceLimits(1000000, 0, 0, 0))
+        result = _JsonObject(budget)
+        baseline = dict.__sizeof__(result)
+        for index in range(1000):
+            key = str(index) if index % 2 else Key(str(index))
+            result.insert_owned(key, index)
+            self.assertLessEqual(dict.__sizeof__(result) - baseline,
+                                 budget.snapshot()['used']['native_bytes'])
+        self.assertEqual(result, {str(i): i for i in range(1000)})
+        alias = result
+        del result
+        self.assertGreater(budget.snapshot()['used']['native_bytes'], 0)
+        del alias
+        self.assertEqual(budget.snapshot()['active_reservations'], 0)
+
+    def test_duplicate_and_capacity_rejection_preserve_object(self):
+        import struct
+        from gopyt.resource_json import _JsonObject
+        budget = ResourceBudget(ResourceLimits(32 * struct.calcsize('P'), 0, 0, 0))
+        result = _JsonObject(budget)
+        result.insert_owned('a', 1)
+        with self.assertRaises(ConvertFail):
+            result.insert_owned('a', 2)
+        with self.assertRaises(ResourceLimitError):
+            result.insert_owned('b', 2)
+        self.assertEqual(result, {'a': 1})
+        del result
+        self.assertEqual(budget.snapshot()['active_reservations'], 0)
