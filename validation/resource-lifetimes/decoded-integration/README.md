@@ -14,3 +14,14 @@ conversion, byte/string concatenation, string slicing and model-body UTF-8 decod
 now admit covered payload copies. Parser objects, extracted model text, other
 producers and native-library internals remain separate accounting gaps. This
 increment does not complete issue #5 or establish a process RSS bound.
+
+The first full Python 3.14 suite failed (1,056 tests; three failures and two
+errors). Raw failure evidence is retained. The allocation audit passed no VM to
+string concat; its test now supplies a cancellation context without changing the
+expected allocation trap. Charged string/byte subclasses also exposed structural
+equality using exact Python types: equal language scalar values could compare
+unequal. Equality now handles string/byte values before the union-type distinction.
+The 73-test audit/CLI/text selection passes on both runtimes after these fixes.
+The runtime changed to 50589c241a1e079effc2a6dd29b60f97f0d31037c55daa3e306d6295bc45348e;
+prior packaging and source metadata above refer to the earlier runtime and must
+be requalified before publication. Full suites and deadline inventory are pending.

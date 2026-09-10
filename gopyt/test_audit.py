@@ -193,7 +193,8 @@ class ResourceAudit(unittest.TestCase):
                                ("core.bytes.concat", [b"12", b"3"]),
                                ("core.map.set", [{"aa": 1, "bb": 2}, "cc", 3])):
                 with self.subTest(name=name), self.assertRaises(Trap) as cm:
-                    NATIVES[name](None, args, None)
+                    from types import SimpleNamespace
+                    NATIVES[name](SimpleNamespace(check_cancelled=lambda: None), args, None)
                 self.assertEqual(cm.exception.code, ops.TRAP_ALLOC)
 
     def test_file_io_rejects_nonregular_entries_without_blocking(self):
