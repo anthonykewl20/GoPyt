@@ -16,7 +16,7 @@ baseline wheel for upgrade verification. The wheel hash is in manifest.json.
 The initial TLS handoff log retains the ResourceWarning which led to the alias
 cleanup fix; the strengthened final tests retain the alias and verify invalidation.
 
-This is local Linux evidence. Full Python 3.14 regression and exact-head platform CI
-have not been run for this descriptor branch. The native deadline inventory still
-needs refresh. Descriptor integration does not complete resolver/trust-store,
+This is local Linux evidence. Full Python 3.14 regression also passed (see full314.log). Exact-head platform CI
+is still pending. The refreshed descriptor-deadline-inventory.json verifies on
+both pinned interpreters; its checks cover inventory and source identity only. Descriptor integration does not complete resolver/trust-store,
 SQLite/TLS/encryption native-memory accounting, or issue 5's full acceptance scope.
