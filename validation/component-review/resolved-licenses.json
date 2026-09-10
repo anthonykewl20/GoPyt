@@ -1,0 +1,71 @@
+{
+  "schema": "gopyt.component-license-resolution.v1",
+  "scope": "Licenses read out of the pinned source archive itself, for components whose publisher record declares none. Each entry names the archive, its verified digest, the license file inside it and that file's digest, so the reading can be repeated exactly. This resolves the license of the named artifact; it is not a licensing opinion about how the artifact may be used and not an independent audit.",
+  "method": "The archive was downloaded from the pinned URL, its SHA-256 compared against the identity already recorded in this repository, and the license file read from inside the verified archive. No license was inferred from a project name or from another release.",
+  "entries": [
+    {
+      "component": "sbom:cryptography:openssl@4.0.2",
+      "name": "openssl",
+      "version": "4.0.2",
+      "inside": "cryptography 50.0.1",
+      "declared_by": "cryptography-50.0.1.dist-info/sboms/sbom.json, which carries no licenses field for this component",
+      "source_url": "https://github.com/openssl/openssl/releases/download/openssl-4.0.2/openssl-4.0.2.tar.gz",
+      "source_sha256": "736b467530f916737b7031310ccb21d8218c6229e61e8e160cd1d3458cd543a8",
+      "source_sha256_verified": true,
+      "license": "Apache-2.0",
+      "license_files": [
+        {
+          "path": "openssl-4.0.2/LICENSE.txt",
+          "sha256": "7d5450cb2d142651b8afa315b5f238efc805dad827d91ba367d8516bc9d49e7a",
+          "bytes": 10175,
+          "first_lines": [
+            "Apache License",
+            "Version 2.0, January 2004",
+            "https://www.apache.org/licenses/"
+          ]
+        }
+      ]
+    },
+    {
+      "component": "interpreter-input:sqlite",
+      "name": "sqlite",
+      "version": "3.53.1.0",
+      "inside": "python-build-standalone release 20260901 interpreter archives",
+      "declared_by": "validation/component-review/python-publisher-downloads.json, which declares linkable library names but no licenses field",
+      "source_url": "https://www.sqlite.org/2026/sqlite-autoconf-3530100.tar.gz",
+      "source_sha256": "83e6b2020a034e9a7ad4a72feea59e1ad52f162e09cbd26735a3ffb98359fc4f",
+      "source_sha256_verified": true,
+      "license": "blessing",
+      "license_note": "The SQLite core carries a public-domain dedication rather than a grant: the author disclaims copyright and supplies a blessing in place of a legal notice. SPDX records this text as 'blessing'.",
+      "license_files": [
+        {
+          "path": "sqlite-autoconf-3530100/tea/license.terms",
+          "sha256": "66e056b6e8687f32af30d5187611b98b12a8f46f07aaf62f43585f276e8f0ac9",
+          "bytes": 257,
+          "first_lines": [
+            "The author disclaims copyright to this source code.  In place of",
+            "a legal notice, here is a blessing:"
+          ]
+        }
+      ],
+      "separately_licensed_contents": [
+        {
+          "path": "sqlite-autoconf-3530100/autosetup/LICENSE",
+          "sha256": "679b9208e67df09977456d1d2ae4d885b9badf02c47b45a28cf95ee27c14cb18",
+          "bytes": 1737,
+          "covers": "the bundled autosetup build configurator, which is not linked into the interpreter",
+          "first_lines": [
+            "Unless explicitly stated, all files which form part of autosetup",
+            "are released under the following license:"
+          ]
+        }
+      ],
+      "core_source": {
+        "path": "sqlite-autoconf-3530100/sqlite3.c",
+        "sha256": "9ac97192c93a6d9671d2ea667ba14e3c8fe3719a171afc5827c9d86d0278fc14",
+        "bytes": 9489774,
+        "note": "The same disclaimer appears in the amalgamated core source itself."
+      }
+    }
+  ]
+}

@@ -1,31 +1,5 @@
 {
   "schema": "gopyt.component-unresolved.v1",
-  "scope": "Components whose publisher record does not declare a license. Their exact identity is retained so a reviewer can resolve them. Listing an entry here records that the gap is known; it is not a licensing conclusion and no license is asserted from memory.",
-  "entries": [
-    {
-      "component": "sbom:cryptography:openssl@4.0.2",
-      "name": "openssl",
-      "version": "4.0.2",
-      "inside": "cryptography 50.0.1",
-      "sbom": "cryptography-50.0.1.dist-info/sboms/sbom.json",
-      "source_url": "https://github.com/openssl/openssl/releases/download/openssl-4.0.2/openssl-4.0.2.tar.gz",
-      "source_sha256": "736b467530f916737b7031310ccb21d8218c6229e61e8e160cd1d3458cd543a8",
-      "reason": "The publisher CycloneDX document records the exact source tarball, its SHA-256 and the build flags, but carries no licenses field for this component.",
-      "resolution_required": "Fetch the pinned tarball, read its own license text, and record the identified license against this exact digest. Do not infer the license from the project name or from another release."
-    },
-    {
-      "component": "interpreter-input:sqlite",
-      "name": "sqlite",
-      "version": "3.53.1.0",
-      "inside": "python-build-standalone release 20260901 interpreter archives",
-      "sbom": "validation/component-review/python-publisher-downloads.json",
-      "source_url": "https://www.sqlite.org/2026/sqlite-autoconf-3530100.tar.gz",
-      "source_sha256": "83e6b2020a034e9a7ad4a72feea59e1ad52f162e09cbd26735a3ffb98359fc4f",
-      "library_names": [
-        "sqlite3"
-      ],
-      "reason": "The publisher record declares linkable library names for this component but carries no licenses field, unlike the other declared libraries.",
-      "resolution_required": "Fetch the pinned tarball, read its own license text, and record the identified license against this exact digest. Do not infer the license from the project name or from another release."
-    }
-  ]
+  "scope": "Components whose publisher record declares no license and whose license has not yet been read from the pinned source archive. Both previously listed entries were resolved and moved to resolved-licenses.json. Any newly undeclared license must be listed here with its exact identity and the resolution it needs; nothing is inferred from a project name.",
+  "entries": []
 }

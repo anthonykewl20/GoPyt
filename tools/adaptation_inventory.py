@@ -29,6 +29,14 @@ NOT_A_REPOSITORY = {'repos', 'users', 'orgs', 'advisories', 'en', 'docs', 'searc
 SELF = {'anthonykewl20'}
 CLASSIFICATIONS = {'dependency', 'build_input', 'interpreter_input', 'infrastructure',
                    'adapted', 'behavioral_reference', 'conceptual_prior_art'}
+# The inventory files record where a reference is used; naming one there is not
+# itself a use, and counting it would make the scan depend on its own output.
+INVENTORY_FILES = {
+    'validation/component-review/adaptations.json',
+    'validation/component-review/release-components.json',
+    'validation/component-review/resolved-licenses.json',
+    'validation/component-review/unresolved-components.json',
+}
 
 
 def tracked_files(root):
@@ -41,6 +49,8 @@ def scan(root):
     """Every external repository reference, mapped to the files naming it."""
     found = {}
     for name in tracked_files(root):
+        if name in INVENTORY_FILES:
+            continue
         path = root / name
         try:
             text = path.read_text(encoding='utf-8')

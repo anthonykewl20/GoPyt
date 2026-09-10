@@ -24,6 +24,7 @@ INSTALLED = Path('validation/component-inventory/local.json')
 PUBLISHER = Path('validation/component-review/python-publisher-downloads.json')
 ACTION_PATHS = Path('validation/component-review/action-record-paths.json')
 UNRESOLVED = Path('validation/component-review/unresolved-components.json')
+RESOLVED = Path('validation/component-review/resolved-licenses.json')
 INTERPRETERS = Path('requirements/python-standalone.json')
 REQUIREMENTS = (Path('requirements/build.txt'), Path('requirements/security.txt'))
 WORKFLOWS = Path('.github/workflows')
@@ -35,6 +36,13 @@ USES = re.compile(r'uses:\s*(?P<owner>[A-Za-z0-9_.-]+)/(?P<repo>[A-Za-z0-9_.-]+)
 
 def _read_json(root, relative):
     return json.loads((root / relative).read_text())
+
+
+def _records(root, relative):
+    path = root / relative
+    if not path.exists():
+        return {}
+    return {entry['component']: entry for entry in json.loads(path.read_text())['entries']}
 
 
 def pinned_requirements(root):
@@ -197,37 +205,49 @@ def check(root):
     for identity, action in sorted(current['components']['ci_actions'].items()):
         if len(action['commit']) != 40:
             problems.append(f'{identity} is not pinned to a full commit')
-    unresolved_path = root / UNRESOLVED
-    unresolved = {}
-    if unresolved_path.exists():
-        unresolved = {entry['component']: entry
-                      for entry in json.loads(unresolved_path.read_text())['entries']}
+    unresolved = _records(root, UNRESOLVED)
+    resolved = _records(root, RESOLVED)
+    for key in sorted(set(unresolved) & set(resolved)):
+        problems.append(f'{key} is recorded as both unresolved and resolved')
+    for key, entry in sorted(resolved.items()):
+        # A license read out of an archive is only evidence if the archive it was
+        # read from is the one this repository already pinned.
+        if not entry.get('source_sha256_verified'):
+            problems.append(f'{key} records a license without verifying the source digest')
+        if not entry.get('license') or not entry.get('license_files'):
+            problems.append(f'{key} records no license or no license file')
+        for record in entry.get('license_files', ()):
+            if len(record.get('sha256', '')) != 64:
+                problems.append(f'{key} records a license file without a digest')
     for key, component in sorted(current['components']['installed_components'].items()):
         if component['kind'] != 'native_component' or component['licenses']:
             continue
         # A publisher record without a license field is a known gap, not a pass.
         # It must be retained with its exact identity so a reviewer can resolve
         # it; anything newly undeclared fails here.
-        entry = unresolved.get(key)
+        entry = resolved.get(key) or unresolved.get(key)
         if entry is None:
-            problems.append(f'{key} has no declared license and is not recorded in '
-                            f'{UNRESOLVED}')
+            problems.append(f'{key} has no declared license and is recorded in neither '
+                            f'{RESOLVED} nor {UNRESOLVED}')
         elif entry.get('source_sha256') not in (component['hashes'].get('SHA-256'), None):
             problems.append(f'{key} is recorded against a different source digest')
-        elif not entry.get('resolution_required'):
+        elif key in unresolved and not entry.get('resolution_required'):
             problems.append(f'{key} is recorded without the resolution it still needs')
     for key, component in sorted(current['components']['interpreter_native_inputs'].items()):
         # Only linkable libraries need a declared license here; build tooling is
         # recorded with its identity but is not linked into a release artifact.
         if component['role'] != 'library' or component['licenses']:
             continue
-        if key not in unresolved:
+        if key not in unresolved and key not in resolved:
             problems.append(f'{key} declares linkable libraries with no license and is '
-                            f'not recorded in {UNRESOLVED}')
+                            f'recorded in neither {RESOLVED} nor {UNRESOLVED}')
+        entry = resolved.get(key)
+        if entry is not None and entry.get('source_sha256') != component.get('sha256'):
+            problems.append(f'{key} is resolved against a different source digest')
     known = (set(current['components']['installed_components'])
              | set(current['components']['interpreter_native_inputs']))
-    for key in sorted(set(unresolved) - known):
-        problems.append(f'{key} is recorded as unresolved but no longer appears in the '
+    for key in sorted((set(unresolved) | set(resolved)) - known):
+        problems.append(f'{key} carries a license record but no longer appears in the '
                         f'derived inventory')
     return problems
 

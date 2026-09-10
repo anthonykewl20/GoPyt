@@ -12,7 +12,9 @@
       "conceptual_prior_art": 3,
       "infrastructure": 10,
       "interpreter_input": 11
-    }
+    },
+    "linked_without_declared_license": 0,
+    "build_tooling_without_declared_license": 5
   },
   "entries": [
     {
@@ -27,7 +29,8 @@
       "license_record": "validation/component-review/python-publisher-downloads.json",
       "use": "Declared by the interpreter publisher as an input to its CPython builds (patchelf). Whether it was linked into a selected archive is not determinable from publisher data.",
       "unresolved": true,
-      "resolution_required": "The publisher record declares no license for this input. Read the pinned source archive and record its license against that digest."
+      "resolution_required": "The publisher declares no license and no linkable library names for this input, so it is build tooling the publisher runs rather than a component linked into an interpreter archive. Its license is therefore not part of a released artifact, and none is asserted here. Resolve it only if a future change links it, or if the publisher begins declaring library names for it.",
+      "linked_into_artifact": false
     },
     {
       "source": "NousResearch/hermes-agent-self-evolution",
@@ -53,7 +56,8 @@
       "license_record": "validation/component-review/python-publisher-downloads.json",
       "use": "Declared by the interpreter publisher as an input to its CPython builds (strawberryperl). Whether it was linked into a selected archive is not determinable from publisher data.",
       "unresolved": true,
-      "resolution_required": "The publisher record declares no license for this input. Read the pinned source archive and record its license against that digest."
+      "resolution_required": "The publisher declares no license and no linkable library names for this input, so it is build tooling the publisher runs rather than a component linked into an interpreter archive. Its license is therefore not part of a released artifact, and none is asserted here. Resolve it only if a future change links it, or if the publisher begins declaring library names for it.",
+      "linked_into_artifact": false
     },
     {
       "source": "Voultapher/self_cell",
@@ -431,7 +435,8 @@
       "license_record": "validation/component-review/python-publisher-downloads.json",
       "use": "Declared by the interpreter publisher as an input to its CPython builds (llvm-aarch64-linux, llvm-aarch64-macos, llvm-x86_64-linux, llvm-x86_64-macos). Whether it was linked into a selected archive is not determinable from publisher data.",
       "unresolved": true,
-      "resolution_required": "The publisher record declares no license for this input. Read the pinned source archive and record its license against that digest."
+      "resolution_required": "The publisher declares no license and no linkable library names for this input, so it is build tooling the publisher runs rather than a component linked into an interpreter archive. Its license is therefore not part of a released artifact, and none is asserted here. Resolve it only if a future change links it, or if the publisher begins declaring library names for it.",
+      "linked_into_artifact": false
     },
     {
       "source": "jcreekmore/pem-rs.git",
@@ -614,7 +619,8 @@
       "license_record": "validation/component-review/python-publisher-downloads.json",
       "use": "Declared by the interpreter publisher as an input to its CPython builds (pkgconf). Whether it was linked into a selected archive is not determinable from publisher data.",
       "unresolved": true,
-      "resolution_required": "The publisher record declares no license for this input. Read the pinned source archive and record its license against that digest."
+      "resolution_required": "The publisher declares no license and no linkable library names for this input, so it is build tooling the publisher runs rather than a component linked into an interpreter archive. Its license is therefore not part of a released artifact, and none is asserted here. Resolve it only if a future change links it, or if the publisher begins declaring library names for it.",
+      "linked_into_artifact": false
     },
     {
       "source": "pyo3/pyo3",
@@ -684,7 +690,8 @@
       "license_record": "validation/component-review/python-publisher-downloads.json",
       "use": "Declared by the interpreter publisher as an input to its CPython builds (tk-windows-bin-8612, tk-windows-bin-8614, tk-windows-bin-904). Whether it was linked into a selected archive is not determinable from publisher data.",
       "unresolved": true,
-      "resolution_required": "The publisher record declares no license for this input. Read the pinned source archive and record its license against that digest."
+      "resolution_required": "The publisher declares no license and no linkable library names for this input, so it is build tooling the publisher runs rather than a component linked into an interpreter archive. Its license is therefore not part of a released artifact, and none is asserted here. Resolve it only if a future change links it, or if the publisher begins declaring library names for it.",
+      "linked_into_artifact": false
     },
     {
       "source": "python/cpython-source-deps",

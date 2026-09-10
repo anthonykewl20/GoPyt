@@ -43,13 +43,23 @@ The derived set carries a digest; `gopyt/test_component_inventory.py` fails when
 the inputs and the retained inventory disagree.
 
 Publisher records can be incomplete, and that is recorded rather than smoothed
-over. Two components declare no license: `openssl` 4.0.2 inside the cryptography
+over. Two components declared no license: `openssl` 4.0.2 inside the cryptography
 wheel, and `sqlite` in the interpreter publisher record, which declares linkable
-library names but no license field. Both are retained in
-`validation/component-review/unresolved-components.json` with their exact source
-URL and SHA-256 and the resolution each still needs. Any newly undeclared license
-fails the check rather than passing silently. No license is inferred from a
-project name.
+library names but no license field. Both were resolved by downloading the pinned
+source archive, comparing its SHA-256 against the identity this repository
+already recorded, and reading the license out of the verified archive:
+openssl 4.0.2 carries Apache-2.0 in `LICENSE.txt`, and SQLite 3.53.1 carries the
+public-domain dedication SPDX records as `blessing`, with its bundled `autosetup`
+configurator separately licensed and not linked into the interpreter.
+`validation/component-review/resolved-licenses.json` retains each archive digest,
+each license-file path and digest, and the opening lines read. Nothing is
+inferred from a project name or from another release, and the check rejects a
+resolution whose source digest does not match the pinned one.
+
+Any newly undeclared license fails rather than passing silently:
+`validation/component-review/unresolved-components.json` is currently empty, and
+a component that declares neither a license nor an entry in one of those two
+files fails the check.
 
 Which publisher-declared input was actually linked into a selected archive is not
 determinable from publisher data, and every such entry says so. Entries that
@@ -74,9 +84,15 @@ pattern in the mapped-data research prototype, pinned to its donor revision with
 its Unlicense record. Adopted code without a pinned revision or a license record
 fails the check.
 
-9 entries are explicitly unresolved, each naming the
-resolution it needs: unpinned prior-art citations and publisher inputs whose
-license the publisher does not declare. A text scan cannot prove the absence of
+9 entries stay explicitly unresolved, each naming the
+resolution it needs. 5 of them are
+interpreter-publisher build tooling: the publisher declares neither a license nor
+any linkable library name for them, so they are tools the publisher runs rather
+than components linked into an archive, and no license is asserted for them.
+0 linked component now lacks a declared
+license. The rest are prior-art citations in documents that name a project
+without pinning a revision, so no source comparison has been performed against
+them. A text scan cannot prove the absence of
 unattributed source; this is an inventory of what is referenced and how it was
 used, not a license audit, a vulnerability scan or an independent audit. The
 hosted-CI trust boundary remains explicit, and this is not an assertion that all
