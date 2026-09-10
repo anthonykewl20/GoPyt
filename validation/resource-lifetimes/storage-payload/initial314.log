@@ -1,0 +1,13 @@
+======================================================================
+FAIL: test_failed_decoder_retained_input_keeps_charge (gopyt.test_storage_payload.SnapshotPayload.test_failed_decoder_retained_input_keeps_charge)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/tmp/gopyt-resource-accounting-next/gopyt/test_storage_payload.py", line 48, in test_failed_decoder_retained_input_keeps_charge
+    self.assertEqual(context.resource_budget.snapshot()['active_reservations'], 0)
+    ~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+AssertionError: 1 != 0
+
+----------------------------------------------------------------------
+Ran 29 tests in 1.019s
+
+FAILED (failures=1)
