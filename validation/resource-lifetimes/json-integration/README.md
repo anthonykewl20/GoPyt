@@ -8,3 +8,6 @@ auxiliary/deadline qualification remain pending. Packaging is not full qualifica
 
 Guard calibration: 17 tests passed (4.661s). Standard-library sync: 22 modules.
 Component inventory retained. Full-suite results and contract demo remain pending.
+
+Contract demonstration passed all four expected outcomes in disposable package
+copies. Full language-suite qualification remains pending.
