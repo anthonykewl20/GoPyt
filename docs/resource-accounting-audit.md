@@ -85,3 +85,25 @@ from SQLite and cryptographic internals, preserve admitted-publication recovery,
 and reject insufficient capacity before each covered allocation. Native internals
 require allocator integration or a separately qualified isolation limit; a
 conservative payload multiplier alone cannot close issue #5.
+
+## Storage payload admission follow-up
+
+PRs #71 and #72 add snapshot-input and cipher-destination admission for VM
+contexts. Normal load and restore share the plaintext boundary; failed cipher
+operations clear destinations, and aliases keep their payload reservations.
+
+The serialization follow-up measures the private main database with page_count
+and page_size, validates the product against MAX_BYTES, then admits three image
+capacities before calling serialize: an owned output and capacity for the possible
+simultaneous SQLite image and Python result. It copies through a writable memoryview,
+clears the temporary result before releasing temporary capacity, and keeps the
+owned image charged through publication and surviving aliases. The connection
+must remain private and unchanged between measurement and serialization. A returned
+length mismatch is rejected as a consistency failure, not used as admission.
+
+This is payload-capacity accounting. SQLite page caches, query allocations,
+deserialization storage, cryptographic scratch, explicit copies and decoded values
+remain separate gaps. Trusted operator paths without a VM budget retain their
+existing behavior, including backup input production. Evidence and finite sizing
+probes are in [serialization qualification](../validation/resource-lifetimes/serialization-size/).
+Issue #5 remains open until the broader resource requirements are qualified.

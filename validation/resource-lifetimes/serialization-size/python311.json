@@ -1,0 +1,112 @@
+{
+  "python": "3.11.16 (main, Sep  1 2026, 14:18:37) [Clang 22.1.3 ]",
+  "sqlite": "3.53.1",
+  "cases": [
+    {
+      "phase": "empty",
+      "page_size": 512,
+      "pages": 2,
+      "image_bytes": 1024,
+      "backup_file_bytes": 1024
+    },
+    {
+      "phase": "insert",
+      "page_size": 512,
+      "pages": 228,
+      "image_bytes": 116736,
+      "backup_file_bytes": 116736
+    },
+    {
+      "phase": "delete",
+      "page_size": 512,
+      "pages": 228,
+      "image_bytes": 116736,
+      "backup_file_bytes": 116736
+    },
+    {
+      "phase": "vacuum",
+      "page_size": 512,
+      "pages": 116,
+      "image_bytes": 59392,
+      "backup_file_bytes": 59392
+    },
+    {
+      "phase": "deserialize",
+      "page_size": 512,
+      "pages": 116,
+      "image_bytes": 59392,
+      "backup_file_bytes": 59392
+    },
+    {
+      "phase": "empty",
+      "page_size": 4096,
+      "pages": 2,
+      "image_bytes": 8192,
+      "backup_file_bytes": 8192
+    },
+    {
+      "phase": "insert",
+      "page_size": 4096,
+      "pages": 61,
+      "image_bytes": 249856,
+      "backup_file_bytes": 249856
+    },
+    {
+      "phase": "delete",
+      "page_size": 4096,
+      "pages": 61,
+      "image_bytes": 249856,
+      "backup_file_bytes": 249856
+    },
+    {
+      "phase": "vacuum",
+      "page_size": 4096,
+      "pages": 31,
+      "image_bytes": 126976,
+      "backup_file_bytes": 126976
+    },
+    {
+      "phase": "deserialize",
+      "page_size": 4096,
+      "pages": 31,
+      "image_bytes": 126976,
+      "backup_file_bytes": 126976
+    },
+    {
+      "phase": "empty",
+      "page_size": 65536,
+      "pages": 2,
+      "image_bytes": 131072,
+      "backup_file_bytes": 131072
+    },
+    {
+      "phase": "insert",
+      "page_size": 65536,
+      "pages": 4,
+      "image_bytes": 262144,
+      "backup_file_bytes": 262144
+    },
+    {
+      "phase": "delete",
+      "page_size": 65536,
+      "pages": 4,
+      "image_bytes": 262144,
+      "backup_file_bytes": 262144
+    },
+    {
+      "phase": "vacuum",
+      "page_size": 65536,
+      "pages": 2,
+      "image_bytes": 131072,
+      "backup_file_bytes": 131072
+    },
+    {
+      "phase": "deserialize",
+      "page_size": 65536,
+      "pages": 2,
+      "image_bytes": 131072,
+      "backup_file_bytes": 131072
+    }
+  ],
+  "scope": "15 finite image-size cases; no allocator or concurrency bound"
+}
