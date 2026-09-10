@@ -1,0 +1,33 @@
+{
+  "old_wheel_sha256": "0f1add81c73d51425e1596860d8ec736d24e9606cba76a9d84190a952d838a81",
+  "new_wheel_sha256": "a5271a05b38d86cc275b3a580d7f4dcfc1cf5196798f7a7c28885d5a8617f34e",
+  "phases": [
+    {
+      "phase": "old",
+      "format": 2,
+      "toolchain": "gopyt-0.1.000",
+      "result": 42,
+      "requires_trap": 1,
+      "outside_checkout": true,
+      "artifact_sha256": "e859b5bcf931345214a1de259f0f10d67ebd3349218964984810cb90a09912aa"
+    },
+    {
+      "phase": "new",
+      "format": 3,
+      "toolchain": "gopyt-0.1.000+sha256:50589c241a1e079effc2a6dd29b60f97f0d31037c55daa3e306d6295bc45348e",
+      "result": 42,
+      "requires_trap": 1,
+      "outside_checkout": true,
+      "artifact_sha256": "7146f4614355291fffba27db7115c1736e0972654ce3bce5ac5c1eae78f18f38"
+    },
+    {
+      "phase": "rollback",
+      "format": 2,
+      "toolchain": "gopyt-0.1.000",
+      "result": 42,
+      "requires_trap": 1,
+      "outside_checkout": true,
+      "artifact_sha256": "e859b5bcf931345214a1de259f0f10d67ebd3349218964984810cb90a09912aa"
+    }
+  ]
+}
