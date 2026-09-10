@@ -301,3 +301,12 @@ raw body through those dispatch arguments. A live HTTP test injects a dispatch
 exception, retains the server's actual traceback, checks both nested body holders
 are empty, and verifies zero charged bytes. Decoded values and transport/parser
 buffers remain separate accounting work.
+
+### Encoder output cleanup
+
+JSON text and byte encoding now close or clear their output accumulator in finally,
+after copying the successful result or before an exception escapes. A retained
+encoding traceback therefore does not keep the partial accumulator payload alive.
+A regression retains size-failure tracebacks for both encoders and verifies their
+output accumulators are closed or empty. This is cleanup preparation for shared
+serialization budgeting, not admission accounting for every encoding temporary.

@@ -135,6 +135,12 @@ class _Encoder:
         self.check()
         return self.output.getvalue() if self.text else bytes(self.output)
 
+    def close(self):
+        if self.text:
+            self.output.close()
+        else:
+            self.output.clear()
+
 
 def encode(art: Artifact, value: object, te_ix: int) -> str:
     from gopyt import ops
@@ -146,6 +152,8 @@ def encode(art: Artifact, value: object, te_ix: int) -> str:
         if error.message == 'size':
             raise AllocationLimit() from error
         raise
+    finally:
+        output.close()
 
 
 def encode_bytes(art: Artifact, value: object, te_ix: int, *, max_bytes: int,
@@ -158,6 +166,8 @@ def encode_bytes(art: Artifact, value: object, te_ix: int, *, max_bytes: int,
         return output.result()
     except RecursionError as error:
         raise ConvertFail('depth') from error
+    finally:
+        output.close()
 
 
 def _emit(art, value, te_ix, out, depth):
