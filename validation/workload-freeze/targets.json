@@ -1,0 +1,218 @@
+{
+  "digest": "sha256:7622e386e19f89c9e9a03b0372012df8823e8dd6a2dc281938e9b65bbf589b03",
+  "document": "docs/production-qualification-targets.md",
+  "frozen": {
+    "budgets": {
+      "availability_monthly_percent": 99.5,
+      "cold_start_seconds": 30,
+      "latency_p50_ms": 25,
+      "latency_p999_ms": 1000,
+      "latency_p99_ms": 250,
+      "planned_restart_drain_seconds": 10,
+      "resident_memory_hard_cap_bytes": 2147483648,
+      "resident_memory_steady_state_target_bytes": 1610612736,
+      "rpo_committed_transactions_lost": 0,
+      "rto_seconds": 900,
+      "throughput_requests_per_second": 200
+    },
+    "control_allocation": {
+      "application": [
+        "business invariants",
+        "idempotency keys",
+        "retry and reconciliation policy",
+        "namespace layout",
+        "request authorization decisions",
+        "schema evolution"
+      ],
+      "deployment": [
+        "TLS termination and forwarded identity",
+        "network exposure",
+        "OS isolation and service account",
+        "memory and CPU limits",
+        "secret custody and rotation schedule",
+        "backups and restore drills",
+        "monitoring, alerting and incident response",
+        "capacity planning"
+      ],
+      "language": [
+        "type, effect and contract checking",
+        "exact numeric and temporal semantics",
+        "allocation ceilings",
+        "formatter and bytecode determinism"
+      ],
+      "runtime": [
+        "resource budgets and admission",
+        "deadlines and cancellation",
+        "structured parallelism",
+        "descriptor and buffer lifetimes",
+        "tracing heap",
+        "closed native catalogue"
+      ]
+    },
+    "datasets": {
+      "primary": {
+        "artifacts": {
+          "expected.json": "41d87a5d8c2a19713d325a6d8b94bbfff966676b45cf5598968eec41e5da037a",
+          "oracle.sqlite3": "0c199077a98a1c6145b563424802a38437822177cbfd1e98bc1d8f16c11101ce",
+          "rows.jsonl": "08f76b68f072e3caf24ae98cfedc256fd0522d95290f8d7b41d63544b72df821"
+        },
+        "citation": "Chen, D. (2015). Online Retail. UCI Machine Learning Repository. https://doi.org/10.24432/C5BW33",
+        "counts": {
+          "cancellation_rows": 9288,
+          "negative_quantity_rows": 10624,
+          "quantity_sum": 5176450,
+          "rows": 541909,
+          "unique_invoices": 25900,
+          "unique_skus": 4070
+        },
+        "license": "CC BY 4.0, as stated by UCI",
+        "manifest": "validation/architecture/dataset-manifest-v2.json",
+        "name": "UCI Online Retail",
+        "not_representative_for": [
+          "the 10 GiB retained-state target"
+        ],
+        "oracle": "SQLite GROUP BY/SUM computed outside the VM",
+        "privacy": "projection retains row number, invoice, stock code and integer quantity only; customer identifiers, descriptions, dates and prices are dropped before use",
+        "representative_for": [
+          "ingestion",
+          "per-SKU aggregation"
+        ],
+        "xlsx_sha256": "43465a06f2ccf7c8b5bd2892bc7defb52f97487934fe93b16ae4c3936424676d"
+      },
+      "required_additional": {
+        "owner_issue": 25,
+        "purpose": "reach the frozen 10 GiB retained-state target under the enforced 2 GiB memory cap",
+        "rule": "freeze its identity and its own independent oracle before tuning; source-row volume must not be relabelled as database size",
+        "status": "not yet frozen"
+      }
+    },
+    "envelope": {
+      "concurrent_connections": 50,
+      "development_only_platform": {
+        "ci_image": "macos-15",
+        "os": "macOS arm64"
+      },
+      "enforced_by": "container cgroup v2 memory.max",
+      "enforced_process_memory_bytes": 2147483648,
+      "hardware": {
+        "disk_bytes": 107374182400,
+        "ram_bytes": 8589934592,
+        "vcpu": 4
+      },
+      "offered_requests_per_second": 200,
+      "production_platform": {
+        "libc": "glibc",
+        "os": "Linux x86-64",
+        "python": [
+          "3.11.16",
+          "3.14.7"
+        ],
+        "runtime": "container"
+      },
+      "retained_state_bytes": 10737418240,
+      "shape": "single-node Linux container backend service",
+      "transport": "plain HTTP on a numerical loopback address behind a trusted TLS-terminating gateway on the same node",
+      "use_cases": [
+        "authenticated JSON HTTP request/response over transactional order and inventory state",
+        "small conditional read-modify-write batches",
+        "replayed ingestion of line-item records",
+        "operator maintenance: snapshot, key rotation, restore"
+      ]
+    },
+    "invariants": [
+      "every accepted write is durably published or reported failed; no acknowledged write is lost across restart",
+      "replayed or duplicate ingestion never double-applies a line item; per-SKU totals equal the independent oracle exactly",
+      "a read never returns data outside the namespace, tenant or session the request is authorized for",
+      "an authenticated snapshot never decrypts under a wrong key or store identity; an older valid snapshot is detected as replay when rollback authority is configured",
+      "monetary and temporal values are exact: no binary floating point, no silent rounding, no non-finite value crossing a boundary",
+      "a trap, cancellation or deadline never leaves a descriptor, mapping or resource reservation charged after its owning scope ends"
+    ],
+    "known_gaps": [
+      {
+        "gap": "the shipped backend bounds one snapshot at 64 MiB and rewrites it whole; it cannot hold the frozen 10 GiB retained state",
+        "issue": 8
+      },
+      {
+        "gap": "no OS isolation profile is installed by any execution path",
+        "issue": 6
+      },
+      {
+        "gap": "no measurement against any frozen latency, throughput, availability or recovery target exists",
+        "issue": 25
+      },
+      {
+        "gap": "native, SQLite, TLS and cryptographic internal allocations are not accounted within the resource budget",
+        "issue": 5
+      },
+      {
+        "gap": "gateway and forwarded-identity boundaries are not qualified through real network paths",
+        "issue": 24
+      },
+      {
+        "gap": "no independent security review has been performed",
+        "issue": 26
+      }
+    ],
+    "out_of_model": [
+      "hostile code executing in the host process",
+      "a compromised host or root account",
+      "physical access",
+      "side-channel and timing analysis",
+      "denial of service beyond the configured bounds",
+      "the security of the external TLS gateway itself"
+    ],
+    "threat_model": {
+      "bytecode_artifact": {
+        "status": "implemented"
+      },
+      "compiler": {
+        "status": "implemented"
+      },
+      "credentials": {
+        "status": "implemented"
+      },
+      "deployment": {
+        "open_issue": 24,
+        "status": "partial"
+      },
+      "editor_lsp": {
+        "open_issue": 20,
+        "status": "partial"
+      },
+      "guard": {
+        "open_issue": 14,
+        "status": "partial"
+      },
+      "host_process": {
+        "open_issue": 6,
+        "status": "not_implemented"
+      },
+      "natives": {
+        "open_issue": 5,
+        "status": "partial"
+      },
+      "supply_chain": {
+        "open_issue": 23,
+        "status": "partial"
+      },
+      "vm": {
+        "open_issue": 5,
+        "status": "partial"
+      }
+    },
+    "unsupported": [
+      "multi-node clusters, horizontal replication and cross-node consensus",
+      "Windows, 32-bit targets and non-glibc Linux",
+      "GPU or accelerator execution",
+      "hostile code executing in the host process",
+      "multi-tenant isolation inside one VM",
+      "live schema migration without operator sequencing",
+      "LSP or Guard offered as a hosted service for untrusted input"
+    ]
+  },
+  "frozen_at": "2026-09-10",
+  "frozen_before_tuning": true,
+  "revision": 1,
+  "revision_reason": "Initial freeze of the single-node Linux container envelope selected for issue #3.",
+  "schema": "gopyt.workload-freeze.v1"
+}
