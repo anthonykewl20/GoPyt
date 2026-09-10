@@ -4,6 +4,7 @@ import ipaddress
 import os
 from pathlib import Path
 import ssl
+import struct
 import threading
 import time
 import unittest
@@ -22,7 +23,7 @@ class OutboundBudgets(unittest.TestCase):
         response = self.invoke('http')
         alias = response.fields[1]
         self.assertEqual(alias, b'{"text":"local response"}')
-        self.assertEqual(vm.resource_budget.snapshot()['used']['native_bytes'], len(alias))
+        self.assertGreater(vm.resource_budget.snapshot()['used']['native_bytes'], len(alias))
         response = None
         vm.heap.release_result()
         vm.heap.collect()
@@ -35,6 +36,7 @@ class OutboundBudgets(unittest.TestCase):
         for cancellation in (False, True):
             with self.subTest(cancellation=cancellation):
                 aliases, requests = [], []
+                result = None
                 class FailingTransport:
                     def open(self, request, **kwargs):
                         requests.append(request)
@@ -51,6 +53,9 @@ class OutboundBudgets(unittest.TestCase):
                 self.assertEqual(len(aliases), 1)
                 self.assertTrue(aliases[0].startswith(b'{"prompt":'))
                 self.assertIsNone(requests[0].data)
+                result = None
+                vm.heap.release_result()
+                vm.heap.collect()
                 self.assertEqual(vm.resource_budget.snapshot()['used']['native_bytes'], len(aliases[0]))
                 aliases.clear()
                 self.assertEqual(vm.resource_budget.snapshot()['used']['native_bytes'], 0)
@@ -61,9 +66,21 @@ class OutboundBudgets(unittest.TestCase):
         with vm.resource_budget.reserve(native_bytes=
                 vm.resource_budget.snapshot()['limits']['native_bytes']):
             with patch('gopyt.netio.opener') as transport:
+                with self.assertRaises(Trap) as caught:
+                    self.invoke('model')
+                from gopyt import ops
+                self.assertEqual(caught.exception.code, ops.TRAP_ALLOC)
+                transport.assert_not_called()
+        # With enough room for error fields, body admission still returns ModelError.
+        with vm.resource_budget.reserve(native_bytes=
+                vm.resource_budget.snapshot()['limits']['native_bytes'] - 4 * struct.calcsize('P')):
+            with patch('gopyt.netio.opener') as transport:
                 result = self.invoke('model')
                 self.assertEqual(vm.type_name(result.type_id), 'core.status.ModelError')
                 transport.assert_not_called()
+        result = None
+        vm.heap.release_result()
+        vm.heap.collect()
         observed = []
         original = _Connection.send
         def send(connection, data):
@@ -91,7 +108,7 @@ class OutboundBudgets(unittest.TestCase):
         from gopyt.resource_budget import ResourceBudget, ResourceLimits
         previous = self.fixture.vm
         self.fixture.vm = VM(previous.art, self.fixture.root, authority=self.fixture.authority,
-                             resource_budget=ResourceBudget(ResourceLimits(0, 0, 0, 0)))
+                             resource_budget=ResourceBudget(ResourceLimits(4 * struct.calcsize('P'), 0, 0, 0)))
         with patch('gopyt.resource_sockets._Socket.__new__') as create:
             result = self.invoke('http')
         create.assert_not_called()

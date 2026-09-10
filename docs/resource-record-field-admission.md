@@ -18,8 +18,14 @@ owned payload arrays produced by the runtime and typed JSON conversion.
 
 The reservation uses the shared list-growth policy, retaining old and replacement
 capacity through growth. Field values are borrowed; this change does not account
-for unrelated producers of those values. Native status, observation, storage and
-HTTP record construction paths still require a separate admission review. Full
+for unrelated producers of those values. The shared native constructor now admits field arrays for status, observation,
+evolution, storage snapshot, HTTP response, FromStr, money and typed-time results.
+Storage snapshots also admit the optional-value result list. Under total byte
+exhaustion, constructing a nonempty error record can itself raise the allocation
+trap; descriptor exhaustion with available field capacity retains its typed error.
+Returned native fields remain charged until heap/host ownership ends. Buffer/View
+capacity-error records and allocations producing the field values themselves still
+require separate review. Full
 and platform qualification remain pending for this increment; focused tests cover
 the reproduced tracing failure, compiled records/enums, budget rejection, empty
 variants and cancellation cleanup.

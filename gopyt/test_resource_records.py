@@ -1,4 +1,5 @@
 """Owned nominal field storage remains reachable through its record or enum."""
+import struct
 import unittest
 from gopyt.heap import Heap
 from gopyt.values import Record, EnumVal
@@ -92,7 +93,7 @@ fn empty() -> Choice
         from gopyt.vm import VM, Trap
         from gopyt import ops
         for name in ('pair', 'full'):
-            budget = ResourceBudget(ResourceLimits(31, 0, 0, 0))
+            budget = ResourceBudget(ResourceLimits(4 * struct.calcsize('P') - 1, 0, 0, 0))
             with VM(self.art, resource_budget=budget) as vm:
                 with self.assertRaises(Trap) as caught:
                     vm.call(self.ids['demo.'+name], [7])
