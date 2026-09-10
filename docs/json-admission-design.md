@@ -102,3 +102,21 @@ four coefficient words (_Py_DEC_MINALLOC), switching to dynamic allocation when
 needed. numeric_as_ascii adds a len+1 scratch allocation. The finalization/status
 paths and corresponding 3.14 implementation still need complete bounds before
 adding the admitted Decimal producer.
+
+Decimal producer added internally: both matching release context.c implementations
+set maxcontext round=HALF_EVEN and clamp=0. Thus _mpd_check_exp does not take the
+fold-down expansion or directed-rounding max-coefficient paths; underflow shifts
+right in place. Exact construction translates Rounded/Inexact/Clamped to invalid
+operation. The new decimal_token reserves 8*(token_length+4) owned bytes (one
+maximum-width coefficient word per token character plus four embedded words),
+another coefficient capacity for resize overlap, and two token_length+1 buffers
+for the ASCII token slice and numeric_as_ascii scratch. Decimal constructs the
+subtype directly; there is no intermediate Decimal-to-subclass copy. Object
+headers and small exception metadata remain outside payload accounting.
+Fifteen focused tests pass on both pinned runtimes. Decimal tests preserve signed
+zero/coefficient tuples, large positive/negative exponents, hashes and alias
+ownership; reject insufficient capacity before the constructor; release on invalid
+exponents and cancellation after construction; and preserve InvalidOperation flags
+and NaN behavior when the caller disables that trap. These are token-producer
+checks, not complete JSON parser or typed-graph qualification. Parser integration,
+container admission, more constructor fault coverage and broad validation remain.

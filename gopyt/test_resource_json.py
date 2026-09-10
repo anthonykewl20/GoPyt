@@ -169,3 +169,76 @@ class JsonIntegerToken(unittest.TestCase):
                 for name in ('text', 'raw', 'result', 'chunk'):
                     self.assertIsNone(tb.tb_frame.f_locals[name])
             tb = tb.tb_next
+
+
+class JsonDecimalToken(unittest.TestCase):
+    def test_oracle_and_alias_ownership(self):
+        from decimal import Decimal
+        from gopyt.resource_json import decimal_token
+        for token in ('0.0', '-0.00', '1.25', '1e1000000', '1e-1000000', '1.234567890123456789e+200', '1.' + '2' * 1000):
+            budget = ResourceBudget(ResourceLimits(100000, 0, 0, 0))
+            result, end = decimal_token(token + ',', 0, budget)
+            expected = json.loads(token, parse_float=Decimal)
+            self.assertEqual(result.as_tuple(), expected.as_tuple())
+            self.assertEqual(hash(result), hash(expected))
+            self.assertEqual(end, len(token))
+            alias = result
+            del result
+            self.assertGreater(budget.snapshot()['used']['native_bytes'], 0)
+            del alias
+            self.assertEqual(budget.snapshot()['active_reservations'], 0)
+
+    def test_admission_precedes_constructor(self):
+        from unittest.mock import patch
+        from gopyt.resource_json import decimal_token
+        budget = ResourceBudget(ResourceLimits(0, 0, 0, 0))
+        with patch('gopyt.resource_json._ChargedDecimal') as constructor:
+            with self.assertRaises(ResourceLimitError):
+                decimal_token('1.25', 0, budget)
+            constructor.assert_not_called()
+        self.assertEqual(budget.snapshot()['active_reservations'], 0)
+
+    def test_invalid_exponent_and_cancelled_result_cleanup(self):
+        from gopyt.resource_json import decimal_token
+        budget = ResourceBudget(ResourceLimits(10000, 0, 0, 0))
+        failure = None
+        try:
+            decimal_token('1e999999999999999999999999999999', 0, budget)
+        except ConvertFail as error:
+            failure = error
+        self.assertIsNotNone(failure)
+        self.assertIsNone(failure.__context__)
+        self.assertEqual(budget.snapshot()['active_reservations'], 0)
+        class Cancelled(Exception):
+            pass
+        def check():
+            if budget.snapshot()['used']['native_bytes']:
+                raise Cancelled()
+        try:
+            decimal_token('1.25', 0, budget, check)
+        except Cancelled as error:
+            failure = error
+        self.assertIsInstance(failure, Cancelled)
+        self.assertEqual(budget.snapshot()['active_reservations'], 0)
+        tb = failure.__traceback__
+        while tb:
+            if tb.tb_frame.f_code.co_name == 'decimal_token':
+                for name in ('text', 'token', 'result'):
+                    self.assertIsNone(tb.tb_frame.f_locals[name])
+            tb = tb.tb_next
+
+    def test_decimal_context_traps_match_oracle(self):
+        from decimal import Decimal, InvalidOperation, localcontext
+        from gopyt.resource_json import decimal_token
+        token = '1e999999999999999999999999999999'
+        budget = ResourceBudget(ResourceLimits(10000, 0, 0, 0))
+        with localcontext() as context:
+            context.traps[InvalidOperation] = False
+            expected = Decimal(token)
+            context.clear_flags()
+            result, end = decimal_token(token, 0, budget)
+            self.assertEqual(result.as_tuple(), expected.as_tuple())
+            self.assertTrue(context.flags[InvalidOperation])
+            self.assertEqual(end, len(token))
+        del result
+        self.assertEqual(budget.snapshot()['active_reservations'], 0)

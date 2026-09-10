@@ -1,5 +1,6 @@
 """Internal admitted JSON token producers; complete parser integration is pending."""
 import json
+from decimal import Decimal, InvalidOperation
 from gopyt.jsonc import ConvertFail
 from gopyt.resource_text import _ChargedString, utf8_size
 
@@ -163,6 +164,59 @@ def integer_token(text, start, budget, check=lambda: None):
                 return result, end
             finally:
                 raw = chunk = None
+    finally:
+        text = result = None
+        if reservation is not None and not transferred:
+            reservation.release()
+
+
+class _ChargedDecimal(Decimal):
+    def __new__(cls, value, reservation):
+        try:
+            result = super().__new__(cls, value)
+            result._reservation = reservation
+            return result
+        finally:
+            value = None
+
+    def __del__(self):
+        reservation = getattr(self, '_reservation', None)
+        if reservation is not None:
+            reservation.finalize()
+
+
+def decimal_token(text, start, budget, check=lambda: None):
+    """Construct an owned Decimal after admitting coefficient and input scratch."""
+    reservation = None
+    token = result = None
+    transferred = False
+    try:
+        end, decimal = number_span(text, start, check)
+        if not decimal:
+            raise ConvertFail('number')
+        size = end - start
+        # libmpdec uses at most eight bytes per coefficient word. One word per
+        # token character plus the four embedded words is conservative. Exact
+        # conversion uses maxcontext with clamp=0, not exponent-sized expansion.
+        capacity = 8 * (size + 4)
+        reservation = budget.reserve(native_bytes=capacity)
+        # ASCII token and numeric_as_ascii each need size+1 bytes. Retain another
+        # coefficient capacity for allocator resize overlap during finalization.
+        with budget.reserve(native_bytes=2 * (size + 1) + capacity):
+            try:
+                token = text[start:end]
+                invalid = False
+                try:
+                    result = _ChargedDecimal(token, reservation)
+                except InvalidOperation:
+                    invalid = True
+                if invalid:
+                    raise ConvertFail('syntax')
+                transferred = True
+                check()
+                return result, end
+            finally:
+                token = None
     finally:
         text = result = None
         if reservation is not None and not transferred:
