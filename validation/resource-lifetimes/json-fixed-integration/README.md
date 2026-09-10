@@ -9,3 +9,6 @@ evidence remains under json-integration and does not qualify this corrected sour
 
 Corrected Python 3.14.7 full language suite: 1096 tests passed in 366.871s.
 Frozen Python source hashes match. Python 3.11 full-suite remains pending.
+
+Corrected Python 3.11.16 full language suite passed all 1096 tests. See full311.log
+for timing and full output. Frozen source hashes remain unchanged on both runs.
