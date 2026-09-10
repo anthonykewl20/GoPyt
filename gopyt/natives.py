@@ -115,7 +115,8 @@ def _ret_member(vm, func: Func, exclude: tuple[str, ...] = ()) -> int:
 
 @native("core.list.empty")
 def _list_empty(vm, args, func):
-    return []
+    from gopyt.resource_collections import OwnedList
+    return OwnedList(vm.resource_budget)
 
 
 @native("core.list.len")
@@ -137,7 +138,14 @@ def _list_append(vm, args, func):
     items, item = args
     if len(items) + 1 > ops.MAX_ALLOC:
         raise Trap(ops.TRAP_ALLOC)
-    return items + [item]
+    from gopyt.resource_budget import ResourceLimitError
+    from gopyt.resource_collections import append_list
+    try:
+        return append_list(items, item, vm.resource_budget, vm.check_cancelled)
+    except ResourceLimitError:
+        raise Trap(ops.TRAP_ALLOC) from None
+    finally:
+        items = item = None
 
 
 @native("core.list.range")
@@ -146,7 +154,14 @@ def _list_range(vm, args, func):
     _requires(start <= end)
     if end - start > ops.MAX_ALLOC:
         raise Trap(ops.TRAP_ALLOC)
-    return list(range(start, end))
+    from gopyt.resource_budget import ResourceLimitError
+    from gopyt.resource_collections import range_list
+    try:
+        return range_list(start, end, vm.resource_budget, vm.check_cancelled)
+    except ResourceLimitError:
+        raise Trap(ops.TRAP_ALLOC) from None
+    finally:
+        start = end = None
 
 
 # ---------------------------------------------------------------- core.map
@@ -154,7 +169,8 @@ def _list_range(vm, args, func):
 
 @native("core.map.empty")
 def _map_empty(vm, args, func):
-    return {}
+    from gopyt.resource_collections import OwnedMap
+    return OwnedMap(vm.resource_budget)
 
 
 @native("core.map.len")
@@ -175,19 +191,24 @@ def _map_set(vm, args, func):
     mp, key, value = args
     if len(mp) + (key not in mp) > ops.MAX_ALLOC:
         raise Trap(ops.TRAP_ALLOC)
-    out = dict(mp)
-    out[key] = value
-    return out
+    from gopyt.resource_budget import ResourceLimitError
+    from gopyt.resource_collections import set_map
+    try:
+        return set_map(mp, key, value, vm.resource_budget, vm.check_cancelled)
+    except ResourceLimitError:
+        raise Trap(ops.TRAP_ALLOC) from None
+    finally:
+        mp = key = value = None
 
 
 @native("core.map.keys")
 def _map_keys(vm, args, func):
-    keys = list(args[0])
-    if keys and isinstance(keys[0], bool):
-        return sorted(keys)
-    if keys and isinstance(keys[0], str):
-        return sorted(keys, key=lambda k: k.encode("utf-8"))
-    return sorted(keys)
+    from gopyt.resource_budget import ResourceLimitError
+    from gopyt.resource_collections import map_keys
+    try:
+        return map_keys(args[0], vm.resource_budget, vm.check_cancelled)
+    except ResourceLimitError:
+        raise Trap(ops.TRAP_ALLOC) from None
 
 
 # ---------------------------------------------------------------- core.str

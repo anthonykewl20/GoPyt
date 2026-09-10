@@ -124,3 +124,19 @@ instructions. Their copies, generated scalar elements and sorting scratch need
 pre-allocation admission and failure/alias qualification. Charging JSON-produced
 containers does not account for these independent producers. SQLite, TLS and
 cryptographic internal allocators remain separate open requirements.
+
+## Collection producer follow-up
+
+List/map natives and their bytecode construction/update instructions now use
+admitted destinations. Range integers retain scalar ownership independently of
+the list, and key sorting admits its result and temporary merge capacity. The
+[collection design](resource-collection-admission.md) describes the exact scope
+and interpreter assumptions. Frozen differential cases through 16,384 elements
+are retained under `validation/resource-lifetimes/collection-oracle/`; elapsed
+times are diagnostic measurements, not production qualification thresholds.
+
+Remaining source paths include `core.str.from_i64`, JSON integer token formatting,
+record/enum field-array construction, and parallel result/capture construction.
+Some of these mix language payloads with runtime metadata and require a precise
+admission boundary. This list is not an exhaustive allocator inventory. SQLite,
+TLS, cryptographic internals and production isolation requirements remain open.

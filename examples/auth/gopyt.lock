@@ -1,4 +1,4 @@
-toolchain = "gopyt-0.1.000+sha256:1797864eb2ef2e92123fb2b0de159e4a8d140fca134fa67647e6dbed52729e11"
+toolchain = "gopyt-0.1.000+sha256:3872c5b0512aa1c93589384bec1b52e752d05e34516964d93b98ce41e4b4acbe"
 
 [[pkg]]
 name = "auth_example"
