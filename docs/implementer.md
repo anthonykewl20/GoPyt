@@ -177,6 +177,7 @@ absolute input deadlines, truncated-body rejection, and TCP_NODELAY.
   body parameter. Query parameters do not exist in v0. Handler return is `unit`
   or must implement `Json`; otherwise E097.
 - No route → response status 404, body empty.
+- Transport and gateway refusals, body empty: a peer that is not the configured trusted gateway is 403; an over-bound request line is 414; an over-bound header line, count or block is 431; a duplicate or malformed forwarded identity is 400 and a missing required one is 401; identity-aware admission refusal is 429. See the transport-gateway amendment.
 - Trap in handler → body empty: worker-admission trap 7 returns 503, nested timeout trap 6 returns 504 while output time remains, and other traps return 500. A trap raised because a configured resource budget refused a reservation is overload and also returns 503; the fixed allocation ceiling of trap 14 still returns 500. See the record-field admission document. Expiration of the whole ten-second request budget (queue, input, cooperative execution and output) closes the connection; see the parallel-admission amendment.
 - Handler success: status **200**, body = UTF-8 JSON of the **return value** (`Json`). If return is `unit`, body empty.
 - **No status-code mapping from `NotFound` etc.** Clients decode the JSON union/record.

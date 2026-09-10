@@ -20,6 +20,7 @@ from http.server import BaseHTTPRequestHandler, ThreadingHTTPServer
 
 from gopyt import jsonc, ops
 from gopyt.jsonc import ConvertFail, NotJson
+from gopyt.limiter import Limiter
 from gopyt.values import UNIT, Unit
 from gopyt.vm import Trap, Cancelled
 from gopyt.resource_budget import ResourceLimitError
@@ -29,6 +30,36 @@ from gopyt.resource_sockets import open_socket
 class _RequestBody:
     def __init__(self):
         self.data = b''
+
+
+class _BoundedHeaderReader:
+    """Read header lines under this server's own explicit bounds.
+
+    The host header parser reads line by line, so counting bytes and lines here
+    stops an oversized header block while it arrives rather than after it has
+    been buffered. Exceeding a bound raises the parser's own line-too-long
+    error, which the request path answers with 431.
+    """
+
+    def __init__(self, source):
+        self.source = source
+        self.consumed = 0
+        self.lines = 0
+
+    def readline(self, limit=-1):
+        import http.client
+        allowed = MAX_HEADER_LINE if limit < 0 else min(limit, MAX_HEADER_LINE)
+        line = self.source.readline(allowed + 1)
+        if len(line) > allowed:
+            raise http.client.LineTooLong('header line')
+        self.consumed += len(line)
+        if self.consumed > MAX_HEADER_BYTES:
+            raise http.client.LineTooLong('header block')
+        if line not in (b'\r\n', b'\n', b''):
+            self.lines += 1
+            if self.lines > MAX_HEADER_COUNT:
+                raise http.client.LineTooLong('header count')
+        return line
 
 
 class _BudgetedHTTPServer(ThreadingHTTPServer):
@@ -61,6 +92,13 @@ REQUEST_TIMEOUT_SECONDS = 10.0
 CONNECTION_TIMEOUT_SECONDS = 10.0
 MAX_KEEPALIVE_REQUESTS = 100
 TCP_NODELAY = True
+# Inbound header bounds are this server's, not whatever the host HTTP library
+# happens to default to. Parsing stops at the limit instead of accepting a large
+# header block and rejecting it afterwards.
+MAX_REQUEST_LINE = 8_192
+MAX_HEADER_LINE = 8_192
+MAX_HEADER_COUNT = 64
+MAX_HEADER_BYTES = 32_768
 
 
 class _DrainRequested(Exception):
@@ -164,12 +202,15 @@ def serve(vm, module: str):
         vm.serving = False
         return _status(vm, "ListenError", "identity broker audience or serving authority mismatch")
     from gopyt.security_config import http_token, http_token_file, SecurityError
+    from gopyt.gateway import from_environment
     try:
         service_auth = http_token(vm.root, addr, session_auth=identities is not None, descriptors=vm.descriptors) is not None
         authorization_path = os.environ.get('GOPYT_HTTP_TOKEN_FILE')
+        gateway = from_environment()
     except (SecurityError, ResourceLimitError):
         vm.serving = False
         return _status(vm, "ListenError", "security configuration")
+    admission = Limiter() if gateway.rate_limited else None
     routes = []
     for r in vm.routes_for(module):
         path = vm.art.const_str(r.path)
@@ -201,6 +242,31 @@ def serve(vm, module: str):
             # would retain its headers and buffers until Python's cyclic GC.
             self.rfile = io.BufferedReader(_DeadlineReader(
                 self.connection, time.monotonic() + REQUEST_TIMEOUT_SECONDS))
+
+        def parse_request(self):
+            import http.client
+            self.requestline = ''
+            self.request_version = ''
+            self.command = ''
+            if len(self.raw_requestline) > MAX_REQUEST_LINE:
+                self.close_connection = True
+                self._empty(414)
+                return False
+            source, self.rfile = self.rfile, _BoundedHeaderReader(self.rfile)
+            try:
+                return super().parse_request()
+            except http.client.LineTooLong:
+                # An over-bound header block: refuse without an error body, the
+                # way every other refusal on this path does.
+                self.close_connection = True
+                self._empty(431)
+                return False
+            except http.client.HTTPException:
+                self.close_connection = True
+                self._empty(400)
+                return False
+            finally:
+                self.rfile = source
 
         def handle_one_request(self):
             if self.request_count >= MAX_KEEPALIVE_REQUESTS:
@@ -250,7 +316,7 @@ def serve(vm, module: str):
             return
 
         def _empty(self, status: int) -> None:
-            if status in (400, 401, 403, 404, 413, 503):
+            if status in (400, 401, 403, 404, 413, 414, 429, 431, 503):
                 vm.observe.http(getattr(self, "route_tag", "unmatched"), str(status), 0.0, context=vm)
             self.send_response(status)
             self.send_header("Content-Length", "0")
@@ -258,8 +324,28 @@ def serve(vm, module: str):
                 self.send_header("WWW-Authenticate", 'Bearer realm="gopyt"')
             self.end_headers()
 
+        def peer_address(self) -> str:
+            address = self.client_address
+            return address[0] if isinstance(address, tuple) and address else ''
+
         def handle_one(self, method_num: int) -> None:
             self.route_tag = "unmatched"
+            self.client_identity = None
+            peer = self.peer_address()
+            if not gateway.accepts_peer(peer):
+                # The deployment stated that every request arrives through the
+                # gateway, so anything else is refused before it is parsed
+                # further, rather than being served as an anonymous client.
+                self.close_connection = True
+                self._empty(403)
+                return
+            identity, problem = gateway.forwarded_identity(
+                peer, self.headers.get_all(gateway.header, []))
+            if problem is not None:
+                self.close_connection = True
+                self._empty(401 if problem == 'identity' else 400)
+                return
+            self.client_identity = identity
             session = None
             if identities is not None:
                 headers = self.headers.get_all("Authorization", [])
@@ -285,6 +371,16 @@ def serve(vm, module: str):
                 if not secrets.compare_digest(supplied, authorization):
                     self.close_connection = True
                     self._empty(401)
+                    return
+            if admission is not None:
+                # Key on the strongest verified identity available, never on a
+                # header the client itself could have chosen.
+                key = getattr(session, 'subject', None) or self.client_identity or peer
+                if not admission.allow('http:' + key, gateway.rate_tokens,
+                                       gateway.rate_refill_ms, time.monotonic()):
+                    vm.observe.deny('rate', context=vm)
+                    self.close_connection = True
+                    self._empty(429)
                     return
             path = self.path.split("?", 1)[0]
             lengths = self.headers.get_all("Content-Length", [])

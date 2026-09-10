@@ -87,6 +87,12 @@ def _requires(cond: bool) -> None:
         raise Trap(ops.TRAP_REQUIRES)
 
 
+def _is_address_refusal(error) -> bool:
+    from gopyt.net_policy import AddressPolicyError
+    return isinstance(error, AddressPolicyError) or isinstance(
+        getattr(error, 'reason', None), AddressPolicyError)
+
+
 def _record(vm, type_id, *fields):
     from gopyt.resource_collections import copy_list
     from gopyt.resource_budget import ResourceLimitError
@@ -747,7 +753,12 @@ def _http_request(vm, args, func):
         budget.remaining()
     except (Trap, Cancelled):
         raise
-    except Exception:
+    except Exception as error:
+        # urllib wraps a connection OSError in URLError, so the refusal has to be
+        # recognised through that wrapper as well as directly.
+        if _is_address_refusal(error):
+            vm.observe.deny("egress", context=vm)
+            return _status(vm, "HttpError", "address")
         return _status(vm, "HttpError", "network")
     try:
         if len(data) > MAX_BODY:
@@ -829,7 +840,10 @@ def _model_complete(vm, args, func):
 
     except (Trap, Cancelled):
         raise
-    except Exception:
+    except Exception as error:
+        if _is_address_refusal(error):
+            vm.observe.deny("egress", context=vm)
+            return _status(vm, "ModelError", "address")
         return _status(vm, "ModelError", "network")
     try:
         return _model_response_text(vm, data, budget.remaining)

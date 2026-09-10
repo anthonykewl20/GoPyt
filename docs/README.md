@@ -141,3 +141,5 @@ fixed and configured capacities, overload policies and remaining issue #13 cover
 - [Plaintext storage migration](plaintext-storage-migration-amendment-2026-09-10.md): explicit digest-checked initial encryption with a durable encrypted recovery copy.
 
 - [Key and credential lifecycle](key-lifecycle.md): provisioning, custody, rotation/revocation, retention, retirement and lost-key recovery procedures with executable drills.
+
+[Transport, gateway and egress boundaries](transport-gateway-amendment-2026-09-10.md) define the trusted-gateway peer and forwarded-identity rules, this server's own inbound header bounds, identity-aware admission, and the resolved-address policy for allowlisted outbound origins under issue #24.
