@@ -225,6 +225,134 @@ class HostileFixtures(unittest.TestCase):
         self.assertEqual(json.loads(result.stdout)['no_new_privs'], 1)
 
 
+class TenantSeparation(unittest.TestCase):
+    """Concurrent evaluations must not observe or disturb each other."""
+
+    def _concurrent(self, script, count=3, **kwargs):
+        _requires_profile(self)
+        import threading
+        results, errors = [], []
+        def run(index):
+            try:
+                result, _how = isolation.run(
+                    [sys.executable, '-I', '-c', script, str(index)],
+                    timeout=60, **kwargs)
+                results.append((index, result))
+            except BaseException as error:  # recorded, not swallowed
+                errors.append((index, error))
+        workers = [threading.Thread(target=run, args=(index,)) for index in range(count)]
+        for worker in workers:
+            worker.start()
+        for worker in workers:
+            worker.join(90)
+        self.assertEqual(errors, [])
+        self.assertEqual(len(results), count)
+        return results
+
+    def test_neither_evaluation_sees_the_other_scratch_or_processes(self):
+        script = ('import json,os,sys,time\n'
+                  'mine=os.path.join("/work", "tenant-" + sys.argv[1])\n'
+                  'open(mine,"w").write(sys.argv[1])\n'
+                  'time.sleep(.3)\n'
+                  'print(json.dumps({"scratch":sorted(os.listdir("/work")),'
+                  '"pids":sorted(int(n) for n in os.listdir("/proc") if n.isdigit())}))')
+        for index, result in self._concurrent(script):
+            self.assertEqual(result.returncode, 0, result.stderr)
+            out = json.loads(result.stdout)
+            # Each child wrote its own marker; seeing another's would mean one
+            # scratch mount, not one per evaluation.
+            self.assertEqual(out['scratch'], [f'tenant-{index}'])
+            # No procfs is mounted in the child's namespace, so it cannot
+            # enumerate any process at all — its own included, and therefore
+            # certainly not a concurrent evaluation's.
+            self.assertEqual(out['pids'], [])
+
+    def test_a_writable_bind_is_not_shared_between_evaluations(self):
+        _requires_profile(self)
+        import threading
+        with tempfile.TemporaryDirectory(prefix='gopyt-tenant-a-') as first, \
+                tempfile.TemporaryDirectory(prefix='gopyt-tenant-b-') as second:
+            script = ('import json,os,sys\n'
+                      'work=sys.argv[1]\n'
+                      'open(os.path.join(work,"written-by-" + sys.argv[2]),"w").write("x")\n'
+                      'print(json.dumps({"seen":sorted(os.listdir(work))}))')
+            outcomes = {}
+            def run(name, work):
+                result, _how = isolation.run(
+                    [sys.executable, '-I', '-c', script, work, name],
+                    writable=[work], timeout=60)
+                outcomes[name] = result
+            workers = [threading.Thread(target=run, args=pair)
+                       for pair in (('a', first), ('b', second))]
+            for worker in workers:
+                worker.start()
+            for worker in workers:
+                worker.join(90)
+            for name in ('a', 'b'):
+                self.assertEqual(outcomes[name].returncode, 0, outcomes[name].stderr)
+                self.assertEqual(json.loads(outcomes[name].stdout)['seen'],
+                                 [f'written-by-{name}'])
+            self.assertTrue(Path(first, 'written-by-a').exists())
+            self.assertFalse(Path(first, 'written-by-b').exists())
+
+    def test_one_evaluation_exhausting_its_limits_does_not_disturb_another(self):
+        _requires_profile(self)
+        import threading
+        outcomes = {}
+        greedy = ('import sys\n'
+                  'try:\n'
+                  '    block=bytearray(1024*1024*1024)\n'
+                  'except MemoryError:\n'
+                  '    pass\n'
+                  'sys.stdout.write("survived")')
+        quiet = 'import sys,time\ntime.sleep(.4)\nsys.stdout.write("quiet ok")'
+        def run(name, script, limits):
+            result, _how = isolation.run([sys.executable, '-I', '-c', script],
+                                         limits=limits, timeout=60)
+            outcomes[name] = result
+        workers = [
+            threading.Thread(target=run, args=('greedy', greedy,
+                                               isolation.Limits(address_space_bytes=128 * 1024 ** 2))),
+            threading.Thread(target=run, args=('quiet', quiet, isolation.Limits())),
+        ]
+        for worker in workers:
+            worker.start()
+        for worker in workers:
+            worker.join(90)
+        # The greedy neighbour hits its own ceiling and nothing else does.
+        self.assertEqual(outcomes['greedy'].stdout, 'survived')
+        self.assertEqual(outcomes['quiet'].stdout, 'quiet ok')
+        self.assertEqual(outcomes['quiet'].returncode, 0)
+
+    def test_terminating_one_evaluation_leaves_the_other_running(self):
+        _requires_profile(self)
+        import threading
+        marker = f'gopyt-neighbour-{os.getpid()}-{time.monotonic_ns()}'
+        outcome, failure = [], []
+        def survivor():
+            try:
+                result, _how = isolation.run(
+                    [sys.executable, '-I', '-c',
+                     'import sys,time\ntime.sleep(2.5)\nsys.stdout.write("survivor ok")',
+                     marker], timeout=60)
+                outcome.append(result)
+            except BaseException as error:
+                failure.append(error)
+        worker = threading.Thread(target=survivor)
+        worker.start()
+        try:
+            with self.assertRaises(subprocess.TimeoutExpired):
+                isolation.run([sys.executable, '-I', '-c',
+                               'import time\ntime.sleep(120)\n'], timeout=2)
+        finally:
+            worker.join(90)
+        # Reaping one evaluation's process group must not reach its neighbour.
+        self.assertEqual(failure, [])
+        self.assertEqual(len(outcome), 1)
+        self.assertEqual(outcome[0].stdout, 'survivor ok')
+        self.assertEqual(outcome[0].returncode, 0)
+
+
 class GuardPolicy(unittest.TestCase):
     def test_the_policy_values_are_closed(self):
         self.assertEqual(isolation_policy({}), 'preferred')

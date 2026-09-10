@@ -49,15 +49,47 @@ class MappedResources(unittest.TestCase):
             create.assert_not_called()
         self.assertEqual(budget.snapshot()['active_reservations'], 0)
 
+    def mapping_descriptors(self):
+        """Descriptors in this process that still refer to a mapping backing.
+
+        Counting all of `/proc/self/fd` would measure the whole process, so
+        another test's daemon thread opening any file moves that number while
+        saying nothing about this path. The backing memfd carries its own name,
+        so the leak this test is about can be identified directly instead.
+        """
+        found = []
+        for name in os.listdir('/proc/self/fd'):
+            try:
+                target = os.readlink('/proc/self/fd/' + name)
+            except OSError:
+                continue  # closed by another thread while this list was read
+            if 'gopyt-buffer' in target:
+                found.append(target)
+        return found
+
+    def test_a_live_mapping_is_visible_to_the_descriptor_check(self):
+        """Without this, a leak check that finds nothing proves nothing."""
+        budget = self.budget()
+        self.assertEqual(self.mapping_descriptors(), [])
+        owner = Buffer.map_bytes(budget, b'abcd')
+        # The original descriptor is closed after mapping; the one that remains
+        # is mmap's own duplicate, which the reservation already accounts for.
+        self.assertEqual(len(self.mapping_descriptors()), 1)
+        self.assertEqual(budget.snapshot()['used']['descriptors'], 1)
+        owner.close()
+        self.assertEqual(self.mapping_descriptors(), [])
+        self.assertEqual(budget.snapshot()['active_reservations'], 0)
+
     def test_each_acquisition_failure_releases_budget_and_descriptors(self):
         for target in ('os.memfd_create', 'os.write', 'fcntl.fcntl', 'mmap.mmap'):
             with self.subTest(target=target):
                 budget = self.budget()
-                before = len(os.listdir('/proc/self/fd'))
+                self.assertEqual(self.mapping_descriptors(), [])
                 with patch('gopyt.resource_mapping.' + target, side_effect=OSError('injected')):
                     with self.assertRaises(OSError): Buffer.map_bytes(budget, b'abcd')
                 self.assertEqual(budget.snapshot()['active_reservations'], 0)
-                self.assertEqual(len(os.listdir('/proc/self/fd')), before)
+                self.assertEqual(budget.snapshot()['used']['descriptors'], 0)
+                self.assertEqual(self.mapping_descriptors(), [])
 
     def test_partial_writes_and_cancellation_after_mapping(self):
         budget = self.budget()

@@ -47,6 +47,26 @@ The launcher is its own session leader. On timeout the whole process group is
 signalled and reaped, and the PID namespace dies with its first process, so no
 part of the tree survives to be inherited by the host's init.
 
+## Separation between concurrent evaluations
+
+Each evaluation gets its own namespaces and its own private root, so two
+evaluations running at the same time share nothing the runtime can give them:
+
+- each sees only its own `/work` scratch, never a neighbour's marker;
+- a writable bind named by one caller is absent from the other's mount
+  namespace, not merely unreadable;
+- no procfs is mounted, so a child cannot enumerate any process at all — its
+  own included, and therefore certainly not a neighbour's;
+- one evaluation reaching its own address-space ceiling leaves the other
+  running and finishing normally;
+- reaping one evaluation's process group on timeout does not reach a
+  concurrent evaluation.
+
+This is separation between evaluations this runtime launches. It is not a
+multi-tenant security boundary for hostile tenants, and anything they share
+outside this process — the host kernel, the filesystem a caller explicitly binds
+writable, and the CPU — remains shared.
+
 ## Availability and failing closed
 
 Support is a platform property; availability is a runtime one. A kernel with
