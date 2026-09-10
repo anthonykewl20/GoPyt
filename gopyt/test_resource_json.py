@@ -419,3 +419,19 @@ class JsonParserFailureBoundaries(unittest.TestCase):
         self.assertEqual(child[1], 'two')
         del child
         self.assertEqual(budget.snapshot()['active_reservations'], 0)
+
+
+class JsonOwnedValueEquality(unittest.TestCase):
+    def test_owned_graph_matches_plain_graph_with_integer_widths_preserved(self):
+        from gopyt.resource_json import parse_owned
+        from gopyt.values import I32, U32, U64
+        from gopyt.vm import value_eq
+        budget = ResourceBudget(ResourceLimits(100000, 0, 0, 0))
+        result = parse_owned('{"x":[1,true,"s"]}', budget)
+        self.assertTrue(value_eq(result, {'x': [1, True, 's']}))
+        self.assertTrue(value_eq({'x': [1, True, 's']}, result))
+        for other in (True, I32(1), U32(1), U64(1)):
+            self.assertFalse(value_eq(result['x'][0], other))
+        self.assertFalse(value_eq(result, {'y': [1, True, 's']}))
+        del result
+        self.assertEqual(budget.snapshot()['active_reservations'], 0)

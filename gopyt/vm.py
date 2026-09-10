@@ -798,6 +798,13 @@ def value_eq(a: object, b: object) -> bool:
         return a == b
     if isinstance(a, bytes) and isinstance(b, bytes):
         return a == b
+    if isinstance(a, int) and isinstance(b, int):
+        return scalar_type_id(a) == scalar_type_id(b) and a == b
+    if isinstance(a, list) and isinstance(b, list):
+        return len(a) == len(b) and all(value_eq(x, y) for x, y in zip(a, b))
+    if isinstance(a, dict) and isinstance(b, dict):
+        return (len(a) == len(b) and
+                all(k in b and value_eq(a[k], b[k]) for k in a))
     # A checked union may have different active member types on either side.
     if type(a) is not type(b):
         return False

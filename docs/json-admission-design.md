@@ -177,3 +177,15 @@ inputs or constructor failure points. Production _dec still uses list/dict
 comprehensions, Some and typed integer wrappers; those destination producers need
 admission while the parsed graph remains alive. Existing decode catches recursive
 typed-conversion failure as depth; parser depth compatibility remains to qualify.
+
+Typed-result integration review corrected the earlier mutation assumption: native
+core.list.append/core.map.set and VM LIST_APPEND/MAP_SET create copies rather than
+mutating their inputs. Those copy producers remain separate accounting work.
+Existing value_eq rejected owned list/dict/int subclasses at its exact-Python-type
+gate. It now compares lists and maps structurally before that gate, and integers
+by scalar_type_id plus value, preserving bool and declared integer-width union
+members. Map comparison uses length/membership instead of temporary key sets.
+The focused JSON and VM suites pass on both pinned runtimes, including owned/plain
+nested graph equality in both directions and cross-width rejection. This removes
+one integration obstacle; typed destination producers and production routing are
+still pending.
