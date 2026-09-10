@@ -223,50 +223,7 @@ def decimal_token(text, start, budget, check=lambda: None):
             reservation.release()
 
 
-class _JsonArray(list):
-    """Parser-private append-only list; only append_owned may mutate its slots.
-
-    This owner is not a general language list implementation. Typed conversion
-    must admit its own destination before exposing a mutable language value.
-    """
-    def __init__(self, budget):
-        super().__init__()
-        self._budget = budget
-        self._reservation = None
-        self._capacity = 0
-
-    def append_owned(self, value, check=lambda: None):
-        import struct
-        reservation = None
-        try:
-            check()
-            size = len(self) + 1
-            if size > self._capacity:
-                # CPython 3.11/3.14 append growth, including alignment padding.
-                # Keep the old allocation admitted during realloc overlap.
-                capacity = (size + (size >> 3) + 6) & ~3
-                reservation = self._budget.reserve(
-                    native_bytes=capacity * struct.calcsize('P'))
-                list.append(self, value)
-                previous = self._reservation
-                self._reservation = reservation
-                self._capacity = capacity
-                reservation = None
-                if previous is not None:
-                    previous.release()
-            else:
-                list.append(self, value)
-            check()
-        finally:
-            value = None
-            if reservation is not None:
-                reservation.release()
-            self = None
-
-    def __del__(self):
-        reservation = getattr(self, '_reservation', None)
-        if reservation is not None:
-            reservation.finalize()
+from gopyt.resource_collections import OwnedList as _JsonArray
 
 
 class _JsonObject(dict):
