@@ -1,9 +1,10 @@
 # Opaque buffer and view language contract
 
-Implementation status: compiler/declaration integration in progress; native execution
-and complete VM teardown are not yet qualified. Do not treat this working amendment
-as a published release guarantee. It refines the frozen resource lifetime and API
-designs; issue #5 remains open until the full implementation and evidence are complete.
+Implementation status: compiler, native execution, checked resource lifetimes and
+explicit VM teardown are implemented with retained platform tests. This amendment
+defines their behavior; it is not a production qualification claim. It refines the
+frozen resource lifetime and API designs. Issue #5 remains open for the broader
+accounting and qualification requirements.
 
 Add `resource` after `observe` in canonical effect order, using bytecode effect bit
 12. Bits 0..11 retain their existing meaning; unknown bits 13 and above reject.
@@ -27,10 +28,9 @@ VM cancellation continues to propagate through its existing cancellation boundar
 Ownership, alias close, global freeze, admitted access, deferred physical cleanup,
 embedding pins and budget rules follow the resource lifetime and buffer API designs.
 Ordinary v0 code needs no lifetime annotations. No pointer, descriptor or raw host
-memoryview may escape. The next qualification increment must execute these tasks
-through compiled programs, verify loader rejection of forged resources/effects,
-and complete VM budget/teardown integration before exposing them as usable runtime
-functionality. Mapping and existing native-path accounting remain required scope.
+memoryview may escape. Compiled-program and loader tests exercise native dispatch
+and reject forged resources/effects. Mapping and existing native-path accounting
+remain part of the broader qualification scope.
 
 ## VM allocation configuration
 
@@ -74,7 +74,7 @@ fallback. Allocate/write/freeze is the explicit portable alternative.
 The constructor admits two descriptors at peak, releases the original descriptor
 charge after successful close, and retains one until physical mapping close. Native
 backing and mapped dimensions charge requested byte lengths, not OS page rounding
-or measured RSS. Read copies have the existing transient native-byte reservation.
+or measured RSS. Read copies admit owned payload and simultaneous raw-copy scratch as described below.
 Failed initialization with unfinished cleanup transfers its owner to the VM's
 deferred queue. A raw descriptor close that raises has uncertain ownership: it is
 never retried by descriptor number, which may have been reused. Its conservative
@@ -132,3 +132,29 @@ parent close does not discard its already acquired child: ownership transfers fi
 and unwind closes that child. Non-VM administrative file helpers, storage and network
 paths remain separate incomplete accounting work. See the descriptor integration
 design for the working implementation and qualification requirements.
+
+## Owned buffer read copies
+
+Buffer and View reads admit both the immutable result and simultaneous raw-copy
+scratch before reading under the existing access lease. The returned bytes own
+their reservation until the last host or managed alias is released. Closing the
+source buffer does not release a surviving copy's charge. Writes and sealed
+mapping initialization accept these bytes without converting them to unowned
+copies. Insufficient capacity returns ResourceError; cancellation and failed copy
+construction unwind scratch and access leases while preserving the source owner.
+
+Idle VM teardown drops every thread's result handoff and collects unreachable
+managed values before draining resource closes. Explicit embedding pins continue
+to protect managed containers; unpinned containers follow normal heap collection
+semantics and can be cleared. A surviving immutable host byte alias retains its
+payload and reservation even after VM close. After dropping a pin, another close
+or explicit collection can release the heap's remaining ownership. A successful
+close means physical resource cleanup completed, not that all host aliases or
+pinned managed payloads have disappeared.
+
+The initial full-suite failure is retained under
+`validation/resource-lifetimes/buffer-copy-integration/failed-full314.log`.
+It exposed assertions that assumed read-result charges ended immediately and
+idle teardown that retained managed results. Focused teardown trials and the
+corrected dual-interpreter tests are retained under `buffer-copy/`; complete
+corrected qualification is under `buffer-copy-fixed-integration/`.

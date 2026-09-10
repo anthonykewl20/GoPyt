@@ -44,7 +44,8 @@ class CheckedBuffers(unittest.TestCase):
         owner.close();self.assertEqual(budget.snapshot()['active_reservations'],0)
 
     def test_parallel_fixed_size_updates_are_serialized(self):
-        budget = ResourceBudget(ResourceLimits(128,0,0,16))
+        # Owner plus temporary copy plus retained immutable read result.
+        budget = ResourceBudget(ResourceLimits(192,0,0,16))
         owner = Buffer(budget,64)
         views = [owner.view(i*8,8) for i in range(8)]
         with concurrent.futures.ThreadPoolExecutor(max_workers=8) as pool:
@@ -99,3 +100,112 @@ class CheckedBuffers(unittest.TestCase):
         with self.assertRaises(Cancelled):Buffer(budget,16,context=context)
         self.assertEqual(budget.snapshot()['active_reservations'],0)
         self.assertEqual(budget.snapshot()['used']['native_bytes'],0)
+
+
+class BufferReadOwnership(unittest.TestCase):
+    def test_read_survives_owner_and_view_close(self):
+        for use_view in (False, True):
+            budget = ResourceBudget(ResourceLimits(12, 0, 0, 2))
+            owner = Buffer(budget, 4)
+            owner.write(0, b'abcd')
+            view = owner.view(0, 4)
+            result = (view if use_view else owner).read(0, 4)
+            view.close()
+            owner.close()
+            self.assertEqual(result, b'abcd')
+            self.assertEqual(budget.snapshot()['used']['native_bytes'], 4)
+            del result
+            self.assertEqual(budget.snapshot()['active_reservations'], 0)
+
+    def test_read_copy_overlap_rejection_preserves_owner(self):
+        budget = ResourceBudget(ResourceLimits(11, 0, 0, 1))
+        owner = Buffer(budget, 4)
+        owner.write(0, b'abcd')
+        with self.assertRaises(ResourceLimitError):
+            owner.read(0, 4)
+        self.assertEqual(budget.snapshot()['used']['native_bytes'], 4)
+        owner.close()
+        self.assertEqual(budget.snapshot()['active_reservations'], 0)
+
+
+class BufferOwnedByteInputs(unittest.TestCase):
+    def test_read_result_can_be_written_without_losing_source_charge(self):
+        budget = ResourceBudget(ResourceLimits(100, 0, 0, 4))
+        source = Buffer(budget, 4)
+        target = Buffer(budget, 4)
+        source.write(0, b'abcd')
+        data = source.read(0, 4)
+        source.close()
+        target.write(0, data)
+        view = target.view(0, 4)
+        view.write(0, data)
+        self.assertEqual(target.read(0, 4), b'abcd')
+        view.close()
+        target.close()
+        self.assertEqual(budget.snapshot()['used']['native_bytes'], 4)
+        del data
+        self.assertEqual(budget.snapshot()['active_reservations'], 0)
+
+    @unittest.skipUnless(__import__('sys').platform == 'linux', 'sealed mappings require Linux')
+    def test_read_result_can_be_mapped_and_retains_input_ownership(self):
+        budget = ResourceBudget(ResourceLimits(100, 100, 4, 4))
+        source = Buffer(budget, 4)
+        source.write(0, b'abcd')
+        data = source.read(0, 4)
+        source.close()
+        mapped = Buffer.map_bytes(budget, data)
+        self.assertEqual(mapped.read(0, 4), b'abcd')
+        mapped.close()
+        self.assertEqual(budget.snapshot()['used']['native_bytes'], 4)
+        del data
+        self.assertEqual(budget.snapshot()['active_reservations'], 0)
+
+
+class BufferReadFailures(unittest.TestCase):
+    def test_cancel_after_raw_copy_releases_copy_and_lease(self):
+        class Cancelled(Exception):
+            pass
+        class Context:
+            armed = False
+            def check_cancelled(self):
+                if self.armed and budget.snapshot()['used']['native_bytes'] == 12:
+                    raise Cancelled()
+        for use_view in (False, True):
+            budget = ResourceBudget(ResourceLimits(100, 0, 0, 2))
+            context = Context()
+            owner = Buffer(budget, 4, context=context)
+            owner.write(0, b'data')
+            view = owner.view(0, 4)
+            context.armed = True
+            failure = None
+            try:
+                (view if use_view else owner).read(0, 4)
+            except Cancelled as error:
+                failure = error
+            self.assertIsNotNone(failure)
+            self.assertEqual(owner._control.snapshot()['leases'], 0)
+            self.assertEqual(budget.snapshot()['used']['native_bytes'], 4)
+            view.close()
+            owner.close()
+            self.assertEqual(budget.snapshot()['active_reservations'], 0)
+
+    def test_immutable_constructor_failure_releases_copy_and_lease(self):
+        from unittest.mock import patch
+        def fail(data, reservation):
+            try:
+                raise MemoryError('injected owned copy failure')
+            finally:
+                data = None
+        budget = ResourceBudget(ResourceLimits(100, 0, 0, 1))
+        owner = Buffer(budget, 4)
+        failure = None
+        with patch('gopyt.resource_bytes._ChargedBytes', new=fail):
+            try:
+                owner.read(0, 4)
+            except MemoryError as error:
+                failure = error
+        self.assertIsNotNone(failure)
+        self.assertEqual(owner._control.snapshot()['leases'], 0)
+        self.assertEqual(budget.snapshot()['used']['native_bytes'], 4)
+        owner.close()
+        self.assertEqual(budget.snapshot()['active_reservations'], 0)

@@ -173,6 +173,11 @@ class Heap:
         with self.lock:
             self.handoffs.pop(threading.get_ident(), None)
 
+    def release_all_results(self):
+        """Drop thread handoff roots after the VM has become permanently idle."""
+        with self.lock:
+            self.handoffs.clear()
+
     def collect(self):
         with self.lock:
             marked = set()

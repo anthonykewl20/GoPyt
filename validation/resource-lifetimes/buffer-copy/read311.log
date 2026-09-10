@@ -1,0 +1,42 @@
+test_alias_retains_payload_charge_after_owner_close (gopyt.test_resource_bytes.ByteOwnership.test_alias_retains_payload_charge_after_owner_close) ... ok
+test_bounded_payload_reads_short_chunks_and_stops_at_limit (gopyt.test_resource_bytes.ByteOwnership.test_bounded_payload_reads_short_chunks_and_stops_at_limit) ... ok
+test_cancelled_json_releases_admitted_chunks (gopyt.test_resource_bytes.ByteOwnership.test_cancelled_json_releases_admitted_chunks) ... ok
+test_encoding_failure_and_preallocation_rejection (gopyt.test_resource_bytes.ByteOwnership.test_encoding_failure_and_preallocation_rejection) ... ok
+test_final_copy_rejection_releases_chunks (gopyt.test_resource_bytes.ByteOwnership.test_final_copy_rejection_releases_chunks) ... ok
+test_json_envelope_is_charged_and_included_in_size_limit (gopyt.test_resource_bytes.ByteOwnership.test_json_envelope_is_charged_and_included_in_size_limit) ... ok
+test_metadata_allocation_failure_releases_reservations (gopyt.test_resource_bytes.ByteOwnership.test_metadata_allocation_failure_releases_reservations) ... ok
+test_owned_json_matches_independent_encoding (gopyt.test_resource_bytes.ByteOwnership.test_owned_json_matches_independent_encoding) ... ok
+test_payload_retains_charge_after_builder_finishes (gopyt.test_resource_bytes.ByteOwnership.test_payload_retains_charge_after_builder_finishes) ... ok
+test_read_chunk_owns_scratch_and_returned_bytes (gopyt.test_resource_bytes.ByteOwnership.test_read_chunk_owns_scratch_and_returned_bytes) ... ok
+test_read_error_retained_scratch_keeps_its_charge (gopyt.test_resource_bytes.ByteOwnership.test_read_error_retained_scratch_keeps_its_charge) ... ok
+test_copy_survives_view_release_and_mutation (gopyt.test_resource_bytes.ViewCopyOwnership.test_copy_survives_view_release_and_mutation) ... ok
+test_rejection_and_cancelled_copy_release (gopyt.test_resource_bytes.ViewCopyOwnership.test_rejection_and_cancelled_copy_release) ... ok
+test_cancelled_construction_returns_reservation (gopyt.test_resource_buffer.CheckedBuffers.test_cancelled_construction_returns_reservation) ... ok
+test_cancelled_wait_releases_lease_without_mutation (gopyt.test_resource_buffer.CheckedBuffers.test_cancelled_wait_releases_lease_without_mutation) ... ok
+test_exhaustion_and_bad_ranges_leave_data_and_charges_unchanged (gopyt.test_resource_buffer.CheckedBuffers.test_exhaustion_and_bad_ranges_leave_data_and_charges_unchanged) ... ok
+test_freeze_revokes_every_mutable_alias (gopyt.test_resource_buffer.CheckedBuffers.test_freeze_revokes_every_mutable_alias) ... ok
+test_nested_views_alias_and_close_rules (gopyt.test_resource_buffer.CheckedBuffers.test_nested_views_alias_and_close_rules) ... ok
+test_parallel_fixed_size_updates_are_serialized (gopyt.test_resource_buffer.CheckedBuffers.test_parallel_fixed_size_updates_are_serialized) ... ERROR
+test_failed_publication_and_close_keep_unpublished_owner (gopyt.test_resource_natives.NativeResourceCleanup.test_failed_publication_and_close_keep_unpublished_owner) ... ok
+
+======================================================================
+ERROR: test_parallel_fixed_size_updates_are_serialized (gopyt.test_resource_buffer.CheckedBuffers.test_parallel_fixed_size_updates_are_serialized)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/tmp/gopyt-buffer-copy-admission/gopyt/test_resource_buffer.py", line 52, in test_parallel_fixed_size_updates_are_serialized
+    self.assertEqual(owner.read(0,64),b''.join(bytes([i])*8 for i in range(8)))
+                     ^^^^^^^^^^^^^^^^
+  File "/tmp/gopyt-buffer-copy-admission/gopyt/resource_buffer.py", line 102, in read
+    return copy_view(part, self._budget, self._check_context)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/tmp/gopyt-buffer-copy-admission/gopyt/resource_bytes.py", line 251, in copy_view
+    with budget.reserve(native_bytes=size):
+         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/tmp/gopyt-buffer-copy-admission/gopyt/resource_budget.py", line 107, in reserve
+    raise ResourceLimitError('native resource budget exceeded')
+gopyt.resource_budget.ResourceLimitError: native resource budget exceeded
+
+----------------------------------------------------------------------
+Ran 20 tests in 0.108s
+
+FAILED (errors=1)

@@ -107,3 +107,20 @@ remain separate gaps. Trusted operator paths without a VM budget retain their
 existing behavior, including backup input production. Evidence and finite sizing
 probes are in [serialization qualification](../validation/resource-lifetimes/serialization-size/).
 Issue #5 remains open until the broader resource requirements are qualified.
+
+## Decoded values and read-copy follow-up
+
+PRs #74–#76 add maintenance backup-input admission, owned text/byte conversion,
+and JSON token/container/typed-value admission. Buffer and View reads now retain
+owned byte charges after returning, with separate simultaneous scratch admission.
+Idle VM close releases result handoffs and collects unreachable managed results
+before draining resource closes; embedding pins and surviving immutable aliases
+retain their respective ownership. See the buffer amendment and retained
+`validation/resource-lifetimes/buffer-copy-fixed-integration/` evidence.
+
+The next concrete source gaps include `core.list.append`, `core.list.range`,
+`core.map.set`, and `core.map.keys`, plus corresponding VM collection-producing
+instructions. Their copies, generated scalar elements and sorting scratch need
+pre-allocation admission and failure/alias qualification. Charging JSON-produced
+containers does not account for these independent producers. SQLite, TLS and
+cryptographic internal allocators remain separate open requirements.
