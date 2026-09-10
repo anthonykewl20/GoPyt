@@ -39,10 +39,42 @@ INVENTORY_FILES = {
 }
 
 
+# Generated trees hold copies of tracked content; a checkout without Git
+# metadata must still scan exactly the tracked set, so they are excluded by name.
+GENERATED_DIRECTORIES = {'.git', 'build', 'dist', 'output', 'tmp', '__pycache__',
+                         '.gopyt-state', '.mypy_cache', '.pytest_cache', '.venv'}
+GENERATED_SUFFIXES = ('.pyc', '.pyo', '.gobyte')
+
+
 def tracked_files(root):
-    listing = subprocess.run(['git', '-C', str(root), 'ls-files'],
-                             capture_output=True, text=True, check=True)
+    """The tracked file list, or the same set walked when Git is unavailable.
+
+    An installed or exported checkout has no Git metadata, and the inventory
+    still has to be checkable there rather than failing with a subprocess error.
+    """
+    try:
+        listing = subprocess.run(['git', '-C', str(root), 'ls-files'],
+                                 capture_output=True, text=True, check=True)
+    except (OSError, subprocess.CalledProcessError):
+        return walked_files(root)
     return [line for line in listing.stdout.splitlines() if line]
+
+
+def walked_files(root):
+    """Every source file under `root`, excluding generated trees."""
+    found = []
+    for path in sorted(Path(root).rglob('*')):
+        if not path.is_file() or path.is_symlink():
+            continue
+        relative = path.relative_to(root)
+        if GENERATED_DIRECTORIES.intersection(relative.parts):
+            continue
+        if relative.name.endswith(GENERATED_SUFFIXES) or relative.name.startswith('.gopyt-'):
+            continue
+        if any(part.endswith('.egg-info') for part in relative.parts):
+            continue
+        found.append(str(relative))
+    return found
 
 
 def scan(root):

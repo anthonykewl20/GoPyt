@@ -20,6 +20,8 @@ Storage snapshots use AES-256-GCM-SIV through the separately selected `cryptogra
 
 An optional private `GOPYT_DB_POLICY_FILE` confines database reads and writes to operator-selected namespaces, including before cache access. See the [batch and authority amendment](docs/batch-storage-amendment-2026-09-09.md). This is service authority, not HTTP user or tenant authentication. An unset policy preserves package-wide access; strict mode alone does not restrict database namespaces.
 
+Trusted-gateway, inbound header and outbound address boundaries are specified in the [transport and gateway amendment](docs/transport-gateway-amendment-2026-09-10.md): `GOPYT_HTTP_GATEWAY_ADDR` makes the service fail closed for every other peer and is the only condition under which a forwarded client identity is believed, header parsing uses this server's own explicit bounds, `GOPYT_HTTP_RATE` keys admission on a verified identity, and an allowlisted outbound origin may no longer resolve into loopback, private or link-local space.
+
 ## Trust boundaries
 
 The unified attacker model for every surface — compiler, bytecode artifact, VM, natives, host process, editor, Guard, credentials, deployment and supply chain — is frozen in [production qualification targets](docs/production-qualification-targets.md), together with what is explicitly outside that model. The paragraphs below remain the operational detail.

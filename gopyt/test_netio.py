@@ -206,6 +206,70 @@ class OutboundBudgets(unittest.TestCase):
             finally:
                 self.fixture.vm.deadline_ns = None
 
+    def test_a_permitted_name_may_not_be_pointed_at_a_private_address(self):
+        """An egress allowlist names hosts; DNS decides addresses."""
+        import socket
+        loopback = self.fixture.origin.split('://', 1)[1].split(':')
+        port = int(loopback[1])
+        self.change_origin(f'https://service.example:{port}')
+        for address, family in (('127.0.0.1', socket.AF_INET),
+                                ('169.254.169.254', socket.AF_INET),
+                                ('10.0.0.7', socket.AF_INET),
+                                ('192.168.1.9', socket.AF_INET),
+                                ('::1', socket.AF_INET6),
+                                ('fd00::1', socket.AF_INET6)):
+            with self.subTest(address=address):
+                def resolve(host, target, *args, **kwargs):
+                    return [(family, socket.SOCK_STREAM, 6, '', (address, target))]
+                with patch('gopyt.netio.socket.getaddrinfo', side_effect=resolve), \
+                        patch('gopyt.resource_sockets._Socket.__new__') as create:
+                    result = self.invoke('http')
+                # The refusal happens before any socket exists.
+                create.assert_not_called()
+                self.assertEqual(self.fixture.vm.type_name(result.type_id),
+                                 'core.status.HttpError')
+                self.assertEqual(result.fields[0], 'address')
+
+    def test_a_rebinding_answer_is_refused_even_beside_a_usable_address(self):
+        import socket
+        port = int(self.fixture.origin.rsplit(':', 1)[1])
+        self.change_origin(f'https://service.example:{port}')
+        attempted = []
+        def resolve(host, target, *args, **kwargs):
+            return [(socket.AF_INET, socket.SOCK_STREAM, 6, '', ('127.0.0.1', target)),
+                    (socket.AF_INET, socket.SOCK_STREAM, 6, '', ('10.1.2.3', target))]
+        original = socket.socket.connect
+        def connect(sock, address):
+            attempted.append(address[0])
+            return original(sock, address)
+        with patch('gopyt.netio.socket.getaddrinfo', side_effect=resolve), \
+                patch.object(socket.socket, 'connect', new=connect):
+            result = self.invoke('http')
+        self.assertEqual(attempted, [])
+        self.assertEqual(self.fixture.vm.type_name(result.type_id), 'core.status.HttpError')
+        self.assertEqual(result.fields[0], 'address')
+
+    def test_a_literal_origin_connects_only_to_itself(self):
+        import socket
+        attempted = []
+        def resolve(host, target, *args, **kwargs):
+            # A resolver that answers a literal with a different address.
+            return [(socket.AF_INET, socket.SOCK_STREAM, 6, '', ('10.1.2.3', target))]
+        original = socket.socket.connect
+        def connect(sock, address):
+            attempted.append(address[0])
+            return original(sock, address)
+        with patch('gopyt.netio.socket.getaddrinfo', side_effect=resolve), \
+                patch.object(socket.socket, 'connect', new=connect):
+            result = self.invoke('http')
+        self.assertEqual(attempted, [])
+        self.assertEqual(self.fixture.vm.type_name(result.type_id), 'core.status.HttpError')
+        self.assertEqual(result.fields[0], 'address')
+
+    def test_the_permitted_loopback_origin_still_reaches_its_service(self):
+        response = self.invoke('http')
+        self.assertEqual(response.fields, [200, b'{"text":"local response"}'])
+
     def tls(self):
         try:
             from cryptography import x509
