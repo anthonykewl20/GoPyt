@@ -12,15 +12,22 @@ from gopyt.storage import MAX_BYTES, Store, StorageError
 
 def main(argv=None):
     parser = argparse.ArgumentParser(description=__doc__)
-    parser.add_argument('operation', choices=['rekey', 'enroll', 'status', 'restore', 'fence-key'])
+    parser.add_argument('operation', choices=['rekey', 'enroll', 'status', 'restore', 'fence-key', 'migrate'])
     parser.add_argument('--root', required=True, type=Path)
     parser.add_argument('--backup')
     parser.add_argument('--expected-generation', type=int)
     parser.add_argument('--reason')
+    parser.add_argument('--expected-digest')
     args = parser.parse_args(argv)
     if not args.root.is_dir():
         parser.error('existing package root required')
-    if args.operation == 'restore':
+    if args.operation != 'migrate' and args.expected_digest is not None:
+        parser.error('--expected-digest requires migrate')
+    if args.operation == 'migrate':
+        if (args.backup is None or args.expected_digest is None
+                or args.expected_generation is not None or args.reason is not None):
+            parser.error('migrate requires only --backup and --expected-digest')
+    elif args.operation == 'restore':
         if args.backup is None or args.expected_generation is None or args.reason is None:
             parser.error('restore requires --backup, --expected-generation and --reason')
     elif args.operation == 'fence-key':
@@ -30,7 +37,9 @@ def main(argv=None):
         parser.error('restoration options require restore')
     store = Store(os.path.abspath(args.root))
     try:
-        if args.operation == 'rekey':
+        if args.operation == 'migrate':
+            result = store.migrate(backup=args.backup, expected_digest=args.expected_digest)
+        elif args.operation == 'rekey':
             store.rekey()
             result = {'operation':'rekey', 'status':'committed'}
         elif args.operation == 'enroll':

@@ -96,3 +96,5 @@ implementation and workload evidence; listing a limit is not repairing it.
 [Live HTTP service-token rotation](http-credential-rotation-amendment-2026-09-10.md) rechecks the pinned credential file at each request gate, with VM checks before and after successful synchronous host reading. Missing or invalid files fail closed without handler dispatch; previously admitted requests retain their execution context.
 
 Writer-key fencing checks selected key identity after acquiring the authority lock, including settings loaded before contention. Explicit fence-key maintenance uses the same admitted authority/publication durability barrier; stale application writers reject before publication.
+
+Initial plaintext migration uses the store lock and a separate recovery-copy lock under the same deadline/context checks. SQLite integrity and encryption are synchronous host calls. Recovery-copy admission completes its directory barrier; cancellation is checked again before active publication. Active replacement uses the existing admitted publication boundary.

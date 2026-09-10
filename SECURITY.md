@@ -39,3 +39,5 @@ Release compromise, withdrawal and replacement handling follows the [release pro
 Opt-in [trusted snapshot generations](docs/storage-rollback-amendment-2026-09-10.md) detect application-snapshot replay when the operator protects a separate authority from rollback. The baseline replay exclusion above continues to apply without that configuration and to rollback of the authority itself. Explicit restoration advances the authority rather than disabling detection.
 
 Configured HTTP service credentials support [live atomic rotation](docs/http-credential-rotation-amendment-2026-09-10.md). Each request reads the pinned private token file; unavailable or invalid files fail closed. Already admitted requests may finish, so rotation is not retroactive cancellation.
+
+Initial plaintext stores support [explicit recoverable migration](docs/plaintext-storage-migration-amendment-2026-09-10.md). Quiesce writers, pin the source digest and commit a private encrypted recovery copy before active replacement. Ordinary encrypted reads never fall back to plaintext. Enroll trusted writer authority after migration; key custody and backup retention remain operator responsibilities.

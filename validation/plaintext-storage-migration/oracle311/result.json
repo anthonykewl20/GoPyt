@@ -1,0 +1,9 @@
+{
+  "status": "passed",
+  "rows": 513,
+  "exact_plaintext_preserved": true,
+  "independent_rows_equal": true,
+  "wrong_digest_rejected": true,
+  "fresh_process_after_missing_file_recovery": true,
+  "scope": "Functional Linux migration and recovery checks; no power-loss, performance or security-audit claim."
+}

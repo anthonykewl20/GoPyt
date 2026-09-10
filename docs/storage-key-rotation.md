@@ -48,3 +48,7 @@ remain separate architecture work.
 ## Fenced authority profile
 
 The [writer-key fencing amendment](storage-writer-fence-amendment-2026-09-10.md) adds an explicit authority-version transition and online stale-writer rejection for consistently configured authority-aware writers. The quiesced workflow above continues to describe unanchored/version-1 maintenance; ordinary rekey cannot silently change a version-2 permitted writer.
+
+## Initial plaintext migration
+
+Use the [explicit migration operation](plaintext-storage-migration-amendment-2026-09-10.md) for initial plaintext-to-SIV1 conversion. Rekey remains authenticated maintenance. Migration requires quiesced writers and a verified encrypted recovery copy before active replacement; enroll writer authority after the initial transition.
