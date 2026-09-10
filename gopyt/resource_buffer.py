@@ -46,7 +46,7 @@ class Buffer:
     @classmethod
     def map_bytes(cls, budget, data, *, context=None):
         from gopyt.resource_mapping import MappingStorage, MappingInitializationError
-        if type(data) is not bytes or not data:
+        if not isinstance(data, bytes) or not data:
             raise ValueError('nonempty immutable bytes required')
         owner = cls.__new__(cls)
         owner._context = weakref.proxy(context) if context is not None else None
@@ -102,7 +102,7 @@ class Buffer:
                 return copy_view(part, self._budget, self._check_context)
 
     def write(self, start, data):
-        if type(data) is not bytes:
+        if not isinstance(data, bytes):
             raise TypeError('immutable bytes input required')
         _range(start, len(data), self._size)
         with self._access() as payload:
@@ -161,7 +161,7 @@ class BufferView:
                 return copy_view(part, self.owner._budget, self.owner._check_context)
 
     def write(self, start, data):
-        if type(data) is not bytes:
+        if not isinstance(data, bytes):
             raise TypeError('immutable bytes input required')
         _range(start, len(data), self._length)
         with self._access() as payload:

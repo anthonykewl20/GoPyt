@@ -17,3 +17,10 @@ fixture budget was updated and a separate below-overlap rejection test added.
 All 22 focused tests pass on both pinned runtimes (read-fixed logs), including
 read-result survival after close and reservation cleanup. Initial failure logs
 remain. Byte-input compatibility and broader integration are still pending.
+
+Buffer/View writes and Buffer.map_bytes now accept immutable bytes subclasses,
+including admitted read results, without converting away their ownership. Mutable
+bytearray inputs remain rejected. All 24 focused tests pass on both pinned Linux
+runtimes, including read-to-write, view writes and read-to-sealed-mapping. The input
+bytes remain charged after source/target/mapping closure until the last input alias
+is dropped. Broader fault, cancellation and full-suite validation remain pending.

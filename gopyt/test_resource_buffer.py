@@ -126,3 +126,36 @@ class BufferReadOwnership(unittest.TestCase):
         self.assertEqual(budget.snapshot()['used']['native_bytes'], 4)
         owner.close()
         self.assertEqual(budget.snapshot()['active_reservations'], 0)
+
+
+class BufferOwnedByteInputs(unittest.TestCase):
+    def test_read_result_can_be_written_without_losing_source_charge(self):
+        budget = ResourceBudget(ResourceLimits(100, 0, 0, 4))
+        source = Buffer(budget, 4)
+        target = Buffer(budget, 4)
+        source.write(0, b'abcd')
+        data = source.read(0, 4)
+        source.close()
+        target.write(0, data)
+        view = target.view(0, 4)
+        view.write(0, data)
+        self.assertEqual(target.read(0, 4), b'abcd')
+        view.close()
+        target.close()
+        self.assertEqual(budget.snapshot()['used']['native_bytes'], 4)
+        del data
+        self.assertEqual(budget.snapshot()['active_reservations'], 0)
+
+    @unittest.skipUnless(__import__('sys').platform == 'linux', 'sealed mappings require Linux')
+    def test_read_result_can_be_mapped_and_retains_input_ownership(self):
+        budget = ResourceBudget(ResourceLimits(100, 100, 4, 4))
+        source = Buffer(budget, 4)
+        source.write(0, b'abcd')
+        data = source.read(0, 4)
+        source.close()
+        mapped = Buffer.map_bytes(budget, data)
+        self.assertEqual(mapped.read(0, 4), b'abcd')
+        mapped.close()
+        self.assertEqual(budget.snapshot()['used']['native_bytes'], 4)
+        del data
+        self.assertEqual(budget.snapshot()['active_reservations'], 0)
