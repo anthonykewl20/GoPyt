@@ -661,7 +661,7 @@ class JsonModelResponse(unittest.TestCase):
         from types import SimpleNamespace as NS
         from gopyt.natives import _model_response_text
         budget = ResourceBudget(ResourceLimits(10000, 0, 0, 0))
-        vm = NS(resource_budget=budget, type_id_of=lambda name: 42)
+        vm = NS(resource_budget=budget, type_id_of=lambda name: 42, check_cancelled=lambda: None)
         result = _model_response_text(vm, '{"text":"answer"}', lambda: None)
         self.assertEqual(result, 'answer')
         self.assertGreater(budget.snapshot()['used']['native_bytes'], 0)
@@ -670,6 +670,8 @@ class JsonModelResponse(unittest.TestCase):
         for source in ('{"text":1}', '{"text":"x","extra":1}', '{"text":', '[]'):
             result = _model_response_text(vm, source, lambda: None)
             self.assertEqual(result.fields, ['decode'])
+            self.assertGreater(budget.snapshot()['active_reservations'], 0)
+            del result
             self.assertEqual(budget.snapshot()['active_reservations'], 0)
 
     def test_budget_exhaustion_is_allocation_trap(self):

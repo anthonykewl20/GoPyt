@@ -397,7 +397,10 @@ def serve(vm, module: str):
                         self.close_connection = True
                         return
                     except Trap as error:
-                        status = (503 if error.code == ops.TRAP_PAR_MAX else
+                        # A configured budget refusal is overload, exactly like
+                        # worker admission; the fixed language ceiling is not.
+                        status = (503 if error.code == ops.TRAP_PAR_MAX
+                                  or error.overload else
                                   504 if error.code == ops.TRAP_TIMEOUT else 500)
                         if status != 503:  # _empty records overload admission itself.
                             vm.observe.http(self.route_tag, str(status), (_time.monotonic() - started) * 1000.0, context=vm)

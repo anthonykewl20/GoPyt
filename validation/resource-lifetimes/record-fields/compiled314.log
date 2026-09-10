@@ -1,0 +1,173 @@
+EE.
+======================================================================
+ERROR: test_compiled_fields_are_owned_and_parent_pin_marks_the_array (gopyt.test_resource_records.CompiledFields.test_compiled_fields_are_owned_and_parent_pin_marks_the_array)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/tmp/gopyt-record-field-admission/gopyt/test_resource_records.py", line 35, in setUp
+            write_pkg(temp.name, {
+            ~~~~~~~~~^^^^^^^^^^^^^
+                'spec/demo.gopyt': '''module demo
+                ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    ...<28 lines>...
+    ''',
+    ^^^^
+            }, fmt=True)
+            ^^^^^^^^^^^^
+  File "/tmp/gopyt-record-field-admission/gopyt/testing.py", line 30, in write_pkg
+    cmd_fmt(root)
+    ~~~~~~~^^^^^^
+  File "/tmp/gopyt-record-field-admission/gopyt/transaction.py", line 137, in wrapped
+    return fn(root, *args, **kwargs)
+  File "/tmp/gopyt-record-field-admission/gopyt/cli.py", line 36, in cmd_fmt
+    pkg = load_package(root)
+  File "/tmp/gopyt-record-field-admission/gopyt/transaction.py", line 137, in wrapped
+    return fn(root, *args, **kwargs)
+  File "/tmp/gopyt-record-field-admission/gopyt/check.py", line 261, in load_package
+    for mod in _walk_dir(root, "impl", "impl"):
+               ~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^
+  File "/tmp/gopyt-record-field-admission/gopyt/check.py", line 237, in _walk_dir
+    out.append(_read_module(full, file_rel, role, expect))
+               ~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/tmp/gopyt-record-field-admission/gopyt/check.py", line 217, in _read_module
+    mod = parse_module(src, file_rel, role)
+  File "/tmp/gopyt-record-field-admission/gopyt/parser.py", line 970, in parse_module
+    return Parser(src, file, role).parse()
+           ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^^
+  File "/tmp/gopyt-record-field-admission/gopyt/parser.py", line 151, in parse
+    m.items.append(self.attach(self.parse_item(), leading))
+                               ~~~~~~~~~~~~~~~^^
+  File "/tmp/gopyt-record-field-admission/gopyt/parser.py", line 246, in parse_item
+    return self.parse_fn("fn")
+           ~~~~~~~~~~~~~^^^^^^
+  File "/tmp/gopyt-record-field-admission/gopyt/parser.py", line 401, in parse_fn
+    body = self.parse_block()
+  File "/tmp/gopyt-record-field-admission/gopyt/parser.py", line 583, in parse_block
+    stmts.append(self.attach(self.parse_stmt(), leading))
+                             ~~~~~~~~~~~~~~~^^
+  File "/tmp/gopyt-record-field-admission/gopyt/parser.py", line 593, in parse_stmt
+    e = self.parse_expr()
+  File "/tmp/gopyt-record-field-admission/gopyt/parser.py", line 710, in parse_expr
+    return self.parse_or()
+           ~~~~~~~~~~~~~^^
+  File "/tmp/gopyt-record-field-admission/gopyt/parser.py", line 713, in parse_or
+    e = self.parse_and()
+  File "/tmp/gopyt-record-field-admission/gopyt/parser.py", line 721, in parse_and
+    e = self.parse_not()
+  File "/tmp/gopyt-record-field-admission/gopyt/parser.py", line 733, in parse_not
+    return self.parse_cmp()
+           ~~~~~~~~~~~~~~^^
+  File "/tmp/gopyt-record-field-admission/gopyt/parser.py", line 736, in parse_cmp
+    e = self.parse_add()
+  File "/tmp/gopyt-record-field-admission/gopyt/parser.py", line 746, in parse_add
+    e = self.parse_mul()
+  File "/tmp/gopyt-record-field-admission/gopyt/parser.py", line 757, in parse_mul
+    e = self.parse_unary()
+  File "/tmp/gopyt-record-field-admission/gopyt/parser.py", line 770, in parse_unary
+    return self.parse_prefix()
+           ~~~~~~~~~~~~~~~~~^^
+  File "/tmp/gopyt-record-field-admission/gopyt/parser.py", line 773, in parse_prefix
+    e = self.parse_primary()
+  File "/tmp/gopyt-record-field-admission/gopyt/parser.py", line 818, in parse_primary
+    return self._parse_primary()
+           ~~~~~~~~~~~~~~~~~~~^^
+  File "/tmp/gopyt-record-field-admission/gopyt/parser.py", line 862, in _parse_primary
+    return self.parse_name_or_construct()
+           ~~~~~~~~~~~~~~~~~~~~~~~~~~~~^^
+  File "/tmp/gopyt-record-field-admission/gopyt/parser.py", line 882, in parse_name_or_construct
+    fields = self.parse_field_lits()
+  File "/tmp/gopyt-record-field-admission/gopyt/parser.py", line 892, in parse_field_lits
+    raise self.err(38)
+gopyt.diag.CompileError: GOPYT_E038 comma
+file: impl/demo.gopyt
+line: 4
+repair-bytes: 0
+
+
+======================================================================
+ERROR: test_field_capacity_rejection_and_zero_field_variant (gopyt.test_resource_records.CompiledFields.test_field_capacity_rejection_and_zero_field_variant)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/tmp/gopyt-record-field-admission/gopyt/test_resource_records.py", line 35, in setUp
+            write_pkg(temp.name, {
+            ~~~~~~~~~^^^^^^^^^^^^^
+                'spec/demo.gopyt': '''module demo
+                ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    ...<28 lines>...
+    ''',
+    ^^^^
+            }, fmt=True)
+            ^^^^^^^^^^^^
+  File "/tmp/gopyt-record-field-admission/gopyt/testing.py", line 30, in write_pkg
+    cmd_fmt(root)
+    ~~~~~~~^^^^^^
+  File "/tmp/gopyt-record-field-admission/gopyt/transaction.py", line 137, in wrapped
+    return fn(root, *args, **kwargs)
+  File "/tmp/gopyt-record-field-admission/gopyt/cli.py", line 36, in cmd_fmt
+    pkg = load_package(root)
+  File "/tmp/gopyt-record-field-admission/gopyt/transaction.py", line 137, in wrapped
+    return fn(root, *args, **kwargs)
+  File "/tmp/gopyt-record-field-admission/gopyt/check.py", line 261, in load_package
+    for mod in _walk_dir(root, "impl", "impl"):
+               ~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^
+  File "/tmp/gopyt-record-field-admission/gopyt/check.py", line 237, in _walk_dir
+    out.append(_read_module(full, file_rel, role, expect))
+               ~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/tmp/gopyt-record-field-admission/gopyt/check.py", line 217, in _read_module
+    mod = parse_module(src, file_rel, role)
+  File "/tmp/gopyt-record-field-admission/gopyt/parser.py", line 970, in parse_module
+    return Parser(src, file, role).parse()
+           ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^^
+  File "/tmp/gopyt-record-field-admission/gopyt/parser.py", line 151, in parse
+    m.items.append(self.attach(self.parse_item(), leading))
+                               ~~~~~~~~~~~~~~~^^
+  File "/tmp/gopyt-record-field-admission/gopyt/parser.py", line 246, in parse_item
+    return self.parse_fn("fn")
+           ~~~~~~~~~~~~~^^^^^^
+  File "/tmp/gopyt-record-field-admission/gopyt/parser.py", line 401, in parse_fn
+    body = self.parse_block()
+  File "/tmp/gopyt-record-field-admission/gopyt/parser.py", line 583, in parse_block
+    stmts.append(self.attach(self.parse_stmt(), leading))
+                             ~~~~~~~~~~~~~~~^^
+  File "/tmp/gopyt-record-field-admission/gopyt/parser.py", line 593, in parse_stmt
+    e = self.parse_expr()
+  File "/tmp/gopyt-record-field-admission/gopyt/parser.py", line 710, in parse_expr
+    return self.parse_or()
+           ~~~~~~~~~~~~~^^
+  File "/tmp/gopyt-record-field-admission/gopyt/parser.py", line 713, in parse_or
+    e = self.parse_and()
+  File "/tmp/gopyt-record-field-admission/gopyt/parser.py", line 721, in parse_and
+    e = self.parse_not()
+  File "/tmp/gopyt-record-field-admission/gopyt/parser.py", line 733, in parse_not
+    return self.parse_cmp()
+           ~~~~~~~~~~~~~~^^
+  File "/tmp/gopyt-record-field-admission/gopyt/parser.py", line 736, in parse_cmp
+    e = self.parse_add()
+  File "/tmp/gopyt-record-field-admission/gopyt/parser.py", line 746, in parse_add
+    e = self.parse_mul()
+  File "/tmp/gopyt-record-field-admission/gopyt/parser.py", line 757, in parse_mul
+    e = self.parse_unary()
+  File "/tmp/gopyt-record-field-admission/gopyt/parser.py", line 770, in parse_unary
+    return self.parse_prefix()
+           ~~~~~~~~~~~~~~~~~^^
+  File "/tmp/gopyt-record-field-admission/gopyt/parser.py", line 773, in parse_prefix
+    e = self.parse_primary()
+  File "/tmp/gopyt-record-field-admission/gopyt/parser.py", line 818, in parse_primary
+    return self._parse_primary()
+           ~~~~~~~~~~~~~~~~~~~^^
+  File "/tmp/gopyt-record-field-admission/gopyt/parser.py", line 862, in _parse_primary
+    return self.parse_name_or_construct()
+           ~~~~~~~~~~~~~~~~~~~~~~~~~~~~^^
+  File "/tmp/gopyt-record-field-admission/gopyt/parser.py", line 882, in parse_name_or_construct
+    fields = self.parse_field_lits()
+  File "/tmp/gopyt-record-field-admission/gopyt/parser.py", line 892, in parse_field_lits
+    raise self.err(38)
+gopyt.diag.CompileError: GOPYT_E038 comma
+file: impl/demo.gopyt
+line: 4
+repair-bytes: 0
+
+
+----------------------------------------------------------------------
+Ran 3 tests in 0.023s
+
+FAILED (errors=2)

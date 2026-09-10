@@ -67,7 +67,7 @@ def resource_denial(vm, name, args):
         return _status(vm, 'ModelError', 'resource authority: unmediated provider')
     elif name == 'core.evolve.propose':
         # Evolution writes source and launches host processes outside VM natives.
-        return Record(vm.type_id_of('core.evolve.EvolveError'), ['resource authority: unmediated evolution'])
+        return _record(vm, vm.type_id_of('core.evolve.EvolveError'), 'resource authority: unmediated evolution')
     if error is not None and not vm.allows_resources(*requests):
         vm.observe.deny('resource', context=vm)
         return _status(vm, error, 'resource authority denied')
@@ -87,8 +87,26 @@ def _requires(cond: bool) -> None:
         raise Trap(ops.TRAP_REQUIRES)
 
 
+def _record(vm, type_id, *fields):
+    from gopyt.resource_collections import copy_list
+    from gopyt.resource_budget import ResourceLimitError
+    owned_fields = None
+    try:
+        try:
+            owned_fields = copy_list(fields, vm.resource_budget, vm.check_cancelled)
+        except ResourceLimitError:
+            owned_fields = vm._sweep_retry(copy_list, fields, vm.resource_budget,
+                                           vm.check_cancelled)
+        return Record(type_id, owned_fields)
+    finally:
+        fields = owned_fields = None
+
+
 def _status(vm, name: str, *fields) -> Record:
-    return Record(vm.type_id_of("core.status." + name), list(fields))
+    try:
+        return _record(vm, vm.type_id_of("core.status." + name), *fields)
+    finally:
+        fields = None
 
 
 def _convert_error(vm, message: str) -> Record:
@@ -492,13 +510,13 @@ def _secret_reveal(vm, args, func):
 def _observe_report(vm, args, func):
     obs = vm.observe
     with obs.admission(vm):
-        fields = [min(2**63-1, obs.events), min(2**63-1, obs.fail),
+        fields = (min(2**63-1, obs.events), min(2**63-1, obs.fail),
                   min(2**63-1, int(obs.welford.mean)),
-                  min(2**63-1, int(obs.welford.variance())), obs.cusum.alarm]
-    return Record(
-        vm.type_id_of("core.observe.Report"),
-        fields,
-    )
+                  min(2**63-1, int(obs.welford.variance())), obs.cusum.alarm)
+    try:
+        return _record(vm, vm.type_id_of("core.observe.Report"), *fields)
+    finally:
+        fields = None
 
 
 @native("core.observe.note")
@@ -529,19 +547,19 @@ def _evolve_propose(vm, args, func):
     from gopyt import evolve as _evolve
 
     if not vm.observe.cusum.alarm:
-        return Record(vm.type_id_of("core.evolve.NoChange"), [])
+        return _record(vm, vm.type_id_of("core.evolve.NoChange"))
     module = vm.module_stack[-1] if vm.module_stack else ""
     bounds = vm.evolve_bounds(module)
     if bounds is None:
-        return Record(vm.type_id_of("core.evolve.EvolveError"), ["no evolve block"])
+        return _record(vm, vm.type_id_of("core.evolve.EvolveError"), "no evolve block")
     with vm.native_admission():
         if vm.evolve_in_flight:
             # Little's law (hardening.md): at most one propose in flight.
-            return Record(vm.type_id_of("core.evolve.EvolveError"), ["in flight"])
+            return _record(vm, vm.type_id_of("core.evolve.EvolveError"), "in flight")
         now = time.monotonic()
         if vm.evolve_last and (now - vm.evolve_last) * 1000.0 < bounds[1]:
             # Cooldown is the evolve block's timeout_ms (docs/hardening.md).
-            return Record(vm.type_id_of("core.evolve.NoChange"), [])
+            return _record(vm, vm.type_id_of("core.evolve.NoChange"))
         vm.evolve_last = now
         vm.evolve_in_flight = True
     try:
@@ -549,15 +567,15 @@ def _evolve_propose(vm, args, func):
     except (Trap, Cancelled):
         raise
     except Exception as exc:  # a broken wave must not take the VM with it
-        return Record(vm.type_id_of("core.evolve.EvolveError"), [type(exc).__name__])
+        return _record(vm, vm.type_id_of("core.evolve.EvolveError"), type(exc).__name__)
     finally:
         vm.evolve_in_flight = False
     if outcome.kind == "NoChange":
-        return Record(vm.type_id_of("core.evolve.NoChange"), [])
+        return _record(vm, vm.type_id_of("core.evolve.NoChange"))
     if outcome.kind == "Applied":
         # Files and lock only: the loaded artifact is never patched (E116).
-        return Record(vm.type_id_of("core.evolve.Applied"), [outcome.digest])
-    return Record(vm.type_id_of("core.evolve.EvolveError"), [outcome.message])
+        return _record(vm, vm.type_id_of("core.evolve.Applied"), outcome.digest)
+    return _record(vm, vm.type_id_of("core.evolve.EvolveError"), outcome.message)
 
 
 # ---------------------------------------------------------------- store.db
@@ -604,12 +622,25 @@ def _db_compare_exchange(vm, args, func):
 @native("store.db.get_many")
 def _db_get_many(vm, args, func):
     from gopyt.storage import StorageError
+    from gopyt.resource_collections import OwnedList
+    from gopyt.resource_budget import ResourceLimitError
+    values = items = value = None
     try:
         values = vm.db.get_many(args[0])
-        return Record(vm.type_id_of("store.db.Snapshot"),
-                      [[NONE if value is None else Some(value) for value in values]])
+        items = OwnedList(vm.resource_budget)
+        for value in values:
+            try:
+                items.append_owned(NONE if value is None else Some(value),
+                                   vm.check_cancelled)
+            except ResourceLimitError:
+                vm._sweep_retry(items.append_owned,
+                                NONE if value is None else Some(value),
+                                vm.check_cancelled)
+        return _record(vm, vm.type_id_of("store.db.Snapshot"), items)
     except StorageError as exc:
         return _status(vm, "DbError", str(exc))
+    finally:
+        values = items = value = None
 
 
 @native("store.db.compare_exchange_many")
@@ -718,9 +749,12 @@ def _http_request(vm, args, func):
         raise
     except Exception:
         return _status(vm, "HttpError", "network")
-    if len(data) > MAX_BODY:
-        return _status(vm, "HttpError", "body too large")
-    return Record(vm.type_id_of("net.http.HttpResponse"), [status, data])
+    try:
+        if len(data) > MAX_BODY:
+            return _status(vm, "HttpError", "body too large")
+        return _record(vm, vm.type_id_of("net.http.HttpResponse"), status, data)
+    finally:
+        data = None
 
 
 class _NoRedirect(urllib.request.HTTPRedirectHandler):
@@ -862,7 +896,10 @@ def _from_str_value(vm, text, te):
         if definition.kind != 1 or len(definition.fields) != 1:
             return _convert_error(vm, "from_str")
         value = _from_str_value(vm, text, definition.fields[0][1])
-        return value if isinstance(value, Record) else Record(expression.a, [value])
+        try:
+            return value if isinstance(value, Record) else _record(vm, expression.a, value)
+        finally:
+            value = None
     if tag == gobyte.TE_STR:
         return text
     if tag == gobyte.TE_BOOL:

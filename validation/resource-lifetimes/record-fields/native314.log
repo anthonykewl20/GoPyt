@@ -1,0 +1,180 @@
+................E............................................E...FEFF...charge
+...................cell
+.e
+o
+e
+o
+e
+o
+e
+..charging
+..........echo
+......user
+.ping
+..charge
+.........wire
+.alloc
+...........1
+1
+.....found
+...go
+..go
+.0
+1
+2
+3
+..go
+...go
+....go
+.......and
+.order
+.contract
+.div
+.enum
+.int
+...opt
+.or
+.range
+.mod
+.slice
+.len
+.encode
+..encode
+decode
+..get
+..bools
+..empty
+..keys
+.map
+........
+======================================================================
+ERROR: test_text_alias_and_invalid_response_cleanup (gopyt.test_resource_json.JsonModelResponse.test_text_alias_and_invalid_response_cleanup)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/tmp/gopyt-record-field-admission/gopyt/test_resource_json.py", line 671, in test_text_alias_and_invalid_response_cleanup
+    result = _model_response_text(vm, source, lambda: None)
+  File "/tmp/gopyt-record-field-admission/gopyt/natives.py", line 842, in _model_response_text
+    return _status(vm, "ModelError", "decode")
+  File "/tmp/gopyt-record-field-admission/gopyt/natives.py", line 105, in _status
+    return _record(vm, vm.type_id_of("core.status." + name), *fields)
+  File "/tmp/gopyt-record-field-admission/gopyt/natives.py", line 95, in _record
+    owned_fields = copy_list(fields, vm.resource_budget, vm.check_cancelled)
+                                                         ^^^^^^^^^^^^^^^^^^
+AttributeError: 'types.SimpleNamespace' object has no attribute 'check_cancelled'
+
+======================================================================
+ERROR: test_descriptor_rejection_does_not_connect (gopyt.test_netio.OutboundBudgets.test_descriptor_rejection_does_not_connect)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/tmp/gopyt-record-field-admission/gopyt/test_netio.py", line 96, in test_descriptor_rejection_does_not_connect
+    result = self.invoke('http')
+  File "/tmp/gopyt-record-field-admission/gopyt/test_netio.py", line 107, in invoke
+    return self.fixture.request(self.fixture.origin + '/probe')
+           ~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/tmp/gopyt-record-field-admission/gopyt/test_resource_authority.py", line 293, in request
+    return self.vm.call(self.ids['remote.fetch'], [req])
+           ~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/tmp/gopyt-record-field-admission/gopyt/vm.py", line 308, in call
+    return self._call_admitted(fn_id, args, caller_effects)
+           ~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/tmp/gopyt-record-field-admission/gopyt/vm.py", line 321, in _call_admitted
+    result = self._call(fn_id, args, caller_effects)
+  File "/tmp/gopyt-record-field-admission/gopyt/vm.py", line 362, in _call
+    return self.exec(fn_id, func, args)
+           ~~~~~~~~~^^^^^^^^^^^^^^^^^^^
+  File "/tmp/gopyt-record-field-admission/gopyt/vm.py", line 380, in exec
+    return self._exec_frame(frame)
+           ~~~~~~~~~~~~~~~~^^^^^^^
+  File "/tmp/gopyt-record-field-admission/gopyt/vm.py", line 385, in _exec_frame
+    return self._execute_frame(frame, instruction_guard)
+           ~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/tmp/gopyt-record-field-admission/gopyt/vm.py", line 615, in _execute_frame
+    result = self.call(fid, list(call_args))
+  File "/tmp/gopyt-record-field-admission/gopyt/vm.py", line 308, in call
+    return self._call_admitted(fn_id, args, caller_effects)
+           ~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/tmp/gopyt-record-field-admission/gopyt/vm.py", line 321, in _call_admitted
+    result = self._call(fn_id, args, caller_effects)
+  File "/tmp/gopyt-record-field-admission/gopyt/vm.py", line 357, in _call
+    result = denial if denial is not None else native(self, args, func)
+                                               ~~~~~~^^^^^^^^^^^^^^^^^^
+  File "/tmp/gopyt-record-field-admission/gopyt/natives.py", line 745, in _http_request
+    return _status(vm, "HttpError", "network")
+  File "/tmp/gopyt-record-field-admission/gopyt/natives.py", line 105, in _status
+    return _record(vm, vm.type_id_of("core.status." + name), *fields)
+  File "/tmp/gopyt-record-field-admission/gopyt/natives.py", line 98, in _record
+    raise Trap(ops.TRAP_ALLOC) from None
+gopyt.vm.Trap: trap 14
+
+======================================================================
+ERROR: test_model_payload_admission_and_transport_lifetime (gopyt.test_netio.OutboundBudgets.test_model_payload_admission_and_transport_lifetime)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/tmp/gopyt-record-field-admission/gopyt/test_netio.py", line 64, in test_model_payload_admission_and_transport_lifetime
+    result = self.invoke('model')
+  File "/tmp/gopyt-record-field-admission/gopyt/test_netio.py", line 109, in invoke
+    return self.fixture.vm.call(self.fixture.ids['remote.complete'], [])
+           ~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/tmp/gopyt-record-field-admission/gopyt/vm.py", line 308, in call
+    return self._call_admitted(fn_id, args, caller_effects)
+           ~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/tmp/gopyt-record-field-admission/gopyt/vm.py", line 321, in _call_admitted
+    result = self._call(fn_id, args, caller_effects)
+  File "/tmp/gopyt-record-field-admission/gopyt/vm.py", line 362, in _call
+    return self.exec(fn_id, func, args)
+           ~~~~~~~~~^^^^^^^^^^^^^^^^^^^
+  File "/tmp/gopyt-record-field-admission/gopyt/vm.py", line 380, in exec
+    return self._exec_frame(frame)
+           ~~~~~~~~~~~~~~~~^^^^^^^
+  File "/tmp/gopyt-record-field-admission/gopyt/vm.py", line 385, in _exec_frame
+    return self._execute_frame(frame, instruction_guard)
+           ~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/tmp/gopyt-record-field-admission/gopyt/vm.py", line 615, in _execute_frame
+    result = self.call(fid, list(call_args))
+  File "/tmp/gopyt-record-field-admission/gopyt/vm.py", line 308, in call
+    return self._call_admitted(fn_id, args, caller_effects)
+           ~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/tmp/gopyt-record-field-admission/gopyt/vm.py", line 321, in _call_admitted
+    result = self._call(fn_id, args, caller_effects)
+  File "/tmp/gopyt-record-field-admission/gopyt/vm.py", line 357, in _call
+    result = denial if denial is not None else native(self, args, func)
+                                               ~~~~~~^^^^^^^^^^^^^^^^^^
+  File "/tmp/gopyt-record-field-admission/gopyt/natives.py", line 827, in _model_complete
+    return _status(vm, "ModelError", "network")
+  File "/tmp/gopyt-record-field-admission/gopyt/natives.py", line 105, in _status
+    return _record(vm, vm.type_id_of("core.status." + name), *fields)
+  File "/tmp/gopyt-record-field-admission/gopyt/natives.py", line 98, in _record
+    raise Trap(ops.TRAP_ALLOC) from None
+gopyt.vm.Trap: trap 14
+
+======================================================================
+FAIL: test_http_result_bytes_remain_charged_through_host_alias (gopyt.test_netio.OutboundBudgets.test_http_result_bytes_remain_charged_through_host_alias)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/tmp/gopyt-record-field-admission/gopyt/test_netio.py", line 25, in test_http_result_bytes_remain_charged_through_host_alias
+    self.assertEqual(vm.resource_budget.snapshot()['used']['native_bytes'], len(alias))
+    ~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+AssertionError: 57 != 25
+
+======================================================================
+FAIL: test_model_payload_alias_survives_transport_failure_with_its_charge (gopyt.test_netio.OutboundBudgets.test_model_payload_alias_survives_transport_failure_with_its_charge) (cancellation=False)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/tmp/gopyt-record-field-admission/gopyt/test_netio.py", line 54, in test_model_payload_alias_survives_transport_failure_with_its_charge
+    self.assertEqual(vm.resource_budget.snapshot()['used']['native_bytes'], len(aliases[0]))
+    ~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+AssertionError: 50 != 18
+
+======================================================================
+FAIL: test_model_payload_alias_survives_transport_failure_with_its_charge (gopyt.test_netio.OutboundBudgets.test_model_payload_alias_survives_transport_failure_with_its_charge) (cancellation=True)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/tmp/gopyt-record-field-admission/gopyt/test_netio.py", line 54, in test_model_payload_alias_survives_transport_failure_with_its_charge
+    self.assertEqual(vm.resource_budget.snapshot()['used']['native_bytes'], len(aliases[0]))
+    ~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+AssertionError: 50 != 18
+
+----------------------------------------------------------------------
+Ran 193 tests in 25.735s
+
+FAILED (failures=3, errors=3)

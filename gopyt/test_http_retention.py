@@ -4,6 +4,7 @@ import http.client
 from http.server import BaseHTTPRequestHandler
 import queue
 import socket
+import struct
 import socketserver
 import sys
 import threading
@@ -12,6 +13,11 @@ import weakref
 from unittest.mock import patch
 
 from gopyt.test_app_runtime import running_server
+
+
+# One admitted field-array slot block for a single-field result record, using
+# the same CPython append growth and pointer width as resource_collections.
+FIELD_ARRAY = ((1 + (1 >> 3) + 6) & ~3) * struct.calcsize('P')
 
 
 class HttpRetention(unittest.TestCase):
@@ -55,9 +61,16 @@ class HttpRetention(unittest.TestCase):
                         if frame.f_code.co_name == 'write':
                             writers.append(frame.f_locals['data'])
                         trace = trace.tb_next
-                    self.assertEqual(charged, [12])
+                    # The interrupted write holds the encoded body and the
+                    # live result record's admitted field array. Managed
+                    # allocations stay registered until the VM's own mark and
+                    # sweep, which must reclaim the dead record's array.
+                    self.assertEqual(charged, [12 + FIELD_ARRAY])
                     self.assertEqual(payloads, [b''])
                     self.assertEqual(writers, [None])
+                    self.assertEqual(vm.resource_budget.snapshot()['used']['native_bytes'],
+                                     FIELD_ARRAY)
+                    vm.heap.collect()
                     self.assertEqual(vm.resource_budget.snapshot()['used']['native_bytes'], 0)
 
     def test_response_payload_admission_and_charge_during_write(self):
@@ -82,7 +95,10 @@ class HttpRetention(unittest.TestCase):
                     vm.resource_budget.snapshot()['limits']['native_bytes']):
                 self.assertEqual(request(), (503, b''))
             self.assertEqual(request(), (200, b'{"amount":3}'))
-        self.assertEqual(observed, [12])
+        self.assertEqual(observed, [12 + FIELD_ARRAY])
+        self.assertEqual(vm.resource_budget.snapshot()['used']['native_bytes'],
+                         FIELD_ARRAY)
+        vm.heap.collect()
         self.assertEqual(vm.resource_budget.snapshot()['used']['native_bytes'], 0)
 
     def test_exception_traceback_does_not_retain_charged_body(self):
@@ -130,6 +146,9 @@ class HttpRetention(unittest.TestCase):
                 response.read()
             finally:
                 connection.close()
+        self.assertEqual(vm.resource_budget.snapshot()['used']['native_bytes'],
+                         FIELD_ARRAY)
+        vm.heap.collect()
         self.assertEqual(vm.resource_budget.snapshot()['used']['native_bytes'], 0)
 
     def test_failed_bind_releases_listener_charge(self):
