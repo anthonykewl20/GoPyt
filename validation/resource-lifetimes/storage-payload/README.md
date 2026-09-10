@@ -22,3 +22,8 @@ of the caller-owned descriptor. All three payload tests pass on both runtimes.
 Full Python 3.14.7 regression passed 1019 tests in 361.167 seconds. Frozen
 source hashes were verified after completion. Python 3.11 full qualification
 remains pending.
+
+The runtime wheel reproduced byte-for-byte (SHA-256
+`2aa129060cf1a22038abad939090eb41c9ddc627e7d073dae8f4c82f134b8fd9`,
+57 runtime files, epoch 1788998400). Installed smoke and old/new/rollback
+checks completed successfully; raw evidence is retained here.
