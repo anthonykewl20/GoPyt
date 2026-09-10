@@ -293,13 +293,20 @@ class VM:
         return self.heap.pending_resources() == 0
 
     def call(self, fn_id: int, args: list, caller_effects: int | None = None) -> object:
+        # A nested synchronous call cannot outlive its already admitted caller.
+        # Worker threads still perform their own admission. Avoid contending on
+        # the VM-wide lifecycle lock for every language function invocation.
+        if getattr(self._tl, 'call_active', False):
+            return self._call_admitted(fn_id, args, caller_effects)
         with self._lifecycle_lock:
             if self._closed:
                 raise RuntimeError('VM is closed')
             self._active_calls += 1
         try:
+            self._tl.call_active = True
             return self._call_admitted(fn_id, args, caller_effects)
         finally:
+            self._tl.call_active = False
             with self._lifecycle_lock:
                 self._active_calls -= 1
 
@@ -373,18 +380,12 @@ class VM:
             return self._exec_frame(frame)
 
     def _exec_frame(self, frame):
-        instruction_guard = self.heap.step(frame, quantum=32)
-        try:
-            return self._execute_frame(frame, instruction_guard)
-        finally:
-            instruction_guard.finish()
-
-    def _execute_frame(self, frame, instruction_guard):
         func = frame.func
         code = func.code
         stack = frame.stack
         pc = 0
         n = len(code)
+        instruction_guard = self.heap.step(frame)
         while pc < n:
             with instruction_guard:
                 self.check_cancelled()
