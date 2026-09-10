@@ -1,71 +1,90 @@
-import base64
-import hashlib
+"""The release component and adaptation inventories stay complete and current."""
+import json
 from pathlib import Path
-import tempfile
-import types
 import unittest
-from unittest.mock import patch
 
-from tools.component_inventory import inventory
+from tools import adaptation_inventory, release_components
+
+ROOT = Path(__file__).resolve().parent.parent
 
 
-class InventoryTests(unittest.TestCase):
-    def setUp(self):
-        self.directory = tempfile.TemporaryDirectory()
-        self.addCleanup(self.directory.cleanup)
-        self.root = Path(self.directory.name)
-        self.files = []
-        from email.message import Message
-        self.metadata = Message()
-        self.metadata['Name'] = 'fixture'
-        self.metadata['Version'] = '1'
-        self.dist = types.SimpleNamespace(files=self.files, metadata=self.metadata,
-            version='1', locate_file=lambda item: self.root / str(item))
+class ReleaseComponents(unittest.TestCase):
+    def test_derived_inventory_matches_the_retained_one(self):
+        self.assertEqual(release_components.check(ROOT), [])
 
-    def add(self, name, data):
-        from importlib.metadata import PackagePath, FileHash
-        path = self.root / name
-        path.parent.mkdir(parents=True, exist_ok=True)
-        path.write_bytes(data)
-        item = PackagePath(name)
-        item.hash = FileHash('sha256=' + base64.urlsafe_b64encode(hashlib.sha256(data).digest()).decode().rstrip('='))
-        item.size = len(data)
-        self.files.append(item)
-        return path
+    def test_every_pinned_input_is_inventoried(self):
+        derived = release_components.derive(ROOT)['components']
+        self.assertEqual(sorted(derived['python_distributions']),
+                         ['cffi', 'cryptography', 'pip', 'pycparser', 'setuptools'])
+        for name, action in derived['ci_actions'].items():
+            self.assertRegex(action['commit'], r'^[0-9a-f]{40}$', name)
+        for name, archive in derived['interpreter_archives'].items():
+            self.assertRegex(archive['sha256'], r'^[0-9a-f]{64}$', name)
 
-    def collect(self):
-        with patch('tools.component_inventory.importlib.metadata.distribution', return_value=self.dist):
-            return inventory('fixture')
+    def test_undeclared_licenses_stay_recorded_with_their_identity(self):
+        derived = release_components.derive(ROOT)['components']
+        known = dict(derived['installed_components'], **derived['interpreter_native_inputs'])
+        # A missing publisher license is a recorded gap, not a pass: each entry
+        # must still name the exact artifact a reviewer has to read.
+        for entry in json.loads((ROOT / release_components.UNRESOLVED).read_text())['entries']:
+            self.assertIn(entry['component'], known)
+            self.assertRegex(entry['source_sha256'], r'^[0-9a-f]{64}$')
+            self.assertTrue(entry['resolution_required'])
 
-    def test_modified_installed_code_rejected(self):
-        path = self.add('fixture/native.so', b'approved-native')
-        path.write_bytes(b'changed-native!')
-        with self.assertRaisesRegex(ValueError, 'RECORD'):
-            self.collect()
+    def test_resolved_licenses_were_read_from_the_pinned_archive(self):
+        derived = release_components.derive(ROOT)['components']
+        known = dict(derived['installed_components'], **derived['interpreter_native_inputs'])
+        resolved = json.loads((ROOT / release_components.RESOLVED).read_text())['entries']
+        self.assertTrue(resolved)
+        for entry in resolved:
+            component = known[entry['component']]
+            pinned = component.get('sha256') or component['hashes'].get('SHA-256')
+            # A license is evidence only if it was read out of the archive this
+            # repository already pinned, never inferred from the project name.
+            self.assertEqual(entry['source_sha256'], pinned, entry['component'])
+            self.assertTrue(entry['source_sha256_verified'])
+            self.assertTrue(entry['license'])
+            for record in entry['license_files']:
+                self.assertRegex(record['sha256'], r'^[0-9a-f]{64}$')
+                self.assertTrue(record['first_lines'])
 
-    def test_missing_installed_code_rejected(self):
-        self.add('fixture/module.py', b'pass').unlink()
-        with self.assertRaisesRegex(ValueError, 'missing'):
-            self.collect()
+    def test_an_undeclared_license_must_be_recorded_somewhere(self):
+        derived = release_components.derive(ROOT)['components']
+        recorded = set()
+        for source in (release_components.RESOLVED, release_components.UNRESOLVED):
+            recorded |= {entry['component'] for entry in
+                         json.loads((ROOT / source).read_text())['entries']}
+        for key, value in derived['installed_components'].items():
+            if value['kind'] == 'native_component' and not value['licenses']:
+                self.assertIn(key, recorded)
+        for key, value in derived['interpreter_native_inputs'].items():
+            if value['role'] == 'library' and not value['licenses']:
+                self.assertIn(key, recorded)
 
-    def test_nested_metadata_vendor_pins_and_sboms_preserved(self):
-        self.add('fixture/_vendor/dependency.dist-info/METADATA',
-                 b'Name: dependency\nVersion: 2.1\nLicense-Expression: MIT\n')
-        self.add('fixture/_vendor/vendor.txt', b'# declared bundles\nother==3.2\n')
-        self.add('fixture.dist-info/sboms/bom.json', b'{"components":[{"name":"native"}]}')
-        result = self.collect()
-        self.assertEqual(result['verified_record_files'], 3)
-        self.assertEqual(result['bundled_metadata'][0]['version'], '2.1')
-        self.assertEqual(result['vendor_pins'][0]['name'], 'other')
-        self.assertEqual(result['sboms'][0]['document']['components'][0]['name'], 'native')
 
-    def test_unknown_vendor_declaration_rejected(self):
-        self.add('fixture/_vendor/vendor.txt', b'unpinned>=2\n')
-        with self.assertRaisesRegex(ValueError, 'vendor declaration'):
-            self.collect()
+class Adaptations(unittest.TestCase):
+    def test_every_reference_is_classified(self):
+        self.assertEqual(adaptation_inventory.check(ROOT), [])
 
-    def test_unhashed_code_is_not_treated_as_installer_metadata(self):
-        self.add('fixture/native.so', b'native')
-        self.files[0].hash = None
-        with self.assertRaisesRegex(ValueError, 'unhashed'):
-            self.collect()
+    def test_adopted_code_carries_a_pinned_revision_and_license(self):
+        entries = json.loads(
+            (ROOT / adaptation_inventory.INVENTORY).read_text())['entries']
+        adopted = [entry for entry in entries if entry.get('code_adopted')]
+        self.assertTrue(adopted)
+        for entry in adopted:
+            self.assertTrue(entry.get('revision'), entry['source'])
+            self.assertTrue(entry.get('license_record'), entry['source'])
+
+    def test_unresolved_references_name_their_resolution(self):
+        entries = json.loads(
+            (ROOT / adaptation_inventory.INVENTORY).read_text())['entries']
+        for entry in entries:
+            if entry.get('unresolved'):
+                self.assertTrue(entry.get('resolution_required'), entry['source'])
+
+    def test_an_unclassified_reference_is_detected(self):
+        found = adaptation_inventory.scan(ROOT)
+        recorded = {entry['source'] for entry in json.loads(
+            (ROOT / adaptation_inventory.INVENTORY).read_text())['entries']}
+        self.assertEqual(set(found), recorded)
+        self.assertNotIn('anthonykewl20/GoPyt', found)

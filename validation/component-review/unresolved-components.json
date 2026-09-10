@@ -1,0 +1,5 @@
+{
+  "schema": "gopyt.component-unresolved.v1",
+  "scope": "Components whose publisher record declares no license and whose license has not yet been read from the pinned source archive. Both previously listed entries were resolved and moved to resolved-licenses.json. Any newly undeclared license must be listed here with its exact identity and the resolution it needs; nothing is inferred from a project name.",
+  "entries": []
+}
