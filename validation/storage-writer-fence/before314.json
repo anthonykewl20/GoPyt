@@ -1,0 +1,9 @@
+{
+  "runtime_sha256": "59c09481e714507d9e17ec27f89030303b24147ec7d631f19fd409c88c427079",
+  "probe_sha256": "a36ac8606c904d8fc918b294c3403e66e03daeab95d6369ab7f00b015fba637c",
+  "fresh_new_key_read_before_stale_write": "10",
+  "stale_writer_published": true,
+  "fresh_new_key_read_after_stale_write": "StorageError",
+  "authority_generation": 3,
+  "scope": "Functional stale active-key reproduction with trusted generation authority; no key material retained."
+}
