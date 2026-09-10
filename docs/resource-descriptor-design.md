@@ -291,3 +291,13 @@ verifies the same request succeeds. Existing malformed-body and cancellation tes
 exercise cleanup paths. This is body admission accounting, not complete accounting
 of parser buffers, decoded values, response serialization or traceback-retained
 copies; those overlapping representations still require separate treatment.
+
+### Request-body traceback lifetime
+
+Dispatch now passes a shared request-body holder rather than raw bytes through
+nested frames. The outer request finally clears the holder before releasing its
+reservation. Retained exception tracebacks therefore cannot keep the admitted
+raw body through those dispatch arguments. A live HTTP test injects a dispatch
+exception, retains the server's actual traceback, checks both nested body holders
+are empty, and verifies zero charged bytes. Decoded values and transport/parser
+buffers remain separate accounting work.

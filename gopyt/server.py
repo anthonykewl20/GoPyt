@@ -26,6 +26,11 @@ from gopyt.resource_budget import ResourceLimitError
 from gopyt.resource_sockets import open_socket
 
 
+class _RequestBody:
+    def __init__(self):
+        self.data = b''
+
+
 class _BudgetedHTTPServer(ThreadingHTTPServer):
     def __init__(self, address, handler, *, descriptors):
         socketserver.BaseServer.__init__(self, address, handler)
@@ -300,8 +305,9 @@ def serve(vm, module: str):
                 return
             body = None
             try:
-                body = self.rfile.read(length) if length else b""
-                if len(body) != length:
+                body = _RequestBody()
+                body.data = self.rfile.read(length) if length else b""
+                if len(body.data) != length:
                     self.close_connection = True
                     self._empty(400)
                     return
@@ -333,6 +339,8 @@ def serve(vm, module: str):
                     self._dispatch(fn_id, names, placeholders, binds, body, method_num)
 
             finally:
+                if body is not None:
+                    body.data = b''
                 body = None
                 reservation.release()
 
@@ -372,11 +380,11 @@ def serve(vm, module: str):
                                 self._empty(400)
                                 return
                             try:
-                                args.append(jsonc.decode(vm.art, body.decode("utf-8"), te))
+                                args.append(jsonc.decode(vm.art, body.data.decode("utf-8"), te))
                             except (ConvertFail, NotJson, UnicodeDecodeError):
                                 self._empty(400)
                                 return
-                    if len(names) == len(placeholders) and body:
+                    if len(names) == len(placeholders) and body.data:
                         if method_num in (2, 3, 4):
                             self._empty(400)
                             return

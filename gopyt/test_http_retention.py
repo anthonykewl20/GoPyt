@@ -4,6 +4,8 @@ import http.client
 from http.server import BaseHTTPRequestHandler
 import queue
 import socket
+import socketserver
+import sys
 import threading
 import unittest
 import weakref
@@ -13,6 +15,32 @@ from gopyt.test_app_runtime import running_server
 
 
 class HttpRetention(unittest.TestCase):
+    def test_exception_traceback_does_not_retain_charged_body(self):
+        errors = queue.Queue()
+        def capture(server, request, address):
+            errors.put(sys.exc_info()[2])
+        def fail(*args):
+            raise RuntimeError('dispatch failure')
+        with running_server(MAX_HANDLERS=1) as (vm, port):
+            with patch.object(socketserver.BaseServer, 'handle_error', new=capture), \
+                    patch('gopyt.server._from_str', side_effect=fail):
+                connection = http.client.HTTPConnection('127.0.0.1', port, timeout=2)
+                try:
+                    connection.request('GET', '/echo/abc', body=b'retained request content')
+                    with self.assertRaises(http.client.RemoteDisconnected):
+                        connection.getresponse()
+                finally:
+                    connection.close()
+                traceback = errors.get(timeout=2)
+                seen = []
+                while traceback is not None:
+                    frame = traceback.tb_frame
+                    if frame.f_code.co_name in ('_dispatch', '_dispatch_active'):
+                        seen.append(frame.f_locals['body'].data)
+                    traceback = traceback.tb_next
+                self.assertEqual(seen, [b'', b''])
+                self.assertEqual(vm.resource_budget.snapshot()['used']['native_bytes'], 0)
+
     def test_request_body_capacity_rejection_and_release(self):
         with running_server(MAX_HANDLERS=1) as (vm, port):
             state = vm.resource_budget.snapshot()
