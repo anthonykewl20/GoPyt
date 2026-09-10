@@ -15,22 +15,16 @@ SCALAR_TYPES = (int, bool, float, type(None))
 
 
 class _InstructionGuard:
-    """Reusable frame guard with bounded batches and explicit final release."""
-    __slots__ = ('heap', 'frame', 'quantum', 'remaining', 'held')
+    """Reusable per-frame guard; acquire and release at every instruction."""
+    __slots__ = ('heap', 'frame')
 
-    def __init__(self, heap, frame, quantum=1):
+    def __init__(self, heap, frame):
         self.heap = heap
         self.frame = frame
-        self.quantum = quantum
-        self.remaining = 0
-        self.held = False
 
     def __enter__(self):
         heap = self.heap
-        if not self.held:
-            heap.lock.acquire()
-            self.held = True
-            self.remaining = self.quantum
+        heap.lock.acquire()
         try:
             for value in self.frame.stack:
                 heap._adopt_locked(value)
@@ -41,20 +35,15 @@ class _InstructionGuard:
                 heap.collect()
                 heap.threshold = max(1024, len(heap.objects) * 2)
         except BaseException:
-            self.finish()
+            heap.lock.release()
             raise
 
     def __exit__(self, exc_type, exc, traceback):
-        self.remaining -= 1
-        if exc_type is not None or self.remaining == 0:
-            self.finish()
-        return False
-
-    def finish(self):
-        if self.held:
-            self.held = False
-            self.heap.lock.release()
+        pending = bool(self.heap._resource_pending)
+        self.heap.lock.release()
+        if pending:
             self.heap.drain_resources()
+        return False
 
 
 def children(value):
@@ -145,10 +134,8 @@ class Heap:
             with self.lock:
                 del self.frames[id(frame)]
 
-    def step(self, frame, *, quantum=1):
-        if type(quantum) is not int or not 1 <= quantum <= 32:
-            raise ValueError('instruction quantum must be between 1 and 32')
-        return _InstructionGuard(self, frame, quantum)
+    def step(self, frame):
+        return _InstructionGuard(self, frame)
 
     @contextmanager
     def released(self):

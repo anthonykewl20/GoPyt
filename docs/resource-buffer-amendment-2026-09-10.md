@@ -100,3 +100,19 @@ and filesystem effect remain unchanged. Successful returned bytes become managed
 values; these scratch reservations do not measure Python object metadata, allocator
 arenas or RSS. File descriptor ownership and write-path accounting are still under
 audit and must not be inferred from this read-buffer integration.
+
+## Bounded heap-lock scheduling
+
+The VM may retain its single mutator-lock acquisition across at most 32 bytecode
+instructions. Cancellation, root admission and automatic-collection checks still
+run at every instruction. Native/nested calls release that acquisition through
+the existing scoped release mechanism; frame return or exception releases it in
+a finally block. A batch does not promise atomic application behavior.
+
+Deferred resource cleanup runs after physical lock release, at a batch boundary
+or frame exit. Pending resources retain their reservations until cleanup finishes;
+programs must not assume GC releases capacity at the immediately next instruction.
+Explicit close and lease rules are unchanged. This is an instruction-count bound,
+not a wall-time bound for a synchronous opcode or host call. See
+[the scheduling design](heap-instruction-batch-design.md) and retained failure and
+qualification evidence under validation/resource-lifetimes/heap-batches/.
