@@ -1,0 +1,114 @@
+{
+  "python": "3.14.7 (main, Sep  1 2026, 14:18:09) [Clang 22.1.3 ]",
+  "cases": [
+    {
+      "case": 0,
+      "input_characters": 3,
+      "decimal_size": 104,
+      "result": 0,
+      "failure": null,
+      "traced_current": 0,
+      "traced_peak": 120
+    },
+    {
+      "case": 1,
+      "input_characters": 5,
+      "decimal_size": 104,
+      "result": 0,
+      "failure": null,
+      "traced_current": 0,
+      "traced_peak": 120
+    },
+    {
+      "case": 2,
+      "input_characters": 3,
+      "decimal_size": 104,
+      "result": 1,
+      "failure": null,
+      "traced_current": 0,
+      "traced_peak": 120
+    },
+    {
+      "case": 3,
+      "input_characters": 3,
+      "decimal_size": 104,
+      "result": null,
+      "failure": "int",
+      "traced_current": 280,
+      "traced_peak": 704
+    },
+    {
+      "case": 4,
+      "input_characters": 21,
+      "decimal_size": 104,
+      "result": 9223372036854775807,
+      "failure": null,
+      "traced_current": 36,
+      "traced_peak": 120
+    },
+    {
+      "case": 5,
+      "input_characters": 21,
+      "decimal_size": 104,
+      "result": 9223372036854775808,
+      "failure": null,
+      "traced_current": 36,
+      "traced_peak": 128
+    },
+    {
+      "case": 6,
+      "input_characters": 22,
+      "decimal_size": 104,
+      "result": 18446744073709551615,
+      "failure": null,
+      "traced_current": 36,
+      "traced_peak": 128
+    },
+    {
+      "case": 7,
+      "input_characters": 22,
+      "decimal_size": 104,
+      "result": null,
+      "failure": "range",
+      "traced_current": 0,
+      "traced_peak": 424
+    },
+    {
+      "case": 8,
+      "input_characters": 22,
+      "decimal_size": 104,
+      "result": -9223372036854775808,
+      "failure": null,
+      "traced_current": 36,
+      "traced_peak": 120
+    },
+    {
+      "case": 9,
+      "input_characters": 9,
+      "decimal_size": 104,
+      "result": null,
+      "failure": "range",
+      "traced_current": 0,
+      "traced_peak": 424
+    },
+    {
+      "case": 10,
+      "input_characters": 10,
+      "decimal_size": 104,
+      "result": null,
+      "failure": "int",
+      "traced_current": 0,
+      "traced_peak": 424
+    },
+    {
+      "case": 11,
+      "input_characters": 100002,
+      "decimal_size": 42216,
+      "result": 1,
+      "failure": null,
+      "traced_current": 0,
+      "traced_peak": 120
+    }
+  ],
+  "scope": "Input Decimal allocated before tracing; finite observations only"
+}

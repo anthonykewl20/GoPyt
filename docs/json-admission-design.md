@@ -201,3 +201,19 @@ bounds, bool rejection, cross-range rejection and alias lifetime. Decimal inputs
 are not handled by this helper: 3.14 dec_as_long allocates a rounded mpd temporary
 and, above signed i64, an exported-digit buffer overlapping PyLongWriter storage.
 Those paths need admission before typed decoding can route Decimal inputs here.
+
+Decimal-to-integer follow-up evidence: matching 3.11 dec_as_long always calls
+mpd_qexport_u32/u16 after rounding into a new mpd object; matching 3.14 first tries
+mpd_qget_i64 and otherwise exports. mpd_qexport_u32 allocates the binary digit
+buffer using mpd_sizeinbase, creates a shifted coefficient temporary, and invokes
+base conversion before the final Python integer copy/writer. Bounds must include
+that overlap; the owned destination alone is insufficient. Source locations for
+remaining review in matching 3.14 mpdecimal.c: mpd_qshiftr at 2635, mpd_sizeinbase
+at 8085, _baseconv_to_smaller at 8221, export at 8461.
+The new decimal_integer_probe runs 12 finite cases on both pinned runtimes,
+including signed/unsigned 64-bit boundaries, fractional rejection, huge exponents,
+and a 100000-zero fractional suffix. Results and rejection messages agree across
+runtimes. Tracemalloc starts after the input Decimal is constructed; measured peaks
+are observations only and do not prove coverage of every libmpdec/native allocation.
+No production routing or Decimal-to-integer reservation bound is claimed from this
+probe. Runtime files are unchanged by this evidence increment.
