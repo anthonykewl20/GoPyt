@@ -82,6 +82,20 @@ class Adaptations(unittest.TestCase):
             if entry.get('unresolved'):
                 self.assertTrue(entry.get('resolution_required'), entry['source'])
 
+    def test_the_scan_does_not_depend_on_git_metadata(self):
+        # An exported or installed checkout has no Git metadata; the inventory
+        # must still be checkable there, over exactly the tracked file set.
+        import subprocess
+        try:
+            subprocess.run(['git', '-C', str(ROOT), 'ls-files'],
+                           capture_output=True, check=True)
+        except (OSError, subprocess.CalledProcessError):
+            self.skipTest('no Git metadata to compare the walk against')
+        listed = subprocess.run(['git', '-C', str(ROOT), 'ls-files'],
+                                capture_output=True, text=True, check=True)
+        tracked = {line for line in listed.stdout.splitlines() if line}
+        self.assertEqual(set(adaptation_inventory.walked_files(ROOT)), tracked)
+
     def test_an_unclassified_reference_is_detected(self):
         found = adaptation_inventory.scan(ROOT)
         recorded = {entry['source'] for entry in json.loads(
