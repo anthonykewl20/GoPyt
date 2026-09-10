@@ -17,6 +17,31 @@ from gopyt.vm import VM, Trap, Cancelled
 
 
 class OutboundBudgets(unittest.TestCase):
+    def test_model_payload_alias_survives_transport_failure_with_its_charge(self):
+        vm = self.fixture.vm
+        for cancellation in (False, True):
+            with self.subTest(cancellation=cancellation):
+                aliases, requests = [], []
+                class FailingTransport:
+                    def open(self, request, **kwargs):
+                        requests.append(request)
+                        aliases.append(request.data)
+                        if cancellation:
+                            raise Cancelled()
+                        raise OSError('transport failed before response')
+                with patch('gopyt.netio.opener', return_value=FailingTransport()):
+                    if cancellation:
+                        with self.assertRaises(Cancelled): self.invoke('model')
+                    else:
+                        result = self.invoke('model')
+                        self.assertEqual(vm.type_name(result.type_id), 'core.status.ModelError')
+                self.assertEqual(len(aliases), 1)
+                self.assertTrue(aliases[0].startswith(b'{"prompt":'))
+                self.assertIsNone(requests[0].data)
+                self.assertEqual(vm.resource_budget.snapshot()['used']['native_bytes'], len(aliases[0]))
+                aliases.clear()
+                self.assertEqual(vm.resource_budget.snapshot()['used']['native_bytes'], 0)
+
     def test_model_payload_admission_and_transport_lifetime(self):
         from gopyt.netio import _Connection
         vm = self.fixture.vm

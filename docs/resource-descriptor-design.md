@@ -395,3 +395,9 @@ the existing ModelError network-failure path. A compiled test verifies exhausted
 capacity prevents transport, then confirms successful POST data remains charged
 at its exact payload length during send and releases after return. Response reads,
 decoding, HTTP-library copies and TLS allocations remain separate accounting work.
+
+Model transport failure tests retain the request object and a payload alias while
+injecting either OSError or cancellation before a response. Request.data is cleared
+on both paths, the retained alias remains charged, and dropping that alias releases
+the final payload reservation. The test makes no wire-delivery claim; successful
+real HTTP/TLS tests cover the transport path separately.
