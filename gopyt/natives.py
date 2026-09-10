@@ -640,8 +640,11 @@ def _http_request(vm, args, func):
         except urllib.error.HTTPError as error:
             resp = error
         with resp:
-            data = resp.read(MAX_BODY + 1)
-            status = resp.code if isinstance(resp, urllib.error.HTTPError) else resp.status
+            from gopyt.resource_bytes import read_payload
+            with read_payload(resp, vm.resource_budget, MAX_BODY + 1,
+                              budget.remaining) as response_payload:
+                data = response_payload.data
+                status = resp.code if isinstance(resp, urllib.error.HTTPError) else resp.status
         budget.remaining()
     except (Trap, Cancelled):
         raise

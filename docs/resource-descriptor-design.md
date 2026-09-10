@@ -421,3 +421,13 @@ check. Model responses now use it with MAX_BODY + 1 and hold the final byte owne
 through UTF-8 decoding. Short-read tests verify exact limit handling; compiled
 outbound tests continue to cover response framing, TLS and deadlines. Decoded text,
 JSON parsing structures and transport-internal buffers remain unaccounted here.
+
+### Language HTTP response bytes
+
+net.http.request now reads its bounded response through read_payload. The returned
+HttpResponse retains the charged bytes object after the temporary payload holder
+closes. VM heap adoption accepts this bytes subclass without changing the language
+byte type. A compiled real-HTTP test releases the VM result and collects the heap
+while retaining a host alias: the payload stays charged until that alias is dropped.
+Existing outbound and authority suites cover the integrated path. Explicit byte
+copies, decoded structures and transport internals remain separate accounting work.

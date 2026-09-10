@@ -17,6 +17,19 @@ from gopyt.vm import VM, Trap, Cancelled
 
 
 class OutboundBudgets(unittest.TestCase):
+    def test_http_result_bytes_remain_charged_through_host_alias(self):
+        vm = self.fixture.vm
+        response = self.invoke('http')
+        alias = response.fields[1]
+        self.assertEqual(alias, b'{"text":"local response"}')
+        self.assertEqual(vm.resource_budget.snapshot()['used']['native_bytes'], len(alias))
+        response = None
+        vm.heap.release_result()
+        vm.heap.collect()
+        self.assertEqual(vm.resource_budget.snapshot()['used']['native_bytes'], len(alias))
+        alias = None
+        self.assertEqual(vm.resource_budget.snapshot()['used']['native_bytes'], 0)
+
     def test_model_payload_alias_survives_transport_failure_with_its_charge(self):
         vm = self.fixture.vm
         for cancellation in (False, True):
