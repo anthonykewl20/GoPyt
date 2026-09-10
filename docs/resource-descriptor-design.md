@@ -185,3 +185,18 @@ files.atomic_write is currently called by compiler/CLI, transaction/evolution,
 and trace export paths; its remaining scope must be assessed separately from
 language core.file natives. Network TLS allocations and SQLite/encryption scratch
 memory remain unaccounted. None of these observations complete issue 5.
+
+### Socket primitive
+
+resource_sockets.open_socket now registers a SocketOwner and reserves one shared
+descriptor before initializing a socket. Its socket subclass hooks physical close,
+so makefile readers retain admission after logical socket close. Registry teardown
+reports incomplete while those readers remain. Acquisition racing teardown closes
+the newly acquired socket and rejects its return. Ambiguous physical close retains
+the owner and reservation and is never retried.
+
+Focused tests cover reader retention, shared admission with a real file, invalid
+socket construction, teardown during acquisition, and a close that physically
+succeeds then raises. This primitive is not yet wired into HTTP. Raw detach is
+rejected pending explicit TLS transfer; accepted sockets and TLS must be integrated
+before network accounting can be claimed.
