@@ -164,3 +164,16 @@ jsonc.parse is unchanged. Remaining qualification includes cancellation at parse
 boundaries, retained child aliases, depth compatibility and frame-allocation faults,
 then typed conversion ownership and native routing. Linked frame/object headers
 are metadata excluded from the payload ledger; this is not whole-heap accounting.
+
+Parser failure qualification: _Frame.__init__ now clears its constructor references
+in finally so constructor tracebacks do not retain parent/container arguments.
+Twenty-five focused tests pass on both pinned runtimes. A nested document is first
+parsed to count checks, then cancelled at each reached check with the exception
+retained; each run releases all reservations. Budget limits from 0 through 1989
+in steps of 17 exercise partial allocation failures with retained exceptions and
+also release. A child array retained after its parent dies keeps only its remaining
+graph charged and releases on the last alias. These finite sweeps do not cover all
+inputs or constructor failure points. Production _dec still uses list/dict
+comprehensions, Some and typed integer wrappers; those destination producers need
+admission while the parsed graph remains alive. Existing decode catches recursive
+typed-conversion failure as depth; parser depth compatibility remains to qualify.

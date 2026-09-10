@@ -362,3 +362,60 @@ class JsonOwnedParser(unittest.TestCase):
                 failure = error
             self.assertIsNotNone(failure, source)
             self.assertEqual(budget.snapshot()['active_reservations'], 0, source)
+
+
+class JsonParserFailureBoundaries(unittest.TestCase):
+    source = '{"a":[1,"two",{"b":1.25}],"c":[true,null,"é"]}'
+
+    def test_every_cancellation_boundary_releases_partial_graph(self):
+        from gopyt.resource_json import parse_owned
+        calls = 0
+        def count():
+            nonlocal calls
+            calls += 1
+        budget = ResourceBudget(ResourceLimits(100000, 0, 0, 0))
+        result = parse_owned(self.source, budget, count)
+        del result
+        total = calls
+        class Cancelled(Exception):
+            pass
+        for stop in range(1, total + 1):
+            calls = 0
+            def check():
+                nonlocal calls
+                calls += 1
+                if calls == stop:
+                    raise Cancelled()
+            failure = None
+            try:
+                parse_owned(self.source, budget, check)
+            except Cancelled as error:
+                failure = error
+            self.assertIsNotNone(failure, stop)
+            self.assertEqual(budget.snapshot()['active_reservations'], 0, stop)
+
+    def test_budget_rejection_releases_partial_graph(self):
+        from gopyt.resource_json import parse_owned
+        for limit in range(0, 2000, 17):
+            budget = ResourceBudget(ResourceLimits(limit, 0, 0, 0))
+            failure = result = None
+            try:
+                result = parse_owned(self.source, budget)
+            except ResourceLimitError as error:
+                failure = error
+            del result
+            self.assertEqual(budget.snapshot()['active_reservations'], 0, limit)
+
+    def test_child_alias_outlives_parent(self):
+        from gopyt.resource_json import parse_owned
+        budget = ResourceBudget(ResourceLimits(100000, 0, 0, 0))
+        result = parse_owned(self.source, budget)
+        child = result['a']
+        before = budget.snapshot()['used']['native_bytes']
+        del result
+        remaining = budget.snapshot()['used']['native_bytes']
+        self.assertGreater(remaining, 0)
+        self.assertLess(remaining, before)
+        self.assertEqual(child[1], 'two')
+        del child
+        self.assertEqual(budget.snapshot()['active_reservations'], 0)

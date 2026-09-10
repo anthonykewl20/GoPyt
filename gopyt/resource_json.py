@@ -319,10 +319,13 @@ class _Frame:
     __slots__ = ('parent', 'container', 'key', 'phase')
 
     def __init__(self, parent, container):
-        self.parent = parent
-        self.container = container
-        self.key = None
-        self.phase = 'first'
+        try:
+            self.parent = parent
+            self.container = container
+            self.key = None
+            self.phase = 'first'
+        finally:
+            self = parent = container = None
 
 
 def parse_owned(text, budget, check=lambda: None):

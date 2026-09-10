@@ -1,0 +1,30 @@
+test_cancelled_append_retained_traceback_clears_owner (gopyt.test_resource_json.JsonArrayOwnership.test_cancelled_append_retained_traceback_clears_owner) ... ok
+test_growth_storage_and_alias_lifetime (gopyt.test_resource_json.JsonArrayOwnership.test_growth_storage_and_alias_lifetime) ... ok
+test_resize_rejection_preserves_previous_array (gopyt.test_resource_json.JsonArrayOwnership.test_resize_rejection_preserves_previous_array) ... ok
+test_admission_precedes_constructor (gopyt.test_resource_json.JsonDecimalToken.test_admission_precedes_constructor) ... ok
+test_decimal_context_traps_match_oracle (gopyt.test_resource_json.JsonDecimalToken.test_decimal_context_traps_match_oracle) ... ok
+test_invalid_exponent_and_cancelled_result_cleanup (gopyt.test_resource_json.JsonDecimalToken.test_invalid_exponent_and_cancelled_result_cleanup) ... ok
+test_oracle_and_alias_ownership (gopyt.test_resource_json.JsonDecimalToken.test_oracle_and_alias_ownership) ... ok
+test_cancelled_conversion_clears_intermediates (gopyt.test_resource_json.JsonIntegerToken.test_cancelled_conversion_clears_intermediates) ... ok
+test_capacity_and_digit_limit (gopyt.test_resource_json.JsonIntegerToken.test_capacity_and_digit_limit) ... ok
+test_constructor_failure_releases_reserved_payload (gopyt.test_resource_json.JsonIntegerToken.test_constructor_failure_releases_reserved_payload) ... ok
+test_oracle_and_alias_ownership (gopyt.test_resource_json.JsonIntegerToken.test_oracle_and_alias_ownership) ... ok
+test_grammar_matches_standard_decoder_offsets (gopyt.test_resource_json.JsonNumberSpan.test_grammar_matches_standard_decoder_offsets) ... ok
+test_invalid_digits_and_incomplete_numbers (gopyt.test_resource_json.JsonNumberSpan.test_invalid_digits_and_incomplete_numbers) ... ok
+test_long_scan_cancellation_clears_input (gopyt.test_resource_json.JsonNumberSpan.test_long_scan_cancellation_clears_input) ... ok
+test_duplicate_and_capacity_rejection_preserve_object (gopyt.test_resource_json.JsonObjectOwnership.test_duplicate_and_capacity_rejection_preserve_object) ... ok
+test_growth_and_string_subclass_keys (gopyt.test_resource_json.JsonObjectOwnership.test_growth_and_string_subclass_keys) ... ok
+test_malformed_partial_graph_releases_with_error_retained (gopyt.test_resource_json.JsonOwnedParser.test_malformed_partial_graph_releases_with_error_retained) ... ok
+test_nested_values_match_oracle (gopyt.test_resource_json.JsonOwnedParser.test_nested_values_match_oracle) ... ok
+test_budget_rejection_releases_partial_graph (gopyt.test_resource_json.JsonParserFailureBoundaries.test_budget_rejection_releases_partial_graph) ... ok
+test_child_alias_outlives_parent (gopyt.test_resource_json.JsonParserFailureBoundaries.test_child_alias_outlives_parent) ... ok
+test_every_cancellation_boundary_releases_partial_graph (gopyt.test_resource_json.JsonParserFailureBoundaries.test_every_cancellation_boundary_releases_partial_graph) ... ok
+test_error_after_long_prefix_releases_with_traceback_retained (gopyt.test_resource_json.JsonStringToken.test_error_after_long_prefix_releases_with_traceback_retained) ... ok
+test_escape_heavy_widening_matches_oracle (gopyt.test_resource_json.JsonStringToken.test_escape_heavy_widening_matches_oracle) ... ok
+test_rejection_and_malformed_tokens_release (gopyt.test_resource_json.JsonStringToken.test_rejection_and_malformed_tokens_release) ... ok
+test_tokens_match_json_oracle_and_retain_charge (gopyt.test_resource_json.JsonStringToken.test_tokens_match_json_oracle_and_retain_charge) ... ok
+
+----------------------------------------------------------------------
+Ran 25 tests in 0.043s
+
+OK
