@@ -1,9 +1,11 @@
 # Native resource accounting audit
 
 Status: implementation gap inventory for issue #5, not qualification evidence.
-The buffer ledger currently accounts for buffer payloads, transient buffer copies,
-and open buffer/view handles. It does not impose an aggregate native-memory or
-descriptor limit on the following existing paths.
+The ledger accounts for Buffer/View payloads and handles, mapped snapshots,
+VM-owned filesystem and socket descriptors, and selected HTTP/model payloads.
+This remains an implementation gap inventory; these counters do not impose an
+aggregate native-memory or process RSS limit. The original path table below
+predates the descriptor and payload integrations; the current review follows it.
 
 | Path | Acquisitions and overlapping storage | Required integration |
 | --- | --- | --- |
@@ -53,3 +55,33 @@ platform support, cancellation between acquisition stages, and typed native erro
 Qualify actual descriptor deltas and mapping lifetime on each supported profile,
 including nested views, GC, and concurrent close/access. No mapping API is shipped
 by this audit document.
+
+## Payload baseline and next storage boundary
+
+Reviewed against `aa3e8f32798b40fd375d711a03d46969c5cfb156` (PR #70;
+platform qualification pending at review). Descriptor ownership is implemented
+for VM file/storage/rollback/migration operations and HTTP/TLS sockets. HTTP
+credential reads now use that registry. Request-body admission, owned JSON
+serialization and outbound response reads use the shared byte budget. Retained
+byte aliases keep their reservation; explicit copies and decoded values do not.
+See [descriptor design](resource-descriptor-design.md) and the
+[payload qualification](../validation/resource-lifetimes/payload-integration/).
+
+Storage remains a separate allocation gap:
+
+- `Store._load` reads an encrypted snapshot, unseals it and passes plaintext to
+  `Connection.deserialize`; the snapshot, plaintext and SQLite-owned database can
+  overlap. Descriptor admission does not reserve these allocations.
+- `Store._save` calls `Connection.serialize` before checking its returned length,
+  then seals the result. A post-allocation size check is not admission.
+- Restore creates another in-memory connection and deserializes an unsealed
+  backup. It needs the same policy as ordinary loads, including failure cleanup.
+- SQLite length and page-count limits constrain particular database operations;
+  they do not establish a bound on SQLite allocator usage, query results, or
+  cryptographic scratch. Charging serialized length cannot establish that bound.
+
+The next implementation must separate charged input/output payload lifetimes
+from SQLite and cryptographic internals, preserve admitted-publication recovery,
+and reject insufficient capacity before each covered allocation. Native internals
+require allocator integration or a separately qualified isolation limit; a
+conservative payload multiplier alone cannot close issue #5.
