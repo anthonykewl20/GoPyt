@@ -1,0 +1,39 @@
+{
+  "schema": "gopyt.contract-demo.v1",
+  "pass": true,
+  "scope": "Compiler drift protection and runtime-contract example, not a correctness proof.",
+  "cases": [
+    {
+      "case": "clean",
+      "check_exit": 0,
+      "check_output": "",
+      "test_exit": 0,
+      "test_output": "",
+      "expected_behavior": true
+    },
+    {
+      "case": "deleted_postcondition",
+      "check_exit": 1,
+      "check_output": "GOPYT_E032 impl_header\nfile: impl/ticket_contracts.gopyt\nline: 3\nrepair-bytes: 0\n",
+      "test_exit": null,
+      "test_output": "",
+      "expected_behavior": true
+    },
+    {
+      "case": "weakened_precondition",
+      "check_exit": 1,
+      "check_output": "GOPYT_E032 impl_header\nfile: impl/ticket_contracts.gopyt\nline: 3\nrepair-bytes: 0\n",
+      "test_exit": null,
+      "test_output": "",
+      "expected_behavior": true
+    },
+    {
+      "case": "wrong_increment",
+      "check_exit": 0,
+      "check_output": "",
+      "test_exit": 2,
+      "test_output": "GOPYT_E101 trap\nfile: test/ticket_contracts.gopyt\ntrap: 2\nrepair-bytes: 0\n",
+      "expected_behavior": true
+    }
+  ]
+}
