@@ -1,0 +1,12 @@
+{
+  "files": {
+    "README.md": "f7fc0c963e0a4f78dca62a7d4a38cc38a0e2790200d054a94f53966e05118394",
+    "contracts.json": "12907935d8ffccdccc2dec115b995dec773f4456c8d979c7a4c68a4c5712bc48",
+    "guard.log": "2345e3b7c0a28029c05fad6fbdd7cf7c62c31ace1e4f552b1989ea3e0803146e",
+    "source.json": "8df212c0b2cd6fc23628c3371f97405f2de163d36c363bf108fe0edae9129140",
+    "stdlib.log": "c9b37183ec6938cd8761614623f71a3f6ff83a9a22e9461a0a84a96835eb7489",
+    "upgrade.json": "e2c3b3ad76050642cc2e46fa16fc795e4ed1f48fe1dc6215b7b0c025ba676fdf",
+    "wheel-smoke.json": "a89f0bba841a67b6185f8a71c6b534d1c3682e956babeca8bbf8e2c5fffc8b0a",
+    "wheel.log": "c7c155ec73f1b72a355022d89be66fbda97e8760066150999f38777efa45f387"
+  }
+}
