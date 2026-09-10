@@ -40,3 +40,7 @@ resolution of either CI failure.
 
 Guard calibration passed 17 tests, stdlib parity passed for 22 modules, and
 the contract demo passed for the candidate runtime. Outputs are retained.
+
+Full Python 3.11.16 qualification passed 1019 tests in 418.351 seconds.
+Frozen source and lock hashes were verified after completion. Scheduled
+thread dumps are retained in the raw log. Full Python 3.14 remains pending.
