@@ -79,6 +79,6 @@ Traceback (most recent call last):
 gopyt.vm.Trap: trap 2
 .
 ----------------------------------------------------------------------
-Ran 22 tests in 16.644s
+Ran 22 tests in 20.733s
 
 OK

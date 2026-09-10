@@ -1,6 +1,6 @@
 {
   "old_wheel_sha256": "0f1add81c73d51425e1596860d8ec736d24e9606cba76a9d84190a952d838a81",
-  "new_wheel_sha256": "6344a7c036abc2e91fc1f49c7a9fcd138963da1adb7d95fac90b82a196095dc7",
+  "new_wheel_sha256": "e3626cb48dab142c88840c62bccce2b286c3b432be854965327395214871435e",
   "phases": [
     {
       "phase": "old",
@@ -14,11 +14,11 @@
     {
       "phase": "new",
       "format": 3,
-      "toolchain": "gopyt-0.1.000+sha256:608559e1fb2478b5c0b4ee54aab3eb6d8e0c7ec75e89c1d20a4d1ef0f822b8fb",
+      "toolchain": "gopyt-0.1.000+sha256:04e827adb8915c13e58a0a1b3e4f43d48670933f8b85263bd3ff8f5588ae8749",
       "result": 42,
       "requires_trap": 1,
       "outside_checkout": true,
-      "artifact_sha256": "09ca0f2674a39e291d552ae17eccde4b8a418a4310359735cd82456489a7cffc"
+      "artifact_sha256": "b5379d3d6ad3f70e11863b30f5cc658f7ba5170fead4caadb08c57332009c596"
     },
     {
       "phase": "rollback",

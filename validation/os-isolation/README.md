@@ -1,16 +1,16 @@
 OS isolation profile evidence
 
-Frozen source/runtime identity is in source.json (head 5105618, runtime
-sha256:608559e1fb2478b5c0b4ee54aab3eb6d8e0c7ec75e89c1d20a4d1ef0f822b8fb,
+Frozen source/runtime identity is in source.json (head 3efdc40, runtime
+sha256:04e827adb8915c13e58a0a1b3e4f43d48670933f8b85263bd3ff8f5588ae8749,
 595 file hashes). profile.json records what this host could actually install
 and, importantly, what the profile does not provide.
 
-Python 3.14.7 full language suite: 1,176 tests passed in 506.091s (full314.log).
-Python 3.11.16 full language suite: 1,176 tests passed in 564.514s (full311.log),
+Python 3.14.7 full language suite: 1,178 tests passed in 614.898s (full314.log).
+Python 3.11.16 full language suite: 1,178 tests passed in 684.444s (full311.log),
 with one test skipped because that run used an exported copy with no Git metadata.
 
 Two wheel builds under SOURCE_DATE_EPOCH=1788998400 are byte-identical
-(wheel SHA256 6344a7c036abc2e91fc1f49c7a9fcd138963da1adb7d95fac90b82a196095dc7,
+(wheel SHA256 e3626cb48dab142c88840c62bccce2b286c3b432be854965327395214871435e,
 64 runtime files). Installed-runtime smoke, format 2 to format 3 upgrade and
 rollback, 22 Guard tests, 22-module stdlib synchronization and all four
 contract-demo outcomes passed.
@@ -31,3 +31,17 @@ host. Both were defects in this work, not in the profile's design.
 This is finite hostile-fixture evidence on one Linux kernel. It is not a
 system-call filter, not hypervisor separation, and not an independent security
 review.
+
+full311-initial-failures.log retains an earlier run against a branch that
+predated the Git-metadata fallback merged in #83; those four failures are that
+known tooling issue, not an isolation defect.
+
+Ubuntu CI on the first published head failed while macOS passed, and that
+failure is the reason the probe changed. On that runner `unshare` succeeded but
+writing `/proc/self/setgroups` returned `Permission denied`, because an outer
+user namespace had already denied it and left the file read-only. Probing only
+the first system call had therefore promised an isolation the caller never got.
+The probe now performs the whole entry path, the already-denied state is
+accepted as the state the setup wanted, and a setup failure after a positive
+probe is reported as unavailability rather than returned as an unisolated
+result.

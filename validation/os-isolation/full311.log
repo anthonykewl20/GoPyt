@@ -355,19 +355,19 @@ Traceback (most recent call last):
 gopyt.vm.Trap: trap 2
 guard prepare: duplicate JSON key: cases
 guard prepare: preparation policy exceeds byte limit
-70f990f890cb41da2e805b1c15e2255ebc0aebb9fdbcae05c3d14b63ee9413be
+442d2084063fadbc989c11f9be7454ebf5b41c2b8b12a6be04f3b8e9f986836d
 {
   "schema": "gopyt.guard.receipt.v1",
   "accepted": true,
-  "bundle_sha256": "70f990f890cb41da2e805b1c15e2255ebc0aebb9fdbcae05c3d14b63ee9413be",
-  "engine_sha256": "f558361c5bd7bd7c7fe6f4feab7fae309c6b4fdcdc68112d2794064f9aa61724",
+  "bundle_sha256": "442d2084063fadbc989c11f9be7454ebf5b41c2b8b12a6be04f3b8e9f986836d",
+  "engine_sha256": "42b0b18a07c87adc1ef39a96fb0cdfc2e70b13097e8325bf23aff43aa8173746",
   "limitations": [
     "Finite acceptance cases, not a proof.",
     "Listed obligations are declarations; this gate executes only the supplied cases, not HTTP or database tests.",
     "Caller, bundle pin, and executor must be protected outside candidate authority.",
     "No guarantee about external payment processors or undisclosed policies."
   ],
-  "candidate_sha256": "2870e3a3fd3dbbf7e0a2703415b3e5b9471fe55832d41776f1d051f1776a87b4",
+  "candidate_sha256": "162e08b2bb2b4b897394f1f053087cca4ec03dfad61507b02e01a4b996ae74c4",
   "changed_files": [],
   "obligations": {
     "stock": "Reservation preserves nonnegative stock."
@@ -413,45 +413,8 @@ echo
 echo
 echo
 echo
-output
-output
 Scheduled Python thread stacks:
-Thread 136779423270592:
-  File "/tmp/gopyt-python31116/python/lib/python3.11/threading.py", line 1002, in _bootstrap
-    self._bootstrap_inner()
-  File "/tmp/gopyt-python31116/python/lib/python3.11/threading.py", line 1045, in _bootstrap_inner
-    self.run()
-  File "/tmp/gopyt-python31116/python/lib/python3.11/threading.py", line 982, in run
-    self._target(*self._args, **self._kwargs)
-  File "/tmp/gopyt-iso-copy311/gopyt/test_native_admission.py", line 73, in run
-    outcomes.append(self.vm.call(self.ids[target], []))
-  File "/tmp/gopyt-iso-copy311/gopyt/vm.py", line 312, in call
-    return self._call_admitted(fn_id, args, caller_effects)
-  File "/tmp/gopyt-iso-copy311/gopyt/vm.py", line 325, in _call_admitted
-    result = self._call(fn_id, args, caller_effects)
-  File "/tmp/gopyt-iso-copy311/gopyt/vm.py", line 366, in _call
-    return self.exec(fn_id, func, args)
-  File "/tmp/gopyt-iso-copy311/gopyt/vm.py", line 384, in exec
-    return self._exec_frame(frame)
-  File "/tmp/gopyt-iso-copy311/gopyt/vm.py", line 403, in _exec_frame
-    return self._execute_frame(frame, instruction_guard)
-  File "/tmp/gopyt-iso-copy311/gopyt/vm.py", line 642, in _execute_frame
-    result = self.call(fid, list(call_args))
-  File "/tmp/gopyt-iso-copy311/gopyt/vm.py", line 312, in call
-    return self._call_admitted(fn_id, args, caller_effects)
-  File "/tmp/gopyt-iso-copy311/gopyt/vm.py", line 325, in _call_admitted
-    result = self._call(fn_id, args, caller_effects)
-  File "/tmp/gopyt-iso-copy311/gopyt/vm.py", line 361, in _call
-    result = denial if denial is not None else native(self, args, func)
-  File "/tmp/gopyt-iso-copy311/gopyt/natives.py", line 541, in _limit_allow
-    with vm.native_admission():
-  File "/tmp/gopyt-python31116/python/lib/python3.11/contextlib.py", line 137, in __enter__
-    return next(self.gen)
-  File "/tmp/gopyt-iso-copy311/gopyt/vm.py", line 268, in native_admission
-    if lock.acquire(timeout=remaining):
-  File "/tmp/gopyt-iso-copy311/gopyt/test_native_admission.py", line 23, in acquire
-    acquired = self.lock.acquire(timeout=timeout)
-Thread 136779559597760:
+Thread 140605963368128:
   File "/tmp/gopyt-python31116/python/lib/python3.11/threading.py", line 1002, in _bootstrap
     self._bootstrap_inner()
   File "/tmp/gopyt-python31116/python/lib/python3.11/threading.py", line 1045, in _bootstrap_inner
@@ -460,7 +423,7 @@ Thread 136779559597760:
     self._target(*self._args, **self._kwargs)
   File "/tmp/gopyt-iso-copy311/tools/run_language_tests.py", line 18, in report_stacks
     traceback.print_stack(frame, file=stream)
-Thread 136779613607744:
+Thread 140606017926976:
   File "/tmp/gopyt-iso-copy311/tools/run_language_tests.py", line 32, in <module>
     runpy.run_module('unittest', run_name='__main__')
   File "<frozen runpy>", line 229, in run_module
@@ -511,23 +474,121 @@ Thread 136779613607744:
     self._callTestMethod(testMethod)
   File "/tmp/gopyt-python31116/python/lib/python3.11/unittest/case.py", line 579, in _callTestMethod
     if method() is not None:
-  File "/tmp/gopyt-iso-copy311/gopyt/test_native_admission.py", line 83, in test_waiting_callers_stop_before_held_lock_release
-    caller.join(2)
-  File "/tmp/gopyt-python31116/python/lib/python3.11/threading.py", line 1123, in join
-    self._wait_for_tstate_lock(timeout=max(timeout, 0))
-  File "/tmp/gopyt-python31116/python/lib/python3.11/threading.py", line 1139, in _wait_for_tstate_lock
-    if lock.acquire(block, timeout):
-obligations: FileExistsError: [Errno 17] File exists: '/tmp/tmp53iqyypl/report.json'
-obligations: FileExistsError: [Errno 17] File exists: '/tmp/tmp3h7l3rm9/report.json'
-obligations: FileExistsError: [Errno 17] File exists: '/tmp/tmpakn0xn2a/report.json'
-obligations: FileExistsError: [Errno 17] File exists: '/tmp/tmp6hbvs0fb/report.json'
+  File "/tmp/gopyt-iso-copy311/gopyt/test_inventory.py", line 26, in test_generated_state_sequences
+    result=vm.call(ids['inventory.apply'],[state_record(state),Record(types['inventory.Command'],[req[k] for k in ['action','id','quantity','ttl_ms']]),now])
+  File "/tmp/gopyt-iso-copy311/gopyt/vm.py", line 312, in call
+    return self._call_admitted(fn_id, args, caller_effects)
+  File "/tmp/gopyt-iso-copy311/gopyt/vm.py", line 325, in _call_admitted
+    result = self._call(fn_id, args, caller_effects)
+  File "/tmp/gopyt-iso-copy311/gopyt/vm.py", line 366, in _call
+    return self.exec(fn_id, func, args)
+  File "/tmp/gopyt-iso-copy311/gopyt/vm.py", line 384, in exec
+    return self._exec_frame(frame)
+  File "/tmp/gopyt-iso-copy311/gopyt/vm.py", line 403, in _exec_frame
+    return self._execute_frame(frame, instruction_guard)
+  File "/tmp/gopyt-iso-copy311/gopyt/vm.py", line 642, in _execute_frame
+    result = self.call(fid, list(call_args))
+  File "/tmp/gopyt-iso-copy311/gopyt/vm.py", line 312, in call
+    return self._call_admitted(fn_id, args, caller_effects)
+  File "/tmp/gopyt-iso-copy311/gopyt/vm.py", line 325, in _call_admitted
+    result = self._call(fn_id, args, caller_effects)
+  File "/tmp/gopyt-iso-copy311/gopyt/vm.py", line 366, in _call
+    return self.exec(fn_id, func, args)
+  File "/tmp/gopyt-iso-copy311/gopyt/vm.py", line 384, in exec
+    return self._exec_frame(frame)
+  File "/tmp/gopyt-iso-copy311/gopyt/vm.py", line 403, in _exec_frame
+    return self._execute_frame(frame, instruction_guard)
+  File "/tmp/gopyt-iso-copy311/gopyt/vm.py", line 642, in _execute_frame
+    result = self.call(fid, list(call_args))
+  File "/tmp/gopyt-iso-copy311/gopyt/vm.py", line 312, in call
+    return self._call_admitted(fn_id, args, caller_effects)
+  File "/tmp/gopyt-iso-copy311/gopyt/vm.py", line 325, in _call_admitted
+    result = self._call(fn_id, args, caller_effects)
+  File "/tmp/gopyt-iso-copy311/gopyt/vm.py", line 366, in _call
+    return self.exec(fn_id, func, args)
+  File "/tmp/gopyt-iso-copy311/gopyt/vm.py", line 384, in exec
+    return self._exec_frame(frame)
+  File "/tmp/gopyt-iso-copy311/gopyt/vm.py", line 403, in _exec_frame
+    return self._execute_frame(frame, instruction_guard)
+  File "/tmp/gopyt-iso-copy311/gopyt/vm.py", line 642, in _execute_frame
+    result = self.call(fid, list(call_args))
+  File "/tmp/gopyt-iso-copy311/gopyt/vm.py", line 312, in call
+    return self._call_admitted(fn_id, args, caller_effects)
+  File "/tmp/gopyt-iso-copy311/gopyt/vm.py", line 325, in _call_admitted
+    result = self._call(fn_id, args, caller_effects)
+  File "/tmp/gopyt-iso-copy311/gopyt/vm.py", line 366, in _call
+    return self.exec(fn_id, func, args)
+  File "/tmp/gopyt-iso-copy311/gopyt/vm.py", line 384, in exec
+    return self._exec_frame(frame)
+  File "/tmp/gopyt-iso-copy311/gopyt/vm.py", line 403, in _exec_frame
+    return self._execute_frame(frame, instruction_guard)
+  File "/tmp/gopyt-iso-copy311/gopyt/vm.py", line 642, in _execute_frame
+    result = self.call(fid, list(call_args))
+  File "/tmp/gopyt-iso-copy311/gopyt/vm.py", line 312, in call
+    return self._call_admitted(fn_id, args, caller_effects)
+  File "/tmp/gopyt-iso-copy311/gopyt/vm.py", line 325, in _call_admitted
+    result = self._call(fn_id, args, caller_effects)
+  File "/tmp/gopyt-iso-copy311/gopyt/vm.py", line 366, in _call
+    return self.exec(fn_id, func, args)
+  File "/tmp/gopyt-iso-copy311/gopyt/vm.py", line 384, in exec
+    return self._exec_frame(frame)
+  File "/tmp/gopyt-iso-copy311/gopyt/vm.py", line 403, in _exec_frame
+    return self._execute_frame(frame, instruction_guard)
+  File "/tmp/gopyt-iso-copy311/gopyt/vm.py", line 642, in _execute_frame
+    result = self.call(fid, list(call_args))
+  File "/tmp/gopyt-iso-copy311/gopyt/vm.py", line 312, in call
+    return self._call_admitted(fn_id, args, caller_effects)
+  File "/tmp/gopyt-iso-copy311/gopyt/vm.py", line 325, in _call_admitted
+    result = self._call(fn_id, args, caller_effects)
+  File "/tmp/gopyt-iso-copy311/gopyt/vm.py", line 366, in _call
+    return self.exec(fn_id, func, args)
+  File "/tmp/gopyt-iso-copy311/gopyt/vm.py", line 384, in exec
+    return self._exec_frame(frame)
+  File "/tmp/gopyt-iso-copy311/gopyt/vm.py", line 403, in _exec_frame
+    return self._execute_frame(frame, instruction_guard)
+  File "/tmp/gopyt-iso-copy311/gopyt/vm.py", line 642, in _execute_frame
+    result = self.call(fid, list(call_args))
+  File "/tmp/gopyt-iso-copy311/gopyt/vm.py", line 312, in call
+    return self._call_admitted(fn_id, args, caller_effects)
+  File "/tmp/gopyt-iso-copy311/gopyt/vm.py", line 325, in _call_admitted
+    result = self._call(fn_id, args, caller_effects)
+  File "/tmp/gopyt-iso-copy311/gopyt/vm.py", line 366, in _call
+    return self.exec(fn_id, func, args)
+  File "/tmp/gopyt-iso-copy311/gopyt/vm.py", line 384, in exec
+    return self._exec_frame(frame)
+  File "/tmp/gopyt-iso-copy311/gopyt/vm.py", line 403, in _exec_frame
+    return self._execute_frame(frame, instruction_guard)
+  File "/tmp/gopyt-iso-copy311/gopyt/vm.py", line 642, in _execute_frame
+    result = self.call(fid, list(call_args))
+  File "/tmp/gopyt-iso-copy311/gopyt/vm.py", line 312, in call
+    return self._call_admitted(fn_id, args, caller_effects)
+  File "/tmp/gopyt-iso-copy311/gopyt/vm.py", line 325, in _call_admitted
+    result = self._call(fn_id, args, caller_effects)
+  File "/tmp/gopyt-iso-copy311/gopyt/vm.py", line 366, in _call
+    return self.exec(fn_id, func, args)
+  File "/tmp/gopyt-iso-copy311/gopyt/vm.py", line 384, in exec
+    return self._exec_frame(frame)
+  File "/tmp/gopyt-iso-copy311/gopyt/vm.py", line 403, in _exec_frame
+    return self._execute_frame(frame, instruction_guard)
+  File "/tmp/gopyt-iso-copy311/gopyt/vm.py", line 414, in _execute_frame
+    with instruction_guard:
+  File "/tmp/gopyt-iso-copy311/gopyt/heap.py", line 39, in __enter__
+    heap._adopt_locked(value)
+  File "/tmp/gopyt-iso-copy311/gopyt/heap.py", line 110, in _adopt_locked
+    elif not isinstance(value, HEAP_TYPES) or id(value) in self.objects:
+output
+output
+obligations: FileExistsError: [Errno 17] File exists: '/tmp/tmp21yd2787/report.json'
+obligations: FileExistsError: [Errno 17] File exists: '/tmp/tmp5zk5m43p/report.json'
+obligations: FileExistsError: [Errno 17] File exists: '/tmp/tmp_ild2kp1/report.json'
+obligations: FileExistsError: [Errno 17] File exists: '/tmp/tmp8npzope8/report.json'
 arm
 arm
 
-50 modules checked in 29 ms
+50 modules checked in 69 ms
 
-check 23 ms, 10000 logins 5467 ms
-project context: FileExistsError: [Errno 17] File exists: '/tmp/tmp6zxjtn98/receipt.json'
+check 35 ms, 10000 logins 9055 ms
+project context: FileExistsError: [Errno 17] File exists: '/tmp/tmpjr4_l2sv/receipt.json'
 echo
 echo
 echo
@@ -540,6 +601,230 @@ echo
 echo
 echo
 echo
+Scheduled Python thread stacks:
+Thread 140605510362816:
+  File "/tmp/gopyt-python31116/python/lib/python3.11/threading.py", line 1002, in _bootstrap
+    self._bootstrap_inner()
+  File "/tmp/gopyt-python31116/python/lib/python3.11/threading.py", line 1045, in _bootstrap_inner
+    self.run()
+  File "/tmp/gopyt-python31116/python/lib/python3.11/threading.py", line 982, in run
+    self._target(*self._args, **self._kwargs)
+  File "/tmp/gopyt-iso-copy311/gopyt/test_transport_gateway.py", line 115, in _serve
+    data = up.recv(65536)
+Thread 140605518755520:
+  File "/tmp/gopyt-python31116/python/lib/python3.11/threading.py", line 1002, in _bootstrap
+    self._bootstrap_inner()
+  File "/tmp/gopyt-python31116/python/lib/python3.11/threading.py", line 1045, in _bootstrap_inner
+    self.run()
+  File "/tmp/gopyt-python31116/python/lib/python3.11/threading.py", line 982, in run
+    self._target(*self._args, **self._kwargs)
+  File "/tmp/gopyt-iso-copy311/gopyt/test_transport_gateway.py", line 115, in _serve
+    data = up.recv(65536)
+Thread 140605543933632:
+  File "/tmp/gopyt-python31116/python/lib/python3.11/threading.py", line 1002, in _bootstrap
+    self._bootstrap_inner()
+  File "/tmp/gopyt-python31116/python/lib/python3.11/threading.py", line 1045, in _bootstrap_inner
+    self.run()
+  File "/tmp/gopyt-iso-copy311/gopyt/test_transport_gateway.py", line 83, in run
+    raw, _ = self.listener.accept()
+  File "/tmp/gopyt-python31116/python/lib/python3.11/socket.py", line 294, in accept
+    fd, addr = self._accept()
+Thread 140605552326336:
+  File "/tmp/gopyt-python31116/python/lib/python3.11/threading.py", line 1002, in _bootstrap
+    self._bootstrap_inner()
+  File "/tmp/gopyt-python31116/python/lib/python3.11/threading.py", line 1045, in _bootstrap_inner
+    self.run()
+  File "/tmp/gopyt-iso-copy311/gopyt/test_transport_gateway.py", line 83, in run
+    raw, _ = self.listener.accept()
+  File "/tmp/gopyt-python31116/python/lib/python3.11/socket.py", line 294, in accept
+    fd, addr = self._accept()
+Thread 140605899392704:
+  File "/tmp/gopyt-python31116/python/lib/python3.11/threading.py", line 1002, in _bootstrap
+    self._bootstrap_inner()
+  File "/tmp/gopyt-python31116/python/lib/python3.11/threading.py", line 1045, in _bootstrap_inner
+    self.run()
+  File "/tmp/gopyt-python31116/python/lib/python3.11/threading.py", line 982, in run
+    self._target(*self._args, **self._kwargs)
+  File "/tmp/gopyt-iso-copy311/gopyt/server.py", line 621, in worker
+    item = self.pending.get(timeout=0.1)
+  File "/tmp/gopyt-python31116/python/lib/python3.11/queue.py", line 180, in get
+    self.not_empty.wait(remaining)
+  File "/tmp/gopyt-python31116/python/lib/python3.11/threading.py", line 331, in wait
+    gotit = waiter.acquire(True, timeout)
+Thread 140605527148224:
+  File "/tmp/gopyt-python31116/python/lib/python3.11/threading.py", line 1002, in _bootstrap
+    self._bootstrap_inner()
+  File "/tmp/gopyt-python31116/python/lib/python3.11/threading.py", line 1045, in _bootstrap_inner
+    self.run()
+  File "/tmp/gopyt-python31116/python/lib/python3.11/threading.py", line 982, in run
+    self._target(*self._args, **self._kwargs)
+  File "/tmp/gopyt-iso-copy311/gopyt/server.py", line 621, in worker
+    item = self.pending.get(timeout=0.1)
+  File "/tmp/gopyt-python31116/python/lib/python3.11/queue.py", line 180, in get
+    self.not_empty.wait(remaining)
+  File "/tmp/gopyt-python31116/python/lib/python3.11/threading.py", line 331, in wait
+    gotit = waiter.acquire(True, timeout)
+Thread 140605535540928:
+  File "/tmp/gopyt-python31116/python/lib/python3.11/threading.py", line 1002, in _bootstrap
+    self._bootstrap_inner()
+  File "/tmp/gopyt-python31116/python/lib/python3.11/threading.py", line 1045, in _bootstrap_inner
+    self.run()
+  File "/tmp/gopyt-python31116/python/lib/python3.11/threading.py", line 982, in run
+    self._target(*self._args, **self._kwargs)
+  File "/tmp/gopyt-iso-copy311/gopyt/server.py", line 636, in worker
+    self.process_request_thread(request, address)
+  File "/tmp/gopyt-python31116/python/lib/python3.11/socketserver.py", line 691, in process_request_thread
+    self.finish_request(request, client_address)
+  File "/tmp/gopyt-python31116/python/lib/python3.11/socketserver.py", line 361, in finish_request
+    self.RequestHandlerClass(request, client_address, self)
+  File "/tmp/gopyt-python31116/python/lib/python3.11/socketserver.py", line 755, in __init__
+    self.handle()
+  File "/tmp/gopyt-iso-copy311/gopyt/server.py", line 307, in handle
+    super().handle()
+  File "/tmp/gopyt-python31116/python/lib/python3.11/http/server.py", line 442, in handle
+    self.handle_one_request()
+  File "/tmp/gopyt-iso-copy311/gopyt/server.py", line 288, in handle_one_request
+    super().handle_one_request()
+  File "/tmp/gopyt-python31116/python/lib/python3.11/http/server.py", line 408, in handle_one_request
+    self.raw_requestline = self.rfile.readline(65537)
+  File "/tmp/gopyt-iso-copy311/gopyt/server.py", line 127, in readinto
+    return self.connection.recv_into(buffer)
+Thread 140605907785408:
+  File "/tmp/gopyt-python31116/python/lib/python3.11/threading.py", line 1002, in _bootstrap
+    self._bootstrap_inner()
+  File "/tmp/gopyt-python31116/python/lib/python3.11/threading.py", line 1045, in _bootstrap_inner
+    self.run()
+  File "/tmp/gopyt-python31116/python/lib/python3.11/threading.py", line 982, in run
+    self._target(*self._args, **self._kwargs)
+  File "/tmp/gopyt-iso-copy311/gopyt/server.py", line 636, in worker
+    self.process_request_thread(request, address)
+  File "/tmp/gopyt-python31116/python/lib/python3.11/socketserver.py", line 691, in process_request_thread
+    self.finish_request(request, client_address)
+  File "/tmp/gopyt-python31116/python/lib/python3.11/socketserver.py", line 361, in finish_request
+    self.RequestHandlerClass(request, client_address, self)
+  File "/tmp/gopyt-python31116/python/lib/python3.11/socketserver.py", line 755, in __init__
+    self.handle()
+  File "/tmp/gopyt-iso-copy311/gopyt/server.py", line 307, in handle
+    super().handle()
+  File "/tmp/gopyt-python31116/python/lib/python3.11/http/server.py", line 442, in handle
+    self.handle_one_request()
+  File "/tmp/gopyt-iso-copy311/gopyt/server.py", line 288, in handle_one_request
+    super().handle_one_request()
+  File "/tmp/gopyt-python31116/python/lib/python3.11/http/server.py", line 408, in handle_one_request
+    self.raw_requestline = self.rfile.readline(65537)
+  File "/tmp/gopyt-iso-copy311/gopyt/server.py", line 127, in readinto
+    return self.connection.recv_into(buffer)
+Thread 140605916178112:
+  File "/tmp/gopyt-python31116/python/lib/python3.11/threading.py", line 1002, in _bootstrap
+    self._bootstrap_inner()
+  File "/tmp/gopyt-python31116/python/lib/python3.11/threading.py", line 1045, in _bootstrap_inner
+    self.run()
+  File "/tmp/gopyt-python31116/python/lib/python3.11/threading.py", line 982, in run
+    self._target(*self._args, **self._kwargs)
+  File "/tmp/gopyt-iso-copy311/gopyt/test_app_runtime.py", line 38, in serve
+    vm.call(ids['api.serve'], [])
+  File "/tmp/gopyt-iso-copy311/gopyt/vm.py", line 312, in call
+    return self._call_admitted(fn_id, args, caller_effects)
+  File "/tmp/gopyt-iso-copy311/gopyt/vm.py", line 325, in _call_admitted
+    result = self._call(fn_id, args, caller_effects)
+  File "/tmp/gopyt-iso-copy311/gopyt/vm.py", line 366, in _call
+    return self.exec(fn_id, func, args)
+  File "/tmp/gopyt-iso-copy311/gopyt/vm.py", line 384, in exec
+    return self._exec_frame(frame)
+  File "/tmp/gopyt-iso-copy311/gopyt/vm.py", line 403, in _exec_frame
+    return self._execute_frame(frame, instruction_guard)
+  File "/tmp/gopyt-iso-copy311/gopyt/vm.py", line 642, in _execute_frame
+    result = self.call(fid, list(call_args))
+  File "/tmp/gopyt-iso-copy311/gopyt/vm.py", line 312, in call
+    return self._call_admitted(fn_id, args, caller_effects)
+  File "/tmp/gopyt-iso-copy311/gopyt/vm.py", line 325, in _call_admitted
+    result = self._call(fn_id, args, caller_effects)
+  File "/tmp/gopyt-iso-copy311/gopyt/vm.py", line 361, in _call
+    result = denial if denial is not None else native(self, args, func)
+  File "/tmp/gopyt-iso-copy311/gopyt/natives.py", line 887, in _http_serve
+    return serve(vm, module)
+  File "/tmp/gopyt-iso-copy311/gopyt/server.py", line 706, in serve
+    httpd.serve_forever(poll_interval=0.1)
+  File "/tmp/gopyt-python31116/python/lib/python3.11/socketserver.py", line 233, in serve_forever
+    ready = selector.select(poll_interval)
+  File "/tmp/gopyt-python31116/python/lib/python3.11/selectors.py", line 415, in select
+    fd_event_list = self._selector.poll(timeout)
+Thread 140605963368128:
+  File "/tmp/gopyt-python31116/python/lib/python3.11/threading.py", line 1002, in _bootstrap
+    self._bootstrap_inner()
+  File "/tmp/gopyt-python31116/python/lib/python3.11/threading.py", line 1045, in _bootstrap_inner
+    self.run()
+  File "/tmp/gopyt-python31116/python/lib/python3.11/threading.py", line 982, in run
+    self._target(*self._args, **self._kwargs)
+  File "/tmp/gopyt-iso-copy311/tools/run_language_tests.py", line 18, in report_stacks
+    traceback.print_stack(frame, file=stream)
+Thread 140606017926976:
+  File "/tmp/gopyt-iso-copy311/tools/run_language_tests.py", line 32, in <module>
+    runpy.run_module('unittest', run_name='__main__')
+  File "<frozen runpy>", line 229, in run_module
+  File "<frozen runpy>", line 88, in _run_code
+  File "/tmp/gopyt-python31116/python/lib/python3.11/unittest/__main__.py", line 18, in <module>
+    main(module=None)
+  File "/tmp/gopyt-python31116/python/lib/python3.11/unittest/main.py", line 102, in __init__
+    self.runTests()
+  File "/tmp/gopyt-python31116/python/lib/python3.11/unittest/main.py", line 274, in runTests
+    self.result = testRunner.run(self.test)
+  File "/tmp/gopyt-python31116/python/lib/python3.11/unittest/runner.py", line 217, in run
+    test(result)
+  File "/tmp/gopyt-python31116/python/lib/python3.11/unittest/suite.py", line 84, in __call__
+    return self.run(*args, **kwds)
+  File "/tmp/gopyt-python31116/python/lib/python3.11/unittest/suite.py", line 122, in run
+    test(result)
+  File "/tmp/gopyt-python31116/python/lib/python3.11/unittest/suite.py", line 84, in __call__
+    return self.run(*args, **kwds)
+  File "/tmp/gopyt-python31116/python/lib/python3.11/unittest/suite.py", line 122, in run
+    test(result)
+  File "/tmp/gopyt-python31116/python/lib/python3.11/unittest/suite.py", line 84, in __call__
+    return self.run(*args, **kwds)
+  File "/tmp/gopyt-python31116/python/lib/python3.11/unittest/suite.py", line 122, in run
+    test(result)
+  File "/tmp/gopyt-python31116/python/lib/python3.11/unittest/case.py", line 678, in __call__
+    return self.run(*args, **kwds)
+  File "/tmp/gopyt-python31116/python/lib/python3.11/unittest/case.py", line 623, in run
+    self._callTestMethod(testMethod)
+  File "/tmp/gopyt-python31116/python/lib/python3.11/unittest/case.py", line 579, in _callTestMethod
+    if method() is not None:
+  File "/tmp/gopyt-iso-copy311/gopyt/test_diagnostics.py", line 79, in test_every_documented_code_is_raised_or_declared
+    seen = raised_codes()
+  File "/tmp/gopyt-iso-copy311/gopyt/test_diagnostics.py", line 67, in raised_codes
+    result = runner.run(suite)
+  File "/tmp/gopyt-python31116/python/lib/python3.11/unittest/runner.py", line 217, in run
+    test(result)
+  File "/tmp/gopyt-python31116/python/lib/python3.11/unittest/suite.py", line 84, in __call__
+    return self.run(*args, **kwds)
+  File "/tmp/gopyt-python31116/python/lib/python3.11/unittest/suite.py", line 122, in run
+    test(result)
+  File "/tmp/gopyt-python31116/python/lib/python3.11/unittest/suite.py", line 84, in __call__
+    return self.run(*args, **kwds)
+  File "/tmp/gopyt-python31116/python/lib/python3.11/unittest/suite.py", line 122, in run
+    test(result)
+  File "/tmp/gopyt-python31116/python/lib/python3.11/unittest/case.py", line 678, in __call__
+    return self.run(*args, **kwds)
+  File "/tmp/gopyt-python31116/python/lib/python3.11/unittest/case.py", line 623, in run
+    self._callTestMethod(testMethod)
+  File "/tmp/gopyt-python31116/python/lib/python3.11/unittest/case.py", line 579, in _callTestMethod
+    if method() is not None:
+  File "/tmp/gopyt-iso-copy311/gopyt/test_transport_gateway.py", line 259, in test_identity_aware_admission_limits_each_identity_separately
+    self.assertEqual(through(first)[0], 429)
+  File "/tmp/gopyt-iso-copy311/gopyt/test_transport_gateway.py", line 256, in through
+    connection.close()
+  File "/tmp/gopyt-python31116/python/lib/python3.11/http/client.py", line 1457, in getresponse
+    return response
+  File "/tmp/gopyt-python31116/python/lib/python3.11/http/client.py", line 402, in begin
+    self.length is None):
+  File "/tmp/gopyt-python31116/python/lib/python3.11/http/client.py", line 328, in _read_status
+    return version, status, reason
+  File "/tmp/gopyt-python31116/python/lib/python3.11/socket.py", line 718, in readinto
+    return self._sock.recv_into(b)
+  File "/tmp/gopyt-python31116/python/lib/python3.11/ssl.py", line 1326, in recv_into
+    return self.read(nbytes, buffer)
+  File "/tmp/gopyt-python31116/python/lib/python3.11/ssl.py", line 1178, in read
+    return self._sslobj.read(len, buffer)
 echo
 echo
 echo
@@ -634,83 +919,6 @@ Traceback (most recent call last):
   File "/tmp/gopyt-iso-copy311/examples/guarded_refunds/service.py", line 180, in _apply
     conn.execute('INSERT INTO requests VALUES(?,?,?,?)', (order_id,key,payload,canonical(response).decode()))
 sqlite3.IntegrityError: injected
-Scheduled Python thread stacks:
-Thread 136779559597760:
-  File "/tmp/gopyt-python31116/python/lib/python3.11/threading.py", line 1002, in _bootstrap
-    self._bootstrap_inner()
-  File "/tmp/gopyt-python31116/python/lib/python3.11/threading.py", line 1045, in _bootstrap_inner
-    self.run()
-  File "/tmp/gopyt-python31116/python/lib/python3.11/threading.py", line 982, in run
-    self._target(*self._args, **self._kwargs)
-  File "/tmp/gopyt-iso-copy311/tools/run_language_tests.py", line 18, in report_stacks
-    traceback.print_stack(frame, file=stream)
-Thread 136779613607744:
-  File "/tmp/gopyt-iso-copy311/tools/run_language_tests.py", line 32, in <module>
-    runpy.run_module('unittest', run_name='__main__')
-  File "<frozen runpy>", line 229, in run_module
-  File "<frozen runpy>", line 88, in _run_code
-  File "/tmp/gopyt-python31116/python/lib/python3.11/unittest/__main__.py", line 18, in <module>
-    main(module=None)
-  File "/tmp/gopyt-python31116/python/lib/python3.11/unittest/main.py", line 102, in __init__
-    self.runTests()
-  File "/tmp/gopyt-python31116/python/lib/python3.11/unittest/main.py", line 274, in runTests
-    self.result = testRunner.run(self.test)
-  File "/tmp/gopyt-python31116/python/lib/python3.11/unittest/runner.py", line 217, in run
-    test(result)
-  File "/tmp/gopyt-python31116/python/lib/python3.11/unittest/suite.py", line 84, in __call__
-    return self.run(*args, **kwds)
-  File "/tmp/gopyt-python31116/python/lib/python3.11/unittest/suite.py", line 122, in run
-    test(result)
-  File "/tmp/gopyt-python31116/python/lib/python3.11/unittest/suite.py", line 84, in __call__
-    return self.run(*args, **kwds)
-  File "/tmp/gopyt-python31116/python/lib/python3.11/unittest/suite.py", line 122, in run
-    test(result)
-  File "/tmp/gopyt-python31116/python/lib/python3.11/unittest/suite.py", line 84, in __call__
-    return self.run(*args, **kwds)
-  File "/tmp/gopyt-python31116/python/lib/python3.11/unittest/suite.py", line 122, in run
-    test(result)
-  File "/tmp/gopyt-python31116/python/lib/python3.11/unittest/case.py", line 678, in __call__
-    return self.run(*args, **kwds)
-  File "/tmp/gopyt-python31116/python/lib/python3.11/unittest/case.py", line 623, in run
-    self._callTestMethod(testMethod)
-  File "/tmp/gopyt-python31116/python/lib/python3.11/unittest/case.py", line 579, in _callTestMethod
-    if method() is not None:
-  File "/tmp/gopyt-iso-copy311/gopyt/test_diagnostics.py", line 85, in test_untested_list_stays_honest
-    seen = raised_codes()
-  File "/tmp/gopyt-iso-copy311/gopyt/test_diagnostics.py", line 67, in raised_codes
-    result = runner.run(suite)
-  File "/tmp/gopyt-python31116/python/lib/python3.11/unittest/runner.py", line 217, in run
-    test(result)
-  File "/tmp/gopyt-python31116/python/lib/python3.11/unittest/suite.py", line 84, in __call__
-    return self.run(*args, **kwds)
-  File "/tmp/gopyt-python31116/python/lib/python3.11/unittest/suite.py", line 122, in run
-    test(result)
-  File "/tmp/gopyt-python31116/python/lib/python3.11/unittest/suite.py", line 84, in __call__
-    return self.run(*args, **kwds)
-  File "/tmp/gopyt-python31116/python/lib/python3.11/unittest/suite.py", line 122, in run
-    test(result)
-  File "/tmp/gopyt-python31116/python/lib/python3.11/unittest/case.py", line 678, in __call__
-    return self.run(*args, **kwds)
-  File "/tmp/gopyt-python31116/python/lib/python3.11/unittest/case.py", line 619, in run
-    self._callSetUp()
-  File "/tmp/gopyt-python31116/python/lib/python3.11/unittest/case.py", line 576, in _callSetUp
-    self.setUp()
-  File "/tmp/gopyt-iso-copy311/gopyt/test_guard.py", line 101, in setUp
-    self.ledger=Ledger(self.root/'db.sqlite',HERE/'policy',self.bundle,digest(self.bundle))
-  File "/tmp/gopyt-iso-copy311/examples/guarded_refunds/service.py", line 89, in __init__
-    self.receipt = evaluate(bundle, pin, root)
-  File "/tmp/gopyt-iso-copy311/gopyt/guard.py", line 424, in evaluate
-    with tempfile.TemporaryDirectory(prefix='gopyt-guard-') as temp:
-  File "/tmp/gopyt-python31116/python/lib/python3.11/tempfile.py", line 943, in __exit__
-    self.cleanup()
-  File "/tmp/gopyt-python31116/python/lib/python3.11/tempfile.py", line 947, in cleanup
-    self._rmtree(self.name, ignore_errors=self._ignore_cleanup_errors)
-  File "/tmp/gopyt-python31116/python/lib/python3.11/tempfile.py", line 929, in _rmtree
-    _shutil.rmtree(name, onerror=onerror)
-  File "/tmp/gopyt-python31116/python/lib/python3.11/shutil.py", line 752, in rmtree
-    _rmtree_safe_fd(fd, path, onerror)
-  File "/tmp/gopyt-python31116/python/lib/python3.11/shutil.py", line 672, in _rmtree_safe_fd
-    _rmtree_safe_fd(dirfd, fullname, onerror)
 ERROR:root:Refund transaction failed
 Traceback (most recent call last):
   File "/tmp/gopyt-iso-copy311/examples/guarded_refunds/service.py", line 236, in do_POST
@@ -785,19 +993,19 @@ Traceback (most recent call last):
 gopyt.vm.Trap: trap 2
 guard prepare: duplicate JSON key: cases
 guard prepare: preparation policy exceeds byte limit
-70f990f890cb41da2e805b1c15e2255ebc0aebb9fdbcae05c3d14b63ee9413be
+442d2084063fadbc989c11f9be7454ebf5b41c2b8b12a6be04f3b8e9f986836d
 {
   "schema": "gopyt.guard.receipt.v1",
   "accepted": true,
-  "bundle_sha256": "70f990f890cb41da2e805b1c15e2255ebc0aebb9fdbcae05c3d14b63ee9413be",
-  "engine_sha256": "f558361c5bd7bd7c7fe6f4feab7fae309c6b4fdcdc68112d2794064f9aa61724",
+  "bundle_sha256": "442d2084063fadbc989c11f9be7454ebf5b41c2b8b12a6be04f3b8e9f986836d",
+  "engine_sha256": "42b0b18a07c87adc1ef39a96fb0cdfc2e70b13097e8325bf23aff43aa8173746",
   "limitations": [
     "Finite acceptance cases, not a proof.",
     "Listed obligations are declarations; this gate executes only the supplied cases, not HTTP or database tests.",
     "Caller, bundle pin, and executor must be protected outside candidate authority.",
     "No guarantee about external payment processors or undisclosed policies."
   ],
-  "candidate_sha256": "2870e3a3fd3dbbf7e0a2703415b3e5b9471fe55832d41776f1d051f1776a87b4",
+  "candidate_sha256": "162e08b2bb2b4b897394f1f053087cca4ec03dfad61507b02e01a4b996ae74c4",
   "changed_files": [],
   "obligations": {
     "stock": "Reservation preserves nonnegative stock."
@@ -843,27 +1051,8 @@ echo
 echo
 echo
 echo
-output
-output
-obligations: FileExistsError: [Errno 17] File exists: '/tmp/tmpxpres_52/report.json'
-obligations: FileExistsError: [Errno 17] File exists: '/tmp/tmp91isjx7p/report.json'
-obligations: FileExistsError: [Errno 17] File exists: '/tmp/tmpa0akhjc8/report.json'
-obligations: FileExistsError: [Errno 17] File exists: '/tmp/tmpsvzz0tl3/report.json'
-arm
-arm
-
-50 modules checked in 37 ms
-
-check 24 ms, 10000 logins 6312 ms
-project context: FileExistsError: [Errno 17] File exists: '/tmp/tmp1asoelgz/receipt.json'
-echo
-echo
-echo
-echo
-echo
-echo
 Scheduled Python thread stacks:
-Thread 136779559597760:
+Thread 140605963368128:
   File "/tmp/gopyt-python31116/python/lib/python3.11/threading.py", line 1002, in _bootstrap
     self._bootstrap_inner()
   File "/tmp/gopyt-python31116/python/lib/python3.11/threading.py", line 1045, in _bootstrap_inner
@@ -872,9 +1061,94 @@ Thread 136779559597760:
     self._target(*self._args, **self._kwargs)
   File "/tmp/gopyt-iso-copy311/tools/run_language_tests.py", line 18, in report_stacks
     traceback.print_stack(frame, file=stream)
-Thread 136779613607744:
-  File "/tmp/gopyt-iso-copy311/gopyt/files.py", line 101, in parent_directory
-    os.close(fd)
+Thread 140606017926976:
+  File "/tmp/gopyt-iso-copy311/tools/run_language_tests.py", line 32, in <module>
+    runpy.run_module('unittest', run_name='__main__')
+  File "<frozen runpy>", line 229, in run_module
+  File "<frozen runpy>", line 88, in _run_code
+  File "/tmp/gopyt-python31116/python/lib/python3.11/unittest/__main__.py", line 18, in <module>
+    main(module=None)
+  File "/tmp/gopyt-python31116/python/lib/python3.11/unittest/main.py", line 102, in __init__
+    self.runTests()
+  File "/tmp/gopyt-python31116/python/lib/python3.11/unittest/main.py", line 274, in runTests
+    self.result = testRunner.run(self.test)
+  File "/tmp/gopyt-python31116/python/lib/python3.11/unittest/runner.py", line 217, in run
+    test(result)
+  File "/tmp/gopyt-python31116/python/lib/python3.11/unittest/suite.py", line 84, in __call__
+    return self.run(*args, **kwds)
+  File "/tmp/gopyt-python31116/python/lib/python3.11/unittest/suite.py", line 122, in run
+    test(result)
+  File "/tmp/gopyt-python31116/python/lib/python3.11/unittest/suite.py", line 84, in __call__
+    return self.run(*args, **kwds)
+  File "/tmp/gopyt-python31116/python/lib/python3.11/unittest/suite.py", line 122, in run
+    test(result)
+  File "/tmp/gopyt-python31116/python/lib/python3.11/unittest/suite.py", line 84, in __call__
+    return self.run(*args, **kwds)
+  File "/tmp/gopyt-python31116/python/lib/python3.11/unittest/suite.py", line 122, in run
+    test(result)
+  File "/tmp/gopyt-python31116/python/lib/python3.11/unittest/case.py", line 678, in __call__
+    return self.run(*args, **kwds)
+  File "/tmp/gopyt-python31116/python/lib/python3.11/unittest/case.py", line 623, in run
+    self._callTestMethod(testMethod)
+  File "/tmp/gopyt-python31116/python/lib/python3.11/unittest/case.py", line 579, in _callTestMethod
+    if method() is not None:
+  File "/tmp/gopyt-iso-copy311/gopyt/test_diagnostics.py", line 85, in test_untested_list_stays_honest
+    seen = raised_codes()
+  File "/tmp/gopyt-iso-copy311/gopyt/test_diagnostics.py", line 67, in raised_codes
+    result = runner.run(suite)
+  File "/tmp/gopyt-python31116/python/lib/python3.11/unittest/runner.py", line 217, in run
+    test(result)
+  File "/tmp/gopyt-python31116/python/lib/python3.11/unittest/suite.py", line 84, in __call__
+    return self.run(*args, **kwds)
+  File "/tmp/gopyt-python31116/python/lib/python3.11/unittest/suite.py", line 122, in run
+    test(result)
+  File "/tmp/gopyt-python31116/python/lib/python3.11/unittest/suite.py", line 84, in __call__
+    return self.run(*args, **kwds)
+  File "/tmp/gopyt-python31116/python/lib/python3.11/unittest/suite.py", line 122, in run
+    test(result)
+  File "/tmp/gopyt-python31116/python/lib/python3.11/unittest/case.py", line 678, in __call__
+    return self.run(*args, **kwds)
+  File "/tmp/gopyt-python31116/python/lib/python3.11/unittest/case.py", line 623, in run
+    self._callTestMethod(testMethod)
+  File "/tmp/gopyt-python31116/python/lib/python3.11/unittest/case.py", line 579, in _callTestMethod
+    if method() is not None:
+  File "/tmp/gopyt-iso-copy311/gopyt/test_inventory.py", line 31, in test_real_http_lifecycle
+    self.assertEqual(len(acceptance()),8)
+  File "/tmp/gopyt-iso-copy311/tools/inventory_probe.py", line 112, in acceptance
+    server.stop(abrupt=True);server.start()
+  File "/tmp/gopyt-iso-copy311/tools/inventory_probe.py", line 63, in start
+    response=self.request('GET')
+  File "/tmp/gopyt-iso-copy311/tools/inventory_probe.py", line 71, in request
+    status,result=client.request(method,'/inventory',body,headers=self.headers)
+  File "/tmp/gopyt-iso-copy311/tools/ticket_probe.py", line 62, in request
+    response = self.conn.getresponse()
+  File "/tmp/gopyt-python31116/python/lib/python3.11/http/client.py", line 1443, in getresponse
+    response.begin()
+  File "/tmp/gopyt-python31116/python/lib/python3.11/http/client.py", line 337, in begin
+    version, status, reason = self._read_status()
+  File "/tmp/gopyt-python31116/python/lib/python3.11/http/client.py", line 298, in _read_status
+    line = str(self.fp.readline(_MAXLINE + 1), "iso-8859-1")
+  File "/tmp/gopyt-python31116/python/lib/python3.11/socket.py", line 718, in readinto
+    return self._sock.recv_into(b)
+output
+output
+obligations: FileExistsError: [Errno 17] File exists: '/tmp/tmpzawtu045/report.json'
+obligations: FileExistsError: [Errno 17] File exists: '/tmp/tmpy2hw8j4x/report.json'
+obligations: FileExistsError: [Errno 17] File exists: '/tmp/tmpuvpb9lwr/report.json'
+obligations: FileExistsError: [Errno 17] File exists: '/tmp/tmpx5kkmb5q/report.json'
+arm
+arm
+
+50 modules checked in 41 ms
+
+check 27 ms, 10000 logins 8411 ms
+project context: FileExistsError: [Errno 17] File exists: '/tmp/tmpbcc5tfnv/receipt.json'
+echo
+echo
+echo
+echo
+echo
+echo
 echo
 echo
 echo
@@ -916,6 +1190,95 @@ go
 go
 and
 order
+Scheduled Python thread stacks:
+Thread 140605963368128:
+  File "/tmp/gopyt-python31116/python/lib/python3.11/threading.py", line 1002, in _bootstrap
+    self._bootstrap_inner()
+  File "/tmp/gopyt-python31116/python/lib/python3.11/threading.py", line 1045, in _bootstrap_inner
+    self.run()
+  File "/tmp/gopyt-python31116/python/lib/python3.11/threading.py", line 982, in run
+    self._target(*self._args, **self._kwargs)
+  File "/tmp/gopyt-iso-copy311/tools/run_language_tests.py", line 18, in report_stacks
+    traceback.print_stack(frame, file=stream)
+Thread 140606017926976:
+  File "/tmp/gopyt-iso-copy311/tools/run_language_tests.py", line 32, in <module>
+    runpy.run_module('unittest', run_name='__main__')
+  File "<frozen runpy>", line 229, in run_module
+  File "<frozen runpy>", line 88, in _run_code
+  File "/tmp/gopyt-python31116/python/lib/python3.11/unittest/__main__.py", line 18, in <module>
+    main(module=None)
+  File "/tmp/gopyt-python31116/python/lib/python3.11/unittest/main.py", line 102, in __init__
+    self.runTests()
+  File "/tmp/gopyt-python31116/python/lib/python3.11/unittest/main.py", line 274, in runTests
+    self.result = testRunner.run(self.test)
+  File "/tmp/gopyt-python31116/python/lib/python3.11/unittest/runner.py", line 217, in run
+    test(result)
+  File "/tmp/gopyt-python31116/python/lib/python3.11/unittest/suite.py", line 84, in __call__
+    return self.run(*args, **kwds)
+  File "/tmp/gopyt-python31116/python/lib/python3.11/unittest/suite.py", line 122, in run
+    test(result)
+  File "/tmp/gopyt-python31116/python/lib/python3.11/unittest/suite.py", line 84, in __call__
+    return self.run(*args, **kwds)
+  File "/tmp/gopyt-python31116/python/lib/python3.11/unittest/suite.py", line 122, in run
+    test(result)
+  File "/tmp/gopyt-python31116/python/lib/python3.11/unittest/suite.py", line 84, in __call__
+    return self.run(*args, **kwds)
+  File "/tmp/gopyt-python31116/python/lib/python3.11/unittest/suite.py", line 122, in run
+    test(result)
+  File "/tmp/gopyt-python31116/python/lib/python3.11/unittest/case.py", line 678, in __call__
+    return self.run(*args, **kwds)
+  File "/tmp/gopyt-python31116/python/lib/python3.11/unittest/case.py", line 623, in run
+    self._callTestMethod(testMethod)
+  File "/tmp/gopyt-python31116/python/lib/python3.11/unittest/case.py", line 579, in _callTestMethod
+    if method() is not None:
+  File "/tmp/gopyt-iso-copy311/gopyt/test_diagnostics.py", line 85, in test_untested_list_stays_honest
+    seen = raised_codes()
+  File "/tmp/gopyt-iso-copy311/gopyt/test_diagnostics.py", line 67, in raised_codes
+    result = runner.run(suite)
+  File "/tmp/gopyt-python31116/python/lib/python3.11/unittest/runner.py", line 217, in run
+    test(result)
+  File "/tmp/gopyt-python31116/python/lib/python3.11/unittest/suite.py", line 84, in __call__
+    return self.run(*args, **kwds)
+  File "/tmp/gopyt-python31116/python/lib/python3.11/unittest/suite.py", line 122, in run
+    test(result)
+  File "/tmp/gopyt-python31116/python/lib/python3.11/unittest/suite.py", line 84, in __call__
+    return self.run(*args, **kwds)
+  File "/tmp/gopyt-python31116/python/lib/python3.11/unittest/suite.py", line 122, in run
+    test(result)
+  File "/tmp/gopyt-python31116/python/lib/python3.11/unittest/case.py", line 678, in __call__
+    return self.run(*args, **kwds)
+  File "/tmp/gopyt-python31116/python/lib/python3.11/unittest/case.py", line 623, in run
+    self._callTestMethod(testMethod)
+  File "/tmp/gopyt-python31116/python/lib/python3.11/unittest/case.py", line 579, in _callTestMethod
+    if method() is not None:
+  File "/tmp/gopyt-iso-copy311/gopyt/test_vm.py", line 1205, in test_contracts_run_in_declaration_order
+    code, out = run_cli(self.td, "run", "run.main")
+  File "/tmp/gopyt-iso-copy311/gopyt/testing.py", line 67, in run_cli
+    code = main(list(argv))
+  File "/tmp/gopyt-iso-copy311/gopyt/cli.py", line 151, in main
+    return cmd_run(root, argv[1])
+  File "/tmp/gopyt-iso-copy311/gopyt/cli.py", line 77, in cmd_run
+    prog, art, fn_ids = build(root)
+  File "/tmp/gopyt-iso-copy311/gopyt/transaction.py", line 137, in wrapped
+    return fn(root, *args, **kwargs)
+  File "/tmp/gopyt-iso-copy311/gopyt/cli.py", line 49, in build
+    pkg = load_package(root)
+  File "/tmp/gopyt-iso-copy311/gopyt/transaction.py", line 137, in wrapped
+    return fn(root, *args, **kwargs)
+  File "/tmp/gopyt-iso-copy311/gopyt/check.py", line 258, in load_package
+    for mod in _walk_dir(root, "spec", "spec"):
+  File "/tmp/gopyt-iso-copy311/gopyt/check.py", line 237, in _walk_dir
+    out.append(_read_module(full, file_rel, role, expect))
+  File "/tmp/gopyt-iso-copy311/gopyt/check.py", line 211, in _read_module
+    with regular_file(os.path.dirname(full), os.path.basename(full)) as fh:
+  File "/tmp/gopyt-python31116/python/lib/python3.11/contextlib.py", line 137, in __enter__
+    return next(self.gen)
+  File "/tmp/gopyt-iso-copy311/gopyt/files.py", line 108, in regular_file
+    with parent_directory(root, path, descriptors=descriptors) as (parent, name):
+  File "/tmp/gopyt-python31116/python/lib/python3.11/contextlib.py", line 137, in __enter__
+    return next(self.gen)
+  File "/tmp/gopyt-iso-copy311/gopyt/files.py", line 88, in parent_directory
+    os.close(fd)
 contract
 div
 enum
@@ -1246,19 +1609,19 @@ ok
 test_engine_change_during_preparation_is_refused (gopyt.test_guard_preparation.PreparationLimits.test_engine_change_during_preparation_is_refused) ... ok
 test_parameter_swap_cannot_change_contract_meaning (gopyt.test_guard_private_helpers.PrivateHelperSignature.test_parameter_swap_cannot_change_contract_meaning) ... ok
 test_ambiguous_and_invalid_case_outcomes (gopyt.test_guard_schema.BundleValidation.test_ambiguous_and_invalid_case_outcomes) ... ok
-test_cli_prepare_and_evaluate_preserve_existing_receipts (gopyt.test_guard_schema.BundleValidation.test_cli_prepare_and_evaluate_preserve_existing_receipts) ... 70f990f890cb41da2e805b1c15e2255ebc0aebb9fdbcae05c3d14b63ee9413be
+test_cli_prepare_and_evaluate_preserve_existing_receipts (gopyt.test_guard_schema.BundleValidation.test_cli_prepare_and_evaluate_preserve_existing_receipts) ... 442d2084063fadbc989c11f9be7454ebf5b41c2b8b12a6be04f3b8e9f986836d
 {
   "schema": "gopyt.guard.receipt.v1",
   "accepted": true,
-  "bundle_sha256": "70f990f890cb41da2e805b1c15e2255ebc0aebb9fdbcae05c3d14b63ee9413be",
-  "engine_sha256": "f558361c5bd7bd7c7fe6f4feab7fae309c6b4fdcdc68112d2794064f9aa61724",
+  "bundle_sha256": "442d2084063fadbc989c11f9be7454ebf5b41c2b8b12a6be04f3b8e9f986836d",
+  "engine_sha256": "42b0b18a07c87adc1ef39a96fb0cdfc2e70b13097e8325bf23aff43aa8173746",
   "limitations": [
     "Finite acceptance cases, not a proof.",
     "Listed obligations are declarations; this gate executes only the supplied cases, not HTTP or database tests.",
     "Caller, bundle pin, and executor must be protected outside candidate authority.",
     "No guarantee about external payment processors or undisclosed policies."
   ],
-  "candidate_sha256": "2870e3a3fd3dbbf7e0a2703415b3e5b9471fe55832d41776f1d051f1776a87b4",
+  "candidate_sha256": "162e08b2bb2b4b897394f1f053087cca4ec03dfad61507b02e01a4b996ae74c4",
   "changed_files": [],
   "obligations": {
     "stock": "Reservation preserves nonnegative stock."
@@ -1365,8 +1728,10 @@ test_an_unsupported_platform_reports_no_profile (gopyt.test_isolation.Availabili
 test_description_states_what_is_not_provided (gopyt.test_isolation.Availability.test_description_states_what_is_not_provided) ... ok
 test_entering_an_unsupported_platform_refuses (gopyt.test_isolation.Availability.test_entering_an_unsupported_platform_refuses) ... ok
 test_a_receipt_never_implies_an_isolation_it_did_not_get (gopyt.test_isolation.GuardPolicy.test_a_receipt_never_implies_an_isolation_it_did_not_get) ... ok
+test_a_setup_failure_after_a_positive_probe_is_unavailability (gopyt.test_isolation.GuardPolicy.test_a_setup_failure_after_a_positive_probe_is_unavailability) ... ok
 test_required_isolation_refuses_when_it_cannot_be_installed (gopyt.test_isolation.GuardPolicy.test_required_isolation_refuses_when_it_cannot_be_installed) ... ok
 test_the_policy_values_are_closed (gopyt.test_isolation.GuardPolicy.test_the_policy_values_are_closed) ... ok
+test_the_probe_exercises_the_whole_setup (gopyt.test_isolation.GuardPolicy.test_the_probe_exercises_the_whole_setup) ... ok
 test_a_runaway_child_tree_is_reaped_after_termination (gopyt.test_isolation.HostileFixtures.test_a_runaway_child_tree_is_reaped_after_termination) ... ok
 test_descriptors_are_bounded (gopyt.test_isolation.HostileFixtures.test_descriptors_are_bounded) ... ok
 test_memory_exhaustion_is_bounded_not_fatal_to_the_host (gopyt.test_isolation.HostileFixtures.test_memory_exhaustion_is_bounded_not_fatal_to_the_host) ... ok
@@ -1431,71 +1796,7 @@ test_error_response_body_timeout_is_data_for_own_budget (gopyt.test_netio.Outbou
 test_expired_dns_does_not_start_a_connection (gopyt.test_netio.OutboundBudgets.test_expired_dns_does_not_start_a_connection) ... ok
 test_headers_chunk_sizes_and_trailers_consume_budget (gopyt.test_netio.OutboundBudgets.test_headers_chunk_sizes_and_trailers_consume_budget) ... ok
 test_http_result_bytes_remain_charged_through_host_alias (gopyt.test_netio.OutboundBudgets.test_http_result_bytes_remain_charged_through_host_alias) ... ok
-test_model_payload_admission_and_transport_lifetime (gopyt.test_netio.OutboundBudgets.test_model_payload_admission_and_transport_lifetime) ... Scheduled Python thread stacks:
-Thread 136779072009920:
-  File "/tmp/gopyt-python31116/python/lib/python3.11/threading.py", line 1002, in _bootstrap
-    self._bootstrap_inner()
-  File "/tmp/gopyt-python31116/python/lib/python3.11/threading.py", line 1045, in _bootstrap_inner
-    self.run()
-  File "/tmp/gopyt-python31116/python/lib/python3.11/threading.py", line 982, in run
-    self._target(*self._args, **self._kwargs)
-  File "/tmp/gopyt-python31116/python/lib/python3.11/socketserver.py", line 233, in serve_forever
-    ready = selector.select(poll_interval)
-  File "/tmp/gopyt-python31116/python/lib/python3.11/selectors.py", line 415, in select
-    fd_event_list = self._selector.poll(timeout)
-Thread 136779559597760:
-  File "/tmp/gopyt-python31116/python/lib/python3.11/threading.py", line 1002, in _bootstrap
-    self._bootstrap_inner()
-  File "/tmp/gopyt-python31116/python/lib/python3.11/threading.py", line 1045, in _bootstrap_inner
-    self.run()
-  File "/tmp/gopyt-python31116/python/lib/python3.11/threading.py", line 982, in run
-    self._target(*self._args, **self._kwargs)
-  File "/tmp/gopyt-iso-copy311/tools/run_language_tests.py", line 18, in report_stacks
-    traceback.print_stack(frame, file=stream)
-Thread 136779613607744:
-  File "/tmp/gopyt-iso-copy311/tools/run_language_tests.py", line 32, in <module>
-    runpy.run_module('unittest', run_name='__main__')
-  File "<frozen runpy>", line 229, in run_module
-  File "<frozen runpy>", line 88, in _run_code
-  File "/tmp/gopyt-python31116/python/lib/python3.11/unittest/__main__.py", line 18, in <module>
-    main(module=None)
-  File "/tmp/gopyt-python31116/python/lib/python3.11/unittest/main.py", line 102, in __init__
-    self.runTests()
-  File "/tmp/gopyt-python31116/python/lib/python3.11/unittest/main.py", line 274, in runTests
-    self.result = testRunner.run(self.test)
-  File "/tmp/gopyt-python31116/python/lib/python3.11/unittest/runner.py", line 217, in run
-    test(result)
-  File "/tmp/gopyt-python31116/python/lib/python3.11/unittest/suite.py", line 84, in __call__
-    return self.run(*args, **kwds)
-  File "/tmp/gopyt-python31116/python/lib/python3.11/unittest/suite.py", line 122, in run
-    test(result)
-  File "/tmp/gopyt-python31116/python/lib/python3.11/unittest/suite.py", line 84, in __call__
-    return self.run(*args, **kwds)
-  File "/tmp/gopyt-python31116/python/lib/python3.11/unittest/suite.py", line 122, in run
-    test(result)
-  File "/tmp/gopyt-python31116/python/lib/python3.11/unittest/suite.py", line 84, in __call__
-    return self.run(*args, **kwds)
-  File "/tmp/gopyt-python31116/python/lib/python3.11/unittest/suite.py", line 122, in run
-    test(result)
-  File "/tmp/gopyt-python31116/python/lib/python3.11/unittest/case.py", line 678, in __call__
-    return self.run(*args, **kwds)
-  File "/tmp/gopyt-python31116/python/lib/python3.11/unittest/case.py", line 627, in run
-    self.doCleanups()
-  File "/tmp/gopyt-python31116/python/lib/python3.11/unittest/case.py", line 659, in doCleanups
-    self._callCleanup(function, *args, **kwargs)
-  File "/tmp/gopyt-python31116/python/lib/python3.11/unittest/case.py", line 587, in _callCleanup
-    function(*args, **kwargs)
-  File "/tmp/gopyt-python31116/python/lib/python3.11/unittest/case.py", line 659, in doCleanups
-    self._callCleanup(function, *args, **kwargs)
-  File "/tmp/gopyt-python31116/python/lib/python3.11/unittest/case.py", line 587, in _callCleanup
-    function(*args, **kwargs)
-  File "/tmp/gopyt-python31116/python/lib/python3.11/socketserver.py", line 253, in shutdown
-    self.__is_shut_down.wait()
-  File "/tmp/gopyt-python31116/python/lib/python3.11/threading.py", line 629, in wait
-    signaled = self._cond.wait(timeout)
-  File "/tmp/gopyt-python31116/python/lib/python3.11/threading.py", line 327, in wait
-    waiter.acquire()
-ok
+test_model_payload_admission_and_transport_lifetime (gopyt.test_netio.OutboundBudgets.test_model_payload_admission_and_transport_lifetime) ... ok
 test_model_payload_alias_survives_transport_failure_with_its_charge (gopyt.test_netio.OutboundBudgets.test_model_payload_alias_survives_transport_failure_with_its_charge) ... ok
 test_stalled_tls_handshake_consumes_shared_deadline (gopyt.test_netio.OutboundBudgets.test_stalled_tls_handshake_consumes_shared_deadline) ... ok
 test_the_permitted_loopback_origin_still_reaches_its_service (gopyt.test_netio.OutboundBudgets.test_the_permitted_loopback_origin_still_reaches_its_service) ... ok
@@ -1507,7 +1808,7 @@ test_no_implicit_numeric_width_or_float_conversion (gopyt.test_numeric_conversio
 test_acceptance_binding_and_staleness (gopyt.test_obligations.Challenge2026.test_acceptance_binding_and_staleness) ... ok
 test_acceptance_summary_discloses_corpus_size (gopyt.test_obligations.Challenge2026.test_acceptance_summary_discloses_corpus_size) ... ok
 test_binding_scopes_and_gaps (gopyt.test_obligations.Challenge2026.test_binding_scopes_and_gaps) ... ok
-test_cli_refuses_existing_output (gopyt.test_obligations.Challenge2026.test_cli_refuses_existing_output) ... obligations: FileExistsError: [Errno 17] File exists: '/tmp/tmpmtw9tdvd/report.json'
+test_cli_refuses_existing_output (gopyt.test_obligations.Challenge2026.test_cli_refuses_existing_output) ... obligations: FileExistsError: [Errno 17] File exists: '/tmp/tmp9ryf_ez6/report.json'
 ok
 test_contract_document_change_is_reported (gopyt.test_obligations.Challenge2026.test_contract_document_change_is_reported) ... ok
 test_contradictory_current_receipts_are_flagged_not_order_decided (gopyt.test_obligations.Challenge2026.test_contradictory_current_receipts_are_flagged_not_order_decided) ... ok
@@ -1527,7 +1828,7 @@ test_uninstantiated_generic_clause_is_not_claimed_compiled (gopyt.test_obligatio
 test_unresolved_policy_cannot_carry_executable_representation (gopyt.test_obligations.Challenge2026.test_unresolved_policy_cannot_carry_executable_representation) ... ok
 test_acceptance_binding_and_staleness (gopyt.test_obligations.ChallengeFindings.test_acceptance_binding_and_staleness) ... ok
 test_binding_scopes_and_gaps (gopyt.test_obligations.ChallengeFindings.test_binding_scopes_and_gaps) ... ok
-test_cli_refuses_existing_output (gopyt.test_obligations.ChallengeFindings.test_cli_refuses_existing_output) ... obligations: FileExistsError: [Errno 17] File exists: '/tmp/tmpn2ounlmm/report.json'
+test_cli_refuses_existing_output (gopyt.test_obligations.ChallengeFindings.test_cli_refuses_existing_output) ... obligations: FileExistsError: [Errno 17] File exists: '/tmp/tmpwpoafr2p/report.json'
 ok
 test_contract_document_change_is_reported (gopyt.test_obligations.ChallengeFindings.test_contract_document_change_is_reported) ... ok
 test_ensures_violation_traps_in_test_receipt (gopyt.test_obligations.ChallengeFindings.test_ensures_violation_traps_in_test_receipt) ... ok
@@ -1546,7 +1847,7 @@ test_unresolved_policy_cannot_carry_executable_representation (gopyt.test_obliga
 test_helper_sorting_before_contract_owner (gopyt.test_obligations.ContractNamePropagation.test_helper_sorting_before_contract_owner) ... ok
 test_acceptance_binding_and_staleness (gopyt.test_obligations.Obligations.test_acceptance_binding_and_staleness) ... ok
 test_binding_scopes_and_gaps (gopyt.test_obligations.Obligations.test_binding_scopes_and_gaps) ... ok
-test_cli_refuses_existing_output (gopyt.test_obligations.Obligations.test_cli_refuses_existing_output) ... obligations: FileExistsError: [Errno 17] File exists: '/tmp/tmpqud7dqf4/report.json'
+test_cli_refuses_existing_output (gopyt.test_obligations.Obligations.test_cli_refuses_existing_output) ... obligations: FileExistsError: [Errno 17] File exists: '/tmp/tmpsotl9ot1/report.json'
 ok
 test_contract_document_change_is_reported (gopyt.test_obligations.Obligations.test_contract_document_change_is_reported) ... ok
 test_ensures_violation_traps_in_test_receipt (gopyt.test_obligations.Obligations.test_ensures_violation_traps_in_test_receipt) ... ok
@@ -1562,7 +1863,7 @@ test_acceptance_representation_binds_by_suite_not_basename (gopyt.test_obligatio
 test_arithmetic_change_pulls_in_downstream_readers (gopyt.test_obligations.ReviewRegressions.test_arithmetic_change_pulls_in_downstream_readers) ... ok
 test_binding_scopes_and_gaps (gopyt.test_obligations.ReviewRegressions.test_binding_scopes_and_gaps) ... ok
 test_boolean_scenario_counts_are_contradictory (gopyt.test_obligations.ReviewRegressions.test_boolean_scenario_counts_are_contradictory) ... ok
-test_cli_refuses_existing_output (gopyt.test_obligations.ReviewRegressions.test_cli_refuses_existing_output) ... obligations: FileExistsError: [Errno 17] File exists: '/tmp/tmpxfv1if2p/report.json'
+test_cli_refuses_existing_output (gopyt.test_obligations.ReviewRegressions.test_cli_refuses_existing_output) ... obligations: FileExistsError: [Errno 17] File exists: '/tmp/tmpni6fun7u/report.json'
 ok
 test_complete_report_binds_when_repo_root_is_not_package_parent (gopyt.test_obligations.ReviewRegressions.test_complete_report_binds_when_repo_root_is_not_package_parent) ... ok
 test_contract_document_change_is_reported (gopyt.test_obligations.ReviewRegressions.test_contract_document_change_is_reported) ... ok
@@ -1611,10 +1912,103 @@ test_artifact_is_identical_under_different_hash_seeds (gopyt.test_perf.Determini
 test_the_same_broken_package_reports_the_same_diagnostic (gopyt.test_perf.Determinism.test_the_same_broken_package_reports_the_same_diagnostic)
 docs/diagnostics.md: first error only, chosen deterministically. ... ok
 test_fifty_modules (gopyt.test_perf.ManyModules.test_fifty_modules) ... 
-50 modules checked in 34 ms
+50 modules checked in 51 ms
 ok
-test_check_and_a_ten_thousand_denial_burst (gopyt.test_perf.Smoke.test_check_and_a_ten_thousand_denial_burst) ... 
-check 19 ms, 10000 logins 6174 ms
+test_check_and_a_ten_thousand_denial_burst (gopyt.test_perf.Smoke.test_check_and_a_ten_thousand_denial_burst) ... Scheduled Python thread stacks:
+Thread 140605963368128:
+  File "/tmp/gopyt-python31116/python/lib/python3.11/threading.py", line 1002, in _bootstrap
+    self._bootstrap_inner()
+  File "/tmp/gopyt-python31116/python/lib/python3.11/threading.py", line 1045, in _bootstrap_inner
+    self.run()
+  File "/tmp/gopyt-python31116/python/lib/python3.11/threading.py", line 982, in run
+    self._target(*self._args, **self._kwargs)
+  File "/tmp/gopyt-iso-copy311/tools/run_language_tests.py", line 18, in report_stacks
+    traceback.print_stack(frame, file=stream)
+Thread 140606017926976:
+  File "/tmp/gopyt-iso-copy311/tools/run_language_tests.py", line 32, in <module>
+    runpy.run_module('unittest', run_name='__main__')
+  File "<frozen runpy>", line 229, in run_module
+  File "<frozen runpy>", line 88, in _run_code
+  File "/tmp/gopyt-python31116/python/lib/python3.11/unittest/__main__.py", line 18, in <module>
+    main(module=None)
+  File "/tmp/gopyt-python31116/python/lib/python3.11/unittest/main.py", line 102, in __init__
+    self.runTests()
+  File "/tmp/gopyt-python31116/python/lib/python3.11/unittest/main.py", line 274, in runTests
+    self.result = testRunner.run(self.test)
+  File "/tmp/gopyt-python31116/python/lib/python3.11/unittest/runner.py", line 217, in run
+    test(result)
+  File "/tmp/gopyt-python31116/python/lib/python3.11/unittest/suite.py", line 84, in __call__
+    return self.run(*args, **kwds)
+  File "/tmp/gopyt-python31116/python/lib/python3.11/unittest/suite.py", line 122, in run
+    test(result)
+  File "/tmp/gopyt-python31116/python/lib/python3.11/unittest/suite.py", line 84, in __call__
+    return self.run(*args, **kwds)
+  File "/tmp/gopyt-python31116/python/lib/python3.11/unittest/suite.py", line 122, in run
+    test(result)
+  File "/tmp/gopyt-python31116/python/lib/python3.11/unittest/suite.py", line 84, in __call__
+    return self.run(*args, **kwds)
+  File "/tmp/gopyt-python31116/python/lib/python3.11/unittest/suite.py", line 122, in run
+    test(result)
+  File "/tmp/gopyt-python31116/python/lib/python3.11/unittest/case.py", line 678, in __call__
+    return self.run(*args, **kwds)
+  File "/tmp/gopyt-python31116/python/lib/python3.11/unittest/case.py", line 623, in run
+    self._callTestMethod(testMethod)
+  File "/tmp/gopyt-python31116/python/lib/python3.11/unittest/case.py", line 579, in _callTestMethod
+    if method() is not None:
+  File "/tmp/gopyt-iso-copy311/gopyt/test_perf.py", line 55, in test_check_and_a_ten_thousand_denial_burst
+    alarm = vm.call(fn_ids["auth.burst"], [])
+  File "/tmp/gopyt-iso-copy311/gopyt/vm.py", line 312, in call
+    return self._call_admitted(fn_id, args, caller_effects)
+  File "/tmp/gopyt-iso-copy311/gopyt/vm.py", line 325, in _call_admitted
+    result = self._call(fn_id, args, caller_effects)
+  File "/tmp/gopyt-iso-copy311/gopyt/vm.py", line 366, in _call
+    return self.exec(fn_id, func, args)
+  File "/tmp/gopyt-iso-copy311/gopyt/vm.py", line 384, in exec
+    return self._exec_frame(frame)
+  File "/tmp/gopyt-iso-copy311/gopyt/vm.py", line 403, in _exec_frame
+    return self._execute_frame(frame, instruction_guard)
+  File "/tmp/gopyt-iso-copy311/gopyt/vm.py", line 642, in _execute_frame
+    result = self.call(fid, list(call_args))
+  File "/tmp/gopyt-iso-copy311/gopyt/vm.py", line 314, in call
+    with self._lifecycle_lock:
+  File "/tmp/gopyt-iso-copy311/gopyt/vm.py", line 324, in _call_admitted
+    with self.heap.pin(args):
+  File "/tmp/gopyt-iso-copy311/gopyt/vm.py", line 376, in _call
+    self.depth -= 1
+  File "/tmp/gopyt-iso-copy311/gopyt/vm.py", line 383, in exec
+    with self.heap.frame(frame):
+  File "/tmp/gopyt-iso-copy311/gopyt/vm.py", line 405, in _exec_frame
+    instruction_guard.finish()
+  File "/tmp/gopyt-iso-copy311/gopyt/vm.py", line 414, in _execute_frame
+    with instruction_guard:
+  File "/tmp/gopyt-iso-copy311/gopyt/vm.py", line 314, in call
+    with self._lifecycle_lock:
+  File "/tmp/gopyt-iso-copy311/gopyt/vm.py", line 324, in _call_admitted
+    with self.heap.pin(args):
+  File "/tmp/gopyt-iso-copy311/gopyt/vm.py", line 376, in _call
+    self.depth -= 1
+  File "/tmp/gopyt-iso-copy311/gopyt/vm.py", line 383, in exec
+    with self.heap.frame(frame):
+  File "/tmp/gopyt-iso-copy311/gopyt/vm.py", line 405, in _exec_frame
+    instruction_guard.finish()
+  File "/tmp/gopyt-iso-copy311/gopyt/vm.py", line 414, in _execute_frame
+    with instruction_guard:
+  File "/tmp/gopyt-iso-copy311/gopyt/vm.py", line 314, in call
+    with self._lifecycle_lock:
+  File "/tmp/gopyt-iso-copy311/gopyt/vm.py", line 324, in _call_admitted
+    with self.heap.pin(args):
+  File "/tmp/gopyt-iso-copy311/gopyt/observe.py", line 189, in outcome
+    self.event("outcome:" + tag, tag.rsplit(".", 1)[-1] in FAILURE_NAMES, ms, task,
+  File "/tmp/gopyt-iso-copy311/gopyt/observe.py", line 144, in event
+    with self.admission(context):
+  File "/tmp/gopyt-iso-copy311/gopyt/observe.py", line 41, in add
+    return seen
+  File "/tmp/gopyt-iso-copy311/gopyt/observe.py", line 34, in indices
+    return [int.from_bytes(digest[i:i+2], "little") % 8192 for i in (0, 2, 4, 6)]
+  File "/tmp/gopyt-iso-copy311/gopyt/observe.py", line 34, in <listcomp>
+    return [int.from_bytes(digest[i:i+2], "little") % 8192 for i in (0, 2, 4, 6)]
+
+check 26 ms, 10000 logins 8303 ms
 ok
 test_observe_memory_is_flat_across_sizes (gopyt.test_perf.Smoke.test_observe_memory_is_flat_across_sizes)
 Ten times the events must not mean more cells. ... ok
@@ -1622,7 +2016,7 @@ test_changed_source_and_tampered_receipt_rejected (gopyt.test_project_context.Pr
 test_contract_diff_ignores_comments_but_tracks_policy_expression (gopyt.test_project_context.ProjectContext.test_contract_diff_ignores_comments_but_tracks_policy_expression) ... ok
 test_copied_input_is_tested_when_working_tree_changes (gopyt.test_project_context.ProjectContext.test_copied_input_is_tested_when_working_tree_changes) ... ok
 test_exact_generic_contract_and_resolved_call (gopyt.test_project_context.ProjectContext.test_exact_generic_contract_and_resolved_call) ... ok
-test_existing_output_never_overwritten (gopyt.test_project_context.ProjectContext.test_existing_output_never_overwritten) ... project context: FileExistsError: [Errno 17] File exists: '/tmp/tmpfbv4qpqm/receipt.json'
+test_existing_output_never_overwritten (gopyt.test_project_context.ProjectContext.test_existing_output_never_overwritten) ... project context: FileExistsError: [Errno 17] File exists: '/tmp/tmpmgkf7mpu/receipt.json'
 ok
 test_failed_compile_never_reuses_disk_artifact (gopyt.test_project_context.ProjectContext.test_failed_compile_never_reuses_disk_artifact) ... ok
 test_failed_test_distinct_from_compile_and_retained (gopyt.test_project_context.ProjectContext.test_failed_test_distinct_from_compile_and_retained) ... ok
@@ -2221,6 +2615,6 @@ test_version_one_authority_requires_explicit_upgrade (gopyt.test_writer_fence.Wr
 test_writer_identity_uses_key_material_not_label_or_reader_set (gopyt.test_writer_fence.WriterFence.test_writer_identity_uses_key_material_not_label_or_reader_set) ... ok
 
 ----------------------------------------------------------------------
-Ran 1176 tests in 564.514s
+Ran 1178 tests in 684.444s
 
 OK (skipped=1)
