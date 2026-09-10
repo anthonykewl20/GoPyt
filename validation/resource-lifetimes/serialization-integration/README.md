@@ -12,8 +12,8 @@ old/new/rollback checks against the retained baseline wheel. The 17 guard tests,
 22-module stdlib parity check and contract example pass.
 
 The full Python 3.14.7 language suite passes 1,035 tests in 361.060 seconds.
-Frozen source hashes were verified unchanged. Python 3.11.16 full qualification
-is pending. This
+Frozen source hashes were verified unchanged. The Python 3.11.16 full suite also passes 1,035 tests in 403.394 seconds.
+Source hashes remained unchanged through both full runs. This
 increment covers serialized image payload capacity; it does not bound all SQLite
 or cryptographic allocations, restore backup producers, decoded values or explicit
 copies. Issue #5 remains open.
