@@ -49,3 +49,57 @@ def string_token(text, start, budget, check=lambda: None):
         text = result = None
         if reservation is not None and not transferred:
             reservation.release()
+
+
+def number_span(text, start, check=lambda: None):
+    """Validate JSON number grammar without slicing or converting its digits.
+
+    Return the next offset and whether Decimal conversion is required. The caller
+    validates the surrounding delimiter and admits numeric storage separately.
+    """
+    try:
+        check()
+        size = len(text)
+        index = start
+        if not 0 <= index < size:
+            raise ConvertFail('number')
+        if text[index] == '-':
+            index += 1
+        if index >= size:
+            raise ConvertFail('number')
+        if text[index] == '0':
+            index += 1
+        elif '1' <= text[index] <= '9':
+            while index < size and '0' <= text[index] <= '9':
+                if (index - start) % 4096 == 0:
+                    check()
+                index += 1
+        else:
+            raise ConvertFail('number')
+        decimal = False
+        if index < size and text[index] == '.':
+            decimal = True
+            index += 1
+            first = index
+            while index < size and '0' <= text[index] <= '9':
+                if (index - start) % 4096 == 0:
+                    check()
+                index += 1
+            if index == first:
+                raise ConvertFail('number')
+        if index < size and text[index] in 'eE':
+            decimal = True
+            index += 1
+            if index < size and text[index] in '+-':
+                index += 1
+            first = index
+            while index < size and '0' <= text[index] <= '9':
+                if (index - start) % 4096 == 0:
+                    check()
+                index += 1
+            if index == first:
+                raise ConvertFail('number')
+        check()
+        return index, decimal
+    finally:
+        text = None

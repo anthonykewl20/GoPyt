@@ -47,3 +47,46 @@ class JsonStringToken(unittest.TestCase):
         self.assertEqual(end, len(source))
         del result
         self.assertEqual(budget.snapshot()['active_reservations'], 0)
+
+
+class JsonNumberSpan(unittest.TestCase):
+    def test_grammar_matches_standard_decoder_offsets(self):
+        from decimal import Decimal
+        from gopyt.resource_json import number_span
+        decoder = json.JSONDecoder(parse_float=Decimal)
+        for token in ('0', '-0', '123', '-12.50', '1e1000000', '1E-8', '0.25e+12'):
+            source = token + ', trailing'
+            expected, offset = decoder.raw_decode(source)
+            end, decimal = number_span(source, 0)
+            self.assertEqual(end, offset)
+            self.assertEqual(decimal, isinstance(expected, Decimal))
+
+    def test_invalid_digits_and_incomplete_numbers(self):
+        from gopyt.resource_json import number_span
+        for token in ('', '-', '+1', '.1', '1.', '1e', '1e+', '١', 'NaN', 'Infinity'):
+            with self.subTest(token=token), self.assertRaises(ConvertFail):
+                number_span(token, 0)
+        # Leading zero is one valid token followed by invalid trailing input.
+        self.assertEqual(number_span('01', 0), (1, False))
+
+    def test_long_scan_cancellation_clears_input(self):
+        from gopyt.resource_json import number_span
+        class Cancelled(Exception):
+            pass
+        calls = 0
+        def check():
+            nonlocal calls
+            calls += 1
+            if calls == 3:
+                raise Cancelled()
+        failure = None
+        try:
+            number_span('1' * 20000, 0, check)
+        except Cancelled as error:
+            failure = error
+        self.assertIsNotNone(failure)
+        frame = failure.__traceback__
+        while frame is not None:
+            if frame.tb_frame.f_code.co_name == 'number_span':
+                self.assertIsNone(frame.tb_frame.f_locals['text'])
+            frame = frame.tb_next

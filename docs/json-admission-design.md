@@ -44,3 +44,11 @@ on both runtimes, including escape-heavy widening and a malformed token after a
 100000-character prefix with retained traceback, no chained scanner exception,
 and released token reservations. This finite evidence does not complete parser
 or typed-result allocation qualification.
+
+number_span now separates strict JSON number grammar from allocation: it scans
+ASCII digits, signs, fractions and exponents without slicing or converting, returns
+the end offset and integer/Decimal classification, and checks cancellation every
+4096 characters. Delimiter validation belongs to the surrounding parser. Seven
+string/number tests pass on both runtimes, with offsets compared to JSONDecoder
+and long-scan cancellation retaining a traceback whose input reference is cleared.
+Numeric object allocation and parser integration remain unimplemented.
