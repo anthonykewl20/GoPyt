@@ -559,3 +559,77 @@ class JsonTypedGraph(unittest.TestCase):
         self.assertGreater(budget.snapshot()['used']['native_bytes'], 0)
         del result
         self.assertEqual(budget.snapshot()['active_reservations'], 0)
+
+
+class JsonNominalGraph(unittest.TestCase):
+    def artifact(self):
+        from types import SimpleNamespace as NS
+        from gopyt import jsonc as j
+        names = ('R', 'n', 'label', 'E', 'Ok')
+        return NS(texprs=[NS(tag=j.TE_I64), NS(tag=j.TE_STR),
+                         NS(tag=j.TE_OPT, a=1), NS(tag=j.TE_NOM, a=0),
+                         NS(tag=j.TE_NOM, a=1), NS(tag=j.TE_UNION, members=(3, 0))],
+                  types=[NS(kind=1, name=0, fields=((1, 0), (2, 2))),
+                         NS(kind=2, name=3, variants=((4, ((1, 0),)),))],
+                  const_str=lambda index: names[index])
+
+    def test_record_enum_union_and_field_errors(self):
+        from gopyt import jsonc as j
+        from gopyt.resource_json import parse_owned, decode_value
+        from gopyt.vm import value_eq
+        art = self.artifact()
+        for source, tag in (('{"n":1}', 3), ('{"n":2,"label":"x"}', 3),
+                            ('{"Ok":{"n":3}}', 4), ('{"R":{"n":4}}', 5),
+                            ('{"i64":5}', 5), ('{}', 3), ('{"n":1,"extra":2}', 3),
+                            ('{"Ok":{}}', 4), ('{"Bad":{}}', 4)):
+            budget = ResourceBudget(ResourceLimits(100000, 0, 0, 0))
+            parsed = parse_owned(source, budget)
+            expected = reason = None
+            try:
+                expected = j._dec(art, parsed, tag)
+            except ConvertFail as error:
+                reason = error.message
+            if reason is None:
+                result = decode_value(art, parsed, tag, budget)
+                self.assertTrue(value_eq(result, expected))
+                if tag == 5:
+                    self.assertEqual(j._matches(art, result, 0), source == '{"i64":5}')
+                del result
+            else:
+                with self.assertRaises(ConvertFail) as caught:
+                    decode_value(art, parsed, tag, budget)
+                self.assertEqual(caught.exception.message, reason)
+            expected = parsed = None
+            self.assertEqual(budget.snapshot()['active_reservations'], 0)
+
+    def test_cancelled_nominal_conversion_keeps_only_borrowed_graph(self):
+        from gopyt.resource_json import parse_owned, decode_value
+        art = self.artifact()
+        budget = ResourceBudget(ResourceLimits(100000, 0, 0, 0))
+        parsed = parse_owned('{"n":2,"label":"x"}', budget)
+        baseline = budget.snapshot()['used']['native_bytes']
+        calls = 0
+        def count():
+            nonlocal calls
+            calls += 1
+        result = decode_value(art, parsed, 3, budget, count)
+        del result
+        total = calls
+        class Cancelled(Exception):
+            pass
+        for stop in range(1, total + 1):
+            calls = 0
+            def check():
+                nonlocal calls
+                calls += 1
+                if calls == stop:
+                    raise Cancelled()
+            failure = None
+            try:
+                decode_value(art, parsed, 3, budget, check)
+            except Cancelled as error:
+                failure = error
+            self.assertIsNotNone(failure)
+            self.assertEqual(budget.snapshot()['used']['native_bytes'], baseline)
+        del parsed
+        self.assertEqual(budget.snapshot()['active_reservations'], 0)

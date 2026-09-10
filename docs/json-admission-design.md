@@ -255,3 +255,14 @@ and _member_name can produce text outside this helper's current admission bounda
 that must be resolved before claiming complete typed payload coverage. Production
 routing remains unchanged, and this internal recursive typed traversal has not yet
 been depth-qualified.
+
+Artifact-name review resolved the suspected allocation: Artifact.const_str returns
+c.value directly, and _member_name returns that borrowed string or a scalar literal.
+No text producer is invoked there. Nominal/union tests now compare records, enums,
+optional fields, unknown/missing fields and variants with _dec. Cancellation at
+each reached nominal conversion check retains only the borrowed parsed graph's
+charge; dropping that graph releases all reservations. _matches now recognizes
+integer subclasses by declared width instead of exact Python class, preserving
+bool rejection and width distinctions for union encoding. Thirty-three focused
+tests pass on both runtimes (nominal-match logs). Production routing and broad
+encoding/depth/failure qualification remain outstanding.
