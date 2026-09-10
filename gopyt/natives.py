@@ -217,7 +217,14 @@ def _str_slice(vm, args, func):
     _requires(end >= start)
     if end > len(text):
         return _convert_error(vm, "slice")
-    return text[start:end]
+    from gopyt.resource_budget import ResourceLimitError
+    from gopyt.resource_text import slice_text
+    try:
+        return slice_text(text, start, end, vm.resource_budget, vm.check_cancelled)
+    except ResourceLimitError:
+        raise Trap(ops.TRAP_ALLOC) from None
+    finally:
+        text = None
 
 
 # ---------------------------------------------------------------- core.bytes

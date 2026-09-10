@@ -48,3 +48,27 @@ def decode_utf8(data, budget, check=lambda: None):
         data = result = None
         if reservation is not None and not transferred:
             reservation.release()
+
+
+def slice_text(text, start, end, budget, check=lambda: None):
+    """Copy a validated code-point slice with raw/owned capacity admitted first."""
+    reservation = None
+    raw = result = None
+    transferred = False
+    try:
+        check()
+        capacity = 4 * (end - start + 1)
+        reservation = budget.reserve(native_bytes=capacity)
+        with budget.reserve(native_bytes=capacity):
+            try:
+                raw = str.__getitem__(text, slice(start, end))
+                check()
+                result = _ChargedString(raw, reservation)
+                transferred = True
+                return result
+            finally:
+                raw = None
+    finally:
+        text = result = None
+        if reservation is not None and not transferred:
+            reservation.release()

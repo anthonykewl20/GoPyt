@@ -56,3 +56,10 @@ limit remains; resource rejection maps to the allocation trap. Output aliases
 retain their charge. The 31-test text/byte/native selection passes on both runtimes,
 including two-output-size peak capacity and failed output admission cleanup.
 String concatenation/slicing, model decoding and JSON remain separate work.
+
+core.str.slice now admits temporary and owned Unicode capacity before copying a
+validated code-point range. Existing index preconditions and range conversion errors
+remain; capacity failure raises the allocation trap. Each capacity uses four bytes
+per output code point plus a terminator, retained conservatively through aliases.
+The 22-test text/native selection passes on both runtimes, covering empty/full and
+multibyte slices plus admission failure cleanup. Full qualification remains pending.

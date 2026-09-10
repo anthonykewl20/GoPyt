@@ -174,3 +174,32 @@ class NativeConcatenatedBytes(unittest.TestCase):
             NATIVES['core.bytes.concat'](vm, [b'abc', b'def'], None)
         self.assertEqual(failure.exception.code, ops.TRAP_ALLOC)
         self.assertEqual(budget.snapshot()['active_reservations'], 0)
+
+
+class NativeSlicedText(unittest.TestCase):
+    def test_slice_codepoints_and_alias_capacity(self):
+        from types import SimpleNamespace
+        from gopyt.natives import NATIVES
+        for start, end in ((0, 0), (0, 4), (1, 3)):
+            text = 'aé中😀'
+            capacity = 4 * (end - start + 1)
+            budget = ResourceBudget(ResourceLimits(2 * capacity, 0, 0, 0))
+            vm = SimpleNamespace(resource_budget=budget, check_cancelled=lambda: None)
+            result = NATIVES['core.str.slice'](vm, [text, start, end], None)
+            self.assertEqual(result, text[start:end])
+            self.assertEqual(budget.snapshot()['used']['native_bytes'], capacity)
+            self.assertEqual(budget.snapshot()['peak']['native_bytes'], 2 * capacity)
+            del result
+            self.assertEqual(budget.snapshot()['active_reservations'], 0)
+
+    def test_slice_capacity_failure_releases_reservation(self):
+        from types import SimpleNamespace
+        from gopyt.natives import NATIVES
+        from gopyt.vm import Trap
+        from gopyt import ops
+        budget = ResourceBudget(ResourceLimits(15, 0, 0, 0))
+        vm = SimpleNamespace(resource_budget=budget, check_cancelled=lambda: None)
+        with self.assertRaises(Trap) as failure:
+            NATIVES['core.str.slice'](vm, ['ab', 0, 1], None)
+        self.assertEqual(failure.exception.code, ops.TRAP_ALLOC)
+        self.assertEqual(budget.snapshot()['active_reservations'], 0)
