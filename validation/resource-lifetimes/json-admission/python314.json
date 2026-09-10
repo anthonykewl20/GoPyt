@@ -1,0 +1,136 @@
+{
+  "python": "3.14.7 (main, Sep  1 2026, 14:18:09) [Clang 22.1.3 ]",
+  "cases": [
+    {
+      "input": "null",
+      "accepted": true,
+      "type": "NoneType"
+    },
+    {
+      "input": "true",
+      "accepted": true,
+      "type": "bool"
+    },
+    {
+      "input": "false",
+      "accepted": true,
+      "type": "bool"
+    },
+    {
+      "input": "0",
+      "accepted": true,
+      "type": "int"
+    },
+    {
+      "input": "-0",
+      "accepted": true,
+      "type": "int"
+    },
+    {
+      "input": "1.25",
+      "accepted": true,
+      "type": "Decimal"
+    },
+    {
+      "input": "1e1000000",
+      "accepted": true,
+      "type": "Decimal"
+    },
+    {
+      "input": "\"\\ud83d\\ude00\"",
+      "accepted": true,
+      "type": "str"
+    },
+    {
+      "input": "\"\u00e9\u4e2d\"",
+      "accepted": true,
+      "type": "str"
+    },
+    {
+      "input": "[1,\"x\",null]",
+      "accepted": true,
+      "type": "list"
+    },
+    {
+      "input": "{\"a\":[1],\"b\":{}}",
+      "accepted": true,
+      "type": "dict"
+    },
+    {
+      "input": " \t\r\n{\"x\":1}\n",
+      "accepted": true,
+      "type": "dict"
+    },
+    {
+      "input": "{\"x\":1,\"x\":2}",
+      "accepted": false,
+      "reason": "duplicate key"
+    },
+    {
+      "input": "\"\\ud800\"",
+      "accepted": false,
+      "reason": "utf8"
+    },
+    {
+      "input": "\"\\udc00\"",
+      "accepted": false,
+      "reason": "utf8"
+    },
+    {
+      "input": "NaN",
+      "accepted": false,
+      "reason": "number"
+    },
+    {
+      "input": "Infinity",
+      "accepted": false,
+      "reason": "number"
+    },
+    {
+      "input": "01",
+      "accepted": false,
+      "reason": "trailing"
+    },
+    {
+      "input": "+1",
+      "accepted": false,
+      "reason": "syntax"
+    },
+    {
+      "input": "1.",
+      "accepted": false,
+      "reason": "trailing"
+    },
+    {
+      "input": "[1,]",
+      "accepted": false,
+      "reason": "syntax"
+    },
+    {
+      "input": "{\"x\":1,}",
+      "accepted": false,
+      "reason": "syntax"
+    },
+    {
+      "input": "true false",
+      "accepted": false,
+      "reason": "trailing"
+    },
+    {
+      "input": "\"\\x20\"",
+      "accepted": false,
+      "reason": "syntax"
+    },
+    {
+      "input": "\"\n\"",
+      "accepted": false,
+      "reason": "syntax"
+    },
+    {
+      "input": "\ufeffnull",
+      "accepted": false,
+      "reason": "syntax"
+    }
+  ],
+  "scope": "finite pre-change behavior; valid values compared with standard JSON/Decimal"
+}
