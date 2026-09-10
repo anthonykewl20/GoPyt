@@ -33,3 +33,14 @@ The returned string retains its reservation. Two focused tests pass on both pinn
 runtimes. This helper is not yet connected to parse/decode; complete scanner-bound
 review, container/numeric producers, typed conversion overlap and failure coverage
 remain required before qualification.
+
+Scanner review: matching CPython release Modules/_json.c uses a Unicode writer
+(3.11 explicitly enables overallocation; 3.14 creates a public writer). The
+writer may overlap old/new storage; substring writes copy directly into its
+capacity. JSONDecodeError computes line/column via count/rfind on the original
+document, without constructing a prefix slice. Object metadata and small formatted
+error messages remain outside payload-capacity accounting. Four focused tests pass
+on both runtimes, including escape-heavy widening and a malformed token after a
+100000-character prefix with retained traceback, no chained scanner exception,
+and released token reservations. This finite evidence does not complete parser
+or typed-result allocation qualification.
