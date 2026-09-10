@@ -317,3 +317,12 @@ pass on both runtimes, including direct owned-limit dispatch and cross-width tra
 Buffer natives pass arguments directly into host Buffer methods and ResourceLimits;
 _range and the ledger retain exact-int checks. This needs a boundary-specific
 normalization/admission review before calling the scalar compatibility audit done.
+
+Buffer scalar compatibility: buffer/view range checks accept i64 ownership
+subclasses while rejecting bool and other declared widths. Reservation amounts use
+an exact integer arithmetic result (size/length + 0) as ledger counter metadata;
+the host ResourceLimits type contract remains unchanged, and retained size/index
+aliases preserve their original ownership. Forty-seven focused JSON/buffer/native
+tests pass on both runtimes, covering owned allocation sizes, read/write/view
+ranges, rejection of other widths and final cleanup. Buffer byte-input ownership
+compatibility and its output-copy coverage remain separate producer work.

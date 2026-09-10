@@ -737,3 +737,29 @@ class JsonOwnedParallelLimits(unittest.TestCase):
                 VM.run_parallel(vm, [], [], 1, limit)
             del limit
         self.assertEqual(budget.snapshot()['active_reservations'], 0)
+
+
+class JsonOwnedBufferIndices(unittest.TestCase):
+    def test_owned_sizes_ranges_and_width_rejection(self):
+        from gopyt.resource_json import integer_value
+        from gopyt.resource_buffer import Buffer
+        from gopyt import gobyte
+        budget = ResourceBudget(ResourceLimits(10000, 0, 0, 20))
+        size = integer_value(4, gobyte.TE_I64, budget)
+        start = integer_value(0, gobyte.TE_I64, budget)
+        buffer = Buffer(budget, size)
+        buffer.write(start, b'abcd')
+        self.assertEqual(buffer.read(start, size), b'abcd')
+        view = buffer.view(start, size)
+        self.assertEqual(view.read(start, size), b'abcd')
+        for tag in (gobyte.TE_I32, gobyte.TE_U32, gobyte.TE_U64):
+            wrong = integer_value(1, tag, budget)
+            with self.assertRaises(ValueError):
+                buffer.read(wrong, size)
+            with self.assertRaises(ValueError):
+                buffer.read(start, wrong)
+            del wrong
+        view.close()
+        buffer.close()
+        del view, buffer, size, start
+        self.assertEqual(budget.snapshot()['active_reservations'], 0)

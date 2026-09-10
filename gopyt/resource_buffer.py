@@ -8,10 +8,12 @@ import threading
 import weakref
 
 from gopyt.resource_control import ResourceControl, ResourceClosedError
+from gopyt.values import I32, U32, U64
 
 
 def _range(start, length, size):
-    if (type(start) is not int or type(length) is not int
+    if (not isinstance(start, int) or isinstance(start, (bool, I32, U32, U64))
+            or not isinstance(length, int) or isinstance(length, (bool, I32, U32, U64))
             or start < 0 or length < 0 or start > size or length > size-start):
         raise ValueError('buffer range outside bounds')
 
@@ -21,7 +23,7 @@ class Buffer:
         self._context = weakref.proxy(context) if context is not None else None
         self._check_context()
         _range(0, size, size)
-        reservation = budget.reserve(native_bytes=size, handles=1)
+        reservation = budget.reserve(native_bytes=size + 0, handles=1)
         payload = None
         try:
             payload = bytearray(size)
@@ -95,7 +97,7 @@ class Buffer:
     def read(self, start, length):
         _range(start, length, self._size)
         with self._access() as payload:
-            with self._budget.reserve(native_bytes=length):
+            with self._budget.reserve(native_bytes=length + 0):
                 # The scoped export cannot escape or survive the operation lease.
                 with memoryview(payload) as view, view[start:start+length] as part:
                     return bytes(part)
@@ -155,7 +157,7 @@ class BufferView:
     def read(self, start, length):
         _range(start, length, self._length)
         with self._access() as payload:
-            with self.owner._budget.reserve(native_bytes=length):
+            with self.owner._budget.reserve(native_bytes=length + 0):
                 with memoryview(payload) as view, view[self._start+start:self._start+start+length] as part:
                     return bytes(part)
 
