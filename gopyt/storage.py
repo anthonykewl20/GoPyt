@@ -5,7 +5,7 @@ the persistent file, so SQLite cannot follow symlinks or create unsafe sidecars.
 Whole-file replacement is deliberately simple; this is not a scalable DB server.
 """
 from collections import OrderedDict
-from contextlib import contextmanager
+from contextlib import contextmanager, ExitStack
 import fcntl
 import hashlib
 import os
@@ -16,9 +16,10 @@ import tempfile
 import threading
 import time
 import weakref
+from gopyt.resource_budget import ResourceLimitError
 
 from gopyt.rollback import locked_anchor, snapshot_digest
-from gopyt.files import parent_directory
+from gopyt.files import parent_directory, opened_descriptor
 from gopyt.security_config import storage_cipher,seal,unseal,SecurityError,OVERHEAD
 
 MAX_BYTES = 64 * 1024 * 1024
@@ -35,16 +36,17 @@ class StorageError(Exception):
     pass
 
 
-def _open_lock(directory, deadline, check_context=lambda: None):
+def _open_lock(directory, deadline, check_context=lambda: None, *, opener=None):
     """Open an existing lock or create it exclusively, tolerating creation races."""
     flags = os.O_RDWR | os.O_NOFOLLOW | os.O_NONBLOCK
+    opener = os.open if opener is None else opener
     while True:
         check_context()
         try:
-            return os.open('lock', flags, dir_fd=directory)
+            return opener('lock', flags, dir_fd=directory)
         except FileNotFoundError:
             try:
-                return os.open('lock', flags | os.O_CREAT | os.O_EXCL,
+                return opener('lock', flags | os.O_CREAT | os.O_EXCL,
                                0o600, dir_fd=directory)
             except (FileExistsError, FileNotFoundError):
                 # Never follow a replaced directory or wait without a deadline.
@@ -111,52 +113,53 @@ class Store:
             # resolve this newly created private root, never a package root.
             self.root = os.path.realpath(self._temporary.name)
             weakref.finalize(self, self._temporary.cleanup)
-        with parent_directory(self.root, DIRECTORY) as (root, name):
-            try:
-                os.mkdir(name, 0o700, dir_fd=root)
-                os.fsync(root)
-            except FileExistsError:
-                pass
-            directory = os.open(name, os.O_RDONLY | os.O_DIRECTORY | os.O_NOFOLLOW, dir_fd=root)
-        try:
-            lock = _open_lock(directory, deadline, self._check_context)
-            try:
-                info = os.fstat(lock)
-                if not stat.S_ISREG(info.st_mode) or info.st_nlink != 1:
-                    raise StorageError('invalid database lock')
-                while True:
-                    self._lock_remaining(deadline)
-                    try:
-                        fcntl.flock(lock, fcntl.LOCK_EX | fcntl.LOCK_NB)
-                        break
-                    except BlockingIOError:
-                        time.sleep(min(0.002, self._lock_remaining(deadline)))
-                self._check_context()
-                # An uncooperative unlink/replacement must not split our lock.
-                current = os.stat('lock', dir_fd=directory, follow_symlinks=False)
-                if (current.st_dev, current.st_ino) != (info.st_dev, info.st_ino):
-                    raise StorageError('database lock changed')
-                with locked_anchor(self.root, lambda: self._lock_remaining(deadline), enroll=enroll) as anchor:
-                    if anchor is not None:
-                        if self._security is None:
-                            raise SecurityError('anchored storage requires encryption')
-                        if not restore:
-                            anchor.recover(directory, DATABASE, MAX_BYTES + OVERHEAD)
-                    self._anchor = anchor
-                    try:
-                        for stale in (() if restore else os.listdir(directory)):
-                            self._check_context()
-                            suffix = stale.removeprefix('.pending-')
-                            if stale.startswith('.pending-') and len(suffix) == 24 and all(c in '0123456789abcdef' for c in suffix):
-                                os.unlink(stale, dir_fd=directory)
+        descriptors = getattr(self._context, 'descriptors', None)
+        with ExitStack() as owners:
+            def acquire(path, flags, mode=0o777, *, dir_fd=None):
+                return owners.enter_context(opened_descriptor(
+                    path, flags, mode, dir_fd=dir_fd, descriptors=descriptors))
+            with parent_directory(self.root, DIRECTORY, descriptors=descriptors) as (root, name):
+                try:
+                    os.mkdir(name, 0o700, dir_fd=root)
+                    os.fsync(root)
+                except FileExistsError:
+                    pass
+                directory = acquire(name, os.O_RDONLY | os.O_DIRECTORY | os.O_NOFOLLOW, dir_fd=root)
+            lock = _open_lock(directory, deadline, self._check_context, opener=acquire)
+            info = os.fstat(lock)
+            if not stat.S_ISREG(info.st_mode) or info.st_nlink != 1:
+                raise StorageError('invalid database lock')
+            while True:
+                self._lock_remaining(deadline)
+                try:
+                    fcntl.flock(lock, fcntl.LOCK_EX | fcntl.LOCK_NB)
+                    break
+                except BlockingIOError:
+                    time.sleep(min(0.002, self._lock_remaining(deadline)))
+            self._check_context()
+            # An uncooperative unlink/replacement must not split our lock.
+            current = os.stat('lock', dir_fd=directory, follow_symlinks=False)
+            if (current.st_dev, current.st_ino) != (info.st_dev, info.st_ino):
+                raise StorageError('database lock changed')
+            with locked_anchor(self.root, lambda: self._lock_remaining(deadline), enroll=enroll, descriptors=descriptors) as anchor:
+                if anchor is not None:
+                    if self._security is None:
+                        raise SecurityError('anchored storage requires encryption')
+                    if not restore:
+                        anchor.recover(directory, DATABASE, MAX_BYTES + OVERHEAD)
+                self._anchor = anchor
+                try:
+                    stale_names = (() if restore else os.listdir(directory) if descriptors is None
+                                   else descriptors.listdir(directory))
+                    for stale in stale_names:
                         self._check_context()
-                        yield directory
-                    finally:
-                        self._anchor = None
-            finally:
-                os.close(lock)
-        finally:
-            os.close(directory)
+                        suffix = stale.removeprefix('.pending-')
+                        if stale.startswith('.pending-') and len(suffix) == 24 and all(c in '0123456789abcdef' for c in suffix):
+                            os.unlink(stale, dir_fd=directory)
+                    self._check_context()
+                    yield directory
+                finally:
+                    self._anchor = None
 
     @staticmethod
     def _identity(info):
@@ -167,15 +170,15 @@ class Store:
 
     @contextmanager
     def _snapshot(self, directory):
-        try:
-            fd = os.open(DATABASE, os.O_RDONLY | os.O_NOFOLLOW | os.O_NONBLOCK, dir_fd=directory)
-        except FileNotFoundError:
-            yield None, None
-            return
-        try:
+        with ExitStack() as owners:
+            try:
+                fd = owners.enter_context(opened_descriptor(
+                    DATABASE, os.O_RDONLY | os.O_NOFOLLOW | os.O_NONBLOCK,
+                    dir_fd=directory, descriptors=getattr(self._context, 'descriptors', None)))
+            except FileNotFoundError:
+                yield None, None
+                return
             yield fd, self._identity(os.fstat(fd))
-        finally:
-            os.close(fd)
 
     def _load(self, fd, identity, db):
         if fd is None:
@@ -211,14 +214,18 @@ class Store:
     def _publish(self, directory, data, *, restore=None, authorize_writer=False):
         self._check_context()
         temporary = '.pending-' + secrets.token_hex(12)
-        fd = os.open(temporary, os.O_WRONLY | os.O_CREAT | os.O_EXCL | os.O_NOFOLLOW,
-                     0o600, dir_fd=directory)
+        owners = ExitStack()
+        fd = owners.enter_context(opened_descriptor(
+            temporary, os.O_WRONLY | os.O_CREAT | os.O_EXCL | os.O_NOFOLLOW,
+            0o600, dir_fd=directory,
+            descriptors=getattr(self._context, 'descriptors', None)))
         admitted = False
         try:
-            with os.fdopen(fd, 'wb') as stream:
-                stream.write(data)
-                stream.flush()
-                os.fsync(stream.fileno())
+            with owners:
+                with os.fdopen(fd, 'wb', closefd=False) as stream:
+                    stream.write(data)
+                    stream.flush()
+                    os.fsync(stream.fileno())
             # Publication admission: cancellation after entering replace cannot
             # undo the rename or abandon the directory durability barrier.
             self._check_context()
@@ -253,6 +260,8 @@ class Store:
             result = self._operate_locked(operation, key, value, expected, deadline)
             self._check_context()
             return result
+        except ResourceLimitError:
+            raise StorageError('database resource budget exceeded') from None
         finally:
             self._operation_lock.release()
 
@@ -265,7 +274,8 @@ class Store:
             if authority is not None and not authority.permits(
                     keys, read=operation != 'put', write=operation not in ('get', 'get_many')):
                 raise StorageError('database authority denied')
-            self._security = storage_cipher(self.root)
+            descriptors = getattr(self._context, 'descriptors', None)
+            self._security = storage_cipher(self.root, descriptors=descriptors)
             identity = None if self._security is None else self._security[2]
             if identity != self._security_identity:
                 self._clear_cache()
@@ -341,7 +351,7 @@ class Store:
                         page_size = db.execute('PRAGMA page_size').fetchone()[0]
                         db.execute(f'PRAGMA max_page_count={MAX_BYTES // page_size}')
                         if operation == 'enroll_anchor':
-                            self._anchor.enroll(snapshot_digest(directory, DATABASE, MAX_BYTES + OVERHEAD),
+                            self._anchor.enroll(snapshot_digest(directory, DATABASE, MAX_BYTES + OVERHEAD, descriptors=descriptors),
                                                 self._security[0].write_identity)
                             return True
                         if operation == 'fence_key':

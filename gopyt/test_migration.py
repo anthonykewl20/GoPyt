@@ -79,6 +79,38 @@ class Migration(unittest.TestCase):
     def migrate(self, **kwargs):
         return Store(self.root).migrate(backup=self.backup, expected_digest=kwargs.get('digest', self.digest))
 
+    def test_migration_descriptor_budget_and_recovery_retry(self):
+        from gopyt.resource_budget import ResourceBudget, ResourceLimits
+        from gopyt.resource_descriptors import DescriptorRegistry
+        class Context:
+            deadline_ns = None
+            def check_cancelled(self): pass
+        for capacity in range(6):
+            with self.subTest(capacity=capacity):
+                context = Context()
+                budget = ResourceBudget(ResourceLimits(0, 0, capacity, 0))
+                context.descriptors = DescriptorRegistry(budget)
+                store = Store(self.root, context=context)
+                if capacity < 5:
+                    with self.assertRaises(StorageError):
+                        store.migrate(backup=self.backup, expected_digest=self.digest)
+                    self.assertEqual(self.path.read_bytes(), self.original)
+                    self.assertFalse(self.backup.exists())
+                else:
+                    with patch('gopyt.storage.os.replace', side_effect=OSError('interrupted publication')):
+                        with self.assertRaises(StorageError):
+                            store.migrate(backup=self.backup, expected_digest=self.digest)
+                    self.assertTrue(self.backup.read_bytes().startswith(MAGIC))
+                    self.assertEqual(self.path.read_bytes(), self.original)
+                    self.assertEqual(budget.snapshot()['active_reservations'], 0)
+                    result = store.migrate(backup=self.backup, expected_digest=self.digest)
+                    self.assertEqual(result['status'], 'committed')
+                    self.assertEqual(self.path.read_bytes(), self.backup.read_bytes())
+                    self.assertEqual(budget.snapshot()['peak']['descriptors'], 5)
+                self.assertEqual(budget.snapshot()['active_reservations'], 0)
+                self.assertEqual(context.descriptors.pending(), 0)
+                self.assertTrue(context.descriptors.close())
+
     def test_cli_and_independent_decryption_and_retry(self):
         result = subprocess.run([sys.executable, '-m', 'gopyt.store_admin', 'migrate',
             '--root', str(self.root), '--backup', str(self.backup), '--expected-digest', self.digest],

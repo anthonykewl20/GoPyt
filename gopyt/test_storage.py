@@ -18,6 +18,64 @@ from gopyt.vm import VM, Trap
 
 
 class Storage(unittest.TestCase):
+    def test_directory_lock_and_snapshot_share_descriptor_budget(self):
+        from gopyt.resource_budget import ResourceBudget, ResourceLimits
+        from gopyt.resource_descriptors import DescriptorRegistry
+        class Context:
+            deadline_ns = None
+            def __init__(self, registry): self.descriptors = registry
+            def check_cancelled(self): pass
+        self.store.put('key', 'value')
+        before = Path(self.root, DIRECTORY, DATABASE).read_bytes()
+        for capacity in (0, 1, 2, 3):
+            with self.subTest(capacity=capacity):
+                budget = ResourceBudget(ResourceLimits(0, 0, capacity, 0))
+                registry = DescriptorRegistry(budget)
+                context = Context(registry)
+                store = Store(self.root, context=context)
+                if capacity < 3:
+                    with self.assertRaisesRegex(StorageError, 'resource budget'):
+                        store.get('key')
+                else:
+                    self.assertEqual(store.get('key'), 'value')
+                    self.assertEqual(budget.snapshot()['peak']['descriptors'], 3)
+                self.assertEqual(Path(self.root, DIRECTORY, DATABASE).read_bytes(), before)
+                self.assertEqual(registry.pending(), 0)
+                self.assertEqual(budget.snapshot()['active_reservations'], 0)
+                self.assertTrue(registry.close())
+
+    def test_snapshot_descriptor_scope_rejects_and_unwinds_without_hiding_body_errors(self):
+        from gopyt.resource_budget import ResourceBudget, ResourceLimits, ResourceLimitError
+        from gopyt.resource_descriptors import DescriptorRegistry
+        class Context:
+            deadline_ns = None
+            def __init__(self, registry): self.descriptors = registry
+            def check_cancelled(self): pass
+        self.store.put('key', 'value')
+        directory = os.open(Path(self.root, DIRECTORY), os.O_RDONLY | os.O_DIRECTORY)
+        try:
+            for capacity in (0, 1):
+                budget = ResourceBudget(ResourceLimits(0, 0, capacity, 0))
+                registry = DescriptorRegistry(budget)
+                context = Context(registry)
+                store = Store(self.root, context=context)
+                if capacity == 0:
+                    with self.assertRaises(ResourceLimitError):
+                        with store._snapshot(directory):
+                            self.fail('snapshot opened without capacity')
+                else:
+                    with self.assertRaisesRegex(FileNotFoundError, 'body failed'):
+                        with store._snapshot(directory) as (fd, identity):
+                            self.assertEqual(budget.snapshot()['used']['descriptors'], 1)
+                            self.assertIsNotNone(identity)
+                            raise FileNotFoundError('body failed')
+                    with self.assertRaises(OSError): os.fstat(fd)
+                self.assertEqual(registry.pending(), 0)
+                self.assertEqual(budget.snapshot()['active_reservations'], 0)
+                self.assertTrue(registry.close())
+        finally:
+            os.close(directory)
+
     def setUp(self):
         self.temporary = tempfile.TemporaryDirectory()
         self.addCleanup(self.temporary.cleanup)

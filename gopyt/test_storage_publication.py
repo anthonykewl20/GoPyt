@@ -10,6 +10,8 @@ import unittest
 from unittest.mock import patch
 
 from gopyt import storage
+from gopyt.resource_budget import ResourceBudget, ResourceLimits, ResourceLimitError
+from gopyt.resource_descriptors import DescriptorRegistry
 
 
 STAGES = ('create', 'partial_write', 'write', 'flush', 'file_sync', 'close', 'replace', 'directory_sync')
@@ -84,6 +86,44 @@ def child(root, stage, edge):
 
 
 class Publication(unittest.TestCase):
+    def test_publication_descriptor_admission_and_cleanup(self):
+        class Context:
+            def check_cancelled(self): pass
+        for capacity, fault in ((0, None), (1, 'write'), (1, 'existing'), (1, None)):
+            with self.subTest(capacity=capacity, fault=fault), tempfile.TemporaryDirectory() as root:
+                context = Context()
+                budget = ResourceBudget(ResourceLimits(0, 0, capacity, 0))
+                context.descriptors = DescriptorRegistry(budget)
+                db = storage.Store(root, context=context)
+                target = Path(root, storage.DATABASE)
+                target.write_bytes(b'old')
+                pending = Path(root, '.pending-fixed')
+                if fault == 'existing': pending.write_bytes(b'foreign')
+                directory = os.open(root, os.O_RDONLY | os.O_DIRECTORY)
+                self.addCleanup(os.close, directory)
+                original_replace = os.replace
+                def replace(*args, **kwargs):
+                    self.assertEqual(budget.snapshot()['used']['descriptors'], 0)
+                    return original_replace(*args, **kwargs)
+                with ExitStack() as stack:
+                    stack.enter_context(patch('gopyt.storage.secrets.token_hex', return_value='fixed'))
+                    stack.enter_context(patch('gopyt.storage.os.replace', side_effect=replace))
+                    if fault == 'write':
+                        def fail(): raise OSError('injected write failure')
+                        inject(stack, 'write', 'before', fail)
+                    if capacity == 0:
+                        with self.assertRaises(ResourceLimitError): db._publish(directory, b'new')
+                    elif fault:
+                        with self.assertRaises(OSError): db._publish(directory, b'new')
+                    else:
+                        db._publish(directory, b'new')
+                self.assertEqual(target.read_bytes(), b'new' if capacity and fault is None else b'old')
+                if fault == 'existing': self.assertEqual(pending.read_bytes(), b'foreign')
+                else: self.assertFalse(pending.exists())
+                self.assertEqual(budget.snapshot()['active_reservations'], 0)
+                self.assertEqual(context.descriptors.pending(), 0)
+                self.assertTrue(context.descriptors.close())
+
     def exercise(self, crash):
         for stage in STAGES:
             for edge in ('before', 'after'):

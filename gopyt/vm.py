@@ -84,6 +84,8 @@ class VM:
             raise TypeError("resource_budget must be a host ResourceBudget")
         self.resource_budget = resource_budget if resource_budget is not None else ResourceBudget(
             ResourceLimits(256 * 1024 * 1024, 512 * 1024 * 1024, 256, 65536))
+        from gopyt.resource_descriptors import DescriptorRegistry
+        self.descriptors = DescriptorRegistry(self.resource_budget)
         self._lifecycle_lock = threading.Lock()
         self._active_calls = 0
         self._closed = False
@@ -290,7 +292,8 @@ class VM:
                 return False
             self._closed = True
         self.heap.close_resources()
-        return self.heap.pending_resources() == 0
+        descriptors_closed = self.descriptors.close()
+        return self.heap.pending_resources() == 0 and descriptors_closed
 
     def call(self, fn_id: int, args: list, caller_effects: int | None = None) -> object:
         with self._lifecycle_lock:

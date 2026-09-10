@@ -76,6 +76,51 @@ class RollbackAuthority(unittest.TestCase):
     def record(self):
         return json.loads((self.anchor / 'record.json').read_text())
 
+    def test_anchor_and_recovery_share_descriptor_budget(self):
+        from gopyt.resource_budget import ResourceBudget, ResourceLimits
+        from gopyt.resource_descriptors import DescriptorRegistry
+        class Context:
+            deadline_ns = None
+            def check_cancelled(self): pass
+        self.store.enroll_anchor()
+        self.store.put('balance', '10')
+        before = self.snapshot.read_bytes()
+        authority = (self.anchor / 'record.json').read_bytes()
+        for capacity in (0, 1, 2, 3, 4, 5, 6):
+            with self.subTest(capacity=capacity):
+                context = Context()
+                budget = ResourceBudget(ResourceLimits(0, 0, capacity, 0))
+                context.descriptors = DescriptorRegistry(budget)
+                store = Store(self.root, context=context)
+                if capacity < 6:
+                    with self.assertRaises(StorageError): store.put('balance', '9')
+                    self.assertEqual(self.snapshot.read_bytes(), before)
+                    self.assertEqual((self.anchor / 'record.json').read_bytes(), authority)
+                else:
+                    original = os.replace
+                    def replace(source, destination, *args, **kwargs):
+                        if destination == DATABASE:
+                            raise OSError('publication interrupted after authority advance')
+                        return original(source, destination, *args, **kwargs)
+                    with patch('gopyt.storage.os.replace', side_effect=replace):
+                        with self.assertRaises(StorageError): store.put('balance', '9')
+                    self.assertEqual(self.snapshot.read_bytes(), before)
+                    self.assertNotEqual((self.anchor / 'record.json').read_bytes(), authority)
+                    self.assertEqual(budget.snapshot()['active_reservations'], 0)
+                    self.assertEqual(store.get('balance'), '9')
+                    self.assertEqual(budget.snapshot()['peak']['descriptors'], 6)
+                    restored = store.restore_anchor(before, expected_generation=2,
+                                                    reason='budgeted recovery')
+                    self.assertEqual(restored['generation'], 3)
+                    receipt = self.anchor / 'restore-3.json'
+                    self.assertEqual(json.loads(receipt.read_text())['reason'], 'budgeted recovery')
+                    receipt.unlink()
+                    self.assertEqual(store.get('balance'), '10')
+                    self.assertTrue(receipt.exists())
+                self.assertEqual(budget.snapshot()['active_reservations'], 0)
+                self.assertEqual(context.descriptors.pending(), 0)
+                self.assertTrue(context.descriptors.close())
+
     def test_enrollment_required_and_cannot_overwrite(self):
         with self.assertRaises(StorageError):
             self.store.put('balance', '10')

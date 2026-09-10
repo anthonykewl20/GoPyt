@@ -1,5 +1,5 @@
 """Trusted host snapshot anchor; its directory must be outside rollback scope."""
-from contextlib import contextmanager
+from contextlib import contextmanager, ExitStack
 import fcntl
 import hashlib
 import json
@@ -9,7 +9,7 @@ import secrets
 import stat
 import time
 
-from gopyt.files import parent_directory
+from gopyt.files import parent_directory, opened_descriptor
 from gopyt.security_config import SecurityError
 
 MAX_RECORD = 4096
@@ -24,25 +24,26 @@ def _private(info, directory=False):
         raise SecurityError('anchor requires private operator-owned files')
 
 
-def _read(directory, name, maximum):
-    fd = os.open(name, os.O_RDONLY | os.O_NOFOLLOW | os.O_NONBLOCK, dir_fd=directory)
-    try:
+def _read(directory, name, maximum, *, descriptors=None):
+    with opened_descriptor(name, os.O_RDONLY | os.O_NOFOLLOW | os.O_NONBLOCK,
+                           dir_fd=directory, descriptors=descriptors) as fd:
         _private(os.fstat(fd))
         with os.fdopen(fd, 'rb', closefd=False) as stream:
             data = stream.read(maximum + 1)
         if len(data) > maximum:
             raise SecurityError('anchor record limit')
         return data
-    finally:
-        os.close(fd)
 
 
-def snapshot_digest(directory, name, maximum):
+def snapshot_digest(directory, name, maximum, *, descriptors=None):
+    owners = ExitStack()
     try:
-        fd = os.open(name, os.O_RDONLY | os.O_NOFOLLOW | os.O_NONBLOCK, dir_fd=directory)
+        fd = owners.enter_context(opened_descriptor(
+            name, os.O_RDONLY | os.O_NOFOLLOW | os.O_NONBLOCK,
+            dir_fd=directory, descriptors=descriptors))
     except FileNotFoundError:
         return None
-    try:
+    with owners:
         info = os.fstat(fd)
         if not stat.S_ISREG(info.st_mode) or info.st_nlink != 1 or not 0 < info.st_size <= maximum:
             raise SecurityError('invalid anchored snapshot')
@@ -58,8 +59,6 @@ def snapshot_digest(directory, name, maximum):
         if count != info.st_size or identity(after) != identity(info):
             raise SecurityError('anchored snapshot changed')
         return digest.hexdigest()
-    finally:
-        os.close(fd)
 
 
 def _decode(data, identity):
@@ -111,21 +110,25 @@ def _decode(data, identity):
 
 
 class Anchor:
-    def __init__(self, directory, identity, record):
+    def __init__(self, directory, identity, record, *, descriptors=None):
         self.directory, self.identity, self.record = directory, identity, record
+        self.descriptors = descriptors
 
     def _write(self, record):
         data = json.dumps(record, sort_keys=True, separators=(',', ':')).encode()
         if len(data) > MAX_RECORD:
             raise SecurityError('anchor record limit')
         temporary = '.anchor-' + secrets.token_hex(12)
-        fd = os.open(temporary, os.O_WRONLY | os.O_CREAT | os.O_EXCL | os.O_NOFOLLOW,
-                     0o600, dir_fd=self.directory)
+        owners = ExitStack()
+        fd = owners.enter_context(opened_descriptor(
+            temporary, os.O_WRONLY | os.O_CREAT | os.O_EXCL | os.O_NOFOLLOW,
+            0o600, dir_fd=self.directory, descriptors=self.descriptors))
         try:
-            with os.fdopen(fd, 'wb') as stream:
-                stream.write(data)
-                stream.flush()
-                os.fsync(stream.fileno())
+            with owners:
+                with os.fdopen(fd, 'wb', closefd=False) as stream:
+                    stream.write(data)
+                    stream.flush()
+                    os.fsync(stream.fileno())
             os.replace(temporary, 'record.json', src_dir_fd=self.directory, dst_dir_fd=self.directory)
             os.fsync(self.directory)
             self.record = record
@@ -166,16 +169,19 @@ class Anchor:
         data = json.dumps(receipt, sort_keys=True, separators=(',', ':')).encode()
         name = 'restore-' + str(restore['generation']) + '.json'
         try:
-            previous = _read(self.directory, name, MAX_RECORD)
+            previous = _read(self.directory, name, MAX_RECORD, descriptors=self.descriptors)
         except FileNotFoundError:
             temporary = '.receipt-' + secrets.token_hex(12)
-            fd = os.open(temporary, os.O_WRONLY | os.O_CREAT | os.O_EXCL | os.O_NOFOLLOW,
-                         0o600, dir_fd=self.directory)
+            owners = ExitStack()
+            fd = owners.enter_context(opened_descriptor(
+                temporary, os.O_WRONLY | os.O_CREAT | os.O_EXCL | os.O_NOFOLLOW,
+                0o600, dir_fd=self.directory, descriptors=self.descriptors))
             try:
-                with os.fdopen(fd, 'wb') as stream:
-                    stream.write(data)
-                    stream.flush()
-                    os.fsync(stream.fileno())
+                with owners:
+                    with os.fdopen(fd, 'wb', closefd=False) as stream:
+                        stream.write(data)
+                        stream.flush()
+                        os.fsync(stream.fileno())
                 # Holding the authority lock excludes another cooperating writer.
                 os.replace(temporary, name, src_dir_fd=self.directory, dst_dir_fd=self.directory)
                 os.fsync(self.directory)
@@ -194,20 +200,20 @@ class Anchor:
             return  # Explicit enrollment authenticates existing data in Store.
         os.fsync(self.directory)  # Complete a prior ambiguous authority barrier.
         self._receipt()
-        actual = snapshot_digest(directory, database, maximum)
+        actual = snapshot_digest(directory, database, maximum, descriptors=self.descriptors)
         if actual == self.record['digest']:
             return
         stage = self.record['stage']
-        if stage is None or snapshot_digest(directory, stage, maximum) != self.record['digest']:
+        if stage is None or snapshot_digest(directory, stage, maximum, descriptors=self.descriptors) != self.record['digest']:
             raise SecurityError('snapshot rollback or missing recovery evidence')
         os.replace(stage, database, src_dir_fd=directory, dst_dir_fd=directory)
         os.fsync(directory)
-        if snapshot_digest(directory, database, maximum) != self.record['digest']:
+        if snapshot_digest(directory, database, maximum, descriptors=self.descriptors) != self.record['digest']:
             raise SecurityError('snapshot changed during anchor recovery')
 
 
 @contextmanager
-def locked_anchor(root, remaining, *, enroll=False):
+def locked_anchor(root, remaining, *, enroll=False, descriptors=None):
     path = os.environ.get('GOPYT_STORE_ANCHOR_DIR')
     if not path:
         if enroll:
@@ -219,42 +225,40 @@ def locked_anchor(root, remaining, *, enroll=False):
         raise SecurityError('anchor requires absolute directory and stable store identity')
     if Path(os.path.abspath(path)).is_relative_to(Path(os.path.abspath(root))):
         raise SecurityError('anchor must be outside application package')
-    with parent_directory('/', path.lstrip('/')) as (parent, name):
-        directory = os.open(name, os.O_RDONLY | os.O_DIRECTORY | os.O_NOFOLLOW, dir_fd=parent)
-    try:
+    with ExitStack() as owners:
+        def acquire(name, flags, mode=0o777, *, dir_fd):
+            return owners.enter_context(opened_descriptor(
+                name, flags, mode, dir_fd=dir_fd, descriptors=descriptors))
+        with parent_directory('/', path.lstrip('/'), descriptors=descriptors) as (parent, name):
+            directory = acquire(name, os.O_RDONLY | os.O_DIRECTORY | os.O_NOFOLLOW, dir_fd=parent)
         _private(os.fstat(directory), directory=True)
         flags = os.O_RDWR | os.O_NOFOLLOW | os.O_NONBLOCK
         if enroll:
             try:
-                fd = os.open('lock', flags | os.O_CREAT | os.O_EXCL, 0o600, dir_fd=directory)
+                fd = acquire('lock', flags | os.O_CREAT | os.O_EXCL, 0o600, dir_fd=directory)
             except FileExistsError:
-                fd = os.open('lock', flags, dir_fd=directory)
+                fd = acquire('lock', flags, dir_fd=directory)
         else:
-            fd = os.open('lock', flags, dir_fd=directory)
-        try:
-            if enroll:
-                os.fsync(directory)
-            info = os.fstat(fd)
-            _private(info)
-            while True:
-                remaining()
-                try:
-                    fcntl.flock(fd, fcntl.LOCK_EX | fcntl.LOCK_NB)
-                    break
-                except BlockingIOError:
-                    time.sleep(min(.002, remaining()))
-            current = os.stat('lock', dir_fd=directory, follow_symlinks=False)
-            if (info.st_dev, info.st_ino) != (current.st_dev, current.st_ino):
-                raise SecurityError('anchor lock changed')
+            fd = acquire('lock', flags, dir_fd=directory)
+        if enroll:
+            os.fsync(directory)
+        info = os.fstat(fd)
+        _private(info)
+        while True:
             remaining()
             try:
-                record = _decode(_read(directory, 'record.json', MAX_RECORD), identity)
-            except FileNotFoundError:
-                if not enroll:
-                    raise SecurityError('anchor is not enrolled')
-                record = None
-            yield Anchor(directory, identity, record)
-        finally:
-            os.close(fd)
-    finally:
-        os.close(directory)
+                fcntl.flock(fd, fcntl.LOCK_EX | fcntl.LOCK_NB)
+                break
+            except BlockingIOError:
+                time.sleep(min(.002, remaining()))
+        current = os.stat('lock', dir_fd=directory, follow_symlinks=False)
+        if (info.st_dev, info.st_ino) != (current.st_dev, current.st_ino):
+            raise SecurityError('anchor lock changed')
+        remaining()
+        try:
+            record = _decode(_read(directory, 'record.json', MAX_RECORD, descriptors=descriptors), identity)
+        except FileNotFoundError:
+            if not enroll:
+                raise SecurityError('anchor is not enrolled')
+            record = None
+        yield Anchor(directory, identity, record, descriptors=descriptors)

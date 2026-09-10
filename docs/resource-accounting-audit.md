@@ -7,7 +7,7 @@ descriptor limit on the following existing paths.
 
 | Path | Acquisitions and overlapping storage | Required integration |
 | --- | --- | --- |
-| `files.py`, filesystem natives in `natives.py` | Directory traversal descriptors, target/staging files, bounded immutable read chunks and final bytes | Reserve descriptors before each open, including parent/child overlap; read chunk/final-copy reservations are now implemented; descriptor admission and publication-failure ownership remain open |
+| `files.py`, filesystem natives in `natives.py` | Directory traversal descriptors, target/staging files, bounded immutable read chunks and final bytes | VM core.file read/write now reserve each descriptor before open, including parent/child overlap; read chunk/final-copy reservations are implemented. Non-VM callers and atomic_write still require admission and publication-failure ownership integration |
 | `netio.py`, HTTP client natives in `natives.py` | Connection attempts, live sockets, TLS state, response bodies and decoding | Own a reservation across connection and response lifetime; account connection replacement and body copies; define a bounded TLS allocation policy |
 | `server.py` | Listener, accepted connections, buffered request bodies and response serialization | Reserve before accepting ownership and before body allocation; retain charges through worker completion and server shutdown |
 | `storage.py` | Root/directory/lock/database/staging descriptors, encrypted and plaintext database images, SQLite in-memory database, serialized output | Share the VM ledger through the store; charge simultaneous images and database allocation; keep publication and lock lifetimes covered |

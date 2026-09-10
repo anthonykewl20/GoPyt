@@ -16,8 +16,68 @@ def segments(path):
 
 
 @contextmanager
-def parent_directory(root, path, create=False):
+def _owned_descriptor(owner):
+    try:
+        yield owner.fileno()
+    except BaseException:
+        # Keep the original operation/cancellation error. Failed cleanup stays
+        # in the VM registry and is separately reported by teardown.
+        owner.close()
+        raise
+    else:
+        if not owner.close():
+            raise OSError('descriptor cleanup incomplete')
+
+
+@contextmanager
+def opened_descriptor(path, flags, mode=0o777, *, dir_fd=None, descriptors=None):
+    """Scope a raw internal FD, optionally owned by a VM descriptor registry."""
+    if descriptors is not None:
+        with _owned_descriptor(descriptors.open(path, flags, mode, dir_fd=dir_fd)) as fd:
+            yield fd
+        return
+    fd = os.open(path, flags, mode, dir_fd=dir_fd)
+    try:
+        yield fd
+    finally:
+        os.close(fd)
+
+
+@contextmanager
+def _budgeted_parent(root, parts, create, descriptors):
+    flags = os.O_RDONLY | os.O_DIRECTORY | os.O_NOFOLLOW
+    owner = descriptors.open(os.path.sep, flags)
+    try:
+        components = [(part, False) for part in os.path.abspath(root).split(os.path.sep)[1:] if part]
+        components.extend((part, create) for part in parts[:-1])
+        for component, mkdir in components:
+            if mkdir:
+                try:
+                    os.mkdir(component, dir_fd=owner.fileno())
+                except FileExistsError:
+                    pass
+            child = descriptors.open(component, flags, dir_fd=owner.fileno())
+            previous, owner = owner, child
+            # Transfer ownership first: if previous.close fails, unwind still
+            # closes the child and the registry retains the uncertain parent.
+            if not previous.close():
+                raise OSError('directory cleanup incomplete')
+        yield owner.fileno(), parts[-1]
+    except BaseException:
+        owner.close()
+        raise
+    else:
+        if not owner.close():
+            raise OSError('directory cleanup incomplete')
+
+
+@contextmanager
+def parent_directory(root, path, create=False, *, descriptors=None):
     parts = segments(path)
+    if descriptors is not None:
+        with _budgeted_parent(root, parts, create, descriptors) as result:
+            yield result
+        return
     flags = os.O_RDONLY | os.O_DIRECTORY | os.O_NOFOLLOW
     fd = os.open(os.path.sep, flags)
     try:
@@ -42,24 +102,38 @@ def parent_directory(root, path, create=False):
 
 
 @contextmanager
-def regular_file(root, path, write=False, *, check_context=lambda: None, buffering=-1):
+def regular_file(root, path, write=False, *, check_context=lambda: None, buffering=-1,
+                 descriptors=None):
     check_context()
-    with parent_directory(root, path) as (parent, name):
+    with parent_directory(root, path, descriptors=descriptors) as (parent, name):
         check_context()
         flags = os.O_WRONLY | os.O_CREAT if write else os.O_RDONLY
-        fd = os.open(name, flags | os.O_NOFOLLOW | os.O_NONBLOCK, 0o666, dir_fd=parent)
+        flags |= os.O_NOFOLLOW | os.O_NONBLOCK
+        if descriptors is not None:
+            owner = descriptors.open(name, flags, 0o666, dir_fd=parent)
+            with _owned_descriptor(owner) as fd:
+                with _regular_stream(fd, write, check_context, buffering) as stream:
+                    yield stream
+            return
+        fd = os.open(name, flags, 0o666, dir_fd=parent)
         try:
-            info = os.fstat(fd)
-            if not stat.S_ISREG(info.st_mode) or info.st_nlink != 1:
-                raise OSError("single-link regular file required")
-            check_context()
-            if write:
-                os.ftruncate(fd, 0)
-            check_context()
-            with os.fdopen(fd, "wb" if write else "rb", buffering=buffering, closefd=False) as stream:
+            with _regular_stream(fd, write, check_context, buffering) as stream:
                 yield stream
         finally:
             os.close(fd)
+
+
+@contextmanager
+def _regular_stream(fd, write, check_context, buffering):
+    info = os.fstat(fd)
+    if not stat.S_ISREG(info.st_mode) or info.st_nlink != 1:
+        raise OSError("single-link regular file required")
+    check_context()
+    if write:
+        os.ftruncate(fd, 0)
+    check_context()
+    with os.fdopen(fd, "wb" if write else "rb", buffering=buffering, closefd=False) as stream:
+        yield stream
 
 
 def atomic_write(root, path, data, create_parents=False):

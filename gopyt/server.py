@@ -22,6 +22,29 @@ from gopyt import jsonc, ops
 from gopyt.jsonc import ConvertFail, NotJson
 from gopyt.values import UNIT, Unit
 from gopyt.vm import Trap, Cancelled
+from gopyt.resource_budget import ResourceLimitError
+from gopyt.resource_sockets import open_socket
+
+
+class _BudgetedHTTPServer(ThreadingHTTPServer):
+    def __init__(self, address, handler, *, descriptors):
+        socketserver.BaseServer.__init__(self, address, handler)
+        self.socket = open_socket(descriptors, self.address_family, self.socket_type)
+        try:
+            self.server_bind()
+            self.server_activate()
+        except BaseException:
+            self.server_close()
+            raise
+
+    def get_request(self):
+        try:
+            return self.socket.accept()
+        except ResourceLimitError:
+            # Leave the connection in the kernel backlog. Bound retries while
+            # the coordinator still checks cancellation and shutdown each pass.
+            time.sleep(.01)
+            raise OSError('HTTP descriptor capacity exhausted') from None
 
 DEFAULT_ADDR = ("127.0.0.1", 8080)
 MAX_REQUEST_BODY = 1_048_576
@@ -395,7 +418,7 @@ def serve(vm, module: str):
         def do_DELETE(self):
             self.handle_one(5)
 
-    class Server(ThreadingHTTPServer):
+    class Server(_BudgetedHTTPServer):
         request_queue_size = QUEUE
 
         def server_bind(self):
@@ -405,7 +428,7 @@ def serve(vm, module: str):
             self.server_name, self.server_port = self.server_address[:2]
 
         def __init__(self, *args):
-            super().__init__(*args)
+            super().__init__(*args, descriptors=vm.descriptors)
             try:
                 self.pending = queue.Queue(maxsize=QUEUE)
                 self.connections = set()
@@ -533,7 +556,7 @@ def serve(vm, module: str):
     except _WorkerStartError:
         vm.serving = False
         return _status(vm, "ListenError", "worker startup")
-    except OSError:
+    except (OSError, ResourceLimitError):
         vm.serving = False
         return _status(vm, "ListenError", "bind")
     except BaseException:

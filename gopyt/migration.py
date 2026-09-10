@@ -1,5 +1,5 @@
 """Trusted initial plaintext migration; ordinary reads never use this path."""
-from contextlib import contextmanager
+from contextlib import contextmanager, ExitStack
 import fcntl
 import hashlib
 import os
@@ -8,7 +8,7 @@ import sqlite3
 import stat
 import time
 
-from gopyt.files import parent_directory
+from gopyt.files import parent_directory, opened_descriptor
 from gopyt.security_config import MAGIC, OVERHEAD, SecurityError, seal, unseal
 
 
@@ -24,33 +24,35 @@ def _recovery_directory(store, backup, deadline):
     path = Path(backup)
     if not path.is_absolute() or path.is_relative_to(Path(store.root)):
         raise SecurityError('absolute recovery path outside package required')
-    with parent_directory('/', str(path).lstrip('/')) as (parent, name):
+    descriptors = getattr(store._context, 'descriptors', None)
+    with parent_directory('/', str(path).lstrip('/'), descriptors=descriptors) as (parent, name), ExitStack() as owners:
+        def acquire(flags):
+            return owners.enter_context(opened_descriptor(
+                lockname, flags, 0o600, dir_fd=parent, descriptors=descriptors))
         _private(os.fstat(parent), directory=True)
         stage = '.gopyt-migration-' + hashlib.sha256(name.encode()).hexdigest()
         lockname = stage + '.lock'
         flags = os.O_RDWR | os.O_NOFOLLOW | os.O_NONBLOCK
         try:
-            lock = os.open(lockname, flags | os.O_CREAT | os.O_EXCL, 0o600, dir_fd=parent)
+            lock = acquire(flags | os.O_CREAT | os.O_EXCL)
         except FileExistsError:
-            lock = os.open(lockname, flags, dir_fd=parent)
-        try:
-            info = os.fstat(lock)
-            _private(info)
-            if info.st_nlink != 1:
-                raise SecurityError('invalid migration recovery lock')
-            while True:
-                store._lock_remaining(deadline)
-                try:
-                    fcntl.flock(lock, fcntl.LOCK_EX | fcntl.LOCK_NB)
-                    break
-                except BlockingIOError:
-                    time.sleep(min(.002, store._lock_remaining(deadline)))
-            current = os.stat(lockname, dir_fd=parent, follow_symlinks=False)
-            if (current.st_dev, current.st_ino) != (info.st_dev, info.st_ino):
-                raise SecurityError('migration recovery lock changed')
-            yield parent, name, stage
-        finally:
-            os.close(lock)
+            lock = acquire(flags)
+        info = os.fstat(lock)
+        _private(info)
+        if info.st_nlink != 1:
+            raise SecurityError('invalid migration recovery lock')
+        while True:
+            store._lock_remaining(deadline)
+            try:
+                fcntl.flock(lock, fcntl.LOCK_EX | fcntl.LOCK_NB)
+                break
+            except BlockingIOError:
+                time.sleep(min(.002, store._lock_remaining(deadline)))
+        current = os.stat(lockname, dir_fd=parent, follow_symlinks=False)
+        if (current.st_dev, current.st_ino) != (info.st_dev, info.st_ino):
+            raise SecurityError('migration recovery lock changed')
+        yield parent, name, stage
+
 
 
 def _validate(store, data, digest, maximum):
@@ -83,9 +85,13 @@ def migrate(store, directory, backup, digest, maximum, deadline):
                 raise SecurityError('migration source changed')
             plain = unseal(original, store._security) if original.startswith(MAGIC) else original
             _validate(store, plain, digest, maximum)
+    descriptors = getattr(store._context, 'descriptors', None)
     with _recovery_directory(store, backup, deadline) as (parent, name, stage):
+        owners = ExitStack()
         try:
-            recovery = os.open(name, os.O_RDONLY | os.O_NOFOLLOW | os.O_NONBLOCK, dir_fd=parent)
+            recovery = owners.enter_context(opened_descriptor(
+                name, os.O_RDONLY | os.O_NOFOLLOW | os.O_NONBLOCK,
+                dir_fd=parent, descriptors=descriptors))
         except FileNotFoundError:
             if original is None:
                 raise SecurityError('migration source and recovery copy missing')
@@ -99,12 +105,15 @@ def migrate(store, directory, backup, digest, maximum, deadline):
                     raise SecurityError('invalid migration staging file')
                 os.unlink(stage, dir_fd=parent)
             data = seal(plain, store._security)
-            pending = os.open(stage, os.O_WRONLY | os.O_CREAT | os.O_EXCL | os.O_NOFOLLOW, 0o600, dir_fd=parent)
+            pending = owners.enter_context(opened_descriptor(
+                stage, os.O_WRONLY | os.O_CREAT | os.O_EXCL | os.O_NOFOLLOW,
+                0o600, dir_fd=parent, descriptors=descriptors))
             try:
-                with os.fdopen(pending, 'wb') as stream:
-                    stream.write(data)
-                    stream.flush()
-                    os.fsync(stream.fileno())
+                with owners:
+                    with os.fdopen(pending, 'wb', closefd=False) as stream:
+                        stream.write(data)
+                        stream.flush()
+                        os.fsync(stream.fileno())
                 store._check_context()
                 os.link(stage, name, src_dir_fd=parent, dst_dir_fd=parent, follow_symlinks=False)
                 os.unlink(stage, dir_fd=parent)
@@ -116,7 +125,7 @@ def migrate(store, directory, backup, digest, maximum, deadline):
                 except FileNotFoundError:
                     pass
         else:
-            try:
+            with owners:
                 info = os.fstat(recovery)
                 _private(info)
                 if info.st_nlink == 2:
@@ -135,8 +144,6 @@ def migrate(store, directory, backup, digest, maximum, deadline):
                 _validate(store, unseal(data, (store._security[0].active, store._security[1],
                                                store._security[2])), digest, maximum)
                 os.fsync(parent)  # Complete an interrupted recovery-copy admission.
-            finally:
-                os.close(recovery)
     store._check_context()
     store._publish(directory, data)
     return {'operation': 'migrate', 'status': 'committed', 'source_digest': digest,
