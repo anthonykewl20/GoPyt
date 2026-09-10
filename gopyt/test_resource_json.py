@@ -125,14 +125,42 @@ class JsonIntegerToken(unittest.TestCase):
         budget = ResourceBudget(ResourceLimits(100000, 0, 0, 0))
         class Cancelled(Exception):
             pass
+        admitted_checks = 0
         def check():
+            nonlocal admitted_checks
             if budget.snapshot()['used']['native_bytes']:
-                raise Cancelled()
+                admitted_checks += 1
+                if admitted_checks == 3:
+                    raise Cancelled()
         failure = None
         try:
             integer_token('7' * 100, 0, budget, check)
         except Cancelled as error:
             failure = error
+        self.assertIsNotNone(failure)
+        self.assertEqual(budget.snapshot()['active_reservations'], 0)
+        tb = failure.__traceback__
+        while tb:
+            if tb.tb_frame.f_code.co_name == 'integer_token':
+                for name in ('text', 'raw', 'result', 'chunk'):
+                    self.assertIsNone(tb.tb_frame.f_locals[name])
+            tb = tb.tb_next
+
+    def test_constructor_failure_releases_reserved_payload(self):
+        from unittest.mock import patch
+        from gopyt.resource_json import integer_token
+        budget = ResourceBudget(ResourceLimits(10000, 0, 0, 0))
+        def fail(value, reservation):
+            try:
+                raise MemoryError('injected integer allocation failure')
+            finally:
+                value = None
+        failure = None
+        with patch('gopyt.resource_json._ChargedInteger', new=fail):
+            try:
+                integer_token('12345678901234567890', 0, budget)
+            except MemoryError as error:
+                failure = error
         self.assertIsNotNone(failure)
         self.assertEqual(budget.snapshot()['active_reservations'], 0)
         tb = failure.__traceback__

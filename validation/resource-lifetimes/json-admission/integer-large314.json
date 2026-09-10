@@ -1,0 +1,30 @@
+{
+  "python": "3.14.7 (main, Sep  1 2026, 14:18:09) [Clang 22.1.3 ]",
+  "original_digit_limit": 4300,
+  "cases": [
+    {
+      "digits": 6001,
+      "seconds": 0.0009212590521201491,
+      "oracle_seconds": 0.0037416330305859447,
+      "peak_native_bytes": 96058,
+      "equivalent": true,
+      "released": true
+    },
+    {
+      "digits": 20000,
+      "seconds": 0.0047909358981996775,
+      "oracle_seconds": 0.0007572679314762354,
+      "peak_native_bytes": 320042,
+      "equivalent": true,
+      "released": true
+    },
+    {
+      "digits": 100000,
+      "seconds": 0.08362060296349227,
+      "oracle_seconds": 0.009300617966800928,
+      "peak_native_bytes": 1600042,
+      "equivalent": true,
+      "released": true
+    }
+  ]
+}

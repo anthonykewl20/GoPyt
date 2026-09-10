@@ -83,3 +83,22 @@ and hashes to json.loads, retain aliases, reject zero budgets and configured dig
 limits, and retain cancellation tracebacks while verifying released reservations
 and cleared producer references. Decimal construction, container ownership, typed
 conversion and parser integration remain outstanding.
+
+Large-integer follow-up: integer_probe.py temporarily disables the digit cap in
+its own process and compares negative 6001-, 20000-, and 100000-digit values with
+json.loads on both pinned runtimes. All values/hashes/offsets match and final
+reservations release. At 100000 digits the chunked path took about 0.084/0.087s
+(3.14/3.11), versus oracle 0.0093/0.028s in this finite run. This is a measured
+performance cost, not a general bound or benchmark guarantee. The probe restores
+the prior digit cap in finally. Eleven focused tests now pass on both runtimes,
+including cancellation after two conversion chunks and constructor MemoryError
+with the traceback retained and all producer payload references cleared.
+
+Decimal source review continues: 3.11 PyDecType_FromCStringExact creates the
+requested subtype directly, invokes mpd_qset_string with maxcontext, and translates
+status afterward. The coefficient length is ceil(significant_digits/MPD_RDIGITS),
+not exponent-expanded length. mpd_qresize clamps to MPD_MINALLOC; Decimal embeds
+four coefficient words (_Py_DEC_MINALLOC), switching to dynamic allocation when
+needed. numeric_as_ascii adds a len+1 scratch allocation. The finalization/status
+paths and corresponding 3.14 implementation still need complete bounds before
+adding the admitted Decimal producer.
