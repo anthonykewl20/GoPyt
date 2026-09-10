@@ -1,0 +1,277 @@
+{
+  "reviewed_commit": "fcc6b6a5d32a250f490896cbc83f10f986e277e8",
+  "runtime_sha256": "56aaff0efdbc6492dd55391a9dbf084a4c9d2bb99e12bb9951ed9e3b93397752",
+  "groups": {
+    "value": {
+      "natives": [
+        "core.bytes.concat",
+        "core.bytes.from_str",
+        "core.bytes.len",
+        "core.bytes.to_str",
+        "core.int.to_i32",
+        "core.int.to_i64_from_i32",
+        "core.int.to_i64_from_u32",
+        "core.int.to_i64_from_u64",
+        "core.int.to_u32",
+        "core.int.to_u64",
+        "core.list.append",
+        "core.list.empty",
+        "core.list.get",
+        "core.list.len",
+        "core.list.range",
+        "core.map.empty",
+        "core.map.get",
+        "core.map.keys",
+        "core.map.len",
+        "core.map.set",
+        "core.money.add",
+        "core.money.compare",
+        "core.money.format",
+        "core.money.make",
+        "core.money.multiply_ratio",
+        "core.money.parse",
+        "core.money.rescale",
+        "core.money.subtract",
+        "core.str.concat",
+        "core.str.from_i64",
+        "core.str.len",
+        "core.str.slice",
+        "core.test.assert_eq",
+        "core.time.add",
+        "core.time.difference",
+        "core.time.duration_add",
+        "core.time.duration_ms",
+        "core.time.duration_ns",
+        "core.time.duration_to_ms",
+        "core.time.elapsed",
+        "core.time.format_duration",
+        "core.time.format_timestamp",
+        "core.time.parse_duration",
+        "core.time.parse_timestamp",
+        "core.time.timestamp_ms",
+        "core.time.timestamp_ns",
+        "core.time.timestamp_to_ms",
+        "data.json.decode",
+        "data.json.encode"
+      ],
+      "policy": "VM entry/normal-return checks; synchronous computation; ordinary JSON output obeys the existing per-value UTF-8 allocation ceiling (trap 14)",
+      "sources": [
+        "gopyt/natives.py",
+        "gopyt/money.py",
+        "gopyt/temporal.py",
+        "gopyt/jsonc.py",
+        "gopyt/vm.py",
+        "gopyt/cli.py"
+      ]
+    },
+    "clock_entropy_secret": {
+      "natives": [
+        "core.random.i64_in",
+        "core.secret.get",
+        "core.secret.reveal",
+        "core.time.monotonic_now",
+        "core.time.now",
+        "core.time.now_ms"
+      ],
+      "policy": "VM boundary checks around synchronous host access",
+      "sources": [
+        "gopyt/natives.py",
+        "gopyt/temporal.py"
+      ]
+    },
+    "sleep": {
+      "natives": [
+        "core.time.sleep",
+        "core.time.sleep_ms"
+      ],
+      "policy": "shared remaining budget, requested waits <=50 ms",
+      "sources": [
+        "gopyt/natives.py",
+        "gopyt/temporal.py"
+      ]
+    },
+    "log": {
+      "natives": [
+        "core.log.write"
+      ],
+      "policy": "synchronous stderr write/flush; partial output possible",
+      "sources": [
+        "gopyt/natives.py"
+      ]
+    },
+    "file": {
+      "natives": [
+        "core.file.read",
+        "core.file.write"
+      ],
+      "policy": "Context checkpoints around synchronous file operations and bounded read chunks; partial writes possible. Read scratch and final output copy reserve the shared native-byte budget; budget exhaustion traps 14. Parent traversal and target descriptors reserve shared capacity before open and retain ownership through physical close; descriptor exhaustion also traps 14; host calls are not preemptible within a syscall.",
+      "sources": [
+        "gopyt/natives.py",
+        "gopyt/files.py",
+        "gopyt/resource_io.py",
+        "gopyt/resource_budget.py",
+        "gopyt/resource_descriptors.py"
+      ]
+    },
+    "limiter": {
+      "natives": [
+        "core.limit.allow"
+      ],
+      "policy": "timed state-lock admission; admitted token consumption completes",
+      "sources": [
+        "gopyt/natives.py",
+        "gopyt/limiter.py",
+        "gopyt/vm.py"
+      ]
+    },
+    "observation": {
+      "natives": [
+        "core.observe.note",
+        "core.observe.report"
+      ],
+      "policy": "timed observation-lock admission; terminal telemetry may be omitted",
+      "sources": [
+        "gopyt/natives.py",
+        "gopyt/observe.py",
+        "gopyt/vm.py"
+      ]
+    },
+    "storage": {
+      "natives": [
+        "store.db.compare_exchange",
+        "store.db.compare_exchange_many",
+        "store.db.get",
+        "store.db.get_many",
+        "store.db.put"
+      ],
+      "policy": "timed locks and prepublication checkpoints; entered replacement cleanup completes; opt-in authority lock consumes Store/VM admission budget; snapshot hashing is synchronous; authority advancement, receipts and exact staged recovery retain commit ambiguity and complete admitted durability work before return Version-2 authority checks the active writer identity after store/authority lock acquisition, including no-op mutations; trusted fence-key advances ciphertext and writer policy through the same admitted publication boundary. Initial host migration uses the same deadline for store and recovery-copy locks, synchronous SQLite integrity/encryption checks, recovery-copy durability before active publication, and the existing admitted active publication barrier. VM-context storage directory, lock, snapshot, key-file, authority, receipt, migration recovery and staging descriptors reserve shared capacity before acquisition. Descriptor exhaustion maps to DbError; admitted durability semantics remain unchanged. Physical cleanup is synchronous; ambiguous close retains a quarantined charge. Standalone host administration without a VM registry is outside this accounting.",
+      "sources": [
+        "gopyt/natives.py",
+        "gopyt/storage.py",
+        "gopyt/rollback.py",
+        "gopyt/store_admin.py",
+        "gopyt/migration.py",
+        "gopyt/resource_descriptors.py",
+        "gopyt/resource_budget.py",
+        "gopyt/files.py",
+        "gopyt/security_config.py"
+      ]
+    },
+    "outbound": {
+      "natives": [
+        "core.model.complete",
+        "net.http.request"
+      ],
+      "policy": "8192-byte URL and 1 MiB body/model JSON payload limits before transport; shared budget includes preparation and bounded model serialization; inherited VM context; DNS remains synchronous Socket admission precedes each connection attempt; capacity failure maps to HttpError/ModelError. One descriptor charge follows TLS transfer and survives logical connection close until the final response reader releases it. Failed transfer closes the current owner and disarms any untransferred TLS alias. DNS, trust-store access and native TLS allocations remain outside this descriptor policy.",
+      "sources": [
+        "gopyt/natives.py",
+        "gopyt/netio.py",
+        "gopyt/jsonc.py",
+        "gopyt/resource_descriptors.py",
+        "gopyt/resource_budget.py",
+        "gopyt/resource_sockets.py"
+      ]
+    },
+    "local_provider": {
+      "natives": [
+        "core.model.local"
+      ],
+      "policy": "synchronous trusted companion, no context transfer; restricted VMs reject",
+      "sources": [
+        "gopyt/natives.py"
+      ]
+    },
+    "evolution": {
+      "natives": [
+        "core.evolve.propose"
+      ],
+      "policy": "Minimum wave/VM budget for preparation and apply admission; child reaping and admitted journal completion precede owned staging cleanup. Cleanup may exceed the budget; primary exceptions survive cleanup failure, and abrupt parent death may leave staging.",
+      "sources": [
+        "gopyt/natives.py",
+        "gopyt/evolve.py",
+        "gopyt/transaction.py",
+        "gopyt/files.py"
+      ]
+    },
+    "serving": {
+      "natives": [
+        "net.http.serve"
+      ],
+      "policy": "serving/request budgets capped by 10-second connection lifetime and 100-request quota; bounded response serialization; FIFO connection queue with explicit fairness limits; drain/abort then join; service-token requests reload the pinned private file with context checks before/after synchronous reading; invalid/unavailable credentials fail closed before handler admission; already admitted requests retain context Listener and accepted sockets reserve shared descriptor capacity before acquisition. Listener exhaustion maps to ListenError. Accept exhaustion leaves the connection in the kernel backlog and pauses 10 ms before coordinator retry; normal cancellation/shutdown checks remain active. Socket reader references delay physical release and retain the charge.",
+      "sources": [
+        "gopyt/natives.py",
+        "gopyt/server.py",
+        "gopyt/jsonc.py",
+        "gopyt/security_config.py",
+        "gopyt/resource_descriptors.py",
+        "gopyt/resource_budget.py",
+        "gopyt/resource_sockets.py"
+      ]
+    },
+    "resource": {
+      "natives": [
+        "data.buffer.allocate",
+        "data.buffer.close",
+        "data.buffer.close_view",
+        "data.buffer.freeze",
+        "data.buffer.map_bytes",
+        "data.buffer.read",
+        "data.buffer.read_view",
+        "data.buffer.subview",
+        "data.buffer.view",
+        "data.buffer.write",
+        "data.buffer.write_view"
+      ],
+      "policy": "Context checks before/after native operations; buffer data-lock waits poll at 50 ms; mapping population checks between writes of at most 65536 bytes and between initialization stages. Allocation, copies, sealing, mmap and physical cleanup are synchronous and not preemptible within a host operation. Logical close rejects new leases; admitted leases defer physical release. Failed cleanup retains ownership and charges for retry; ambiguous raw descriptor close is quarantined, never retried by descriptor number. Idle VM teardown reports unresolved cleanup. Explicit capacity limits are not wall-time or RSS guarantees. VM cancellation and GC checks remain per instruction. The single heap mutator lock may span at most 32 instructions, released around native/nested work and at every frame exit. Deferred resource cleanup runs after physical lock release at batch boundaries or frame exit; no wall-time fairness bound is claimed.",
+      "sources": [
+        "gopyt/resource_natives.py",
+        "gopyt/resource_buffer.py",
+        "gopyt/resource_control.py",
+        "gopyt/resource_budget.py",
+        "gopyt/resource_mapping.py",
+        "gopyt/heap.py",
+        "gopyt/vm.py",
+        "gopyt/cli.py",
+        "gopyt/project_context.py",
+        "gopyt/resource_descriptors.py",
+        "gopyt/resource_sockets.py"
+      ]
+    }
+  },
+  "provide_examples": [
+    "provide:core.convert.Json:Inventory:to_json",
+    "provide:core.convert.Json:Inventory:from_json",
+    "provide:core.convert.FromStr:Inventory:from_str"
+  ],
+  "source_sha256": {
+    "gopyt/cli.py": "d9001938dfc3f4700d05b3025d3d651db18f73027ac279cefe9d60703e2bb51b",
+    "gopyt/evolve.py": "071154fe08dcc0c67ad838345b8013c74e799a18e6d9484760e0a014e85c83cb",
+    "gopyt/files.py": "432420f2bf84b35ee9bfc09d9639ed5136f947b70e103d5721372e1dbedb9f36",
+    "gopyt/heap.py": "d1d8283584c60d3691690d9d091efc2bedfb56cb948f9ff49a72745f2699619f",
+    "gopyt/jsonc.py": "37acb62a3dcf460d9b355ee367b6b65e9fd4a7dbd6b4ebf232108fafe6155db6",
+    "gopyt/limiter.py": "e148b871aafc9927b0c32be1bd65047f434f00131d0b907932f1f73d737621be",
+    "gopyt/migration.py": "5f846dc84e07a3726b4f4b2471be4bfdbc8e4c15458d82da9b3d1975df57b68f",
+    "gopyt/money.py": "699111965c3539f99a6580300d391dfd5da0e4c7ee1cc4c3c4fd07dfe9f3efa5",
+    "gopyt/natives.py": "437926d03397f185ca976063a18304c45d9fef54a17fea6db4715cb335edd94b",
+    "gopyt/netio.py": "bcbd5d11c3e1615ed00e31774f67b524b9cbd969c05cbfa820aa1a0c58c40705",
+    "gopyt/observe.py": "6eea9ded1d3d70521388159969f33c9c11ab29e14a373d50ee5d107b3942ecd7",
+    "gopyt/project_context.py": "2b03ca56edeafbabc08c7e6c89e3523dbe03ac66676dd98a52fa1bfd04c5f5fa",
+    "gopyt/resource_budget.py": "23aa28080949efd62724d4400f2bdcaf4e13125cdadaee8e089a26ce5b67e4a4",
+    "gopyt/resource_buffer.py": "a79d841b49f83aa5b85a2f5956c863bf87efee45dd9c80e014e572db94aa159f",
+    "gopyt/resource_control.py": "be62098cf625133d31341f98c3465729c6e5ee94cfb1d657db73b7709c7ee480",
+    "gopyt/resource_descriptors.py": "885ae012ea264a1331c5b18c911bf0d9458fd78d628b6c2509eaab93289ffae5",
+    "gopyt/resource_io.py": "50f91dc2e4cf36cf7b70ce8067f46be33d7a57bf96ac3bd50fedbb2b15a1d986",
+    "gopyt/resource_mapping.py": "6255eb52840fa7bc5ecc2f787e95a0b7dacb7934e5fd16585c583625f5be3846",
+    "gopyt/resource_natives.py": "3dc5e82ecb59e218ea00fe6b95c409a3829a33082e8254c3387dda2660c18857",
+    "gopyt/resource_sockets.py": "ce5432b3da882d0aab78b735ad6293c439d1d41b33ac67934a99f4fbc6c8e205",
+    "gopyt/rollback.py": "286ac6a637b4fc6ac5f8f54933c1a9b76915978093481c08d3fb1c0146f4087e",
+    "gopyt/scheduling.py": "bb5fc332746f4d957ff486d189b6472524101c0a30fc49cabad2df50abcd420a",
+    "gopyt/security_config.py": "1a8196dd85e718912ac91c8b9864f387f2428d84145ed195613aba50e325efcf",
+    "gopyt/server.py": "747ee1240512d8c726ec2f4702f302e90d3bee7d0eb0fc667f3328bff3800f87",
+    "gopyt/storage.py": "a7d8b498296d8fe6267db757497570f51eb06fb3f1ebf1b97ba32997c1fff537",
+    "gopyt/store_admin.py": "3679e38a99d80e25c34ed34a04d4f5eda38a9cc37d44a194454e07e4cd1305ff",
+    "gopyt/temporal.py": "6b672707b2e61388306ef512184f767ad67b16fcaab3f7906d27832d1947f7c2",
+    "gopyt/transaction.py": "bb682cf2e5ebb8c27f5c5538d5abe878e3f36f104bfd44b852d5f2dc92fc5789",
+    "gopyt/vm.py": "700358718bc438d3e3463301cce53aebcc51834167a9a7f5460a8bf87f2a0e22"
+  }
+}
