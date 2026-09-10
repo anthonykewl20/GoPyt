@@ -120,3 +120,21 @@ while admitted recovery staging retains its existing semantics. Focused tests
 verify capacity rejection, write failure, existing-name preservation, and zero
 charged descriptors at rename. The existing exception and process-death
 publication campaigns also pass with this ownership path.
+
+### Rollback authority and recovery
+
+The Store passes its registry through anchor directory traversal, authority lock,
+record reads and writes, restoration receipt reads and writes, and snapshot digest
+reads during enrollment and recovery. Each temporary writer closes before rename;
+exclusive acquisition failures do not remove an existing staging name. Authority
+and application locks remain held through the operation as before.
+
+An existing anchored snapshot write reaches six simultaneous descriptors: the
+application directory and lock, authority directory and lock, old snapshot, and
+one temporary writer. The temporary snapshot and authority writers do not overlap.
+The regression test rejects capacities zero through five without changing either
+snapshot or authority, then uses six to exercise authority advancement followed by
+an injected snapshot rename failure and subsequent recovery. It also restores an
+older authenticated snapshot and regenerates a missing restoration receipt.
+All successful and rejected operations leave no active descriptor reservations.
+This does not complete migration-file, network, or native-memory accounting.

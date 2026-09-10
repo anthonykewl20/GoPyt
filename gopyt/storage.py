@@ -141,7 +141,7 @@ class Store:
             current = os.stat('lock', dir_fd=directory, follow_symlinks=False)
             if (current.st_dev, current.st_ino) != (info.st_dev, info.st_ino):
                 raise StorageError('database lock changed')
-            with locked_anchor(self.root, lambda: self._lock_remaining(deadline), enroll=enroll) as anchor:
+            with locked_anchor(self.root, lambda: self._lock_remaining(deadline), enroll=enroll, descriptors=descriptors) as anchor:
                 if anchor is not None:
                     if self._security is None:
                         raise SecurityError('anchored storage requires encryption')
@@ -351,7 +351,7 @@ class Store:
                         page_size = db.execute('PRAGMA page_size').fetchone()[0]
                         db.execute(f'PRAGMA max_page_count={MAX_BYTES // page_size}')
                         if operation == 'enroll_anchor':
-                            self._anchor.enroll(snapshot_digest(directory, DATABASE, MAX_BYTES + OVERHEAD),
+                            self._anchor.enroll(snapshot_digest(directory, DATABASE, MAX_BYTES + OVERHEAD, descriptors=descriptors),
                                                 self._security[0].write_identity)
                             return True
                         if operation == 'fence_key':
