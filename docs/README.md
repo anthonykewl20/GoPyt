@@ -141,3 +141,5 @@ fixed and configured capacities, overload policies and remaining issue #13 cover
 - [Plaintext storage migration](plaintext-storage-migration-amendment-2026-09-10.md): explicit digest-checked initial encryption with a durable encrypted recovery copy.
 
 - [Key and credential lifecycle](key-lifecycle.md): provisioning, custody, rotation/revocation, retention, retirement and lost-key recovery procedures with executable drills.
+
+[OS isolation profiles](os-isolation-amendment-2026-09-10.md) define the Linux namespace, private-root, no-new-privileges and rlimit boundary installed around Guard candidate acceptance and editor checking, the fail-closed policy when it cannot be installed, and what it explicitly does not provide, under issue #6.

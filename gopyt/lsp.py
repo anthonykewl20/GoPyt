@@ -25,6 +25,29 @@ def span(line=0,end=None):
     return {'start':{'line':line,'character':0},'end':{'line':line if end is None else end,'character':0}}
 
 
+
+def _checked_project(temp):
+    """Check an editor snapshot, inside an OS profile where one is available.
+
+    Editor input is not operator-reviewed, so the checker runs under the same
+    boundary as Guard candidates when the platform supports one. Where no
+    profile can be installed the existing bounded subprocess still applies, and
+    the editor keeps working rather than losing checking entirely.
+    """
+    from gopyt import isolation
+    command = [sys.executable, '-I', '-c',
+               'import sys;sys.path.insert(0, sys.argv[1]);'
+               'import runpy;sys.argv=["gopyt.lsp_check", sys.argv[2]];'
+               'runpy.run_module("gopyt.lsp_check", run_name="__main__")',
+               str(Path(__file__).resolve().parent.parent), temp]
+    usable, _ = isolation.available()
+    if not usable:
+        return subprocess.run([sys.executable, '-m', 'gopyt.lsp_check', temp],
+                              capture_output=True, text=True, timeout=8)
+    checked, _how = isolation.run(command, writable=[temp], timeout=8, required=True)
+    return checked
+
+
 class Workspace:
     def __init__(self,root):
         self.root=Path(root).resolve();self.documents={};self.cache={}
@@ -82,8 +105,7 @@ class Workspace:
                 for rel,raw in files.items():
                     path=Path(temp)/rel;path.parent.mkdir(parents=True,exist_ok=True);path.write_bytes(raw)
                 try:
-                    checked=subprocess.run([sys.executable,'-m','gopyt.lsp_check',temp],
-                        capture_output=True,text=True,timeout=8)
+                    checked=_checked_project(temp)
                 except subprocess.TimeoutExpired:
                     raise ValueError('project checking exceeded editor time limit') from None
                 if checked.returncode or len(checked.stdout)>MAX_BYTES:
