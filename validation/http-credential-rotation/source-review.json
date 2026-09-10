@@ -1,0 +1,10 @@
+{
+  "runtime_commit": "fcd2ca2d0011ebbe0a1810ff80ef29b1250afba7",
+  "runtime_sha256": "59c09481e714507d9e17ec27f89030303b24147ec7d631f19fd409c88c427079",
+  "source_sha256": {
+    "gopyt/server.py": "57ab3e6c7b1023128abd6381bce863a31e7ff5b3201d05ca447583f0a01df9d4",
+    "gopyt/security_config.py": "cecc9e5c34c71165ae623cb56c728413bd1f7bdebe016efa661a91c6ff5f0a57",
+    "gopyt/test_http_credentials.py": "be409010ece5909f32dc8101fb0cf6a9683b1eaa728ecff1943d5a85a6e9f9e4"
+  },
+  "qualification": "902 full tests; 65 focused tests per pinned Python; both measured campaigns and offline oracles; Guard, stdlib, contracts, reproducible/installed wheels and upgrade/rollback passed."
+}

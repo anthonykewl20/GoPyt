@@ -1,0 +1,11 @@
+{
+  "status": "passed",
+  "rounds": 6186,
+  "requests": 49488,
+  "seconds": 60.11124929203652,
+  "max_ns": 264400209,
+  "mean_ns": 9651936.13320401,
+  "p99_ns": 41046587,
+  "negative_control_rejected": true,
+  "scope": "Controlled live-listener rotation with an admitted old request held across atomic replacement and seven concurrent post-replacement requests. Latency includes coordination. Not a production SLO or key-custody qualification."
+}
