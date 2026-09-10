@@ -157,9 +157,9 @@ def serve(vm, module: str):
         return _status(vm, "ListenError", "identity broker audience or serving authority mismatch")
     from gopyt.security_config import http_token, http_token_file, SecurityError
     try:
-        service_auth = http_token(vm.root, addr, session_auth=identities is not None) is not None
+        service_auth = http_token(vm.root, addr, session_auth=identities is not None, descriptors=vm.descriptors) is not None
         authorization_path = os.environ.get('GOPYT_HTTP_TOKEN_FILE')
-    except SecurityError:
+    except (SecurityError, ResourceLimitError):
         vm.serving = False
         return _status(vm, "ListenError", "security configuration")
     routes = []
@@ -263,8 +263,8 @@ def serve(vm, module: str):
             if service_auth:
                 vm.check_cancelled()
                 try:
-                    authorization = http_token_file(authorization_path, vm.root)
-                except SecurityError:
+                    authorization = http_token_file(authorization_path, vm.root, descriptors=vm.descriptors)
+                except (SecurityError, ResourceLimitError):
                     self.close_connection = True
                     self._empty(503)
                     return

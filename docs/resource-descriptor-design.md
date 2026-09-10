@@ -267,3 +267,14 @@ TLS-object ResourceWarning before this correction.
 Barrier-driven tests pause both before and after descriptor handoff while registry
 teardown runs. Teardown reports incomplete and retains the charge; resuming the
 transfer closes the socket, rejects its return, and leaves zero reservations.
+
+### HTTP service credentials
+
+Startup validation and per-request service-token reloads now pass the VM descriptor
+registry through private-file traversal and reads. Admission exhaustion follows the
+existing fail-closed configuration path at startup and returns 503 before handler
+admission during reload. A live-server test leaves capacity only for accepting the
+connection, verifies reload rejection without handler execution, then releases
+capacity and verifies successful authentication. Shutdown leaves no descriptor
+owners or charges. This accounts explicit token-file descriptors, not TLS trust
+store internals or native allocation sizes.
