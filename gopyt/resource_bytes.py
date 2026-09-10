@@ -1,22 +1,41 @@
 """Internal, single-consumer byte payload ownership for bounded serialization.
 
 Payload bytes are charged; Python container metadata and allocator overhead are
-not. Consumers retain the owner, not an exported bytes alias, across operations.
+not. Retained aliases to the charged bytes preserve their reservation.
 """
 from gopyt.resource_control import ResourceClosedError
+
+
+class _ChargedBytes(bytes):
+    def __new__(cls, data, reservation):
+        try:
+            value = super().__new__(cls, data)
+            value._reservation = reservation
+            return value
+        finally:
+            data = None
+
+    def __del__(self):
+        reservation = getattr(self, '_reservation', None)
+        if reservation is not None:
+            reservation.release()
 
 
 class BytePayload:
     def __init__(self, reservation):
         self.data = b''
         self._reservation = reservation
+        self._transferred = False
+        self._closed = False
 
     def close(self):
         self.data = b''
-        self._reservation.release()
+        if not self._transferred:
+            self._reservation.release()
+        self._closed = True
 
     def __enter__(self):
-        if self._reservation.released:
+        if self._closed:
             raise ResourceClosedError('byte payload is closed')
         return self
 
@@ -65,7 +84,14 @@ class ByteBuilder:
         try:
             reservation = self.budget.reserve(native_bytes=self.size)
             payload = BytePayload(reservation)
-            payload.data = b''.join(entry[0] for entry in self.entries)
+            with self.budget.reserve(native_bytes=self.size):
+                raw = None
+                try:
+                    raw = b''.join(entry[0] for entry in self.entries)
+                    payload.data = _ChargedBytes(raw, reservation)
+                    payload._transferred = True
+                finally:
+                    raw = None
             succeeded = True
             return payload
         finally:

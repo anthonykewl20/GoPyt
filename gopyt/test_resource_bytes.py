@@ -6,6 +6,18 @@ from gopyt.resource_control import ResourceClosedError
 
 
 class ByteOwnership(unittest.TestCase):
+    def test_alias_retains_payload_charge_after_owner_close(self):
+        budget = self.budget(100)
+        builder = ByteBuilder(budget)
+        builder.append_text('hello')
+        payload = builder.finish()
+        alias = payload.data
+        payload.close()
+        self.assertEqual(alias, b'hello')
+        self.assertEqual(budget.snapshot()['used']['native_bytes'], 5)
+        del alias
+        self.assertEqual(budget.snapshot()['active_reservations'], 0)
+
     def test_json_envelope_is_charged_and_included_in_size_limit(self):
         import json
         from gopyt import gobyte, jsonc
@@ -92,7 +104,7 @@ class ByteOwnership(unittest.TestCase):
         payload = builder.finish()
         self.assertEqual(payload.data, 'é😀'.encode())
         self.assertEqual(budget.snapshot()['used']['native_bytes'], 6)
-        self.assertEqual(budget.snapshot()['peak']['native_bytes'], 12)
+        self.assertEqual(budget.snapshot()['peak']['native_bytes'], 18)
         with payload:
             pass
         self.assertEqual(payload.data, b'')

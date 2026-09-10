@@ -1,4 +1,4 @@
-toolchain = "gopyt-0.1.000+sha256:409b735dbe1117c2a07971aa74fe61d200be6d76a7537337f1e7e9638facf3ed"
+toolchain = "gopyt-0.1.000+sha256:97b5afe137c6316989feb14e44809801316b6366cface7fff78e094c8744d4c5"
 
 [[pkg]]
 name = "orders_multi"

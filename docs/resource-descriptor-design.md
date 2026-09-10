@@ -366,3 +366,20 @@ the depth limit. Tests compare ordinary and escaped-Unicode member names with an
 independent JSON encoder and verify exact-limit success and one-byte-short
 rejection. This prepares model-request framing without intermediate concatenation;
 its transport integration remains pending.
+
+### Payload aliases
+
+The original internal no-alias convention was insufficient for transport exception
+frames. A direct probe retained a bytes alias after closing its BytePayload and
+observed zero charged bytes while the data remained readable. Final payloads now
+use a bytes subclass carrying the reservation; closing the holder drops its alias,
+but physical object destruction releases the charge only after the final alias is
+gone. Explicit copies remain separate allocations and need their own admission.
+
+Constructing the charged bytes requires an additional copy. The builder reserves
+both the joined temporary and final charged object while chunks remain live, and
+clears the joined temporary before releasing its reservation. Peak payload overlap
+is three times the completed byte length at that boundary. A regression verifies
+alias retention after owner close and release after the last alias is discarded;
+existing partial-write and traceback tests continue to pass. This supersedes the
+previous no-export-alias convention for references to the returned bytes object.
