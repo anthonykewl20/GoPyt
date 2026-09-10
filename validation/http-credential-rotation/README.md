@@ -73,3 +73,5 @@ replacement, private paths and secret distribution remain operator obligations.
 File mode checks do not establish hardware custody or host isolation. Issue #11's
 plaintext migration, encrypted-format transitions, stale storage writers, lost-key
 handling and backup/custody procedures remain separate from this increment.
+
+The fresh `deadline-inventory.json` passed on both pinned Python versions, covering 73 fixed natives, 12 policy groups and three generated conversion forms. It records the per-request credential-read boundary and pins the reviewed implementation/evidence commit; older inventories retain their original identities.
