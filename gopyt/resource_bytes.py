@@ -122,6 +122,25 @@ class _ChargedBuffer(bytearray):
             reservation.finalize()
 
 
+def allocate_payload(budget, size):
+    """Allocate internal mutable payload capacity; consumers must not resize it."""
+    if type(size) is not int or size < 0:
+        raise ValueError('nonnegative payload size required')
+    reservation = budget.reserve(native_bytes=size)
+    payload = None
+    try:
+        payload = BytePayload(reservation)
+        payload.data = _ChargedBuffer(size, reservation)
+        payload._transferred = True
+        return payload
+    except BaseException:
+        if payload is not None:
+            payload.close()
+        else:
+            reservation.release()
+        raise
+
+
 def read_chunk(stream, budget, size, check):
     """Read into admitted scratch, returning a separately charged immutable chunk."""
     if type(size) is not int or size < 1:

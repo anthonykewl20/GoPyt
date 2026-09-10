@@ -1,4 +1,5 @@
 """Opt-in host security controls; secrets remain outside application packages."""
+from contextlib import contextmanager
 import hashlib
 import json
 import os
@@ -114,6 +115,39 @@ class _KeyringCipher:
         raise InvalidTag
 
 
+    def encrypt_into(self, nonce, data, aad, destination):
+        try:
+            return self.active.encrypt_into(nonce, data, aad, destination)
+        except BaseException:
+            _clear_destination(destination)
+            raise
+
+    def decrypt_into(self, nonce, data, aad, destination):
+        from cryptography.exceptions import InvalidTag
+        try:
+            for cipher in self.readers:
+                try:
+                    return cipher.decrypt_into(nonce, data, aad, destination)
+                except InvalidTag:
+                    _clear_destination(destination)
+            raise InvalidTag
+        except BaseException:
+            _clear_destination(destination)
+            raise
+
+
+_ZERO_BLOCK = bytes(4096)
+
+
+def _clear_destination(destination):
+    """Clear writable cipher output without another payload-sized allocation."""
+    with memoryview(destination) as original:
+        with original.cast('B') as view:
+            for start in range(0, len(view), len(_ZERO_BLOCK)):
+                size = min(len(_ZERO_BLOCK), len(view) - start)
+                view[start:start + size] = _ZERO_BLOCK[:size]
+
+
 def seal(data,setting):
     if setting is None:return data
     cipher,aad,_=setting;nonce=secrets.token_bytes(12)
@@ -154,3 +188,59 @@ def http_token_file(path,root,*,descriptors=None):
     if not 32<=len(token)<=256 or any(ch<33 or ch>126 for ch in token):
         raise SecurityError('token must contain 32..256 printable non-space ASCII bytes')
     return b'Bearer '+token
+
+
+@contextmanager
+def unseal_payload(data, setting, budget):
+    """Borrow authenticated plaintext; clear owned output when the scope exits."""
+    from gopyt.resource_bytes import allocate_payload
+    if setting is None:
+        if data.startswith(MAGIC):
+            raise SecurityError('encrypted storage requires its key')
+        yield data
+        return
+    if not data.startswith(MAGIC) or len(data) < OVERHEAD:
+        raise SecurityError('authenticated storage format required')
+    cipher, aad, _ = setting
+    with allocate_payload(budget, len(data) - OVERHEAD) as payload:
+        try:
+            with memoryview(data) as source:
+                with source[len(MAGIC):len(MAGIC) + 12] as nonce:
+                    with source[len(MAGIC) + 12:] as ciphertext:
+                        try:
+                            count = cipher.decrypt_into(nonce, ciphertext, aad, payload.data)
+                        except Exception as exc:
+                            raise SecurityError('storage authentication failed') from exc
+            if count != len(payload.data):
+                raise SecurityError('invalid plaintext length')
+            yield payload.data
+        finally:
+            _clear_destination(payload.data)
+
+
+@contextmanager
+def seal_payload(data, setting, budget):
+    """Borrow a preadmitted framed ciphertext through its publication scope."""
+    from gopyt.resource_bytes import allocate_payload
+    if setting is None:
+        yield data
+        return
+    cipher, aad, _ = setting
+    with allocate_payload(budget, len(data) + OVERHEAD) as payload:
+        try:
+            with budget.reserve(native_bytes=12):
+                nonce = None
+                try:
+                    nonce = secrets.token_bytes(12)
+                    payload.data[:len(MAGIC)] = MAGIC
+                    payload.data[len(MAGIC):len(MAGIC) + 12] = nonce
+                    with memoryview(payload.data) as framed:
+                        with framed[len(MAGIC) + 12:] as ciphertext:
+                            count = cipher.encrypt_into(nonce, data, aad, ciphertext)
+                            if count != len(ciphertext):
+                                raise SecurityError('invalid ciphertext length')
+                finally:
+                    nonce = None
+            yield payload.data
+        finally:
+            _clear_destination(payload.data)

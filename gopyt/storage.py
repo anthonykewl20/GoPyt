@@ -21,7 +21,7 @@ from gopyt.resource_bytes import read_payload
 
 from gopyt.rollback import locked_anchor, snapshot_digest
 from gopyt.files import parent_directory, opened_descriptor
-from gopyt.security_config import storage_cipher,seal,unseal,SecurityError,OVERHEAD
+from gopyt.security_config import storage_cipher,seal,unseal,unseal_payload,seal_payload,SecurityError,OVERHEAD
 
 MAX_BYTES = 64 * 1024 * 1024
 LOCK_TIMEOUT = 5.0
@@ -202,8 +202,21 @@ class Store:
             if self._anchor is not None and self._anchor.record is not None:
                 if hashlib.sha256(data).hexdigest() != self._anchor.record['digest']:
                     raise SecurityError('snapshot changed after anchor validation')
-            self._deserialize(unseal(data, self._security), db)
+            self._deserialize_snapshot(data, db)
         finally:
+            data = None
+
+    def _deserialize_snapshot(self, data, db):
+        plaintext = None
+        try:
+            budget = getattr(self._context, 'resource_budget', None)
+            if budget is None:
+                self._deserialize(unseal(data, self._security), db)
+            else:
+                with unseal_payload(data, self._security, budget) as plaintext:
+                    self._deserialize(plaintext, db)
+        finally:
+            plaintext = None
             data = None
 
     @staticmethod
@@ -221,8 +234,14 @@ class Store:
         data = db.serialize()
         if len(data) > MAX_BYTES:
             raise StorageError('database size limit exceeded')
-        data = seal(data, self._security)
-        self._publish(directory, data, restore=restore, authorize_writer=authorize_writer)
+        budget = getattr(self._context, 'resource_budget', None)
+        if budget is None:
+            data = seal(data, self._security)
+            self._publish(directory, data, restore=restore, authorize_writer=authorize_writer)
+        else:
+            with seal_payload(data, self._security, budget) as ciphertext:
+                self._publish(directory, ciphertext, restore=restore,
+                              authorize_writer=authorize_writer)
 
     def _publish(self, directory, data, *, restore=None, authorize_writer=False):
         self._check_context()
@@ -320,7 +339,7 @@ class Store:
                     try:
                         db.execute('PRAGMA trusted_schema=OFF')
                         db.setlimit(sqlite3.SQLITE_LIMIT_LENGTH, MAX_BYTES)
-                        self._deserialize(unseal(backup, self._security), db)
+                        self._deserialize_snapshot(backup, db)
                         if db.execute("SELECT 1 FROM kv WHERE typeof(key) != 'text' OR typeof(value) != 'text' LIMIT 1").fetchone():
                             raise StorageError('invalid restoration values')
                         self._anchor._receipt()  # Preserve any prior admitted restoration evidence.

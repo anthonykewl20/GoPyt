@@ -1,0 +1,22 @@
+======================================================================
+ERROR: test_failed_decoder_retained_input_keeps_charge (gopyt.test_storage_payload.SnapshotPayload.test_failed_decoder_retained_input_keeps_charge)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/tmp/gopyt-storage-cipher-buffers/gopyt/test_storage_payload.py", line 44, in test_failed_decoder_retained_input_keeps_charge
+    store._load(stream.fileno(), store._identity(os.fstat(stream.fileno())), None)
+    ~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/tmp/gopyt-storage-cipher-buffers/gopyt/storage.py", line 193, in _load
+    self._load_image(payload.data, fd, identity, db)
+    ~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/tmp/gopyt-storage-cipher-buffers/gopyt/storage.py", line 210, in _load_image
+    self._deserialize(plaintext, db)
+    ~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^
+  File "/tmp/gopyt-storage-cipher-buffers/gopyt/storage.py", line 218, in _deserialize
+    db.deserialize(data)
+    ^^^^^^^^^^^^^^
+AttributeError: 'NoneType' object has no attribute 'deserialize'
+
+----------------------------------------------------------------------
+Ran 33 tests in 1.023s
+
+FAILED (errors=1)

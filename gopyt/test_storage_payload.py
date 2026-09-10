@@ -39,7 +39,7 @@ class SnapshotPayload(unittest.TestCase):
         with tempfile.NamedTemporaryFile() as stream:
             stream.write(b'snapshot')
             stream.seek(0)
-            with patch('gopyt.storage.unseal', new=fail):
+            with patch.object(store, '_deserialize', new=fail):
                 with self.assertRaises(ValueError):
                     store._load(stream.fileno(), store._identity(os.fstat(stream.fileno())), None)
         self.assertEqual(retained, [b'snapshot'])
