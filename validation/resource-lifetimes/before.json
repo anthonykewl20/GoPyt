@@ -1,0 +1,20 @@
+{
+  "runtime_sha256": "60646df704fc17b97d203189a4dfbafd3ee62bfc8da501ace90e2d9cdfdd2045",
+  "resource_native_names": [],
+  "traced_types": [
+    "str",
+    "bytes",
+    "list",
+    "dict",
+    "Record",
+    "EnumVal",
+    "Some",
+    "Secret"
+  ],
+  "source_sha256": {
+    "gopyt/heap.py": "0cb32277ea83b574ace0f8416e6e02fc333a60e16769a35284e6141178a67906",
+    "gopyt/values.py": "1cb0815843fc152222535b85153fd7ead8f820a685f84056116348cbb005c817",
+    "gopyt/natives.py": "fa43014f03985255f6df67850900baf298aacfef308fc84885ec350a14f8313d"
+  },
+  "scope": "Current native/tracing surface inventory; absence of these families is not a proof about every possible host integration."
+}
