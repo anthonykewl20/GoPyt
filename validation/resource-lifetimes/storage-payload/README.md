@@ -14,3 +14,7 @@ Full qualification remains pending.
 The broader transaction/publication/deadline/rollback/migration selection passed
 54 tests on each pinned Python version; raw results are retained in broad*.log.
 These checks do not qualify unimplemented encryption or SQLite accounting.
+
+A subsequent cancellation test aborts after actual input consumption while
+retaining the exception traceback. It verifies scratch release and preservation
+of the caller-owned descriptor. All three payload tests pass on both runtimes.

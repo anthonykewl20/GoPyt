@@ -46,3 +46,30 @@ class SnapshotPayload(unittest.TestCase):
         self.assertEqual(context.resource_budget.snapshot()['used']['native_bytes'], 8)
         retained.clear()
         self.assertEqual(context.resource_budget.snapshot()['active_reservations'], 0)
+
+    def test_cancellation_after_read_releases_scratch_with_traceback_retained(self):
+        class CancelledRead(Exception):
+            pass
+        class CancellingContext(Context):
+            calls = 0
+            def check_cancelled(self):
+                self.calls += 1
+                if self.calls == 2:
+                    raise CancelledRead()
+        context = CancellingContext(200000)
+        store = Store(context=context)
+        failure = None
+        with tempfile.NamedTemporaryFile() as stream:
+            stream.write(b'snapshot')
+            stream.seek(0)
+            try:
+                store._load(stream.fileno(), store._identity(os.fstat(stream.fileno())), None)
+            except CancelledRead as exc:
+                failure = exc
+            self.assertIsNotNone(failure)
+            self.assertEqual(stream.tell(), 8)
+            self.assertEqual(context.resource_budget.snapshot()['active_reservations'], 0)
+            # The descriptor belongs to the enclosing storage operation, even
+            # when the bounded reader aborts after consuming bytes.
+            os.fstat(stream.fileno())
+        self.assertIsNotNone(failure.__traceback__)
