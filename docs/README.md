@@ -143,3 +143,5 @@ fixed and configured capacities, overload policies and remaining issue #13 cover
 - [Key and credential lifecycle](key-lifecycle.md): provisioning, custody, rotation/revocation, retention, retirement and lost-key recovery procedures with executable drills.
 
 [Transport, gateway and egress boundaries](transport-gateway-amendment-2026-09-10.md) define the trusted-gateway peer and forwarded-identity rules, this server's own inbound header bounds, identity-aware admission, and the resolved-address policy for allowlisted outbound origins under issue #24.
+
+[OS isolation profiles](os-isolation-amendment-2026-09-10.md) define the Linux namespace, private-root, no-new-privileges and rlimit boundary installed around Guard candidate acceptance and editor checking, the fail-closed policy when it cannot be installed, and what it explicitly does not provide, under issue #6.

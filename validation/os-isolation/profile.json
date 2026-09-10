@@ -1,0 +1,22 @@
+{
+  "schema": "gopyt.isolation.v1",
+  "platform": "linux",
+  "profiles": [
+    "guard_candidate",
+    "editor_check"
+  ],
+  "supported": true,
+  "available": true,
+  "detail": "linux namespaces",
+  "boundary": "user, mount, network, PID, IPC and UTS namespaces with a private tmpfs root, read-only system binds, one writable scratch mount, no-new-privileges and explicit rlimits",
+  "not_provided": [
+    "system-call filtering",
+    "hypervisor separation",
+    "defence of a compromised host or kernel",
+    "isolation of application code, which runs in the host process"
+  ],
+  "measured_on": {
+    "platform": "linux",
+    "python": "3.14.7"
+  }
+}

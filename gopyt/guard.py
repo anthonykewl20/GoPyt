@@ -370,6 +370,56 @@ def _worker(root, cases, expected_dependencies=None):
             'total': len(cases), 'failures': failures}
 
 
+def isolation_policy(environ=None):
+    """How this evaluation treats an OS isolation profile.
+
+    `required` refuses to evaluate a candidate without one, which is the setting
+    a deployment that relies on isolation should use. `preferred` installs one
+    where it can and records exactly what it got. `off` never installs one and
+    says so, so a receipt never implies an isolation it did not have.
+    """
+    environ = os.environ if environ is None else environ
+    choice = environ.get('GOPYT_GUARD_ISOLATION', 'preferred')
+    if choice not in ('required', 'preferred', 'off'):
+        raise ValueError('GOPYT_GUARD_ISOLATION must be required, preferred or off')
+    return choice
+
+
+def _isolated(command, work, timeout):
+    """Run the candidate executor under the configured isolation policy."""
+    from gopyt import isolation
+    policy = isolation_policy()
+    described = isolation.describe()
+    described['policy'] = policy
+    if policy == 'off':
+        described['installed'] = False
+        described['detail'] = 'disabled by GOPYT_GUARD_ISOLATION=off'
+        return subprocess.run(command, cwd=work, capture_output=True, text=True,
+                              timeout=timeout), described
+    if not described['available']:
+        described['installed'] = False
+        if policy == 'required':
+            return None, described
+        return subprocess.run(command, cwd=work, capture_output=True, text=True,
+                              timeout=timeout), described
+    try:
+        child, how = isolation.run(command, writable=[work], timeout=timeout,
+                                   required=True, cwd=work)
+    except isolation.IsolationUnavailable as error:
+        # The probe said a profile could be installed and installing it still
+        # failed. Under `required` that refuses the evaluation; otherwise the
+        # receipt records the failure instead of implying an isolation.
+        described['installed'] = False
+        described['detail'] = str(error)
+        if policy == 'required':
+            return None, described
+        return subprocess.run(command, cwd=work, capture_output=True, text=True,
+                              timeout=timeout), described
+    described['installed'] = True
+    described['detail'] = how
+    return child, described
+
+
 def evaluate(bundle_raw, expected_sha256, candidate, timeout=60):
     receipt = {'schema': 'gopyt.guard.receipt.v1', 'accepted': False,
                'bundle_sha256': expected_sha256, 'engine_sha256': engine_digest(),
@@ -393,9 +443,14 @@ def evaluate(bundle_raw, expected_sha256, candidate, timeout=60):
                       'from gopyt.guard import _worker;'
                       'data=json.load(open(sys.argv[3]));'
                       'print(json.dumps(_worker(sys.argv[2],data["cases"],data["dependencies"])))')
-            child = subprocess.run([sys.executable, '-I', '-c', script,
-                                    str(Path(__file__).resolve().parent.parent), str(root), str(cases)],
-                                   cwd=temp, capture_output=True, text=True, timeout=timeout)
+            command = [sys.executable, '-I', '-c', script,
+                       str(Path(__file__).resolve().parent.parent), str(root), str(cases)]
+            child, boundary = _isolated(command, temp, timeout)
+            receipt['isolation'] = boundary
+            if child is None:
+                receipt['error'] = 'required isolation unavailable'
+                receipt['detail'] = boundary['detail']
+                return receipt
             if child.returncode:
                 receipt['error'] = 'compile/executor failure'
                 receipt['detail'] = child.stderr[-2000:]

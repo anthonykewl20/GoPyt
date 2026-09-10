@@ -1,6 +1,6 @@
 # Security scope and operation
 
-Cybersecurity is a release priority. GoPyT is experimental and has not received an independent security audit. Its VM is not a replacement for an operating-system sandbox for hostile code.
+Cybersecurity is a release priority. GoPyT is experimental and has not received an independent security audit. Its VM is not a replacement for an operating-system sandbox for hostile code. Guard candidate acceptance and editor checking do run under an [OS isolation profile](docs/os-isolation-amendment-2026-09-10.md) where the platform supports one, and `GOPYT_GUARD_ISOLATION=required` refuses to evaluate a candidate without it.
 
 ## Strict backend profile
 
