@@ -161,3 +161,58 @@ fn via_trait(value: str) -> str | ConvertError
                 failure = error
         self.assertIsNotNone(failure)
         self.assertEqual(budget.snapshot()['active_reservations'], 0)
+
+    def test_owned_output_handles_deep_values_without_python_recursion(self):
+        value = 1
+        depth = 1500
+        art = gobyte.Artifact(texprs=[gobyte.TExpr(gobyte.TE_I64)])
+        for index in range(depth):
+            value = [value]
+            art.texprs.append(gobyte.TExpr(gobyte.TE_LIST, a=index))
+        budget = self.budget()
+        result = jsonc.encode(art, value, depth, budget=budget)
+        self.assertEqual(result, '[' * depth + '1' + ']' * depth)
+        del result
+        self.assertEqual(budget.snapshot()['active_reservations'], 0)
+
+    def test_explicit_depth_limits_match_host_encoder(self):
+        from gopyt.values import Some, NONE
+        art = gobyte.Artifact(texprs=[gobyte.TExpr(gobyte.TE_I64),
+            gobyte.TExpr(gobyte.TE_OPT, a=0), gobyte.TExpr(gobyte.TE_LIST, a=1),
+            gobyte.TExpr(gobyte.TE_LIST, a=2)])
+        for depth in range(1, 6):
+            for value in ([[Some(1)]], [[NONE]], [[]], []):
+                outcomes = []
+                budget = self.budget()
+                for owned in (False, True):
+                    try:
+                        if owned:
+                            with jsonc.encode_owned_bytes(art, value, 3, budget=budget,
+                                    max_bytes=10000, max_depth=depth) as payload:
+                                result = payload.data.decode('utf-8')
+                        else:
+                            result = jsonc.encode_bytes(art, value, 3, max_bytes=10000,
+                                                        max_depth=depth).decode('utf-8')
+                        outcomes.append(('ok', result))
+                    except jsonc.ConvertFail as error:
+                        outcomes.append(('error', error.message))
+                self.assertEqual(outcomes[0], outcomes[1], (depth, value))
+                self.assertEqual(budget.snapshot()['active_reservations'], 0)
+
+    def test_cycle_rejection_does_not_reject_shared_acyclic_children(self):
+        art = gobyte.Artifact(texprs=[gobyte.TExpr(gobyte.TE_LIST, a=0)])
+        child = []
+        budget = self.budget()
+        result = jsonc.encode(art, [child, child], 0, budget=budget)
+        self.assertEqual(result, '[[],[]]')
+        del result
+        cyclic = []
+        cyclic.append(cyclic)
+        failure = None
+        try:
+            jsonc.encode(art, cyclic, 0, budget=budget)
+        except RecursionError as error:
+            failure = error
+        self.assertIsNotNone(failure)
+        self.assertEqual(budget.snapshot()['active_reservations'], 0)
+        cyclic.clear()

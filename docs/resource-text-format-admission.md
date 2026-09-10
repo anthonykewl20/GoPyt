@@ -38,3 +38,21 @@ read-only references, not new dependencies. Focused tests retain failure and
 cancellation evidence, compare canonical output to the host JSON oracle, and
 exercise compiled natives and generated trait conversions. Full and platform
 qualification remain pending for this increment.
+
+## Iterative output traversal
+
+The initial owned implementation added enough Python calls to reject a depth-990
+input on Python 3.11 that the previous host encoder accepted. The frozen probe
+and interrupted full-suite log retain this unsuccessful trial. Owned encoding
+now uses linked traversal frames, keeping scalar validation shared with the host
+encoder. Map iterators retain their admitted sorted-key owners until completion
+or exceptional unwind. Explicit `max_depth` rules for bounded byte encoding remain
+in force; ordinary VM text encoding does not gain a new configured depth limit.
+
+Both probe profiles now accept every sampled host-accepted value and additionally
+accept depths 995, 1000 and 1100 that exceeded the host encoder's incidental call
+stack limit. A regression checks depth 1500. Active-path identity tracking rejects
+cycles with RecursionError while allowing shared acyclic children. Bounded byte
+encoding continues to translate recursion failures into its existing depth error.
+The original recursive-runtime packaging evidence is retained separately from
+qualification of this corrected traversal.

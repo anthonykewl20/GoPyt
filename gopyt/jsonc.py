@@ -246,7 +246,8 @@ def encode(art: Artifact, value: object, te_ix: int, *, budget=None,
     output = (_Encoder(ops.MAX_ALLOC, check_context, text=True) if budget is None
               else _OwnedEncoder(budget, ops.MAX_ALLOC, check_context))
     try:
-        _emit(art, value, te_ix, output, 0)
+        emit = _emit if budget is None else _emit_owned
+        emit(art, value, te_ix, output, 0)
         return output.result()
     except ConvertFail as error:
         if error.message == 'size':
@@ -285,7 +286,7 @@ def encode_owned_bytes(art, value, te_ix, *, budget, max_bytes, max_depth=128,
             output.token('{')
             output.string(member)
             output.token(':')
-        _emit(art, value, te_ix, output, 0 if member is None else 1)
+        _emit_owned(art, value, te_ix, output, 0 if member is None else 1)
         if member is not None:
             output.token('}')
         output.check()
@@ -294,6 +295,152 @@ def encode_owned_bytes(art, value, te_ix, *, budget, max_bytes, max_depth=128,
         raise ConvertFail('depth') from error
     finally:
         output.close()
+
+
+class _EmitFrame:
+    """Linked traversal metadata; map iterators retain admitted sorted-key owners."""
+    __slots__ = ('parent', 'kind', 'value', 'type_ix', 'depth', 'iterator',
+                 'closing', 'first', 'object_id')
+
+    def __init__(self, parent, kind, value, type_ix, depth, iterator, closing,
+                 object_id=None):
+        try:
+            self.parent = parent
+            self.kind = kind
+            self.value = value
+            self.type_ix = type_ix
+            self.depth = depth
+            self.iterator = iterator
+            self.closing = closing
+            self.first = True
+            self.object_id = object_id
+        finally:
+            self = parent = value = iterator = None
+
+
+def _emit_owned(art, value, te_ix, out, depth):
+    """Traverse without Python recursion, preserving explicit encoding depth rules."""
+    frame = entry = keys = None
+    active = set()
+    sentinel = object()
+    ready = True
+    try:
+        while True:
+            if ready:
+                out.check()
+                te = art.texprs[te_ix]
+                tag = te.tag
+                if out.max_depth is not None and depth > out.max_depth:
+                    raise ConvertFail('depth')
+                if (out.max_depth is not None and depth >= out.max_depth
+                        and tag in (TE_LIST, TE_MAP, TE_NOM, TE_UNION)):
+                    raise ConvertFail('depth')
+                if tag == TE_OPT and isinstance(value, Some):
+                    if id(value) in active:
+                        raise RecursionError('cyclic JSON value')
+                    active.add(id(value))
+                    frame = _EmitFrame(frame, 'close', None, 0, depth, None, '', id(value))
+                    value, te_ix, depth = value.value, te.a, depth + 1
+                    continue
+                if tag == TE_UNION:
+                    member = next((member for member in te.members
+                                   if _matches(art, value, member)), None)
+                    if member is None:
+                        raise ConvertFail('union')
+                    out.token('{')
+                    out.string(_member_name(art, member))
+                    out.token(':')
+                    frame = _EmitFrame(frame, 'close', None, 0, depth, None, '}')
+                    te_ix, depth = member, depth + 1
+                    continue
+                if tag in (TE_LIST, TE_MAP, TE_NOM):
+                    if id(value) in active:
+                        raise RecursionError('cyclic JSON value')
+                    active.add(id(value))
+                    if tag == TE_LIST:
+                        if not isinstance(value, list):
+                            raise ConvertFail('list')
+                        out.minimum(max(2, 2 * len(value) + 1))
+                        out.token('[')
+                        frame = _EmitFrame(frame, 'list', None, te.a, depth,
+                                           iter(value), ']', id(value))
+                    elif tag == TE_MAP:
+                        if art.texprs[te.a].tag != TE_STR:
+                            raise NotJson()
+                        if not isinstance(value, dict):
+                            raise ConvertFail('map')
+                        minimum = max(2, 5 * len(value) + 1)
+                        out.minimum(minimum)
+                        for key in value:
+                            out.check()
+                            if not isinstance(key, str):
+                                raise ConvertFail('map key')
+                            minimum += len(key)
+                            out.minimum(minimum)
+                        keys = out.keys(value)
+                        try:
+                            out.check()
+                            out.token('{')
+                            frame = _EmitFrame(frame, 'map', value, te.b, depth,
+                                               iter(keys), '}', id(value))
+                        finally:
+                            keys = None
+                    else:
+                        td = art.types[te.a]
+                        if td.kind == 3:
+                            raise NotJson()
+                        if td.kind == 1:
+                            if not isinstance(value, Record) or value.type_id != te.a:
+                                raise ConvertFail('record')
+                            fields, closing = td.fields, '}'
+                        else:
+                            if not isinstance(value, EnumVal) or value.type_id != te.a:
+                                raise ConvertFail('enum')
+                            vname, fields = td.variants[value.variant]
+                            if out.max_depth is not None and depth + 1 >= out.max_depth:
+                                raise ConvertFail('depth')
+                            out.token('{')
+                            out.string(art.const_str(vname))
+                            out.token(':')
+                            depth += 1
+                            closing = '}}'
+                        out.token('{')
+                        frame = _EmitFrame(frame, 'fields', None, 0, depth,
+                                           iter(zip(fields, value.fields)), closing, id(value))
+                else:
+                    # Scalar validation and canonical token rules stay shared.
+                    _emit(art, value, te_ix, out, depth)
+                value = None
+                ready = False
+            if frame is None:
+                return
+            entry = sentinel if frame.kind == 'close' else next(frame.iterator, sentinel)
+            if entry is sentinel:
+                if frame.closing:
+                    out.token(frame.closing)
+                if frame.object_id is not None:
+                    active.remove(frame.object_id)
+                frame = frame.parent
+                continue
+            if not frame.first:
+                out.token(',')
+            frame.first = False
+            if frame.kind == 'list':
+                value, te_ix = entry, frame.type_ix
+            elif frame.kind == 'map':
+                out.string(entry)
+                out.token(':')
+                value, te_ix = frame.value[entry], frame.type_ix
+            else:
+                (fname, te_ix), value = entry
+                out.string(art.const_str(fname))
+                out.token(':')
+            depth = frame.depth + 1
+            entry = None
+            ready = True
+    finally:
+        value = frame = entry = keys = None
+        active.clear()
 
 
 def _emit(art, value, te_ix, out, depth):

@@ -1,0 +1,58 @@
+{
+  "runtime": "gopyt-0.1.000+sha256:eccbee4a7c10a70759865cb7fe6a272a53dfb87543e393705a78c69bc1c69e4a",
+  "python": "3.14.7 (main, Sep  1 2026, 14:18:09) [Clang 22.1.3 ]",
+  "recursion_limit": 1000,
+  "probe_sha256": "bc596f6903584e34dcd159b5342d47dee81cc61e4450123f8adc08694125c3cc",
+  "cases": [
+    {
+      "depth": 100,
+      "host": "accepted",
+      "owned": "accepted"
+    },
+    {
+      "depth": 900,
+      "host": "accepted",
+      "owned": "accepted"
+    },
+    {
+      "depth": 950,
+      "host": "accepted",
+      "owned": "accepted"
+    },
+    {
+      "depth": 970,
+      "host": "accepted",
+      "owned": "accepted"
+    },
+    {
+      "depth": 980,
+      "host": "accepted",
+      "owned": "accepted"
+    },
+    {
+      "depth": 985,
+      "host": "accepted",
+      "owned": "accepted"
+    },
+    {
+      "depth": 990,
+      "host": "accepted",
+      "owned": "accepted"
+    },
+    {
+      "depth": 995,
+      "host": "RecursionError",
+      "owned": "accepted"
+    },
+    {
+      "depth": 1000,
+      "host": "RecursionError",
+      "owned": "accepted"
+    },
+    {
+      "depth": 1100,
+      "host": "RecursionError",
+      "owned": "accepted"
+    }
+  ]
+}
