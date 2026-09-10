@@ -15,6 +15,51 @@ from gopyt.test_app_runtime import running_server
 
 
 class HttpRetention(unittest.TestCase):
+    def test_failed_response_write_releases_payload_in_retained_traceback(self):
+        from gopyt.resource_sockets import _Socket
+        for partial in (False, True):
+            with self.subTest(partial=partial):
+                errors = queue.Queue()
+                charged = []
+                def capture(server, request, address):
+                    errors.put(sys.exc_info()[2])
+                def sendall(connection, data, *args, **kwargs):
+                    try:
+                        if data == b'{"amount":3}':
+                            charged.append(vm.resource_budget.snapshot()['used']['native_bytes'])
+                            if partial:
+                                socket.socket.sendall(connection, data[:4])
+                            raise RuntimeError('response write interrupted')
+                        return socket.socket.sendall(connection, data, *args, **kwargs)
+                    finally:
+                        data = None
+                with running_server(MAX_HANDLERS=1) as (vm, port), \
+                        patch.object(socketserver.BaseServer, 'handle_error', new=capture), \
+                        patch.object(_Socket, 'sendall', new=sendall):
+                    connection = http.client.HTTPConnection('127.0.0.1', port, timeout=2)
+                    try:
+                        connection.request('GET', '/echo/abc')
+                        response = connection.getresponse()
+                        self.assertEqual(response.status, 200)
+                        with self.assertRaises(http.client.IncompleteRead) as failure:
+                            response.read()
+                        self.assertEqual(failure.exception.partial, b'{"am' if partial else b'')
+                    finally:
+                        connection.close()
+                    trace = errors.get(timeout=2)
+                    payloads, writers = [], []
+                    while trace is not None:
+                        frame = trace.tb_frame
+                        if frame.f_code.co_name == '_dispatch_active':
+                            payloads.append(frame.f_locals['payload'].data)
+                        if frame.f_code.co_name == 'write':
+                            writers.append(frame.f_locals['data'])
+                        trace = trace.tb_next
+                    self.assertEqual(charged, [12])
+                    self.assertEqual(payloads, [b''])
+                    self.assertEqual(writers, [None])
+                    self.assertEqual(vm.resource_budget.snapshot()['used']['native_bytes'], 0)
+
     def test_response_payload_admission_and_charge_during_write(self):
         from gopyt.server import _DeadlineWriter
         observed = []

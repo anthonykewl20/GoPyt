@@ -344,3 +344,10 @@ A live test verifies shared-capacity rejection, recovery after capacity release,
 and the exact final payload charge during the response write. Input decoding,
 escaping temporaries, HTTP header buffers and native transport allocations remain
 separate accounting work.
+
+Response-write failure tests now interrupt transport before any body bytes and
+after a four-byte partial send. They observe the actual truncated HTTP response,
+retain the server exception traceback, verify the payload was charged at failure,
+and check the payload holder and writer argument are cleared before admission is
+released. These tests establish cleanup for those injected boundaries; they do not
+claim that a partially sent response can be retracted or retried transparently.
