@@ -640,8 +640,11 @@ def _http_request(vm, args, func):
         except urllib.error.HTTPError as error:
             resp = error
         with resp:
-            data = resp.read(MAX_BODY + 1)
-            status = resp.code if isinstance(resp, urllib.error.HTTPError) else resp.status
+            from gopyt.resource_bytes import read_payload
+            with read_payload(resp, vm.resource_budget, MAX_BODY + 1,
+                              budget.remaining) as response_payload:
+                data = response_payload.data
+                status = resp.code if isinstance(resp, urllib.error.HTTPError) else resp.status
         budget.remaining()
     except (Trap, Cancelled):
         raise
@@ -685,30 +688,39 @@ def _model_complete(vm, args, func):
             vm.observe.deny("egress", context=vm)
             return _status(vm, "ModelError", "egress")
         try:
-            encoded = jsonc.encode_bytes(vm.art, prompt, func.params[0],
-                                         max_bytes=MAX_REQUEST_BODY - 11,
+            payload = jsonc.encode_owned_bytes(vm.art, prompt, func.params[0],
+                                         budget=vm.resource_budget, member="prompt",
+                                         max_bytes=MAX_REQUEST_BODY,
                                          check_context=budget.remaining)
         except ConvertFail as error:
             return _status(vm, "ModelError", "body too large" if error.message == "size" else "encode")
-        payload = b'{"prompt":' + encoded + b'}'
-        budget.remaining()
-        request = urllib.request.Request(
-            url, data=payload, method="POST", headers={"Content-Type": "application/json"})
-        try:
-            resp = opener(budget, _NoRedirect()).open(request, timeout=budget.remaining())
-        except urllib.error.HTTPError as exc:
-            exc.close()
-            budget.remaining()
-            return _status(vm, "ModelError", "status")
-        with resp:
-            budget.remaining()
-            if not (200 <= resp.status < 300):
-                return _status(vm, "ModelError", "status")
-            raw = resp.read(MAX_BODY + 1)
-            if len(raw) > MAX_BODY:
-                return _status(vm, "ModelError", "body too large")
-            data = raw.decode("utf-8")
-        budget.remaining()
+        with payload:
+            request = None
+            try:
+                budget.remaining()
+                request = urllib.request.Request(
+                    url, data=payload.data, method="POST", headers={"Content-Type": "application/json"})
+                try:
+                    resp = opener(budget, _NoRedirect()).open(request, timeout=budget.remaining())
+                except urllib.error.HTTPError as exc:
+                    exc.close()
+                    budget.remaining()
+                    return _status(vm, "ModelError", "status")
+                with resp:
+                    budget.remaining()
+                    if not (200 <= resp.status < 300):
+                        return _status(vm, "ModelError", "status")
+                    from gopyt.resource_bytes import read_payload
+                    with read_payload(resp, vm.resource_budget, MAX_BODY + 1,
+                                      budget.remaining) as response_payload:
+                        if len(response_payload.data) > MAX_BODY:
+                            return _status(vm, "ModelError", "body too large")
+                        data = response_payload.data.decode("utf-8")
+                budget.remaining()
+            finally:
+                if request is not None:
+                    request.data = None
+
     except (Trap, Cancelled):
         raise
     except Exception:

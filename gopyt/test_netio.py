@@ -17,6 +17,68 @@ from gopyt.vm import VM, Trap, Cancelled
 
 
 class OutboundBudgets(unittest.TestCase):
+    def test_http_result_bytes_remain_charged_through_host_alias(self):
+        vm = self.fixture.vm
+        response = self.invoke('http')
+        alias = response.fields[1]
+        self.assertEqual(alias, b'{"text":"local response"}')
+        self.assertEqual(vm.resource_budget.snapshot()['used']['native_bytes'], len(alias))
+        response = None
+        vm.heap.release_result()
+        vm.heap.collect()
+        self.assertEqual(vm.resource_budget.snapshot()['used']['native_bytes'], len(alias))
+        alias = None
+        self.assertEqual(vm.resource_budget.snapshot()['used']['native_bytes'], 0)
+
+    def test_model_payload_alias_survives_transport_failure_with_its_charge(self):
+        vm = self.fixture.vm
+        for cancellation in (False, True):
+            with self.subTest(cancellation=cancellation):
+                aliases, requests = [], []
+                class FailingTransport:
+                    def open(self, request, **kwargs):
+                        requests.append(request)
+                        aliases.append(request.data)
+                        if cancellation:
+                            raise Cancelled()
+                        raise OSError('transport failed before response')
+                with patch('gopyt.netio.opener', return_value=FailingTransport()):
+                    if cancellation:
+                        with self.assertRaises(Cancelled): self.invoke('model')
+                    else:
+                        result = self.invoke('model')
+                        self.assertEqual(vm.type_name(result.type_id), 'core.status.ModelError')
+                self.assertEqual(len(aliases), 1)
+                self.assertTrue(aliases[0].startswith(b'{"prompt":'))
+                self.assertIsNone(requests[0].data)
+                self.assertEqual(vm.resource_budget.snapshot()['used']['native_bytes'], len(aliases[0]))
+                aliases.clear()
+                self.assertEqual(vm.resource_budget.snapshot()['used']['native_bytes'], 0)
+
+    def test_model_payload_admission_and_transport_lifetime(self):
+        from gopyt.netio import _Connection
+        vm = self.fixture.vm
+        with vm.resource_budget.reserve(native_bytes=
+                vm.resource_budget.snapshot()['limits']['native_bytes']):
+            with patch('gopyt.netio.opener') as transport:
+                result = self.invoke('model')
+                self.assertEqual(vm.type_name(result.type_id), 'core.status.ModelError')
+                transport.assert_not_called()
+        observed = []
+        original = _Connection.send
+        def send(connection, data):
+            try:
+                if data.startswith(b'{"prompt":'):
+                    observed.append((len(data), vm.resource_budget.snapshot()['used']['native_bytes']))
+                return original(connection, data)
+            finally:
+                data = None
+        with patch.object(_Connection, 'send', new=send):
+            self.assertEqual(self.invoke('model'), 'local response')
+        self.assertEqual(len(observed), 1)
+        self.assertEqual(observed[0][0], observed[0][1])
+        self.assertEqual(vm.resource_budget.snapshot()['used']['native_bytes'], 0)
+
     def tearDown(self):
         self.assertEqual(self.fixture.vm.descriptors.pending(), 0)
         self.assertEqual(self.fixture.vm.resource_budget.snapshot()['used']['descriptors'], 0)

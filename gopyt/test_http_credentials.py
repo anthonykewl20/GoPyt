@@ -13,6 +13,22 @@ from gopyt.values import UNIT
 
 
 class HttpCredentials(unittest.TestCase):
+    def test_descriptor_exhaustion_rejects_reload_and_recovers(self):
+        with running_server(MAX_HANDLERS=1) as (vm, port):
+            calls = []
+            vm.natives = dict(vm.natives)
+            vm.natives['core.log.write'] = lambda *args: calls.append(1) or UNIT
+            state = vm.resource_budget.snapshot()
+            # Leave one slot for accept, but none for token-file traversal.
+            with vm.resource_budget.reserve(descriptors=
+                    state['limits']['descriptors'] - state['used']['descriptors'] - 1):
+                self.assertEqual(self.request(port, self.old), (503, b''))
+                self.assertEqual(calls, [])
+            self.assertEqual(self.request(port, self.old)[0], 200)
+            self.assertEqual(calls, [1])
+        self.assertEqual(vm.descriptors.pending(), 0)
+        self.assertEqual(vm.resource_budget.snapshot()['used']['descriptors'], 0)
+
     def setUp(self):
         temporary = tempfile.TemporaryDirectory()
         self.addCleanup(temporary.cleanup)

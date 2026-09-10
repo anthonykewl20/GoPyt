@@ -26,6 +26,11 @@ from gopyt.resource_budget import ResourceLimitError
 from gopyt.resource_sockets import open_socket
 
 
+class _RequestBody:
+    def __init__(self):
+        self.data = b''
+
+
 class _BudgetedHTTPServer(ThreadingHTTPServer):
     def __init__(self, address, handler, *, descriptors):
         socketserver.BaseServer.__init__(self, address, handler)
@@ -95,14 +100,17 @@ class _DeadlineWriter(io.RawIOBase):
         return True
 
     def write(self, data):
-        self.vm.check_cancelled()
-        if self.vm.deadline_ns is not None:
-            remaining = (self.vm.deadline_ns - time.monotonic_ns()) / 1_000_000_000
-            if remaining <= 0:
-                raise Trap(ops.TRAP_TIMEOUT)
-            self.connection.settimeout(remaining)
-        self.connection.sendall(data)
-        return len(data)
+        try:
+            self.vm.check_cancelled()
+            if self.vm.deadline_ns is not None:
+                remaining = (self.vm.deadline_ns - time.monotonic_ns()) / 1_000_000_000
+                if remaining <= 0:
+                    raise Trap(ops.TRAP_TIMEOUT)
+                self.connection.settimeout(remaining)
+            self.connection.sendall(data)
+            return len(data)
+        finally:
+            data = None
 
 
 def _addr() -> tuple[str, int] | None:
@@ -157,9 +165,9 @@ def serve(vm, module: str):
         return _status(vm, "ListenError", "identity broker audience or serving authority mismatch")
     from gopyt.security_config import http_token, http_token_file, SecurityError
     try:
-        service_auth = http_token(vm.root, addr, session_auth=identities is not None) is not None
+        service_auth = http_token(vm.root, addr, session_auth=identities is not None, descriptors=vm.descriptors) is not None
         authorization_path = os.environ.get('GOPYT_HTTP_TOKEN_FILE')
-    except SecurityError:
+    except (SecurityError, ResourceLimitError):
         vm.serving = False
         return _status(vm, "ListenError", "security configuration")
     routes = []
@@ -263,8 +271,8 @@ def serve(vm, module: str):
             if service_auth:
                 vm.check_cancelled()
                 try:
-                    authorization = http_token_file(authorization_path, vm.root)
-                except SecurityError:
+                    authorization = http_token_file(authorization_path, vm.root, descriptors=vm.descriptors)
+                except (SecurityError, ResourceLimitError):
                     self.close_connection = True
                     self._empty(503)
                     return
@@ -292,37 +300,52 @@ def serve(vm, module: str):
                 self.close_connection = True
                 self._empty(413)
                 return
-            body = self.rfile.read(length) if length else b""
-            if len(body) != length:
+            try:
+                reservation = vm.resource_budget.reserve(native_bytes=length)
+            except ResourceLimitError:
                 self.close_connection = True
-                self._empty(400)
+                self._empty(503)
                 return
-            self.connection.settimeout(REQUEST_TIMEOUT_SECONDS)
-            hit = None
-            for m, pattern, fn_id, meta in routes:
-                if m != method_num:
-                    continue
-                binds = _match(pattern, path)
-                if binds is not None:
-                    hit = (fn_id, meta, binds)
-                    self.route_tag = pattern
-                    break
-            if hit is None:
-                self._empty(404)
-                return
-            fn_id, (names, placeholders), binds = hit
-            if session is not None:
-                if (self.command, self.route_tag) not in session.routes:
-                    self._empty(403)
-                    return
-                if not session.authority.admits(()):
+            body = None
+            try:
+                body = _RequestBody()
+                body.data = self.rfile.read(length) if length else b""
+                if len(body.data) != length:
                     self.close_connection = True
-                    self._empty(401)
+                    self._empty(400)
                     return
-                with vm.request_scope(session):
+                self.connection.settimeout(REQUEST_TIMEOUT_SECONDS)
+                hit = None
+                for m, pattern, fn_id, meta in routes:
+                    if m != method_num:
+                        continue
+                    binds = _match(pattern, path)
+                    if binds is not None:
+                        hit = (fn_id, meta, binds)
+                        self.route_tag = pattern
+                        break
+                if hit is None:
+                    self._empty(404)
+                    return
+                fn_id, (names, placeholders), binds = hit
+                if session is not None:
+                    if (self.command, self.route_tag) not in session.routes:
+                        self._empty(403)
+                        return
+                    if not session.authority.admits(()):
+                        self.close_connection = True
+                        self._empty(401)
+                        return
+                    with vm.request_scope(session):
+                        self._dispatch(fn_id, names, placeholders, binds, body, method_num)
+                else:
                     self._dispatch(fn_id, names, placeholders, binds, body, method_num)
-            else:
-                self._dispatch(fn_id, names, placeholders, binds, body, method_num)
+
+            finally:
+                if body is not None:
+                    body.data = b''
+                body = None
+                reservation.release()
 
         def _dispatch(self, fn_id, names, placeholders, binds, body, method_num) -> None:
             with self.server.connection_lock:
@@ -360,11 +383,11 @@ def serve(vm, module: str):
                                 self._empty(400)
                                 return
                             try:
-                                args.append(jsonc.decode(vm.art, body.decode("utf-8"), te))
+                                args.append(jsonc.decode(vm.art, body.data.decode("utf-8"), te))
                             except (ConvertFail, NotJson, UnicodeDecodeError):
                                 self._empty(400)
                                 return
-                    if len(names) == len(placeholders) and body:
+                    if len(names) == len(placeholders) and body.data:
                         if method_num in (2, 3, 4):
                             self._empty(400)
                             return
@@ -385,20 +408,26 @@ def serve(vm, module: str):
                         self._empty(200)
                         return
                     try:
-                        raw = jsonc.encode_bytes(vm.art, result, func.ret,
+                        payload = jsonc.encode_owned_bytes(vm.art, result, func.ret,
+                                                 budget=vm.resource_budget,
                                                  max_bytes=MAX_RESPONSE_BODY,
                                                  max_depth=MAX_RESPONSE_DEPTH,
                                                  check_context=vm.check_cancelled)
+                    except ResourceLimitError:
+                        self.close_connection = True
+                        self._empty(503)
+                        return
                     except (ConvertFail, NotJson):
                         vm.observe.http(self.route_tag, "ConvertError", (_time.monotonic() - started) * 1000.0, context=vm)
                         self._empty(500)
                         return
-                    vm.observe.http(self.route_tag, "ok", (_time.monotonic() - started) * 1000.0, context=vm)
-                    self.send_response(200)
-                    self.send_header("Content-Type", "application/json")
-                    self.send_header("Content-Length", str(len(raw)))
-                    self.end_headers()
-                    self.wfile.write(raw)
+                    with payload:
+                        vm.observe.http(self.route_tag, "ok", (_time.monotonic() - started) * 1000.0, context=vm)
+                        self.send_response(200)
+                        self.send_header("Content-Type", "application/json")
+                        self.send_header("Content-Length", str(len(payload.data)))
+                        self.end_headers()
+                        self.wfile.write(payload.data)
 
                 finally:
                     vm.heap.release_result()

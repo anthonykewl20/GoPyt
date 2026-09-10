@@ -111,17 +111,22 @@ class _Encoder:
             raise ConvertFail('size')
 
     def token(self, text):
-        self.check()
+        raw = None
         try:
-            raw = text.encode('utf-8')
-        except UnicodeEncodeError as error:
-            raise ConvertFail('utf8') from error
-        self.minimum(len(raw))
-        if self.text:
-            self.output.write(text)
-        else:
-            self.output.extend(raw)
-        self.size += len(raw)
+            self.check()
+            try:
+                raw = text.encode('utf-8')
+            except UnicodeEncodeError as error:
+                raise ConvertFail('utf8') from error
+            self.minimum(len(raw))
+            if self.text:
+                self.output.write(text)
+            else:
+                self.output.extend(raw)
+            self.size += len(raw)
+        finally:
+            raw = None
+            text = None
 
     def string(self, text):
         # Bound escaping/UTF-8 temporaries even for a single enormous string.
@@ -135,6 +140,12 @@ class _Encoder:
         self.check()
         return self.output.getvalue() if self.text else bytes(self.output)
 
+    def close(self):
+        if self.text:
+            self.output.close()
+        else:
+            self.output.clear()
+
 
 def encode(art: Artifact, value: object, te_ix: int) -> str:
     from gopyt import ops
@@ -146,6 +157,8 @@ def encode(art: Artifact, value: object, te_ix: int) -> str:
         if error.message == 'size':
             raise AllocationLimit() from error
         raise
+    finally:
+        output.close()
 
 
 def encode_bytes(art: Artifact, value: object, te_ix: int, *, max_bytes: int,
@@ -158,6 +171,53 @@ def encode_bytes(art: Artifact, value: object, te_ix: int, *, max_bytes: int,
         return output.result()
     except RecursionError as error:
         raise ConvertFail('depth') from error
+    finally:
+        output.close()
+
+
+def encode_owned_bytes(art, value, te_ix, *, budget, max_bytes, max_depth=128,
+                       check_context=None, member=None):
+    """Return an internal byte owner; callers must close it after consumption."""
+    from gopyt.resource_bytes import ByteBuilder
+    if type(max_bytes) is not int or max_bytes < 0 or type(max_depth) is not int or max_depth < 1:
+        raise ValueError('JSON encoding bounds')
+    if member is not None and type(member) is not str:
+        raise ValueError('JSON envelope member')
+
+    class OwnedEncoder(_Encoder):
+        def token(self, text):
+            try:
+                self.check()
+                length = sum(1 if ord(c) < 0x80 else 2 if ord(c) < 0x800
+                             else 3 if ord(c) < 0x10000 else 4 for c in text)
+                self.minimum(length)
+                try:
+                    self.output.append_text(text)
+                except UnicodeEncodeError as error:
+                    raise ConvertFail('utf8') from error
+                self.size += length
+            finally:
+                text = None
+
+        def close(self):
+            self.output.close()
+
+    output = OwnedEncoder(max_bytes, check_context, max_depth)
+    output.output = ByteBuilder(budget)
+    try:
+        if member is not None:
+            output.token('{')
+            output.string(member)
+            output.token(':')
+        _emit(art, value, te_ix, output, 0 if member is None else 1)
+        if member is not None:
+            output.token('}')
+        output.check()
+        return output.output.finish()
+    except RecursionError as error:
+        raise ConvertFail('depth') from error
+    finally:
+        output.close()
 
 
 def _emit(art, value, te_ix, out, depth):

@@ -4,6 +4,8 @@ import http.client
 from http.server import BaseHTTPRequestHandler
 import queue
 import socket
+import socketserver
+import sys
 import threading
 import unittest
 import weakref
@@ -13,6 +15,123 @@ from gopyt.test_app_runtime import running_server
 
 
 class HttpRetention(unittest.TestCase):
+    def test_failed_response_write_releases_payload_in_retained_traceback(self):
+        from gopyt.resource_sockets import _Socket
+        for partial in (False, True):
+            with self.subTest(partial=partial):
+                errors = queue.Queue()
+                charged = []
+                def capture(server, request, address):
+                    errors.put(sys.exc_info()[2])
+                def sendall(connection, data, *args, **kwargs):
+                    try:
+                        if data == b'{"amount":3}':
+                            charged.append(vm.resource_budget.snapshot()['used']['native_bytes'])
+                            if partial:
+                                socket.socket.sendall(connection, data[:4])
+                            raise RuntimeError('response write interrupted')
+                        return socket.socket.sendall(connection, data, *args, **kwargs)
+                    finally:
+                        data = None
+                with running_server(MAX_HANDLERS=1) as (vm, port), \
+                        patch.object(socketserver.BaseServer, 'handle_error', new=capture), \
+                        patch.object(_Socket, 'sendall', new=sendall):
+                    connection = http.client.HTTPConnection('127.0.0.1', port, timeout=2)
+                    try:
+                        connection.request('GET', '/echo/abc')
+                        response = connection.getresponse()
+                        self.assertEqual(response.status, 200)
+                        with self.assertRaises(http.client.IncompleteRead) as failure:
+                            response.read()
+                        self.assertEqual(failure.exception.partial, b'{"am' if partial else b'')
+                    finally:
+                        connection.close()
+                    trace = errors.get(timeout=2)
+                    payloads, writers = [], []
+                    while trace is not None:
+                        frame = trace.tb_frame
+                        if frame.f_code.co_name == '_dispatch_active':
+                            payloads.append(frame.f_locals['payload'].data)
+                        if frame.f_code.co_name == 'write':
+                            writers.append(frame.f_locals['data'])
+                        trace = trace.tb_next
+                    self.assertEqual(charged, [12])
+                    self.assertEqual(payloads, [b''])
+                    self.assertEqual(writers, [None])
+                    self.assertEqual(vm.resource_budget.snapshot()['used']['native_bytes'], 0)
+
+    def test_response_payload_admission_and_charge_during_write(self):
+        from gopyt.server import _DeadlineWriter
+        observed = []
+        original = _DeadlineWriter.write
+        def write(writer, data):
+            if data == b'{"amount":3}':
+                observed.append(writer.vm.resource_budget.snapshot()['used']['native_bytes'])
+            return original(writer, data)
+        with running_server(MAX_HANDLERS=1) as (vm, port), \
+                patch.object(_DeadlineWriter, 'write', new=write):
+            def request():
+                connection = http.client.HTTPConnection('127.0.0.1', port, timeout=2)
+                try:
+                    connection.request('GET', '/echo/abc')
+                    response = connection.getresponse()
+                    return response.status, response.read()
+                finally:
+                    connection.close()
+            with vm.resource_budget.reserve(native_bytes=
+                    vm.resource_budget.snapshot()['limits']['native_bytes']):
+                self.assertEqual(request(), (503, b''))
+            self.assertEqual(request(), (200, b'{"amount":3}'))
+        self.assertEqual(observed, [12])
+        self.assertEqual(vm.resource_budget.snapshot()['used']['native_bytes'], 0)
+
+    def test_exception_traceback_does_not_retain_charged_body(self):
+        errors = queue.Queue()
+        def capture(server, request, address):
+            errors.put(sys.exc_info()[2])
+        def fail(*args):
+            raise RuntimeError('dispatch failure')
+        with running_server(MAX_HANDLERS=1) as (vm, port):
+            with patch.object(socketserver.BaseServer, 'handle_error', new=capture), \
+                    patch('gopyt.server._from_str', side_effect=fail):
+                connection = http.client.HTTPConnection('127.0.0.1', port, timeout=2)
+                try:
+                    connection.request('GET', '/echo/abc', body=b'retained request content')
+                    with self.assertRaises(http.client.RemoteDisconnected):
+                        connection.getresponse()
+                finally:
+                    connection.close()
+                traceback = errors.get(timeout=2)
+                seen = []
+                while traceback is not None:
+                    frame = traceback.tb_frame
+                    if frame.f_code.co_name in ('_dispatch', '_dispatch_active'):
+                        seen.append(frame.f_locals['body'].data)
+                    traceback = traceback.tb_next
+                self.assertEqual(seen, [b'', b''])
+                self.assertEqual(vm.resource_budget.snapshot()['used']['native_bytes'], 0)
+
+    def test_request_body_capacity_rejection_and_release(self):
+        with running_server(MAX_HANDLERS=1) as (vm, port):
+            state = vm.resource_budget.snapshot()
+            with vm.resource_budget.reserve(native_bytes=state['limits']['native_bytes']):
+                connection = http.client.HTTPConnection('127.0.0.1', port, timeout=2)
+                try:
+                    connection.request('GET', '/echo/abc', body=b'x')
+                    response = connection.getresponse()
+                    self.assertEqual((response.status, response.read()), (503, b''))
+                finally:
+                    connection.close()
+            connection = http.client.HTTPConnection('127.0.0.1', port, timeout=2)
+            try:
+                connection.request('GET', '/echo/abc', body=b'x')
+                response = connection.getresponse()
+                self.assertEqual(response.status, 200)
+                response.read()
+            finally:
+                connection.close()
+        self.assertEqual(vm.resource_budget.snapshot()['used']['native_bytes'], 0)
+
     def test_failed_bind_releases_listener_charge(self):
         from gopyt.resource_budget import ResourceBudget, ResourceLimits
         from gopyt.resource_descriptors import DescriptorRegistry

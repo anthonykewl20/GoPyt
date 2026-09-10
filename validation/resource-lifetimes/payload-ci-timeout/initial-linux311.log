@@ -1,0 +1,616 @@
+language (ubuntu-24.04, 3.11.16)	Language regression suite	﻿2026-09-10T04:30:55.9634268Z ##[group]Run python -u -m unittest discover -s gopyt -t . -v
+language (ubuntu-24.04, 3.11.16)	Language regression suite	2026-09-10T04:30:55.9634908Z ^[[36;1mpython -u -m unittest discover -s gopyt -t . -v^[[0m
+language (ubuntu-24.04, 3.11.16)	Language regression suite	2026-09-10T04:30:55.9674292Z shell: /usr/bin/bash -e {0}
+language (ubuntu-24.04, 3.11.16)	Language regression suite	2026-09-10T04:30:55.9674640Z env:
+language (ubuntu-24.04, 3.11.16)	Language regression suite	2026-09-10T04:30:55.9674928Z   TMPDIR: /home/runner/work/_temp
+language (ubuntu-24.04, 3.11.16)	Language regression suite	2026-09-10T04:30:55.9675395Z   pythonLocation: /opt/hostedtoolcache/Python/3.14.7/x64
+language (ubuntu-24.04, 3.11.16)	Language regression suite	2026-09-10T04:30:55.9676031Z   PKG_CONFIG_PATH: /opt/hostedtoolcache/Python/3.14.7/x64/lib/pkgconfig
+language (ubuntu-24.04, 3.11.16)	Language regression suite	2026-09-10T04:30:55.9676680Z   Python_ROOT_DIR: /opt/hostedtoolcache/Python/3.14.7/x64
+language (ubuntu-24.04, 3.11.16)	Language regression suite	2026-09-10T04:30:55.9677237Z   Python2_ROOT_DIR: /opt/hostedtoolcache/Python/3.14.7/x64
+language (ubuntu-24.04, 3.11.16)	Language regression suite	2026-09-10T04:30:55.9677799Z   Python3_ROOT_DIR: /opt/hostedtoolcache/Python/3.14.7/x64
+language (ubuntu-24.04, 3.11.16)	Language regression suite	2026-09-10T04:30:55.9678364Z   LD_LIBRARY_PATH: /opt/hostedtoolcache/Python/3.14.7/x64/lib
+language (ubuntu-24.04, 3.11.16)	Language regression suite	2026-09-10T04:30:55.9678842Z ##[endgroup]
+language (ubuntu-24.04, 3.11.16)	Language regression suite	2026-09-10T04:30:56.6050875Z test_ambiguous_or_oversized_framing_is_rejected (gopyt.test_app_runtime.ApplicationHttpRuntime.test_ambiguous_or_oversized_framing_is_rejected) ... echo
+language (ubuntu-24.04, 3.11.16)	Language regression suite	2026-09-10T04:30:56.7079584Z ok
+language (ubuntu-24.04, 3.11.16)	Language regression suite	2026-09-10T04:30:57.0646799Z test_draining_keeps_the_active_request_deadline (gopyt.test_app_runtime.ApplicationHttpRuntime.test_draining_keeps_the_active_request_deadline) ... ok
+language (ubuntu-24.04, 3.11.16)	Language regression suite	2026-09-10T04:30:57.3055239Z test_drip_fed_body_cannot_extend_request_deadline (gopyt.test_app_runtime.ApplicationHttpRuntime.test_drip_fed_body_cannot_extend_request_deadline) ... echo
+language (ubuntu-24.04, 3.11.16)	Language regression suite	2026-09-10T04:30:57.4087183Z ok
+language (ubuntu-24.04, 3.11.16)	Language regression suite	2026-09-10T04:30:57.7503883Z test_expired_queued_connection_never_invokes_handler (gopyt.test_app_runtime.ApplicationHttpRuntime.test_expired_queued_connection_never_invokes_handler) ... ok
+language (ubuntu-24.04, 3.11.16)	Language regression suite	2026-09-10T04:30:57.7944948Z test_full_queue_returns_503_and_recovers_after_clients_close (gopyt.test_app_runtime.ApplicationHttpRuntime.test_full_queue_returns_503_and_recovers_after_clients_close) ... echo
+language (ubuntu-24.04, 3.11.16)	Language regression suite	2026-09-10T04:30:57.7994895Z echo
+language (ubuntu-24.04, 3.11.16)	Language regression suite	2026-09-10T04:30:57.9024750Z ok
+language (ubuntu-24.04, 3.11.16)	Language regression suite	2026-09-10T04:30:58.0918352Z test_idle_connections_eventually_release_workers (gopyt.test_app_runtime.ApplicationHttpRuntime.test_idle_connections_eventually_release_workers) ... echo
+language (ubuntu-24.04, 3.11.16)	Language regression suite	2026-09-10T04:30:58.1948340Z ok
+language (ubuntu-24.04, 3.11.16)	Language regression suite	2026-09-10T04:30:58.2337283Z test_listener_startup_does_not_depend_on_reverse_dns (gopyt.test_app_runtime.ApplicationHttpRuntime.test_listener_startup_does_not_depend_on_reverse_dns) ... echo
+language (ubuntu-24.04, 3.11.16)	Language regression suite	2026-09-10T04:30:58.3367721Z ok
+language (ubuntu-24.04, 3.11.16)	Language regression suite	2026-09-10T04:30:58.3796014Z test_malformed_json_is_rejected_and_connection_remains_usable (gopyt.test_app_runtime.ApplicationHttpRuntime.test_malformed_json_is_rejected_and_connection_remains_usable) ... charge
+language (ubuntu-24.04, 3.11.16)	Language regression suite	2026-09-10T04:30:58.4823486Z ok
+language (ubuntu-24.04, 3.11.16)	Language regression suite	2026-09-10T04:30:58.7940549Z test_partial_worker_start_failure_closes_listener_and_joins_workers (gopyt.test_app_runtime.ApplicationHttpRuntime.test_partial_worker_start_failure_closes_listener_and_joins_workers) ... ok
+language (ubuntu-24.04, 3.11.16)	Language regression suite	2026-09-10T04:30:58.8428450Z test_pipelined_requests_preserve_response_boundaries (gopyt.test_app_runtime.ApplicationHttpRuntime.test_pipelined_requests_preserve_response_boundaries) ... echo
+language (ubuntu-24.04, 3.11.16)	Language regression suite	2026-09-10T04:30:58.8435801Z echo
+language (ubuntu-24.04, 3.11.16)	Language regression suite	2026-09-10T04:30:58.9463513Z ok
+language (ubuntu-24.04, 3.11.16)	Language regression suite	2026-09-10T04:30:59.4309648Z test_request_execution_budget_and_keepalive_reset (gopyt.test_app_runtime.ApplicationHttpRuntime.test_request_execution_budget_and_keepalive_reset) ... ok
+language (ubuntu-24.04, 3.11.16)	Language regression suite	2026-09-10T04:30:59.6615482Z test_response_backpressure_consumes_remaining_budget (gopyt.test_app_runtime.ApplicationHttpRuntime.test_response_backpressure_consumes_remaining_budget) ... ok
+language (ubuntu-24.04, 3.11.16)	Language regression suite	2026-09-10T04:31:03.7505223Z test_serving_context_stops_idle_input_and_native_workers (gopyt.test_app_runtime.ApplicationHttpRuntime.test_serving_context_stops_idle_input_and_native_workers) ... ok
+language (ubuntu-24.04, 3.11.16)	Language regression suite	2026-09-10T04:31:03.9929483Z test_shutdown_drains_durable_active_response_without_starting_pipeline (gopyt.test_app_runtime.ApplicationHttpRuntime.test_shutdown_drains_durable_active_response_without_starting_pipeline) ... ok
+language (ubuntu-24.04, 3.11.16)	Language regression suite	2026-09-10T04:31:04.2475539Z test_shutdown_interrupts_partial_headers_and_partial_bodies (gopyt.test_app_runtime.ApplicationHttpRuntime.test_shutdown_interrupts_partial_headers_and_partial_bodies) ... ok
+language (ubuntu-24.04, 3.11.16)	Language regression suite	2026-09-10T04:31:04.3885268Z test_shutdown_reclaims_queue_after_worker_exits (gopyt.test_app_runtime.ApplicationHttpRuntime.test_shutdown_reclaims_queue_after_worker_exits) ... ok
+language (ubuntu-24.04, 3.11.16)	Language regression suite	2026-09-10T04:31:04.6884011Z test_sigterm_delivers_active_durable_response_and_exits (gopyt.test_app_runtime.ApplicationHttpRuntime.test_sigterm_delivers_active_durable_response_and_exits) ... ok
+language (ubuntu-24.04, 3.11.16)	Language regression suite	2026-09-10T04:31:04.8332440Z test_small_responses_disable_nagle_on_the_accepted_socket (gopyt.test_app_runtime.ApplicationHttpRuntime.test_small_responses_disable_nagle_on_the_accepted_socket) ... ok
+language (ubuntu-24.04, 3.11.16)	Language regression suite	2026-09-10T04:31:04.8719826Z test_truncated_declared_body_does_not_invoke_post_handler (gopyt.test_app_runtime.ApplicationHttpRuntime.test_truncated_declared_body_does_not_invoke_post_handler) ... echo
+language (ubuntu-24.04, 3.11.16)	Language regression suite	2026-09-10T04:31:04.9749995Z ok
+language (ubuntu-24.04, 3.11.16)	Language regression suite	2026-09-10T04:31:05.1178539Z test_truncated_ignored_get_body_is_still_bad_framing (gopyt.test_app_runtime.ApplicationHttpRuntime.test_truncated_ignored_get_body_is_still_bad_framing) ... ok
+language (ubuntu-24.04, 3.11.16)	Language regression suite	2026-09-10T04:31:05.1421652Z test_dependency_formatting_is_checked (gopyt.test_audit.DependencyAudit.test_dependency_formatting_is_checked) ... ok
+language (ubuntu-24.04, 3.11.16)	Language regression suite	2026-09-10T04:31:05.1428430Z test_digest_path_cannot_inject_additional_entries (gopyt.test_audit.DependencyAudit.test_digest_path_cannot_inject_additional_entries) ... ok
+language (ubuntu-24.04, 3.11.16)	Language regression suite	2026-09-10T04:31:05.1553361Z test_transitive_lock_paths_and_order (gopyt.test_audit.DependencyAudit.test_transitive_lock_paths_and_order) ... ok
+language (ubuntu-24.04, 3.11.16)	Language regression suite	2026-09-10T04:31:05.4621773Z test_apply_failure_rolls_back_sources (gopyt.test_audit.EvolutionAudit.test_apply_failure_rolls_back_sources) ... ok
+language (ubuntu-24.04, 3.11.16)	Language regression suite	2026-09-10T04:31:05.4875151Z test_candidate_does_not_rewrite_string_literals (gopyt.test_audit.EvolutionAudit.test_candidate_does_not_rewrite_string_literals) ... ok
+language (ubuntu-24.04, 3.11.16)	Language regression suite	2026-09-10T04:31:05.8343468Z test_candidates_keep_path_dependencies_resolvable (gopyt.test_audit.EvolutionAudit.test_candidates_keep_path_dependencies_resolvable) ... ok
+language (ubuntu-24.04, 3.11.16)	Language regression suite	2026-09-10T04:31:05.8500483Z test_timeout_leaves_live_sources_and_lock_unchanged (gopyt.test_audit.EvolutionAudit.test_timeout_leaves_live_sources_and_lock_unchanged) ... ok
+language (ubuntu-24.04, 3.11.16)	Language regression suite	2026-09-10T04:31:05.9902064Z test_bad_input_observation_uses_route_template (gopyt.test_audit.HttpBoundaryAudit.test_bad_input_observation_uses_route_template) ... ok
+language (ubuntu-24.04, 3.11.16)	Language regression suite	2026-09-10T04:31:06.1323115Z test_invalid_content_lengths_return_400 (gopyt.test_audit.HttpBoundaryAudit.test_invalid_content_lengths_return_400) ... ok
+language (ubuntu-24.04, 3.11.16)	Language regression suite	2026-09-10T04:31:06.3132896Z test_worker_count_and_accepted_queue_are_bounded (gopyt.test_audit.HttpQueueAudit.test_worker_count_and_accepted_queue_are_bounded) ... ok
+language (ubuntu-24.04, 3.11.16)	Language regression suite	2026-09-10T04:31:06.3135697Z test_decimal_integer_does_not_round_through_float (gopyt.test_audit.JsonAudit.test_decimal_integer_does_not_round_through_float) ... ok
+language (ubuntu-24.04, 3.11.16)	Language regression suite	2026-09-10T04:31:06.3140390Z test_integer_union_round_trip_preserves_tag (gopyt.test_audit.JsonAudit.test_integer_union_round_trip_preserves_tag) ... ok
+language (ubuntu-24.04, 3.11.16)	Language regression suite	2026-09-10T04:31:06.3143407Z test_json_whitespace_and_unicode_validity (gopyt.test_audit.JsonAudit.test_json_whitespace_and_unicode_validity) ... ok
+language (ubuntu-24.04, 3.11.16)	Language regression suite	2026-09-10T04:31:06.3146603Z test_application_ffi_is_rejected (gopyt.test_audit.LoaderAudit.test_application_ffi_is_rejected) ... ok
+language (ubuntu-24.04, 3.11.16)	Language regression suite	2026-09-10T04:31:06.3148692Z test_bad_constant_index (gopyt.test_audit.LoaderAudit.test_bad_constant_index) ... ok
+language (ubuntu-24.04, 3.11.16)	Language regression suite	2026-09-10T04:31:06.3150552Z test_cyclic_type_expression_is_rejected (gopyt.test_audit.LoaderAudit.test_cyclic_type_expression_is_rejected) ... ok
+language (ubuntu-24.04, 3.11.16)	Language regression suite	2026-09-10T04:31:06.3152448Z test_dead_instruction_still_validates_indices (gopyt.test_audit.LoaderAudit.test_dead_instruction_still_validates_indices) ... ok
+language (ubuntu-24.04, 3.11.16)	Language regression suite	2026-09-10T04:31:06.3154347Z test_falling_off_function_is_rejected (gopyt.test_audit.LoaderAudit.test_falling_off_function_is_rejected) ... ok
+language (ubuntu-24.04, 3.11.16)	Language regression suite	2026-09-10T04:31:06.3156373Z test_float_equality_is_rejected_before_execution (gopyt.test_audit.LoaderAudit.test_float_equality_is_rejected_before_execution) ... ok
+language (ubuntu-24.04, 3.11.16)	Language regression suite	2026-09-10T04:31:06.3158238Z test_forged_provide_signature (gopyt.test_audit.LoaderAudit.test_forged_provide_signature) ... ok
+language (ubuntu-24.04, 3.11.16)	Language regression suite	2026-09-10T04:31:06.3160559Z test_forged_stdlib_record_layout (gopyt.test_audit.LoaderAudit.test_forged_stdlib_record_layout) ... ok
+language (ubuntu-24.04, 3.11.16)	Language regression suite	2026-09-10T04:31:06.3161896Z test_join_type_mismatch (gopyt.test_audit.LoaderAudit.test_join_type_mismatch) ... ok
+language (ubuntu-24.04, 3.11.16)	Language regression suite	2026-09-10T04:31:06.3163166Z test_native_argument_type_mismatch (gopyt.test_audit.LoaderAudit.test_native_argument_type_mismatch) ... ok
+language (ubuntu-24.04, 3.11.16)	Language regression suite	2026-09-10T04:31:06.3164631Z test_return_type_mismatch (gopyt.test_audit.LoaderAudit.test_return_type_mismatch) ... ok
+language (ubuntu-24.04, 3.11.16)	Language regression suite	2026-09-10T04:31:06.3351675Z test_seeded_bytecode_mutations_never_crash_decoder (gopyt.test_audit.LoaderAudit.test_seeded_bytecode_mutations_never_crash_decoder) ... ok
+language (ubuntu-24.04, 3.11.16)	Language regression suite	2026-09-10T04:31:06.3910321Z test_model_redirect_cannot_reach_an_unlisted_origin (gopyt.test_audit.NetworkAudit.test_model_redirect_cannot_reach_an_unlisted_origin) ... ok
+language (ubuntu-24.04, 3.11.16)	Language regression suite	2026-09-10T04:31:06.3912674Z test_origin_parser_accepts_query_without_path (gopyt.test_audit.NetworkAudit.test_origin_parser_accepts_query_without_path) ... ok
+language (ubuntu-24.04, 3.11.16)	Language regression suite	2026-09-10T04:31:06.4431196Z test_parallel_arm_keeps_its_modules_egress (gopyt.test_audit.NetworkAudit.test_parallel_arm_keeps_its_modules_egress) ... ok
+language (ubuntu-24.04, 3.11.16)	Language regression suite	2026-09-10T04:31:06.4436052Z test_file_io_rejects_nonregular_entries_without_blocking (gopyt.test_audit.ResourceAudit.test_file_io_rejects_nonregular_entries_without_blocking) ... ok
+language (ubuntu-24.04, 3.11.16)	Language regression suite	2026-09-10T04:31:06.4438416Z test_native_collection_growth_checks_allocation_limit (gopyt.test_audit.ResourceAudit.test_native_collection_growth_checks_allocation_limit) ... ok
+language (ubuntu-24.04, 3.11.16)	Language regression suite	2026-09-10T04:31:06.4801249Z test_build_directory_symlink_does_not_write_outside_package (gopyt.test_audit.SourceAudit.test_build_directory_symlink_does_not_write_outside_package) ... ok
+language (ubuntu-24.04, 3.11.16)	Language regression suite	2026-09-10T04:31:06.5353039Z test_direct_polymorphic_recursion_is_e029_even_when_unused (gopyt.test_audit.SourceAudit.test_direct_polymorphic_recursion_is_e029_even_when_unused) ... ok
+language (ubuntu-24.04, 3.11.16)	Language regression suite	2026-09-10T04:31:06.5712973Z test_duplicate_enum_payload_fields_are_rejected (gopyt.test_audit.SourceAudit.test_duplicate_enum_payload_fields_are_rejected) ... ok
+language (ubuntu-24.04, 3.11.16)	Language regression suite	2026-09-10T04:31:06.6061181Z test_enum_with_float_payload_has_no_equality (gopyt.test_audit.SourceAudit.test_enum_with_float_payload_has_no_equality) ... ok
+language (ubuntu-24.04, 3.11.16)	Language regression suite	2026-09-10T04:31:06.6446034Z test_integer_conversion_keeps_union_variant (gopyt.test_audit.SourceAudit.test_integer_conversion_keeps_union_variant) ... probe
+language (ubuntu-24.04, 3.11.16)	Language regression suite	2026-09-10T04:31:06.6846309Z probe
+language (ubuntu-24.04, 3.11.16)	Language regression suite	2026-09-10T04:31:06.7240476Z probe
+language (ubuntu-24.04, 3.11.16)	Language regression suite	2026-09-10T04:31:06.7255993Z ok
+language (ubuntu-24.04, 3.11.16)	Language regression suite	2026-09-10T04:31:06.7276891Z test_long_number_is_a_lexical_error (gopyt.test_audit.SourceAudit.test_long_number_is_a_lexical_error) ... ok
+language (ubuntu-24.04, 3.11.16)	Language regression suite	2026-09-10T04:31:06.7627582Z test_mutual_polymorphic_recursion_is_e029 (gopyt.test_audit.SourceAudit.test_mutual_polymorphic_recursion_is_e029) ... ok
+language (ubuntu-24.04, 3.11.16)	Language regression suite	2026-09-10T04:31:06.7636716Z test_nested_directory_symlink_is_not_ignored (gopyt.test_audit.SourceAudit.test_nested_directory_symlink_is_not_ignored) ... ok
+language (ubuntu-24.04, 3.11.16)	Language regression suite	2026-09-10T04:31:06.7639686Z test_non_ascii_names_and_numbers_are_rejected (gopyt.test_audit.SourceAudit.test_non_ascii_names_and_numbers_are_rejected) ... ok
+language (ubuntu-24.04, 3.11.16)	Language regression suite	2026-09-10T04:31:06.7995365Z test_recursive_record_equality_terminates (gopyt.test_audit.SourceAudit.test_recursive_record_equality_terminates) ... ok
+language (ubuntu-24.04, 3.11.16)	Language regression suite	2026-09-10T04:31:07.0467872Z test_seeded_arithmetic_matches_integer_reference (gopyt.test_audit.SourceAudit.test_seeded_arithmetic_matches_integer_reference) ... arithmetic
+language (ubuntu-24.04, 3.11.16)	Language regression suite	2026-09-10T04:31:07.0763441Z ok
+language (ubuntu-24.04, 3.11.16)	Language regression suite	2026-09-10T04:31:07.0772969Z test_source_directory_symlink_rejected_before_fmt (gopyt.test_audit.SourceAudit.test_source_directory_symlink_rejected_before_fmt) ... ok
+language (ubuntu-24.04, 3.11.16)	Language regression suite	2026-09-10T04:31:07.1157049Z test_union_equality_different_active_members_is_false (gopyt.test_audit.SourceAudit.test_union_equality_different_active_members_is_false) ... probe
+language (ubuntu-24.04, 3.11.16)	Language regression suite	2026-09-10T04:31:07.1171285Z ok
+language (ubuntu-24.04, 3.11.16)	Language regression suite	2026-09-10T04:31:07.1247207Z test_batch_denial_is_all_or_nothing (gopyt.test_capabilities.Capabilities.test_batch_denial_is_all_or_nothing) ... ok
+language (ubuntu-24.04, 3.11.16)	Language regression suite	2026-09-10T04:31:07.1320111Z test_explicit_wildcard_and_empty_deny_all (gopyt.test_capabilities.Capabilities.test_explicit_wildcard_and_empty_deny_all) ... ok
+language (ubuntu-24.04, 3.11.16)	Language regression suite	2026-09-10T04:31:07.1396281Z test_malformed_missing_or_public_policy_fails_closed (gopyt.test_capabilities.Capabilities.test_malformed_missing_or_public_policy_fails_closed) ... ok
+language (ubuntu-24.04, 3.11.16)	Language regression suite	2026-09-10T04:31:07.1491211Z test_namespace_does_not_grant_nearby_tenant_or_unscoped_keys (gopyt.test_capabilities.Capabilities.test_namespace_does_not_grant_nearby_tenant_or_unscoped_keys) ... ok
+language (ubuntu-24.04, 3.11.16)	Language regression suite	2026-09-10T04:31:07.1585063Z test_revocation_precedes_cache_and_read_write_are_separate (gopyt.test_capabilities.Capabilities.test_revocation_precedes_cache_and_read_write_are_separate) ... ok
+language (ubuntu-24.04, 3.11.16)	Language regression suite	2026-09-10T04:31:07.1642241Z test_filtered_extraction_rejects_escape (gopyt.test_ci_python.InterpreterInstall.test_filtered_extraction_rejects_escape) ... ok
+language (ubuntu-24.04, 3.11.16)	Language regression suite	2026-09-10T04:31:07.1650457Z test_size_mismatch_rejects_download (gopyt.test_ci_python.InterpreterInstall.test_size_mismatch_rejects_download) ... ok
+language (ubuntu-24.04, 3.11.16)	Language regression suite	2026-09-10T04:31:07.1672776Z test_version_mismatch_does_not_provide_python_command (gopyt.test_ci_python.InterpreterInstall.test_version_mismatch_does_not_provide_python_command) ... ok
+language (ubuntu-24.04, 3.11.16)	Language regression suite	2026-09-10T04:31:07.1682691Z test_wrong_hash_never_opens_archive (gopyt.test_ci_python.InterpreterInstall.test_wrong_hash_never_opens_archive) ... ok
+language (ubuntu-24.04, 3.11.16)	Language regression suite	2026-09-10T04:31:07.1800341Z test_check_takes_no_argument (gopyt.test_cli.Commands.test_check_takes_no_argument) ... ok
+language (ubuntu-24.04, 3.11.16)	Language regression suite	2026-09-10T04:31:07.2052872Z test_check_writes_the_artifact (gopyt.test_cli.Commands.test_check_writes_the_artifact) ... ok
+language (ubuntu-24.04, 3.11.16)	Language regression suite	2026-09-10T04:31:07.2165381Z test_no_command (gopyt.test_cli.Commands.test_no_command) ... ok
+language (ubuntu-24.04, 3.11.16)	Language regression suite	2026-09-10T04:31:07.2275078Z test_no_manifest_is_e046 (gopyt.test_cli.Commands.test_no_manifest_is_e046) ... ok
+language (ubuntu-24.04, 3.11.16)	Language regression suite	2026-09-10T04:31:07.2380387Z test_run_needs_exactly_one_target (gopyt.test_cli.Commands.test_run_needs_exactly_one_target) ... ok
+language (ubuntu-24.04, 3.11.16)	Language regression suite	2026-09-10T04:31:07.2381764Z test_run_of_a_fn_is_e074 (gopyt.test_cli.Commands.test_run_of_a_fn_is_e074)
+language (ubuntu-24.04, 3.11.16)	Language regression suite	2026-09-10T04:31:07.2613400Z implementer.md 9: run targets a task or workflow. ... ok
+language (ubuntu-24.04, 3.11.16)	Language regression suite	2026-09-10T04:31:07.2846921Z test_run_of_a_task_prints_json (gopyt.test_cli.Commands.test_run_of_a_task_prints_json) ... x
+language (ubuntu-24.04, 3.11.16)	Language regression suite	2026-09-10T04:31:07.2859590Z ok
+language (ubuntu-24.04, 3.11.16)	Language regression suite	2026-09-10T04:31:07.3288026Z test_run_of_a_task_with_arguments_is_e022 (gopyt.test_cli.Commands.test_run_of_a_task_with_arguments_is_e022) ... ok
+language (ubuntu-24.04, 3.11.16)	Language regression suite	2026-09-10T04:31:07.3528653Z test_run_of_an_unknown_target_is_e074 (gopyt.test_cli.Commands.test_run_of_an_unknown_target_is_e074) ... ok
+language (ubuntu-24.04, 3.11.16)	Language regression suite	2026-09-10T04:31:07.4013015Z test_run_prints_nothing_for_unit (gopyt.test_cli.Commands.test_run_prints_nothing_for_unit) ... x
+language (ubuntu-24.04, 3.11.16)	Language regression suite	2026-09-10T04:31:07.4025502Z ok
+language (ubuntu-24.04, 3.11.16)	Language regression suite	2026-09-10T04:31:07.4132996Z test_unknown_command (gopyt.test_cli.Commands.test_unknown_command) ... ok
+language (ubuntu-24.04, 3.11.16)	Language regression suite	2026-09-10T04:31:07.4230792Z test_a_module_header_must_match_a_nested_path (gopyt.test_cli.NestedModules.test_a_module_header_must_match_a_nested_path) ... ok
+language (ubuntu-24.04, 3.11.16)	Language regression suite	2026-09-10T04:31:07.4760449Z test_nested_spec_impl_and_test_modules (gopyt.test_cli.NestedModules.test_nested_spec_impl_and_test_modules) ... charge
+language (ubuntu-24.04, 3.11.16)	Language regression suite	2026-09-10T04:31:07.4776358Z ok
+language (ubuntu-24.04, 3.11.16)	Language regression suite	2026-09-10T04:31:07.5172940Z test_a_failing_test_exits_two_at_the_first_trap (gopyt.test_cli.TestOrdering.test_a_failing_test_exits_two_at_the_first_trap) ... ok
+language (ubuntu-24.04, 3.11.16)	Language regression suite	2026-09-10T04:31:07.5703551Z test_tests_run_in_lexicographic_order (gopyt.test_cli.TestOrdering.test_tests_run_in_lexicographic_order) ... ok
+language (ubuntu-24.04, 3.11.16)	Language regression suite	2026-09-10T04:31:07.5708681Z test_back_edge_cannot_exempt_a_double_store (gopyt.test_closure.ArtifactPolicy.test_back_edge_cannot_exempt_a_double_store) ... ok
+language (ubuntu-24.04, 3.11.16)	Language regression suite	2026-09-10T04:31:07.5711438Z test_duplicate_union_types_with_different_indices_are_rejected (gopyt.test_closure.ArtifactPolicy.test_duplicate_union_types_with_different_indices_are_rejected) ... ok
+language (ubuntu-24.04, 3.11.16)	Language regression suite	2026-09-10T04:31:07.5714557Z test_evolve_round_trip_and_validation (gopyt.test_closure.ArtifactPolicy.test_evolve_round_trip_and_validation) ... ok
+language (ubuntu-24.04, 3.11.16)	Language regression suite	2026-09-10T04:31:07.6593294Z test_multiple_agents_require_identical_bounds (gopyt.test_closure.ArtifactPolicy.test_multiple_agents_require_identical_bounds) ... ok
+language (ubuntu-24.04, 3.11.16)	Language regression suite	2026-09-10T04:31:07.6596122Z test_reset_parameters_and_load_after_reset_are_rejected (gopyt.test_closure.ArtifactPolicy.test_reset_parameters_and_load_after_reset_are_rejected) ... ok
+language (ubuntu-24.04, 3.11.16)	Language regression suite	2026-09-10T04:31:08.4366894Z test_rich_artifact_mutations_never_raise_host_exceptions (gopyt.test_closure.ArtifactPolicy.test_rich_artifact_mutations_never_raise_host_exceptions) ... ok
+language (ubuntu-24.04, 3.11.16)	Language regression suite	2026-09-10T04:31:08.4954274Z test_custom_trait_stub_has_all_members (gopyt.test_closure.Authoring.test_custom_trait_stub_has_all_members) ... ok
+language (ubuntu-24.04, 3.11.16)	Language regression suite	2026-09-10T04:31:08.5304234Z test_derived_from_str_cannot_be_overridden (gopyt.test_closure.Authoring.test_derived_from_str_cannot_be_overridden) ... ok
+language (ubuntu-24.04, 3.11.16)	Language regression suite	2026-09-10T04:31:08.5740542Z test_identity_and_constructor_are_determined (gopyt.test_closure.Authoring.test_identity_and_constructor_are_determined) ... ok
+language (ubuntu-24.04, 3.11.16)	Language regression suite	2026-09-10T04:31:08.6070767Z test_missing_member_repair_preserves_completed_body (gopyt.test_closure.Authoring.test_missing_member_repair_preserves_completed_body) ... ok
+language (ubuntu-24.04, 3.11.16)	Language regression suite	2026-09-10T04:31:08.6515533Z test_missing_test_has_safe_canonical_file_repair (gopyt.test_closure.Authoring.test_missing_test_has_safe_canonical_file_repair) ... ok
+language (ubuntu-24.04, 3.11.16)	Language regression suite	2026-09-10T04:31:08.6860931Z test_serve_body_is_compiler_determined (gopyt.test_closure.Authoring.test_serve_body_is_compiler_determined) ... ok
+language (ubuntu-24.04, 3.11.16)	Language regression suite	2026-09-10T04:31:08.7219336Z test_serve_cannot_add_an_arbitrary_body (gopyt.test_closure.Authoring.test_serve_cannot_add_an_arbitrary_body) ... ok
+language (ubuntu-24.04, 3.11.16)	Language regression suite	2026-09-10T04:31:08.8340227Z test_bloom_and_trace_dump_have_fixed_bounds (gopyt.test_closure.BoundedState.test_bloom_and_trace_dump_have_fixed_bounds) ... ok
+language (ubuntu-24.04, 3.11.16)	Language regression suite	2026-09-10T04:31:08.8429732Z test_full_bucket_pressure_does_not_rescan_before_refill (gopyt.test_closure.BoundedState.test_full_bucket_pressure_does_not_rescan_before_refill) ... ok
+language (ubuntu-24.04, 3.11.16)	Language regression suite	2026-09-10T04:31:08.8431623Z test_parameter_change_cannot_bypass_limit (gopyt.test_closure.BoundedState.test_parameter_change_cannot_bypass_limit) ... ok
+language (ubuntu-24.04, 3.11.16)	Language regression suite	2026-09-10T04:31:08.8511368Z test_pressure_does_not_reset_depleted_keys (gopyt.test_closure.BoundedState.test_pressure_does_not_reset_depleted_keys) ... ok
+language (ubuntu-24.04, 3.11.16)	Language regression suite	2026-09-10T04:31:08.9316459Z test_vm_counts_nominal_failure_without_manual_note (gopyt.test_closure.BoundedState.test_vm_counts_nominal_failure_without_manual_note) ... ok
+language (ubuntu-24.04, 3.11.16)	Language regression suite	2026-09-10T04:31:09.0755794Z test_collection_during_parallel_calls_preserves_results (gopyt.test_closure.Memory.test_collection_during_parallel_calls_preserves_results) ... ok
+language (ubuntu-24.04, 3.11.16)	Language regression suite	2026-09-10T04:31:09.0758584Z test_cycles_are_swept_with_host_cycle_gc_disabled (gopyt.test_closure.Memory.test_cycles_are_swept_with_host_cycle_gc_disabled) ... ok
+language (ubuntu-24.04, 3.11.16)	Language regression suite	2026-09-10T04:31:09.4020982Z test_long_lived_vm_reclaims_temporary_values (gopyt.test_closure.Memory.test_long_lived_vm_reclaims_temporary_values) ... ok
+language (ubuntu-24.04, 3.11.16)	Language regression suite	2026-09-10T04:31:09.5493738Z test_native_only_allocations_trigger_collection (gopyt.test_closure.Memory.test_native_only_allocations_trigger_collection) ... ok
+language (ubuntu-24.04, 3.11.16)	Language regression suite	2026-09-10T04:31:09.5495730Z test_root_keeps_transitive_graph_and_releases_it (gopyt.test_closure.Memory.test_root_keeps_transitive_graph_and_releases_it) ... ok
+language (ubuntu-24.04, 3.11.16)	Language regression suite	2026-09-10T04:31:09.6035033Z test_ambient_proxy_does_not_receive_allowed_request (gopyt.test_closure.NetworkBoundary.test_ambient_proxy_does_not_receive_allowed_request) ... ok
+language (ubuntu-24.04, 3.11.16)	Language regression suite	2026-09-10T04:31:09.7445762Z test_real_tls_verification_and_model_protocol (gopyt.test_closure.NetworkBoundary.test_real_tls_verification_and_model_protocol) ... ok
+language (ubuntu-24.04, 3.11.16)	Language regression suite	2026-09-10T04:31:09.9683518Z test_candidate_tampering_is_refused_before_live_writes (gopyt.test_closure.Transactions.test_candidate_tampering_is_refused_before_live_writes) ... ok
+language (ubuntu-24.04, 3.11.16)	Language regression suite	2026-09-10T04:31:10.1733032Z test_checked_survivors_use_persistent_weights_and_tag_replay (gopyt.test_closure.Transactions.test_checked_survivors_use_persistent_weights_and_tag_replay) ... ok
+language (ubuntu-24.04, 3.11.16)	Language regression suite	2026-09-10T04:31:10.1894078Z test_committed_journal_is_cleaned_without_rollback (gopyt.test_closure.Transactions.test_committed_journal_is_cleaned_without_rollback) ... ok
+language (ubuntu-24.04, 3.11.16)	Language regression suite	2026-09-10T04:31:10.2625951Z test_cooperating_reader_waits_until_commit (gopyt.test_closure.Transactions.test_cooperating_reader_waits_until_commit) ... ok
+language (ubuntu-24.04, 3.11.16)	Language regression suite	2026-09-10T04:31:10.3214515Z test_descriptor_access_rejects_a_flipping_symlink (gopyt.test_closure.Transactions.test_descriptor_access_rejects_a_flipping_symlink) ... ok
+language (ubuntu-24.04, 3.11.16)	Language regression suite	2026-09-10T04:31:10.3360893Z test_external_edit_conflict_is_preserved (gopyt.test_closure.Transactions.test_external_edit_conflict_is_preserved) ... ok
+language (ubuntu-24.04, 3.11.16)	Language regression suite	2026-09-10T04:31:10.5372426Z test_process_death_after_each_write_recovers_complete_old_tree (gopyt.test_closure.Transactions.test_process_death_after_each_write_recovers_complete_old_tree) ... ok
+language (ubuntu-24.04, 3.11.16)	Language regression suite	2026-09-10T04:31:10.5495566Z test_source_digest_must_match_bytes_that_were_parsed (gopyt.test_closure.Transactions.test_source_digest_must_match_bytes_that_were_parsed) ... ok
+language (ubuntu-24.04, 3.11.16)	Language regression suite	2026-09-10T04:31:10.5497453Z test_a_comment_is_never_a_contract (gopyt.test_comments.Comments.test_a_comment_is_never_a_contract)
+language (ubuntu-24.04, 3.11.16)	Language regression suite	2026-09-10T04:31:10.5499380Z fmt.md: comments never become a contract or an `open`. ... ok
+language (ubuntu-24.04, 3.11.16)	Language regression suite	2026-09-10T04:31:10.5500430Z test_a_commented_package_checks (gopyt.test_comments.Comments.test_a_commented_package_checks)
+language (ubuntu-24.04, 3.11.16)	Language regression suite	2026-09-10T04:31:10.5757608Z Types live in spec/ only (elaborator.md); comments live in both. ... ok
+language (ubuntu-24.04, 3.11.16)	Language regression suite	2026-09-10T04:31:10.5759880Z test_comment_only_module_keeps_its_text (gopyt.test_comments.Comments.test_comment_only_module_keeps_its_text) ... ok
+language (ubuntu-24.04, 3.11.16)	Language regression suite	2026-09-10T04:31:10.5892791Z test_fmt_does_not_delete_comments_on_disk (gopyt.test_comments.Comments.test_fmt_does_not_delete_comments_on_disk) ... ok
+language (ubuntu-24.04, 3.11.16)	Language regression suite	2026-09-10T04:31:10.5908068Z test_formatting_is_idempotent_with_comments (gopyt.test_comments.Comments.test_formatting_is_idempotent_with_comments) ... ok
+language (ubuntu-24.04, 3.11.16)	Language regression suite	2026-09-10T04:31:10.5916908Z test_formatting_keeps_every_comment (gopyt.test_comments.Comments.test_formatting_keeps_every_comment) ... ok
+language (ubuntu-24.04, 3.11.16)	Language regression suite	2026-09-10T04:31:10.5919468Z test_trailing_whitespace_is_removed (gopyt.test_comments.Comments.test_trailing_whitespace_is_removed) ... ok
+language (ubuntu-24.04, 3.11.16)	Language regression suite	2026-09-10T04:31:10.5931227Z test_missing_installed_code_rejected (gopyt.test_component_inventory.InventoryTests.test_missing_installed_code_rejected) ... ok
+language (ubuntu-24.04, 3.11.16)	Language regression suite	2026-09-10T04:31:10.5940088Z test_modified_installed_code_rejected (gopyt.test_component_inventory.InventoryTests.test_modified_installed_code_rejected) ... ok
+language (ubuntu-24.04, 3.11.16)	Language regression suite	2026-09-10T04:31:10.5956401Z test_nested_metadata_vendor_pins_and_sboms_preserved (gopyt.test_component_inventory.InventoryTests.test_nested_metadata_vendor_pins_and_sboms_preserved) ... ok
+language (ubuntu-24.04, 3.11.16)	Language regression suite	2026-09-10T04:31:10.5963647Z test_unhashed_code_is_not_treated_as_installer_metadata (gopyt.test_component_inventory.InventoryTests.test_unhashed_code_is_not_treated_as_installer_metadata) ... ok
+language (ubuntu-24.04, 3.11.16)	Language regression suite	2026-09-10T04:31:10.5972224Z test_unknown_vendor_declaration_rejected (gopyt.test_component_inventory.InventoryTests.test_unknown_vendor_declaration_rejected) ... ok
+language (ubuntu-24.04, 3.11.16)	Language regression suite	2026-09-10T04:31:10.6207611Z test_c019_list_empty_type (gopyt.test_conformance.Assertions.test_c019_list_empty_type) ... ok
+language (ubuntu-24.04, 3.11.16)	Language regression suite	2026-09-10T04:31:10.6438496Z test_c020_map_empty_type (gopyt.test_conformance.Assertions.test_c020_map_empty_type) ... ok
+language (ubuntu-24.04, 3.11.16)	Language regression suite	2026-09-10T04:31:10.6850716Z test_c022_parallel_runs_in_source_order (gopyt.test_conformance.Assertions.test_c022_parallel_runs_in_source_order) ... ok
+language (ubuntu-24.04, 3.11.16)	Language regression suite	2026-09-10T04:31:10.7104715Z test_c024_division_by_zero_traps (gopyt.test_conformance.Assertions.test_c024_division_by_zero_traps) ... start
+language (ubuntu-24.04, 3.11.16)	Language regression suite	2026-09-10T04:31:10.7118139Z ok
+language (ubuntu-24.04, 3.11.16)	Language regression suite	2026-09-10T04:31:10.7478796Z test_c026_format_is_idempotent (gopyt.test_conformance.Assertions.test_c026_format_is_idempotent) ... ok
+language (ubuntu-24.04, 3.11.16)	Language regression suite	2026-09-10T04:31:10.7994360Z test_c027_jump_into_operand (gopyt.test_conformance.Assertions.test_c027_jump_into_operand) ... ok
+language (ubuntu-24.04, 3.11.16)	Language regression suite	2026-09-10T04:31:10.8371005Z test_c030_stale_lock (gopyt.test_conformance.Assertions.test_c030_stale_lock) ... ok
+language (ubuntu-24.04, 3.11.16)	Language regression suite	2026-09-10T04:31:10.8777633Z test_c031_test_effects_are_inferred (gopyt.test_conformance.Assertions.test_c031_test_effects_are_inferred) ... ok
+language (ubuntu-24.04, 3.11.16)	Language regression suite	2026-09-10T04:31:10.9083473Z test_c032_effectful_test_uses_the_runtime (gopyt.test_conformance.Assertions.test_c032_effectful_test_uses_the_runtime) ... ok
+language (ubuntu-24.04, 3.11.16)	Language regression suite	2026-09-10T04:31:10.9463443Z test_c033_obligation_discharged (gopyt.test_conformance.Assertions.test_c033_obligation_discharged) ... ok
+language (ubuntu-24.04, 3.11.16)	Language regression suite	2026-09-10T04:31:10.9708451Z test_c037_json_extra_key (gopyt.test_conformance.Assertions.test_c037_json_extra_key) ... decode
+language (ubuntu-24.04, 3.11.16)	Language regression suite	2026-09-10T04:31:10.9723996Z ok
+language (ubuntu-24.04, 3.11.16)	Language regression suite	2026-09-10T04:31:10.9853877Z test_c040_propose_needs_evolve (gopyt.test_conformance.Assertions.test_c040_propose_needs_evolve) ... ok
+language (ubuntu-24.04, 3.11.16)	Language regression suite	2026-09-10T04:31:11.0101744Z test_c001_pure_i64 (gopyt.test_conformance.MustAccept.test_c001_pure_i64) ... ok
+language (ubuntu-24.04, 3.11.16)	Language regression suite	2026-09-10T04:31:11.0330459Z test_c014_param_comma (gopyt.test_conformance.MustAccept.test_c014_param_comma) ... ok
+language (ubuntu-24.04, 3.11.16)	Language regression suite	2026-09-10T04:31:11.0553782Z test_c018_return_unit (gopyt.test_conformance.MustAccept.test_c018_return_unit) ... ok
+language (ubuntu-24.04, 3.11.16)	Language regression suite	2026-09-10T04:31:11.0772070Z test_c002_missing_use (gopyt.test_conformance.MustReject.test_c002_missing_use) ... ok
+language (ubuntu-24.04, 3.11.16)	Language regression suite	2026-09-10T04:31:11.1173165Z test_c003_inexhaustive_match (gopyt.test_conformance.MustReject.test_c003_inexhaustive_match) ... ok
+language (ubuntu-24.04, 3.11.16)	Language regression suite	2026-09-10T04:31:11.1391682Z test_c004_fn_cannot_call_task (gopyt.test_conformance.MustReject.test_c004_fn_cannot_call_task) ... ok
+language (ubuntu-24.04, 3.11.16)	Language regression suite	2026-09-10T04:31:11.1495859Z test_c005_int_is_not_a_type (gopyt.test_conformance.MustReject.test_c005_int_is_not_a_type) ... ok
+language (ubuntu-24.04, 3.11.16)	Language regression suite	2026-09-10T04:31:11.1599804Z test_c006_userid_illegal (gopyt.test_conformance.MustReject.test_c006_userid_illegal) ... ok
+language (ubuntu-24.04, 3.11.16)	Language regression suite	2026-09-10T04:31:11.1702060Z test_c007_leading_zero (gopyt.test_conformance.MustReject.test_c007_leading_zero) ... ok
+language (ubuntu-24.04, 3.11.16)	Language regression suite	2026-09-10T04:31:11.1805028Z test_c008_if_is_not_an_expression (gopyt.test_conformance.MustReject.test_c008_if_is_not_an_expression) ... ok
+language (ubuntu-24.04, 3.11.16)	Language regression suite	2026-09-10T04:31:11.2028827Z test_c009_open_fails_check (gopyt.test_conformance.MustReject.test_c009_open_fails_check) ... ok
+language (ubuntu-24.04, 3.11.16)	Language regression suite	2026-09-10T04:31:11.2130273Z test_c010_parallel_requires_bounds (gopyt.test_conformance.MustReject.test_c010_parallel_requires_bounds) ... ok
+language (ubuntu-24.04, 3.11.16)	Language regression suite	2026-09-10T04:31:11.2353818Z test_c011_json_requires_provide (gopyt.test_conformance.MustReject.test_c011_json_requires_provide) ... ok
+language (ubuntu-24.04, 3.11.16)	Language regression suite	2026-09-10T04:31:11.2769264Z test_c012_serve_arity (gopyt.test_conformance.MustReject.test_c012_serve_arity) ... ok
+language (ubuntu-24.04, 3.11.16)	Language regression suite	2026-09-10T04:31:11.2866837Z test_c013_param_comma_required (gopyt.test_conformance.MustReject.test_c013_param_comma_required) ... ok
+language (ubuntu-24.04, 3.11.16)	Language regression suite	2026-09-10T04:31:11.2964757Z test_c015_effect_comma_required (gopyt.test_conformance.MustReject.test_c015_effect_comma_required) ... ok
+language (ubuntu-24.04, 3.11.16)	Language regression suite	2026-09-10T04:31:11.3065093Z test_c016_no_trailing_comma (gopyt.test_conformance.MustReject.test_c016_no_trailing_comma) ... ok
+language (ubuntu-24.04, 3.11.16)	Language regression suite	2026-09-10T04:31:11.3185692Z test_c017_missing_return_path (gopyt.test_conformance.MustReject.test_c017_missing_return_path) ... ok
+language (ubuntu-24.04, 3.11.16)	Language regression suite	2026-09-10T04:31:11.3300736Z test_c021_map_key_is_closed (gopyt.test_conformance.MustReject.test_c021_map_key_is_closed) ... ok
+language (ubuntu-24.04, 3.11.16)	Language regression suite	2026-09-10T04:31:11.3404350Z test_c023_parallel_max_zero (gopyt.test_conformance.MustReject.test_c023_parallel_max_zero) ... ok
+language (ubuntu-24.04, 3.11.16)	Language regression suite	2026-09-10T04:31:11.3507852Z test_c025_if_in_value_position (gopyt.test_conformance.MustReject.test_c025_if_in_value_position) ... ok
+language (ubuntu-24.04, 3.11.16)	Language regression suite	2026-09-10T04:31:11.3606810Z test_c028_unknown_effect (gopyt.test_conformance.MustReject.test_c028_unknown_effect) ... ok
+language (ubuntu-24.04, 3.11.16)	Language regression suite	2026-09-10T04:31:11.3966828Z test_c029_non_test_open (gopyt.test_conformance.MustReject.test_c029_non_test_open) ... ok
+language (ubuntu-24.04, 3.11.16)	Language regression suite	2026-09-10T04:31:11.4076947Z test_c034_app_ffi (gopyt.test_conformance.MustReject.test_c034_app_ffi) ... ok
+language (ubuntu-24.04, 3.11.16)	Language regression suite	2026-09-10T04:31:11.4318606Z test_c035_request_without_egress (gopyt.test_conformance.MustReject.test_c035_request_without_egress) ... ok
+language (ubuntu-24.04, 3.11.16)	Language regression suite	2026-09-10T04:31:11.4442911Z test_c036_secret_in_log (gopyt.test_conformance.MustReject.test_c036_secret_in_log) ... ok
+language (ubuntu-24.04, 3.11.16)	Language regression suite	2026-09-10T04:31:11.4544218Z test_c038_eval (gopyt.test_conformance.MustReject.test_c038_eval) ... ok
+language (ubuntu-24.04, 3.11.16)	Language regression suite	2026-09-10T04:31:11.4664601Z test_c039_evolve_without_model (gopyt.test_conformance.MustReject.test_c039_evolve_without_model) ... ok
+language (ubuntu-24.04, 3.11.16)	Language regression suite	2026-09-10T04:31:11.4780000Z test_c041_evolve_bounds (gopyt.test_conformance.MustReject.test_c041_evolve_bounds) ... ok
+language (ubuntu-24.04, 3.11.16)	Language regression suite	2026-09-10T04:31:11.5165906Z test_idle_connection_lifetime_releases_queued_client (gopyt.test_connection_budget.ConnectionBudget.test_idle_connection_lifetime_releases_queued_client) ... echo
+language (ubuntu-24.04, 3.11.16)	Language regression suite	2026-09-10T04:31:12.5186552Z echo
+language (ubuntu-24.04, 3.11.16)	Language regression suite	2026-09-10T04:31:12.6221270Z ok
+language (ubuntu-24.04, 3.11.16)	Language regression suite	2026-09-10T04:31:12.7656508Z test_new_requests_cannot_extend_connection_deadline (gopyt.test_connection_budget.ConnectionBudget.test_new_requests_cannot_extend_connection_deadline) ... ok
+language (ubuntu-24.04, 3.11.16)	Language regression suite	2026-09-10T04:31:12.8047163Z test_non_handler_responses_also_consume_request_quota (gopyt.test_connection_budget.ConnectionBudget.test_non_handler_responses_also_consume_request_quota) ... echo
+language (ubuntu-24.04, 3.11.16)	Language regression suite	2026-09-10T04:31:12.9077370Z ok
+language (ubuntu-24.04, 3.11.16)	Language regression suite	2026-09-10T04:31:13.0518771Z test_pipelined_excess_requests_never_dispatch (gopyt.test_connection_budget.ConnectionBudget.test_pipelined_excess_requests_never_dispatch) ... ok
+language (ubuntu-24.04, 3.11.16)	Language regression suite	2026-09-10T04:31:13.0909697Z test_quota_releases_worker_to_already_queued_client (gopyt.test_connection_budget.ConnectionBudget.test_quota_releases_worker_to_already_queued_client) ... echo
+language (ubuntu-24.04, 3.11.16)	Language regression suite	2026-09-10T04:31:13.0932977Z echo
+language (ubuntu-24.04, 3.11.16)	Language regression suite	2026-09-10T04:31:13.0943059Z echo
+language (ubuntu-24.04, 3.11.16)	Language regression suite	2026-09-10T04:31:13.1972935Z ok
+language (ubuntu-24.04, 3.11.16)	Language regression suite	2026-09-10T04:31:13.2320397Z test_changed_contract_kind_is_drift (gopyt.test_contract_drift.ContractDriftTests.test_changed_contract_kind_is_drift) ... ok
+language (ubuntu-24.04, 3.11.16)	Language regression suite	2026-09-10T04:31:13.2656002Z test_changed_literal_is_drift (gopyt.test_contract_drift.ContractDriftTests.test_changed_literal_is_drift) ... ok
+language (ubuntu-24.04, 3.11.16)	Language regression suite	2026-09-10T04:31:13.3151477Z test_changed_operator_is_drift (gopyt.test_contract_drift.ContractDriftTests.test_changed_operator_is_drift) ... ok
+language (ubuntu-24.04, 3.11.16)	Language regression suite	2026-09-10T04:31:13.3493415Z test_comments_and_source_lines_are_not_drift (gopyt.test_contract_drift.ContractDriftTests.test_comments_and_source_lines_are_not_drift) ... ok
+language (ubuntu-24.04, 3.11.16)	Language regression suite	2026-09-10T04:31:13.3835919Z test_nested_expression_change_is_drift (gopyt.test_contract_drift.ContractDriftTests.test_nested_expression_change_is_drift) ... ok
+language (ubuntu-24.04, 3.11.16)	Language regression suite	2026-09-10T04:31:13.4176282Z test_reordered_clauses_are_drift (gopyt.test_contract_drift.ContractDriftTests.test_reordered_clauses_are_drift) ... ok
+language (ubuntu-24.04, 3.11.16)	Language regression suite	2026-09-10T04:31:13.5417588Z test_contract_change_is_reviewed_and_enforced_after_rebuild (gopyt.test_dependency_upgrades.DependencyUpgrades.test_contract_change_is_reviewed_and_enforced_after_rebuild) ... ok
+language (ubuntu-24.04, 3.11.16)	Language regression suite	2026-09-10T04:31:13.6467061Z test_relocated_graph_compiles_to_identical_bytes_and_lock (gopyt.test_dependency_upgrades.DependencyUpgrades.test_relocated_graph_compiles_to_identical_bytes_and_lock) ... ok
+language (ubuntu-24.04, 3.11.16)	Language regression suite	2026-09-10T04:31:13.7529678Z test_reviewed_lock_cannot_make_incompatible_api_typecheck (gopyt.test_dependency_upgrades.DependencyUpgrades.test_reviewed_lock_cannot_make_incompatible_api_typecheck) ... ok
+language (ubuntu-24.04, 3.11.16)	Language regression suite	2026-09-10T04:31:13.9246618Z test_transitive_upgrade_requires_review_and_rollback_is_reproducible (gopyt.test_dependency_upgrades.DependencyUpgrades.test_transitive_upgrade_requires_review_and_rollback_is_reproducible) ... ok
+language (ubuntu-24.04, 3.11.16)	Language regression suite	2026-09-10T04:31:14.1011821Z test_version_unchanged_does_not_hide_dependency_source_change (gopyt.test_dependency_upgrades.DependencyUpgrades.test_version_unchanged_does_not_hide_dependency_source_change) ... ok
+language (ubuntu-24.04, 3.11.16)	Language regression suite	2026-09-10T04:31:14.1354798Z test_declaring_the_dependency_makes_the_import_legal (gopyt.test_deps.DirectImports.test_declaring_the_dependency_makes_the_import_legal) ... ok
+language (ubuntu-24.04, 3.11.16)	Language regression suite	2026-09-10T04:31:14.1530105Z test_reaching_past_a_dependency_is_e043 (gopyt.test_deps.DirectImports.test_reaching_past_a_dependency_is_e043) ... ok
+language (ubuntu-24.04, 3.11.16)	Language regression suite	2026-09-10T04:31:14.1663447Z test_e042_cycle (gopyt.test_deps.Graph.test_e042_cycle) ... ok
+language (ubuntu-24.04, 3.11.16)	Language regression suite	2026-09-10T04:31:14.1779588Z test_e043_missing_path (gopyt.test_deps.Graph.test_e043_missing_path) ... ok
+language (ubuntu-24.04, 3.11.16)	Language regression suite	2026-09-10T04:31:14.1897742Z test_e044_name_mismatch (gopyt.test_deps.Graph.test_e044_name_mismatch) ... ok
+language (ubuntu-24.04, 3.11.16)	Language regression suite	2026-09-10T04:31:14.2052489Z test_e045_same_name_two_paths (gopyt.test_deps.Graph.test_e045_same_name_two_paths) ... ok
+language (ubuntu-24.04, 3.11.16)	Language regression suite	2026-09-10T04:31:14.2201252Z test_a_root_module_may_not_shadow_a_dependency (gopyt.test_deps.Names.test_a_root_module_may_not_shadow_a_dependency) ... ok
+language (ubuntu-24.04, 3.11.16)	Language regression suite	2026-09-10T04:31:14.2320506Z test_a_stdlib_prefix_may_not_be_an_app_module (gopyt.test_deps.Names.test_a_stdlib_prefix_may_not_be_an_app_module) ... ok
+language (ubuntu-24.04, 3.11.16)	Language regression suite	2026-09-10T04:31:14.2561885Z test_dep_digest_tracks_dep_sources (gopyt.test_deps.Resolved.test_dep_digest_tracks_dep_sources) ... ok
+language (ubuntu-24.04, 3.11.16)	Language regression suite	2026-09-10T04:31:14.2848031Z test_dep_module_is_callable_and_reaches_bytecode (gopyt.test_deps.Resolved.test_dep_module_is_callable_and_reaches_bytecode) ... ok
+language (ubuntu-24.04, 3.11.16)	Language regression suite	2026-09-10T04:31:14.2974738Z test_lock_lists_root_first_then_deps_by_name (gopyt.test_deps.Resolved.test_lock_lists_root_first_then_deps_by_name) ... ok
+language (ubuntu-24.04, 3.11.16)	Language regression suite	2026-09-10T04:31:14.3280773Z test_missing_lock_is_e041_then_check_passes (gopyt.test_deps.Resolved.test_missing_lock_is_e041_then_check_passes) ... ok
+language (ubuntu-24.04, 3.11.16)	Language regression suite	2026-09-10T04:31:14.3825158Z test_every_documented_code_is_raised_or_declared (gopyt.test_diagnostics.Coverage.test_every_documented_code_is_raised_or_declared) ... echo
+language (ubuntu-24.04, 3.11.16)	Language regression suite	2026-09-10T04:31:15.1016711Z echo
+language (ubuntu-24.04, 3.11.16)	Language regression suite	2026-09-10T04:31:15.5994618Z echo
+language (ubuntu-24.04, 3.11.16)	Language regression suite	2026-09-10T04:31:15.6046821Z echo
+language (ubuntu-24.04, 3.11.16)	Language regression suite	2026-09-10T04:31:15.8987936Z echo
+language (ubuntu-24.04, 3.11.16)	Language regression suite	2026-09-10T04:31:16.0413099Z echo
+language (ubuntu-24.04, 3.11.16)	Language regression suite	2026-09-10T04:31:16.1896940Z charge
+language (ubuntu-24.04, 3.11.16)	Language regression suite	2026-09-10T04:31:16.6651633Z echo
+language (ubuntu-24.04, 3.11.16)	Language regression suite	2026-09-10T04:31:16.6661300Z echo
+language (ubuntu-24.04, 3.11.16)	Language regression suite	2026-09-10T04:31:22.7127200Z echo
+language (ubuntu-24.04, 3.11.16)	Language regression suite	2026-09-10T04:31:24.4415378Z probe
+language (ubuntu-24.04, 3.11.16)	Language regression suite	2026-09-10T04:31:24.4804324Z probe
+language (ubuntu-24.04, 3.11.16)	Language regression suite	2026-09-10T04:31:24.5187229Z probe
+language (ubuntu-24.04, 3.11.16)	Language regression suite	2026-09-10T04:31:24.8564635Z arithmetic
+language (ubuntu-24.04, 3.11.16)	Language regression suite	2026-09-10T04:31:24.9221608Z probe
+language (ubuntu-24.04, 3.11.16)	Language regression suite	2026-09-10T04:31:25.0821077Z x
+language (ubuntu-24.04, 3.11.16)	Language regression suite	2026-09-10T04:31:25.1873460Z x
+language (ubuntu-24.04, 3.11.16)	Language regression suite	2026-09-10T04:31:25.2616527Z charge
+language (ubuntu-24.04, 3.11.16)	Language regression suite	2026-09-10T04:31:28.6708068Z start
+language (ubuntu-24.04, 3.11.16)	Language regression suite	2026-09-10T04:31:28.9125161Z decode
+language (ubuntu-24.04, 3.11.16)	Language regression suite	2026-09-10T04:31:29.4332999Z echo
+language (ubuntu-24.04, 3.11.16)	Language regression suite	2026-09-10T04:31:30.4353943Z echo
+language (ubuntu-24.04, 3.11.16)	Language regression suite	2026-09-10T04:31:30.7255594Z echo
+language (ubuntu-24.04, 3.11.16)	Language regression suite	2026-09-10T04:31:31.0131524Z echo
+language (ubuntu-24.04, 3.11.16)	Language regression suite	2026-09-10T04:31:31.0154840Z echo
+language (ubuntu-24.04, 3.11.16)	Language regression suite	2026-09-10T04:31:31.0164760Z echo
+language (ubuntu-24.04, 3.11.16)	Language regression suite	2026-09-10T04:31:41.8092684Z start
+language (ubuntu-24.04, 3.11.16)	Language regression suite	2026-09-10T04:31:51.6908822Z ERROR:root:Refund transaction failed
+language (ubuntu-24.04, 3.11.16)	Language regression suite	2026-09-10T04:31:51.6912216Z Traceback (most recent call last):
+language (ubuntu-24.04, 3.11.16)	Language regression suite	2026-09-10T04:31:51.6921816Z   File "/home/runner/work/GoPyt/GoPyt/examples/guarded_refunds/service.py", line 236, in do_POST
+language (ubuntu-24.04, 3.11.16)	Language regression suite	2026-09-10T04:31:51.6922492Z     result = self.server.ledger.apply(body)
+language (ubuntu-24.04, 3.11.16)	Language regression suite	2026-09-10T04:31:51.6922834Z              ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+language (ubuntu-24.04, 3.11.16)	Language regression suite	2026-09-10T04:31:51.6923424Z   File "/home/runner/work/GoPyt/GoPyt/examples/guarded_refunds/service.py", line 143, in apply
+language (ubuntu-24.04, 3.11.16)	Language regression suite	2026-09-10T04:31:51.6924017Z     return self._apply(body)
+language (ubuntu-24.04, 3.11.16)	Language regression suite	2026-09-10T04:31:51.6924283Z            ^^^^^^^^^^^^^^^^^
+language (ubuntu-24.04, 3.11.16)	Language regression suite	2026-09-10T04:31:51.6924793Z   File "/home/runner/work/GoPyt/GoPyt/examples/guarded_refunds/service.py", line 180, in _apply
+language (ubuntu-24.04, 3.11.16)	Language regression suite	2026-09-10T04:31:51.6925587Z     conn.execute('INSERT INTO requests VALUES(?,?,?,?)', (order_id,key,payload,canonical(response).decode()))
+language (ubuntu-24.04, 3.11.16)	Language regression suite	2026-09-10T04:31:51.6926157Z sqlite3.IntegrityError: injected
+language (ubuntu-24.04, 3.11.16)	Language regression suite	2026-09-10T04:31:58.6686014Z ERROR:root:Refund transaction failed
+language (ubuntu-24.04, 3.11.16)	Language regression suite	2026-09-10T04:31:58.6686826Z Traceback (most recent call last):
+language (ubuntu-24.04, 3.11.16)	Language regression suite	2026-09-10T04:31:58.6688126Z   File "/home/runner/work/GoPyt/GoPyt/examples/guarded_refunds/service.py", line 236, in do_POST
+language (ubuntu-24.04, 3.11.16)	Language regression suite	2026-09-10T04:31:58.6689547Z     result = self.server.ledger.apply(body)
+language (ubuntu-24.04, 3.11.16)	Language regression suite	2026-09-10T04:31:58.6690167Z              ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+language (ubuntu-24.04, 3.11.16)	Language regression suite	2026-09-10T04:31:58.6691350Z   File "/home/runner/work/GoPyt/GoPyt/examples/guarded_refunds/service.py", line 143, in apply
+language (ubuntu-24.04, 3.11.16)	Language regression suite	2026-09-10T04:31:58.6692347Z     return self._apply(body)
+language (ubuntu-24.04, 3.11.16)	Language regression suite	2026-09-10T04:31:58.6692872Z            ^^^^^^^^^^^^^^^^^
+language (ubuntu-24.04, 3.11.16)	Language regression suite	2026-09-10T04:31:58.6693843Z   File "/home/runner/work/GoPyt/GoPyt/examples/guarded_refunds/service.py", line 168, in _apply
+language (ubuntu-24.04, 3.11.16)	Language regression suite	2026-09-10T04:31:58.6695122Z     allowed = timed_call(self.vm, self.ids['refund_policy.allowed'],
+language (ubuntu-24.04, 3.11.16)	Language regression suite	2026-09-10T04:31:58.6695904Z               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+language (ubuntu-24.04, 3.11.16)	Language regression suite	2026-09-10T04:31:58.6697069Z   File "/home/runner/work/_temp/gopyt-python/python/lib/python3.11/unittest/mock.py", line 1124, in __call__
+language (ubuntu-24.04, 3.11.16)	Language regression suite	2026-09-10T04:31:58.6697977Z     return self._mock_call(*args, **kwargs)
+language (ubuntu-24.04, 3.11.16)	Language regression suite	2026-09-10T04:31:58.6698535Z            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+language (ubuntu-24.04, 3.11.16)	Language regression suite	2026-09-10T04:31:58.6699952Z   File "/home/runner/work/_temp/gopyt-python/python/lib/python3.11/unittest/mock.py", line 1128, in _mock_call
+language (ubuntu-24.04, 3.11.16)	Language regression suite	2026-09-10T04:31:58.6701013Z     return self._execute_mock_call(*args, **kwargs)
+language (ubuntu-24.04, 3.11.16)	Language regression suite	2026-09-10T04:31:58.6701593Z            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+language (ubuntu-24.04, 3.11.16)	Language regression suite	2026-09-10T04:31:58.6703250Z   File "/home/runner/work/_temp/gopyt-python/python/lib/python3.11/unittest/mock.py", line 1183, in _execute_mock_call
+language (ubuntu-24.04, 3.11.16)	Language regression suite	2026-09-10T04:31:58.6704294Z     raise effect
+language (ubuntu-24.04, 3.11.16)	Language regression suite	2026-09-10T04:31:58.6704672Z gopyt.vm.Trap: trap 2
+language (ubuntu-24.04, 3.11.16)	Language regression suite	2026-09-10T04:31:58.6709499Z ERROR:root:Refund transaction failed
+language (ubuntu-24.04, 3.11.16)	Language regression suite	2026-09-10T04:31:58.6710091Z Traceback (most recent call last):
+language (ubuntu-24.04, 3.11.16)	Language regression suite	2026-09-10T04:31:58.6711082Z   File "/home/runner/work/GoPyt/GoPyt/examples/guarded_refunds/service.py", line 236, in do_POST
+language (ubuntu-24.04, 3.11.16)	Language regression suite	2026-09-10T04:31:58.6712053Z     result = self.server.ledger.apply(body)
+language (ubuntu-24.04, 3.11.16)	Language regression suite	2026-09-10T04:31:58.6712598Z              ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+language (ubuntu-24.04, 3.11.16)	Language regression suite	2026-09-10T04:31:58.6713525Z   File "/home/runner/work/GoPyt/GoPyt/examples/guarded_refunds/service.py", line 143, in apply
+language (ubuntu-24.04, 3.11.16)	Language regression suite	2026-09-10T04:31:58.6714468Z     return self._apply(body)
+language (ubuntu-24.04, 3.11.16)	Language regression suite	2026-09-10T04:31:58.6714921Z            ^^^^^^^^^^^^^^^^^
+language (ubuntu-24.04, 3.11.16)	Language regression suite	2026-09-10T04:31:58.6715510Z   File "/home/runner/work/GoPyt/GoPyt/examples/guarded_refunds/service.py", line 168, in _apply
+language (ubuntu-24.04, 3.11.16)	Language regression suite	2026-09-10T04:31:58.6716223Z     allowed = timed_call(self.vm, self.ids['refund_policy.allowed'],
+language (ubuntu-24.04, 3.11.16)	Language regression suite	2026-09-10T04:31:58.6716642Z               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+language (ubuntu-24.04, 3.11.16)	Language regression suite	2026-09-10T04:31:58.6717260Z   File "/home/runner/work/_temp/gopyt-python/python/lib/python3.11/unittest/mock.py", line 1124, in __call__
+language (ubuntu-24.04, 3.11.16)	Language regression suite	2026-09-10T04:31:58.6717793Z     return self._mock_call(*args, **kwargs)
+language (ubuntu-24.04, 3.11.16)	Language regression suite	2026-09-10T04:31:58.6718094Z            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+language (ubuntu-24.04, 3.11.16)	Language regression suite	2026-09-10T04:31:58.6718638Z   File "/home/runner/work/_temp/gopyt-python/python/lib/python3.11/unittest/mock.py", line 1128, in _mock_call
+language (ubuntu-24.04, 3.11.16)	Language regression suite	2026-09-10T04:31:58.6719588Z     return self._execute_mock_call(*args, **kwargs)
+language (ubuntu-24.04, 3.11.16)	Language regression suite	2026-09-10T04:31:58.6719905Z            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+language (ubuntu-24.04, 3.11.16)	Language regression suite	2026-09-10T04:31:58.6720473Z   File "/home/runner/work/_temp/gopyt-python/python/lib/python3.11/unittest/mock.py", line 1183, in _execute_mock_call
+language (ubuntu-24.04, 3.11.16)	Language regression suite	2026-09-10T04:31:58.6721002Z     raise effect
+language (ubuntu-24.04, 3.11.16)	Language regression suite	2026-09-10T04:31:58.6721214Z gopyt.vm.Cancelled
+language (ubuntu-24.04, 3.11.16)	Language regression suite	2026-09-10T04:32:03.4187687Z ERROR:root:Refund transaction failed
+language (ubuntu-24.04, 3.11.16)	Language regression suite	2026-09-10T04:32:03.4188538Z Traceback (most recent call last):
+language (ubuntu-24.04, 3.11.16)	Language regression suite	2026-09-10T04:32:03.4189877Z   File "/home/runner/work/GoPyt/GoPyt/examples/guarded_refunds/service.py", line 236, in do_POST
+language (ubuntu-24.04, 3.11.16)	Language regression suite	2026-09-10T04:32:03.4190843Z     result = self.server.ledger.apply(body)
+language (ubuntu-24.04, 3.11.16)	Language regression suite	2026-09-10T04:32:03.4191399Z              ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+language (ubuntu-24.04, 3.11.16)	Language regression suite	2026-09-10T04:32:03.4192331Z   File "/home/runner/work/GoPyt/GoPyt/examples/guarded_refunds/service.py", line 143, in apply
+language (ubuntu-24.04, 3.11.16)	Language regression suite	2026-09-10T04:32:03.4193640Z     return self._apply(body)
+language (ubuntu-24.04, 3.11.16)	Language regression suite	2026-09-10T04:32:03.4194119Z            ^^^^^^^^^^^^^^^^^
+language (ubuntu-24.04, 3.11.16)	Language regression suite	2026-09-10T04:32:03.4195029Z   File "/home/runner/work/GoPyt/GoPyt/examples/guarded_refunds/service.py", line 172, in _apply
+language (ubuntu-24.04, 3.11.16)	Language regression suite	2026-09-10T04:32:03.4196099Z     after = timed_call(self.vm, self.ids['refund_policy.after_refund'],
+language (ubuntu-24.04, 3.11.16)	Language regression suite	2026-09-10T04:32:03.4196627Z             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+language (ubuntu-24.04, 3.11.16)	Language regression suite	2026-09-10T04:32:03.4197517Z   File "/home/runner/work/GoPyt/GoPyt/gopyt/guard.py", line 337, in timed_call
+language (ubuntu-24.04, 3.11.16)	Language regression suite	2026-09-10T04:32:03.4198089Z     return vm.call(fn, list(args))
+language (ubuntu-24.04, 3.11.16)	Language regression suite	2026-09-10T04:32:03.4198373Z            ^^^^^^^^^^^^^^^^^^^^^^^
+language (ubuntu-24.04, 3.11.16)	Language regression suite	2026-09-10T04:32:03.4198911Z   File "/home/runner/work/GoPyt/GoPyt/gopyt/vm.py", line 304, in call
+language (ubuntu-24.04, 3.11.16)	Language regression suite	2026-09-10T04:32:03.4199900Z     return self._call_admitted(fn_id, args, caller_effects)
+language (ubuntu-24.04, 3.11.16)	Language regression suite	2026-09-10T04:32:03.4200307Z            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+language (ubuntu-24.04, 3.11.16)	Language regression suite	2026-09-10T04:32:03.4200802Z   File "/home/runner/work/GoPyt/GoPyt/gopyt/vm.py", line 317, in _call_admitted
+language (ubuntu-24.04, 3.11.16)	Language regression suite	2026-09-10T04:32:03.4201280Z     result = self._call(fn_id, args, caller_effects)
+language (ubuntu-24.04, 3.11.16)	Language regression suite	2026-09-10T04:32:03.4201624Z              ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+language (ubuntu-24.04, 3.11.16)	Language regression suite	2026-09-10T04:32:03.4202048Z   File "/home/runner/work/GoPyt/GoPyt/gopyt/vm.py", line 358, in _call
+language (ubuntu-24.04, 3.11.16)	Language regression suite	2026-09-10T04:32:03.4202462Z     return self.exec(fn_id, func, args)
+language (ubuntu-24.04, 3.11.16)	Language regression suite	2026-09-10T04:32:03.4202747Z            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+language (ubuntu-24.04, 3.11.16)	Language regression suite	2026-09-10T04:32:03.4203139Z   File "/home/runner/work/GoPyt/GoPyt/gopyt/vm.py", line 376, in exec
+language (ubuntu-24.04, 3.11.16)	Language regression suite	2026-09-10T04:32:03.4203852Z     return self._exec_frame(frame)
+language (ubuntu-24.04, 3.11.16)	Language regression suite	2026-09-10T04:32:03.4204128Z            ^^^^^^^^^^^^^^^^^^^^^^^
+language (ubuntu-24.04, 3.11.16)	Language regression suite	2026-09-10T04:32:03.4204543Z   File "/home/runner/work/GoPyt/GoPyt/gopyt/vm.py", line 381, in _exec_frame
+language (ubuntu-24.04, 3.11.16)	Language regression suite	2026-09-10T04:32:03.4205024Z     return self._execute_frame(frame, instruction_guard)
+language (ubuntu-24.04, 3.11.16)	Language regression suite	2026-09-10T04:32:03.4205386Z            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+language (ubuntu-24.04, 3.11.16)	Language regression suite	2026-09-10T04:32:03.4205844Z   File "/home/runner/work/GoPyt/GoPyt/gopyt/vm.py", line 594, in _execute_frame
+language (ubuntu-24.04, 3.11.16)	Language regression suite	2026-09-10T04:32:03.4206463Z     raise Trap(ops.TRAP_REQUIRES if op == ops.REQUIRE else ops.TRAP_ENSURES)
+language (ubuntu-24.04, 3.11.16)	Language regression suite	2026-09-10T04:32:03.4206888Z gopyt.vm.Trap: trap 2
+language (ubuntu-24.04, 3.11.16)	Language regression suite	2026-09-10T04:32:06.2807563Z guard prepare: duplicate JSON key: cases
+language (ubuntu-24.04, 3.11.16)	Language regression suite	2026-09-10T04:32:07.2967982Z guard prepare: preparation policy exceeds byte limit
+language (ubuntu-24.04, 3.11.16)	Language regression suite	2026-09-10T04:32:07.9788370Z c062ec00ba1758355db4ae92ad5f9e42efb51ceabdc527e9ab393af5bb792b16
+language (ubuntu-24.04, 3.11.16)	Language regression suite	2026-09-10T04:32:08.1810384Z {
+language (ubuntu-24.04, 3.11.16)	Language regression suite	2026-09-10T04:32:08.1810971Z   "schema": "gopyt.guard.receipt.v1",
+language (ubuntu-24.04, 3.11.16)	Language regression suite	2026-09-10T04:32:08.1811506Z   "accepted": true,
+language (ubuntu-24.04, 3.11.16)	Language regression suite	2026-09-10T04:32:08.1812132Z   "bundle_sha256": "c062ec00ba1758355db4ae92ad5f9e42efb51ceabdc527e9ab393af5bb792b16",
+language (ubuntu-24.04, 3.11.16)	Language regression suite	2026-09-10T04:32:08.1813108Z   "engine_sha256": "efa43ca44f5546598ab6b62be48e27be34f7bc250dcec7fbda090f3411140197",
+language (ubuntu-24.04, 3.11.16)	Language regression suite	2026-09-10T04:32:08.1813805Z   "limitations": [
+language (ubuntu-24.04, 3.11.16)	Language regression suite	2026-09-10T04:32:08.1814183Z     "Finite acceptance cases, not a proof.",
+language (ubuntu-24.04, 3.11.16)	Language regression suite	2026-09-10T04:32:08.1815067Z     "Listed obligations are declarations; this gate executes only the supplied cases, not HTTP or database tests.",
+language (ubuntu-24.04, 3.11.16)	Language regression suite	2026-09-10T04:32:08.1816196Z     "Caller, bundle pin, and executor must be protected outside candidate authority.",
+language (ubuntu-24.04, 3.11.16)	Language regression suite	2026-09-10T04:32:08.1817081Z     "No guarantee about external payment processors or undisclosed policies."
+language (ubuntu-24.04, 3.11.16)	Language regression suite	2026-09-10T04:32:08.1817728Z   ],
+language (ubuntu-24.04, 3.11.16)	Language regression suite	2026-09-10T04:32:08.1818289Z   "candidate_sha256": "8e4bb3d1963f4c54ee9a7c68267746cd2583ebc7823243110a812e8848d2c8d0",
+language (ubuntu-24.04, 3.11.16)	Language regression suite	2026-09-10T04:32:08.1819225Z   "changed_files": [],
+language (ubuntu-24.04, 3.11.16)	Language regression suite	2026-09-10T04:32:08.1819596Z   "obligations": {
+language (ubuntu-24.04, 3.11.16)	Language regression suite	2026-09-10T04:32:08.1820017Z     "stock": "Reservation preserves nonnegative stock."
+language (ubuntu-24.04, 3.11.16)	Language regression suite	2026-09-10T04:32:08.1820504Z   },
+language (ubuntu-24.04, 3.11.16)	Language regression suite	2026-09-10T04:32:08.1820812Z   "protected_contract_helpers": [],
+language (ubuntu-24.04, 3.11.16)	Language regression suite	2026-09-10T04:32:08.1821262Z   "passed": 3,
+language (ubuntu-24.04, 3.11.16)	Language regression suite	2026-09-10T04:32:08.1821581Z   "total": 3,
+language (ubuntu-24.04, 3.11.16)	Language regression suite	2026-09-10T04:32:08.1821891Z   "failures": []
+language (ubuntu-24.04, 3.11.16)	Language regression suite	2026-09-10T04:32:08.1822206Z }
+language (ubuntu-24.04, 3.11.16)	Language regression suite	2026-09-10T04:32:10.0232958Z echo
+language (ubuntu-24.04, 3.11.16)	Language regression suite	2026-09-10T04:32:10.0248550Z echo
+language (ubuntu-24.04, 3.11.16)	Language regression suite	2026-09-10T04:32:10.1694062Z echo
+language (ubuntu-24.04, 3.11.16)	Language regression suite	2026-09-10T04:32:10.1725458Z echo
+language (ubuntu-24.04, 3.11.16)	Language regression suite	2026-09-10T04:32:10.1755829Z echo
+language (ubuntu-24.04, 3.11.16)	Language regression suite	2026-09-10T04:32:10.4624211Z echo
+language (ubuntu-24.04, 3.11.16)	Language regression suite	2026-09-10T04:32:10.6066947Z echo
+language (ubuntu-24.04, 3.11.16)	Language regression suite	2026-09-10T04:32:10.7502216Z echo
+language (ubuntu-24.04, 3.11.16)	Language regression suite	2026-09-10T04:32:10.7518051Z echo
+language (ubuntu-24.04, 3.11.16)	Language regression suite	2026-09-10T04:32:10.7530854Z echo
+language (ubuntu-24.04, 3.11.16)	Language regression suite	2026-09-10T04:32:10.7543420Z echo
+language (ubuntu-24.04, 3.11.16)	Language regression suite	2026-09-10T04:32:10.7555997Z echo
+language (ubuntu-24.04, 3.11.16)	Language regression suite	2026-09-10T04:32:10.7567733Z echo
+language (ubuntu-24.04, 3.11.16)	Language regression suite	2026-09-10T04:32:10.9119440Z echo
+language (ubuntu-24.04, 3.11.16)	Language regression suite	2026-09-10T04:32:11.0548765Z echo
+language (ubuntu-24.04, 3.11.16)	Language regression suite	2026-09-10T04:32:11.0561483Z echo
+language (ubuntu-24.04, 3.11.16)	Language regression suite	2026-09-10T04:32:37.5298426Z output
+language (ubuntu-24.04, 3.11.16)	Language regression suite	2026-09-10T04:32:37.5446280Z output
+language (ubuntu-24.04, 3.11.16)	Language regression suite	2026-09-10T04:32:50.4302874Z obligations: FileExistsError: [Errno 17] File exists: '/home/runner/work/_temp/tmpli6gq7ge/report.json'
+language (ubuntu-24.04, 3.11.16)	Language regression suite	2026-09-10T04:32:52.6140238Z obligations: FileExistsError: [Errno 17] File exists: '/home/runner/work/_temp/tmpgtyh1dgi/report.json'
+language (ubuntu-24.04, 3.11.16)	Language regression suite	2026-09-10T04:32:54.4194360Z obligations: FileExistsError: [Errno 17] File exists: '/home/runner/work/_temp/tmp1i2lwh3j/report.json'
+language (ubuntu-24.04, 3.11.16)	Language regression suite	2026-09-10T04:32:56.1253332Z obligations: FileExistsError: [Errno 17] File exists: '/home/runner/work/_temp/tmptuza24ie/report.json'
+language (ubuntu-24.04, 3.11.16)	Language regression suite	2026-09-10T04:33:02.7429503Z arm
+language (ubuntu-24.04, 3.11.16)	Language regression suite	2026-09-10T04:33:02.7431549Z arm
+language (ubuntu-24.04, 3.11.16)	Language regression suite	2026-09-10T04:33:04.7684022Z 
+language (ubuntu-24.04, 3.11.16)	Language regression suite	2026-09-10T04:33:04.7685011Z 50 modules checked in 37 ms
+language (ubuntu-24.04, 3.11.16)	Language regression suite	2026-09-10T04:33:10.3482296Z 
+language (ubuntu-24.04, 3.11.16)	Language regression suite	2026-09-10T04:33:10.3483190Z check 21 ms, 10000 logins 5517 ms
+language (ubuntu-24.04, 3.11.16)	Language regression suite	2026-09-10T04:33:12.0295740Z project context: FileExistsError: [Errno 17] File exists: '/home/runner/work/_temp/tmp7huzo_15/receipt.json'
+language (ubuntu-24.04, 3.11.16)	Language regression suite	2026-09-10T04:33:20.4901926Z echo
+language (ubuntu-24.04, 3.11.16)	Language regression suite	2026-09-10T04:33:20.4912897Z echo
+language (ubuntu-24.04, 3.11.16)	Language regression suite	2026-09-10T04:33:20.6341519Z echo
+language (ubuntu-24.04, 3.11.16)	Language regression suite	2026-09-10T04:33:20.6351701Z echo
+language (ubuntu-24.04, 3.11.16)	Language regression suite	2026-09-10T04:33:20.7775367Z echo
+language (ubuntu-24.04, 3.11.16)	Language regression suite	2026-09-10T04:33:20.7784228Z echo
+language (ubuntu-24.04, 3.11.16)	Language regression suite	2026-09-10T04:33:47.7351520Z decode
+language (ubuntu-24.04, 3.11.16)	Language regression suite	2026-09-10T04:33:47.8427552Z charge
+language (ubuntu-24.04, 3.11.16)	Language regression suite	2026-09-10T04:33:48.4562239Z cell
+language (ubuntu-24.04, 3.11.16)	Language regression suite	2026-09-10T04:33:48.4939271Z e
+language (ubuntu-24.04, 3.11.16)	Language regression suite	2026-09-10T04:33:48.4940545Z o
+language (ubuntu-24.04, 3.11.16)	Language regression suite	2026-09-10T04:33:48.4942492Z e
+language (ubuntu-24.04, 3.11.16)	Language regression suite	2026-09-10T04:33:48.4944296Z o
+language (ubuntu-24.04, 3.11.16)	Language regression suite	2026-09-10T04:33:48.4946030Z e
+language (ubuntu-24.04, 3.11.16)	Language regression suite	2026-09-10T04:33:48.4947786Z o
+language (ubuntu-24.04, 3.11.16)	Language regression suite	2026-09-10T04:33:48.4950865Z e
+language (ubuntu-24.04, 3.11.16)	Language regression suite	2026-09-10T04:33:48.5697835Z charging
+language (ubuntu-24.04, 3.11.16)	Language regression suite	2026-09-10T04:33:49.1001963Z echo
+language (ubuntu-24.04, 3.11.16)	Language regression suite	2026-09-10T04:33:49.9744744Z user
+language (ubuntu-24.04, 3.11.16)	Language regression suite	2026-09-10T04:33:50.1404943Z ping
+language (ubuntu-24.04, 3.11.16)	Language regression suite	2026-09-10T04:33:50.4445123Z charge
+language (ubuntu-24.04, 3.11.16)	Language regression suite	2026-09-10T04:33:50.5837842Z wire
+language (ubuntu-24.04, 3.11.16)	Language regression suite	2026-09-10T04:33:50.6378734Z alloc
+language (ubuntu-24.04, 3.11.16)	Language regression suite	2026-09-10T04:33:51.6844544Z 1
+language (ubuntu-24.04, 3.11.16)	Language regression suite	2026-09-10T04:33:51.7011789Z 1
+language (ubuntu-24.04, 3.11.16)	Language regression suite	2026-09-10T04:33:51.9026037Z found
+language (ubuntu-24.04, 3.11.16)	Language regression suite	2026-09-10T04:33:52.0375802Z go
+language (ubuntu-24.04, 3.11.16)	Language regression suite	2026-09-10T04:33:52.1338430Z go
+language (ubuntu-24.04, 3.11.16)	Language regression suite	2026-09-10T04:33:52.1707612Z 0
+language (ubuntu-24.04, 3.11.16)	Language regression suite	2026-09-10T04:33:52.1708806Z 1
+language (ubuntu-24.04, 3.11.16)	Language regression suite	2026-09-10T04:33:52.1711583Z 2
+language (ubuntu-24.04, 3.11.16)	Language regression suite	2026-09-10T04:33:52.1729932Z 3
+language (ubuntu-24.04, 3.11.16)	Language regression suite	2026-09-10T04:33:52.2449873Z go
+language (ubuntu-24.04, 3.11.16)	Language regression suite	2026-09-10T04:33:52.3735713Z go
+language (ubuntu-24.04, 3.11.16)	Language regression suite	2026-09-10T04:33:52.5391800Z go
+language (ubuntu-24.04, 3.11.16)	Language regression suite	2026-09-10T04:33:52.7818725Z and
+language (ubuntu-24.04, 3.11.16)	Language regression suite	2026-09-10T04:33:52.8175687Z order
+language (ubuntu-24.04, 3.11.16)	Language regression suite	2026-09-10T04:33:52.8563826Z contract
+language (ubuntu-24.04, 3.11.16)	Language regression suite	2026-09-10T04:33:52.8931157Z div
+language (ubuntu-24.04, 3.11.16)	Language regression suite	2026-09-10T04:33:52.9451494Z enum
+language (ubuntu-24.04, 3.11.16)	Language regression suite	2026-09-10T04:33:52.9819159Z int
+language (ubuntu-24.04, 3.11.16)	Language regression suite	2026-09-10T04:33:53.0181270Z opt
+language (ubuntu-24.04, 3.11.16)	Language regression suite	2026-09-10T04:33:53.0549582Z or
+language (ubuntu-24.04, 3.11.16)	Language regression suite	2026-09-10T04:33:53.0909482Z range
+language (ubuntu-24.04, 3.11.16)	Language regression suite	2026-09-10T04:33:53.1274593Z mod
+language (ubuntu-24.04, 3.11.16)	Language regression suite	2026-09-10T04:33:53.1635823Z slice
+language (ubuntu-24.04, 3.11.16)	Language regression suite	2026-09-10T04:33:53.2034657Z len
+language (ubuntu-24.04, 3.11.16)	Language regression suite	2026-09-10T04:33:53.2848547Z encode
+language (ubuntu-24.04, 3.11.16)	Language regression suite	2026-09-10T04:33:53.3814416Z encode
+language (ubuntu-24.04, 3.11.16)	Language regression suite	2026-09-10T04:33:53.3823787Z decode
+language (ubuntu-24.04, 3.11.16)	Language regression suite	2026-09-10T04:33:53.4673626Z get
+language (ubuntu-24.04, 3.11.16)	Language regression suite	2026-09-10T04:33:53.5039076Z bools
+language (ubuntu-24.04, 3.11.16)	Language regression suite	2026-09-10T04:33:53.5752615Z empty
+language (ubuntu-24.04, 3.11.16)	Language regression suite	2026-09-10T04:33:53.6346881Z keys
+language (ubuntu-24.04, 3.11.16)	Language regression suite	2026-09-10T04:33:53.6717753Z map
+language (ubuntu-24.04, 3.11.16)	Language regression suite	2026-09-10T04:33:54.6467985Z ok
+language (ubuntu-24.04, 3.11.16)	Language regression suite	2026-09-10T04:33:54.6470646Z test_untested_codes_are_documented (gopyt.test_diagnostics.Coverage.test_untested_codes_are_documented) ... ok
+language (ubuntu-24.04, 3.11.16)	Language regression suite	2026-09-10T04:33:54.6472074Z test_untested_list_stays_honest (gopyt.test_diagnostics.Coverage.test_untested_list_stays_honest)
+language (ubuntu-24.04, 3.11.16)	Language regression suite	2026-09-10T04:33:54.6999327Z A code that a test does reach must not sit in UNTESTED. ... echo
+language (ubuntu-24.04, 3.11.16)	Language regression suite	2026-09-10T04:33:55.3830823Z echo
+language (ubuntu-24.04, 3.11.16)	Language regression suite	2026-09-10T04:33:55.8722447Z echo
+language (ubuntu-24.04, 3.11.16)	Language regression suite	2026-09-10T04:33:55.8773916Z echo
+language (ubuntu-24.04, 3.11.16)	Language regression suite	2026-09-10T04:33:56.1881712Z echo
+language (ubuntu-24.04, 3.11.16)	Language regression suite	2026-09-10T04:33:56.3310427Z echo
+language (ubuntu-24.04, 3.11.16)	Language regression suite	2026-09-10T04:33:56.4771389Z charge
+language (ubuntu-24.04, 3.11.16)	Language regression suite	2026-09-10T04:33:56.9302127Z echo
+language (ubuntu-24.04, 3.11.16)	Language regression suite	2026-09-10T04:33:56.9312102Z echo
+language (ubuntu-24.04, 3.11.16)	Language regression suite	2026-09-10T04:34:02.9598525Z echo
+language (ubuntu-24.04, 3.11.16)	Language regression suite	2026-09-10T04:34:04.8117789Z probe
+language (ubuntu-24.04, 3.11.16)	Language regression suite	2026-09-10T04:34:04.8483928Z probe
+language (ubuntu-24.04, 3.11.16)	Language regression suite	2026-09-10T04:34:04.8844374Z probe
+language (ubuntu-24.04, 3.11.16)	Language regression suite	2026-09-10T04:34:05.1578921Z arithmetic
+language (ubuntu-24.04, 3.11.16)	Language regression suite	2026-09-10T04:34:05.2230578Z probe
+language (ubuntu-24.04, 3.11.16)	Language regression suite	2026-09-10T04:34:05.3861613Z x
+language (ubuntu-24.04, 3.11.16)	Language regression suite	2026-09-10T04:34:05.4765484Z x
+language (ubuntu-24.04, 3.11.16)	Language regression suite	2026-09-10T04:34:05.5518615Z charge
+language (ubuntu-24.04, 3.11.16)	Language regression suite	2026-09-10T04:34:08.7863209Z start
+language (ubuntu-24.04, 3.11.16)	Language regression suite	2026-09-10T04:34:09.0212073Z decode
+language (ubuntu-24.04, 3.11.16)	Language regression suite	2026-09-10T04:34:09.5328903Z echo
+language (ubuntu-24.04, 3.11.16)	Language regression suite	2026-09-10T04:34:10.5345800Z echo
+language (ubuntu-24.04, 3.11.16)	Language regression suite	2026-09-10T04:34:10.8177866Z echo
+language (ubuntu-24.04, 3.11.16)	Language regression suite	2026-09-10T04:34:11.1011374Z echo
+language (ubuntu-24.04, 3.11.16)	Language regression suite	2026-09-10T04:34:11.1032260Z echo
+language (ubuntu-24.04, 3.11.16)	Language regression suite	2026-09-10T04:34:11.1041143Z echo
+language (ubuntu-24.04, 3.11.16)	Language regression suite	2026-09-10T04:34:21.4058349Z start
+language (ubuntu-24.04, 3.11.16)	Language regression suite	2026-09-10T04:34:30.9597307Z ERROR:root:Refund transaction failed
+language (ubuntu-24.04, 3.11.16)	Language regression suite	2026-09-10T04:34:30.9598311Z Traceback (most recent call last):
+language (ubuntu-24.04, 3.11.16)	Language regression suite	2026-09-10T04:34:30.9600175Z   File "/home/runner/work/GoPyt/GoPyt/examples/guarded_refunds/service.py", line 236, in do_POST
+language (ubuntu-24.04, 3.11.16)	Language regression suite	2026-09-10T04:34:30.9601684Z     result = self.server.ledger.apply(body)
+language (ubuntu-24.04, 3.11.16)	Language regression suite	2026-09-10T04:34:30.9602399Z              ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+language (ubuntu-24.04, 3.11.16)	Language regression suite	2026-09-10T04:34:30.9605863Z   File "/home/runner/work/GoPyt/GoPyt/examples/guarded_refunds/service.py", line 143, in apply
+language (ubuntu-24.04, 3.11.16)	Language regression suite	2026-09-10T04:34:30.9606781Z     return self._apply(body)
+language (ubuntu-24.04, 3.11.16)	Language regression suite	2026-09-10T04:34:30.9607262Z            ^^^^^^^^^^^^^^^^^
+language (ubuntu-24.04, 3.11.16)	Language regression suite	2026-09-10T04:34:30.9608119Z   File "/home/runner/work/GoPyt/GoPyt/examples/guarded_refunds/service.py", line 180, in _apply
+language (ubuntu-24.04, 3.11.16)	Language regression suite	2026-09-10T04:34:30.9609832Z     conn.execute('INSERT INTO requests VALUES(?,?,?,?)', (order_id,key,payload,canonical(response).decode()))
+language (ubuntu-24.04, 3.11.16)	Language regression suite	2026-09-10T04:34:30.9610969Z sqlite3.IntegrityError: injected
+language (ubuntu-24.04, 3.11.16)	Language regression suite	2026-09-10T04:34:37.8768390Z ERROR:root:Refund transaction failed
+language (ubuntu-24.04, 3.11.16)	Language regression suite	2026-09-10T04:34:37.8769730Z Traceback (most recent call last):
+language (ubuntu-24.04, 3.11.16)	Language regression suite	2026-09-10T04:34:37.8770994Z   File "/home/runner/work/GoPyt/GoPyt/examples/guarded_refunds/service.py", line 236, in do_POST
+language (ubuntu-24.04, 3.11.16)	Language regression suite	2026-09-10T04:34:37.8772142Z     result = self.server.ledger.apply(body)
+language (ubuntu-24.04, 3.11.16)	Language regression suite	2026-09-10T04:34:37.8772713Z              ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+language (ubuntu-24.04, 3.11.16)	Language regression suite	2026-09-10T04:34:37.8775634Z   File "/home/runner/work/GoPyt/GoPyt/examples/guarded_refunds/service.py", line 143, in apply
+language (ubuntu-24.04, 3.11.16)	Language regression suite	2026-09-10T04:34:37.8776451Z     return self._apply(body)
+language (ubuntu-24.04, 3.11.16)	Language regression suite	2026-09-10T04:34:37.8776884Z            ^^^^^^^^^^^^^^^^^
+language (ubuntu-24.04, 3.11.16)	Language regression suite	2026-09-10T04:34:37.8777859Z   File "/home/runner/work/GoPyt/GoPyt/examples/guarded_refunds/service.py", line 168, in _apply
+language (ubuntu-24.04, 3.11.16)	Language regression suite	2026-09-10T04:34:37.8779181Z     allowed = timed_call(self.vm, self.ids['refund_policy.allowed'],
+language (ubuntu-24.04, 3.11.16)	Language regression suite	2026-09-10T04:34:37.8780070Z               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+language (ubuntu-24.04, 3.11.16)	Language regression suite	2026-09-10T04:34:37.8781263Z   File "/home/runner/work/_temp/gopyt-python/python/lib/python3.11/unittest/mock.py", line 1124, in __call__
+language (ubuntu-24.04, 3.11.16)	Language regression suite	2026-09-10T04:34:37.8782341Z     return self._mock_call(*args, **kwargs)
+language (ubuntu-24.04, 3.11.16)	Language regression suite	2026-09-10T04:34:37.8782852Z            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+language (ubuntu-24.04, 3.11.16)	Language regression suite	2026-09-10T04:34:37.8783911Z   File "/home/runner/work/_temp/gopyt-python/python/lib/python3.11/unittest/mock.py", line 1128, in _mock_call
+language (ubuntu-24.04, 3.11.16)	Language regression suite	2026-09-10T04:34:37.8785017Z     return self._execute_mock_call(*args, **kwargs)
+language (ubuntu-24.04, 3.11.16)	Language regression suite	2026-09-10T04:34:37.8785632Z            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+language (ubuntu-24.04, 3.11.16)	Language regression suite	2026-09-10T04:34:37.8786699Z   File "/home/runner/work/_temp/gopyt-python/python/lib/python3.11/unittest/mock.py", line 1183, in _execute_mock_call
+language (ubuntu-24.04, 3.11.16)	Language regression suite	2026-09-10T04:34:37.8787731Z     raise effect
+language (ubuntu-24.04, 3.11.16)	Language regression suite	2026-09-10T04:34:37.8788145Z gopyt.vm.Trap: trap 2
+language (ubuntu-24.04, 3.11.16)	Language regression suite	2026-09-10T04:34:37.8788854Z ERROR:root:Refund transaction failed
+language (ubuntu-24.04, 3.11.16)	Language regression suite	2026-09-10T04:34:37.8789962Z Traceback (most recent call last):
+language (ubuntu-24.04, 3.11.16)	Language regression suite	2026-09-10T04:34:37.8791204Z   File "/home/runner/work/GoPyt/GoPyt/examples/guarded_refunds/service.py", line 236, in do_POST
+language (ubuntu-24.04, 3.11.16)	Language regression suite	2026-09-10T04:34:37.8792183Z     result = self.server.ledger.apply(body)
+language (ubuntu-24.04, 3.11.16)	Language regression suite	2026-09-10T04:34:37.8792530Z              ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+language (ubuntu-24.04, 3.11.16)	Language regression suite	2026-09-10T04:34:37.8793103Z   File "/home/runner/work/GoPyt/GoPyt/examples/guarded_refunds/service.py", line 143, in apply
+language (ubuntu-24.04, 3.11.16)	Language regression suite	2026-09-10T04:34:37.8793644Z     return self._apply(body)
+language (ubuntu-24.04, 3.11.16)	Language regression suite	2026-09-10T04:34:37.8793911Z            ^^^^^^^^^^^^^^^^^
+language (ubuntu-24.04, 3.11.16)	Language regression suite	2026-09-10T04:34:37.8794415Z   File "/home/runner/work/GoPyt/GoPyt/examples/guarded_refunds/service.py", line 168, in _apply
+language (ubuntu-24.04, 3.11.16)	Language regression suite	2026-09-10T04:34:37.8795049Z     allowed = timed_call(self.vm, self.ids['refund_policy.allowed'],
+language (ubuntu-24.04, 3.11.16)	Language regression suite	2026-09-10T04:34:37.8795766Z               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+language (ubuntu-24.04, 3.11.16)	Language regression suite	2026-09-10T04:34:37.8796409Z   File "/home/runner/work/_temp/gopyt-python/python/lib/python3.11/unittest/mock.py", line 1124, in __call__
+language (ubuntu-24.04, 3.11.16)	Language regression suite	2026-09-10T04:34:37.8797006Z     return self._mock_call(*args, **kwargs)
+language (ubuntu-24.04, 3.11.16)	Language regression suite	2026-09-10T04:34:37.8797315Z            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+language (ubuntu-24.04, 3.11.16)	Language regression suite	2026-09-10T04:34:37.8797898Z   File "/home/runner/work/_temp/gopyt-python/python/lib/python3.11/unittest/mock.py", line 1128, in _mock_call
+language (ubuntu-24.04, 3.11.16)	Language regression suite	2026-09-10T04:34:37.8798520Z     return self._execute_mock_call(*args, **kwargs)
+language (ubuntu-24.04, 3.11.16)	Language regression suite	2026-09-10T04:34:37.8798867Z            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+language (ubuntu-24.04, 3.11.16)	Language regression suite	2026-09-10T04:34:37.8799843Z   File "/home/runner/work/_temp/gopyt-python/python/lib/python3.11/unittest/mock.py", line 1183, in _execute_mock_call
+language (ubuntu-24.04, 3.11.16)	Language regression suite	2026-09-10T04:34:37.8800468Z     raise effect
+language (ubuntu-24.04, 3.11.16)	Language regression suite	2026-09-10T04:34:37.8800696Z gopyt.vm.Cancelled
+language (ubuntu-24.04, 3.11.16)	Language regression suite	2026-09-10T04:34:42.5917724Z ERROR:root:Refund transaction failed
+language (ubuntu-24.04, 3.11.16)	Language regression suite	2026-09-10T04:34:42.5918617Z Traceback (most recent call last):
+language (ubuntu-24.04, 3.11.16)	Language regression suite	2026-09-10T04:34:42.5919852Z   File "/home/runner/work/GoPyt/GoPyt/examples/guarded_refunds/service.py", line 236, in do_POST
+language (ubuntu-24.04, 3.11.16)	Language regression suite	2026-09-10T04:34:42.5920698Z     result = self.server.ledger.apply(body)
+language (ubuntu-24.04, 3.11.16)	Language regression suite	2026-09-10T04:34:42.5921164Z              ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+language (ubuntu-24.04, 3.11.16)	Language regression suite	2026-09-10T04:34:42.5921920Z   File "/home/runner/work/GoPyt/GoPyt/examples/guarded_refunds/service.py", line 143, in apply
+language (ubuntu-24.04, 3.11.16)	Language regression suite	2026-09-10T04:34:42.5922686Z     return self._apply(body)
+language (ubuntu-24.04, 3.11.16)	Language regression suite	2026-09-10T04:34:42.5923316Z            ^^^^^^^^^^^^^^^^^
+language (ubuntu-24.04, 3.11.16)	Language regression suite	2026-09-10T04:34:42.5924747Z   File "/home/runner/work/GoPyt/GoPyt/examples/guarded_refunds/service.py", line 172, in _apply
+language (ubuntu-24.04, 3.11.16)	Language regression suite	2026-09-10T04:34:42.5926519Z     after = timed_call(self.vm, self.ids['refund_policy.after_refund'],
+language (ubuntu-24.04, 3.11.16)	Language regression suite	2026-09-10T04:34:42.5927243Z             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+language (ubuntu-24.04, 3.11.16)	Language regression suite	2026-09-10T04:34:42.5928061Z   File "/home/runner/work/GoPyt/GoPyt/gopyt/guard.py", line 337, in timed_call
+language (ubuntu-24.04, 3.11.16)	Language regression suite	2026-09-10T04:34:42.5928802Z     return vm.call(fn, list(args))
+language (ubuntu-24.04, 3.11.16)	Language regression suite	2026-09-10T04:34:42.5929413Z            ^^^^^^^^^^^^^^^^^^^^^^^
+language (ubuntu-24.04, 3.11.16)	Language regression suite	2026-09-10T04:34:42.5930043Z   File "/home/runner/work/GoPyt/GoPyt/gopyt/vm.py", line 304, in call
+language (ubuntu-24.04, 3.11.16)	Language regression suite	2026-09-10T04:34:42.5930819Z     return self._call_admitted(fn_id, args, caller_effects)
+language (ubuntu-24.04, 3.11.16)	Language regression suite	2026-09-10T04:34:42.5931432Z            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+language (ubuntu-24.04, 3.11.16)	Language regression suite	2026-09-10T04:34:42.5932208Z   File "/home/runner/work/GoPyt/GoPyt/gopyt/vm.py", line 317, in _call_admitted
+language (ubuntu-24.04, 3.11.16)	Language regression suite	2026-09-10T04:34:42.5932999Z     result = self._call(fn_id, args, caller_effects)
+language (ubuntu-24.04, 3.11.16)	Language regression suite	2026-09-10T04:34:42.5933556Z              ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+language (ubuntu-24.04, 3.11.16)	Language regression suite	2026-09-10T04:34:42.5934098Z   File "/home/runner/work/GoPyt/GoPyt/gopyt/vm.py", line 358, in _call
+language (ubuntu-24.04, 3.11.16)	Language regression suite	2026-09-10T04:34:42.5934547Z     return self.exec(fn_id, func, args)
+language (ubuntu-24.04, 3.11.16)	Language regression suite	2026-09-10T04:34:42.5934855Z            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+language (ubuntu-24.04, 3.11.16)	Language regression suite	2026-09-10T04:34:42.5935277Z   File "/home/runner/work/GoPyt/GoPyt/gopyt/vm.py", line 376, in exec
+language (ubuntu-24.04, 3.11.16)	Language regression suite	2026-09-10T04:34:42.5935714Z     return self._exec_frame(frame)
+language (ubuntu-24.04, 3.11.16)	Language regression suite	2026-09-10T04:34:42.5936012Z            ^^^^^^^^^^^^^^^^^^^^^^^
+language (ubuntu-24.04, 3.11.16)	Language regression suite	2026-09-10T04:34:42.5936452Z   File "/home/runner/work/GoPyt/GoPyt/gopyt/vm.py", line 381, in _exec_frame
+language (ubuntu-24.04, 3.11.16)	Language regression suite	2026-09-10T04:34:42.5936972Z     return self._execute_frame(frame, instruction_guard)
+language (ubuntu-24.04, 3.11.16)	Language regression suite	2026-09-10T04:34:42.5937359Z            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+language (ubuntu-24.04, 3.11.16)	Language regression suite	2026-09-10T04:34:42.5937874Z   File "/home/runner/work/GoPyt/GoPyt/gopyt/vm.py", line 594, in _execute_frame
+language (ubuntu-24.04, 3.11.16)	Language regression suite	2026-09-10T04:34:42.5938538Z     raise Trap(ops.TRAP_REQUIRES if op == ops.REQUIRE else ops.TRAP_ENSURES)
+language (ubuntu-24.04, 3.11.16)	Language regression suite	2026-09-10T04:34:42.5939139Z gopyt.vm.Trap: trap 2
+language (ubuntu-24.04, 3.11.16)	Language regression suite	2026-09-10T04:34:45.3673007Z guard prepare: duplicate JSON key: cases
+language (ubuntu-24.04, 3.11.16)	Language regression suite	2026-09-10T04:34:46.3196144Z guard prepare: preparation policy exceeds byte limit
+language (ubuntu-24.04, 3.11.16)	Language regression suite	2026-09-10T04:34:46.9715415Z c062ec00ba1758355db4ae92ad5f9e42efb51ceabdc527e9ab393af5bb792b16
+language (ubuntu-24.04, 3.11.16)	Language regression suite	2026-09-10T04:34:47.1568158Z {
+language (ubuntu-24.04, 3.11.16)	Language regression suite	2026-09-10T04:34:47.1568738Z   "schema": "gopyt.guard.receipt.v1",
+language (ubuntu-24.04, 3.11.16)	Language regression suite	2026-09-10T04:34:47.1569586Z   "accepted": true,
+language (ubuntu-24.04, 3.11.16)	Language regression suite	2026-09-10T04:34:47.1573135Z   "bundle_sha256": "c062ec00ba1758355db4ae92ad5f9e42efb51ceabdc527e9ab393af5bb792b16",
+language (ubuntu-24.04, 3.11.16)	Language regression suite	2026-09-10T04:34:47.1574581Z   "engine_sha256": "efa43ca44f5546598ab6b62be48e27be34f7bc250dcec7fbda090f3411140197",
+language (ubuntu-24.04, 3.11.16)	Language regression suite	2026-09-10T04:34:47.1575682Z   "limitations": [
+language (ubuntu-24.04, 3.11.16)	Language regression suite	2026-09-10T04:34:47.1576261Z     "Finite acceptance cases, not a proof.",
+language (ubuntu-24.04, 3.11.16)	Language regression suite	2026-09-10T04:34:47.1577821Z     "Listed obligations are declarations; this gate executes only the supplied cases, not HTTP or database tests.",
+language (ubuntu-24.04, 3.11.16)	Language regression suite	2026-09-10T04:34:47.1580240Z     "Caller, bundle pin, and executor must be protected outside candidate authority.",
+language (ubuntu-24.04, 3.11.16)	Language regression suite	2026-09-10T04:34:47.1581631Z     "No guarantee about external payment processors or undisclosed policies."
+language (ubuntu-24.04, 3.11.16)	Language regression suite	2026-09-10T04:34:47.1582512Z   ],
+language (ubuntu-24.04, 3.11.16)	Language regression suite	2026-09-10T04:34:47.1583302Z   "candidate_sha256": "8e4bb3d1963f4c54ee9a7c68267746cd2583ebc7823243110a812e8848d2c8d0",
+language (ubuntu-24.04, 3.11.16)	Language regression suite	2026-09-10T04:34:47.1584309Z   "changed_files": [],
+language (ubuntu-24.04, 3.11.16)	Language regression suite	2026-09-10T04:34:47.1584787Z   "obligations": {
+language (ubuntu-24.04, 3.11.16)	Language regression suite	2026-09-10T04:34:47.1585345Z     "stock": "Reservation preserves nonnegative stock."
+language (ubuntu-24.04, 3.11.16)	Language regression suite	2026-09-10T04:34:47.1585975Z   },
+language (ubuntu-24.04, 3.11.16)	Language regression suite	2026-09-10T04:34:47.1586361Z   "protected_contract_helpers": [],
+language (ubuntu-24.04, 3.11.16)	Language regression suite	2026-09-10T04:34:47.1586851Z   "passed": 3,
+language (ubuntu-24.04, 3.11.16)	Language regression suite	2026-09-10T04:34:47.1587200Z   "total": 3,
+language (ubuntu-24.04, 3.11.16)	Language regression suite	2026-09-10T04:34:47.1587497Z   "failures": []
+language (ubuntu-24.04, 3.11.16)	Language regression suite	2026-09-10T04:34:47.1587783Z }
+language (ubuntu-24.04, 3.11.16)	Language regression suite	2026-09-10T04:34:48.9358601Z echo
+language (ubuntu-24.04, 3.11.16)	Language regression suite	2026-09-10T04:34:48.9374118Z echo
+language (ubuntu-24.04, 3.11.16)	Language regression suite	2026-09-10T04:34:49.0824837Z echo
+language (ubuntu-24.04, 3.11.16)	Language regression suite	2026-09-10T04:34:49.0853939Z echo
+language (ubuntu-24.04, 3.11.16)	Language regression suite	2026-09-10T04:34:49.0883101Z echo
+language (ubuntu-24.04, 3.11.16)	Language regression suite	2026-09-10T04:34:49.3897146Z echo
+language (ubuntu-24.04, 3.11.16)	Language regression suite	2026-09-10T04:34:49.5310662Z echo
+language (ubuntu-24.04, 3.11.16)	Language regression suite	2026-09-10T04:34:49.6727398Z echo
+language (ubuntu-24.04, 3.11.16)	Language regression suite	2026-09-10T04:34:49.6741257Z echo
+language (ubuntu-24.04, 3.11.16)	Language regression suite	2026-09-10T04:34:49.6752392Z echo
+language (ubuntu-24.04, 3.11.16)	Language regression suite	2026-09-10T04:34:49.6763975Z echo
+language (ubuntu-24.04, 3.11.16)	Language regression suite	2026-09-10T04:34:49.6774646Z echo
+language (ubuntu-24.04, 3.11.16)	Language regression suite	2026-09-10T04:34:49.6785568Z echo
+language (ubuntu-24.04, 3.11.16)	Language regression suite	2026-09-10T04:34:49.8336463Z echo
+language (ubuntu-24.04, 3.11.16)	Language regression suite	2026-09-10T04:34:49.9761819Z echo
+language (ubuntu-24.04, 3.11.16)	Language regression suite	2026-09-10T04:34:49.9772684Z echo
+language (ubuntu-24.04, 3.11.16)	Language regression suite	2026-09-10T04:35:17.1242186Z output
+language (ubuntu-24.04, 3.11.16)	Language regression suite	2026-09-10T04:35:17.1625591Z output
+language (ubuntu-24.04, 3.11.16)	Language regression suite	2026-09-10T04:46:08.4722894Z ##[error]The action 'Language regression suite' has timed out after 15 minutes.

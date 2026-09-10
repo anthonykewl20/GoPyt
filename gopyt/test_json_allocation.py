@@ -11,6 +11,37 @@ from gopyt.vm import Trap
 
 
 class JsonAllocation(unittest.TestCase):
+    def test_failed_encoding_clears_output_retained_by_traceback(self):
+        art = gobyte.Artifact(texprs=[gobyte.TExpr(gobyte.TE_STR)])
+        for text in (False, True):
+            with self.subTest(text=text):
+                try:
+                    if text:
+                        with patch.object(ops, 'MAX_ALLOC', 20):
+                            jsonc.encode(art, '\x00' * 10, 0)
+                    else:
+                        jsonc.encode_bytes(art, '\x00' * 10, 0, max_bytes=20)
+                except (jsonc.ConvertFail, jsonc.AllocationLimit) as error:
+                    cause = error.__cause__ or error
+                    trace = cause.__traceback__
+                    tokens = []
+                    while trace is not None:
+                        if trace.tb_frame.f_code.co_name == 'token':
+                            tokens.append(trace.tb_frame.f_locals.get('raw'))
+                        trace = trace.tb_next
+                    self.assertEqual(tokens, [None])
+                    trace = error.__traceback__
+                    encoders = []
+                    while trace is not None:
+                        output = trace.tb_frame.f_locals.get('output')
+                        if isinstance(output, jsonc._Encoder): encoders.append(output)
+                        trace = trace.tb_next
+                    self.assertTrue(encoders)
+                    for encoder in encoders:
+                        self.assertTrue(encoder.output.closed if text else len(encoder.output) == 0)
+                else:
+                    self.fail('encoding unexpectedly succeeded')
+
     def test_exact_escaped_utf8_boundary(self):
         art = gobyte.Artifact(texprs=[gobyte.TExpr(gobyte.TE_STR)])
         for value in ('', 'plain', '\x00\b\n\t"\\', 'é😀', 'x'*4095+'\n😀'+'y'*4100):

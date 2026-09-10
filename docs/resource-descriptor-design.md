@@ -267,3 +267,167 @@ TLS-object ResourceWarning before this correction.
 Barrier-driven tests pause both before and after descriptor handoff while registry
 teardown runs. Teardown reports incomplete and retains the charge; resuming the
 transfer closes the socket, rejects its return, and leaves zero reservations.
+
+### HTTP service credentials
+
+Startup validation and per-request service-token reloads now pass the VM descriptor
+registry through private-file traversal and reads. Admission exhaustion follows the
+existing fail-closed configuration path at startup and returns 503 before handler
+admission during reload. A live-server test leaves capacity only for accepting the
+connection, verifies reload rejection without handler execution, then releases
+capacity and verifies successful authentication. Shutdown leaves no descriptor
+owners or charges. This accounts explicit token-file descriptors, not TLS trust
+store internals or native allocation sizes.
+
+### Request-body admission
+
+The server reserves the declared body length against the VM native-byte ledger
+before reading request content, after the existing framing and size checks. Capacity
+rejection returns 503 and closes the connection without dispatch. The reservation
+covers synchronous routing and handler dispatch; the request frame clears its body
+reference and releases admission in finally. Zero-length requests reserve no bytes.
+A live-server test exhausts byte capacity, verifies 503, then releases capacity and
+verifies the same request succeeds. Existing malformed-body and cancellation tests
+exercise cleanup paths. This is body admission accounting, not complete accounting
+of parser buffers, decoded values, response serialization or traceback-retained
+copies; those overlapping representations still require separate treatment.
+
+### Request-body traceback lifetime
+
+Dispatch now passes a shared request-body holder rather than raw bytes through
+nested frames. The outer request finally clears the holder before releasing its
+reservation. Retained exception tracebacks therefore cannot keep the admitted
+raw body through those dispatch arguments. A live HTTP test injects a dispatch
+exception, retains the server's actual traceback, checks both nested body holders
+are empty, and verifies zero charged bytes. Decoded values and transport/parser
+buffers remain separate accounting work.
+
+### Encoder output cleanup
+
+JSON text and byte encoding now close or clear their output accumulator in finally,
+after copying the successful result or before an exception escapes. A retained
+encoding traceback therefore does not keep the partial accumulator payload alive.
+A regression retains size-failure tracebacks for both encoders and verifies their
+output accumulators are closed or empty. This is cleanup preparation for shared
+serialization budgeting, not admission accounting for every encoding temporary.
+
+UTF-8 token locals are also cleared in finally. A stronger retained-traceback test
+reproduced token-byte retention after size rejection in both encoder forms, then
+verified cleanup without changing the conversion error. The original failure log
+is retained during follow-up qualification. This does not charge encoding inputs,
+escaped text or host allocator overhead against the resource ledger.
+
+### Owned serialization payloads
+
+ByteBuilder reserves UTF-8's four-byte-per-code-point upper bound before encoding
+each token, then shrinks the reservation to its actual byte length. It retains
+immutable chunks and their charges, reserves the simultaneous final joined payload,
+and releases chunks only after joining or failure. BytePayload retains the final
+charge until close clears its data. These are internal single-consumer owners;
+callers must not retain exported bytes aliases past close.
+
+encode_owned_bytes uses this builder for JSON byte output. Tests compare escaped
+Unicode output with Python's independent JSON encoder, verify retained final-output
+charges, reject insufficient final-copy capacity, and check failure cleanup. The
+API is not yet wired into HTTP consumers. It accounts payload bytes, not Python
+container metadata, string escaping temporaries or allocator overhead; the
+four-byte admission bound can reject even when actual UTF-8 would be smaller.
+
+### Owned HTTP response output
+
+HTTP response encoding now uses encode_owned_bytes with the VM resource budget.
+Encoding admission failure returns 503 before response headers are sent. The final
+payload remains charged through telemetry, header emission and the body write;
+context cleanup clears it on success or failure. The deadline writer clears its
+bytes argument in finally so its exception frame does not retain an exported alias.
+A live test verifies shared-capacity rejection, recovery after capacity release,
+and the exact final payload charge during the response write. Input decoding,
+escaping temporaries, HTTP header buffers and native transport allocations remain
+separate accounting work.
+
+Response-write failure tests now interrupt transport before any body bytes and
+after a four-byte partial send. They observe the actual truncated HTTP response,
+retain the server exception traceback, verify the payload was charged at failure,
+and check the payload holder and writer argument are cleared before admission is
+released. These tests establish cleanup for those injected boundaries; they do not
+claim that a partially sent response can be retracted or retried transparently.
+
+Owned-serialization failure tests also cover cancellation after a chunk has been
+admitted, failure to allocate chunk-list metadata, and failure to allocate the final
+payload owner after final-copy admission. Retained cancellation tracebacks expose
+only closed builders with empty chunk lists; all tested paths leave zero active
+reservations. These tests qualify the named failure boundaries without treating
+host metadata allocation itself as ledger-accounted memory.
+
+Owned JSON encoding can wrap a value in one named object member. The member name
+is escaped by the same encoder; punctuation and field bytes participate in both
+size admission and final payload ownership. The extra object level counts toward
+the depth limit. Tests compare ordinary and escaped-Unicode member names with an
+independent JSON encoder and verify exact-limit success and one-byte-short
+rejection. This prepares model-request framing without intermediate concatenation;
+its transport integration remains pending.
+
+### Payload aliases
+
+The original internal no-alias convention was insufficient for transport exception
+frames. A direct probe retained a bytes alias after closing its BytePayload and
+observed zero charged bytes while the data remained readable. Final payloads now
+use a bytes subclass carrying the reservation; closing the holder drops its alias,
+but physical object destruction releases the charge only after the final alias is
+gone. Explicit copies remain separate allocations and need their own admission.
+
+Constructing the charged bytes requires an additional copy. The builder reserves
+both the joined temporary and final charged object while chunks remain live, and
+clears the joined temporary before releasing its reservation. Peak payload overlap
+is three times the completed byte length at that boundary. A regression verifies
+alias retention after owner close and release after the last alias is discarded;
+existing partial-write and traceback tests continue to pass. This supersedes the
+previous no-export-alias convention for references to the returned bytes object.
+
+### Model request payloads
+
+core.model.complete now constructs its named prompt envelope with owned JSON
+serialization instead of concatenating an encoded prompt into another bytes
+object. The owner spans request construction, transport and response handling;
+finally clears urllib Request.data before closing the owner. Retained aliases to
+the charged bytes continue to retain their reservation. Capacity failures follow
+the existing ModelError network-failure path. A compiled test verifies exhausted
+capacity prevents transport, then confirms successful POST data remains charged
+at its exact payload length during send and releases after return. Response reads,
+decoding, HTTP-library copies and TLS allocations remain separate accounting work.
+
+Model transport failure tests retain the request object and a payload alias while
+injecting either OSError or cancellation before a response. Request.data is cleared
+on both paths, the retained alias remains charged, and dropping that alias releases
+the final payload reservation. The test makes no wire-delivery claim; successful
+real HTTP/TLS tests cover the transport path separately.
+
+### Owned read chunks
+
+read_chunk reserves scratch capacity before readinto and separately admits the
+immutable returned chunk. Both use objects carrying reservations, so retained
+reader aliases preserve the scratch charge even when reading raises after writing
+partial data. Context checks bracket the read; invalid counts fail closed. Tests
+verify short-read scratch/output overlap and a failing reader retaining its partially
+filled target. This primitive is not yet wired into HTTP response consumption;
+transport-internal copies and allocator overhead remain separate accounting work.
+
+### Model response bytes
+
+read_payload combines bounded charged read chunks into an owned immutable payload,
+reserving both the joined temporary and final copy while chunks remain live. It
+stops at the requested limit or EOF; callers retain their protocol-specific size
+check. Model responses now use it with MAX_BODY + 1 and hold the final byte owner
+through UTF-8 decoding. Short-read tests verify exact limit handling; compiled
+outbound tests continue to cover response framing, TLS and deadlines. Decoded text,
+JSON parsing structures and transport-internal buffers remain unaccounted here.
+
+### Language HTTP response bytes
+
+net.http.request now reads its bounded response through read_payload. The returned
+HttpResponse retains the charged bytes object after the temporary payload holder
+closes. VM heap adoption accepts this bytes subclass without changing the language
+byte type. A compiled real-HTTP test releases the VM result and collects the heap
+while retaining a host alias: the payload stays charged until that alias is dropped.
+Existing outbound and authority suites cover the integrated path. Explicit byte
+copies, decoded structures and transport internals remain separate accounting work.
