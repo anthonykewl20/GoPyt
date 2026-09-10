@@ -14,4 +14,6 @@ payload.close()
 del cycle
 with budget._lock:
     gc.collect()
+assert budget.snapshot()['used']['native_bytes'] == 0
+assert budget.snapshot()['active_reservations'] == 0
 print('completed')

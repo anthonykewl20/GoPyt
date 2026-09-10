@@ -18,7 +18,7 @@ class _ChargedBytes(bytes):
     def __del__(self):
         reservation = getattr(self, '_reservation', None)
         if reservation is not None:
-            reservation.release()
+            reservation.finalize()
 
 
 class BytePayload:
@@ -119,7 +119,7 @@ class _ChargedBuffer(bytearray):
     def __del__(self):
         reservation = getattr(self, '_reservation', None)
         if reservation is not None:
-            reservation.release()
+            reservation.finalize()
 
 
 def read_chunk(stream, budget, size, check):

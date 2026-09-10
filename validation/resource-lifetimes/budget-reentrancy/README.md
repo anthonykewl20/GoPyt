@@ -14,3 +14,15 @@ A fix must also preserve counter updates during reentrancy: changing Lock to
 RLock alone could permit a nested release to be overwritten by an outer
 precomputed counter update. Neither disabling GC globally nor raising CI
 timeouts establishes correct ownership.
+
+The candidate fix marks finalization using pre-existing token/budget fields.
+It performs no lock acquisition or queue allocation in payload finalizers.
+Budget admission, release, reduction and snapshots drain marked reservations
+under the ledger lock. Marks arriving during a counter update cannot overwrite
+that update; they are drained at a subsequent boundary. Until drained, charges
+are conservative. Explicit release retains synchronous behavior.
+
+The controlled probe now completes and verifies zero remaining charges. A second
+regression forces collection during admission and verifies that only the new
+reservation remains. Both pinned runtimes passed 17 focused tests. Broader
+qualification and attribution of the CI stall remain pending.
