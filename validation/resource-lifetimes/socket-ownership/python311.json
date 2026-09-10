@@ -1,0 +1,19 @@
+{
+  "python": "3.11.16",
+  "observations": [
+    {
+      "tls": false,
+      "initial_live": true,
+      "live_after_socket_close": true,
+      "live_after_reader_close": false
+    },
+    {
+      "tls": true,
+      "initial_live": true,
+      "original_detached": true,
+      "same_descriptor": true,
+      "live_after_socket_close": true,
+      "live_after_reader_close": false
+    }
+  ]
+}

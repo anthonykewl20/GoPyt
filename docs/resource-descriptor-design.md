@@ -154,3 +154,34 @@ and retries through that existing recovery copy to commit matching ciphertext.
 Both rejection and retry leave no descriptor owners or reservations. Existing
 migration, rollback and publication crash campaigns remain part of verification.
 SQLite, encryption scratch memory and networking remain outside this increment.
+
+### Network integration constraints (pending implementation)
+
+Network descriptors cannot use the file owner by simply calling os.close. The
+HTTP response reader deliberately holds a socket.makefile reference after the
+HTTP connection closes. CPython socket.close defers physical closure until those
+references are gone. TLS wrapping transfers the same descriptor from the original
+socket into an SSLSocket by detaching the original. The local socketpair probe in
+validation/resource-lifetimes/socket-ownership confirms both properties on the two
+qualification interpreters, without claiming TLS handshake coverage.
+
+The next implementation must register and reserve before socket creation or
+accept, preserve a single reservation across TLS transfer, and release only at
+physical socket closure after the last reader. Failed creation releases unused
+admission. Failed connection attempts release their own socket before trying the
+next address. Ambiguous physical close must quarantine the charge without retrying
+a raw descriptor number. Registry teardown must account for live readers rather
+than reporting success from logical socket closure alone.
+
+Outbound integration points are netio._Connection.connect, TLS wrapping, and the
+_Response/_Reader lifetime. Inbound points are TCPServer listener construction,
+accept, pending/active request ownership, shutdown_request and server_close.
+Both paths require construction and transfer failure tests, budget sharing with
+files/mappings, real reader-retention tests, and TLS handshake failure tests.
+A hook on physical socket closure and explicit ownership transfer are needed;
+releasing at HTTPConnection.close would contradict the observed lifetime.
+
+files.atomic_write is currently called by compiler/CLI, transaction/evolution,
+and trace export paths; its remaining scope must be assessed separately from
+language core.file natives. Network TLS allocations and SQLite/encryption scratch
+memory remain unaccounted. None of these observations complete issue 5.
