@@ -26,3 +26,8 @@ The controlled probe now completes and verifies zero remaining charges. A second
 regression forces collection during admission and verifies that only the new
 reservation remains. Both pinned runtimes passed 17 focused tests. Broader
 qualification and attribution of the CI stall remain pending.
+
+Broader resource/HTTP/model regression passed 51 tests on each pinned runtime.
+An injected counter-update MemoryError retains the charge and pending mark;
+the next snapshot retries successfully. All three finalizer regressions pass
+on both versions. Full-suite qualification remains pending.

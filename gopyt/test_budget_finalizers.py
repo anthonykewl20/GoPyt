@@ -47,3 +47,23 @@ class BudgetFinalizers(unittest.TestCase):
         finally:
             if enabled:
                 gc.enable()
+
+    def test_failed_drain_preserves_charge_and_retries(self):
+        budget = ResourceBudget(ResourceLimits(100, 0, 0, 0))
+        reservation = budget.reserve(native_bytes=7)
+        reservation.finalize()
+        class FailingCounters(dict):
+            failed = False
+            def __getitem__(self, key):
+                if not self.failed:
+                    self.failed = True
+                    raise MemoryError('counter allocation failed')
+                return super().__getitem__(key)
+        budget._used = FailingCounters(budget._used)
+        with self.assertRaises(MemoryError):
+            budget.snapshot()
+        self.assertEqual(dict(budget._used)['native_bytes'], 7)
+        self.assertEqual(len(budget._active), 1)
+        self.assertTrue(budget._pending_finalizers)
+        self.assertEqual(budget.snapshot()['used']['native_bytes'], 0)
+        self.assertTrue(reservation.released)
