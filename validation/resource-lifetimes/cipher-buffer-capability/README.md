@@ -37,3 +37,9 @@ their charge until destruction. Forty-seven focused tests pass on both runtimes.
 Earlier plaintext recovery coverage passed 66 tests on each runtime. SQLite
 serialize output is still allocated before this ciphertext boundary, and
 restore plaintext and native-library internals remain unfinished.
+
+Normal loads and anchored restore now share _deserialize_snapshot, which
+uses admitted plaintext for VM contexts and clears local aliases on exit.
+Thirty-four focused cipher/rollback/publication/payload tests pass on both
+runtimes. Restore backup input and SQLite serialize output are still outside
+this plaintext reservation, as are native-library internals.

@@ -202,6 +202,13 @@ class Store:
             if self._anchor is not None and self._anchor.record is not None:
                 if hashlib.sha256(data).hexdigest() != self._anchor.record['digest']:
                     raise SecurityError('snapshot changed after anchor validation')
+            self._deserialize_snapshot(data, db)
+        finally:
+            data = None
+
+    def _deserialize_snapshot(self, data, db):
+        plaintext = None
+        try:
             budget = getattr(self._context, 'resource_budget', None)
             if budget is None:
                 self._deserialize(unseal(data, self._security), db)
@@ -209,6 +216,7 @@ class Store:
                 with unseal_payload(data, self._security, budget) as plaintext:
                     self._deserialize(plaintext, db)
         finally:
+            plaintext = None
             data = None
 
     @staticmethod
@@ -331,7 +339,7 @@ class Store:
                     try:
                         db.execute('PRAGMA trusted_schema=OFF')
                         db.setlimit(sqlite3.SQLITE_LIMIT_LENGTH, MAX_BYTES)
-                        self._deserialize(unseal(backup, self._security), db)
+                        self._deserialize_snapshot(backup, db)
                         if db.execute("SELECT 1 FROM kv WHERE typeof(key) != 'text' OR typeof(value) != 'text' LIMIT 1").fetchone():
                             raise StorageError('invalid restoration values')
                         self._anchor._receipt()  # Preserve any prior admitted restoration evidence.
