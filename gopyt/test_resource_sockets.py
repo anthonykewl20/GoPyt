@@ -1,6 +1,7 @@
 """Actual socket lifetime and shared descriptor admission."""
 import os
 import socket
+import ssl
 import threading
 import unittest
 from unittest.mock import patch
@@ -8,10 +9,51 @@ from unittest.mock import patch
 from gopyt.resource_budget import ResourceBudget, ResourceLimits, ResourceLimitError
 from gopyt.resource_control import ResourceClosedError
 from gopyt.resource_descriptors import DescriptorRegistry
-from gopyt.resource_sockets import open_socket, accept_socket
+from gopyt.resource_sockets import open_socket, accept_socket, wrap_tls
 
 
 class SocketOwnership(unittest.TestCase):
+    def test_tls_transfer_retains_one_charge_until_reader_close(self):
+        budget, registry = self.fixture()
+        sock = open_socket(registry)
+        fd = sock.fileno()
+        context = ssl.SSLContext(ssl.PROTOCOL_TLS_CLIENT)
+        wrapped = wrap_tls(sock, context, server_hostname='localhost',
+                           do_handshake_on_connect=False)
+        self.assertEqual(sock.fileno(), -1)
+        self.assertEqual(wrapped.fileno(), fd)
+        sock.close()
+        self.assertEqual(budget.snapshot()['used']['descriptors'], 1)
+        reader = wrapped.makefile('rb', buffering=0)
+        try:
+            wrapped.close()
+            os.fstat(fd)
+            self.assertFalse(registry.close())
+        finally:
+            reader.close()
+        self.assertTrue(registry.close())
+        self.assertEqual(budget.snapshot()['active_reservations'], 0)
+
+    def test_tls_handshake_and_validation_failure_release_owner(self):
+        for hostname in (None, 'localhost'):
+            with self.subTest(hostname=hostname):
+                budget, registry = self.fixture()
+                sock = open_socket(registry)
+                sock.settimeout(2)
+                with socket.socket() as listener:
+                    listener.bind(('127.0.0.1', 0))
+                    listener.listen()
+                    sock.connect(listener.getsockname())
+                    peer, _ = listener.accept()
+                    with peer:
+                        peer.sendall(b'HTTP/1.0 400 Bad Request\r\n\r\n')
+                        peer.shutdown(socket.SHUT_WR)
+                        with self.assertRaises((ValueError, ssl.SSLError)):
+                            wrap_tls(sock, ssl.SSLContext(ssl.PROTOCOL_TLS_CLIENT),
+                                     server_hostname=hostname)
+                self.assertEqual(registry.pending(), 0)
+                self.assertEqual(budget.snapshot()['active_reservations'], 0)
+
     def test_accept_admission_and_reader_ownership(self):
         budget, registry = self.fixture(2)
         listener = open_socket(registry)

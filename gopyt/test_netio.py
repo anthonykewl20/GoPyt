@@ -17,6 +17,20 @@ from gopyt.vm import VM, Trap, Cancelled
 
 
 class OutboundBudgets(unittest.TestCase):
+    def tearDown(self):
+        self.assertEqual(self.fixture.vm.descriptors.pending(), 0)
+        self.assertEqual(self.fixture.vm.resource_budget.snapshot()['used']['descriptors'], 0)
+
+    def test_descriptor_rejection_does_not_connect(self):
+        from gopyt.resource_budget import ResourceBudget, ResourceLimits
+        previous = self.fixture.vm
+        self.fixture.vm = VM(previous.art, self.fixture.root, authority=self.fixture.authority,
+                             resource_budget=ResourceBudget(ResourceLimits(0, 0, 0, 0)))
+        with patch('gopyt.resource_sockets._Socket.__new__') as create:
+            result = self.invoke('http')
+        create.assert_not_called()
+        self.assertEqual(self.fixture.vm.type_name(result.type_id), 'core.status.HttpError')
+
     def setUp(self):
         self.fixture = fixtures.NetworkCalls()
         self.fixture.setUp()

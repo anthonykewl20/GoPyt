@@ -5,6 +5,7 @@ import io
 import socket
 import time
 import urllib.request
+from gopyt.resource_sockets import open_socket, wrap_tls
 
 
 class Budget:
@@ -88,7 +89,7 @@ class _Connection:
         failure = None
         for family, kind, protocol, _name, address in addresses:
             self.budget.remaining()
-            sock = socket.socket(family, kind, protocol)
+            sock = open_socket(self.budget.vm.descriptors, family, kind, protocol)
             try:
                 sock.settimeout(self.budget.remaining())
                 if self.source_address:
@@ -127,7 +128,7 @@ class _HTTPSConnection(_Connection, http.client.HTTPSConnection):
         super().connect()
         try:
             self.sock.settimeout(self.budget.remaining())
-            self.sock = self._context.wrap_socket(self.sock, server_hostname=self.host)
+            self.sock = wrap_tls(self.sock, self._context, server_hostname=self.host)
             self.budget.remaining()
         except BaseException:
             self.close()

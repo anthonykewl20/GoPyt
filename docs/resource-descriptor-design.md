@@ -230,3 +230,26 @@ real request handling and handler reclamation, and zero descriptor usage after
 server shutdown. Existing application-runtime cancellation, deadlines and worker
 shutdown tests also exercise this integration. Outbound HTTP and TLS ownership
 transfer remain pending; no TLS-memory accounting is claimed.
+
+### TLS transfer and outbound integration
+
+wrap_tls uses a per-transfer SSLSocket subclass with CPython's _create factory.
+It does not mutate the shared SSLContext class. The TLS shell is registered as the
+transfer target before the factory detaches the plain socket; detach changes the
+owner's socket pointer without releasing or adding a reservation. Transfer requires
+an open socket without makefile readers. Registry teardown reports incomplete while
+transfer is underway; completed transfer checks closed admission before returning.
+Validation and handshake failure close the current owner. TLS physical-close hooks
+retain the charge while response readers remain, including after connection close.
+
+netio now uses open_socket for each outbound connection attempt and wrap_tls for
+HTTPS. The compiled outbound tests cover real verified TLS, stalled handshake,
+framed response deadlines and cancellation, plus zero-capacity rejection before
+socket construction. Their teardown asserts no pending socket owners or descriptor
+charges. Primitive tests separately observe one charge across TLS transfer, reader
+retention and cleanup after invalid hostname or failed handshake.
+
+This integrates explicit inbound/outbound network socket descriptors. It does not
+account for host resolver internals, trust-store file access, TLS native allocations,
+or all native memory. Full combined qualification and the remaining resource scope
+are still required before closing issue 5.
