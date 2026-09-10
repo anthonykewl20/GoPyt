@@ -214,3 +214,19 @@ Loopback tests cover budget rejection leaving a connection queued for later acce
 reader-retained admission on the accepted socket, nonblocking accept failure, and
 an injected initialization failure after the OS has returned a real descriptor.
 The HTTP server has not yet adopted this primitive; TLS transfer is still pending.
+
+### HTTP listener integration
+
+The HTTP server constructs its listener through open_socket before binding and
+uses the socket's admitted accept implementation. Listener and accepted clients
+share the VM descriptor registry with files and mappings. Listener admission
+failure maps to ListenError; bind failure closes the admitted listener. When accept
+capacity is exhausted, the connection remains in the kernel backlog and the
+coordinator pauses 10 ms before resuming its normal cancellation/shutdown checks.
+This does not promise a 503 response to connections that cannot be accepted.
+
+Focused tests exercise zero/one/two descriptor capacities, failed bind cleanup,
+real request handling and handler reclamation, and zero descriptor usage after
+server shutdown. Existing application-runtime cancellation, deadlines and worker
+shutdown tests also exercise this integration. Outbound HTTP and TLS ownership
+transfer remain pending; no TLS-memory accounting is claimed.
