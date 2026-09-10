@@ -1,4 +1,4 @@
-toolchain = "gopyt-0.1.000+sha256:51fd6ca99d1edc863f6710dda4c6abdab43bbbc6d947630939be0878703aeee3"
+toolchain = "gopyt-0.1.000+sha256:deb9e70378f8a01a4effcd9d21a6587e088d776e440464b0d0169e77fd4318d2"
 
 [[pkg]]
 name = "retail_replay"

@@ -713,3 +713,27 @@ class JsonOwnedScalarConsumers(unittest.TestCase):
         self.assertEqual(money.currency_value(currency), 'USD')
         del currency
         self.assertEqual(budget.snapshot()['active_reservations'], 0)
+
+
+class JsonOwnedParallelLimits(unittest.TestCase):
+    def test_owned_i64_limits_reach_parallel_execution(self):
+        from contextlib import nullcontext
+        from types import SimpleNamespace as NS
+        from gopyt.resource_json import integer_value
+        from gopyt import gobyte
+        from gopyt.vm import VM, Trap
+        budget = ResourceBudget(ResourceLimits(10000, 0, 0, 0))
+        vm = NS(heap=NS(pin=lambda values: nullcontext()),
+                _parallel=lambda ids, caps, mx, timeout, results: (mx, timeout))
+        limit = integer_value(2, gobyte.TE_I64, budget)
+        result = VM.run_parallel(vm, [], [], limit, limit)
+        self.assertEqual(result, (2, 2))
+        del result, limit
+        for tag in (gobyte.TE_I32, gobyte.TE_U32, gobyte.TE_U64):
+            limit = integer_value(2, tag, budget)
+            with self.assertRaises(Trap):
+                VM.run_parallel(vm, [], [], limit, 1)
+            with self.assertRaises(Trap):
+                VM.run_parallel(vm, [], [], 1, limit)
+            del limit
+        self.assertEqual(budget.snapshot()['active_reservations'], 0)

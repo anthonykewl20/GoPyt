@@ -620,9 +620,10 @@ class VM:
     # -- structured concurrency ------------------------------------------
 
     def run_parallel(self, ids: list[int], caps: list, mx: int, timeout_ms: int) -> list:
-        if type(mx) is not int or mx < 1:
+        if not isinstance(mx, int) or isinstance(mx, (bool, I32, U32, U64)) or mx < 1:
             raise Trap(ops.TRAP_PAR_MAX)
-        if type(timeout_ms) is not int or timeout_ms < 1:
+        if (not isinstance(timeout_ms, int) or
+                isinstance(timeout_ms, (bool, I32, U32, U64)) or timeout_ms < 1):
             raise Trap(ops.TRAP_TIMEOUT)
         results: list = [None] * len(ids)
         with self.heap.pin(results):

@@ -310,3 +310,10 @@ failures from the full run. Additional owned-scalar consumer regressions pass on
 both runtimes. Remaining language-facing exact-type gates include parallel limits
 and buffer ranges; review those before a new full suite. Existing wheel and full-run
 evidence identify the prior failed runtime and do not qualify these repairs.
+
+Parallel-limit compatibility: VM.run_parallel now accepts owned i64 maximum-worker
+and timeout values, retaining bool and other-width rejection. Focused JSON/VM tests
+pass on both runtimes, including direct owned-limit dispatch and cross-width traps.
+Buffer natives pass arguments directly into host Buffer methods and ResourceLimits;
+_range and the ledger retain exact-int checks. This needs a boundary-specific
+normalization/admission review before calling the scalar compatibility audit done.
