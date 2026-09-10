@@ -217,3 +217,19 @@ runtimes. Tracemalloc starts after the input Decimal is constructed; measured pe
 are observations only and do not prove coverage of every libmpdec/native allocation.
 No production routing or Decimal-to-integer reservation bound is claimed from this
 probe. Runtime files are unchanged by this evidence increment.
+
+Typed Decimal conversion helper added: decimal_integer_value reserves two times
+Decimal.__sizeof__(input)+8 for to_integral_value destination/resize overlap;
+rounding copies or right-shifts the original coefficient and may add a word.
+The rounded temporary is discarded before releasing this reservation. Existing
+integrality and range checks precede int conversion, preserving rejection messages.
+The bounded export then has at most 20 decimal digits: two 8*(20+4) coefficient
+capacities cover rounded/shifted mpd storage, and two 4*20 digit capacities cover
+binary export overlap (one maximum-width word per decimal digit). integer_value
+separately admits the final typed object and subtype-copy scratch. Temporary raw
+integer and Decimal references clear before their reservation scopes exit.
+Twenty-eight focused tests pass on both runtimes. Forty source/type combinations
+compare results or exact rejection messages against existing _as_int plus type
+ranges, including u64 boundaries and long fractional-zero coefficients. Production
+typed decoding is still unchanged; helper cancellation/fault and broader graph
+integration qualification remain required.

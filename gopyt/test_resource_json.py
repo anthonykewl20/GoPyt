@@ -458,3 +458,35 @@ class JsonTypedInteger(unittest.TestCase):
                 with self.assertRaises(ConvertFail):
                     integer_value(value, tag, budget)
                 self.assertEqual(budget.snapshot()['active_reservations'], 0)
+
+
+class JsonTypedDecimal(unittest.TestCase):
+    def test_boundaries_and_rejection_match_existing_decoder(self):
+        from decimal import Decimal
+        from gopyt.jsonc import _as_int, INT_RANGE, INT_VALUE
+        from gopyt.resource_json import decimal_integer_value
+        from gopyt.vm import value_eq
+        sources = ('0.0', '-0.00', '1.5', '9223372036854775808.0',
+                   '18446744073709551615.0', '18446744073709551616.0',
+                   '-9223372036854775808.0', '1e1000000', '1e-1000000',
+                   '1.' + '0' * 10000)
+        for tag, (lo, hi) in INT_RANGE.items():
+            for source in sources:
+                value = Decimal(source)
+                expected = reason = None
+                try:
+                    expected = _as_int(value)
+                    if not lo <= expected <= hi:
+                        raise ConvertFail('range')
+                except ConvertFail as error:
+                    reason = error.message
+                budget = ResourceBudget(ResourceLimits(1000000, 0, 0, 0))
+                if reason is not None:
+                    with self.assertRaises(ConvertFail) as caught:
+                        decimal_integer_value(value, tag, budget)
+                    self.assertEqual(caught.exception.message, reason)
+                else:
+                    result = decimal_integer_value(value, tag, budget)
+                    self.assertTrue(value_eq(result, INT_VALUE[tag](expected)))
+                    del result
+                self.assertEqual(budget.snapshot()['active_reservations'], 0)

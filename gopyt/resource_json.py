@@ -480,3 +480,38 @@ def integer_value(value, tag, budget, check=lambda: None):
         value = result = None
         if reservation is not None and not transferred:
             reservation.release()
+
+
+def decimal_integer_value(value, tag, budget, check=lambda: None):
+    """Admit Decimal integrality checking and bounded integer export separately."""
+    rounded = raw = result = None
+    try:
+        check()
+        if not isinstance(value, Decimal) or not value.is_finite():
+            raise ConvertFail('int')
+        # Rounding copies or right-shifts the coefficient and may add one word.
+        # The existing object's size includes its coefficient; two capacities
+        # cover the destination and resize overlap, without making a tuple copy.
+        capacity = Decimal.__sizeof__(value) + 8
+        with budget.reserve(native_bytes=2 * capacity):
+            try:
+                rounded = value.to_integral_value()
+                if value != rounded:
+                    raise ConvertFail('int')
+            finally:
+                rounded = None
+        if value < -(2**63) or value > 2**64 - 1:
+            raise ConvertFail('range')
+        # At most 20 decimal digits remain. Cover the rounded mpd and shifted
+        # export coefficient, plus old/new binary export buffers. One maximum
+        # width word per decimal digit is conservative in both limb formats.
+        with budget.reserve(native_bytes=2 * 8 * (20 + 4) + 2 * 4 * 20):
+            try:
+                raw = int(value)
+                check()
+                result = integer_value(raw, tag, budget, check)
+                return result
+            finally:
+                raw = None
+    finally:
+        value = rounded = raw = result = None
