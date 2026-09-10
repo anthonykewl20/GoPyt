@@ -402,8 +402,19 @@ def _isolated(command, work, timeout):
             return None, described
         return subprocess.run(command, cwd=work, capture_output=True, text=True,
                               timeout=timeout), described
-    child, how = isolation.run(command, writable=[work], timeout=timeout,
-                               required=True, cwd=work)
+    try:
+        child, how = isolation.run(command, writable=[work], timeout=timeout,
+                                   required=True, cwd=work)
+    except isolation.IsolationUnavailable as error:
+        # The probe said a profile could be installed and installing it still
+        # failed. Under `required` that refuses the evaluation; otherwise the
+        # receipt records the failure instead of implying an isolation.
+        described['installed'] = False
+        described['detail'] = str(error)
+        if policy == 'required':
+            return None, described
+        return subprocess.run(command, cwd=work, capture_output=True, text=True,
+                              timeout=timeout), described
     described['installed'] = True
     described['detail'] = how
     return child, described

@@ -54,6 +54,16 @@ unprivileged user namespaces disabled has no way to install this profile. The
 runtime probes for that in a fresh interpreter rather than a bare fork, because
 the caller may already have threads, and caches the answer.
 
+Probing only the first system call is not enough: `unshare` can succeed on a
+host where the rest of the setup then fails, which would promise an isolation
+the caller never receives. The probe therefore performs the whole entry path.
+An outer user namespace that has already denied `setgroups` leaves that file
+read-only, which is the state the setup wanted, so it is accepted rather than
+treated as a failure.
+
+If installing the profile still fails after a positive probe, that is reported
+as unavailability, never as an unisolated result presented as an isolated one.
+
 `GOPYT_GUARD_ISOLATION` selects the policy for Guard acceptance:
 
 - `required` — refuse to evaluate a candidate when no profile can be installed.

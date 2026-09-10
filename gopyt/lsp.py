@@ -41,11 +41,15 @@ def _checked_project(temp):
                'runpy.run_module("gopyt.lsp_check", run_name="__main__")',
                str(Path(__file__).resolve().parent.parent), temp]
     usable, _ = isolation.available()
-    if not usable:
-        return subprocess.run([sys.executable, '-m', 'gopyt.lsp_check', temp],
-                              capture_output=True, text=True, timeout=8)
-    checked, _how = isolation.run(command, writable=[temp], timeout=8, required=True)
-    return checked
+    if usable:
+        try:
+            checked, _how = isolation.run(command, writable=[temp], timeout=8,
+                                          required=True)
+            return checked
+        except isolation.IsolationUnavailable:
+            pass  # fall back rather than leave the editor without checking
+    return subprocess.run([sys.executable, '-m', 'gopyt.lsp_check', temp],
+                          capture_output=True, text=True, timeout=8)
 
 
 class Workspace:

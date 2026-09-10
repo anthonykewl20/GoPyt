@@ -243,6 +243,35 @@ class GuardPolicy(unittest.TestCase):
         self.assertEqual(described['policy'], 'required')
         self.assertIn('kernel says no', described['detail'])
 
+    def test_a_setup_failure_after_a_positive_probe_is_unavailability(self):
+        # A probe can pass and the real setup still fail; that must not return
+        # an unisolated result as though it were an isolated one.
+        from gopyt import guard
+        failure = isolation.IsolationUnavailable(
+            'isolation failed: [Errno 13] Permission denied')
+        with patch.object(isolation, 'available', return_value=(True, 'linux namespaces')), \
+                patch.object(isolation, 'run', side_effect=failure), \
+                patch.dict(os.environ, {'GOPYT_GUARD_ISOLATION': 'required'}):
+            child, described = guard._isolated([sys.executable, '-c', 'pass'], '.', 5)
+        self.assertIsNone(child)
+        self.assertFalse(described['installed'])
+        self.assertIn('Permission denied', described['detail'])
+        with patch.object(isolation, 'available', return_value=(True, 'linux namespaces')), \
+                patch.object(isolation, 'run', side_effect=failure), \
+                patch.dict(os.environ, {'GOPYT_GUARD_ISOLATION': 'preferred'}):
+            child, described = guard._isolated(
+                [sys.executable, '-c', 'print(1)'], '.', 30)
+        self.assertIsNotNone(child)
+        self.assertEqual(child.stdout.strip(), '1')
+        self.assertFalse(described['installed'])
+        self.assertIn('Permission denied', described['detail'])
+
+    def test_the_probe_exercises_the_whole_setup(self):
+        # The probe runs the real entry path, so a host where only the first
+        # syscall succeeds is reported unavailable rather than available.
+        self.assertIn('from gopyt.isolation import Limits, enter', isolation._PROBE)
+        self.assertIn('enter([], Limits())', isolation._PROBE)
+
     def test_a_receipt_never_implies_an_isolation_it_did_not_get(self):
         from gopyt import guard
         with patch.object(isolation, 'available', return_value=(False, 'kernel says no')), \

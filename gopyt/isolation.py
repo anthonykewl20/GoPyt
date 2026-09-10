@@ -39,6 +39,7 @@ MS_PRIVATE = 1 << 18
 MNT_DETACH = 2
 PR_SET_NO_NEW_PRIVS = 38
 SYS_PIVOT_ROOT = 155
+LAUNCH_FAILED = 3
 
 PROFILES = ('guard_candidate', 'editor_check')
 SCRATCH = '/work'
@@ -90,13 +91,17 @@ def supported() -> bool:
 
 _AVAILABILITY = None
 
+# Probing only the first syscall is not enough: `unshare` can succeed on a host
+# where the rest of the setup then fails, which would promise an isolation the
+# caller never gets. The probe performs the whole setup and reports what broke.
 _PROBE = (
-    'import ctypes,os,sys\n'
-    'library=ctypes.CDLL(None,use_errno=True)\n'
-    'ctypes.set_errno(0)\n'
-    'flags=0x10000000|0x00020000|0x40000000|0x20000000\n'
-    'if library.unshare(ctypes.c_int(flags))!=0:\n'
-    '    sys.stdout.write(os.strerror(ctypes.get_errno()))\n'
+    'import sys\n'
+    'sys.path.insert(0, sys.argv[1])\n'
+    'from gopyt.isolation import Limits, enter\n'
+    'try:\n'
+    '    enter([], Limits())\n'
+    'except BaseException as error:\n'
+    '    sys.stdout.write(f"{type(error).__name__}: {error}")\n'
     'else:\n'
     '    sys.stdout.write("ok")\n')
 
@@ -116,8 +121,10 @@ def available(refresh: bool = False) -> tuple[bool, str]:
     if _AVAILABILITY is not None and not refresh:
         return _AVAILABILITY
     try:
-        probe = subprocess.run([sys.executable, '-I', '-c', _PROBE],
-                               capture_output=True, text=True, timeout=30)
+        probe = subprocess.run(
+            [sys.executable, '-I', '-c', _PROBE,
+             str(Path(__file__).resolve().parent.parent)],
+            capture_output=True, text=True, timeout=30)
     except (OSError, subprocess.SubprocessError) as error:
         _AVAILABILITY = (False, f'namespace probe failed: {error}')
         return _AVAILABILITY
@@ -177,7 +184,16 @@ def enter(read_only, limits, writable=()):
     _checked(library, 'unshare',
              ctypes.c_int(CLONE_NEWUSER | CLONE_NEWNS | CLONE_NEWNET | CLONE_NEWPID
                           | CLONE_NEWIPC | CLONE_NEWUTS))
-    Path('/proc/self/setgroups').write_text('deny')
+    setgroups = Path('/proc/self/setgroups')
+    try:
+        if setgroups.read_text().strip() != 'deny':
+            setgroups.write_text('deny')
+    except OSError:
+        # An outer user namespace may have denied setgroups already, leaving the
+        # file read-only. That is the state this write wanted; anything else is
+        # a real failure.
+        if setgroups.read_text().strip() != 'deny':
+            raise
     Path('/proc/self/uid_map').write_text(f'0 {uid} 1')
     Path('/proc/self/gid_map').write_text(f'0 {gid} 1')
     _checked(library, 'prctl', PR_SET_NO_NEW_PRIVS, 1, 0, 0, 0)
@@ -272,6 +288,10 @@ def _launch(command, roots, limits, timeout, cwd, env, toolchain=None, writable=
     except subprocess.TimeoutExpired:
         _terminate(process)
         raise
+    if process.returncode == LAUNCH_FAILED and err.startswith('isolation failed:'):
+        # The profile could not be installed after all; the caller decides what
+        # that means rather than receiving an unisolated result as if it were one.
+        raise IsolationUnavailable(err.strip())
     return subprocess.CompletedProcess(launcher, process.returncode, out, err)
 
 
