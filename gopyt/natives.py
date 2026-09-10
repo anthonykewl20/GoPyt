@@ -200,9 +200,14 @@ def _str_len(vm, args, func):
 
 @native("core.str.concat")
 def _str_concat(vm, args, func):
-    if sum(len(value.encode("utf-8")) for value in args) > ops.MAX_ALLOC:
+    from gopyt.resource_budget import ResourceLimitError
+    from gopyt.resource_text import concat_text, utf8_size
+    if sum(utf8_size(value, vm.check_cancelled) for value in args) > ops.MAX_ALLOC:
         raise Trap(ops.TRAP_ALLOC)
-    return args[0] + args[1]
+    try:
+        return concat_text(args[0], args[1], vm.resource_budget, vm.check_cancelled)
+    except ResourceLimitError:
+        raise Trap(ops.TRAP_ALLOC) from None
 
 
 @native("core.str.from_i64")
@@ -217,7 +222,14 @@ def _str_slice(vm, args, func):
     _requires(end >= start)
     if end > len(text):
         return _convert_error(vm, "slice")
-    return text[start:end]
+    from gopyt.resource_budget import ResourceLimitError
+    from gopyt.resource_text import slice_text
+    try:
+        return slice_text(text, start, end, vm.resource_budget, vm.check_cancelled)
+    except ResourceLimitError:
+        raise Trap(ops.TRAP_ALLOC) from None
+    finally:
+        text = None
 
 
 # ---------------------------------------------------------------- core.bytes
@@ -230,22 +242,44 @@ def _bytes_len(vm, args, func):
 
 @native("core.bytes.from_str")
 def _bytes_from_str(vm, args, func):
-    return args[0].encode("utf-8")
+    from gopyt.resource_budget import ResourceLimitError
+    from gopyt.resource_bytes import ByteBuilder
+    builder = ByteBuilder(vm.resource_budget)
+    try:
+        vm.check_cancelled()
+        builder.append_text(args[0])
+        vm.check_cancelled()
+        with builder.finish() as payload:
+            return payload.data
+    except ResourceLimitError:
+        raise Trap(ops.TRAP_ALLOC) from None
+    finally:
+        builder.close()
 
 
 @native("core.bytes.to_str")
 def _bytes_to_str(vm, args, func):
+    from gopyt.resource_budget import ResourceLimitError
+    from gopyt.resource_text import decode_utf8
     try:
-        return args[0].decode("utf-8")
-    except UnicodeDecodeError:
+        result = decode_utf8(args[0], vm.resource_budget, vm.check_cancelled)
+    except ResourceLimitError:
+        raise Trap(ops.TRAP_ALLOC) from None
+    if result is None:
         return _convert_error(vm, "utf8")
+    return result
 
 
 @native("core.bytes.concat")
 def _bytes_concat(vm, args, func):
     if len(args[0]) + len(args[1]) > ops.MAX_ALLOC:
         raise Trap(ops.TRAP_ALLOC)
-    return args[0] + args[1]
+    from gopyt.resource_budget import ResourceLimitError
+    from gopyt.resource_bytes import concat_payload
+    try:
+        return concat_payload(args[0], args[1], vm.resource_budget, vm.check_cancelled)
+    except ResourceLimitError:
+        raise Trap(ops.TRAP_ALLOC) from None
 
 
 # ---------------------------------------------------------------- core.int
@@ -715,7 +749,11 @@ def _model_complete(vm, args, func):
                                       budget.remaining) as response_payload:
                         if len(response_payload.data) > MAX_BODY:
                             return _status(vm, "ModelError", "body too large")
-                        data = response_payload.data.decode("utf-8")
+                        from gopyt.resource_text import decode_utf8
+                        data = decode_utf8(response_payload.data, vm.resource_budget,
+                                           budget.remaining)
+                        if data is None:
+                            return _status(vm, "ModelError", "network")
                 budget.remaining()
             finally:
                 if request is not None:

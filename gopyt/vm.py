@@ -793,6 +793,11 @@ def value_eq(a: object, b: object) -> bool:
         raise Trap(ops.TRAP_TYPE)
     if isinstance(a, (Secret, Buffer, BufferView)) or isinstance(b, (Secret, Buffer, BufferView)):
         raise Trap(ops.TRAP_TYPE)
+    # Charged scalar subclasses carry ownership, not distinct language types.
+    if isinstance(a, str) and isinstance(b, str):
+        return a == b
+    if isinstance(a, bytes) and isinstance(b, bytes):
+        return a == b
     # A checked union may have different active member types on either side.
     if type(a) is not type(b):
         return False
