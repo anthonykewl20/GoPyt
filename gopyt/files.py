@@ -30,6 +30,20 @@ def _owned_descriptor(owner):
 
 
 @contextmanager
+def opened_descriptor(path, flags, mode=0o777, *, dir_fd=None, descriptors=None):
+    """Scope a raw internal FD, optionally owned by a VM descriptor registry."""
+    if descriptors is not None:
+        with _owned_descriptor(descriptors.open(path, flags, mode, dir_fd=dir_fd)) as fd:
+            yield fd
+        return
+    fd = os.open(path, flags, mode, dir_fd=dir_fd)
+    try:
+        yield fd
+    finally:
+        os.close(fd)
+
+
+@contextmanager
 def _budgeted_parent(root, parts, create, descriptors):
     flags = os.O_RDONLY | os.O_DIRECTORY | os.O_NOFOLLOW
     owner = descriptors.open(os.path.sep, flags)

@@ -9,6 +9,37 @@ from gopyt.storage import Store, StorageError, DIRECTORY, DATABASE
 
 
 class SecurityProfile(unittest.TestCase):
+    def test_storage_key_descriptor_admission_and_private_file_cleanup(self):
+        from gopyt.resource_budget import ResourceBudget, ResourceLimits
+        from gopyt.resource_descriptors import DescriptorRegistry
+        class Context:
+            deadline_ns = None
+            def __init__(self, registry): self.descriptors = registry
+            def check_cancelled(self): pass
+        for capacity in (0, 1):
+            with self.subTest(capacity=capacity):
+                budget = ResourceBudget(ResourceLimits(0, 0, capacity, 0))
+                registry = DescriptorRegistry(budget)
+                context = Context(registry)
+                store = Store(str(self.root), context=context)
+                with self.assertRaisesRegex(StorageError, 'resource budget'):
+                    store.put('key', 'value')
+                self.assertFalse((self.root / DIRECTORY).exists())
+                self.assertEqual(registry.pending(), 0)
+                self.assertEqual(budget.snapshot()['active_reservations'], 0)
+                self.assertTrue(registry.close())
+        budget = ResourceBudget(ResourceLimits(0, 0, 2, 0))
+        registry = DescriptorRegistry(budget)
+        self.addCleanup(registry.close)
+        self.assertEqual(secret_file(str(self.key), self.root, 32, descriptors=registry),
+                         self.key.read_bytes())
+        self.assertEqual(budget.snapshot()['peak']['descriptors'], 2)
+        self.key.chmod(0o644)
+        with self.assertRaises(SecurityError):
+            secret_file(str(self.key), self.root, 32, descriptors=registry)
+        self.assertEqual(registry.pending(), 0)
+        self.assertEqual(budget.snapshot()['active_reservations'], 0)
+
     def setUp(self):
         temporary = tempfile.TemporaryDirectory()
         self.addCleanup(temporary.cleanup)

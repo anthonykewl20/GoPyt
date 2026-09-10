@@ -5,7 +5,7 @@ import os
 from pathlib import Path
 import secrets
 import stat
-from gopyt.files import parent_directory
+from gopyt.files import parent_directory, opened_descriptor
 
 MAGIC=b'GOPYT-SIV1\0'
 OVERHEAD=len(MAGIC)+12+16
@@ -22,27 +22,26 @@ def strict():
     return value=='strict'
 
 
-def secret_file(path,root,maximum):
+def secret_file(path,root,maximum,*,descriptors=None):
     if not path or not os.path.isabs(path):raise SecurityError('absolute secret file path required')
     absolute=Path(path)
     if root is not None and absolute.is_relative_to(Path(os.path.abspath(root))):
         raise SecurityError('secret must be outside application package')
     try:
-        with parent_directory('/',path.lstrip('/')) as (parent,name):
-            fd=os.open(name,os.O_RDONLY|os.O_NOFOLLOW|os.O_NONBLOCK,dir_fd=parent)
-        try:
-            info=os.fstat(fd)
-            if not stat.S_ISREG(info.st_mode) or info.st_nlink!=1 or info.st_mode & 0o077:
-                raise SecurityError('secret requires a private single-link regular file')
-            if info.st_uid not in (os.geteuid(),0):raise SecurityError('unexpected secret owner')
-            value=os.read(fd,maximum+1)
-            if not value or len(value)>maximum:raise SecurityError('invalid secret length')
-            return value
-        finally:os.close(fd)
+        with parent_directory('/',path.lstrip('/'),descriptors=descriptors) as (parent,name):
+            with opened_descriptor(name,os.O_RDONLY|os.O_NOFOLLOW|os.O_NONBLOCK,
+                                   dir_fd=parent,descriptors=descriptors) as fd:
+                info=os.fstat(fd)
+                if not stat.S_ISREG(info.st_mode) or info.st_nlink!=1 or info.st_mode & 0o077:
+                    raise SecurityError('secret requires a private single-link regular file')
+                if info.st_uid not in (os.geteuid(),0):raise SecurityError('unexpected secret owner')
+                value=os.read(fd,maximum+1)
+                if not value or len(value)>maximum:raise SecurityError('invalid secret length')
+                return value
     except OSError as exc:raise SecurityError('secret file unavailable') from exc
 
 
-def storage_cipher(root):
+def storage_cipher(root,*,descriptors=None):
     path=os.environ.get('GOPYT_STORE_KEY_FILE')
     ring_path=os.environ.get('GOPYT_STORE_KEYRING_FILE')
     if path and ring_path:raise SecurityError('select one storage key source')
@@ -51,9 +50,9 @@ def storage_cipher(root):
         return None
     strict()
     if ring_path:
-        keys, active = _keyring(secret_file(ring_path,root,4096))
+        keys, active = _keyring(secret_file(ring_path,root,4096,descriptors=descriptors))
     else:
-        key=secret_file(path,root,32)
+        key=secret_file(path,root,32,descriptors=descriptors)
         if len(key)!=32:raise SecurityError('storage key must contain exactly 32 bytes')
         keys, active = {'single': key}, 'single'
     context=os.environ.get('GOPYT_STORE_ID','')

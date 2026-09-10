@@ -5,7 +5,7 @@ the persistent file, so SQLite cannot follow symlinks or create unsafe sidecars.
 Whole-file replacement is deliberately simple; this is not a scalable DB server.
 """
 from collections import OrderedDict
-from contextlib import contextmanager
+from contextlib import contextmanager, ExitStack
 import fcntl
 import hashlib
 import os
@@ -16,9 +16,10 @@ import tempfile
 import threading
 import time
 import weakref
+from gopyt.resource_budget import ResourceLimitError
 
 from gopyt.rollback import locked_anchor, snapshot_digest
-from gopyt.files import parent_directory
+from gopyt.files import parent_directory, opened_descriptor
 from gopyt.security_config import storage_cipher,seal,unseal,SecurityError,OVERHEAD
 
 MAX_BYTES = 64 * 1024 * 1024
@@ -167,15 +168,15 @@ class Store:
 
     @contextmanager
     def _snapshot(self, directory):
-        try:
-            fd = os.open(DATABASE, os.O_RDONLY | os.O_NOFOLLOW | os.O_NONBLOCK, dir_fd=directory)
-        except FileNotFoundError:
-            yield None, None
-            return
-        try:
+        with ExitStack() as owners:
+            try:
+                fd = owners.enter_context(opened_descriptor(
+                    DATABASE, os.O_RDONLY | os.O_NOFOLLOW | os.O_NONBLOCK,
+                    dir_fd=directory, descriptors=getattr(self._context, 'descriptors', None)))
+            except FileNotFoundError:
+                yield None, None
+                return
             yield fd, self._identity(os.fstat(fd))
-        finally:
-            os.close(fd)
 
     def _load(self, fd, identity, db):
         if fd is None:
@@ -253,6 +254,8 @@ class Store:
             result = self._operate_locked(operation, key, value, expected, deadline)
             self._check_context()
             return result
+        except ResourceLimitError:
+            raise StorageError('database resource budget exceeded') from None
         finally:
             self._operation_lock.release()
 
@@ -265,7 +268,8 @@ class Store:
             if authority is not None and not authority.permits(
                     keys, read=operation != 'put', write=operation not in ('get', 'get_many')):
                 raise StorageError('database authority denied')
-            self._security = storage_cipher(self.root)
+            descriptors = getattr(self._context, 'descriptors', None)
+            self._security = storage_cipher(self.root, descriptors=descriptors)
             identity = None if self._security is None else self._security[2]
             if identity != self._security_identity:
                 self._clear_cache()

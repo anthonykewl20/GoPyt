@@ -78,3 +78,19 @@ registry. Non-VM file helpers and other native resource paths remain outside thi
 increment. Focused compiled tests cover zero/one/two descriptor budgets, rejection
 without output creation/truncation, and parent-close failure with child cleanup.
 Full and cross-platform qualification of this increment remain pending.
+
+## Storage integration sequence
+
+Storage key loading must use the same VM registry as the database, rollback anchor
+and staging files. Integrate that path first without implying that remaining opens
+are accounted. Descriptor capacity rejection during a store operation becomes its
+existing DbError, like the existing database size limit; it must occur before the
+rejected open and must not expose key material. Private-file validation remains
+unchanged. Direct administrative callers without a VM retain their existing API
+and are explicitly outside this initial registry integration.
+
+Key-file and snapshot-file opens now use the VM registry. Snapshot acquisition
+recognizes FileNotFoundError only while opening; exceptions raised by its caller
+propagate unchanged and still close the descriptor. Directory, database-lock,
+rollback-anchor, receipt and publication-stage descriptors remain to be integrated.
+This partial implementation does not establish aggregate storage resource accounting.
