@@ -176,11 +176,13 @@ def encode_bytes(art: Artifact, value: object, te_ix: int, *, max_bytes: int,
 
 
 def encode_owned_bytes(art, value, te_ix, *, budget, max_bytes, max_depth=128,
-                       check_context=None):
+                       check_context=None, member=None):
     """Return an internal byte owner; callers must close it after consumption."""
     from gopyt.resource_bytes import ByteBuilder
     if type(max_bytes) is not int or max_bytes < 0 or type(max_depth) is not int or max_depth < 1:
         raise ValueError('JSON encoding bounds')
+    if member is not None and type(member) is not str:
+        raise ValueError('JSON envelope member')
 
     class OwnedEncoder(_Encoder):
         def token(self, text):
@@ -203,7 +205,13 @@ def encode_owned_bytes(art, value, te_ix, *, budget, max_bytes, max_depth=128,
     output = OwnedEncoder(max_bytes, check_context, max_depth)
     output.output = ByteBuilder(budget)
     try:
-        _emit(art, value, te_ix, output, 0)
+        if member is not None:
+            output.token('{')
+            output.string(member)
+            output.token(':')
+        _emit(art, value, te_ix, output, 0 if member is None else 1)
+        if member is not None:
+            output.token('}')
         output.check()
         return output.output.finish()
     except RecursionError as error:

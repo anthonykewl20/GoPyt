@@ -358,3 +358,11 @@ payload owner after final-copy admission. Retained cancellation tracebacks expos
 only closed builders with empty chunk lists; all tested paths leave zero active
 reservations. These tests qualify the named failure boundaries without treating
 host metadata allocation itself as ledger-accounted memory.
+
+Owned JSON encoding can wrap a value in one named object member. The member name
+is escaped by the same encoder; punctuation and field bytes participate in both
+size admission and final payload ownership. The extra object level counts toward
+the depth limit. Tests compare ordinary and escaped-Unicode member names with an
+independent JSON encoder and verify exact-limit success and one-byte-short
+rejection. This prepares model-request framing without intermediate concatenation;
+its transport integration remains pending.

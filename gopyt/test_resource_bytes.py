@@ -6,6 +6,24 @@ from gopyt.resource_control import ResourceClosedError
 
 
 class ByteOwnership(unittest.TestCase):
+    def test_json_envelope_is_charged_and_included_in_size_limit(self):
+        import json
+        from gopyt import gobyte, jsonc
+        art = gobyte.Artifact(texprs=[gobyte.TExpr(gobyte.TE_STR)])
+        budget = self.budget(10000)
+        for member in ('prompt', 'é"'):
+            expected = json.dumps({member: 'hello😀'}, ensure_ascii=False,
+                                  separators=(',', ':')).encode()
+            with jsonc.encode_owned_bytes(art, 'hello😀', 0, budget=budget,
+                    max_bytes=len(expected), member=member) as payload:
+                self.assertEqual(payload.data, expected)
+                self.assertEqual(budget.snapshot()['used']['native_bytes'], len(expected))
+            with self.assertRaises(jsonc.ConvertFail) as caught:
+                jsonc.encode_owned_bytes(art, 'hello😀', 0, budget=budget,
+                                         max_bytes=len(expected)-1, member=member)
+            self.assertEqual(caught.exception.message, 'size')
+            self.assertEqual(budget.snapshot()['active_reservations'], 0)
+
     def test_cancelled_json_releases_admitted_chunks(self):
         from gopyt import gobyte, jsonc
         from gopyt.vm import Cancelled
