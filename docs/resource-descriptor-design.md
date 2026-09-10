@@ -351,3 +351,10 @@ retain the server exception traceback, verify the payload was charged at failure
 and check the payload holder and writer argument are cleared before admission is
 released. These tests establish cleanup for those injected boundaries; they do not
 claim that a partially sent response can be retracted or retried transparently.
+
+Owned-serialization failure tests also cover cancellation after a chunk has been
+admitted, failure to allocate chunk-list metadata, and failure to allocate the final
+payload owner after final-copy admission. Retained cancellation tracebacks expose
+only closed builders with empty chunk lists; all tested paths leave zero active
+reservations. These tests qualify the named failure boundaries without treating
+host metadata allocation itself as ledger-accounted memory.

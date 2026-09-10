@@ -1,10 +1,51 @@
 import unittest
+from unittest.mock import patch
 from gopyt.resource_budget import ResourceBudget, ResourceLimits, ResourceLimitError
 from gopyt.resource_bytes import ByteBuilder
 from gopyt.resource_control import ResourceClosedError
 
 
 class ByteOwnership(unittest.TestCase):
+    def test_cancelled_json_releases_admitted_chunks(self):
+        from gopyt import gobyte, jsonc
+        from gopyt.vm import Cancelled
+        art = gobyte.Artifact(texprs=[gobyte.TExpr(gobyte.TE_STR)])
+        budget = self.budget(100000)
+        def check():
+            if budget.snapshot()['used']['native_bytes']:
+                raise Cancelled()
+        try:
+            jsonc.encode_owned_bytes(art, 'x' * 10000, 0, budget=budget,
+                                     max_bytes=20000, check_context=check)
+        except Cancelled as error:
+            trace = error.__traceback__
+            builders = []
+            while trace is not None:
+                output = trace.tb_frame.f_locals.get('output')
+                if isinstance(output, jsonc._Encoder): builders.append(output.output)
+                trace = trace.tb_next
+            self.assertTrue(builders)
+            self.assertTrue(all(builder.closed and not builder.entries for builder in builders))
+        else:
+            self.fail('cancellation was not observed')
+        self.assertEqual(budget.snapshot()['active_reservations'], 0)
+
+    def test_metadata_allocation_failure_releases_reservations(self):
+        class RejectAppend(list):
+            def append(self, item): raise MemoryError('chunk metadata unavailable')
+        budget = self.budget(100)
+        builder = ByteBuilder(budget)
+        builder.entries = RejectAppend()
+        with self.assertRaises(MemoryError): builder.append_text('hello')
+        self.assertEqual(budget.snapshot()['active_reservations'], 0)
+        builder.close()
+        builder = ByteBuilder(budget)
+        builder.append_text('hello')
+        with patch('gopyt.resource_bytes.BytePayload', side_effect=MemoryError('owner unavailable')):
+            with self.assertRaises(MemoryError): builder.finish()
+        self.assertEqual(builder.entries, [])
+        self.assertEqual(budget.snapshot()['active_reservations'], 0)
+
     def test_owned_json_matches_independent_encoding(self):
         import json
         from gopyt import gobyte, jsonc
