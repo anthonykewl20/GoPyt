@@ -149,3 +149,5 @@ fixed and configured capacities, overload policies and remaining issue #13 cover
 [Operations, incident response and recovery](operations.md) publishes the supported platforms, compatibility policy, deployment and monitoring runbook, severity-based incident procedure, restore drill and named release ownership under issue #26. The recovery objectives are targets from the frozen qualification document, not measured results.
 
 [Independent security review scope package](security-review-package.md) is what an external reviewer needs: the surfaces, the frozen threat model, reproduction commands, retained evidence and the known gaps. It is a package for a review, not a review; this project's security posture remains unreviewed.
+
+[Operational metrics and telemetry handling](observability.md) define the closed metric set that keeps telemetry size independent of traffic, the denial, allocation, queue, conflict and contract families, and what may appear in a retained sample. A source-mapped debugger and profiling service remain open under #21.

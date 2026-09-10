@@ -64,8 +64,9 @@ treat them as stated limitations rather than findings:
   resource budget. Counters are admission accounting, not aggregate resident
   memory.
 - **#6** The isolation profile is qualified by finite hostile fixtures on one
-  Linux kernel. macOS has no supported profile, no system-call filter is
-  installed, and tenant separation between concurrent evaluations is unqualified.
+  Linux kernel, including separation between concurrent evaluations. macOS has
+  no supported profile and no system-call filter is installed, so platform
+  coverage remains open.
 - **#25** No measurement exists against any frozen latency, throughput,
   availability or recovery objective.
 - **#9, #14, #15, #16, #18, #19, #20, #21** Typed schemas and migrations,

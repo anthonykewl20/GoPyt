@@ -93,6 +93,16 @@ def _is_address_refusal(error) -> bool:
         getattr(error, 'reason', None), AddressPolicyError)
 
 
+def _db_failure(vm, exc):
+    """Map a storage failure to its typed error, counting what kind it was."""
+    from gopyt.storage import StorageAuthorityError, StorageGenerationError
+    if isinstance(exc, StorageAuthorityError):
+        vm.observe.deny('database', context=vm)
+    elif isinstance(exc, StorageGenerationError):
+        vm.observe.count('conflict:snapshot_generation', context=vm)
+    return _status(vm, "DbError", str(exc))
+
+
 def _record(vm, type_id, *fields):
     from gopyt.resource_collections import copy_list
     from gopyt.resource_budget import ResourceLimitError
@@ -596,7 +606,7 @@ def _db_get(vm, args, func):
         value = vm.db.get(key)
         return _status(vm, "NotFound") if value is None else value
     except StorageError as exc:
-        return _status(vm, "DbError", str(exc))
+        return _db_failure(vm, exc)
 
 
 @native("store.db.put")
@@ -608,7 +618,7 @@ def _db_put(vm, args, func):
         vm.db.put(key, value)
         return UNIT
     except StorageError as exc:
-        return _status(vm, "DbError", str(exc))
+        return _db_failure(vm, exc)
 
 
 @native("store.db.compare_exchange")
@@ -617,9 +627,14 @@ def _db_compare_exchange(vm, args, func):
     key, expected, value = args
     _requires(len(key) > 0)
     try:
-        return vm.db.compare_exchange(key, expected.value if isinstance(expected, Some) else None, value)
+        applied = vm.db.compare_exchange(
+            key, expected.value if isinstance(expected, Some) else None, value)
     except StorageError as exc:
-        return _status(vm, "DbError", str(exc))
+        return _db_failure(vm, exc)
+    if not applied:
+        # A lost race the caller is expected to retry, not an error.
+        vm.observe.count('conflict:compare_exchange', context=vm)
+    return applied
 
 
 # ---------------------------------------------------------------- data.json
@@ -644,7 +659,7 @@ def _db_get_many(vm, args, func):
                                 vm.check_cancelled)
         return _record(vm, vm.type_id_of("store.db.Snapshot"), items)
     except StorageError as exc:
-        return _status(vm, "DbError", str(exc))
+        return _db_failure(vm, exc)
     finally:
         values = items = value = None
 
@@ -661,7 +676,7 @@ def _db_compare_exchange_many(vm, args, func):
     try:
         return vm.db.compare_exchange_many(changes)
     except StorageError as exc:
-        return _status(vm, "DbError", str(exc))
+        return _db_failure(vm, exc)
 
 
 @native("data.json.encode")

@@ -68,14 +68,19 @@ withdrawal are in [release provenance](release-provenance.md).
 
 ## Monitoring
 
-Emit and alert on, at minimum:
+Emit and alert on, at minimum. The counter names below come from the closed
+metric set in [observability](observability.md):
 
 | Signal | Why | Alert when |
 |---|---|---|
 | HTTP status mix, especially 401/403/429/503/504 | Admission, identity and overload behaviour | 503 or 429 sustained above baseline, or any unexplained 403 |
 | Request latency percentiles | The frozen p50/p99/p99.9 targets | p99 above 250 ms over a sustained window |
 | Container resident memory | The 2 GiB hard cap is external | Above the 1.5 GiB steady-state target |
-| Resource-budget denials and allocation traps | Byte, descriptor and mapping admission | Any sustained rate |
+| Resource-budget denials and allocation traps | The `alloc:` counters name which budget refused work | Any sustained rate |
+| Authorization denials | The `deny:` family counts every surface's refusals together | Any unexplained rate, especially `deny:gateway` |
+| Queue pressure | `queue:connection_rejected`, `queue:worker_refused`, `queue:request_expired` | Any sustained rate |
+| Retry conflicts | `conflict:compare_exchange`, `conflict:writer_fence`, `conflict:snapshot_generation` | A rate that does not fall after a deploy |
+| Contract failures | `contract:precondition`, `contract:postcondition` | Any occurrence in production |
 | Storage lock contention and snapshot publication failures | The single-writer bottleneck | Any failure |
 | Guard receipts with `isolation.installed` false | A profile that should be installed is not | Any occurrence under a `required` policy |
 | Egress denials with reason `address` | An allowlisted origin resolving outside its permitted addresses | Any occurrence |

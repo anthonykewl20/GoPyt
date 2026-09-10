@@ -37,6 +37,19 @@ class StorageError(Exception):
     pass
 
 
+class StorageAuthorityError(StorageError):
+    """The configured database authority refused these keys.
+
+    Typed so a caller can count it as an authorization denial instead of
+    matching on a message. It stays a StorageError, so every existing handler
+    keeps mapping it to the same typed database error.
+    """
+
+
+class StorageGenerationError(StorageError):
+    """A stale or mismatched authority generation refused the operation."""
+
+
 def _open_lock(directory, deadline, check_context=lambda: None, *, opener=None):
     """Open an existing lock or create it exclusively, tolerating creation races."""
     flags = os.O_RDWR | os.O_NOFOLLOW | os.O_NONBLOCK
@@ -348,7 +361,7 @@ class Store:
                     if operation == 'compare_exchange_many' else (key,))
             if authority is not None and not authority.permits(
                     keys, read=operation != 'put', write=operation not in ('get', 'get_many')):
-                raise StorageError('database authority denied')
+                raise StorageAuthorityError('database authority denied')
             descriptors = getattr(self._context, 'descriptors', None)
             self._security = storage_cipher(self.root, descriptors=descriptors)
             identity = None if self._security is None else self._security[2]
@@ -372,12 +385,12 @@ class Store:
                     return migrate(self, directory, value, expected, MAX_BYTES, deadline)
                 if operation == 'fence_key':
                     if self._anchor is None or self._anchor.record['generation'] != expected:
-                        raise StorageError('key authorization generation mismatch')
+                        raise StorageGenerationError('key authorization generation mismatch')
                 if operation == 'restore_anchor':
                     self._clear_cache()
                     backup, generation, reason = value
                     if self._anchor is None or self._anchor.record['generation'] != generation:
-                        raise StorageError('restoration generation mismatch')
+                        raise StorageGenerationError('restoration generation mismatch')
                     db = sqlite3.connect(':memory:')
                     try:
                         db.execute('PRAGMA trusted_schema=OFF')
