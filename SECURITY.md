@@ -34,6 +34,8 @@ Mapped-data experiments are plaintext and are not exposed as a GoPyT native. Rea
 
 The LSP accepts local, bounded package snapshots and invokes the checker with CPU/time limits plus a Linux address-space limit. It provides editor assistance, not an untrusted multi-tenant compilation service.
 
+Operational procedure — supported platforms, deployment, monitoring, severity-based incident response, the restore drill and named release ownership — is in [operations](docs/operations.md). What an independent reviewer needs is packaged in [the security review scope package](docs/security-review-package.md). That package is not a review: this project's security posture remains unreviewed until an external deliverable exists and is linked from issue #26.
+
 ## Reporting
 
 Do not publish credentials or exploit details in an ordinary issue. Private vulnerability reporting is enabled: use the repository Security tab to report privately. Dependency vulnerability alerts are also enabled.

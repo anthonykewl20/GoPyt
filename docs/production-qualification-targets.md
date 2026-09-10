@@ -4,7 +4,7 @@ This document freezes the decisions issue #3 requires: one deployment envelope,
 one attacker model, one set of acceptance thresholds, one control allocation and
 one frozen dataset/oracle identity set. Freezing a target is not evidence that
 the target is met. Every threshold here is a requirement for later qualification
-under #24 and #25; several are deliberately beyond what the current
+under #25; several are deliberately beyond what the current
 implementation can reach, and those gaps are named in each section.
 
 The machine-checkable copy of every value below is
@@ -56,7 +56,7 @@ not be described as defended.
 | Editor / LSP | Supplies large or pathological local package snapshots to the checker. | Bounded snapshots, CPU/wall limits and a Linux address-space limit. | Partially implemented; not a multi-tenant compilation service. |
 | Guard | Supplies a candidate that tampers with acceptance definitions, helpers, fixtures or oracle identity to obtain a pass. | Bundle hash and engine pin, transitive contract-helper closure within one package, disposable evaluation tree. | Partially implemented; cross-package closure is #15 and stateful/effectful acceptance is #14. |
 | Credentials | Reads process memory, the filesystem, or replays an old snapshot or an old token. | Private 0600 key/token files outside the package, fail-closed strict mode, AES-256-GCM-SIV snapshot authentication, live token rotation, writer-key fencing, opt-in rollback authority. | Implemented (#11, #12); memory inspection by a same-account or root process is explicitly not defended. |
-| Deployment | Reaches the service without passing the gateway, or floods it. | Loopback-only strict listeners, bearer-token admission before body decoding, connection quota, request deadline, queue-full 503. | Partially implemented; gateway/forwarded-identity qualification is #24. |
+| Deployment | Reaches the service without passing the gateway, or floods it. | Loopback-only strict listeners, a configured trusted-gateway peer that fails closed for every other address, forwarded identity believed only from that peer, this server's own header bounds, identity-aware admission, connection quota, request deadline, queue-full 503. | Implemented and qualified through real network paths in #24; the gateway itself and the network path to the listener remain the deployment's. |
 | Supply chain | Substitutes a release artifact or a build input. | Hash-pinned build inputs, reproducible wheels, release provenance and withdrawal policy. | Partially implemented; signed end-to-end qualification is #23. |
 
 Explicitly outside the model at this envelope: hostile code executing in the host
@@ -139,7 +139,23 @@ misses a threshold is reported as a miss; the threshold is changed only by a
 revision bump in `targets.json` with the reason recorded, never by editing a
 result.
 
-## 6. Change control
+## 6. Status of the gaps this freeze created
+
+`validation/workload-freeze/targets.json` carries the machine-readable list, and
+its revision history is how an entry leaves. Revision 2 removed #24 after the
+gateway, header and outbound address boundaries were implemented and qualified
+through real network paths, and restated #6 to describe what the merged Linux
+isolation profile does and does not cover. No target, threshold, dataset
+identity or envelope value has changed since revision 1.
+
+Still unmet: the backend cannot hold the frozen retained state (#8), native and
+cryptographic internal allocations are unaccounted (#5), the isolation profile is
+qualified on one Linux kernel with no system-call filter and no tenant-separation
+evidence (#6), no measurement exists against any latency, throughput,
+availability or recovery objective (#25), and no independent security review has
+been performed (#26).
+
+## 7. Change control
 
 `validation/workload-freeze/targets.json` carries `revision`, `frozen_at` and a
 self-digest over its own frozen content. `tools/check_workload_freeze.py`

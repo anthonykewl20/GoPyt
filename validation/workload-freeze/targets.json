@@ -1,5 +1,5 @@
 {
-  "digest": "sha256:7622e386e19f89c9e9a03b0372012df8823e8dd6a2dc281938e9b65bbf589b03",
+  "digest": "sha256:a15c32fc0d25e5b17be5de6bb99b0a2320186a8ab6bf4a62d2b1cdd2d7276624",
   "document": "docs/production-qualification-targets.md",
   "frozen": {
     "budgets": {
@@ -145,10 +145,6 @@
         "issue": 5
       },
       {
-        "gap": "gateway and forwarded-identity boundaries are not qualified through real network paths",
-        "issue": 24
-      },
-      {
         "gap": "no independent security review has been performed",
         "issue": 26
       }
@@ -212,7 +208,7 @@
   },
   "frozen_at": "2026-09-10",
   "frozen_before_tuning": true,
-  "revision": 1,
-  "revision_reason": "Initial freeze of the single-node Linux container envelope selected for issue #3.",
+  "revision": 2,
+  "revision_reason": "Issue #24 closed: the gateway, header and outbound address boundaries are implemented and qualified, so it is no longer an unmet gap. The #6 entry is restated to describe what the merged Linux profile does and does not cover. No target, threshold, dataset identity or envelope value changed.",
   "schema": "gopyt.workload-freeze.v1"
 }
