@@ -71,3 +71,85 @@ class CollectionAdmission(unittest.TestCase):
                     failure = error
                 self.assertIsNotNone(failure)
                 self.assertEqual(budget.snapshot()['active_reservations'], 0, target)
+
+
+class CompiledLists(unittest.TestCase):
+    def setUp(self):
+        import tempfile
+        from gopyt.cli import build
+        from gopyt.testing import write_pkg
+        from gopyt.test_vm import module
+        temp = tempfile.TemporaryDirectory()
+        self.addCleanup(temp.cleanup)
+        signature = 'fn build() -> list[i64]'
+        files = module(signature, signature + '''
+{
+    original = core.list.range(1000, 1003)
+    extended = core.list.append(original, 1003)
+    return core.list.append(extended, core.list.len(original))
+}
+''', uses='use core.list { range, append, len }')
+        write_pkg(temp.name, files, fmt=True)
+        _, self.art, self.ids = build(temp.name)
+
+    def test_compiled_native_results_and_scalar_aliases_retain_charges(self):
+        from gopyt.vm import VM
+        budget = ResourceBudget(ResourceLimits(65536, 0, 0, 0))
+        with VM(self.art, resource_budget=budget) as vm:
+            result = vm.call(self.ids['demo.build'], [])
+            with vm.heap.pin(result):
+                vm.heap.collect()
+                self.assertEqual(result, [1000, 1001, 1002, 1003, 3])
+                scalar = result[1]
+                self.assertGreater(budget.snapshot()['used']['native_bytes'], 0)
+        self.assertEqual(result, [])
+        del result
+        self.assertEqual(scalar, 1001)
+        self.assertGreater(budget.snapshot()['used']['native_bytes'], 0)
+        del scalar
+        self.assertEqual(budget.snapshot()['active_reservations'], 0)
+
+    def test_compiled_exhaustion_is_allocation_trap_and_unwinds_owned_output(self):
+        from gopyt.vm import VM, Trap
+        from gopyt import ops
+        budget = ResourceBudget(ResourceLimits(31, 0, 0, 0))
+        failure = None
+        with VM(self.art, resource_budget=budget) as vm:
+            try:
+                vm.call(self.ids['demo.build'], [])
+            except Trap as error:
+                failure = error
+        self.assertIsNotNone(failure)
+        self.assertEqual(failure.code, ops.TRAP_ALLOC)
+        self.assertEqual(budget.snapshot()['active_reservations'], 0)
+
+    def test_verified_list_opcodes_admit_copies_before_allocation(self):
+        import copy
+        import struct
+        from gopyt import gobyte, ops
+        from gopyt.vm import VM, Trap
+        art = copy.deepcopy(self.art)
+        first = next(i for i, c in enumerate(art.consts)
+                     if c.tag == gobyte.TAG_I64 and c.value == 1000)
+        last = next(i for i, c in enumerate(art.consts)
+                    if c.tag == gobyte.TAG_I64 and c.value == 1003)
+        art.funcs[self.ids['demo.build']].code = (
+            bytes([ops.CONST]) + struct.pack('<I', first) +
+            bytes([ops.NEW_LIST]) + struct.pack('<H', 1) +
+            bytes([ops.CONST]) + struct.pack('<I', last) +
+            bytes([ops.LIST_APPEND, ops.RETURN]))
+        art = gobyte.decode(gobyte.encode(art))
+        for capacity, succeeds in ((31, False), (65536, True)):
+            budget = ResourceBudget(ResourceLimits(capacity, 0, 0, 0))
+            with VM(art, resource_budget=budget) as vm:
+                if succeeds:
+                    result = vm.call(self.ids['demo.build'], [])
+                    self.assertEqual(result, [1000, 1003])
+                    self.assertGreater(budget.snapshot()['used']['native_bytes'], 0)
+                else:
+                    with self.assertRaises(Trap) as caught:
+                        vm.call(self.ids['demo.build'], [])
+                    self.assertEqual(caught.exception.code, ops.TRAP_ALLOC)
+            if succeeds:
+                del result
+            self.assertEqual(budget.snapshot()['active_reservations'], 0)

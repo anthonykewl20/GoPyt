@@ -17,6 +17,8 @@ from gopyt.gobyte import Artifact, Func
 from gopyt.observe import Observe
 from gopyt.values import NONE, UNIT, EnumVal, NoneValue, Record, Secret, Some, Unit
 from gopyt.resource_buffer import Buffer, BufferView
+from gopyt.resource_budget import ResourceLimitError
+from gopyt.resource_collections import copy_list, append_list
 from gopyt.values import I32, U32, U64
 
 I64_MIN = -(2**63)
@@ -494,9 +496,17 @@ class VM:
                 elif op == ops.NEW_LIST:
                     count = struct.unpack_from("<H", code, pc)[0]
                     pc += 2
-                    vals = stack[len(stack) - count :]
-                    del stack[len(stack) - count :]
-                    stack.append(list(vals))
+                    start = len(stack) - count
+                    try:
+                        result = copy_list(stack, self.resource_budget,
+                                           self.check_cancelled, start=start)
+                    except ResourceLimitError:
+                        raise Trap(ops.TRAP_ALLOC) from None
+                    try:
+                        del stack[start:]
+                        stack.append(result)
+                    finally:
+                        result = None
                 elif op == ops.LIST_LEN:
                     v = stack.pop()
                     if not isinstance(v, list):
@@ -517,7 +527,11 @@ class VM:
                         raise Trap(ops.TRAP_TYPE)
                     if len(lst) + 1 > ops.MAX_ALLOC:
                         raise Trap(ops.TRAP_ALLOC)
-                    stack.append(lst + [item])
+                    try:
+                        stack.append(append_list(lst, item, self.resource_budget,
+                                                 self.check_cancelled))
+                    except ResourceLimitError:
+                        raise Trap(ops.TRAP_ALLOC) from None
                 elif op == ops.NEW_MAP:
                     stack.append({})
                 elif op == ops.MAP_GET:

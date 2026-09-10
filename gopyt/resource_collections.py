@@ -89,6 +89,8 @@ def range_list(start, stop, budget, check=lambda: None):
         capacity = ((64 + sys.int_info.bits_per_digit - 1) //
                     sys.int_info.bits_per_digit) * sys.int_info.sizeof_digit
         result = OwnedList(budget)
+        if start == stop:
+            return result
         # Admit old/new loop integers before arithmetic creates either payload.
         with budget.reserve(native_bytes=2 * capacity):
             try:
