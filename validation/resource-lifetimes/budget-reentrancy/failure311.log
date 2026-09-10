@@ -1,0 +1,8 @@
+test_collection_during_reserve_preserves_counter_update (gopyt.test_budget_finalizers.BudgetFinalizers.test_collection_during_reserve_preserves_counter_update) ... ok
+test_collection_under_lock_completes_in_bounded_process (gopyt.test_budget_finalizers.BudgetFinalizers.test_collection_under_lock_completes_in_bounded_process) ... ok
+test_failed_drain_preserves_charge_and_retries (gopyt.test_budget_finalizers.BudgetFinalizers.test_failed_drain_preserves_charge_and_retries) ... ok
+
+----------------------------------------------------------------------
+Ran 3 tests in 0.074s
+
+OK
