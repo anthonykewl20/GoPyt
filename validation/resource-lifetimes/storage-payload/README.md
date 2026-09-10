@@ -27,3 +27,6 @@ The runtime wheel reproduced byte-for-byte (SHA-256
 `2aa129060cf1a22038abad939090eb41c9ddc627e7d073dae8f4c82f134b8fd9`,
 57 runtime files, epoch 1788998400). Installed smoke and old/new/rollback
 checks completed successfully; raw evidence is retained here.
+
+Guard calibration passed 17 tests, stdlib parity passed for 22 modules, and
+the contract demo passed its positive and negative cases. Raw outputs are retained.
