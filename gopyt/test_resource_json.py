@@ -633,3 +633,24 @@ class JsonNominalGraph(unittest.TestCase):
             self.assertEqual(budget.snapshot()['used']['native_bytes'], baseline)
         del parsed
         self.assertEqual(budget.snapshot()['active_reservations'], 0)
+
+
+class JsonNativeRouting(unittest.TestCase):
+    def test_decode_native_uses_vm_budget_and_owned_result(self):
+        from types import SimpleNamespace as NS
+        from gopyt import gobyte, natives, ops
+        from gopyt.vm import Trap
+        art = gobyte.Artifact(texprs=[gobyte.TExpr(gobyte.TE_I64),
+                                     gobyte.TExpr(gobyte.TE_LIST, a=0)])
+        budget = ResourceBudget(ResourceLimits(10000, 0, 0, 0))
+        vm = NS(art=art, resource_budget=budget, check_cancelled=lambda: None)
+        result = natives.NATIVES['data.json.decode'](vm, ['[1,2.0]'], NS(ret=1))
+        self.assertEqual(result, [1, 2])
+        self.assertGreater(budget.snapshot()['used']['native_bytes'], 0)
+        del result
+        self.assertEqual(budget.snapshot()['active_reservations'], 0)
+        vm.resource_budget = ResourceBudget(ResourceLimits(0, 0, 0, 0))
+        with self.assertRaises(Trap) as caught:
+            natives.NATIVES['data.json.decode'](vm, ['[1]'], NS(ret=1))
+        self.assertEqual(caught.exception.code, ops.TRAP_ALLOC)
+        self.assertEqual(vm.resource_budget.snapshot()['active_reservations'], 0)

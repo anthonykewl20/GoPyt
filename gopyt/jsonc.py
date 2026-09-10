@@ -379,7 +379,21 @@ def _matches(art: Artifact, value: object, te_ix: int) -> bool:
     return False
 
 
-def decode(art: Artifact, text: str, te_ix: int) -> object:
+def decode(art: Artifact, text: str, te_ix: int, *, budget=None,
+           check=lambda: None) -> object:
+    if budget is not None:
+        from gopyt.resource_json import parse_owned, decode_value
+        data = None
+        depth_error = False
+        try:
+            data = parse_owned(text, budget, check)
+            return decode_value(art, data, te_ix, budget, check)
+        except RecursionError:
+            depth_error = True
+        finally:
+            text = data = None
+        if depth_error:
+            raise ConvertFail("depth")
     try:
         return _dec(art, parse(text), te_ix)
     except RecursionError:

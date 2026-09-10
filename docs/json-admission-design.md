@@ -266,3 +266,15 @@ integer subclasses by declared width instead of exact Python class, preserving
 bool rejection and width distinctions for union encoding. Thirty-three focused
 tests pass on both runtimes (nominal-match logs). Production routing and broad
 encoding/depth/failure qualification remain outstanding.
+
+Production typed decode routing is now connected: jsonc.decode accepts an optional
+budget/check pair and uses parse_owned plus decode_value when supplied. Its wrapper
+clears the parsed graph and input references on exit, translating recursive typed
+traversal failure to depth after discarding the original exception. The native
+data.json.decode supplies the VM shared budget/check and converts ResourceLimitError
+to TRAP_ALLOC; provided Json.from_json delegates through that same native. Existing
+host calls without a budget retain their prior path. Focused JSON/native-boundary/VM
+suites pass both pinned runtimes; 34 focused resource JSON tests include a direct
+native success with retained result charge and zero-budget TRAP_ALLOC/release.
+Full language suites, depth compatibility and model-response JSON routing still
+need qualification; no issue closure is claimed by this connection alone.

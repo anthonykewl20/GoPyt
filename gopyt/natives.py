@@ -616,9 +616,13 @@ def _json_encode(vm, args, func):
 
 @native("data.json.decode")
 def _json_decode(vm, args, func):
+    from gopyt.resource_budget import ResourceLimitError
     te = _ret_member(vm, func)
     try:
-        return jsonc.decode(vm.art, args[0], te)
+        return jsonc.decode(vm.art, args[0], te, budget=vm.resource_budget,
+                            check=vm.check_cancelled)
+    except ResourceLimitError:
+        raise Trap(ops.TRAP_ALLOC) from None
     except ConvertFail as e:
         return _convert_error(vm, e.message)
     except NotJson:
