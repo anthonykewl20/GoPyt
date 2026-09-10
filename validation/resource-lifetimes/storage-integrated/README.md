@@ -10,3 +10,6 @@ passed. Full regression qualification is pending.
 The earlier storage Python 3.11 run was interrupted on the pre-fix budget lock;
 its log remains in ../storage-payload. This increment accounts for snapshot
 input reads, not SQLite, plaintext or cryptographic internal allocations.
+
+Guard calibration passed 17 tests, stdlib parity passed for 22 modules and
+the contract demo passed. Raw outputs are retained.
