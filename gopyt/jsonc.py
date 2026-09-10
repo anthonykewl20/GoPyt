@@ -175,6 +175,43 @@ def encode_bytes(art: Artifact, value: object, te_ix: int, *, max_bytes: int,
         output.close()
 
 
+def encode_owned_bytes(art, value, te_ix, *, budget, max_bytes, max_depth=128,
+                       check_context=None):
+    """Return an internal byte owner; callers must close it after consumption."""
+    from gopyt.resource_bytes import ByteBuilder
+    if type(max_bytes) is not int or max_bytes < 0 or type(max_depth) is not int or max_depth < 1:
+        raise ValueError('JSON encoding bounds')
+
+    class OwnedEncoder(_Encoder):
+        def token(self, text):
+            try:
+                self.check()
+                length = sum(1 if ord(c) < 0x80 else 2 if ord(c) < 0x800
+                             else 3 if ord(c) < 0x10000 else 4 for c in text)
+                self.minimum(length)
+                try:
+                    self.output.append_text(text)
+                except UnicodeEncodeError as error:
+                    raise ConvertFail('utf8') from error
+                self.size += length
+            finally:
+                text = None
+
+        def close(self):
+            self.output.close()
+
+    output = OwnedEncoder(max_bytes, check_context, max_depth)
+    output.output = ByteBuilder(budget)
+    try:
+        _emit(art, value, te_ix, output, 0)
+        output.check()
+        return output.output.finish()
+    except RecursionError as error:
+        raise ConvertFail('depth') from error
+    finally:
+        output.close()
+
+
 def _emit(art, value, te_ix, out, depth):
     out.check()
     if out.max_depth is not None and depth > out.max_depth:

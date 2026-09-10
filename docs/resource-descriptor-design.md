@@ -316,3 +316,19 @@ reproduced token-byte retention after size rejection in both encoder forms, then
 verified cleanup without changing the conversion error. The original failure log
 is retained during follow-up qualification. This does not charge encoding inputs,
 escaped text or host allocator overhead against the resource ledger.
+
+### Owned serialization payloads
+
+ByteBuilder reserves UTF-8's four-byte-per-code-point upper bound before encoding
+each token, then shrinks the reservation to its actual byte length. It retains
+immutable chunks and their charges, reserves the simultaneous final joined payload,
+and releases chunks only after joining or failure. BytePayload retains the final
+charge until close clears its data. These are internal single-consumer owners;
+callers must not retain exported bytes aliases past close.
+
+encode_owned_bytes uses this builder for JSON byte output. Tests compare escaped
+Unicode output with Python's independent JSON encoder, verify retained final-output
+charges, reject insufficient final-copy capacity, and check failure cleanup. The
+API is not yet wired into HTTP consumers. It accounts payload bytes, not Python
+container metadata, string escaping temporaries or allocator overhead; the
+four-byte admission bound can reject even when actual UTF-8 would be smaller.
