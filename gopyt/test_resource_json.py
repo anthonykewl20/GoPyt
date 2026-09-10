@@ -242,3 +242,60 @@ class JsonDecimalToken(unittest.TestCase):
             self.assertEqual(end, len(token))
         del result
         self.assertEqual(budget.snapshot()['active_reservations'], 0)
+
+
+class JsonArrayOwnership(unittest.TestCase):
+    def test_growth_storage_and_alias_lifetime(self):
+        from gopyt.resource_json import _JsonArray
+        budget = ResourceBudget(ResourceLimits(100000, 0, 0, 0))
+        array = _JsonArray(budget)
+        baseline = list.__sizeof__(array)
+        for index in range(1000):
+            array.append_owned(index)
+            self.assertEqual(budget.snapshot()['used']['native_bytes'],
+                             list.__sizeof__(array) - baseline)
+        self.assertEqual(array, list(range(1000)))
+        alias = array
+        del array
+        self.assertGreater(budget.snapshot()['used']['native_bytes'], 0)
+        del alias
+        self.assertEqual(budget.snapshot()['active_reservations'], 0)
+
+    def test_resize_rejection_preserves_previous_array(self):
+        import struct
+        from gopyt.resource_json import _JsonArray
+        budget = ResourceBudget(ResourceLimits(8 * struct.calcsize('P'), 0, 0, 0))
+        array = _JsonArray(budget)
+        for index in range(4):
+            array.append_owned(index)
+        with self.assertRaises(ResourceLimitError):
+            array.append_owned(4)
+        self.assertEqual(array, [0, 1, 2, 3])
+        self.assertEqual(budget.snapshot()['used']['native_bytes'], 4 * struct.calcsize('P'))
+        del array
+        self.assertEqual(budget.snapshot()['active_reservations'], 0)
+
+    def test_cancelled_append_retained_traceback_clears_owner(self):
+        from gopyt.resource_json import _JsonArray
+        budget = ResourceBudget(ResourceLimits(10000, 0, 0, 0))
+        array = _JsonArray(budget)
+        class Cancelled(Exception):
+            pass
+        def check():
+            if budget.snapshot()['used']['native_bytes']:
+                raise Cancelled()
+        failure = None
+        try:
+            array.append_owned('value', check)
+        except Cancelled as error:
+            failure = error
+        self.assertIsNotNone(failure)
+        self.assertEqual(array, ['value'])
+        del array
+        self.assertEqual(budget.snapshot()['active_reservations'], 0)
+        tb = failure.__traceback__
+        while tb:
+            if tb.tb_frame.f_code.co_name == 'append_owned':
+                self.assertIsNone(tb.tb_frame.f_locals['self'])
+                self.assertIsNone(tb.tb_frame.f_locals['value'])
+            tb = tb.tb_next

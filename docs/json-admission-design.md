@@ -120,3 +120,20 @@ exponents and cancellation after construction; and preserve InvalidOperation fla
 and NaN behavior when the caller disables that trap. These are token-producer
 checks, not complete JSON parser or typed-graph qualification. Parser integration,
 container admission, more constructor fault coverage and broad validation remain.
+
+Array producer: _JsonArray is an internal append-only parser container, not a
+replacement for mutable language lists. Its append_owned operation reserves a new
+pointer array before growth, retaining the old reservation until append returns.
+Matching 3.11/3.14 listobject.c uses (n+(n>>3)+6)&~3 slots for single-element append;
+no resize reservation is needed while those slots remain available. Pointer size
+comes from the running interpreter. Empty list headers are metadata, not payload.
+This release boundary targets the pinned GIL-enabled runtimes: free-threaded 3.14
+has deferred array reclamation and is not qualified by these tests or ownership
+rules. External mutation methods must not be used on this parser-private object;
+typed conversion must admit and own the mutable language destination separately.
+Eighteen focused tests pass on both pinned runtimes. Array tests compare charged
+slots with list.__sizeof__ growth for 1000 appends, retain a last alias, reject a
+resize whose old/new overlap exceeds the budget while preserving prior contents,
+and retain cancellation traceback after successful insertion without retaining the
+array through the producer frame. Object/dictionary admission and actual parser
+integration remain outstanding.
