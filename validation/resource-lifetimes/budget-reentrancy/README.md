@@ -51,3 +51,7 @@ _ChargedBuffer.__del__ -> reservation.release -> ResourceBudget._release
 nested inside ResourceBudget.reserve, confirming the finalizer lock deadlock
 in an actual regression run. Both raw logs are retained. This does not
 establish the cause of the separate Linux segmentation fault.
+
+Full Python 3.14.7 qualification passed 1019 tests in 367.120 seconds.
+Frozen source and lock hashes were verified unchanged after both full runs.
+The candidate fix still requires platform CI qualification.
