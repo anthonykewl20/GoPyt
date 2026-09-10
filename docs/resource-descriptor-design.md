@@ -138,3 +138,19 @@ an injected snapshot rename failure and subsequent recovery. It also restores an
 older authenticated snapshot and regenerates a missing restoration receipt.
 All successful and rejected operations leave no active descriptor reservations.
 This does not complete migration-file, network, or native-memory accounting.
+
+### Initial encryption migration
+
+Migration now shares the Store registry for recovery-directory traversal, its
+persistent coordination lock, existing recovery-copy reads, and new recovery-copy
+staging. The staging stream closes before its owner closes and before hard-link
+publication. Existing recovery identity, privacy, locking and durability checks
+are preserved. The recovery directory and lock close before application publication.
+
+The budget regression rejects capacities zero through four without changing the
+plaintext source or publishing a recovery copy. At capacity five it creates an
+encrypted recovery copy, survives an injected application-publication failure,
+and retries through that existing recovery copy to commit matching ciphertext.
+Both rejection and retry leave no descriptor owners or reservations. Existing
+migration, rollback and publication crash campaigns remain part of verification.
+SQLite, encryption scratch memory and networking remain outside this increment.
