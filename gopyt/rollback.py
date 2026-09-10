@@ -74,11 +74,18 @@ def _decode(data, identity):
         record = json.loads(data, object_pairs_hook=unique)
     except (ValueError, UnicodeError, RecursionError) as error:
         raise SecurityError('invalid anchor JSON') from error
-    if (not isinstance(record, dict) or set(record) != {'version', 'store', 'generation', 'digest', 'stage', 'restore'}
-            or type(record['version']) is not int or record['version'] != 1
+    fields = {'version', 'store', 'generation', 'digest', 'stage', 'restore'}
+    if isinstance(record, dict) and record.get('version') == 2:
+        fields.add('writer')
+    if (not isinstance(record, dict) or set(record) != fields
+            or type(record['version']) is not int or record['version'] not in (1, 2)
             or record['store'] != identity or type(record['generation']) is not int
             or not 0 <= record['generation'] <= MAX_GENERATION):
         raise SecurityError('invalid anchor record')
+    if record['version'] == 2:
+        writer = record['writer']
+        if not isinstance(writer, str) or len(writer) != 64 or any(c not in '0123456789abcdef' for c in writer):
+            raise SecurityError('invalid writer identity')
     digest, stage = record['digest'], record['stage']
     if digest is not None and (not isinstance(digest, str) or len(digest) != 64
                               or any(c not in '0123456789abcdef' for c in digest)):
@@ -129,16 +136,27 @@ class Anchor:
             except FileNotFoundError:
                 pass
 
-    def enroll(self, digest):
+    def enroll(self, digest, writer):
         if self.record is not None:
             raise SecurityError('anchor already enrolled')
-        self._write(dict(version=1, store=self.identity, generation=0, digest=digest, stage=None, restore=None))
+        self._write(dict(version=2, store=self.identity, generation=0, digest=digest,
+                         stage=None, restore=None, writer=writer))
 
-    def advance(self, digest, stage, restore=None):
+    def check_writer(self, writer):
+        if self.record is not None and self.record['version'] == 2 and self.record['writer'] != writer:
+            raise SecurityError('active storage key is not authorized to publish')
+
+    def advance(self, digest, stage, restore=None, *, writer, authorize_writer=False):
         if self.record is None or self.record['generation'] == MAX_GENERATION:
             raise SecurityError('anchor cannot advance')
-        self._write(dict(version=1, store=self.identity, generation=self.record['generation'] + 1,
-                         digest=digest, stage=stage, restore=restore or self.record['restore']))
+        if not authorize_writer:
+            self.check_writer(writer)
+        record = dict(version=2 if authorize_writer else self.record['version'],
+                      store=self.identity, generation=self.record['generation'] + 1,
+                      digest=digest, stage=stage, restore=restore or self.record['restore'])
+        if record['version'] == 2:
+            record['writer'] = writer if authorize_writer else self.record['writer']
+        self._write(record)
 
     def _receipt(self):
         restore = self.record['restore']

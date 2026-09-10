@@ -12,7 +12,7 @@ from gopyt.storage import MAX_BYTES, Store, StorageError
 
 def main(argv=None):
     parser = argparse.ArgumentParser(description=__doc__)
-    parser.add_argument('operation', choices=['rekey', 'enroll', 'status', 'restore'])
+    parser.add_argument('operation', choices=['rekey', 'enroll', 'status', 'restore', 'fence-key'])
     parser.add_argument('--root', required=True, type=Path)
     parser.add_argument('--backup')
     parser.add_argument('--expected-generation', type=int)
@@ -23,6 +23,9 @@ def main(argv=None):
     if args.operation == 'restore':
         if args.backup is None or args.expected_generation is None or args.reason is None:
             parser.error('restore requires --backup, --expected-generation and --reason')
+    elif args.operation == 'fence-key':
+        if args.expected_generation is None or args.backup is not None or args.reason is not None:
+            parser.error('fence-key requires only --expected-generation')
     elif any(value is not None for value in (args.backup, args.expected_generation, args.reason)):
         parser.error('restoration options require restore')
     store = Store(os.path.abspath(args.root))
@@ -33,6 +36,8 @@ def main(argv=None):
         elif args.operation == 'enroll':
             store.enroll_anchor()
             result = store.anchor_status()
+        elif args.operation == 'fence-key':
+            result = store.fence_key(expected_generation=args.expected_generation)
         elif args.operation == 'status':
             result = store.anchor_status()
         else:

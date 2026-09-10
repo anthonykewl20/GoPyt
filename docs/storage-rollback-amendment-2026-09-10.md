@@ -100,3 +100,5 @@ reestablishment outside this protocol. Copying an old authority beside a restore
 backup must not be described as verified rollback detection. A remote authority,
 hardware monotonic counter, host-compromise defense, power-loss qualification and
 production recovery SLOs remain separate deployment controls or future adapters.
+
+The [writer-key fencing amendment](storage-writer-fence-amendment-2026-09-10.md) supersedes the new-enrollment record version with version 2 and defines explicit version-1 migration. Its additional publishing-key check does not change the snapshot ciphertext format or authorized restore generation semantics.

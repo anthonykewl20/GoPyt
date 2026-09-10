@@ -1,0 +1,13 @@
+test_already_waiting_process_cannot_publish_loaded_old_settings (gopyt.test_writer_fence.WriterFence.test_already_waiting_process_cannot_publish_loaded_old_settings) ... ok
+test_backup_reader_does_not_regain_publishing_authority (gopyt.test_writer_fence.WriterFence.test_backup_reader_does_not_regain_publishing_authority) ... ok
+test_cli_and_malformed_writer_metadata (gopyt.test_writer_fence.WriterFence.test_cli_and_malformed_writer_metadata) ... ok
+test_crash_transition_recovers_exact_writer_policy (gopyt.test_writer_fence.WriterFence.test_crash_transition_recovers_exact_writer_policy) ... ok
+test_stale_operator_generation_and_invalid_generations_reject (gopyt.test_writer_fence.WriterFence.test_stale_operator_generation_and_invalid_generations_reject) ... ok
+test_stale_writes_reject_without_changing_snapshot_or_generation (gopyt.test_writer_fence.WriterFence.test_stale_writes_reject_without_changing_snapshot_or_generation) ... ok
+test_version_one_authority_requires_explicit_upgrade (gopyt.test_writer_fence.WriterFence.test_version_one_authority_requires_explicit_upgrade) ... ok
+test_writer_identity_uses_key_material_not_label_or_reader_set (gopyt.test_writer_fence.WriterFence.test_writer_identity_uses_key_material_not_label_or_reader_set) ... ok
+
+----------------------------------------------------------------------
+Ran 8 tests in 0.787s
+
+OK

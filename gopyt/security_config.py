@@ -67,7 +67,8 @@ def storage_cipher(root):
     except (ValueError,UnsupportedAlgorithm) as exc:
         raise SecurityError('supported security extra required') from exc
     aad=MAGIC+context.encode()
-    cipher = _KeyringCipher(ciphers, active)
+    writer = hashlib.sha256(b'GoPyt writer key\0'+keys[active]+aad).hexdigest()
+    cipher = _KeyringCipher(ciphers, active, writer)
     identity = json.dumps({'active':active,'keys':{name:key.hex() for name,key in keys.items()}},sort_keys=True).encode()
     return cipher,aad,hashlib.sha256(identity+aad).digest()
 
@@ -98,8 +99,9 @@ def _keyring(raw):
 
 class _KeyringCipher:
     """Bounded authenticated fallback; the existing snapshot format is retained."""
-    def __init__(self,ciphers,active):
+    def __init__(self,ciphers,active,writer):
         self.active=ciphers[active]
+        self.write_identity=writer
         self.readers=[self.active]+[cipher for name,cipher in ciphers.items() if name!=active]
 
     def encrypt(self,nonce,data,aad):

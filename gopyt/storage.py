@@ -200,7 +200,7 @@ class Store:
         if schema != [('table', 'kv', 'CREATE TABLE kv (key TEXT PRIMARY KEY, value TEXT NOT NULL) WITHOUT ROWID')]:
             raise StorageError('invalid database schema')
 
-    def _save(self, directory, db, *, restore=None):
+    def _save(self, directory, db, *, restore=None, authorize_writer=False):
         self._check_context()
         data = db.serialize()
         if len(data) > MAX_BYTES:
@@ -223,7 +223,8 @@ class Store:
                 os.fsync(directory)  # Recovery staging must survive authority advancement.
                 self._check_context()
                 admitted = True  # Even a failed authority fsync can have advanced it.
-                self._anchor.advance(hashlib.sha256(data).hexdigest(), temporary, restore)
+                self._anchor.advance(hashlib.sha256(data).hexdigest(), temporary, restore,
+                                     writer=self._security[0].write_identity, authorize_writer=authorize_writer)
             os.replace(temporary, DATABASE, src_dir_fd=directory, dst_dir_fd=directory)
             os.fsync(directory)
         finally:
@@ -267,12 +268,17 @@ class Store:
                 self._clear_cache()
                 self._security_identity = identity
             # A single input must not allocate an unbounded SQLite snapshot.
-            inputs = (key, value, expected) if operation not in ('get_many', 'compare_exchange_many', 'restore_anchor') else ()
+            inputs = (key, value, expected) if operation not in ('get_many', 'compare_exchange_many', 'restore_anchor', 'fence_key') else ()
             if any(len(s) > MAX_BYTES // 2 or len(s.encode('utf-8')) > MAX_BYTES // 2
                    for s in inputs if s is not None):
                 raise StorageError('database input size limit exceeded')
             with self._locked(deadline, enroll=operation == 'enroll_anchor',
                               restore=operation in ('restore_anchor', 'anchor_status')) as directory:
+                if self._anchor is not None and operation not in ('get', 'get_many', 'anchor_status', 'enroll_anchor', 'fence_key'):
+                    self._anchor.check_writer(self._security[0].write_identity)
+                if operation == 'fence_key':
+                    if self._anchor is None or self._anchor.record['generation'] != expected:
+                        raise StorageError('key authorization generation mismatch')
                 if operation == 'restore_anchor':
                     self._clear_cache()
                     backup, generation, reason = value
@@ -326,8 +332,12 @@ class Store:
                         page_size = db.execute('PRAGMA page_size').fetchone()[0]
                         db.execute(f'PRAGMA max_page_count={MAX_BYTES // page_size}')
                         if operation == 'enroll_anchor':
-                            self._anchor.enroll(snapshot_digest(directory, DATABASE, MAX_BYTES + OVERHEAD))
+                            self._anchor.enroll(snapshot_digest(directory, DATABASE, MAX_BYTES + OVERHEAD),
+                                                self._security[0].write_identity)
                             return True
+                        if operation == 'fence_key':
+                            self._save(directory, db, authorize_writer=True)
+                            return dict(self._anchor.record)
                         if operation == 'rekey':
                             if fd is None or self._security is None:
                                 raise StorageError('rekey requires an existing authenticated store')
@@ -468,6 +478,12 @@ class Store:
     def enroll_anchor(self):
         """Trusted operator enrollment; never called by language natives."""
         return self._operate('enroll_anchor', '*')
+
+    def fence_key(self, *, expected_generation):
+        """Trusted operator key transition; ordinary writes cannot grant key authority."""
+        if type(expected_generation) is not int or not 0 <= expected_generation < (1 << 63) - 1:
+            raise StorageError('invalid key authorization generation')
+        return self._operate('fence_key', '*', expected=expected_generation)
 
     def rekey(self):
         """Trusted maintenance only; authenticate then republish using active key."""
