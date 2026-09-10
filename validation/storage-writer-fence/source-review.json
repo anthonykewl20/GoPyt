@@ -1,0 +1,12 @@
+{
+  "runtime_commit": "89b6a61ba79012552360ce7f19eea4aaac4c382e",
+  "runtime_sha256": "530adfe2e6e2e366032be5e79bad600658364752e5673b13b099aaa9001b0a16",
+  "source_sha256": {
+    "gopyt/rollback.py": "993f394636b012f8f79b8235741c2c433f676c106826a08c86719c24635e17b2",
+    "gopyt/security_config.py": "dde3ad088b2bcfbd057d7a21b55ad9279d769487737749af85288c5cd62e8124",
+    "gopyt/storage.py": "d30161ffa3c3cb320ada1b72574f2ed57cfd9836de6663372d5494a56b1a326f",
+    "gopyt/store_admin.py": "85ef185829beec6f61adbfd16495eb85e9dc518290ff94caf70bf6387342ed90",
+    "gopyt/test_writer_fence.py": "ebc7f5f34ab737fe1f71c3836016eb2b9de3a3d706569719aaf350e389911d13"
+  },
+  "qualification": "910 full tests; 81 focused tests per pinned Python; independent functional probes on both; Guard, stdlib, contracts, reproducible/installed wheels and upgrade/rollback passed."
+}

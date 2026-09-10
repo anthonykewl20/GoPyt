@@ -1,0 +1,29 @@
+Traceback (most recent call last):
+  File "/tmp/gopyt-writer-fence-oracle.py", line 36, in <module>
+    child=subprocess.run([sys.executable,'-c','from gopyt.storage import Store; import sys; assert Store(sys.argv[1]).get("balance")=="10"',str(root)],capture_output=True,text=True);assert child.returncode==0,child.stderr
+                                                                                                                                                                                             ^^^^^^^^^^^^^^^^^^^
+AssertionError: Traceback (most recent call last):
+  File "/home/soultransit/devtony/gopyt/gopyt/storage.py", line 196, in _operate_locked
+    self._load(fd, identity, db)
+    ~~~~~~~~~~^^^^^^^^^^^^^^^^^^
+  File "/home/soultransit/devtony/gopyt/gopyt/storage.py", line 133, in _load
+    schema = db.execute("SELECT type, name, sql FROM sqlite_schema ORDER BY name").fetchall()
+             ~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+sqlite3.DatabaseError: file is not a database
+
+The above exception was the direct cause of the following exception:
+
+Traceback (most recent call last):
+  File "<string>", line 1, in <module>
+    from gopyt.storage import Store; import sys; assert Store(sys.argv[1]).get("balance")=="10"
+                                                        ~~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^
+  File "/home/soultransit/devtony/gopyt/gopyt/storage.py", line 230, in get
+    return self._operate('get', key)
+           ~~~~~~~~~~~~~^^^^^^^^^^^^
+  File "/home/soultransit/devtony/gopyt/gopyt/storage.py", line 168, in _operate
+    return self._operate_locked(operation, key, value, expected, deadline)
+           ~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/soultransit/devtony/gopyt/gopyt/storage.py", line 224, in _operate_locked
+    raise StorageError('database operation failed') from exc
+gopyt.storage.StorageError: database operation failed
+

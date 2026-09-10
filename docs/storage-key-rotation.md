@@ -44,3 +44,7 @@ does not change the store identity, rotate HTTP credentials, protect against
 old authenticated snapshot replay, or revoke ciphertext copies already obtained
 with a compromised key. Production key custody and external rollback protection
 remain separate architecture work.
+
+## Fenced authority profile
+
+The [writer-key fencing amendment](storage-writer-fence-amendment-2026-09-10.md) adds an explicit authority-version transition and online stale-writer rejection for consistently configured authority-aware writers. The quiesced workflow above continues to describe unanchored/version-1 maintenance; ordinary rekey cannot silently change a version-2 permitted writer.

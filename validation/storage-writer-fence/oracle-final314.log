@@ -1,0 +1,23 @@
+Traceback (most recent call last):
+  File "/tmp/gopyt-writer-fence-oracle.py", line 47, in <module>
+    child=subprocess.run([sys.executable,'-c',code,str(wheel),str(anchor/'record.json')],capture_output=True,text=True,cwd=ROOT);assert child.returncode==0,child.stderr;assert child.stdout.strip()=='v1-reader-rejected-v2'
+                                                                                                                                        ^^^^^^^^^^^^^^^^^^^
+AssertionError: Traceback (most recent call last):
+  File "<string>", line 3, in <module>
+    import gopyt.rollback as r
+  File "/tmp/gopyt-rollback-repro/0/gopyt-0.1.0-py3-none-any.whl/gopyt/__init__.py", line 1, in <module>
+    from gopyt.cli import main
+  File "/tmp/gopyt-rollback-repro/0/gopyt-0.1.0-py3-none-any.whl/gopyt/cli.py", line 8, in <module>
+    from gopyt.check import Program, check_package, load_package
+  File "/tmp/gopyt-rollback-repro/0/gopyt-0.1.0-py3-none-any.whl/gopyt/check.py", line 21, in <module>
+    from gopyt.manifest import (
+    ...<5 lines>...
+    )
+  File "/tmp/gopyt-rollback-repro/0/gopyt-0.1.0-py3-none-any.whl/gopyt/manifest.py", line 17, in <module>
+    from gopyt.toolchain import TOOLCHAIN
+  File "/tmp/gopyt-rollback-repro/0/gopyt-0.1.0-py3-none-any.whl/gopyt/toolchain.py", line 21, in <module>
+    FINGERPRINT = source_fingerprint(Path(__file__).parent)
+  File "/tmp/gopyt-rollback-repro/0/gopyt-0.1.0-py3-none-any.whl/gopyt/toolchain.py", line 10, in source_fingerprint
+    raise RuntimeError('toolchain requires installed Python source files')
+RuntimeError: toolchain requires installed Python source files
+

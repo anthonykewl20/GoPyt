@@ -1,0 +1,29 @@
+test_admitted_snapshot_recovered_after_replace_failure (gopyt.test_rollback.RollbackAuthority.test_admitted_snapshot_recovered_after_replace_failure) ... ok
+test_authority_failure_before_advance_preserves_old_snapshot (gopyt.test_rollback.RollbackAuthority.test_authority_failure_before_advance_preserves_old_snapshot) ... ok
+test_authorized_restore_advances_and_rejects_prior_snapshots (gopyt.test_rollback.RollbackAuthority.test_authorized_restore_advances_and_rejects_prior_snapshots) ... ok
+test_competing_processes_advance_once (gopyt.test_rollback.RollbackAuthority.test_competing_processes_advance_once) ... ok
+test_compiled_native_replay_is_typed_error (gopyt.test_rollback.RollbackAuthority.test_compiled_native_replay_is_typed_error) ... ok
+test_enroll_existing_authenticated_snapshot (gopyt.test_rollback.RollbackAuthority.test_enroll_existing_authenticated_snapshot) ... ok
+test_enrollment_required_and_cannot_overwrite (gopyt.test_rollback.RollbackAuthority.test_enrollment_required_and_cannot_overwrite) ... ok
+test_held_authority_lock_observes_context_cancellation (gopyt.test_rollback.RollbackAuthority.test_held_authority_lock_observes_context_cancellation) ... ok
+test_invalid_or_stale_restore_cannot_change_state (gopyt.test_rollback.RollbackAuthority.test_invalid_or_stale_restore_cannot_change_state) ... ok
+test_missing_admitted_staging_fails_closed (gopyt.test_rollback.RollbackAuthority.test_missing_admitted_staging_fails_closed) ... ok
+test_missing_authority_rejects_cached_read (gopyt.test_rollback.RollbackAuthority.test_missing_authority_rejects_cached_read) ... ok
+test_operator_cli_restore_missing_snapshot (gopyt.test_rollback.RollbackAuthority.test_operator_cli_restore_missing_snapshot) ... ok
+test_private_authority_files_and_symlinks (gopyt.test_rollback.RollbackAuthority.test_private_authority_files_and_symlinks) ... ok
+test_process_crash_publication_boundaries (gopyt.test_rollback.RollbackAuthority.test_process_crash_publication_boundaries) ... ok
+test_process_crashes_at_each_durability_barrier (gopyt.test_rollback.RollbackAuthority.test_process_crashes_at_each_durability_barrier) ... ok
+test_replay_rejects_fresh_cached_reads_and_write (gopyt.test_rollback.RollbackAuthority.test_replay_rejects_fresh_cached_reads_and_write) ... ok
+test_restore_recovers_after_receipt_publication_failure (gopyt.test_rollback.RollbackAuthority.test_restore_recovers_after_receipt_publication_failure) ... ok
+test_substituted_identity_and_record_reject (gopyt.test_rollback.RollbackAuthority.test_substituted_identity_and_record_reject) ... ok
+test_corruption_is_not_reencrypted_or_overwritten (gopyt.test_key_rotation.KeyRotation.test_corruption_is_not_reencrypted_or_overwritten) ... ok
+test_encrypted_batch_conflict_and_delete_survive_restart (gopyt.test_key_rotation.KeyRotation.test_encrypted_batch_conflict_and_delete_survive_restart) ... ok
+test_failed_publish_keeps_old_key_readable_and_retry_succeeds (gopyt.test_key_rotation.KeyRotation.test_failed_publish_keeps_old_key_readable_and_retry_succeeds) ... ok
+test_multiple_key_sources_and_malformed_rings_rejected (gopyt.test_key_rotation.KeyRotation.test_multiple_key_sources_and_malformed_rings_rejected) ... ok
+test_rekey_legacy_snapshot_then_retire_old_key (gopyt.test_key_rotation.KeyRotation.test_rekey_legacy_snapshot_then_retire_old_key) ... ok
+test_retiring_key_early_invalidates_cached_plaintext (gopyt.test_key_rotation.KeyRotation.test_retiring_key_early_invalidates_cached_plaintext) ... ok
+
+----------------------------------------------------------------------
+Ran 24 tests in 2.813s
+
+OK

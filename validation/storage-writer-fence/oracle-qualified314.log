@@ -1,0 +1,1 @@
+{"status": "passed", "stale_writer_rejected": true, "generation_after_restore": 3, "rows": [["balance", "10"]], "fresh_retired_key_process": true, "v1_reader_rejected_v2": true, "writer_identity": "b9352e7874778944a01b8c97271170d93cce1ff86494de1a10cbcd38c9280b22", "scope": "Functional key-fencing, backup decryption and version-policy checks; no performance or power-loss claim."}
