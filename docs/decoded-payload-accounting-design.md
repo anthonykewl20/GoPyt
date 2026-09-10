@@ -42,3 +42,10 @@ retains its conservative input-derived capacity rather than shrinking to charact
 width. Other string/byte producers and JSON parsing remain unfinished. The 26-test
 resource/native selection passes on both pinned runtimes; full language integration
 and remaining producer/fault qualification are pending.
+
+core.bytes.from_str now uses ByteBuilder admission before encoding and its owned
+final byte payload. Cancellation is checked before and after encoding, capacity
+rejection maps to the allocation trap, and output aliases retain the byte charge.
+The 29-test text/byte/native selection passes on both pinned runtimes, including
+multibyte output and rejection before an instrumented encoder is called.
+Concatenation, slicing, model decoding and parser allocations remain unfinished.

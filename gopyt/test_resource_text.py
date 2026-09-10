@@ -119,3 +119,32 @@ assert budget.snapshot()['active_reservations'] == 0
         result = subprocess.run([sys.executable, '-c', program], timeout=5,
                                 capture_output=True, text=True)
         self.assertEqual(result.returncode, 0, result.stderr)
+
+
+class NativeEncodedPayload(unittest.TestCase):
+    def test_encoded_output_keeps_charge_and_matches_utf8(self):
+        from types import SimpleNamespace
+        from gopyt.natives import NATIVES
+        for text in ('', 'ascii', 'é中😀'):
+            budget = ResourceBudget(ResourceLimits(1000, 0, 0, 0))
+            vm = SimpleNamespace(resource_budget=budget, check_cancelled=lambda: None)
+            result = NATIVES['core.bytes.from_str'](vm, [text], None)
+            self.assertEqual(result, text.encode('utf-8'))
+            self.assertEqual(budget.snapshot()['used']['native_bytes'], len(result))
+            del result
+            self.assertEqual(budget.snapshot()['active_reservations'], 0)
+
+    def test_budget_rejection_precedes_encoder(self):
+        from types import SimpleNamespace
+        from gopyt.natives import NATIVES
+        from gopyt.vm import Trap
+        from gopyt import ops
+        class Never(str):
+            def encode(self, *args):
+                raise AssertionError('encoder reached')
+        budget = ResourceBudget(ResourceLimits(0, 0, 0, 0))
+        vm = SimpleNamespace(resource_budget=budget, check_cancelled=lambda: None)
+        with self.assertRaises(Trap) as failure:
+            NATIVES['core.bytes.from_str'](vm, [Never('hello')], None)
+        self.assertEqual(failure.exception.code, ops.TRAP_ALLOC)
+        self.assertEqual(budget.snapshot()['active_reservations'], 0)

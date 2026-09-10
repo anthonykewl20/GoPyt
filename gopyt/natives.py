@@ -230,7 +230,19 @@ def _bytes_len(vm, args, func):
 
 @native("core.bytes.from_str")
 def _bytes_from_str(vm, args, func):
-    return args[0].encode("utf-8")
+    from gopyt.resource_budget import ResourceLimitError
+    from gopyt.resource_bytes import ByteBuilder
+    builder = ByteBuilder(vm.resource_budget)
+    try:
+        vm.check_cancelled()
+        builder.append_text(args[0])
+        vm.check_cancelled()
+        with builder.finish() as payload:
+            return payload.data
+    except ResourceLimitError:
+        raise Trap(ops.TRAP_ALLOC) from None
+    finally:
+        builder.close()
 
 
 @native("core.bytes.to_str")
