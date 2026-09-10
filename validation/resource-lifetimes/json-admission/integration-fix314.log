@@ -1,0 +1,56 @@
+test_generated_state_sequences (gopyt.test_inventory.Inventory.test_generated_state_sequences) ... ok
+test_real_http_lifecycle (gopyt.test_inventory.Inventory.test_real_http_lifecycle) ... FAIL
+test_body_wait_observes_shared_deadline_cancellation_and_own_budget (gopyt.test_netio.OutboundBudgets.test_body_wait_observes_shared_deadline_cancellation_and_own_budget) ... ok
+test_chunked_body_and_received_error_status_are_preserved (gopyt.test_netio.OutboundBudgets.test_chunked_body_and_received_error_status_are_preserved) ... ok
+test_descriptor_rejection_does_not_connect (gopyt.test_netio.OutboundBudgets.test_descriptor_rejection_does_not_connect) ... ok
+test_error_response_body_timeout_is_data_for_own_budget (gopyt.test_netio.OutboundBudgets.test_error_response_body_timeout_is_data_for_own_budget) ... ok
+test_expired_dns_does_not_start_a_connection (gopyt.test_netio.OutboundBudgets.test_expired_dns_does_not_start_a_connection) ... ok
+test_headers_chunk_sizes_and_trailers_consume_budget (gopyt.test_netio.OutboundBudgets.test_headers_chunk_sizes_and_trailers_consume_budget) ... ok
+test_http_result_bytes_remain_charged_through_host_alias (gopyt.test_netio.OutboundBudgets.test_http_result_bytes_remain_charged_through_host_alias) ... ok
+test_model_payload_admission_and_transport_lifetime (gopyt.test_netio.OutboundBudgets.test_model_payload_admission_and_transport_lifetime) ... ok
+test_model_payload_alias_survives_transport_failure_with_its_charge (gopyt.test_netio.OutboundBudgets.test_model_payload_alias_survives_transport_failure_with_its_charge) ... ok
+test_stalled_tls_handshake_consumes_shared_deadline (gopyt.test_netio.OutboundBudgets.test_stalled_tls_handshake_consumes_shared_deadline) ... ok
+test_tls_poll_timeout_can_resume_a_valid_response (gopyt.test_netio.OutboundBudgets.test_tls_poll_timeout_can_resume_a_valid_response) ... ok
+test_tls_trust_hostname_and_delayed_read (gopyt.test_netio.OutboundBudgets.test_tls_trust_hostname_and_delayed_read) ... ok
+test_encrypted_restart_and_conditional_write (gopyt.test_security_config.SecurityProfile.test_encrypted_restart_and_conditional_write) ... ok
+test_plaintext_is_not_silently_migrated (gopyt.test_security_config.SecurityProfile.test_plaintext_is_not_silently_migrated) ... ok
+test_real_http_authentication_encrypted_restart (gopyt.test_security_config.SecurityProfile.test_real_http_authentication_encrypted_restart) ... FAIL
+test_secret_permissions_links_and_package_location (gopyt.test_security_config.SecurityProfile.test_secret_permissions_links_and_package_location) ... ok
+test_storage_key_descriptor_admission_and_private_file_cleanup (gopyt.test_security_config.SecurityProfile.test_storage_key_descriptor_admission_and_private_file_cleanup) ... ok
+test_strict_listener_requires_loopback_and_token (gopyt.test_security_config.SecurityProfile.test_strict_listener_requires_loopback_and_token) ... ok
+test_tampered_snapshot_cannot_be_read_or_overwritten (gopyt.test_security_config.SecurityProfile.test_tampered_snapshot_cannot_be_read_or_overwritten) ... ok
+test_wrong_key_context_and_missing_key_reject_even_cached_reads (gopyt.test_security_config.SecurityProfile.test_wrong_key_context_and_missing_key_reject_even_cached_reads) ... ok
+
+======================================================================
+FAIL: test_real_http_lifecycle (gopyt.test_inventory.Inventory.test_real_http_lifecycle)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/tmp/gopyt-json-admission/gopyt/test_inventory.py", line 31, in test_real_http_lifecycle
+    self.assertEqual(len(acceptance()),8)
+                         ~~~~~~~~~~^^
+  File "/tmp/gopyt-json-admission/tools/inventory_probe.py", line 85, in acceptance
+    assert server.request(body=reserve)==first;checks.append('exact retry is idempotent')
+           ~~~~~~~~~~~~~~^^^^^^^^^^^^^^
+  File "/tmp/gopyt-json-admission/tools/inventory_probe.py", line 72, in request
+    assert status==200,(status,result)
+           ^^^^^^^^^^^
+AssertionError: (500, None)
+
+======================================================================
+FAIL: test_real_http_authentication_encrypted_restart (gopyt.test_security_config.SecurityProfile.test_real_http_authentication_encrypted_restart)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/tmp/gopyt-json-admission/gopyt/test_security_config.py", line 154, in test_real_http_authentication_encrypted_restart
+    server.start()
+    ~~~~~~~~~~~~^^
+  File "/tmp/gopyt-json-admission/tools/inventory_probe.py", line 63, in start
+    response=self.request('GET')
+  File "/tmp/gopyt-json-admission/tools/inventory_probe.py", line 72, in request
+    assert status==200,(status,result)
+           ^^^^^^^^^^^
+AssertionError: (500, None)
+
+----------------------------------------------------------------------
+Ran 22 tests in 16.728s
+
+FAILED (failures=2)

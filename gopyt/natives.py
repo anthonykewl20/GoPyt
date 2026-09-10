@@ -616,9 +616,13 @@ def _json_encode(vm, args, func):
 
 @native("data.json.decode")
 def _json_decode(vm, args, func):
+    from gopyt.resource_budget import ResourceLimitError
     te = _ret_member(vm, func)
     try:
-        return jsonc.decode(vm.art, args[0], te)
+        return jsonc.decode(vm.art, args[0], te, budget=vm.resource_budget,
+                            check=vm.check_cancelled)
+    except ResourceLimitError:
+        raise Trap(ops.TRAP_ALLOC) from None
     except ConvertFail as e:
         return _convert_error(vm, e.message)
     except NotJson:
@@ -764,12 +768,27 @@ def _model_complete(vm, args, func):
     except Exception:
         return _status(vm, "ModelError", "network")
     try:
-        obj = jsonc.parse(data)
+        return _model_response_text(vm, data, budget.remaining)
+    finally:
+        data = None
+
+
+def _model_response_text(vm, data, check):
+    from gopyt.resource_json import parse_owned
+    from gopyt.resource_budget import ResourceLimitError
+    obj = None
+    try:
+        obj = parse_owned(data, vm.resource_budget, check)
+        if (not isinstance(obj, dict) or len(obj) != 1 or
+                "text" not in obj or not isinstance(obj["text"], str)):
+            return _status(vm, "ModelError", "decode")
+        return obj["text"]
+    except ResourceLimitError:
+        raise Trap(ops.TRAP_ALLOC) from None
     except ConvertFail:
         return _status(vm, "ModelError", "decode")
-    if not isinstance(obj, dict) or set(obj) != {"text"} or not isinstance(obj["text"], str):
-        return _status(vm, "ModelError", "decode")
-    return obj["text"]
+    finally:
+        data = obj = None
 
 
 @native("core.model.local")

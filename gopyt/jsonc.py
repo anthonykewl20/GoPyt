@@ -365,7 +365,11 @@ def _matches(art: Artifact, value: object, te_ix: int) -> bool:
     if te.tag == TE_BOOL:
         return isinstance(value, bool)
     if te.tag in INT_RANGE:
-        return type(value) is INT_VALUE[te.tag]
+        if isinstance(value, bool) or not isinstance(value, int):
+            return False
+        declared = next((kind for kind in (I32, U32, U64)
+                         if isinstance(value, kind)), int)
+        return declared is INT_VALUE[te.tag]
     if te.tag == TE_STR:
         return isinstance(value, str)
     if te.tag == TE_BYTES:
@@ -375,7 +379,21 @@ def _matches(art: Artifact, value: object, te_ix: int) -> bool:
     return False
 
 
-def decode(art: Artifact, text: str, te_ix: int) -> object:
+def decode(art: Artifact, text: str, te_ix: int, *, budget=None,
+           check=lambda: None) -> object:
+    if budget is not None:
+        from gopyt.resource_json import parse_owned, decode_value
+        data = None
+        depth_error = False
+        try:
+            data = parse_owned(text, budget, check)
+            return decode_value(art, data, te_ix, budget, check)
+        except RecursionError:
+            depth_error = True
+        finally:
+            text = data = None
+        if depth_error:
+            raise ConvertFail("depth")
     try:
         return _dec(art, parse(text), te_ix)
     except RecursionError:

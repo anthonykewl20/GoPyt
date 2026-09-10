@@ -3,7 +3,7 @@ from __future__ import annotations
 
 import re
 
-from gopyt.values import EnumVal, Record
+from gopyt.values import I32, U32, U64, EnumVal, Record
 
 MIN_UNITS = -(2**63)
 MAX_UNITS = 2**63 - 1
@@ -18,7 +18,7 @@ class MoneyError(ValueError):
 
 
 def integer(value: object) -> int:
-    if type(value) is not int or not MIN_UNITS <= value <= MAX_UNITS:
+    if not isinstance(value, int) or isinstance(value, (bool, I32, U32, U64)) or not MIN_UNITS <= value <= MAX_UNITS:
         raise MoneyError('money integer outside i64 range')
     return value
 
@@ -31,7 +31,7 @@ def scale_value(value: object) -> int:
 
 
 def currency_value(value: object) -> str:
-    if type(value) is not str or CURRENCY.fullmatch(value) is None:
+    if not isinstance(value, str) or CURRENCY.fullmatch(value) is None:
         raise MoneyError('currency must be three uppercase ASCII letters')
     return value
 
@@ -78,7 +78,7 @@ def parse(vm, text: str, scale: int, currency: str, rounding: EnumVal) -> Record
     scale = scale_value(scale)
     currency = currency_value(currency)
     mode = rounding_value(vm, rounding)
-    if type(text) is not str or len(text) > MAX_TEXT or DECIMAL.fullmatch(text) is None:
+    if not isinstance(text, str) or len(text) > MAX_TEXT or DECIMAL.fullmatch(text) is None:
         raise MoneyError('money text requires a bounded ASCII decimal')
     whole, dot, fraction = text.partition('.')
     coefficient = int(whole + fraction)

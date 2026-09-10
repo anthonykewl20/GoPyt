@@ -620,9 +620,10 @@ class VM:
     # -- structured concurrency ------------------------------------------
 
     def run_parallel(self, ids: list[int], caps: list, mx: int, timeout_ms: int) -> list:
-        if type(mx) is not int or mx < 1:
+        if not isinstance(mx, int) or isinstance(mx, (bool, I32, U32, U64)) or mx < 1:
             raise Trap(ops.TRAP_PAR_MAX)
-        if type(timeout_ms) is not int or timeout_ms < 1:
+        if (not isinstance(timeout_ms, int) or
+                isinstance(timeout_ms, (bool, I32, U32, U64)) or timeout_ms < 1):
             raise Trap(ops.TRAP_TIMEOUT)
         results: list = [None] * len(ids)
         with self.heap.pin(results):
@@ -735,7 +736,7 @@ _CMP = {
 
 
 def _need_i64(v: object) -> None:
-    if type(v) is not int:
+    if not isinstance(v, int) or isinstance(v, (bool, I32, U32, U64)):
         raise Trap(ops.TRAP_TYPE)
 
 
@@ -798,6 +799,13 @@ def value_eq(a: object, b: object) -> bool:
         return a == b
     if isinstance(a, bytes) and isinstance(b, bytes):
         return a == b
+    if isinstance(a, int) and isinstance(b, int):
+        return scalar_type_id(a) == scalar_type_id(b) and a == b
+    if isinstance(a, list) and isinstance(b, list):
+        return len(a) == len(b) and all(value_eq(x, y) for x, y in zip(a, b))
+    if isinstance(a, dict) and isinstance(b, dict):
+        return (len(a) == len(b) and
+                all(k in b and value_eq(a[k], b[k]) for k in a))
     # A checked union may have different active member types on either side.
     if type(a) is not type(b):
         return False
