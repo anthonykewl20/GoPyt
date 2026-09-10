@@ -10,3 +10,7 @@ Snapshot input reads now reserve shared byte capacity before reading. Decoder
 failure retains charges for surviving input aliases. This does not account for
 unsealed plaintext, SQLite allocations, serialization or cryptographic scratch.
 Full qualification remains pending.
+
+The broader transaction/publication/deadline/rollback/migration selection passed
+54 tests on each pinned Python version; raw results are retained in broad*.log.
+These checks do not qualify unimplemented encryption or SQLite accounting.
