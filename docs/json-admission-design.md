@@ -25,3 +25,11 @@ malformed escapes, surrogate pairs, duplicate keys, huge numeric exponents, dept
 partial graph cleanup, cancellation, retained aliases and exceptions, and concurrent
 budget pressure. Rejecting previously valid JSON solely to simplify accounting is
 not an acceptable compatibility shortcut. No parser change is implemented yet.
+
+Initial internal string_token implementation scans the quote boundary without a
+substring, admits owned Unicode capacity and scanner temporary capacity, invokes
+the strict string scanner and rejects non-scalar Unicode without encoded copies.
+The returned string retains its reservation. Two focused tests pass on both pinned
+runtimes. This helper is not yet connected to parse/decode; complete scanner-bound
+review, container/numeric producers, typed conversion overlap and failure coverage
+remain required before qualification.
