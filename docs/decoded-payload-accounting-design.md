@@ -49,3 +49,10 @@ rejection maps to the allocation trap, and output aliases retain the byte charge
 The 29-test text/byte/native selection passes on both pinned runtimes, including
 multibyte output and rejection before an instrumented encoder is called.
 Concatenation, slicing, model decoding and parser allocations remain unfinished.
+
+core.bytes.concat now admits mutable scratch and final immutable capacity before
+copying borrowed inputs through a writable memoryview. Its existing MAX_ALLOC
+limit remains; resource rejection maps to the allocation trap. Output aliases
+retain their charge. The 31-test text/byte/native selection passes on both runtimes,
+including two-output-size peak capacity and failed output admission cleanup.
+String concatenation/slicing, model decoding and JSON remain separate work.

@@ -148,3 +148,29 @@ class NativeEncodedPayload(unittest.TestCase):
             NATIVES['core.bytes.from_str'](vm, [Never('hello')], None)
         self.assertEqual(failure.exception.code, ops.TRAP_ALLOC)
         self.assertEqual(budget.snapshot()['active_reservations'], 0)
+
+
+class NativeConcatenatedBytes(unittest.TestCase):
+    def test_concat_content_peak_and_alias_lifetime(self):
+        from types import SimpleNamespace
+        from gopyt.natives import NATIVES
+        budget = ResourceBudget(ResourceLimits(12, 0, 0, 0))
+        vm = SimpleNamespace(resource_budget=budget, check_cancelled=lambda: None)
+        result = NATIVES['core.bytes.concat'](vm, [b'abc', b'def'], None)
+        self.assertEqual(result, b'abcdef')
+        self.assertEqual(budget.snapshot()['peak']['native_bytes'], 12)
+        self.assertEqual(budget.snapshot()['used']['native_bytes'], 6)
+        del result
+        self.assertEqual(budget.snapshot()['active_reservations'], 0)
+
+    def test_concat_rejection_releases_scratch(self):
+        from types import SimpleNamespace
+        from gopyt.natives import NATIVES
+        from gopyt.vm import Trap
+        from gopyt import ops
+        budget = ResourceBudget(ResourceLimits(11, 0, 0, 0))
+        vm = SimpleNamespace(resource_budget=budget, check_cancelled=lambda: None)
+        with self.assertRaises(Trap) as failure:
+            NATIVES['core.bytes.concat'](vm, [b'abc', b'def'], None)
+        self.assertEqual(failure.exception.code, ops.TRAP_ALLOC)
+        self.assertEqual(budget.snapshot()['active_reservations'], 0)

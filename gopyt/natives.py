@@ -262,7 +262,12 @@ def _bytes_to_str(vm, args, func):
 def _bytes_concat(vm, args, func):
     if len(args[0]) + len(args[1]) > ops.MAX_ALLOC:
         raise Trap(ops.TRAP_ALLOC)
-    return args[0] + args[1]
+    from gopyt.resource_budget import ResourceLimitError
+    from gopyt.resource_bytes import concat_payload
+    try:
+        return concat_payload(args[0], args[1], vm.resource_budget, vm.check_cancelled)
+    except ResourceLimitError:
+        raise Trap(ops.TRAP_ALLOC) from None
 
 
 # ---------------------------------------------------------------- core.int

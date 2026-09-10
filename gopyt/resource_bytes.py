@@ -213,3 +213,26 @@ def read_payload(stream, budget, limit, check):
                 payload.close()
             else:
                 reservation.release()
+
+
+def concat_payload(left, right, budget, check=lambda: None):
+    """Copy two borrowed byte strings into admitted scratch and owned bytes."""
+    reservation = None
+    result = None
+    transferred = False
+    try:
+        check()
+        size = len(left) + len(right)
+        with allocate_payload(budget, size) as scratch:
+            reservation = budget.reserve(native_bytes=size)
+            with memoryview(scratch.data) as destination:
+                destination[:len(left)] = left
+                destination[len(left):] = right
+            check()
+            result = _ChargedBytes(scratch.data, reservation)
+            transferred = True
+            return result
+    finally:
+        left = right = result = None
+        if reservation is not None and not transferred:
+            reservation.release()
