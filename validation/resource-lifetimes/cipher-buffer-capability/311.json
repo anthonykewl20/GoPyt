@@ -1,0 +1,1 @@
+{"python": "3.11.16 (main, Sep  1 2026, 14:18:37) [Clang 22.1.3 ]", "cryptography": "50.0.1", "cipher": "AESGCMSIV", "encrypt_into_bytes": 23, "decrypt_into_bytes": 7, "matches_allocating_api": true, "scope": "buffer API capability and one roundtrip; no native allocator bound"}
