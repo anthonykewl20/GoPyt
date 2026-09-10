@@ -44,7 +44,8 @@ class CheckedBuffers(unittest.TestCase):
         owner.close();self.assertEqual(budget.snapshot()['active_reservations'],0)
 
     def test_parallel_fixed_size_updates_are_serialized(self):
-        budget = ResourceBudget(ResourceLimits(128,0,0,16))
+        # Owner plus temporary copy plus retained immutable read result.
+        budget = ResourceBudget(ResourceLimits(192,0,0,16))
         owner = Buffer(budget,64)
         views = [owner.view(i*8,8) for i in range(8)]
         with concurrent.futures.ThreadPoolExecutor(max_workers=8) as pool:
@@ -99,3 +100,29 @@ class CheckedBuffers(unittest.TestCase):
         with self.assertRaises(Cancelled):Buffer(budget,16,context=context)
         self.assertEqual(budget.snapshot()['active_reservations'],0)
         self.assertEqual(budget.snapshot()['used']['native_bytes'],0)
+
+
+class BufferReadOwnership(unittest.TestCase):
+    def test_read_survives_owner_and_view_close(self):
+        for use_view in (False, True):
+            budget = ResourceBudget(ResourceLimits(12, 0, 0, 2))
+            owner = Buffer(budget, 4)
+            owner.write(0, b'abcd')
+            view = owner.view(0, 4)
+            result = (view if use_view else owner).read(0, 4)
+            view.close()
+            owner.close()
+            self.assertEqual(result, b'abcd')
+            self.assertEqual(budget.snapshot()['used']['native_bytes'], 4)
+            del result
+            self.assertEqual(budget.snapshot()['active_reservations'], 0)
+
+    def test_read_copy_overlap_rejection_preserves_owner(self):
+        budget = ResourceBudget(ResourceLimits(11, 0, 0, 1))
+        owner = Buffer(budget, 4)
+        owner.write(0, b'abcd')
+        with self.assertRaises(ResourceLimitError):
+            owner.read(0, 4)
+        self.assertEqual(budget.snapshot()['used']['native_bytes'], 4)
+        owner.close()
+        self.assertEqual(budget.snapshot()['active_reservations'], 0)

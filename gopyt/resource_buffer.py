@@ -97,10 +97,9 @@ class Buffer:
     def read(self, start, length):
         _range(start, length, self._size)
         with self._access() as payload:
-            with self._budget.reserve(native_bytes=length + 0):
-                # The scoped export cannot escape or survive the operation lease.
-                with memoryview(payload) as view, view[start:start+length] as part:
-                    return bytes(part)
+            from gopyt.resource_bytes import copy_view
+            with memoryview(payload) as view, view[start:start+length] as part:
+                return copy_view(part, self._budget, self._check_context)
 
     def write(self, start, data):
         if type(data) is not bytes:
@@ -157,9 +156,9 @@ class BufferView:
     def read(self, start, length):
         _range(start, length, self._length)
         with self._access() as payload:
-            with self.owner._budget.reserve(native_bytes=length + 0):
-                with memoryview(payload) as view, view[self._start+start:self._start+start+length] as part:
-                    return bytes(part)
+            from gopyt.resource_bytes import copy_view
+            with memoryview(payload) as view, view[self._start+start:self._start+start+length] as part:
+                return copy_view(part, self.owner._budget, self.owner._check_context)
 
     def write(self, start, data):
         if type(data) is not bytes:
