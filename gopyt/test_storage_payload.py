@@ -184,3 +184,43 @@ class SerializedPayload(unittest.TestCase):
             failure = exc
         self.assertIsNotNone(failure)
         self.assertEqual(context.resource_budget.snapshot()['active_reservations'], 0)
+
+
+class RestoreFilePayload(unittest.TestCase):
+    def test_budget_rejection_precedes_consumption(self):
+        from contextlib import nullcontext
+        import io
+        context = Context(0)
+        stream = io.BytesIO(b'backup')
+        store = Store(context=context)
+        with patch('gopyt.storage.regular_file', return_value=nullcontext(stream)):
+            with patch.object(store, '_operate') as operate:
+                with self.assertRaises(ResourceLimitError):
+                    store.restore_anchor_file('/backup', expected_generation=0, reason='test')
+                operate.assert_not_called()
+        self.assertEqual(stream.tell(), 0)
+        self.assertEqual(context.resource_budget.snapshot()['active_reservations'], 0)
+
+    def test_retained_input_survives_failed_restore_with_charge(self):
+        context = Context(200000)
+        store = Store(context=context)
+        retained = []
+        def fail(operation, key, value):
+            retained.append(value[0])
+            raise ValueError('restore failed')
+        with tempfile.NamedTemporaryFile() as stream:
+            stream.write(b'backup'); stream.flush()
+            with patch.object(store, '_operate', new=fail):
+                with self.assertRaises(ValueError):
+                    store.restore_anchor_file(stream.name, expected_generation=0, reason='test')
+        self.assertEqual(retained, [b'backup'])
+        self.assertEqual(context.resource_budget.snapshot()['used']['native_bytes'], 6)
+        retained.clear()
+        self.assertEqual(context.resource_budget.snapshot()['active_reservations'], 0)
+
+    def test_public_restore_still_requires_exact_bytes(self):
+        from gopyt.storage import StorageError
+        class BytesSubclass(bytes):
+            pass
+        with self.assertRaises(StorageError):
+            Store().restore_anchor(BytesSubclass(b'backup'), expected_generation=0, reason='test')

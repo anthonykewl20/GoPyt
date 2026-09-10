@@ -20,7 +20,7 @@ from gopyt.resource_budget import ResourceLimitError
 from gopyt.resource_bytes import read_payload, allocate_payload
 
 from gopyt.rollback import locked_anchor, snapshot_digest
-from gopyt.files import parent_directory, opened_descriptor
+from gopyt.files import parent_directory, opened_descriptor, regular_file
 from gopyt.security_config import storage_cipher,seal,unseal,unseal_payload,seal_payload,SecurityError,OVERHEAD
 
 MAX_BYTES = 64 * 1024 * 1024
@@ -555,16 +555,41 @@ class Store:
 
     def restore_anchor(self, backup, *, expected_generation, reason):
         """Trusted operator restore of authenticated bytes as a new generation."""
-        if (type(backup) is not bytes or not 0 < len(backup) <= MAX_BYTES + OVERHEAD
-                or type(expected_generation) is not int or not 0 <= expected_generation < (1 << 63) - 1
-                or not isinstance(reason, str) or not reason.strip()):
+        if type(backup) is not bytes:
             raise StorageError('invalid restoration request')
+        return self._restore_anchor_bytes(backup, expected_generation, reason)
+
+    def restore_anchor_file(self, path, *, expected_generation, reason):
+        """Read and restore a backup using the caller's shared resource budget."""
+        budget = getattr(self._context, 'resource_budget', None)
+        if budget is None:
+            raise StorageError('file restoration requires a resource budget')
+        path = os.path.abspath(path)
+        backup = None
         try:
-            if len(reason.encode('utf-8')) > 512:
-                raise StorageError('restoration reason limit')
-        except UnicodeError as error:
-            raise StorageError('invalid restoration reason') from error
-        return self._operate('restore_anchor', '*', (backup, expected_generation, reason))
+            with regular_file('/', path.lstrip('/'), check_context=self._check_context,
+                              descriptors=getattr(self._context, 'descriptors', None)) as stream:
+                with read_payload(stream, budget, MAX_BYTES + OVERHEAD + 1,
+                                  check=self._check_context) as payload:
+                    backup = payload.data
+                    return self._restore_anchor_bytes(backup, expected_generation, reason)
+        finally:
+            backup = None
+
+    def _restore_anchor_bytes(self, backup, expected_generation, reason):
+        try:
+            if (not 0 < len(backup) <= MAX_BYTES + OVERHEAD
+                    or type(expected_generation) is not int or not 0 <= expected_generation < (1 << 63) - 1
+                    or not isinstance(reason, str) or not reason.strip()):
+                raise StorageError('invalid restoration request')
+            try:
+                if len(reason.encode('utf-8')) > 512:
+                    raise StorageError('restoration reason limit')
+            except UnicodeError as error:
+                raise StorageError('invalid restoration reason') from error
+            return self._operate('restore_anchor', '*', (backup, expected_generation, reason))
+        finally:
+            backup = None
 
     def anchor_status(self):
         return self._operate('anchor_status', '*')

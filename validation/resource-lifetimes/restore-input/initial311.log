@@ -1,0 +1,13 @@
+..F............................
+======================================================================
+FAIL: test_retained_input_survives_failed_restore_with_charge (gopyt.test_storage_payload.RestoreFilePayload.test_retained_input_survives_failed_restore_with_charge)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/tmp/gopyt-storage-restore-input/gopyt/test_storage_payload.py", line 219, in test_retained_input_survives_failed_restore_with_charge
+    self.assertEqual(context.resource_budget.snapshot()['active_reservations'], 0)
+AssertionError: 1 != 0
+
+----------------------------------------------------------------------
+Ran 31 tests in 3.001s
+
+FAILED (failures=1)
