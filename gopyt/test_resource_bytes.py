@@ -173,3 +173,39 @@ class ByteOwnership(unittest.TestCase):
         with builder.finish() as payload:
             self.assertEqual(payload.data, b'a')
         self.assertEqual(budget.snapshot()['active_reservations'], 0)
+
+
+class ViewCopyOwnership(unittest.TestCase):
+    def test_copy_survives_view_release_and_mutation(self):
+        from gopyt.resource_bytes import copy_view
+        budget = ResourceBudget(ResourceLimits(100, 0, 0, 0))
+        source = bytearray(b'abcdef')
+        with memoryview(source) as view:
+            result = copy_view(view, budget)
+        source[:] = b'xxxxxx'
+        self.assertEqual(result, b'abcdef')
+        self.assertEqual(budget.snapshot()['used']['native_bytes'], 6)
+        self.assertEqual(budget.snapshot()['peak']['native_bytes'], 12)
+        alias = result
+        del result
+        self.assertEqual(budget.snapshot()['used']['native_bytes'], 6)
+        del alias
+        self.assertEqual(budget.snapshot()['active_reservations'], 0)
+
+    def test_rejection_and_cancelled_copy_release(self):
+        from gopyt.resource_bytes import copy_view
+        class Cancelled(Exception):
+            pass
+        for limit in (0, 11, 12):
+            budget = ResourceBudget(ResourceLimits(limit, 0, 0, 0))
+            def check():
+                if budget.snapshot()['used']['native_bytes'] == 12:
+                    raise Cancelled()
+            failure = None
+            with memoryview(b'abcdef') as view:
+                try:
+                    copy_view(view, budget, check)
+                except (ResourceLimitError, Cancelled) as error:
+                    failure = error
+            self.assertIsNotNone(failure)
+            self.assertEqual(budget.snapshot()['active_reservations'], 0)

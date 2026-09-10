@@ -236,3 +236,28 @@ def concat_payload(left, right, budget, check=lambda: None):
         left = right = result = None
         if reservation is not None and not transferred:
             reservation.release()
+
+
+def copy_view(view, budget, check=lambda: None):
+    """Copy a contiguous byte view into an alias-owned immutable payload."""
+    reservation = raw = result = None
+    transferred = False
+    try:
+        check()
+        if not isinstance(view, memoryview) or not view.c_contiguous or view.itemsize != 1:
+            raise ValueError('contiguous byte view required')
+        size = view.nbytes
+        reservation = budget.reserve(native_bytes=size)
+        with budget.reserve(native_bytes=size):
+            try:
+                raw = bytes(view)
+                check()
+                result = _ChargedBytes(raw, reservation)
+                transferred = True
+                return result
+            finally:
+                raw = None
+    finally:
+        view = result = None
+        if reservation is not None and not transferred:
+            reservation.release()
