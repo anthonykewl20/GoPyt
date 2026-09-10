@@ -18,3 +18,7 @@ These checks do not qualify unimplemented encryption or SQLite accounting.
 A subsequent cancellation test aborts after actual input consumption while
 retaining the exception traceback. It verifies scratch release and preservation
 of the caller-owned descriptor. All three payload tests pass on both runtimes.
+
+Full Python 3.14.7 regression passed 1019 tests in 361.167 seconds. Frozen
+source hashes were verified after completion. Python 3.11 full qualification
+remains pending.
