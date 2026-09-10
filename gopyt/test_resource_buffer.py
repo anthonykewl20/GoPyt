@@ -159,3 +159,53 @@ class BufferOwnedByteInputs(unittest.TestCase):
         self.assertEqual(budget.snapshot()['used']['native_bytes'], 4)
         del data
         self.assertEqual(budget.snapshot()['active_reservations'], 0)
+
+
+class BufferReadFailures(unittest.TestCase):
+    def test_cancel_after_raw_copy_releases_copy_and_lease(self):
+        class Cancelled(Exception):
+            pass
+        class Context:
+            armed = False
+            def check_cancelled(self):
+                if self.armed and budget.snapshot()['used']['native_bytes'] == 12:
+                    raise Cancelled()
+        for use_view in (False, True):
+            budget = ResourceBudget(ResourceLimits(100, 0, 0, 2))
+            context = Context()
+            owner = Buffer(budget, 4, context=context)
+            owner.write(0, b'data')
+            view = owner.view(0, 4)
+            context.armed = True
+            failure = None
+            try:
+                (view if use_view else owner).read(0, 4)
+            except Cancelled as error:
+                failure = error
+            self.assertIsNotNone(failure)
+            self.assertEqual(owner._control.snapshot()['leases'], 0)
+            self.assertEqual(budget.snapshot()['used']['native_bytes'], 4)
+            view.close()
+            owner.close()
+            self.assertEqual(budget.snapshot()['active_reservations'], 0)
+
+    def test_immutable_constructor_failure_releases_copy_and_lease(self):
+        from unittest.mock import patch
+        def fail(data, reservation):
+            try:
+                raise MemoryError('injected owned copy failure')
+            finally:
+                data = None
+        budget = ResourceBudget(ResourceLimits(100, 0, 0, 1))
+        owner = Buffer(budget, 4)
+        failure = None
+        with patch('gopyt.resource_bytes._ChargedBytes', new=fail):
+            try:
+                owner.read(0, 4)
+            except MemoryError as error:
+                failure = error
+        self.assertIsNotNone(failure)
+        self.assertEqual(owner._control.snapshot()['leases'], 0)
+        self.assertEqual(budget.snapshot()['used']['native_bytes'], 4)
+        owner.close()
+        self.assertEqual(budget.snapshot()['active_reservations'], 0)

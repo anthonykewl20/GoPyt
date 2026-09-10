@@ -24,3 +24,9 @@ bytearray inputs remain rejected. All 24 focused tests pass on both pinned Linux
 runtimes, including read-to-write, view writes and read-to-sealed-mapping. The input
 bytes remain charged after source/target/mapping closure until the last input alias
 is dropped. Broader fault, cancellation and full-suite validation remain pending.
+
+Failure coverage now includes cancellation after the raw read copy for both Buffer
+and View, and injected immutable-owner constructor MemoryError. Exceptions remain
+live while tests verify copy charges and operation leases release; closing the
+owner then releases the remaining reservation. All 26 focused tests pass on both
+pinned runtimes. Full language validation is the next gate.
