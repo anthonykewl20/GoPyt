@@ -184,6 +184,7 @@ EFFECT_BITS = {
     "ffi": 9,
     "secret": 10,
     "observe": 11,
+    "resource": 12,
 }
 
 KIND_FN = 1

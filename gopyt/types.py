@@ -237,3 +237,6 @@ def supports_eq(t: Ty, lookup, seen: frozenset[str] = frozenset()) -> bool:
                 return False
         return True
     return False
+
+
+OPAQUE_NAMES = frozenset({"core.secret.Secret", "data.buffer.Buffer", "data.buffer.View"})

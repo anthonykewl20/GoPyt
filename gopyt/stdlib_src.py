@@ -7,6 +7,43 @@ tools/check_stdlib_sync.py asserts this file still matches the document.
 from __future__ import annotations
 
 STDLIB_SOURCE: dict[str, str] = {
+    'data.buffer': """module data.buffer
+
+use core.status { ResourceError }
+
+task allocate(size: i64) -> Buffer | ResourceError
+    effects { resource }
+
+task map_bytes(data: bytes) -> Buffer | ResourceError
+    effects { resource }
+
+task read(buffer: Buffer, start: i64, length: i64) -> bytes | ResourceError
+    effects { resource }
+
+task write(buffer: Buffer, start: i64, data: bytes) -> unit | ResourceError
+    effects { resource }
+
+task freeze(buffer: Buffer) -> unit | ResourceError
+    effects { resource }
+
+task view(buffer: Buffer, start: i64, length: i64) -> View | ResourceError
+    effects { resource }
+
+task subview(view: View, start: i64, length: i64) -> View | ResourceError
+    effects { resource }
+
+task read_view(view: View, start: i64, length: i64) -> bytes | ResourceError
+    effects { resource }
+
+task write_view(view: View, start: i64, data: bytes) -> unit | ResourceError
+    effects { resource }
+
+task close(buffer: Buffer) -> unit | ResourceError
+    effects { resource }
+
+task close_view(view: View) -> unit | ResourceError
+    effects { resource }
+""",
     'core.status': """module core.status
 
 type NotFound {
@@ -37,6 +74,10 @@ type HttpError {
 }
 
 type TestFailed {
+    message: str
+}
+
+type ResourceError {
     message: str
 }
 

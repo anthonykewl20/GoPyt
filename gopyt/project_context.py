@@ -212,24 +212,24 @@ def create_receipt(root: Path, operation: str) -> dict:
                                    key=lambda fc: (fc.file.encode(), fc.symbol.encode()))
                     result['tests']['planned'] = [fc.key for fc in tests]
                     result['tests']['status'] = 'running' if tests else 'no_tests'
-                    vm = VM(artifact, root=str(staged))
-                    for fc in tests:
-                        entry = {'name': fc.key, 'file': fc.file, 'status': 'passed', 'trap': None}
-                        try:
-                            vm.call(ids[fc.key], [])
-                        except Trap as exc:
-                            entry.update(status='failed', trap=exc.code)
-                            result['tests']['status'] = 'failed'
-                            result['exit_code'] = 2
-                        except Exception as exc:
-                            entry.update(status='error', error={'type': type(exc).__name__, 'message': str(exc)})
-                            result['tests']['status'] = 'error'
-                            result['exit_code'] = 1
-                        finally:
-                            vm.heap.release_result()
-                        result['tests']['cases'].append(entry)
-                        if entry['status'] != 'passed':
-                            break
+                    with VM(artifact, root=str(staged)) as vm:
+                        for fc in tests:
+                            entry = {'name': fc.key, 'file': fc.file, 'status': 'passed', 'trap': None}
+                            try:
+                                vm.call(ids[fc.key], [])
+                            except Trap as exc:
+                                entry.update(status='failed', trap=exc.code)
+                                result['tests']['status'] = 'failed'
+                                result['exit_code'] = 2
+                            except Exception as exc:
+                                entry.update(status='error', error={'type': type(exc).__name__, 'message': str(exc)})
+                                result['tests']['status'] = 'error'
+                                result['exit_code'] = 1
+                            finally:
+                                vm.heap.release_result()
+                            result['tests']['cases'].append(entry)
+                            if entry['status'] != 'passed':
+                                break
                     if result['tests']['status'] == 'running':
                         result['tests']['status'] = 'passed'
                 _, after = capture_graph(staged)

@@ -52,6 +52,8 @@ from gopyt.types import (
 )
 
 STD_PREFIXES = ("core", "net", "data", "store")
+from gopyt.types import OPAQUE_NAMES
+
 SECRET = Nom("core.secret.Secret")
 JSON_BUILTINS = ("bool", "i32", "i64", "u32", "u64", "str", "unit")
 FROM_STR_BUILTINS = ("i64", "bool", "str")
@@ -459,9 +461,8 @@ class Checker:
     # -- collection -------------------------------------------------------
 
     def collect(self) -> None:
-        self.types["core.secret.Secret"] = TypeInfo(
-            kind="opaque", name="core.secret.Secret", module="core.secret"
-        )
+        for name in sorted(OPAQUE_NAMES):
+            self.types[name] = TypeInfo(kind="opaque", name=name, module=name.rsplit(".", 1)[0])
         groups = [
             (self.pkg.stdlib, True),
             (self.pkg.dep_specs, True),
@@ -1985,14 +1986,14 @@ def _apply(
         want = subst(pty, env)
         if has_var(want):
             got = self.expr(arg)
-            if sig.symbol in SECRET_SINKS and _has_secret(self.ck, got):
+            if sig.symbol in SECRET_SINKS and _has_opaque(self.ck, got):
                 raise err(112, self.m.file, line)
             if not unify(want, got, env):
                 raise err(21, self.m.file, line)
         else:
             got = self.expr(arg, want)
             # docs/security.md: these three never accept an opaque Secret.
-            if sig.symbol in SECRET_SINKS and _has_secret(self.ck, got):
+            if sig.symbol in SECRET_SINKS and _has_opaque(self.ck, got):
                 raise err(112, self.m.file, line)
             if not assignable(got, want):
                 raise err(_mismatch(got, want), self.m.file, line)
@@ -2105,33 +2106,33 @@ SECRET_SINKS = frozenset(
 )
 
 
-def _has_secret(ck: Checker, ty: Ty, seen: set[str] | None = None) -> bool:
+def _has_opaque(ck: Checker, ty: Ty, seen: set[str] | None = None) -> bool:
     seen = seen if seen is not None else set()
     if ty.key in seen:
         return False
     seen.add(ty.key)
     if isinstance(ty, Nom):
-        if ty.name == "core.secret.Secret":
+        if ty.name in OPAQUE_NAMES:
             return True
         info = ck.types.get(ty.name)
         if info is None:
             return False
         for _n, ft in info.field_types(ty.args):
-            if _has_secret(ck, ft, seen):
+            if _has_opaque(ck, ft, seen):
                 return True
         for i in range(len(info.variants)):
             for _n, ft in info.variant_fields(i, ty.args):
-                if _has_secret(ck, ft, seen):
+                if _has_opaque(ck, ft, seen):
                     return True
         return False
     if isinstance(ty, Opt):
-        return _has_secret(ck, ty.elem, seen)
+        return _has_opaque(ck, ty.elem, seen)
     if isinstance(ty, ListT):
-        return _has_secret(ck, ty.elem, seen)
+        return _has_opaque(ck, ty.elem, seen)
     if isinstance(ty, MapT):
-        return _has_secret(ck, ty.key_ty, seen) or _has_secret(ck, ty.val_ty, seen)
+        return _has_opaque(ck, ty.key_ty, seen) or _has_opaque(ck, ty.val_ty, seen)
     if isinstance(ty, Union):
-        return any(_has_secret(ck, m, seen) for m in ty.members)
+        return any(_has_opaque(ck, m, seen) for m in ty.members)
     return False
 
 
@@ -2141,7 +2142,7 @@ def _kind_of(self: Checker, nom: Nom) -> str:
 
 
 def _is_json(self: Checker, ty: Ty) -> bool:
-    if _has_secret(self, ty):
+    if _has_opaque(self, ty):
         return False
     if isinstance(ty, Prim):
         return ty.name in JSON_BUILTINS

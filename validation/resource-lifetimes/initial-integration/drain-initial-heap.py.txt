@@ -210,10 +210,8 @@ class Heap:
         with self._resource_lock:
             if self._resource_draining:
                 return 0
-            selected = list(islice(self._resource_pending.items(), limit))
-            # Preparing the batch may allocate. Publish the active-drain flag
-            # only after preparation succeeds, so MemoryError leaves retries live.
             self._resource_draining = True
+            selected = list(islice(self._resource_pending.items(), limit))
         completed = 0
         try:
             for key, resource in selected:

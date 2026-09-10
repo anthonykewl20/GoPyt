@@ -1,0 +1,10 @@
+{
+  "scope": "Linux host primitive probe; not GoPyT mapping integration or cross-platform qualification",
+  "files": {
+    "initial-failure.json": "d7422f0e6ec71e007b6186f058b2ddd2c328dc889ce4a33c0eb544851aa36733",
+    "initial-probe.py": "9efc782ab9682ac6cb1098e7abff1b3759d72d1471c380817760259fc9344a85",
+    "probe.py": "8e03268105bc85240f12c791eeb5839f16187320adacbcccd3d95ac4cfb5110f",
+    "python311.json": "067d32b01310cda30a00359523f243cc57668a657c16e2b9b506d6e971e68f04",
+    "python314.json": "7f6803cccf52d01ad5a7b5c12a75a39dd34247c98a33f32c33815c6bad7bce21"
+  }
+}
