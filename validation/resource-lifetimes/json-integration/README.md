@@ -11,3 +11,8 @@ Component inventory retained. Full-suite results and contract demo remain pendin
 
 Contract demonstration passed all four expected outcomes in disposable package
 copies. Full language-suite qualification remains pending.
+
+Full Python 3.14 run FAILED: 1092 tests, 359.691s, five failures (three underlying
+failures plus two diagnostic-audit failures). Inventory HTTP retry and encrypted
+restart returned 500; model test expected zero bytes while VM retained result.
+failed-full314.log retains the complete evidence. This runtime is not qualified.
