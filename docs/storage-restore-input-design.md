@@ -27,3 +27,12 @@ read; retained aliases and tracebacks; existing restore generation/digest/receip
 and admitted-publication recovery behavior; CLI failure reporting and registry
 cleanup. No success claim is made by this design. PR #73 qualifies serialization
 payloads separately and does not cover this input producer.
+
+The maintenance CLI now creates this shared context for every operation. Defaults
+are 268435456 native payload bytes and 256 descriptors; --native-bytes and
+--descriptors accept nonnegative i64 values. These are payload/descriptor limits,
+not process RSS limits. The registry closes in finally, including KeyboardInterrupt.
+Restore uses restore_anchor_file. Capacity failures return the existing maintenance
+error status (2, or 1 for rekey). Thirty-nine focused tests pass on both pinned
+runtimes, including zero-descriptor rejection and cleanup after interruption.
+Full integration and additional restore failure qualification remain pending.
