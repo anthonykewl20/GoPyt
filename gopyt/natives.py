@@ -233,7 +233,12 @@ def _str_concat(vm, args, func):
 
 @native("core.str.from_i64")
 def _str_from_i64(vm, args, func):
-    return str(args[0])
+    from gopyt.resource_text import format_integer
+    from gopyt.resource_budget import ResourceLimitError
+    try:
+        return format_integer(args[0], vm.resource_budget, vm.check_cancelled)
+    except ResourceLimitError:
+        raise Trap(ops.TRAP_ALLOC) from None
 
 
 @native("core.str.slice")
@@ -624,9 +629,13 @@ def _db_compare_exchange_many(vm, args, func):
 
 @native("data.json.encode")
 def _json_encode(vm, args, func):
+    from gopyt.resource_budget import ResourceLimitError
     param_te = func.params[0]
     try:
-        return jsonc.encode(vm.art, args[0], param_te)
+        return jsonc.encode(vm.art, args[0], param_te, budget=vm.resource_budget,
+                            check_context=vm.check_cancelled)
+    except ResourceLimitError:
+        raise Trap(ops.TRAP_ALLOC) from None
     except jsonc.AllocationLimit:
         raise Trap(ops.TRAP_ALLOC)
     except ConvertFail as e:

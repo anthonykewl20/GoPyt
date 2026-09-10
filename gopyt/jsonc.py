@@ -128,6 +128,15 @@ class _Encoder:
             raw = None
             text = None
 
+    def integer(self, value):
+        self.token(str(value))
+
+    def keys(self, value):
+        try:
+            return sorted(value, key=lambda key: key.encode('utf-8'))
+        except UnicodeEncodeError as error:
+            raise ConvertFail('utf8') from error
+
     def string(self, text):
         # Bound escaping/UTF-8 temporaries even for a single enormous string.
         self.minimum(len(text) + 2)
@@ -147,9 +156,95 @@ class _Encoder:
             self.output.clear()
 
 
-def encode(art: Artifact, value: object, te_ix: int) -> str:
+class _OwnedEncoder(_Encoder):
+    def __init__(self, budget, max_bytes, check_context=None, max_depth=None):
+        from gopyt.resource_bytes import ByteBuilder
+        self.max_bytes = max_bytes
+        self.check_context = check_context
+        self.max_depth = max_depth
+        self.text = False
+        self.size = 0
+        self.output = ByteBuilder(budget)
+        self.budget = budget
+
+    def integer(self, value):
+        from gopyt.resource_text import format_integer
+        text = None
+        try:
+            text = format_integer(value, self.budget, self.check)
+            self.token(text)
+        finally:
+            value = text = None
+
+    def keys(self, value):
+        from gopyt.resource_collections import map_keys
+        return map_keys(value, self.budget, self.check)
+
+    def string(self, text):
+        from _json import encode_basestring
+        self.minimum(len(text) + 2)
+        self.token('"')
+        piece = quoted = escaped = None
+        try:
+            for offset in range(0, len(text), 4096):
+                self.check()
+                count = min(4096, len(text) - offset)
+                # Slice, quoted escape output, and quote-stripped output overlap.
+                capacity = 4 * (count + 1) + 4 * (6 * count + 3) + 4 * (6 * count + 1)
+                with self.budget.reserve(native_bytes=capacity):
+                    try:
+                        piece = str.__getitem__(text, slice(offset, offset + count))
+                        quoted = encode_basestring(piece)
+                        escaped = str.__getitem__(quoted, slice(1, -1))
+                        self.token(escaped)
+                    finally:
+                        piece = quoted = escaped = None
+            self.token('"')
+        finally:
+            text = piece = quoted = escaped = None
+
+    def token(self, text):
+        try:
+            self.check()
+            length = 0
+            for char in text:
+                point = ord(char)
+                if 0xD800 <= point <= 0xDFFF:
+                    raise ConvertFail('utf8')
+                length += 1 if point < 0x80 else 2 if point < 0x800 else 3 if point < 0x10000 else 4
+            self.minimum(length)
+            try:
+                self.output.append_text(text)
+            except UnicodeEncodeError as error:
+                raise ConvertFail('utf8') from error
+            self.size += length
+        finally:
+            text = None
+
+    def result(self):
+        from gopyt.resource_text import decode_utf8
+        payload = result = None
+        try:
+            self.check()
+            payload = self.output.finish()
+            with payload:
+                result = decode_utf8(payload.data, self.budget, self.check)
+                if result is None:
+                    raise ConvertFail('utf8')
+                return result
+        finally:
+            payload = result = None
+
+    def close(self):
+        self.output.close()
+
+
+
+def encode(art: Artifact, value: object, te_ix: int, *, budget=None,
+           check_context=None) -> str:
     from gopyt import ops
-    output = _Encoder(ops.MAX_ALLOC, text=True)
+    output = (_Encoder(ops.MAX_ALLOC, check_context, text=True) if budget is None
+              else _OwnedEncoder(budget, ops.MAX_ALLOC, check_context))
     try:
         _emit(art, value, te_ix, output, 0)
         return output.result()
@@ -184,26 +279,7 @@ def encode_owned_bytes(art, value, te_ix, *, budget, max_bytes, max_depth=128,
     if member is not None and type(member) is not str:
         raise ValueError('JSON envelope member')
 
-    class OwnedEncoder(_Encoder):
-        def token(self, text):
-            try:
-                self.check()
-                length = sum(1 if ord(c) < 0x80 else 2 if ord(c) < 0x800
-                             else 3 if ord(c) < 0x10000 else 4 for c in text)
-                self.minimum(length)
-                try:
-                    self.output.append_text(text)
-                except UnicodeEncodeError as error:
-                    raise ConvertFail('utf8') from error
-                self.size += length
-            finally:
-                text = None
-
-        def close(self):
-            self.output.close()
-
-    output = OwnedEncoder(max_bytes, check_context, max_depth)
-    output.output = ByteBuilder(budget)
+    output = _OwnedEncoder(budget, max_bytes, check_context, max_depth)
     try:
         if member is not None:
             output.token('{')
@@ -241,7 +317,7 @@ def _emit(art, value, te_ix, out, depth):
         lo, hi = INT_RANGE[tag]
         if not lo <= value <= hi:
             raise ConvertFail('range')
-        out.token(str(value))
+        out.integer(value)
     elif tag == TE_STR:
         if not isinstance(value, str):
             raise ConvertFail('str')
@@ -279,19 +355,20 @@ def _emit(art, value, te_ix, out, depth):
                 raise ConvertFail('map key')
             minimum += len(key)
             out.minimum(minimum)
+        keys = None
         try:
-            keys = sorted(value, key=lambda key: key.encode('utf-8'))
-        except UnicodeEncodeError as error:
-            raise ConvertFail('utf8') from error
-        out.check()
-        out.token('{')
-        for index, key in enumerate(keys):
-            if index:
-                out.token(',')
-            out.string(key)
-            out.token(':')
-            _emit(art, value[key], te.b, out, depth + 1)
-        out.token('}')
+            keys = out.keys(value)
+            out.check()
+            out.token('{')
+            for index, key in enumerate(keys):
+                if index:
+                    out.token(',')
+                out.string(key)
+                out.token(':')
+                _emit(art, value[key], te.b, out, depth + 1)
+            out.token('}')
+        finally:
+            keys = None
     elif tag == TE_NOM:
         _emit_nom(art, value, te.a, out, depth)
     elif tag == TE_UNION:

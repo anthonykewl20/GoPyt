@@ -114,3 +114,34 @@ def concat_text(left, right, budget, check=lambda: None):
         left = right = result = None
         if reservation is not None and not transferred:
             reservation.release()
+
+
+def format_integer(value, budget, check=lambda: None):
+    """Format a language-width integer with admitted decimal and Unicode storage."""
+    import sys
+    reservation = raw = result = None
+    transferred = False
+    try:
+        check()
+        if (isinstance(value, bool) or not isinstance(value, int) or
+                not -(1 << 63) <= value < (1 << 64)):
+            raise ValueError('language integer required')
+        # Both signed i64 and u64 need at most 20 ASCII characters plus NUL.
+        capacity = 21
+        limbs = (64 + sys.int_info.bits_per_digit - 1) // sys.int_info.bits_per_digit
+        # Decimal conversion scratch is <= 1 + 2*binary_limbs on pinned CPython.
+        scratch = (1 + 2 * limbs) * sys.int_info.sizeof_digit
+        reservation = budget.reserve(native_bytes=capacity)
+        with budget.reserve(native_bytes=capacity + scratch):
+            try:
+                raw = int.__repr__(value)
+                check()
+                result = _ChargedString(raw, reservation)
+                transferred = True
+                return result
+            finally:
+                raw = None
+    finally:
+        value = result = None
+        if reservation is not None and not transferred:
+            reservation.release()
