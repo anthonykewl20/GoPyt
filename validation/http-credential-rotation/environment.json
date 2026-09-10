@@ -1,0 +1,4 @@
+{
+  "platform": "Linux-7.0.0-30-generic-x86_64-with-glibc2.39",
+  "captured": "After both campaigns on the same execution host; runtime/Python/source hashes are captured before each run in inputs.json."
+}

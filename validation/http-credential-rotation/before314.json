@@ -1,0 +1,13 @@
+{
+  "runtime_sha256": "b612d392140aaf04a9f93edd1e110cdc61cee08d563a806ea3dc094ab3202cba",
+  "probe_sha256": "ba443ccb7043a625b0b1d1c5fc24dc9b0ed4eca7320c5a2a709fcd9f2e5a0ba7",
+  "before_old_new": [
+    200,
+    401
+  ],
+  "after_old_new": [
+    200,
+    401
+  ],
+  "scope": "One live listener and an atomic token-file replacement; no load/performance claim."
+}

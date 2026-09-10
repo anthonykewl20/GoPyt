@@ -132,9 +132,10 @@ def serve(vm, module: str):
             or not identities.authority.is_descendant_of(authority)):
         vm.serving = False
         return _status(vm, "ListenError", "identity broker audience or serving authority mismatch")
-    from gopyt.security_config import http_token, SecurityError
+    from gopyt.security_config import http_token, http_token_file, SecurityError
     try:
-        authorization = http_token(vm.root, addr, session_auth=identities is not None)
+        service_auth = http_token(vm.root, addr, session_auth=identities is not None) is not None
+        authorization_path = os.environ.get('GOPYT_HTTP_TOKEN_FILE')
     except SecurityError:
         vm.serving = False
         return _status(vm, "ListenError", "security configuration")
@@ -236,7 +237,15 @@ def serve(vm, module: str):
                     self.close_connection = True
                     self._empty(401)
                     return
-            if authorization is not None:
+            if service_auth:
+                vm.check_cancelled()
+                try:
+                    authorization = http_token_file(authorization_path, vm.root)
+                except SecurityError:
+                    self.close_connection = True
+                    self._empty(503)
+                    return
+                vm.check_cancelled()
                 headers = self.headers.get_all("Authorization", [])
                 try:
                     supplied = headers[0].encode('ascii') if len(headers) == 1 else b''

@@ -1,0 +1,14 @@
+test_previously_admitted_request_finishes_after_rotation (gopyt.test_http_credentials.HttpCredentials.test_previously_admitted_request_finishes_after_rotation) ... ok
+test_reload_failures_never_reach_handler_and_recover (gopyt.test_http_credentials.HttpCredentials.test_reload_failures_never_reach_handler_and_recover) ... ok
+test_rotates_on_live_keepalive_connection (gopyt.test_http_credentials.HttpCredentials.test_rotates_on_live_keepalive_connection) ... echo
+echo
+ok
+test_startup_path_and_mode_cannot_be_disabled_by_environment_change (gopyt.test_http_credentials.HttpCredentials.test_startup_path_and_mode_cannot_be_disabled_by_environment_change) ... echo
+echo
+echo
+ok
+
+----------------------------------------------------------------------
+Ran 4 tests in 0.584s
+
+OK

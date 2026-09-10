@@ -1,0 +1,14 @@
+{
+  "version": 1,
+  "workers": 8,
+  "queue": 32,
+  "clients": 8,
+  "warmup_rounds": 3,
+  "minimum_rounds": 30,
+  "minimum_seconds": 60,
+  "maximum_round_seconds": 10,
+  "request_timeout_seconds": 5,
+  "expected_statuses": {"admitted_old": 200, "new": 200, "revoked": 401},
+  "requests_per_round": {"admitted_old": 1, "new": 3, "revoked": 4},
+  "scope": "Controlled live-listener rotation with an admitted old request held across atomic replacement and seven concurrent post-replacement requests. Latency includes coordination. Not a production SLO or key-custody qualification."
+}

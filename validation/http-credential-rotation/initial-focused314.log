@@ -1,0 +1,73 @@
+test_previously_admitted_request_finishes_after_rotation (gopyt.test_http_credentials.HttpCredentials.test_previously_admitted_request_finishes_after_rotation) ... ok
+test_reload_failures_never_reach_handler_and_recover (gopyt.test_http_credentials.HttpCredentials.test_reload_failures_never_reach_handler_and_recover) ... ok
+test_rotates_on_live_keepalive_connection (gopyt.test_http_credentials.HttpCredentials.test_rotates_on_live_keepalive_connection) ... echo
+echo
+ok
+test_startup_path_and_mode_cannot_be_disabled_by_environment_change (gopyt.test_http_credentials.HttpCredentials.test_startup_path_and_mode_cannot_be_disabled_by_environment_change) ... echo
+echo
+echo
+ok
+test_ambiguous_or_oversized_framing_is_rejected (gopyt.test_app_runtime.ApplicationHttpRuntime.test_ambiguous_or_oversized_framing_is_rejected) ... echo
+ok
+test_draining_keeps_the_active_request_deadline (gopyt.test_app_runtime.ApplicationHttpRuntime.test_draining_keeps_the_active_request_deadline) ... ok
+test_drip_fed_body_cannot_extend_request_deadline (gopyt.test_app_runtime.ApplicationHttpRuntime.test_drip_fed_body_cannot_extend_request_deadline) ... echo
+ok
+test_expired_queued_connection_never_invokes_handler (gopyt.test_app_runtime.ApplicationHttpRuntime.test_expired_queued_connection_never_invokes_handler) ... ok
+test_full_queue_returns_503_and_recovers_after_clients_close (gopyt.test_app_runtime.ApplicationHttpRuntime.test_full_queue_returns_503_and_recovers_after_clients_close) ... echo
+echo
+ok
+test_idle_connections_eventually_release_workers (gopyt.test_app_runtime.ApplicationHttpRuntime.test_idle_connections_eventually_release_workers) ... echo
+ok
+test_listener_startup_does_not_depend_on_reverse_dns (gopyt.test_app_runtime.ApplicationHttpRuntime.test_listener_startup_does_not_depend_on_reverse_dns) ... echo
+ok
+test_malformed_json_is_rejected_and_connection_remains_usable (gopyt.test_app_runtime.ApplicationHttpRuntime.test_malformed_json_is_rejected_and_connection_remains_usable) ... charge
+ok
+test_partial_worker_start_failure_closes_listener_and_joins_workers (gopyt.test_app_runtime.ApplicationHttpRuntime.test_partial_worker_start_failure_closes_listener_and_joins_workers) ... ok
+test_pipelined_requests_preserve_response_boundaries (gopyt.test_app_runtime.ApplicationHttpRuntime.test_pipelined_requests_preserve_response_boundaries) ... echo
+echo
+ok
+test_request_execution_budget_and_keepalive_reset (gopyt.test_app_runtime.ApplicationHttpRuntime.test_request_execution_budget_and_keepalive_reset) ... ok
+test_response_backpressure_consumes_remaining_budget (gopyt.test_app_runtime.ApplicationHttpRuntime.test_response_backpressure_consumes_remaining_budget) ... ok
+test_serving_context_stops_idle_input_and_native_workers (gopyt.test_app_runtime.ApplicationHttpRuntime.test_serving_context_stops_idle_input_and_native_workers) ... ok
+test_shutdown_drains_durable_active_response_without_starting_pipeline (gopyt.test_app_runtime.ApplicationHttpRuntime.test_shutdown_drains_durable_active_response_without_starting_pipeline) ... ok
+test_shutdown_interrupts_partial_headers_and_partial_bodies (gopyt.test_app_runtime.ApplicationHttpRuntime.test_shutdown_interrupts_partial_headers_and_partial_bodies) ... ok
+test_shutdown_reclaims_queue_after_worker_exits (gopyt.test_app_runtime.ApplicationHttpRuntime.test_shutdown_reclaims_queue_after_worker_exits) ... ok
+test_sigterm_delivers_active_durable_response_and_exits (gopyt.test_app_runtime.ApplicationHttpRuntime.test_sigterm_delivers_active_durable_response_and_exits) ... ok
+test_small_responses_disable_nagle_on_the_accepted_socket (gopyt.test_app_runtime.ApplicationHttpRuntime.test_small_responses_disable_nagle_on_the_accepted_socket) ... ok
+test_truncated_declared_body_does_not_invoke_post_handler (gopyt.test_app_runtime.ApplicationHttpRuntime.test_truncated_declared_body_does_not_invoke_post_handler) ... echo
+ok
+test_truncated_ignored_get_body_is_still_bad_framing (gopyt.test_app_runtime.ApplicationHttpRuntime.test_truncated_ignored_get_body_is_still_bad_framing) ... ok
+test_encrypted_restart_and_conditional_write (gopyt.test_security_config.SecurityProfile.test_encrypted_restart_and_conditional_write) ... ok
+test_plaintext_is_not_silently_migrated (gopyt.test_security_config.SecurityProfile.test_plaintext_is_not_silently_migrated) ... ok
+test_real_http_authentication_encrypted_restart (gopyt.test_security_config.SecurityProfile.test_real_http_authentication_encrypted_restart) ... ok
+test_secret_permissions_links_and_package_location (gopyt.test_security_config.SecurityProfile.test_secret_permissions_links_and_package_location) ... ok
+test_strict_listener_requires_loopback_and_token (gopyt.test_security_config.SecurityProfile.test_strict_listener_requires_loopback_and_token) ... ok
+test_tampered_snapshot_cannot_be_read_or_overwritten (gopyt.test_security_config.SecurityProfile.test_tampered_snapshot_cannot_be_read_or_overwritten) ... ok
+test_wrong_key_context_and_missing_key_reject_even_cached_reads (gopyt.test_security_config.SecurityProfile.test_wrong_key_context_and_missing_key_reject_even_cached_reads) ... ok
+test_idle_connection_lifetime_releases_queued_client (gopyt.test_connection_budget.ConnectionBudget.test_idle_connection_lifetime_releases_queued_client) ... echo
+echo
+ok
+test_new_requests_cannot_extend_connection_deadline (gopyt.test_connection_budget.ConnectionBudget.test_new_requests_cannot_extend_connection_deadline) ... ok
+test_non_handler_responses_also_consume_request_quota (gopyt.test_connection_budget.ConnectionBudget.test_non_handler_responses_also_consume_request_quota) ... echo
+ok
+test_pipelined_excess_requests_never_dispatch (gopyt.test_connection_budget.ConnectionBudget.test_pipelined_excess_requests_never_dispatch) ... ok
+test_quota_releases_worker_to_already_queued_client (gopyt.test_connection_budget.ConnectionBudget.test_quota_releases_worker_to_already_queued_client) ... echo
+echo
+echo
+ok
+test_http_request_budget (unittest.loader._FailedTest.test_http_request_budget) ... ERROR
+
+======================================================================
+ERROR: test_http_request_budget (unittest.loader._FailedTest.test_http_request_budget)
+----------------------------------------------------------------------
+ImportError: Failed to import test module: test_http_request_budget
+Traceback (most recent call last):
+  File "/home/soultransit/.local/share/uv/python/cpython-3.14.7-linux-x86_64-gnu/lib/python3.14/unittest/loader.py", line 141, in loadTestsFromName
+    module = __import__(module_name)
+ModuleNotFoundError: No module named 'gopyt.test_http_request_budget'
+
+
+----------------------------------------------------------------------
+Ran 37 tests in 11.241s
+
+FAILED (errors=1)
