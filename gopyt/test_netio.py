@@ -17,6 +17,30 @@ from gopyt.vm import VM, Trap, Cancelled
 
 
 class OutboundBudgets(unittest.TestCase):
+    def test_model_payload_admission_and_transport_lifetime(self):
+        from gopyt.netio import _Connection
+        vm = self.fixture.vm
+        with vm.resource_budget.reserve(native_bytes=
+                vm.resource_budget.snapshot()['limits']['native_bytes']):
+            with patch('gopyt.netio.opener') as transport:
+                result = self.invoke('model')
+                self.assertEqual(vm.type_name(result.type_id), 'core.status.ModelError')
+                transport.assert_not_called()
+        observed = []
+        original = _Connection.send
+        def send(connection, data):
+            try:
+                if data.startswith(b'{"prompt":'):
+                    observed.append((len(data), vm.resource_budget.snapshot()['used']['native_bytes']))
+                return original(connection, data)
+            finally:
+                data = None
+        with patch.object(_Connection, 'send', new=send):
+            self.assertEqual(self.invoke('model'), 'local response')
+        self.assertEqual(len(observed), 1)
+        self.assertEqual(observed[0][0], observed[0][1])
+        self.assertEqual(vm.resource_budget.snapshot()['used']['native_bytes'], 0)
+
     def tearDown(self):
         self.assertEqual(self.fixture.vm.descriptors.pending(), 0)
         self.assertEqual(self.fixture.vm.resource_budget.snapshot()['used']['descriptors'], 0)

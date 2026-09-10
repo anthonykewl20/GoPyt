@@ -383,3 +383,15 @@ is three times the completed byte length at that boundary. A regression verifies
 alias retention after owner close and release after the last alias is discarded;
 existing partial-write and traceback tests continue to pass. This supersedes the
 previous no-export-alias convention for references to the returned bytes object.
+
+### Model request payloads
+
+core.model.complete now constructs its named prompt envelope with owned JSON
+serialization instead of concatenating an encoded prompt into another bytes
+object. The owner spans request construction, transport and response handling;
+finally clears urllib Request.data before closing the owner. Retained aliases to
+the charged bytes continue to retain their reservation. Capacity failures follow
+the existing ModelError network-failure path. A compiled test verifies exhausted
+capacity prevents transport, then confirms successful POST data remains charged
+at its exact payload length during send and releases after return. Response reads,
+decoding, HTTP-library copies and TLS allocations remain separate accounting work.
