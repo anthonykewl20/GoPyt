@@ -654,3 +654,31 @@ class JsonNativeRouting(unittest.TestCase):
             natives.NATIVES['data.json.decode'](vm, ['[1]'], NS(ret=1))
         self.assertEqual(caught.exception.code, ops.TRAP_ALLOC)
         self.assertEqual(vm.resource_budget.snapshot()['active_reservations'], 0)
+
+
+class JsonModelResponse(unittest.TestCase):
+    def test_text_alias_and_invalid_response_cleanup(self):
+        from types import SimpleNamespace as NS
+        from gopyt.natives import _model_response_text
+        budget = ResourceBudget(ResourceLimits(10000, 0, 0, 0))
+        vm = NS(resource_budget=budget, type_id_of=lambda name: 42)
+        result = _model_response_text(vm, '{"text":"answer"}', lambda: None)
+        self.assertEqual(result, 'answer')
+        self.assertGreater(budget.snapshot()['used']['native_bytes'], 0)
+        del result
+        self.assertEqual(budget.snapshot()['active_reservations'], 0)
+        for source in ('{"text":1}', '{"text":"x","extra":1}', '{"text":', '[]'):
+            result = _model_response_text(vm, source, lambda: None)
+            self.assertEqual(result.fields, ['decode'])
+            self.assertEqual(budget.snapshot()['active_reservations'], 0)
+
+    def test_budget_exhaustion_is_allocation_trap(self):
+        from types import SimpleNamespace as NS
+        from gopyt.natives import _model_response_text
+        from gopyt.vm import Trap
+        from gopyt import ops
+        budget = ResourceBudget(ResourceLimits(0, 0, 0, 0))
+        with self.assertRaises(Trap) as caught:
+            _model_response_text(NS(resource_budget=budget), '{"text":"x"}', lambda: None)
+        self.assertEqual(caught.exception.code, ops.TRAP_ALLOC)
+        self.assertEqual(budget.snapshot()['active_reservations'], 0)

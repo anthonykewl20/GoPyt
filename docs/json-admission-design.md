@@ -278,3 +278,12 @@ suites pass both pinned runtimes; 34 focused resource JSON tests include a direc
 native success with retained result charge and zero-budget TRAP_ALLOC/release.
 Full language suites, depth compatibility and model-response JSON routing still
 need qualification; no issue closure is claimed by this connection alone.
+
+Model-response routing now uses _model_response_text with parse_owned and the
+request's remaining-deadline check. It returns the owned text alias, validates the
+single required key without a temporary set, translates budget rejection to
+TRAP_ALLOC and preserves ModelError decode for invalid protocol/JSON. Both helper
+and caller clear response references on exit. Focused resource JSON/native-boundary
+tests pass both pinned runtimes, including retained text ownership, invalid-response
+cleanup and zero-budget allocation traps. Full integration/TLS and depth validation
+remain required before release qualification.
