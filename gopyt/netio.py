@@ -5,6 +5,7 @@ import io
 import socket
 import time
 import urllib.request
+from gopyt.net_policy import AddressPolicyError, check_address
 from gopyt.resource_sockets import open_socket, wrap_tls
 
 
@@ -76,6 +77,7 @@ class _Response(http.client.HTTPResponse):
 class _Connection:
     def __init__(self, host, *, budget, **kwargs):
         self.budget = budget
+        self.connected_address = None
         super().__init__(host, **kwargs)
         self.response_class = partial(_Response, budget=budget)
 
@@ -87,8 +89,18 @@ class _Connection:
         # and no connection attempt starts if resolution exhausts the budget.
         addresses = socket.getaddrinfo(self.host, self.port, 0, socket.SOCK_STREAM)
         failure = None
+        refused = None
         for family, kind, protocol, _name, address in addresses:
             self.budget.remaining()
+            # An allowlisted origin names a host, not an address. Check what the
+            # resolver actually returned before any socket exists, so a name
+            # pointed at loopback, private or link-local space never connects.
+            try:
+                check_address(self.host, address[0])
+            except AddressPolicyError as error:
+                refused = error
+                continue
+            self.connected_address = address[0]
             sock = open_socket(self.budget.vm.descriptors, family, kind, protocol)
             try:
                 sock.settimeout(self.budget.remaining())
@@ -106,6 +118,8 @@ class _Connection:
             self.sock = sock
             return
         self.budget.remaining()
+        if failure is None and refused is not None:
+            raise refused
         raise failure or OSError('DNS returned no stream addresses')
 
     def send(self, data):
