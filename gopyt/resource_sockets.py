@@ -9,6 +9,9 @@ class _Socket(socket.socket):
     def _real_close(self):
         self._resource_owner.physical_close(lambda: super(_Socket, self)._real_close())
 
+    def accept(self):
+        return accept_socket(self._resource_owner.registry, self)
+
     def detach(self):
         raise ResourceClosedError('budgeted socket transfer requires an explicit owner')
 
@@ -21,6 +24,7 @@ class SocketOwner:
         self.sock = None
         self.state = 'opening'
         self.error = None
+        self.pending_fd = None
 
     def physical_close(self, closer):
         with self.lock:
@@ -57,7 +61,7 @@ class SocketOwner:
             return self.state == 'closed'
 
 
-def open_socket(registry, family=socket.AF_INET, kind=socket.SOCK_STREAM, protocol=0):
+def _acquire_socket(registry, initialize):
     owner = SocketOwner(registry)
     owner.reservation = registry._budget.reserve(descriptors=1)
     try:
@@ -73,7 +77,7 @@ def open_socket(registry, family=socket.AF_INET, kind=socket.SOCK_STREAM, protoc
         sock = _Socket.__new__(_Socket)
         sock._resource_owner = owner
         owner.sock = sock
-        socket.socket.__init__(sock, family, kind, protocol)
+        initialize(sock, owner)
     except BaseException:
         # Failed socket construction acquires no returned descriptor. If a
         # partially initialized socket has one, close it through its owner.
@@ -82,7 +86,11 @@ def open_socket(registry, family=socket.AF_INET, kind=socket.SOCK_STREAM, protoc
                 owner.state = 'open'
             owner.close()
         else:
-            owner.physical_close(lambda: None)
+            pending, owner.pending_fd = owner.pending_fd, None
+            try:
+                owner.physical_close(lambda: socket.close(pending) if pending is not None else None)
+            except BaseException:
+                pass  # Preserve acquisition failure; cleanup remains quarantined.
         raise
     with owner.lock:
         owner.state = 'open'
@@ -92,3 +100,23 @@ def open_socket(registry, family=socket.AF_INET, kind=socket.SOCK_STREAM, protoc
         owner.close()
         raise ResourceClosedError('descriptor registry closed during acquisition')
     return sock
+
+
+def open_socket(registry, family=socket.AF_INET, kind=socket.SOCK_STREAM, protocol=0):
+    return _acquire_socket(registry, lambda sock, owner:
+                           socket.socket.__init__(sock, family, kind, protocol))
+
+
+def accept_socket(registry, listener):
+    address = None
+    def initialize(sock, owner):
+        nonlocal address
+        # The shell and reservation already exist before the OS accept call.
+        fd, address = listener._accept()
+        owner.pending_fd = fd
+        socket.socket.__init__(sock, listener.family, listener.type,
+                               listener.proto, fileno=fd)
+        owner.pending_fd = None
+        if socket.getdefaulttimeout() is None and listener.gettimeout():
+            sock.setblocking(True)
+    return _acquire_socket(registry, initialize), address

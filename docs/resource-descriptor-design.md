@@ -200,3 +200,17 @@ socket construction, teardown during acquisition, and a close that physically
 succeeds then raises. This primitive is not yet wired into HTTP. Raw detach is
 rejected pending explicit TLS transfer; accepted sockets and TLS must be integrated
 before network accounting can be claimed.
+
+### Accepted sockets
+
+The socket primitive now overrides accept with registration and descriptor admission
+before the OS accept call. The Python socket shell also exists before acquisition.
+A returned raw descriptor is held as pending ownership until socket initialization
+succeeds; initialization failure closes it, retaining quarantine if close fails.
+Accepted sockets use the same physical-close hook and reader lifetime as created
+sockets. Default timeout/blocking inheritance follows CPython's accept behavior.
+
+Loopback tests cover budget rejection leaving a connection queued for later accept,
+reader-retained admission on the accepted socket, nonblocking accept failure, and
+an injected initialization failure after the OS has returned a real descriptor.
+The HTTP server has not yet adopted this primitive; TLS transfer is still pending.

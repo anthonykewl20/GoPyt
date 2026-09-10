@@ -8,10 +8,65 @@ from unittest.mock import patch
 from gopyt.resource_budget import ResourceBudget, ResourceLimits, ResourceLimitError
 from gopyt.resource_control import ResourceClosedError
 from gopyt.resource_descriptors import DescriptorRegistry
-from gopyt.resource_sockets import open_socket
+from gopyt.resource_sockets import open_socket, accept_socket
 
 
 class SocketOwnership(unittest.TestCase):
+    def test_accept_admission_and_reader_ownership(self):
+        budget, registry = self.fixture(2)
+        listener = open_socket(registry)
+        listener.bind(('127.0.0.1', 0))
+        listener.listen()
+        listener.settimeout(2)
+        held = registry.open(os.devnull, os.O_RDONLY)
+        with socket.create_connection(listener.getsockname(), timeout=2) as client:
+            with self.assertRaises(ResourceLimitError): listener.accept()
+            held.close()
+            accepted, address = listener.accept()
+            self.assertEqual(address[0], '127.0.0.1')
+            accepted.settimeout(2)
+            client.sendall(b'x')
+            reader = accepted.makefile('rb', buffering=0)
+            try:
+                accepted.close()
+                self.assertEqual(reader.read(1), b'x')
+                self.assertEqual(budget.snapshot()['used']['descriptors'], 2)
+            finally:
+                reader.close()
+        listener.close()
+        self.assertEqual(registry.pending(), 0)
+        self.assertEqual(budget.snapshot()['active_reservations'], 0)
+
+    def test_accept_failure_releases_unused_admission(self):
+        budget, registry = self.fixture(2)
+        listener = open_socket(registry)
+        listener.bind(('127.0.0.1', 0))
+        listener.listen()
+        listener.setblocking(False)
+        with self.assertRaises(BlockingIOError): accept_socket(registry, listener)
+        self.assertEqual(budget.snapshot()['used']['descriptors'], 1)
+        self.assertEqual(registry.pending(), 1)
+        listener.close()
+
+    def test_accepted_descriptor_closed_if_adoption_fails(self):
+        budget, registry = self.fixture(2)
+        listener = open_socket(registry)
+        listener.bind(('127.0.0.1', 0))
+        listener.listen()
+        listener.settimeout(2)
+        acquired = []
+        def fail(sock, *args, **kwargs):
+            acquired.append(kwargs['fileno'])
+            raise MemoryError('socket initialization failed')
+        with socket.create_connection(listener.getsockname(), timeout=2):
+            with patch('socket.socket.__init__', new=fail):
+                with self.assertRaises(MemoryError): listener.accept()
+        self.assertEqual(len(acquired), 1)
+        with self.assertRaises(OSError): os.fstat(acquired[0])
+        self.assertEqual(registry.pending(), 1)
+        self.assertEqual(budget.snapshot()['used']['descriptors'], 1)
+        listener.close()
+
     def test_teardown_during_socket_acquisition(self):
         budget, registry = self.fixture()
         entered, resume = threading.Event(), threading.Event()
