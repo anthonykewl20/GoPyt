@@ -17,7 +17,7 @@ import threading
 import time
 import weakref
 from gopyt.resource_budget import ResourceLimitError
-from gopyt.resource_bytes import read_payload
+from gopyt.resource_bytes import read_payload, allocate_payload
 
 from gopyt.rollback import locked_anchor, snapshot_digest
 from gopyt.files import parent_directory, opened_descriptor
@@ -229,19 +229,62 @@ class Store:
         if schema != [('table', 'kv', 'CREATE TABLE kv (key TEXT PRIMARY KEY, value TEXT NOT NULL) WITHOUT ROWID')]:
             raise StorageError('invalid database schema')
 
+    @contextmanager
+    def _serialized_payload(self, db, budget):
+        # The connection is private to this operation. No writes occur between
+        # these queries and serialize; both refer explicitly to the main image.
+        values = []
+        for pragma in ('page_count', 'page_size'):
+            cursor = db.execute(f'PRAGMA main.{pragma}')
+            try:
+                row = cursor.fetchone()
+                if row is None or len(row) != 1 or type(row[0]) is not int:
+                    raise StorageError('invalid database image size')
+                values.append(row[0])
+            finally:
+                cursor.close()
+        pages, page_size = values
+        if (pages <= 0 or not 512 <= page_size <= 65536
+                or page_size & (page_size - 1)):
+            raise StorageError('invalid database image size')
+        size = pages * page_size
+        if size > MAX_BYTES:
+            raise StorageError('database size limit exceeded')
+        with allocate_payload(budget, size) as payload:
+            # CPython may overlap a SQLite image and a Python bytes result.
+            # Admit both in addition to the destination before serialization.
+            with budget.reserve(native_bytes=2 * size):
+                raw = None
+                try:
+                    self._check_context()
+                    raw = db.serialize(name='main')
+                    if len(raw) != size:
+                        raise StorageError('database image size changed')
+                    with memoryview(payload.data) as destination:
+                        destination[:] = raw
+                finally:
+                    raw = None
+            self._check_context()
+            yield payload.data
+
     def _save(self, directory, db, *, restore=None, authorize_writer=False):
         self._check_context()
-        data = db.serialize()
-        if len(data) > MAX_BYTES:
-            raise StorageError('database size limit exceeded')
         budget = getattr(self._context, 'resource_budget', None)
         if budget is None:
+            data = db.serialize()
+            if len(data) > MAX_BYTES:
+                raise StorageError('database size limit exceeded')
             data = seal(data, self._security)
             self._publish(directory, data, restore=restore, authorize_writer=authorize_writer)
         else:
-            with seal_payload(data, self._security, budget) as ciphertext:
-                self._publish(directory, ciphertext, restore=restore,
-                              authorize_writer=authorize_writer)
+            data = ciphertext = None
+            try:
+                with self._serialized_payload(db, budget) as data:
+                    with seal_payload(data, self._security, budget) as ciphertext:
+                        self._publish(directory, ciphertext, restore=restore,
+                                      authorize_writer=authorize_writer)
+            finally:
+                data = ciphertext = None
 
     def _publish(self, directory, data, *, restore=None, authorize_writer=False):
         self._check_context()

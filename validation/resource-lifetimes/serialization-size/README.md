@@ -35,3 +35,21 @@ query allocations, deserialization storage or cryptographic internal scratch.
 No runtime behavior has changed in this evidence commit. Required regression
 coverage includes rejection before serialization, copy overlap, publication
 failure, cancellation, retained aliases and output format compatibility.
+
+VM storage now validates main image size and reserves one owned destination plus
+two temporary image capacities before serialize. The raw result is cleared before
+temporary reservation release, and a writable memoryview copies into the owned
+buffer without bytearray slice conversion. This avoids the extra conversion in
+pinned CPython Objects/bytearrayobject.c, bytearray_ass_subscript_lock_held.
+The owned image remains charged through encryption/publication and retained aliases.
+Non-VM operator calls retain their existing behavior. No bound on SQLite internal
+allocation or its retained deserialization buffer is claimed.
+
+The final runtime fingerprint is
+2aeb713185c91d08cbcd041bdbfedb81a94ec10384589a1e7d8b0c9087a7166f.
+The 100-test storage selection passes on both pinned runtimes. Added tests cover
+rejection before serialize, exact output/three-image peak, retained output aliases,
+and cancellation after copying with a retained traceback. The existing encrypted
+publication failure test now expects the simultaneous plaintext image charge.
+Full language and packaging qualification, additional fault injection and updated
+deadline evidence remain pending; this change does not complete issue #5.

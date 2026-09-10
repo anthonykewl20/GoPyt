@@ -1,4 +1,5 @@
 import os
+import sqlite3
 import tempfile
 import unittest
 from unittest.mock import patch
@@ -73,3 +74,57 @@ class SnapshotPayload(unittest.TestCase):
             # when the bounded reader aborts after consuming bytes.
             os.fstat(stream.fileno())
         self.assertIsNotNone(failure.__traceback__)
+
+
+class SerializedPayload(unittest.TestCase):
+    def database(self):
+        db = sqlite3.connect(':memory:')
+        self.addCleanup(db.close)
+        db.execute('CREATE TABLE kv (key TEXT PRIMARY KEY, value TEXT NOT NULL) WITHOUT ROWID')
+        db.execute("INSERT INTO kv VALUES ('key', 'value')")
+        db.commit()
+        return db
+
+    def test_admission_precedes_serialize(self):
+        from unittest.mock import Mock
+        db = self.database()
+        wrapped = Mock(wraps=db)
+        size = len(db.serialize())
+        context = Context(3 * size - 1)
+        with self.assertRaises(ResourceLimitError):
+            with Store(context=context)._serialized_payload(wrapped, context.resource_budget):
+                self.fail('serialization admitted')
+        wrapped.serialize.assert_not_called()
+        self.assertEqual(context.resource_budget.snapshot()['active_reservations'], 0)
+
+    def test_image_compatibility_peak_and_retained_alias(self):
+        db = self.database()
+        expected = db.serialize()
+        context = Context(3 * len(expected))
+        with Store(context=context)._serialized_payload(db, context.resource_budget) as data:
+            self.assertEqual(data, expected)
+            self.assertEqual(context.resource_budget.snapshot()['used']['native_bytes'], len(expected))
+        self.assertEqual(context.resource_budget.snapshot()['peak']['native_bytes'], 3 * len(expected))
+        self.assertEqual(context.resource_budget.snapshot()['used']['native_bytes'], len(expected))
+        del data
+        self.assertEqual(context.resource_budget.snapshot()['active_reservations'], 0)
+
+    def test_cancellation_after_copy_releases_with_traceback_retained(self):
+        class Cancelled(Exception):
+            pass
+        class CancellingContext(Context):
+            calls = 0
+            def check_cancelled(self):
+                self.calls += 1
+                if self.calls == 2:
+                    raise Cancelled()
+        db = self.database()
+        context = CancellingContext(3 * len(db.serialize()))
+        failure = None
+        try:
+            with Store(context=context)._serialized_payload(db, context.resource_budget):
+                self.fail('cancelled payload published')
+        except Cancelled as exc:
+            failure = exc
+        self.assertIsNotNone(failure)
+        self.assertEqual(context.resource_budget.snapshot()['active_reservations'], 0)

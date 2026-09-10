@@ -97,26 +97,35 @@ class CipherDestinations(unittest.TestCase):
         from gopyt.security_config import OVERHEAD, unseal
         from gopyt.storage import Store
         class Context:
-            resource_budget = ResourceBudget(ResourceLimits(1000, 0, 0, 0))
+            resource_budget = ResourceBudget(ResourceLimits(10000, 0, 0, 0))
             def check_cancelled(self):
                 pass
+        class Cursor:
+            def __init__(self, value):
+                self.value = value
+            def fetchone(self):
+                return (self.value,)
+            def close(self):
+                pass
         class Database:
-            def serialize(self):
-                return b'secret'
+            def execute(self, sql):
+                return Cursor(1 if sql.endswith('page_count') else 512)
+            def serialize(self, *, name):
+                return b'secret'.ljust(512, b'\0')
         context = Context()
         store = Store(context=context)
         cipher = AESGCMSIV(bytes(32))
         store._security = (_KeyringCipher({'key': cipher}, 'key', 'writer'), b'aad', b'id')
         retained = []
         def publish(directory, data, **kwargs):
-            self.assertEqual(unseal(data, store._security), b'secret')
-            self.assertEqual(context.resource_budget.snapshot()['used']['native_bytes'], 6 + OVERHEAD)
+            self.assertEqual(unseal(data, store._security), b'secret'.ljust(512, b'\0'))
+            self.assertEqual(context.resource_budget.snapshot()['used']['native_bytes'], 1024 + OVERHEAD)
             retained.append(data)
             raise OSError('publication failed')
         store._publish = publish
         with self.assertRaises(OSError):
             store._save(None, Database())
-        self.assertEqual(retained[0], bytes(6 + OVERHEAD))
-        self.assertEqual(context.resource_budget.snapshot()['used']['native_bytes'], 6 + OVERHEAD)
+        self.assertEqual(retained[0], bytes(512 + OVERHEAD))
+        self.assertEqual(context.resource_budget.snapshot()['used']['native_bytes'], 512 + OVERHEAD)
         retained.clear()
         self.assertEqual(context.resource_budget.snapshot()['active_reservations'], 0)
