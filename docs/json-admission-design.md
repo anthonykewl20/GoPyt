@@ -52,3 +52,14 @@ the end offset and integer/Decimal classification, and checks cancellation every
 string/number tests pass on both runtimes, with offsets compared to JSONDecoder
 and long-scan cancellation retaining a traceback whose input reference is cleared.
 Numeric object allocation and parser integration remain unimplemented.
+
+Numeric ownership probe: integer and Decimal subclasses can retain an owner
+attribute, preserve equality/hash and finalize only after the last alias on both
+pinned runtimes. Cases include a large integer, 1.25 and Decimal 1e1000000; this
+does not establish allocation bounds. Matching CPython 3.11 source shows Decimal
+Unicode construction allocating numeric_as_ascii scratch, constructing the decimal
+and only then freeing scratch. Integer conversion transforms Unicode digits before
+PyLong_FromString; decimal-base parsing and subclass copying need separate review.
+Numeric admission must cover these overlaps before invoking constructors, preserve
+the runtime integer-digit limit and Decimal exponent semantics, and discard errors
+inside the temporary reservation. No numeric producer is integrated yet.
