@@ -1,0 +1,32 @@
+[
+  {
+    "fresh_process": "rejected",
+    "stdout": "",
+    "stderr": ""
+  },
+  {
+    "fresh_process": "restored",
+    "stdout": "",
+    "stderr": ""
+  },
+  {
+    "fresh_process": "restored",
+    "stdout": "",
+    "stderr": ""
+  },
+  {
+    "fresh_process": "restored",
+    "stdout": "",
+    "stderr": ""
+  },
+  {
+    "fresh_process": "rejected",
+    "stdout": "",
+    "stderr": ""
+  },
+  {
+    "fresh_process": "restored",
+    "stdout": "",
+    "stderr": ""
+  }
+]

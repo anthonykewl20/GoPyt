@@ -41,3 +41,5 @@ Opt-in [trusted snapshot generations](docs/storage-rollback-amendment-2026-09-10
 Configured HTTP service credentials support [live atomic rotation](docs/http-credential-rotation-amendment-2026-09-10.md). Each request reads the pinned private token file; unavailable or invalid files fail closed. Already admitted requests may finish, so rotation is not retroactive cancellation.
 
 Initial plaintext stores support [explicit recoverable migration](docs/plaintext-storage-migration-amendment-2026-09-10.md). Quiesce writers, pin the source digest and commit a private encrypted recovery copy before active replacement. Ordinary encrypted reads never fall back to plaintext. Enroll trusted writer authority after migration; key custody and backup retention remain operator responsibilities.
+
+The [key lifecycle runbook](docs/key-lifecycle.md) defines private-file provisioning, custody ownership, rotation/revocation, reference backup retention and lost-key recovery. Its executable drill verifies the runtime workflow in isolated temporary locations; deployments must separately verify their chosen external custody system.

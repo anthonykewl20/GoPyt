@@ -52,3 +52,7 @@ The [writer-key fencing amendment](storage-writer-fence-amendment-2026-09-10.md)
 ## Initial plaintext migration
 
 Use the [explicit migration operation](plaintext-storage-migration-amendment-2026-09-10.md) for initial plaintext-to-SIV1 conversion. Rekey remains authenticated maintenance. Migration requires quiesced writers and a verified encrypted recovery copy before active replacement; enroll writer authority after the initial transition.
+
+Provisioning, escrow, revocation, backup expiry and lost-key decisions follow the
+[key lifecycle runbook](key-lifecycle.md). Verify recovery before retiring any key
+needed by retained ciphertext.

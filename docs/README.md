@@ -137,3 +137,5 @@ fixed and configured capacities, overload policies and remaining issue #13 cover
 [Storage writer-key fencing](storage-writer-fence-amendment-2026-09-10.md) specifies authority version 2, explicit generation-checked key transitions and rejection of stale active-key writers under issue #11.
 
 - [Plaintext storage migration](plaintext-storage-migration-amendment-2026-09-10.md): explicit digest-checked initial encryption with a durable encrypted recovery copy.
+
+- [Key and credential lifecycle](key-lifecycle.md): provisioning, custody, rotation/revocation, retention, retirement and lost-key recovery procedures with executable drills.

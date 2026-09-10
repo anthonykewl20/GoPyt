@@ -1,0 +1,1 @@
+{"status": "passed", "missing_live_key_cached_and_fresh_rejected": true, "escrow_recovery_fresh_process": true, "old_backup_republished_under_current_key": true, "current_key_only_fresh_process": true, "missing_current_key_rejected": true, "independent_restored_rows": 3, "scope": "Isolated same-host custody simulation; not external escrow, power-loss or security certification."}
