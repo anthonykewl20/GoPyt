@@ -27,15 +27,59 @@ not independently verified completeness or licensing conclusions. Counts can
 change only with reviewed input updates; downstream tooling should use identities
 and preserved documents rather than hard-coded counts.
 
-## Remaining inventory scope
+## Consolidated release component inventory
 
-Publisher metadata can be incomplete. Native code in cffi and cryptography needs
-its relevant build/SBOM provenance and license review for each platform. CPython
-and its native libraries, the hosted bootstrap, bundled action JavaScript/Node
-components, and repository source adaptations require their own records. The
-hosted-CI trust boundary remains explicit. This report is not an assertion that
-all code on a runner is enumerated, a vulnerability scan, or an independent audit.
+`tools/release_components.py` derives one inventory across every class of input
+and writes it to `validation/component-review/release-components.json`. Every
+identity is read back from a pinned or retained file, never transcribed, so the
+inventory cannot drift from what it describes: 5
+hash-pinned Python distributions from `requirements/`,
+6 checksum-pinned interpreter archives from
+`requirements/python-standalone.json`, 4 immutable action
+commits read out of the workflows, 70 vendored,
+bundled and publisher-SBOM components of the installed distributions, and
+54 inputs the interpreter publisher declares.
+The derived set carries a digest; `gopyt/test_component_inventory.py` fails when
+the inputs and the retained inventory disagree.
 
-This increment advances #23; the complete inventory criterion remains open.
+Publisher records can be incomplete, and that is recorded rather than smoothed
+over. Two components declare no license: `openssl` 4.0.2 inside the cryptography
+wheel, and `sqlite` in the interpreter publisher record, which declares linkable
+library names but no license field. Both are retained in
+`validation/component-review/unresolved-components.json` with their exact source
+URL and SHA-256 and the resolution each still needs. Any newly undeclared license
+fails the check rather than passing silently. No license is inferred from a
+project name.
+
+Which publisher-declared input was actually linked into a selected archive is not
+determinable from publisher data, and every such entry says so. Entries that
+declare linkable library names are marked as libraries; the rest are build
+tooling that is not linked into a release artifact.
+
+## Repository-wide adaptation and license inventory
+
+`tools/adaptation_inventory.py` scans every tracked file for external repository
+references and requires each one to be classified in
+`validation/component-review/adaptations.json`. A reference that is not
+classified fails, and a classification whose reference has disappeared fails too.
+The current inventory covers 54 external repositories:
+25 build inputs,
+11 interpreter inputs,
+10 infrastructure references,
+4 behavioral references,
+3 conceptual prior art, and
+1 adaptation. Exactly
+1 entry records adopted code: the seal-before-sharing
+pattern in the mapped-data research prototype, pinned to its donor revision with
+its Unlicense record. Adopted code without a pinned revision or a license record
+fails the check.
+
+9 entries are explicitly unresolved, each naming the
+resolution it needs: unpinned prior-art citations and publisher inputs whose
+license the publisher does not declare. A text scan cannot prove the absence of
+unattributed source; this is an inventory of what is referenced and how it was
+used, not a license audit, a vulnerability scan or an independent audit. The
+hosted-CI trust boundary remains explicit, and this is not an assertion that all
+code on a runner is enumerated.
 
 All workflows force-reinstall the hash-pinned build/security wheels, including already-present versions. The standalone archive includes a portable pip launcher whose bytes differ from its packaged RECORD. An ordinary same-version install leaves that launcher untouched. The initial inventory CI rejected it on all four platform/version combinations; reinstalling the approved wheel regenerates consistent entry points and RECORD metadata. The verifier remains strict; the bootstrap mismatch and failed CI are retained under validation/component-inventory.

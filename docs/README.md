@@ -103,7 +103,7 @@ defines current build pins, reproduction checks and remaining release gates.
 
 Release provenance: [workflow, verification and withdrawal policy](release-provenance.md). Signed end-to-end qualification and complete component/adaptation inventory remain open under #23.
 
-[Installed release component inventory](component-inventory.md) retains bundled metadata and its current coverage limits under #23.
+[Installed release component inventory](component-inventory.md) now covers the consolidated release components derived from every pinned input and the repository-wide adaptation and license inventory, with undeclared licenses and unpinned references retained explicitly under #23.
 
 [Finite binary64 amendment](finite-f64-amendment-2026-09-10.md) defines literal
 rounding, overflow and nonfinite rejection at bytecode and VM boundaries.
