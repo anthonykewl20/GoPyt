@@ -1,0 +1,235 @@
+test_all_operations_and_opaque_union_dispatch (gopyt.test_resource_vm.CompiledResources.test_all_operations_and_opaque_union_dispatch) ... ok
+test_busy_vm_close_leaves_admitted_call_running (gopyt.test_resource_vm.CompiledResources.test_busy_vm_close_leaves_admitted_call_running) ... FAIL
+test_compiled_mapping_returns_checked_immutable_owner (gopyt.test_resource_vm.CompiledResources.test_compiled_mapping_returns_checked_immutable_owner) ... ERROR
+test_compiled_nested_union_match_dispatches_buffer_and_view (gopyt.test_resource_vm.CompiledResources.test_compiled_nested_union_match_dispatches_buffer_and_view) ... ERROR
+test_exhaustion_bounds_and_foreign_heap_reject (gopyt.test_resource_vm.CompiledResources.test_exhaustion_bounds_and_foreign_heap_reject) ... ok
+test_explicit_vm_close_invalidates_pinned_resources (gopyt.test_resource_vm.CompiledResources.test_explicit_vm_close_invalidates_pinned_resources) ... ok
+test_loader_rejects_forged_resource_types_and_effects (gopyt.test_resource_vm.CompiledResources.test_loader_rejects_forged_resource_types_and_effects) ... ok
+test_mapping_constructor_failed_cleanup_is_retained_by_native (gopyt.test_resource_vm.CompiledResources.test_mapping_constructor_failed_cleanup_is_retained_by_native) ... ok
+test_heap (unittest.loader._FailedTest.test_heap) ... ERROR
+test_a_caller_holds_the_trait_effects_not_the_provide_effects (gopyt.test_vm.EffectHygiene.test_a_caller_holds_the_trait_effects_not_the_provide_effects)
+S26: the trait signature is the caller contract. ... charge
+ok
+test_a_caller_missing_a_trait_effect_is_e050 (gopyt.test_vm.EffectHygiene.test_a_caller_missing_a_trait_effect_is_e050) ... ok
+test_a_task_that_only_calls_a_pure_fn_needs_no_effect_but_must_have_one (gopyt.test_vm.EffectHygiene.test_a_task_that_only_calls_a_pure_fn_needs_no_effect_but_must_have_one)
+S9: a declaration with an empty effect set is a fn, so this is E051. ... ok
+test_an_effect_used_only_in_a_match_arm_counts (gopyt.test_vm.EffectHygiene.test_an_effect_used_only_in_a_match_arm_counts) ... ok
+test_an_effect_used_only_inside_a_parallel_arm_counts (gopyt.test_vm.EffectHygiene.test_an_effect_used_only_inside_a_parallel_arm_counts) ... ok
+test_empty_effects_clause_is_e050 (gopyt.test_vm.EffectHygiene.test_empty_effects_clause_is_e050) ... ok
+test_parallel_without_time_is_effect_missing (gopyt.test_vm.EffectHygiene.test_parallel_without_time_is_effect_missing) ... ok
+test_a_repeated_arm_is_e070 (gopyt.test_vm.Exhaustiveness.test_a_repeated_arm_is_e070) ... ok
+test_all_members_named_once_is_accepted (gopyt.test_vm.Exhaustiveness.test_all_members_named_once_is_accepted) ... ok
+test_an_arm_outside_the_union_is_e070 (gopyt.test_vm.Exhaustiveness.test_an_arm_outside_the_union_is_e070) ... ok
+test_matching_a_plain_record_is_e070 (gopyt.test_vm.Exhaustiveness.test_matching_a_plain_record_is_e070) ... ok
+test_optional_needs_both_arms (gopyt.test_vm.Exhaustiveness.test_optional_needs_both_arms) ... ok
+test_generic_body_may_use_its_own_type_variable (gopyt.test_vm.GenericBodies.test_generic_body_may_use_its_own_type_variable) ... ok
+test_identity_is_accepted (gopyt.test_vm.GenericBodies.test_identity_is_accepted) ... ok
+test_missing_return_in_an_uncalled_generic_is_reported (gopyt.test_vm.GenericBodies.test_missing_return_in_an_uncalled_generic_is_reported) ... ok
+test_type_error_in_an_uncalled_generic_is_reported (gopyt.test_vm.GenericBodies.test_type_error_in_an_uncalled_generic_is_reported) ... ok
+test_uncalled_generic_emits_no_function (gopyt.test_vm.GenericBodies.test_uncalled_generic_emits_no_function) ... ok
+test_unresolved_in_an_uncalled_generic_is_reported (gopyt.test_vm.GenericBodies.test_unresolved_in_an_uncalled_generic_is_reported) ... ok
+test_a_generic_record_is_monomorphized (gopyt.test_vm.Generics.test_a_generic_record_is_monomorphized) ... ok
+test_a_generic_trait_binds_its_parameters (gopyt.test_vm.Generics.test_a_generic_trait_binds_its_parameters) ... cell
+ok
+test_mutually_recursive_tasks (gopyt.test_vm.Generics.test_mutually_recursive_tasks) ... e
+o
+e
+o
+e
+o
+e
+ok
+test_one_function_record_per_type_argument_vector (gopyt.test_vm.Generics.test_one_function_record_per_type_argument_vector) ... ok
+test_trait_task_dispatch_and_two_traits_sharing_a_member_name (gopyt.test_vm.Generics.test_trait_task_dispatch_and_two_traits_sharing_a_member_name)
+S23/S26: static dispatch, and `Named.label` vs `Gateway.label`. ... charging
+ok
+test_wrong_trait_argument_count_is_e029 (gopyt.test_vm.Generics.test_wrong_trait_argument_count_is_e029) ... ok
+test_denied_burst_sets_cusum_alarm (gopyt.test_vm.Hardening.test_denied_burst_sets_cusum_alarm) ... ok
+test_a_negative_sleep_traps (gopyt.test_vm.HostServices.test_a_negative_sleep_traps) ... ok
+test_file_write_then_read_round_trips_inside_the_package (gopyt.test_vm.HostServices.test_file_write_then_read_round_trips_inside_the_package) ... ok
+test_random_respects_its_bounds (gopyt.test_vm.HostServices.test_random_respects_its_bounds) ... ok
+test_random_with_min_above_max_traps (gopyt.test_vm.HostServices.test_random_with_min_above_max_traps) ... ok
+test_reading_a_missing_file_is_not_found (gopyt.test_vm.HostServices.test_reading_a_missing_file_is_not_found) ... ok
+test_time_moves_forward (gopyt.test_vm.HostServices.test_time_moves_forward) ... ok
+test_a_second_serve_is_listen_error (gopyt.test_vm.HttpEdges.test_a_second_serve_is_listen_error) ... ok
+test_get_ignores_a_request_body (gopyt.test_vm.HttpEdges.test_get_ignores_a_request_body) ... echo
+ok
+test_post_with_a_wrong_content_type_is_400_empty (gopyt.test_vm.HttpEdges.test_post_with_a_wrong_content_type_is_400_empty) ... ok
+test_post_with_an_extra_json_key_is_400_empty (gopyt.test_vm.HttpEdges.test_post_with_an_extra_json_key_is_400_empty) ... ok
+test_routes_carry_their_parameter_names (gopyt.test_vm.HttpEdges.test_routes_carry_their_parameter_names)
+The artifact alone is enough to bind by name (bytecode.md). ... ok
+test_unknown_route_is_404_empty (gopyt.test_vm.HttpEdges.test_unknown_route_is_404_empty) ... ok
+test_wrong_method_on_a_known_path_is_404 (gopyt.test_vm.HttpEdges.test_wrong_method_on_a_known_path_is_404) ... ok
+test_a_convertible_placeholder_reaches_the_handler (gopyt.test_vm.HttpFromStr.test_a_convertible_placeholder_reaches_the_handler) ... user
+ok
+test_a_unit_handler_answers_200_with_an_empty_body (gopyt.test_vm.HttpFromStr.test_a_unit_handler_answers_200_with_an_empty_body) ... ping
+ok
+test_an_unconvertible_placeholder_is_400_empty (gopyt.test_vm.HttpFromStr.test_an_unconvertible_placeholder_is_400_empty) ... ok
+test_post_route_round_trip (gopyt.test_vm.HttpServer.test_post_route_round_trip) ... charge
+ok
+test_a_frame_must_be_empty_after_return (gopyt.test_vm.Loader.test_a_frame_must_be_empty_after_return)
+Anything left on the stack at RETURN is a lowering bug. ... ok
+test_a_native_must_match_the_shipped_declaration (gopyt.test_vm.Loader.test_a_native_must_match_the_shipped_declaration)
+bytecode.md: arity, parameter types, return type, and effects. ... ok
+test_bad_magic (gopyt.test_vm.Loader.test_bad_magic) ... ok
+test_fn_may_not_carry_effects (gopyt.test_vm.Loader.test_fn_may_not_carry_effects) ... ok
+test_round_trip (gopyt.test_vm.Loader.test_round_trip) ... ok
+test_stack_height_must_agree_at_a_join (gopyt.test_vm.Loader.test_stack_height_must_agree_at_a_join) ... ok
+test_stack_must_be_empty_at_end (gopyt.test_vm.Loader.test_stack_must_be_empty_at_end) ... ok
+test_unknown_opcode (gopyt.test_vm.Loader.test_unknown_opcode) ... ok
+test_a_workflow_runs_like_a_task (gopyt.test_vm.MoreStdlib.test_a_workflow_runs_like_a_task) ... wire
+ok
+test_allocation_limit_traps (gopyt.test_vm.MoreStdlib.test_allocation_limit_traps) ... alloc
+ok
+test_assert_eq_on_f64_is_e099 (gopyt.test_vm.MoreStdlib.test_assert_eq_on_f64_is_e099) ... ok
+test_model_with_an_unlisted_origin_never_leaves_the_process (gopyt.test_vm.MoreStdlib.test_model_with_an_unlisted_origin_never_leaves_the_process) ... ok
+test_model_without_a_url_is_model_error (gopyt.test_vm.MoreStdlib.test_model_without_a_url_is_model_error) ... ok
+test_request_with_userinfo_is_refused (gopyt.test_vm.MoreStdlib.test_request_with_userinfo_is_refused) ... ok
+test_cusum_alarms_on_a_planted_shift (gopyt.test_vm.ObservePort.test_cusum_alarms_on_a_planted_shift) ... ok
+test_memory_is_fixed (gopyt.test_vm.ObservePort.test_memory_is_fixed) ... ok
+test_reservoir_is_bounded (gopyt.test_vm.ObservePort.test_reservoir_is_bounded) ... ok
+test_a_trapping_arm_does_not_stop_a_neighbouring_parallel (gopyt.test_vm.ParallelCancellation.test_a_trapping_arm_does_not_stop_a_neighbouring_parallel)
+Two parallels run on different threads; only the bad one traps. ... ok
+test_observe_holds_its_bound_under_threads (gopyt.test_vm.ParallelCancellation.test_observe_holds_its_bound_under_threads)
+P0's reservoir bound must survive concurrent arms. ... ok
+test_results_keep_source_order_regardless_of_finish_order (gopyt.test_vm.ParallelCancellation.test_results_keep_source_order_regardless_of_finish_order) ... ok
+test_a_package_using_every_callable_kind (gopyt.test_vm.ProgramMatchesArtifact.test_a_package_using_every_callable_kind) ... 1
+1
+ok
+test_the_auth_example (gopyt.test_vm.ProgramMatchesArtifact.test_the_auth_example) ... ok
+test_a_test_stores_its_inferred_effects_in_the_artifact (gopyt.test_vm.Runtime.test_a_test_stores_its_inferred_effects_in_the_artifact)
+C031 / S9: preserve application effects; stdlib ffi does not propagate. ... ok
+test_a_trap_is_one_observe_event_not_one_per_frame (gopyt.test_vm.Runtime.test_a_trap_is_one_observe_event_not_one_per_frame) ... ok
+test_an_arm_captures_a_match_binding (gopyt.test_vm.Runtime.test_an_arm_captures_a_match_binding) ... ok
+test_an_early_return_from_a_loop (gopyt.test_vm.Runtime.test_an_early_return_from_a_loop) ... found
+ok
+test_artifact_is_reproducible (gopyt.test_vm.Runtime.test_artifact_is_reproducible)
+RP-002: same sources and toolchain, same bytes. ... ok
+test_assert_eq_mismatch_is_trap_13 (gopyt.test_vm.Runtime.test_assert_eq_mismatch_is_trap_13) ... ok
+test_call_depth_traps (gopyt.test_vm.Runtime.test_call_depth_traps) ... go
+ok
+test_egress_denied_at_runtime (gopyt.test_vm.Runtime.test_egress_denied_at_runtime) ... ok
+test_ensures_traps (gopyt.test_vm.Runtime.test_ensures_traps) ... go
+ok
+test_for_loop_rebinds_its_slots (gopyt.test_vm.Runtime.test_for_loop_rebinds_its_slots) ... 0
+1
+2
+3
+ok
+test_limit_throttles (gopyt.test_vm.Runtime.test_limit_throttles) ... ok
+test_list_get_negative_index_traps (gopyt.test_vm.Runtime.test_list_get_negative_index_traps) ... go
+ok
+test_nested_parallel_captures_through_an_arm (gopyt.test_vm.Runtime.test_nested_parallel_captures_through_an_arm) ... ok
+test_observe_report_counts_traps (gopyt.test_vm.Runtime.test_observe_report_counts_traps) ... ok
+test_overflow_traps (gopyt.test_vm.Runtime.test_overflow_traps) ... go
+ok
+test_parallel_arm_trap_fails_parent (gopyt.test_vm.Runtime.test_parallel_arm_trap_fails_parent) ... ok
+test_parallel_captures_outer_locals (gopyt.test_vm.Runtime.test_parallel_captures_outer_locals) ... ok
+test_parallel_timeout_traps (gopyt.test_vm.Runtime.test_parallel_timeout_traps) ... ok
+test_requires_traps (gopyt.test_vm.Runtime.test_requires_traps) ... go
+ok
+test_store_db_from_an_app_task (gopyt.test_vm.Runtime.test_store_db_from_an_app_task)
+S9 (amended): stdlib `ffi` does not propagate; scalar arms match. ... ok
+test_store_db_round_trip (gopyt.test_vm.Runtime.test_store_db_round_trip) ... ok
+test_missing_lock_is_e041_with_full_repair (gopyt.test_vm.Security.test_missing_lock_is_e041_with_full_repair)
+docs/lockfile.md: missing lock -> E041; the repair is the whole lock. ... ok
+test_secret_never_json (gopyt.test_vm.Security.test_secret_never_json) ... ok
+test_truncated_artifact_is_rejected (gopyt.test_vm.Security.test_truncated_artifact_is_rejected) ... ok
+test_wrong_literal_origin_fails_check (gopyt.test_vm.Security.test_wrong_literal_origin_fails_check) ... ok
+test_and_short_circuits (gopyt.test_vm.Semantics.test_and_short_circuits) ... and
+ok
+test_arguments_evaluate_left_to_right (gopyt.test_vm.Semantics.test_arguments_evaluate_left_to_right)
+The left argument's trap wins, so evaluation order is observable. ... order
+ok
+test_contracts_run_in_declaration_order (gopyt.test_vm.Semantics.test_contracts_run_in_declaration_order)
+The first false clause traps; a later clause never runs. ... contract
+ok
+test_division_truncates_toward_zero (gopyt.test_vm.Semantics.test_division_truncates_toward_zero) ... div
+ok
+test_enum_without_a_payload_encodes_as_an_empty_object (gopyt.test_vm.Semantics.test_enum_without_a_payload_encodes_as_an_empty_object) ... enum
+ok
+test_int_conversion_range_is_checked (gopyt.test_vm.Semantics.test_int_conversion_range_is_checked) ... int
+ok
+test_json_decode_rejects_duplicate_keys (gopyt.test_vm.Semantics.test_json_decode_rejects_duplicate_keys) ... ok
+test_json_decode_rejects_trailing_input (gopyt.test_vm.Semantics.test_json_decode_rejects_trailing_input) ... ok
+test_optional_encodes_as_null (gopyt.test_vm.Semantics.test_optional_encodes_as_null) ... opt
+ok
+test_or_short_circuits (gopyt.test_vm.Semantics.test_or_short_circuits) ... or
+ok
+test_range_is_end_exclusive_and_may_be_empty (gopyt.test_vm.Semantics.test_range_is_end_exclusive_and_may_be_empty) ... range
+ok
+test_remainder_takes_the_sign_of_the_dividend (gopyt.test_vm.Semantics.test_remainder_takes_the_sign_of_the_dividend) ... mod
+ok
+test_slice_past_the_end_is_convert_error (gopyt.test_vm.Semantics.test_slice_past_the_end_is_convert_error) ... slice
+ok
+test_str_len_counts_scalars_and_bytes_len_counts_bytes (gopyt.test_vm.Semantics.test_str_len_counts_scalars_and_bytes_len_counts_bytes) ... len
+ok
+test_canonical_json_of_a_nested_value (gopyt.test_vm.Shapes.test_canonical_json_of_a_nested_value) ... encode
+ok
+test_check_is_clean (gopyt.test_vm.Shapes.test_check_is_clean) ... ok
+test_decode_reaches_the_record (gopyt.test_vm.Shapes.test_decode_reaches_the_record) ... encode
+decode
+ok
+test_structural_equality_over_the_whole_shape (gopyt.test_vm.Shapes.test_structural_equality_over_the_whole_shape) ... ok
+test_a_missing_map_key_is_none (gopyt.test_vm.StdlibEdges.test_a_missing_map_key_is_none) ... get
+ok
+test_absolute_and_empty_segments_are_io_error (gopyt.test_vm.StdlibEdges.test_absolute_and_empty_segments_are_io_error) ... ok
+test_bool_keys_sort_false_then_true (gopyt.test_vm.StdlibEdges.test_bool_keys_sort_false_then_true) ... bools
+ok
+test_dot_dot_path_is_io_error (gopyt.test_vm.StdlibEdges.test_dot_dot_path_is_io_error) ... ok
+test_empty_collections_encode (gopyt.test_vm.StdlibEdges.test_empty_collections_encode) ... empty
+ok
+test_map_key_must_be_closed (gopyt.test_vm.StdlibEdges.test_map_key_must_be_closed) ... ok
+test_map_keys_sort_by_kind (gopyt.test_vm.StdlibEdges.test_map_keys_sort_by_kind)
+implementer.md 5: bool false then true, i64 ascending. ... keys
+ok
+test_map_round_trip_and_sorted_keys (gopyt.test_vm.StdlibEdges.test_map_round_trip_and_sorted_keys) ... map
+ok
+test_reveal_declassifies_and_is_visible_in_effects (gopyt.test_vm.StdlibEdges.test_reveal_declassifies_and_is_visible_in_effects) ... ok
+test_secret_is_not_accepted_by_concat (gopyt.test_vm.StdlibEdges.test_secret_is_not_accepted_by_concat) ... ok
+
+======================================================================
+ERROR: test_compiled_mapping_returns_checked_immutable_owner (gopyt.test_resource_vm.CompiledResources.test_compiled_mapping_returns_checked_immutable_owner)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/tmp/gopyt-buffer-copy-admission/gopyt/test_resource_vm.py", line 45, in test_compiled_mapping_returns_checked_immutable_owner
+    with VM(self.art, resource_budget=budget) as vm:
+         ~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/tmp/gopyt-buffer-copy-admission/gopyt/vm.py", line 280, in __exit__
+    raise ResourceCleanupError(self)
+gopyt.vm.ResourceCleanupError: VM resource cleanup incomplete
+
+======================================================================
+ERROR: test_compiled_nested_union_match_dispatches_buffer_and_view (gopyt.test_resource_vm.CompiledResources.test_compiled_nested_union_match_dispatches_buffer_and_view)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/tmp/gopyt-buffer-copy-admission/gopyt/test_resource_vm.py", line 201, in test_compiled_nested_union_match_dispatches_buffer_and_view
+    with VM(art,root,resource_budget=self.budget) as vm:
+         ~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/tmp/gopyt-buffer-copy-admission/gopyt/vm.py", line 280, in __exit__
+    raise ResourceCleanupError(self)
+gopyt.vm.ResourceCleanupError: VM resource cleanup incomplete
+
+======================================================================
+ERROR: test_heap (unittest.loader._FailedTest.test_heap)
+----------------------------------------------------------------------
+ImportError: Failed to import test module: test_heap
+Traceback (most recent call last):
+  File "/home/soultransit/.local/share/uv/python/cpython-3.14.7-linux-x86_64-gnu/lib/python3.14/unittest/loader.py", line 141, in loadTestsFromName
+    module = __import__(module_name)
+ModuleNotFoundError: No module named 'gopyt.test_heap'
+
+
+======================================================================
+FAIL: test_busy_vm_close_leaves_admitted_call_running (gopyt.test_resource_vm.CompiledResources.test_busy_vm_close_leaves_admitted_call_running)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/tmp/gopyt-buffer-copy-admission/gopyt/test_resource_vm.py", line 153, in test_busy_vm_close_leaves_admitted_call_running
+    self.assertTrue(self.vm.close())
+    ~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^
+AssertionError: False is not true
+
+----------------------------------------------------------------------
+Ran 126 tests in 4.753s
+
+FAILED (failures=1, errors=3)

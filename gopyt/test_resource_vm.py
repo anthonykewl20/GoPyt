@@ -105,6 +105,7 @@ class CompiledResources(unittest.TestCase):
                     self.assertIs(self.call('close',owner),UNIT)
                     self.assertIsInstance(self.call('read_view',child,0,1),Record)
                     self.assertIs(self.call('close_view',child),UNIT)
+        self.vm.heap.collect()
         self.assertEqual(self.budget.snapshot()['active_reservations'],0)
 
     def test_exhaustion_bounds_and_foreign_heap_reject(self):
@@ -118,6 +119,7 @@ class CompiledResources(unittest.TestCase):
             self.assertNotIn(id(owner),foreign.heap.objects)
             self.assertEqual(self.call('read',owner,0,1),b'\0')
             self.call('close',owner)
+        self.vm.heap.collect()
         self.assertEqual(self.budget.snapshot()['active_reservations'],0)
 
     def test_explicit_vm_close_invalidates_pinned_resources(self):
@@ -130,6 +132,23 @@ class CompiledResources(unittest.TestCase):
                 self.assertEqual(self.budget.snapshot()['active_reservations'],0)
                 with self.assertRaises(RuntimeError):self.call('allocate',1)
         self.assertEqual(self.vm.heap.pending_resources(),0)
+
+    def test_close_preserves_owned_copy_alias_and_embedding_pin(self):
+        owner = self.call('allocate', 4)
+        with self.vm.heap.pin(owner):
+            self.call('write', owner, 0, b'abcd')
+            payload = self.call('read', owner, 0, 4)
+        container = [payload]
+        with self.vm.heap.pin(container):
+            self.assertTrue(self.vm.close())
+            self.assertEqual(container, [b'abcd'])
+            self.assertEqual(self.budget.snapshot()['used']['native_bytes'], 4)
+        self.assertTrue(self.vm.close())
+        self.assertEqual(container, [])
+        self.assertEqual(payload, b'abcd')
+        self.assertEqual(self.budget.snapshot()['used']['native_bytes'], 4)
+        del payload
+        self.assertEqual(self.budget.snapshot()['active_reservations'], 0)
 
     def test_busy_vm_close_leaves_admitted_call_running(self):
         import threading

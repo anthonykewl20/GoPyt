@@ -291,6 +291,8 @@ class VM:
             if self._active_calls:
                 return False
             self._closed = True
+        self.heap.release_all_results()
+        self.heap.collect()
         self.heap.close_resources()
         descriptors_closed = self.descriptors.close()
         return self.heap.pending_resources() == 0 and descriptors_closed
