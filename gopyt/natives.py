@@ -749,7 +749,11 @@ def _model_complete(vm, args, func):
                                       budget.remaining) as response_payload:
                         if len(response_payload.data) > MAX_BODY:
                             return _status(vm, "ModelError", "body too large")
-                        data = response_payload.data.decode("utf-8")
+                        from gopyt.resource_text import decode_utf8
+                        data = decode_utf8(response_payload.data, vm.resource_budget,
+                                           budget.remaining)
+                        if data is None:
+                            return _status(vm, "ModelError", "network")
                 budget.remaining()
             finally:
                 if request is not None:

@@ -71,3 +71,10 @@ are admitted before concatenation, with conservative alias-retained charges.
 The 24-test text/native selection passes on both runtimes; size measurements match
 the UTF-8 encoder and an instrumented input verifies no encode call for sizing.
 Model decoding, parser allocations and full language qualification remain pending.
+
+Model-response UTF-8 decoding now uses the shared owned decoder while its byte
+payload remains charged. Invalid UTF-8 preserves the previous ModelError network
+result. Decoder capacity and deadline checks precede conversion; retained decoded
+body aliases keep their charge. JSON parser allocations and the extracted response
+string are still separate gaps. The combined VM/text suite passes on both runtimes;
+this does not qualify parser accounting.
