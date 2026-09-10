@@ -278,3 +278,16 @@ connection, verifies reload rejection without handler execution, then releases
 capacity and verifies successful authentication. Shutdown leaves no descriptor
 owners or charges. This accounts explicit token-file descriptors, not TLS trust
 store internals or native allocation sizes.
+
+### Request-body admission
+
+The server reserves the declared body length against the VM native-byte ledger
+before reading request content, after the existing framing and size checks. Capacity
+rejection returns 503 and closes the connection without dispatch. The reservation
+covers synchronous routing and handler dispatch; the request frame clears its body
+reference and releases admission in finally. Zero-length requests reserve no bytes.
+A live-server test exhausts byte capacity, verifies 503, then releases capacity and
+verifies the same request succeeds. Existing malformed-body and cancellation tests
+exercise cleanup paths. This is body admission accounting, not complete accounting
+of parser buffers, decoded values, response serialization or traceback-retained
+copies; those overlapping representations still require separate treatment.

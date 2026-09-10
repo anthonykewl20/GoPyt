@@ -13,6 +13,27 @@ from gopyt.test_app_runtime import running_server
 
 
 class HttpRetention(unittest.TestCase):
+    def test_request_body_capacity_rejection_and_release(self):
+        with running_server(MAX_HANDLERS=1) as (vm, port):
+            state = vm.resource_budget.snapshot()
+            with vm.resource_budget.reserve(native_bytes=state['limits']['native_bytes']):
+                connection = http.client.HTTPConnection('127.0.0.1', port, timeout=2)
+                try:
+                    connection.request('GET', '/echo/abc', body=b'x')
+                    response = connection.getresponse()
+                    self.assertEqual((response.status, response.read()), (503, b''))
+                finally:
+                    connection.close()
+            connection = http.client.HTTPConnection('127.0.0.1', port, timeout=2)
+            try:
+                connection.request('GET', '/echo/abc', body=b'x')
+                response = connection.getresponse()
+                self.assertEqual(response.status, 200)
+                response.read()
+            finally:
+                connection.close()
+        self.assertEqual(vm.resource_budget.snapshot()['used']['native_bytes'], 0)
+
     def test_failed_bind_releases_listener_charge(self):
         from gopyt.resource_budget import ResourceBudget, ResourceLimits
         from gopyt.resource_descriptors import DescriptorRegistry

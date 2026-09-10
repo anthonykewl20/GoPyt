@@ -292,37 +292,49 @@ def serve(vm, module: str):
                 self.close_connection = True
                 self._empty(413)
                 return
-            body = self.rfile.read(length) if length else b""
-            if len(body) != length:
+            try:
+                reservation = vm.resource_budget.reserve(native_bytes=length)
+            except ResourceLimitError:
                 self.close_connection = True
-                self._empty(400)
+                self._empty(503)
                 return
-            self.connection.settimeout(REQUEST_TIMEOUT_SECONDS)
-            hit = None
-            for m, pattern, fn_id, meta in routes:
-                if m != method_num:
-                    continue
-                binds = _match(pattern, path)
-                if binds is not None:
-                    hit = (fn_id, meta, binds)
-                    self.route_tag = pattern
-                    break
-            if hit is None:
-                self._empty(404)
-                return
-            fn_id, (names, placeholders), binds = hit
-            if session is not None:
-                if (self.command, self.route_tag) not in session.routes:
-                    self._empty(403)
-                    return
-                if not session.authority.admits(()):
+            body = None
+            try:
+                body = self.rfile.read(length) if length else b""
+                if len(body) != length:
                     self.close_connection = True
-                    self._empty(401)
+                    self._empty(400)
                     return
-                with vm.request_scope(session):
+                self.connection.settimeout(REQUEST_TIMEOUT_SECONDS)
+                hit = None
+                for m, pattern, fn_id, meta in routes:
+                    if m != method_num:
+                        continue
+                    binds = _match(pattern, path)
+                    if binds is not None:
+                        hit = (fn_id, meta, binds)
+                        self.route_tag = pattern
+                        break
+                if hit is None:
+                    self._empty(404)
+                    return
+                fn_id, (names, placeholders), binds = hit
+                if session is not None:
+                    if (self.command, self.route_tag) not in session.routes:
+                        self._empty(403)
+                        return
+                    if not session.authority.admits(()):
+                        self.close_connection = True
+                        self._empty(401)
+                        return
+                    with vm.request_scope(session):
+                        self._dispatch(fn_id, names, placeholders, binds, body, method_num)
+                else:
                     self._dispatch(fn_id, names, placeholders, binds, body, method_num)
-            else:
-                self._dispatch(fn_id, names, placeholders, binds, body, method_num)
+
+            finally:
+                body = None
+                reservation.release()
 
         def _dispatch(self, fn_id, names, placeholders, binds, body, method_num) -> None:
             with self.server.connection_lock:
