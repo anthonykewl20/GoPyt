@@ -105,6 +105,35 @@ fn empty() -> Choice
             self.assertEqual(result.fields, [])
         self.assertEqual(budget.snapshot()['active_reservations'], 0)
 
+    def test_budget_refusal_sweeps_dead_field_arrays_before_trapping(self):
+        """Byte pressure is independent of the heap's object-count threshold."""
+        from gopyt.vm import VM
+        slot = ((1 + (1 >> 3) + 6) & ~3) * struct.calcsize('P')
+        budget = ResourceBudget(ResourceLimits(slot, 0, 0, 0))
+        with VM(self.art, resource_budget=budget) as vm:
+            first = vm.call(self.ids['demo.full'], [7])
+            self.assertEqual(first.fields, [7])
+            del first
+            vm.heap.release_result()  # the host has consumed the first result
+            # Only one field array fits; the refusal must sweep the dead one.
+            second = vm.call(self.ids['demo.full'], [8])
+            self.assertEqual(second.fields, [8])
+            self.assertEqual(budget.snapshot()['used']['native_bytes'], slot)
+            del second
+        self.assertEqual(budget.snapshot()['active_reservations'], 0)
+
+    def test_budget_refusal_is_overload_and_the_fixed_ceiling_is_not(self):
+        from gopyt.vm import VM, Trap
+        from gopyt import ops
+        budget = ResourceBudget(ResourceLimits(4 * struct.calcsize('P') - 1, 0, 0, 0))
+        with VM(self.art, resource_budget=budget) as vm:
+            with self.assertRaises(Trap) as caught:
+                vm.call(self.ids['demo.full'], [7])
+        self.assertEqual(caught.exception.code, ops.TRAP_ALLOC)
+        self.assertTrue(caught.exception.overload)
+        self.assertFalse(Trap(ops.TRAP_ALLOC).overload)
+        self.assertEqual(budget.snapshot()['active_reservations'], 0)
+
     def test_cancelled_field_construction_releases_partial_array(self):
         from unittest.mock import patch
         from gopyt.vm import VM, Cancelled

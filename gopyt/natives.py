@@ -92,10 +92,12 @@ def _record(vm, type_id, *fields):
     from gopyt.resource_budget import ResourceLimitError
     owned_fields = None
     try:
-        owned_fields = copy_list(fields, vm.resource_budget, vm.check_cancelled)
+        try:
+            owned_fields = copy_list(fields, vm.resource_budget, vm.check_cancelled)
+        except ResourceLimitError:
+            owned_fields = vm._sweep_retry(copy_list, fields, vm.resource_budget,
+                                           vm.check_cancelled)
         return Record(type_id, owned_fields)
-    except ResourceLimitError:
-        raise Trap(ops.TRAP_ALLOC) from None
     finally:
         fields = owned_fields = None
 
@@ -627,10 +629,14 @@ def _db_get_many(vm, args, func):
         values = vm.db.get_many(args[0])
         items = OwnedList(vm.resource_budget)
         for value in values:
-            items.append_owned(NONE if value is None else Some(value), vm.check_cancelled)
+            try:
+                items.append_owned(NONE if value is None else Some(value),
+                                   vm.check_cancelled)
+            except ResourceLimitError:
+                vm._sweep_retry(items.append_owned,
+                                NONE if value is None else Some(value),
+                                vm.check_cancelled)
         return _record(vm, vm.type_id_of("store.db.Snapshot"), items)
-    except ResourceLimitError:
-        raise Trap(ops.TRAP_ALLOC) from None
     except StorageError as exc:
         return _status(vm, "DbError", str(exc))
     finally:

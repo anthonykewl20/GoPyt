@@ -29,3 +29,22 @@ require separate review. Full
 and platform qualification remain pending for this increment; focused tests cover
 the reproduced tracing failure, compiled records/enums, budget rejection, empty
 variants and cancellation cleanup.
+
+## Budget refusal, sweeping and overload
+
+Charged managed allocations stay registered in the VM heap until an explicit mark
+and sweep, so a record's owned field array remains charged after the record is
+dead. Field arrays make byte pressure independent of the heap's object-count
+collection threshold: a workload can exhaust the configured byte budget while
+holding far fewer than the threshold number of dead objects. Every bytecode and
+native admission site therefore sweeps the managed heap once when a reservation is
+refused, and retries before trapping. Only the refusal path pays for the sweep.
+
+A refusal that survives the sweep raises the existing allocation trap with an
+explicit overload marker. The trap code, bytecode meaning and CLI exit status are
+unchanged. HTTP serving answers an overload trap with 503 and a closed connection,
+exactly as it already answers worker-admission refusal and every other resource
+limit in that path; the fixed language allocation ceiling keeps returning 500,
+because repeating that request cannot succeed. Retained request-scoped charges are
+released by the VM's own mark and sweep, not by Python cyclic collection.
+
