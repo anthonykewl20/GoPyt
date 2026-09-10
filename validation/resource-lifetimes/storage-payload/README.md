@@ -30,3 +30,9 @@ checks completed successfully; raw evidence is retained here.
 
 Guard calibration passed 17 tests, stdlib parity passed for 22 modules, and
 the contract demo passed its positive and negative cases. Raw outputs are retained.
+
+The old Python 3.11 full run was deliberately interrupted after remaining
+blocked on the pre-fix budget lock. SIGINT exposed test_netio.tearDown waiting
+in ResourceBudget.snapshot; the process remained alive and was terminated
+with SIGTERM (exit 143). Source hashes were unchanged. This is not a passing
+qualification. The finalizer fix must be integrated before fresh qualification.
