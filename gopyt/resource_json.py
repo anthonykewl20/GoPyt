@@ -103,3 +103,67 @@ def number_span(text, start, check=lambda: None):
         return index, decimal
     finally:
         text = None
+
+
+class _ChargedInteger(int):
+    def __new__(cls, value, reservation):
+        try:
+            result = super().__new__(cls, value)
+            result._reservation = reservation
+            return result
+        finally:
+            value = None
+
+    def __del__(self):
+        reservation = getattr(self, '_reservation', None)
+        if reservation is not None:
+            reservation.finalize()
+
+
+def integer_token(text, start, budget, check=lambda: None):
+    """Admit an integer token and bounded conversion scratch before producing it."""
+    import sys
+    reservation = None
+    raw = result = chunk = None
+    transferred = False
+    try:
+        end, decimal = number_span(text, start, check)
+        if decimal:
+            raise ConvertFail('number')
+        negative = text[start] == '-'
+        first = start + int(negative)
+        digits = end - first
+        limit = sys.get_int_max_str_digits()
+        if limit and digits > limit:
+            raise ConvertFail('syntax')
+        # One binary limb per decimal digit is conservative on both supported
+        # CPython limb formats. Include a carry limb, including for zero.
+        capacity = sys.int_info.sizeof_digit * (digits + 1)
+        reservation = budget.reserve(native_bytes=capacity)
+        # Multiply/add can overlap the old integer, product, and sum. The
+        # final subclass copy has its own reservation above. A chunk contains
+        # at most nine ASCII characters plus its terminator; four extra
+        # limbs cover the chunk integer and its power-of-ten multiplier.
+        with budget.reserve(native_bytes=3 * capacity + 10 + 4 * sys.int_info.sizeof_digit):
+            try:
+                raw = 0
+                index = first
+                while index < end:
+                    check()
+                    stop = min(index + 9, end)
+                    chunk = text[index:stop]
+                    raw = raw * (10 ** (stop - index)) + int(chunk)
+                    chunk = None
+                    index = stop
+                if negative:
+                    raw = -raw
+                check()
+                result = _ChargedInteger(raw, reservation)
+                transferred = True
+                return result, end
+            finally:
+                raw = chunk = None
+    finally:
+        text = result = None
+        if reservation is not None and not transferred:
+            reservation.release()

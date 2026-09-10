@@ -90,3 +90,54 @@ class JsonNumberSpan(unittest.TestCase):
             if frame.tb_frame.f_code.co_name == 'number_span':
                 self.assertIsNone(frame.tb_frame.f_locals['text'])
             frame = frame.tb_next
+
+
+class JsonIntegerToken(unittest.TestCase):
+    def test_oracle_and_alias_ownership(self):
+        from gopyt.resource_json import integer_token
+        for token in ('0', '-0', '123456789', '-123456789012345678901234567890', '9' * 1000):
+            budget = ResourceBudget(ResourceLimits(100000, 0, 0, 0))
+            result, end = integer_token(token + ',', 0, budget)
+            self.assertEqual(result, json.loads(token))
+            self.assertEqual(hash(result), hash(json.loads(token)))
+            self.assertEqual(end, len(token))
+            alias = result
+            del result
+            self.assertGreater(budget.snapshot()['used']['native_bytes'], 0)
+            del alias
+            self.assertEqual(budget.snapshot()['active_reservations'], 0)
+
+    def test_capacity_and_digit_limit(self):
+        import sys
+        from gopyt.resource_json import integer_token
+        budget = ResourceBudget(ResourceLimits(0, 0, 0, 0))
+        with self.assertRaises(ResourceLimitError):
+            integer_token('123', 0, budget)
+        self.assertEqual(budget.snapshot()['active_reservations'], 0)
+        limit = sys.get_int_max_str_digits()
+        if limit:
+            with self.assertRaises(ConvertFail):
+                integer_token('1' * (limit + 1), 0, budget)
+            self.assertEqual(budget.snapshot()['peak']['native_bytes'], 0)
+
+    def test_cancelled_conversion_clears_intermediates(self):
+        from gopyt.resource_json import integer_token
+        budget = ResourceBudget(ResourceLimits(100000, 0, 0, 0))
+        class Cancelled(Exception):
+            pass
+        def check():
+            if budget.snapshot()['used']['native_bytes']:
+                raise Cancelled()
+        failure = None
+        try:
+            integer_token('7' * 100, 0, budget, check)
+        except Cancelled as error:
+            failure = error
+        self.assertIsNotNone(failure)
+        self.assertEqual(budget.snapshot()['active_reservations'], 0)
+        tb = failure.__traceback__
+        while tb:
+            if tb.tb_frame.f_code.co_name == 'integer_token':
+                for name in ('text', 'raw', 'result', 'chunk'):
+                    self.assertIsNone(tb.tb_frame.f_locals[name])
+            tb = tb.tb_next

@@ -63,3 +63,23 @@ PyLong_FromString; decimal-base parsing and subclass copying need separate revie
 Numeric admission must cover these overlaps before invoking constructors, preserve
 the runtime integer-digit limit and Decimal exponent semantics, and discard errors
 inside the temporary reservation. No numeric producer is integrated yet.
+
+Integer producer: matching CPython 3.14 longobject.c switches decimal conversion
+above 6000 digits to _pylong when the configured digit cap permits it. Consequently
+a bound derived only from the 3.11 decimal constructor is insufficient. The new
+internal integer_token instead converts at most nine ASCII digits at once, then
+multiplies/adds into the result. It preserves sys.get_int_max_str_digits rejection
+before allocation and permits larger inputs when that limit permits them.
+Reservation capacity is sizeof_digit*(decimal_digits+1), conservatively one binary
+limb per input digit plus carry. Three such capacities cover old/product/sum
+intermediates, with ten bytes for the chunk string including terminator and four
+limbs for chunk/multiplier; the final integer subclass has a separate reservation.
+The multiplier is bounded by 10**9, so multiplication has a small operand rather
+than invoking the unrestricted decimal-string conversion algorithm. This counts
+payload capacity, not Python object headers. The chunked algorithm needs large-input
+performance qualification before integration, particularly with disabled digit caps.
+Ten focused token tests pass on both pinned runtimes. They compare integer values
+and hashes to json.loads, retain aliases, reject zero budgets and configured digit
+limits, and retain cancellation tracebacks while verifying released reservations
+and cleared producer references. Decimal construction, container ownership, typed
+conversion and parser integration remain outstanding.
