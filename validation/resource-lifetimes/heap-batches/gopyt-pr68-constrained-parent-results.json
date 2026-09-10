@@ -1,0 +1,2572 @@
+{
+  "trials": [
+    {
+      "trial": 0,
+      "seconds": 8.353908050106838,
+      "checks": [
+        "exact retry is idempotent",
+        "id rejects quantity and TTL changes",
+        "confirmation is terminal",
+        "20 racing reservations cannot oversell",
+        "acknowledged reservations survive SIGKILL restart",
+        "expiry restores stock without reusing request ids",
+        "24 concurrent duplicate requests consume stock once",
+        "four kill/retry cycles retain idempotency"
+      ]
+    },
+    {
+      "trial": 1,
+      "seconds": 5.275465434999205,
+      "checks": [
+        "exact retry is idempotent",
+        "id rejects quantity and TTL changes",
+        "confirmation is terminal",
+        "20 racing reservations cannot oversell",
+        "acknowledged reservations survive SIGKILL restart",
+        "expiry restores stock without reusing request ids",
+        "24 concurrent duplicate requests consume stock once",
+        "four kill/retry cycles retain idempotency"
+      ]
+    },
+    {
+      "trial": 2,
+      "seconds": 4.934919806895778,
+      "checks": [
+        "exact retry is idempotent",
+        "id rejects quantity and TTL changes",
+        "confirmation is terminal",
+        "20 racing reservations cannot oversell",
+        "acknowledged reservations survive SIGKILL restart",
+        "expiry restores stock without reusing request ids",
+        "24 concurrent duplicate requests consume stock once",
+        "four kill/retry cycles retain idempotency"
+      ]
+    }
+  ],
+  "requests": [
+    {
+      "seconds": 0.09419769595842808,
+      "error": "ConnectionRefusedError"
+    },
+    {
+      "seconds": 0.0001231239875778556,
+      "error": "ConnectionRefusedError"
+    },
+    {
+      "seconds": 0.00018021196592599154,
+      "error": "ConnectionRefusedError"
+    },
+    {
+      "seconds": 0.00024982390459626913,
+      "error": "ConnectionRefusedError"
+    },
+    {
+      "seconds": 0.000269521027803421,
+      "error": "ConnectionRefusedError"
+    },
+    {
+      "seconds": 0.0001732290256768465,
+      "error": "ConnectionRefusedError"
+    },
+    {
+      "seconds": 0.00014934304635971785,
+      "error": "ConnectionRefusedError"
+    },
+    {
+      "seconds": 0.00016038399189710617,
+      "error": "ConnectionRefusedError"
+    },
+    {
+      "seconds": 0.00014569598715752363,
+      "error": "ConnectionRefusedError"
+    },
+    {
+      "seconds": 0.00014548504259437323,
+      "error": "ConnectionRefusedError"
+    },
+    {
+      "seconds": 0.008226991980336607,
+      "outcome": "ok"
+    },
+    {
+      "seconds": 0.007904580095782876,
+      "outcome": "active"
+    },
+    {
+      "seconds": 0.009778502047993243,
+      "outcome": "active"
+    },
+    {
+      "seconds": 0.009517487022094429,
+      "outcome": "id_conflict"
+    },
+    {
+      "seconds": 0.0073349709855392575,
+      "outcome": "id_conflict"
+    },
+    {
+      "seconds": 0.011221255990676582,
+      "outcome": "confirmed"
+    },
+    {
+      "seconds": 0.0062915130984038115,
+      "outcome": "confirmed"
+    },
+    {
+      "seconds": 0.03014711302239448,
+      "outcome": "active"
+    },
+    {
+      "seconds": 0.08167039602994919,
+      "outcome": "active"
+    },
+    {
+      "seconds": 0.19059708598069847,
+      "outcome": "active"
+    },
+    {
+      "seconds": 0.41509254404809326,
+      "outcome": "active"
+    },
+    {
+      "seconds": 0.4418685269774869,
+      "outcome": "active"
+    },
+    {
+      "seconds": 0.29389700200408697,
+      "outcome": "active"
+    },
+    {
+      "seconds": 0.989302844973281,
+      "outcome": "active"
+    },
+    {
+      "seconds": 1.671824009041302,
+      "outcome": "active"
+    },
+    {
+      "seconds": 0.48391918803099543,
+      "outcome": "sold_out"
+    },
+    {
+      "seconds": 2.1697523369221017,
+      "outcome": "sold_out"
+    },
+    {
+      "seconds": 1.3889720289735124,
+      "outcome": "sold_out"
+    },
+    {
+      "seconds": 1.0630794409662485,
+      "outcome": "sold_out"
+    },
+    {
+      "seconds": 1.8348618970485404,
+      "outcome": "sold_out"
+    },
+    {
+      "seconds": 2.275237945956178,
+      "outcome": "sold_out"
+    },
+    {
+      "seconds": 2.318802495021373,
+      "outcome": "sold_out"
+    },
+    {
+      "seconds": 2.3554141499334946,
+      "outcome": "sold_out"
+    },
+    {
+      "seconds": 2.0920818540034816,
+      "outcome": "sold_out"
+    },
+    {
+      "seconds": 2.0860263080103323,
+      "outcome": "sold_out"
+    },
+    {
+      "seconds": 2.0325946379452944,
+      "outcome": "sold_out"
+    },
+    {
+      "seconds": 2.0209366540657356,
+      "outcome": "sold_out"
+    },
+    {
+      "seconds": 0.043460233020596206,
+      "outcome": "ok"
+    },
+    {
+      "seconds": 0.0002004799898713827,
+      "error": "ConnectionRefusedError"
+    },
+    {
+      "seconds": 0.0001382320187985897,
+      "error": "ConnectionRefusedError"
+    },
+    {
+      "seconds": 0.000112763955257833,
+      "error": "ConnectionRefusedError"
+    },
+    {
+      "seconds": 9.229499846696854e-05,
+      "error": "ConnectionRefusedError"
+    },
+    {
+      "seconds": 7.603398989886045e-05,
+      "error": "ConnectionRefusedError"
+    },
+    {
+      "seconds": 7.461104542016983e-05,
+      "error": "ConnectionRefusedError"
+    },
+    {
+      "seconds": 7.796706631779671e-05,
+      "error": "ConnectionRefusedError"
+    },
+    {
+      "seconds": 7.545296102762222e-05,
+      "error": "ConnectionRefusedError"
+    },
+    {
+      "seconds": 7.488206028938293e-05,
+      "error": "ConnectionRefusedError"
+    },
+    {
+      "seconds": 0.001128208008594811,
+      "error": "ConnectionRefusedError"
+    },
+    {
+      "seconds": 0.0001636201050132513,
+      "error": "ConnectionRefusedError"
+    },
+    {
+      "seconds": 0.00015820900443941355,
+      "error": "ConnectionRefusedError"
+    },
+    {
+      "seconds": 0.0002074328949674964,
+      "error": "ConnectionRefusedError"
+    },
+    {
+      "seconds": 0.00013033696450293064,
+      "error": "ConnectionRefusedError"
+    },
+    {
+      "seconds": 0.00013055803719908,
+      "error": "ConnectionRefusedError"
+    },
+    {
+      "seconds": 9.189406409859657e-05,
+      "error": "ConnectionRefusedError"
+    },
+    {
+      "seconds": 7.911003194749355e-05,
+      "error": "ConnectionRefusedError"
+    },
+    {
+      "seconds": 7.266807369887829e-05,
+      "error": "ConnectionRefusedError"
+    },
+    {
+      "seconds": 7.049308624118567e-05,
+      "error": "ConnectionRefusedError"
+    },
+    {
+      "seconds": 0.00015556509606540203,
+      "error": "ConnectionRefusedError"
+    },
+    {
+      "seconds": 0.00018400908447802067,
+      "error": "ConnectionRefusedError"
+    },
+    {
+      "seconds": 9.02409665286541e-05,
+      "error": "ConnectionRefusedError"
+    },
+    {
+      "seconds": 0.00010799500159919262,
+      "error": "ConnectionRefusedError"
+    },
+    {
+      "seconds": 0.0001519779907539487,
+      "error": "ConnectionRefusedError"
+    },
+    {
+      "seconds": 0.0001379121094942093,
+      "error": "ConnectionRefusedError"
+    },
+    {
+      "seconds": 0.00014098698738962412,
+      "error": "ConnectionRefusedError"
+    },
+    {
+      "seconds": 0.00011675094719976187,
+      "error": "ConnectionRefusedError"
+    },
+    {
+      "seconds": 0.00012955500278621912,
+      "error": "ConnectionRefusedError"
+    },
+    {
+      "seconds": 0.00010557996574789286,
+      "error": "ConnectionRefusedError"
+    },
+    {
+      "seconds": 0.0001915729371830821,
+      "error": "ConnectionRefusedError"
+    },
+    {
+      "seconds": 0.00015192804858088493,
+      "error": "ConnectionRefusedError"
+    },
+    {
+      "seconds": 0.0001619370887055993,
+      "error": "ConnectionRefusedError"
+    },
+    {
+      "seconds": 0.00011437595821917057,
+      "error": "ConnectionRefusedError"
+    },
+    {
+      "seconds": 0.00010085094254463911,
+      "error": "ConnectionRefusedError"
+    },
+    {
+      "seconds": 0.0001222820719704032,
+      "error": "ConnectionRefusedError"
+    },
+    {
+      "seconds": 0.00010304502211511135,
+      "error": "ConnectionRefusedError"
+    },
+    {
+      "seconds": 9.125203359872103e-05,
+      "error": "ConnectionRefusedError"
+    },
+    {
+      "seconds": 0.00010962795931845903,
+      "error": "ConnectionRefusedError"
+    },
+    {
+      "seconds": 0.00013277202378958464,
+      "error": "ConnectionRefusedError"
+    },
+    {
+      "seconds": 0.0002253070706501603,
+      "error": "ConnectionRefusedError"
+    },
+    {
+      "seconds": 0.00018026202451437712,
+      "error": "ConnectionRefusedError"
+    },
+    {
+      "seconds": 0.00013609800953418016,
+      "error": "ConnectionRefusedError"
+    },
+    {
+      "seconds": 0.00015952205285429955,
+      "error": "ConnectionRefusedError"
+    },
+    {
+      "seconds": 0.00010625191498547792,
+      "error": "ConnectionRefusedError"
+    },
+    {
+      "seconds": 9.719398804008961e-05,
+      "error": "ConnectionRefusedError"
+    },
+    {
+      "seconds": 8.697493467479944e-05,
+      "error": "ConnectionRefusedError"
+    },
+    {
+      "seconds": 9.390793275088072e-05,
+      "error": "ConnectionRefusedError"
+    },
+    {
+      "seconds": 9.36770811676979e-05,
+      "error": "ConnectionRefusedError"
+    },
+    {
+      "seconds": 0.00015191803686320782,
+      "error": "ConnectionRefusedError"
+    },
+    {
+      "seconds": 0.0580381799954921,
+      "outcome": "ok"
+    },
+    {
+      "seconds": 0.07434203696902841,
+      "outcome": "ok"
+    },
+    {
+      "seconds": 0.00012434599921107292,
+      "error": "ConnectionRefusedError"
+    },
+    {
+      "seconds": 0.00011471705511212349,
+      "error": "ConnectionRefusedError"
+    },
+    {
+      "seconds": 0.00011792406439781189,
+      "error": "ConnectionRefusedError"
+    },
+    {
+      "seconds": 0.00018817593809217215,
+      "error": "ConnectionRefusedError"
+    },
+    {
+      "seconds": 0.00011110992636531591,
+      "error": "ConnectionRefusedError"
+    },
+    {
+      "seconds": 7.870898116379976e-05,
+      "error": "ConnectionRefusedError"
+    },
+    {
+      "seconds": 0.00023610808420926332,
+      "error": "ConnectionRefusedError"
+    },
+    {
+      "seconds": 0.0001841189805418253,
+      "error": "ConnectionRefusedError"
+    },
+    {
+      "seconds": 0.00027116399724036455,
+      "error": "ConnectionRefusedError"
+    },
+    {
+      "seconds": 0.0002655929420143366,
+      "error": "ConnectionRefusedError"
+    },
+    {
+      "seconds": 0.00015767908189445734,
+      "error": "ConnectionRefusedError"
+    },
+    {
+      "seconds": 0.00016491301357746124,
+      "error": "ConnectionRefusedError"
+    },
+    {
+      "seconds": 0.00018722505774348974,
+      "error": "ConnectionRefusedError"
+    },
+    {
+      "seconds": 0.00017617398407310247,
+      "error": "ConnectionRefusedError"
+    },
+    {
+      "seconds": 0.00018585193902254105,
+      "error": "ConnectionRefusedError"
+    },
+    {
+      "seconds": 0.00016793794929981232,
+      "error": "ConnectionRefusedError"
+    },
+    {
+      "seconds": 0.00016234791837632656,
+      "error": "ConnectionRefusedError"
+    },
+    {
+      "seconds": 0.00017911894246935844,
+      "error": "ConnectionRefusedError"
+    },
+    {
+      "seconds": 0.0003296349896118045,
+      "error": "ConnectionRefusedError"
+    },
+    {
+      "seconds": 0.00020141201093792915,
+      "error": "ConnectionRefusedError"
+    },
+    {
+      "seconds": 0.04891049209982157,
+      "outcome": "ok"
+    },
+    {
+      "seconds": 0.014392466051504016,
+      "outcome": "active"
+    },
+    {
+      "seconds": 0.05384109599981457,
+      "outcome": "active"
+    },
+    {
+      "seconds": 0.01284137589391321,
+      "outcome": "expired"
+    },
+    {
+      "seconds": 0.00012164993677288294,
+      "error": "ConnectionRefusedError"
+    },
+    {
+      "seconds": 0.00026435102336108685,
+      "error": "ConnectionRefusedError"
+    },
+    {
+      "seconds": 0.00014633696991950274,
+      "error": "ConnectionRefusedError"
+    },
+    {
+      "seconds": 0.0001520579680800438,
+      "error": "ConnectionRefusedError"
+    },
+    {
+      "seconds": 0.0011633349349722266,
+      "error": "ConnectionRefusedError"
+    },
+    {
+      "seconds": 0.00011335499584674835,
+      "error": "ConnectionRefusedError"
+    },
+    {
+      "seconds": 0.00014212005771696568,
+      "error": "ConnectionRefusedError"
+    },
+    {
+      "seconds": 0.00019302498549222946,
+      "error": "ConnectionRefusedError"
+    },
+    {
+      "seconds": 0.00013141892850399017,
+      "error": "ConnectionRefusedError"
+    },
+    {
+      "seconds": 0.00010492897126823664,
+      "error": "ConnectionRefusedError"
+    },
+    {
+      "seconds": 0.00010404700879007578,
+      "error": "ConnectionRefusedError"
+    },
+    {
+      "seconds": 8.293695282191038e-05,
+      "error": "ConnectionRefusedError"
+    },
+    {
+      "seconds": 9.228510316461325e-05,
+      "error": "ConnectionRefusedError"
+    },
+    {
+      "seconds": 9.367696475237608e-05,
+      "error": "ConnectionRefusedError"
+    },
+    {
+      "seconds": 8.019199594855309e-05,
+      "error": "ConnectionRefusedError"
+    },
+    {
+      "seconds": 7.59040703997016e-05,
+      "error": "ConnectionRefusedError"
+    },
+    {
+      "seconds": 0.0001400359906256199,
+      "error": "ConnectionRefusedError"
+    },
+    {
+      "seconds": 0.00016792910173535347,
+      "error": "ConnectionRefusedError"
+    },
+    {
+      "seconds": 0.00012761098332703114,
+      "error": "ConnectionRefusedError"
+    },
+    {
+      "seconds": 0.00014794094022363424,
+      "error": "ConnectionRefusedError"
+    },
+    {
+      "seconds": 0.00010059098713099957,
+      "error": "ConnectionRefusedError"
+    },
+    {
+      "seconds": 0.017769014928489923,
+      "outcome": "ok"
+    },
+    {
+      "seconds": 0.03202823793981224,
+      "outcome": "active"
+    },
+    {
+      "seconds": 0.034551540040411055,
+      "outcome": "active"
+    },
+    {
+      "seconds": 0.04379025800153613,
+      "outcome": "active"
+    },
+    {
+      "seconds": 0.04686823207885027,
+      "outcome": "active"
+    },
+    {
+      "seconds": 0.04856834304518998,
+      "outcome": "active"
+    },
+    {
+      "seconds": 0.05203955096658319,
+      "outcome": "active"
+    },
+    {
+      "seconds": 0.05836224392987788,
+      "outcome": "active"
+    },
+    {
+      "seconds": 0.051088550011627376,
+      "outcome": "active"
+    },
+    {
+      "seconds": 0.05106918199453503,
+      "outcome": "active"
+    },
+    {
+      "seconds": 0.04607023892458528,
+      "outcome": "active"
+    },
+    {
+      "seconds": 0.09992623305879533,
+      "outcome": "active"
+    },
+    {
+      "seconds": 0.07624060602393001,
+      "outcome": "active"
+    },
+    {
+      "seconds": 0.06301913899369538,
+      "outcome": "active"
+    },
+    {
+      "seconds": 0.08360626501962543,
+      "outcome": "active"
+    },
+    {
+      "seconds": 0.06122415803838521,
+      "outcome": "active"
+    },
+    {
+      "seconds": 0.044139619916677475,
+      "outcome": "active"
+    },
+    {
+      "seconds": 0.05171179096214473,
+      "outcome": "active"
+    },
+    {
+      "seconds": 0.054390826961025596,
+      "outcome": "active"
+    },
+    {
+      "seconds": 0.05704272398725152,
+      "outcome": "active"
+    },
+    {
+      "seconds": 0.03774344897828996,
+      "outcome": "active"
+    },
+    {
+      "seconds": 0.042977958102710545,
+      "outcome": "active"
+    },
+    {
+      "seconds": 0.051905287080444396,
+      "outcome": "active"
+    },
+    {
+      "seconds": 0.04953256109729409,
+      "outcome": "active"
+    },
+    {
+      "seconds": 0.02361199795268476,
+      "outcome": "active"
+    },
+    {
+      "seconds": 0.00467579101677984,
+      "outcome": "ok"
+    },
+    {
+      "seconds": 0.00010646192822605371,
+      "error": "ConnectionRefusedError"
+    },
+    {
+      "seconds": 9.733496699482203e-05,
+      "error": "ConnectionRefusedError"
+    },
+    {
+      "seconds": 8.342799264937639e-05,
+      "error": "ConnectionRefusedError"
+    },
+    {
+      "seconds": 0.00010741408914327621,
+      "error": "ConnectionRefusedError"
+    },
+    {
+      "seconds": 8.430005982518196e-05,
+      "error": "ConnectionRefusedError"
+    },
+    {
+      "seconds": 0.00018064200412482023,
+      "error": "ConnectionRefusedError"
+    },
+    {
+      "seconds": 0.00015673704911023378,
+      "error": "ConnectionRefusedError"
+    },
+    {
+      "seconds": 0.0011316949967294931,
+      "error": "ConnectionRefusedError"
+    },
+    {
+      "seconds": 0.00011298398021608591,
+      "error": "ConnectionRefusedError"
+    },
+    {
+      "seconds": 0.0001418690662831068,
+      "error": "ConnectionRefusedError"
+    },
+    {
+      "seconds": 0.00012200092896819115,
+      "error": "ConnectionRefusedError"
+    },
+    {
+      "seconds": 0.00012995698489248753,
+      "error": "ConnectionRefusedError"
+    },
+    {
+      "seconds": 0.00018718501087278128,
+      "error": "ConnectionRefusedError"
+    },
+    {
+      "seconds": 0.00013279204722493887,
+      "error": "ConnectionRefusedError"
+    },
+    {
+      "seconds": 0.00013348297215998173,
+      "error": "ConnectionRefusedError"
+    },
+    {
+      "seconds": 0.00023633800446987152,
+      "error": "ConnectionRefusedError"
+    },
+    {
+      "seconds": 0.0002290339907631278,
+      "error": "ConnectionRefusedError"
+    },
+    {
+      "seconds": 0.00013048690743744373,
+      "error": "ConnectionRefusedError"
+    },
+    {
+      "seconds": 0.00012773193884640932,
+      "error": "ConnectionRefusedError"
+    },
+    {
+      "seconds": 0.00017059303354471922,
+      "error": "ConnectionRefusedError"
+    },
+    {
+      "seconds": 0.00016846891958266497,
+      "error": "ConnectionRefusedError"
+    },
+    {
+      "seconds": 0.00012088904622942209,
+      "error": "ConnectionRefusedError"
+    },
+    {
+      "seconds": 0.00015502399764955044,
+      "error": "ConnectionRefusedError"
+    },
+    {
+      "seconds": 0.00021312409080564976,
+      "error": "ConnectionRefusedError"
+    },
+    {
+      "seconds": 0.39601460902485996,
+      "outcome": "ok"
+    },
+    {
+      "seconds": 0.007721673930063844,
+      "outcome": "active"
+    },
+    {
+      "seconds": 0.0001328920479863882,
+      "error": "ConnectionRefusedError"
+    },
+    {
+      "seconds": 0.00011189200449734926,
+      "error": "ConnectionRefusedError"
+    },
+    {
+      "seconds": 0.00010340602602809668,
+      "error": "ConnectionRefusedError"
+    },
+    {
+      "seconds": 0.0011118269758298993,
+      "error": "ConnectionRefusedError"
+    },
+    {
+      "seconds": 9.82559286057949e-05,
+      "error": "ConnectionRefusedError"
+    },
+    {
+      "seconds": 9.887805208563805e-05,
+      "error": "ConnectionRefusedError"
+    },
+    {
+      "seconds": 8.087302558124065e-05,
+      "error": "ConnectionRefusedError"
+    },
+    {
+      "seconds": 8.566200267523527e-05,
+      "error": "ConnectionRefusedError"
+    },
+    {
+      "seconds": 7.612397894263268e-05,
+      "error": "ConnectionRefusedError"
+    },
+    {
+      "seconds": 0.0002618059515953064,
+      "error": "ConnectionRefusedError"
+    },
+    {
+      "seconds": 0.0001444739755243063,
+      "error": "ConnectionRefusedError"
+    },
+    {
+      "seconds": 0.00010361697059124708,
+      "error": "ConnectionRefusedError"
+    },
+    {
+      "seconds": 0.0001006110105663538,
+      "error": "ConnectionRefusedError"
+    },
+    {
+      "seconds": 0.00010558997746556997,
+      "error": "ConnectionRefusedError"
+    },
+    {
+      "seconds": 0.007470256998203695,
+      "outcome": "ok"
+    },
+    {
+      "seconds": 0.005165879963897169,
+      "outcome": "active"
+    },
+    {
+      "seconds": 8.413998875766993e-05,
+      "error": "ConnectionRefusedError"
+    },
+    {
+      "seconds": 9.542005136609077e-05,
+      "error": "ConnectionRefusedError"
+    },
+    {
+      "seconds": 8.698401506990194e-05,
+      "error": "ConnectionRefusedError"
+    },
+    {
+      "seconds": 0.00029290502425283194,
+      "error": "ConnectionRefusedError"
+    },
+    {
+      "seconds": 0.00017195602413266897,
+      "error": "ConnectionRefusedError"
+    },
+    {
+      "seconds": 8.617399726063013e-05,
+      "error": "ConnectionRefusedError"
+    },
+    {
+      "seconds": 0.00010308495257049799,
+      "error": "ConnectionRefusedError"
+    },
+    {
+      "seconds": 8.37789848446846e-05,
+      "error": "ConnectionRefusedError"
+    },
+    {
+      "seconds": 7.468205876648426e-05,
+      "error": "ConnectionRefusedError"
+    },
+    {
+      "seconds": 7.536297198385e-05,
+      "error": "ConnectionRefusedError"
+    },
+    {
+      "seconds": 7.536297198385e-05,
+      "error": "ConnectionRefusedError"
+    },
+    {
+      "seconds": 7.229705806821585e-05,
+      "error": "ConnectionRefusedError"
+    },
+    {
+      "seconds": 0.00010356598068028688,
+      "error": "ConnectionRefusedError"
+    },
+    {
+      "seconds": 0.0003304870333522558,
+      "error": "ConnectionRefusedError"
+    },
+    {
+      "seconds": 0.00019542989321053028,
+      "error": "ConnectionRefusedError"
+    },
+    {
+      "seconds": 8.331798017024994e-05,
+      "error": "ConnectionRefusedError"
+    },
+    {
+      "seconds": 9.334704373031855e-05,
+      "error": "ConnectionRefusedError"
+    },
+    {
+      "seconds": 9.533099364489317e-05,
+      "error": "ConnectionRefusedError"
+    },
+    {
+      "seconds": 8.79260478541255e-05,
+      "error": "ConnectionRefusedError"
+    },
+    {
+      "seconds": 8.630403317511082e-05,
+      "error": "ConnectionRefusedError"
+    },
+    {
+      "seconds": 7.7045988291502e-05,
+      "error": "ConnectionRefusedError"
+    },
+    {
+      "seconds": 7.595401257276535e-05,
+      "error": "ConnectionRefusedError"
+    },
+    {
+      "seconds": 8.592300582677126e-05,
+      "error": "ConnectionRefusedError"
+    },
+    {
+      "seconds": 0.0002629180671647191,
+      "error": "ConnectionRefusedError"
+    },
+    {
+      "seconds": 0.00015876104589551687,
+      "error": "ConnectionRefusedError"
+    },
+    {
+      "seconds": 0.00011398608330637217,
+      "error": "ConnectionRefusedError"
+    },
+    {
+      "seconds": 0.0001466990215703845,
+      "error": "ConnectionRefusedError"
+    },
+    {
+      "seconds": 0.00011831405572593212,
+      "error": "ConnectionRefusedError"
+    },
+    {
+      "seconds": 0.012221832061186433,
+      "outcome": "ok"
+    },
+    {
+      "seconds": 0.005380306043662131,
+      "outcome": "active"
+    },
+    {
+      "seconds": 9.128300007432699e-05,
+      "error": "ConnectionRefusedError"
+    },
+    {
+      "seconds": 9.114202111959457e-05,
+      "error": "ConnectionRefusedError"
+    },
+    {
+      "seconds": 0.00023566605523228645,
+      "error": "ConnectionRefusedError"
+    },
+    {
+      "seconds": 0.00017988099716603756,
+      "error": "ConnectionRefusedError"
+    },
+    {
+      "seconds": 0.0001300070434808731,
+      "error": "ConnectionRefusedError"
+    },
+    {
+      "seconds": 0.00013796205166727304,
+      "error": "ConnectionRefusedError"
+    },
+    {
+      "seconds": 0.0001442630309611559,
+      "error": "ConnectionRefusedError"
+    },
+    {
+      "seconds": 0.0001408270327374339,
+      "error": "ConnectionRefusedError"
+    },
+    {
+      "seconds": 0.00010743399616330862,
+      "error": "ConnectionRefusedError"
+    },
+    {
+      "seconds": 8.202600292861462e-05,
+      "error": "ConnectionRefusedError"
+    },
+    {
+      "seconds": 0.00010068097617477179,
+      "error": "ConnectionRefusedError"
+    },
+    {
+      "seconds": 0.00010318495333194733,
+      "error": "ConnectionRefusedError"
+    },
+    {
+      "seconds": 0.0003235230688005686,
+      "error": "ConnectionRefusedError"
+    },
+    {
+      "seconds": 0.00020220293663442135,
+      "error": "ConnectionRefusedError"
+    },
+    {
+      "seconds": 0.010804345016367733,
+      "outcome": "ok"
+    },
+    {
+      "seconds": 0.005229130038060248,
+      "outcome": "active"
+    },
+    {
+      "seconds": 0.0001257380936294794,
+      "error": "ConnectionRefusedError"
+    },
+    {
+      "seconds": 0.0001533109461888671,
+      "error": "ConnectionRefusedError"
+    },
+    {
+      "seconds": 0.0001646119635552168,
+      "error": "ConnectionRefusedError"
+    },
+    {
+      "seconds": 0.00012187100946903229,
+      "error": "ConnectionRefusedError"
+    },
+    {
+      "seconds": 0.0011128491023555398,
+      "error": "ConnectionRefusedError"
+    },
+    {
+      "seconds": 9.223504457622766e-05,
+      "error": "ConnectionRefusedError"
+    },
+    {
+      "seconds": 8.469098247587681e-05,
+      "error": "ConnectionRefusedError"
+    },
+    {
+      "seconds": 7.309799548238516e-05,
+      "error": "ConnectionRefusedError"
+    },
+    {
+      "seconds": 7.466098759323359e-05,
+      "error": "ConnectionRefusedError"
+    },
+    {
+      "seconds": 7.614400237798691e-05,
+      "error": "ConnectionRefusedError"
+    },
+    {
+      "seconds": 7.488101255148649e-05,
+      "error": "ConnectionRefusedError"
+    },
+    {
+      "seconds": 0.00023768004029989243,
+      "error": "ConnectionRefusedError"
+    },
+    {
+      "seconds": 0.0001853209687396884,
+      "error": "ConnectionRefusedError"
+    },
+    {
+      "seconds": 0.00012047798372805119,
+      "error": "ConnectionRefusedError"
+    },
+    {
+      "seconds": 0.00011651101522147655,
+      "error": "ConnectionRefusedError"
+    },
+    {
+      "seconds": 0.00010772398672997952,
+      "error": "ConnectionRefusedError"
+    },
+    {
+      "seconds": 0.01202879601623863,
+      "outcome": "ok"
+    },
+    {
+      "seconds": 0.01311879197601229,
+      "outcome": "active"
+    },
+    {
+      "seconds": 0.005448885960504413,
+      "outcome": "active"
+    },
+    {
+      "seconds": 0.005639035953208804,
+      "outcome": "id_conflict"
+    },
+    {
+      "seconds": 0.005067814025096595,
+      "outcome": "id_conflict"
+    },
+    {
+      "seconds": 0.017889603972434998,
+      "outcome": "confirmed"
+    },
+    {
+      "seconds": 0.0059388549998402596,
+      "outcome": "confirmed"
+    },
+    {
+      "seconds": 0.034847059985622764,
+      "outcome": "active"
+    },
+    {
+      "seconds": 0.15343578101601452,
+      "outcome": "active"
+    },
+    {
+      "seconds": 0.34434652200434357,
+      "outcome": "active"
+    },
+    {
+      "seconds": 0.3919871369143948,
+      "outcome": "active"
+    },
+    {
+      "seconds": 0.2579916079994291,
+      "outcome": "active"
+    },
+    {
+      "seconds": 1.3571191190276295,
+      "outcome": "active"
+    },
+    {
+      "seconds": 0.4262083410285413,
+      "outcome": "active"
+    },
+    {
+      "seconds": 1.846234507043846,
+      "outcome": "active"
+    },
+    {
+      "seconds": 2.191001496044919,
+      "outcome": "conflict"
+    },
+    {
+      "seconds": 2.2347543239593506,
+      "outcome": "conflict"
+    },
+    {
+      "seconds": 2.281241061980836,
+      "outcome": "conflict"
+    },
+    {
+      "seconds": 0.8368267270270735,
+      "outcome": "sold_out"
+    },
+    {
+      "seconds": 2.656848166952841,
+      "outcome": "sold_out"
+    },
+    {
+      "seconds": 0.5288820710266009,
+      "outcome": "sold_out"
+    },
+    {
+      "seconds": 0.5346073120599613,
+      "outcome": "sold_out"
+    },
+    {
+      "seconds": 0.5288464539917186,
+      "outcome": "sold_out"
+    },
+    {
+      "seconds": 0.49000597605481744,
+      "outcome": "sold_out"
+    },
+    {
+      "seconds": 1.9900858349865302,
+      "outcome": "sold_out"
+    },
+    {
+      "seconds": 2.8332820320501924,
+      "outcome": "sold_out"
+    },
+    {
+      "seconds": 0.22021237190347165,
+      "outcome": "sold_out"
+    },
+    {
+      "seconds": 0.04550247301813215,
+      "outcome": "ok"
+    },
+    {
+      "seconds": 0.00013420404866337776,
+      "error": "ConnectionRefusedError"
+    },
+    {
+      "seconds": 0.00020365603268146515,
+      "error": "ConnectionRefusedError"
+    },
+    {
+      "seconds": 0.00010028993710875511,
+      "error": "ConnectionRefusedError"
+    },
+    {
+      "seconds": 0.0001393739366903901,
+      "error": "ConnectionRefusedError"
+    },
+    {
+      "seconds": 0.0001226019812747836,
+      "error": "ConnectionRefusedError"
+    },
+    {
+      "seconds": 0.00012318405788391829,
+      "error": "ConnectionRefusedError"
+    },
+    {
+      "seconds": 0.00010743399616330862,
+      "error": "ConnectionRefusedError"
+    },
+    {
+      "seconds": 8.136406540870667e-05,
+      "error": "ConnectionRefusedError"
+    },
+    {
+      "seconds": 0.0001165509456768632,
+      "error": "ConnectionRefusedError"
+    },
+    {
+      "seconds": 0.0001802709884941578,
+      "error": "ConnectionRefusedError"
+    },
+    {
+      "seconds": 0.0001277620904147625,
+      "error": "ConnectionRefusedError"
+    },
+    {
+      "seconds": 0.00010026001837104559,
+      "error": "ConnectionRefusedError"
+    },
+    {
+      "seconds": 0.00010115106124430895,
+      "error": "ConnectionRefusedError"
+    },
+    {
+      "seconds": 0.00012134003918617964,
+      "error": "ConnectionRefusedError"
+    },
+    {
+      "seconds": 0.049366475897841156,
+      "outcome": "ok"
+    },
+    {
+      "seconds": 0.0428857640363276,
+      "outcome": "ok"
+    },
+    {
+      "seconds": 0.00014569598715752363,
+      "error": "ConnectionRefusedError"
+    },
+    {
+      "seconds": 0.00010982796084135771,
+      "error": "ConnectionRefusedError"
+    },
+    {
+      "seconds": 0.00012500700540840626,
+      "error": "ConnectionRefusedError"
+    },
+    {
+      "seconds": 0.00017489201854914427,
+      "error": "ConnectionRefusedError"
+    },
+    {
+      "seconds": 0.00018133397679775953,
+      "error": "ConnectionRefusedError"
+    },
+    {
+      "seconds": 0.0001374509884044528,
+      "error": "ConnectionRefusedError"
+    },
+    {
+      "seconds": 0.00014173798263072968,
+      "error": "ConnectionRefusedError"
+    },
+    {
+      "seconds": 0.00015047506894916296,
+      "error": "ConnectionRefusedError"
+    },
+    {
+      "seconds": 0.00026661495212465525,
+      "error": "ConnectionRefusedError"
+    },
+    {
+      "seconds": 0.0001260190038010478,
+      "error": "ConnectionRefusedError"
+    },
+    {
+      "seconds": 0.00010809500236064196,
+      "error": "ConnectionRefusedError"
+    },
+    {
+      "seconds": 9.147298987954855e-05,
+      "error": "ConnectionRefusedError"
+    },
+    {
+      "seconds": 0.0001239249249920249,
+      "error": "ConnectionRefusedError"
+    },
+    {
+      "seconds": 0.00018864695448428392,
+      "error": "ConnectionRefusedError"
+    },
+    {
+      "seconds": 0.00017875898629426956,
+      "error": "ConnectionRefusedError"
+    },
+    {
+      "seconds": 0.007889342028647661,
+      "outcome": "ok"
+    },
+    {
+      "seconds": 0.006681412924081087,
+      "outcome": "active"
+    },
+    {
+      "seconds": 0.010386002948507667,
+      "outcome": "active"
+    },
+    {
+      "seconds": 0.008455184055492282,
+      "outcome": "expired"
+    },
+    {
+      "seconds": 0.00016835902351886034,
+      "error": "ConnectionRefusedError"
+    },
+    {
+      "seconds": 0.00011812394950538874,
+      "error": "ConnectionRefusedError"
+    },
+    {
+      "seconds": 0.00016596505884081125,
+      "error": "ConnectionRefusedError"
+    },
+    {
+      "seconds": 0.00017868902068585157,
+      "error": "ConnectionRefusedError"
+    },
+    {
+      "seconds": 0.0001323210308328271,
+      "error": "ConnectionRefusedError"
+    },
+    {
+      "seconds": 0.00012145994696766138,
+      "error": "ConnectionRefusedError"
+    },
+    {
+      "seconds": 0.00011557899415493011,
+      "error": "ConnectionRefusedError"
+    },
+    {
+      "seconds": 0.0002263589994981885,
+      "error": "ConnectionRefusedError"
+    },
+    {
+      "seconds": 0.0011919090757146478,
+      "error": "ConnectionRefusedError"
+    },
+    {
+      "seconds": 0.00015400198753923178,
+      "error": "ConnectionRefusedError"
+    },
+    {
+      "seconds": 0.000118004041723907,
+      "error": "ConnectionRefusedError"
+    },
+    {
+      "seconds": 0.00016268901526927948,
+      "error": "ConnectionRefusedError"
+    },
+    {
+      "seconds": 0.00014536501839756966,
+      "error": "ConnectionRefusedError"
+    },
+    {
+      "seconds": 0.0001375910360366106,
+      "error": "ConnectionRefusedError"
+    },
+    {
+      "seconds": 0.00913878995925188,
+      "outcome": "ok"
+    },
+    {
+      "seconds": 0.025450893095694482,
+      "outcome": "active"
+    },
+    {
+      "seconds": 0.039188227034173906,
+      "outcome": "active"
+    },
+    {
+      "seconds": 0.04604836809448898,
+      "outcome": "active"
+    },
+    {
+      "seconds": 0.05146868992596865,
+      "outcome": "active"
+    },
+    {
+      "seconds": 0.05055099097080529,
+      "outcome": "active"
+    },
+    {
+      "seconds": 0.05098725704010576,
+      "outcome": "active"
+    },
+    {
+      "seconds": 0.05633758695330471,
+      "outcome": "active"
+    },
+    {
+      "seconds": 0.031048892065882683,
+      "outcome": "active"
+    },
+    {
+      "seconds": 0.08115692296996713,
+      "outcome": "active"
+    },
+    {
+      "seconds": 0.04721958690788597,
+      "outcome": "active"
+    },
+    {
+      "seconds": 0.061389761976897717,
+      "outcome": "active"
+    },
+    {
+      "seconds": 0.036906452965922654,
+      "outcome": "active"
+    },
+    {
+      "seconds": 0.024133505998179317,
+      "outcome": "active"
+    },
+    {
+      "seconds": 0.05069564504083246,
+      "outcome": "active"
+    },
+    {
+      "seconds": 0.045405169017612934,
+      "outcome": "active"
+    },
+    {
+      "seconds": 0.05204270803369582,
+      "outcome": "active"
+    },
+    {
+      "seconds": 0.021608280017971992,
+      "outcome": "active"
+    },
+    {
+      "seconds": 0.04106367100030184,
+      "outcome": "active"
+    },
+    {
+      "seconds": 0.04460109502542764,
+      "outcome": "active"
+    },
+    {
+      "seconds": 0.04240151704289019,
+      "outcome": "active"
+    },
+    {
+      "seconds": 0.06004162703175098,
+      "outcome": "active"
+    },
+    {
+      "seconds": 0.0434811229351908,
+      "outcome": "active"
+    },
+    {
+      "seconds": 0.042459437041543424,
+      "outcome": "active"
+    },
+    {
+      "seconds": 0.04213559301570058,
+      "outcome": "active"
+    },
+    {
+      "seconds": 0.004988803993910551,
+      "outcome": "ok"
+    },
+    {
+      "seconds": 0.0001181229017674923,
+      "error": "ConnectionRefusedError"
+    },
+    {
+      "seconds": 0.00015902100130915642,
+      "error": "ConnectionRefusedError"
+    },
+    {
+      "seconds": 0.0001606949372217059,
+      "error": "ConnectionRefusedError"
+    },
+    {
+      "seconds": 0.00015854102093726397,
+      "error": "ConnectionRefusedError"
+    },
+    {
+      "seconds": 0.00012453598901629448,
+      "error": "ConnectionRefusedError"
+    },
+    {
+      "seconds": 9.610201232135296e-05,
+      "error": "ConnectionRefusedError"
+    },
+    {
+      "seconds": 0.0002640410093590617,
+      "error": "ConnectionRefusedError"
+    },
+    {
+      "seconds": 0.00012815301306545734,
+      "error": "ConnectionRefusedError"
+    },
+    {
+      "seconds": 0.00010120205115526915,
+      "error": "ConnectionRefusedError"
+    },
+    {
+      "seconds": 7.646495942026377e-05,
+      "error": "ConnectionRefusedError"
+    },
+    {
+      "seconds": 9.044201578944921e-05,
+      "error": "ConnectionRefusedError"
+    },
+    {
+      "seconds": 8.55419784784317e-05,
+      "error": "ConnectionRefusedError"
+    },
+    {
+      "seconds": 0.00012410501949489117,
+      "error": "ConnectionRefusedError"
+    },
+    {
+      "seconds": 0.00016506307292729616,
+      "error": "ConnectionRefusedError"
+    },
+    {
+      "seconds": 0.00011729192920029163,
+      "error": "ConnectionRefusedError"
+    },
+    {
+      "seconds": 0.0076785520650446415,
+      "outcome": "ok"
+    },
+    {
+      "seconds": 0.0051809289725497365,
+      "outcome": "active"
+    },
+    {
+      "seconds": 0.0001098080538213253,
+      "error": "ConnectionRefusedError"
+    },
+    {
+      "seconds": 8.166406769305468e-05,
+      "error": "ConnectionRefusedError"
+    },
+    {
+      "seconds": 8.11839709058404e-05,
+      "error": "ConnectionRefusedError"
+    },
+    {
+      "seconds": 0.00013904401566833258,
+      "error": "ConnectionRefusedError"
+    },
+    {
+      "seconds": 0.00016230694018304348,
+      "error": "ConnectionRefusedError"
+    },
+    {
+      "seconds": 0.00014269095845520496,
+      "error": "ConnectionRefusedError"
+    },
+    {
+      "seconds": 0.00013343291357159615,
+      "error": "ConnectionRefusedError"
+    },
+    {
+      "seconds": 0.0001124030677601695,
+      "error": "ConnectionRefusedError"
+    },
+    {
+      "seconds": 0.0002832160098478198,
+      "error": "ConnectionRefusedError"
+    },
+    {
+      "seconds": 0.00018065201584249735,
+      "error": "ConnectionRefusedError"
+    },
+    {
+      "seconds": 9.135296568274498e-05,
+      "error": "ConnectionRefusedError"
+    },
+    {
+      "seconds": 9.359803516417742e-05,
+      "error": "ConnectionRefusedError"
+    },
+    {
+      "seconds": 9.876803960651159e-05,
+      "error": "ConnectionRefusedError"
+    },
+    {
+      "seconds": 0.0001631999621167779,
+      "error": "ConnectionRefusedError"
+    },
+    {
+      "seconds": 0.006468107923865318,
+      "outcome": "ok"
+    },
+    {
+      "seconds": 0.005322076031006873,
+      "outcome": "active"
+    },
+    {
+      "seconds": 0.00010428798850625753,
+      "error": "ConnectionRefusedError"
+    },
+    {
+      "seconds": 0.00011257396545261145,
+      "error": "ConnectionRefusedError"
+    },
+    {
+      "seconds": 0.0012494679540395737,
+      "error": "ConnectionRefusedError"
+    },
+    {
+      "seconds": 0.00018008204642683268,
+      "error": "ConnectionRefusedError"
+    },
+    {
+      "seconds": 0.00010927696712315083,
+      "error": "ConnectionRefusedError"
+    },
+    {
+      "seconds": 9.756500367075205e-05,
+      "error": "ConnectionRefusedError"
+    },
+    {
+      "seconds": 0.00011269294191151857,
+      "error": "ConnectionRefusedError"
+    },
+    {
+      "seconds": 0.00010635098442435265,
+      "error": "ConnectionRefusedError"
+    },
+    {
+      "seconds": 0.00010906602256000042,
+      "error": "ConnectionRefusedError"
+    },
+    {
+      "seconds": 0.00011744291987270117,
+      "error": "ConnectionRefusedError"
+    },
+    {
+      "seconds": 0.00011668098159134388,
+      "error": "ConnectionRefusedError"
+    },
+    {
+      "seconds": 9.62020130828023e-05,
+      "error": "ConnectionRefusedError"
+    },
+    {
+      "seconds": 0.00036006199661642313,
+      "error": "ConnectionRefusedError"
+    },
+    {
+      "seconds": 0.00019702292047441006,
+      "error": "ConnectionRefusedError"
+    },
+    {
+      "seconds": 0.011393561959266663,
+      "outcome": "ok"
+    },
+    {
+      "seconds": 0.00543735409155488,
+      "outcome": "active"
+    },
+    {
+      "seconds": 0.00011280400212854147,
+      "error": "ConnectionRefusedError"
+    },
+    {
+      "seconds": 0.00018835696391761303,
+      "error": "ConnectionRefusedError"
+    },
+    {
+      "seconds": 0.00018463004380464554,
+      "error": "ConnectionRefusedError"
+    },
+    {
+      "seconds": 0.00020350597333163023,
+      "error": "ConnectionRefusedError"
+    },
+    {
+      "seconds": 0.0002338639460504055,
+      "error": "ConnectionRefusedError"
+    },
+    {
+      "seconds": 0.00015373202040791512,
+      "error": "ConnectionRefusedError"
+    },
+    {
+      "seconds": 0.00024321000091731548,
+      "error": "ConnectionRefusedError"
+    },
+    {
+      "seconds": 0.0001480410574004054,
+      "error": "ConnectionRefusedError"
+    },
+    {
+      "seconds": 0.00014554604422301054,
+      "error": "ConnectionRefusedError"
+    },
+    {
+      "seconds": 0.00010907696560025215,
+      "error": "ConnectionRefusedError"
+    },
+    {
+      "seconds": 0.00015828991308808327,
+      "error": "ConnectionRefusedError"
+    },
+    {
+      "seconds": 0.00019363709725439548,
+      "error": "ConnectionRefusedError"
+    },
+    {
+      "seconds": 0.00024183792993426323,
+      "error": "ConnectionRefusedError"
+    },
+    {
+      "seconds": 0.0001996980281546712,
+      "error": "ConnectionRefusedError"
+    },
+    {
+      "seconds": 0.012767145992256701,
+      "outcome": "ok"
+    },
+    {
+      "seconds": 0.007810692070052028,
+      "outcome": "active"
+    },
+    {
+      "seconds": 0.00014218897558748722,
+      "error": "ConnectionRefusedError"
+    },
+    {
+      "seconds": 0.00011608994100242853,
+      "error": "ConnectionRefusedError"
+    },
+    {
+      "seconds": 0.00013308203779160976,
+      "error": "ConnectionRefusedError"
+    },
+    {
+      "seconds": 0.0001416689483448863,
+      "error": "ConnectionRefusedError"
+    },
+    {
+      "seconds": 0.00013453501742333174,
+      "error": "ConnectionRefusedError"
+    },
+    {
+      "seconds": 0.0001631489722058177,
+      "error": "ConnectionRefusedError"
+    },
+    {
+      "seconds": 0.00016121496446430683,
+      "error": "ConnectionRefusedError"
+    },
+    {
+      "seconds": 0.0002530199708417058,
+      "error": "ConnectionRefusedError"
+    },
+    {
+      "seconds": 0.00018512096721678972,
+      "error": "ConnectionRefusedError"
+    },
+    {
+      "seconds": 0.00013812200631946325,
+      "error": "ConnectionRefusedError"
+    },
+    {
+      "seconds": 8.029199671000242e-05,
+      "error": "ConnectionRefusedError"
+    },
+    {
+      "seconds": 0.00010592001490294933,
+      "error": "ConnectionRefusedError"
+    },
+    {
+      "seconds": 0.00015191803686320782,
+      "error": "ConnectionRefusedError"
+    },
+    {
+      "seconds": 0.0001248869812116027,
+      "error": "ConnectionRefusedError"
+    },
+    {
+      "seconds": 0.008498135022819042,
+      "outcome": "ok"
+    },
+    {
+      "seconds": 0.005833605071529746,
+      "outcome": "active"
+    },
+    {
+      "seconds": 0.005374936037696898,
+      "outcome": "active"
+    },
+    {
+      "seconds": 0.006264621973969042,
+      "outcome": "id_conflict"
+    },
+    {
+      "seconds": 0.007701426045969129,
+      "outcome": "id_conflict"
+    },
+    {
+      "seconds": 0.016889297985471785,
+      "outcome": "confirmed"
+    },
+    {
+      "seconds": 0.005995332030579448,
+      "outcome": "confirmed"
+    },
+    {
+      "seconds": 0.02757197304163128,
+      "outcome": "active"
+    },
+    {
+      "seconds": 0.10301934601739049,
+      "outcome": "active"
+    },
+    {
+      "seconds": 0.16594648000318557,
+      "outcome": "active"
+    },
+    {
+      "seconds": 0.31912339199334383,
+      "outcome": "active"
+    },
+    {
+      "seconds": 0.3949894580291584,
+      "outcome": "active"
+    },
+    {
+      "seconds": 0.7100492379395291,
+      "outcome": "active"
+    },
+    {
+      "seconds": 0.35004846891388297,
+      "outcome": "active"
+    },
+    {
+      "seconds": 0.4356900709681213,
+      "outcome": "active"
+    },
+    {
+      "seconds": 2.088389868964441,
+      "outcome": "sold_out"
+    },
+    {
+      "seconds": 0.499093358987011,
+      "outcome": "sold_out"
+    },
+    {
+      "seconds": 2.0806263969279826,
+      "outcome": "sold_out"
+    },
+    {
+      "seconds": 1.578008176991716,
+      "outcome": "sold_out"
+    },
+    {
+      "seconds": 2.153419057955034,
+      "outcome": "sold_out"
+    },
+    {
+      "seconds": 1.8619071249850094,
+      "outcome": "sold_out"
+    },
+    {
+      "seconds": 2.241778210969642,
+      "outcome": "sold_out"
+    },
+    {
+      "seconds": 2.25635078700725,
+      "outcome": "sold_out"
+    },
+    {
+      "seconds": 0.2870957750128582,
+      "outcome": "sold_out"
+    },
+    {
+      "seconds": 0.3088858900591731,
+      "outcome": "sold_out"
+    },
+    {
+      "seconds": 0.2989992239745334,
+      "outcome": "sold_out"
+    },
+    {
+      "seconds": 0.26815865689422935,
+      "outcome": "sold_out"
+    },
+    {
+      "seconds": 0.04349479801021516,
+      "outcome": "ok"
+    },
+    {
+      "seconds": 0.00013573700562119484,
+      "error": "ConnectionRefusedError"
+    },
+    {
+      "seconds": 0.00015000405255705118,
+      "error": "ConnectionRefusedError"
+    },
+    {
+      "seconds": 0.000229454948566854,
+      "error": "ConnectionRefusedError"
+    },
+    {
+      "seconds": 0.00011191191151738167,
+      "error": "ConnectionRefusedError"
+    },
+    {
+      "seconds": 8.624396286904812e-05,
+      "error": "ConnectionRefusedError"
+    },
+    {
+      "seconds": 7.720605935901403e-05,
+      "error": "ConnectionRefusedError"
+    },
+    {
+      "seconds": 7.786706555634737e-05,
+      "error": "ConnectionRefusedError"
+    },
+    {
+      "seconds": 0.00012611900456249714,
+      "error": "ConnectionRefusedError"
+    },
+    {
+      "seconds": 0.0001960420049726963,
+      "error": "ConnectionRefusedError"
+    },
+    {
+      "seconds": 0.00020810507703572512,
+      "error": "ConnectionRefusedError"
+    },
+    {
+      "seconds": 0.0012050740187987685,
+      "error": "ConnectionRefusedError"
+    },
+    {
+      "seconds": 0.0003485210472717881,
+      "error": "ConnectionRefusedError"
+    },
+    {
+      "seconds": 0.00018609198741614819,
+      "error": "ConnectionRefusedError"
+    },
+    {
+      "seconds": 0.00018227507825940847,
+      "error": "ConnectionRefusedError"
+    },
+    {
+      "seconds": 9.378697723150253e-05,
+      "error": "ConnectionRefusedError"
+    },
+    {
+      "seconds": 0.00012332398910075426,
+      "error": "ConnectionRefusedError"
+    },
+    {
+      "seconds": 0.00011359492782503366,
+      "error": "ConnectionRefusedError"
+    },
+    {
+      "seconds": 9.903800673782825e-05,
+      "error": "ConnectionRefusedError"
+    },
+    {
+      "seconds": 8.893897756934166e-05,
+      "error": "ConnectionRefusedError"
+    },
+    {
+      "seconds": 0.00013080809731036425,
+      "error": "ConnectionRefusedError"
+    },
+    {
+      "seconds": 8.242600597441196e-05,
+      "error": "ConnectionRefusedError"
+    },
+    {
+      "seconds": 0.0003187139518558979,
+      "error": "ConnectionRefusedError"
+    },
+    {
+      "seconds": 0.00018431898206472397,
+      "error": "ConnectionRefusedError"
+    },
+    {
+      "seconds": 0.00014134799130260944,
+      "error": "ConnectionRefusedError"
+    },
+    {
+      "seconds": 0.00011562998406589031,
+      "error": "ConnectionRefusedError"
+    },
+    {
+      "seconds": 9.94090223684907e-05,
+      "error": "ConnectionRefusedError"
+    },
+    {
+      "seconds": 0.00011134101077914238,
+      "error": "ConnectionRefusedError"
+    },
+    {
+      "seconds": 0.00012064899783581495,
+      "error": "ConnectionRefusedError"
+    },
+    {
+      "seconds": 8.780602365732193e-05,
+      "error": "ConnectionRefusedError"
+    },
+    {
+      "seconds": 0.0001037160400301218,
+      "error": "ConnectionRefusedError"
+    },
+    {
+      "seconds": 0.00015485298354178667,
+      "error": "ConnectionRefusedError"
+    },
+    {
+      "seconds": 0.00037178501952439547,
+      "error": "ConnectionRefusedError"
+    },
+    {
+      "seconds": 0.00022504699882119894,
+      "error": "ConnectionRefusedError"
+    },
+    {
+      "seconds": 0.043858167016878724,
+      "outcome": "ok"
+    },
+    {
+      "seconds": 0.04659599589649588,
+      "outcome": "ok"
+    },
+    {
+      "seconds": 0.00012462690938264132,
+      "error": "ConnectionRefusedError"
+    },
+    {
+      "seconds": 9.441899601370096e-05,
+      "error": "ConnectionRefusedError"
+    },
+    {
+      "seconds": 0.00022246199660003185,
+      "error": "ConnectionRefusedError"
+    },
+    {
+      "seconds": 0.00015422189608216286,
+      "error": "ConnectionRefusedError"
+    },
+    {
+      "seconds": 9.660306386649609e-05,
+      "error": "ConnectionRefusedError"
+    },
+    {
+      "seconds": 9.164295624941587e-05,
+      "error": "ConnectionRefusedError"
+    },
+    {
+      "seconds": 0.0001452550059184432,
+      "error": "ConnectionRefusedError"
+    },
+    {
+      "seconds": 0.0002785579999908805,
+      "error": "ConnectionRefusedError"
+    },
+    {
+      "seconds": 0.0001533200265839696,
+      "error": "ConnectionRefusedError"
+    },
+    {
+      "seconds": 0.00011011806782335043,
+      "error": "ConnectionRefusedError"
+    },
+    {
+      "seconds": 0.00011863501276820898,
+      "error": "ConnectionRefusedError"
+    },
+    {
+      "seconds": 0.00027963996399194,
+      "error": "ConnectionRefusedError"
+    },
+    {
+      "seconds": 0.0001848399406298995,
+      "error": "ConnectionRefusedError"
+    },
+    {
+      "seconds": 0.00011988810729235411,
+      "error": "ConnectionRefusedError"
+    },
+    {
+      "seconds": 0.005848664091899991,
+      "outcome": "ok"
+    },
+    {
+      "seconds": 0.010205561062321067,
+      "outcome": "active"
+    },
+    {
+      "seconds": 0.020639784983359277,
+      "outcome": "active"
+    },
+    {
+      "seconds": 0.010093629010953009,
+      "outcome": "expired"
+    },
+    {
+      "seconds": 0.00013005593791604042,
+      "error": "ConnectionRefusedError"
+    },
+    {
+      "seconds": 0.003245200030505657,
+      "error": "ConnectionRefusedError"
+    },
+    {
+      "seconds": 0.00012522703036665916,
+      "error": "ConnectionRefusedError"
+    },
+    {
+      "seconds": 0.00010997802019119263,
+      "error": "ConnectionRefusedError"
+    },
+    {
+      "seconds": 0.00012227206025272608,
+      "error": "ConnectionRefusedError"
+    },
+    {
+      "seconds": 0.00016215804498642683,
+      "error": "ConnectionRefusedError"
+    },
+    {
+      "seconds": 0.00015878095291554928,
+      "error": "ConnectionRefusedError"
+    },
+    {
+      "seconds": 0.00016336992848664522,
+      "error": "ConnectionRefusedError"
+    },
+    {
+      "seconds": 0.00011466699652373791,
+      "error": "ConnectionRefusedError"
+    },
+    {
+      "seconds": 8.81369924172759e-05,
+      "error": "ConnectionRefusedError"
+    },
+    {
+      "seconds": 0.0001945879776030779,
+      "error": "ConnectionRefusedError"
+    },
+    {
+      "seconds": 0.0001737999264150858,
+      "error": "ConnectionRefusedError"
+    },
+    {
+      "seconds": 0.00011995795648545027,
+      "error": "ConnectionRefusedError"
+    },
+    {
+      "seconds": 0.00010327599011361599,
+      "error": "ConnectionRefusedError"
+    },
+    {
+      "seconds": 0.00014573591761291027,
+      "error": "ConnectionRefusedError"
+    },
+    {
+      "seconds": 0.006614004960283637,
+      "outcome": "ok"
+    },
+    {
+      "seconds": 0.02408911194652319,
+      "outcome": "active"
+    },
+    {
+      "seconds": 0.03883943590335548,
+      "outcome": "active"
+    },
+    {
+      "seconds": 0.04028801096137613,
+      "outcome": "active"
+    },
+    {
+      "seconds": 0.04437474603764713,
+      "outcome": "active"
+    },
+    {
+      "seconds": 0.0444152329582721,
+      "outcome": "active"
+    },
+    {
+      "seconds": 0.04877784999553114,
+      "outcome": "active"
+    },
+    {
+      "seconds": 0.06336314196232706,
+      "outcome": "active"
+    },
+    {
+      "seconds": 0.03996593097690493,
+      "outcome": "active"
+    },
+    {
+      "seconds": 0.05998346698470414,
+      "outcome": "active"
+    },
+    {
+      "seconds": 0.08367527602240443,
+      "outcome": "active"
+    },
+    {
+      "seconds": 0.05623701703734696,
+      "outcome": "active"
+    },
+    {
+      "seconds": 0.05254534003324807,
+      "outcome": "active"
+    },
+    {
+      "seconds": 0.029632427962496877,
+      "outcome": "active"
+    },
+    {
+      "seconds": 0.06771083199419081,
+      "outcome": "active"
+    },
+    {
+      "seconds": 0.05929342901799828,
+      "outcome": "active"
+    },
+    {
+      "seconds": 0.033725114073604345,
+      "outcome": "active"
+    },
+    {
+      "seconds": 0.07099879300221801,
+      "outcome": "active"
+    },
+    {
+      "seconds": 0.05509407096542418,
+      "outcome": "active"
+    },
+    {
+      "seconds": 0.05070088501088321,
+      "outcome": "active"
+    },
+    {
+      "seconds": 0.03345497197005898,
+      "outcome": "active"
+    },
+    {
+      "seconds": 0.030347501975484192,
+      "outcome": "active"
+    },
+    {
+      "seconds": 0.04146975092589855,
+      "outcome": "active"
+    },
+    {
+      "seconds": 0.0077149709686636925,
+      "outcome": "active"
+    },
+    {
+      "seconds": 0.030853682081215084,
+      "outcome": "active"
+    },
+    {
+      "seconds": 0.006614334997721016,
+      "outcome": "ok"
+    },
+    {
+      "seconds": 0.00012356392107903957,
+      "error": "ConnectionRefusedError"
+    },
+    {
+      "seconds": 0.00012352399062365294,
+      "error": "ConnectionRefusedError"
+    },
+    {
+      "seconds": 8.317700121551752e-05,
+      "error": "ConnectionRefusedError"
+    },
+    {
+      "seconds": 0.00011932605411857367,
+      "error": "ConnectionRefusedError"
+    },
+    {
+      "seconds": 0.0001267010811716318,
+      "error": "ConnectionRefusedError"
+    },
+    {
+      "seconds": 0.00016920105554163456,
+      "error": "ConnectionRefusedError"
+    },
+    {
+      "seconds": 0.00013415399007499218,
+      "error": "ConnectionRefusedError"
+    },
+    {
+      "seconds": 8.964003063738346e-05,
+      "error": "ConnectionRefusedError"
+    },
+    {
+      "seconds": 7.665506564080715e-05,
+      "error": "ConnectionRefusedError"
+    },
+    {
+      "seconds": 0.0002033649943768978,
+      "error": "ConnectionRefusedError"
+    },
+    {
+      "seconds": 0.00012886396143585443,
+      "error": "ConnectionRefusedError"
+    },
+    {
+      "seconds": 0.00012404494918882847,
+      "error": "ConnectionRefusedError"
+    },
+    {
+      "seconds": 9.226403199136257e-05,
+      "error": "ConnectionRefusedError"
+    },
+    {
+      "seconds": 0.00010260497219860554,
+      "error": "ConnectionRefusedError"
+    },
+    {
+      "seconds": 0.00013773096725344658,
+      "error": "ConnectionRefusedError"
+    },
+    {
+      "seconds": 0.006496120942756534,
+      "outcome": "ok"
+    },
+    {
+      "seconds": 0.005359628004953265,
+      "outcome": "active"
+    },
+    {
+      "seconds": 0.00011977693066000938,
+      "error": "ConnectionRefusedError"
+    },
+    {
+      "seconds": 9.900704026222229e-05,
+      "error": "ConnectionRefusedError"
+    },
+    {
+      "seconds": 0.00022190099116414785,
+      "error": "ConnectionRefusedError"
+    },
+    {
+      "seconds": 0.0001180529361590743,
+      "error": "ConnectionRefusedError"
+    },
+    {
+      "seconds": 8.606293704360723e-05,
+      "error": "ConnectionRefusedError"
+    },
+    {
+      "seconds": 8.7164924480021e-05,
+      "error": "ConnectionRefusedError"
+    },
+    {
+      "seconds": 0.0001301470911130309,
+      "error": "ConnectionRefusedError"
+    },
+    {
+      "seconds": 0.00015510397497564554,
+      "error": "ConnectionRefusedError"
+    },
+    {
+      "seconds": 0.00015073607210069895,
+      "error": "ConnectionRefusedError"
+    },
+    {
+      "seconds": 0.00016257795505225658,
+      "error": "ConnectionRefusedError"
+    },
+    {
+      "seconds": 0.000125387916341424,
+      "error": "ConnectionRefusedError"
+    },
+    {
+      "seconds": 9.64730279520154e-05,
+      "error": "ConnectionRefusedError"
+    },
+    {
+      "seconds": 0.00024612597189843655,
+      "error": "ConnectionRefusedError"
+    },
+    {
+      "seconds": 0.00014204904437065125,
+      "error": "ConnectionRefusedError"
+    },
+    {
+      "seconds": 0.007625091006048024,
+      "outcome": "ok"
+    },
+    {
+      "seconds": 0.005339078023098409,
+      "outcome": "active"
+    },
+    {
+      "seconds": 0.00010215304791927338,
+      "error": "ConnectionRefusedError"
+    },
+    {
+      "seconds": 0.0001785379135981202,
+      "error": "ConnectionRefusedError"
+    },
+    {
+      "seconds": 0.00016406108625233173,
+      "error": "ConnectionRefusedError"
+    },
+    {
+      "seconds": 0.00011409597937017679,
+      "error": "ConnectionRefusedError"
+    },
+    {
+      "seconds": 8.044298738241196e-05,
+      "error": "ConnectionRefusedError"
+    },
+    {
+      "seconds": 0.00023578701075166464,
+      "error": "ConnectionRefusedError"
+    },
+    {
+      "seconds": 0.0001388639211654663,
+      "error": "ConnectionRefusedError"
+    },
+    {
+      "seconds": 8.186593186110258e-05,
+      "error": "ConnectionRefusedError"
+    },
+    {
+      "seconds": 7.468205876648426e-05,
+      "error": "ConnectionRefusedError"
+    },
+    {
+      "seconds": 9.740504901856184e-05,
+      "error": "ConnectionRefusedError"
+    },
+    {
+      "seconds": 0.00013101904187351465,
+      "error": "ConnectionRefusedError"
+    },
+    {
+      "seconds": 0.00017334800213575363,
+      "error": "ConnectionRefusedError"
+    },
+    {
+      "seconds": 0.0001374600687995553,
+      "error": "ConnectionRefusedError"
+    },
+    {
+      "seconds": 0.007054067915305495,
+      "outcome": "ok"
+    },
+    {
+      "seconds": 0.005362402065657079,
+      "outcome": "active"
+    },
+    {
+      "seconds": 0.00015551503747701645,
+      "error": "ConnectionRefusedError"
+    },
+    {
+      "seconds": 0.00011752289719879627,
+      "error": "ConnectionRefusedError"
+    },
+    {
+      "seconds": 8.214497938752174e-05,
+      "error": "ConnectionRefusedError"
+    },
+    {
+      "seconds": 7.607403676956892e-05,
+      "error": "ConnectionRefusedError"
+    },
+    {
+      "seconds": 0.00010540895164012909,
+      "error": "ConnectionRefusedError"
+    },
+    {
+      "seconds": 9.936792775988579e-05,
+      "error": "ConnectionRefusedError"
+    },
+    {
+      "seconds": 0.0001281329896301031,
+      "error": "ConnectionRefusedError"
+    },
+    {
+      "seconds": 0.00012001802679151297,
+      "error": "ConnectionRefusedError"
+    },
+    {
+      "seconds": 9.577092714607716e-05,
+      "error": "ConnectionRefusedError"
+    },
+    {
+      "seconds": 8.576200343668461e-05,
+      "error": "ConnectionRefusedError"
+    },
+    {
+      "seconds": 0.0001988760195672512,
+      "error": "ConnectionRefusedError"
+    },
+    {
+      "seconds": 0.00012111000251024961,
+      "error": "ConnectionRefusedError"
+    },
+    {
+      "seconds": 8.719507604837418e-05,
+      "error": "ConnectionRefusedError"
+    },
+    {
+      "seconds": 0.006030158023349941,
+      "outcome": "ok"
+    },
+    {
+      "seconds": 0.0051575039979070425,
+      "outcome": "active"
+    }
+  ]
+}

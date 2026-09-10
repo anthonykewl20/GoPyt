@@ -16,6 +16,19 @@ from gopyt.vm import VM, Cancelled, Trap
 
 
 class FileDeadlines(unittest.TestCase):
+    def test_file_read_uses_shared_native_budget_and_preserves_trap_contract(self):
+        from gopyt.resource_budget import ResourceBudget, ResourceLimits
+        self.path.write_bytes(b'abcdefgh')
+        self.vm.resource_budget = ResourceBudget(ResourceLimits(32, 0, 0, 0))
+        self.assertEqual(self.call('load'), b'abcdefgh')
+        self.assertEqual(self.vm.resource_budget.snapshot()['active_reservations'], 0)
+        self.vm.resource_budget = ResourceBudget(ResourceLimits(4, 0, 0, 0))
+        with self.assertRaises(Trap) as caught:
+            self.call('load')
+        self.assertEqual(caught.exception.code, 14)
+        self.assertEqual(self.vm.resource_budget.snapshot()['active_reservations'], 0)
+        self.assertEqual(self.path.read_bytes(), b'abcdefgh')
+
     def setUp(self):
         temporary = tempfile.TemporaryDirectory()
         self.addCleanup(temporary.cleanup)

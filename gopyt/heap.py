@@ -5,24 +5,32 @@ mutator lock protects instruction boundaries; blocking native calls and joined
 parallel work release it while their arguments/captures remain pinned.
 """
 from contextlib import contextmanager
+from itertools import islice
 import threading
 from gopyt.values import Record, EnumVal, Some, Secret
+from gopyt.resource_buffer import Buffer, BufferView
 
-HEAP_TYPES = (str, bytes, list, dict, Record, EnumVal, Some, Secret)
+HEAP_TYPES = (str, bytes, list, dict, Record, EnumVal, Some, Secret, Buffer, BufferView)
 SCALAR_TYPES = (int, bool, float, type(None))
 
 
 class _InstructionGuard:
-    """Reusable per-frame guard; acquire and release at every instruction."""
-    __slots__ = ('heap', 'frame')
+    """Reusable frame guard with bounded batches and explicit final release."""
+    __slots__ = ('heap', 'frame', 'quantum', 'remaining', 'held')
 
-    def __init__(self, heap, frame):
+    def __init__(self, heap, frame, quantum=1):
         self.heap = heap
         self.frame = frame
+        self.quantum = quantum
+        self.remaining = 0
+        self.held = False
 
     def __enter__(self):
         heap = self.heap
-        heap.lock.acquire()
+        if not self.held:
+            heap.lock.acquire()
+            self.held = True
+            self.remaining = self.quantum
         try:
             for value in self.frame.stack:
                 heap._adopt_locked(value)
@@ -33,15 +41,25 @@ class _InstructionGuard:
                 heap.collect()
                 heap.threshold = max(1024, len(heap.objects) * 2)
         except BaseException:
-            heap.lock.release()
+            self.finish()
             raise
 
     def __exit__(self, exc_type, exc, traceback):
-        self.heap.lock.release()
+        self.remaining -= 1
+        if exc_type is not None or self.remaining == 0:
+            self.finish()
         return False
+
+    def finish(self):
+        if self.held:
+            self.held = False
+            self.heap.lock.release()
+            self.heap.drain_resources()
 
 
 def children(value):
+    if isinstance(value, BufferView):
+        return (value.owner,)
     if isinstance(value, (Record, EnumVal)):
         return value.fields
     if isinstance(value, Some):
@@ -63,6 +81,9 @@ class Heap:
         self.handoffs = {}
         self.constants = tuple(constants)
         self.threshold = threshold
+        self._resource_lock = threading.Lock()
+        self._resource_pending = {}
+        self._resource_draining = False
         self.collections = 0
         self.reclaimed = 0
         self.adopt(self.constants)
@@ -124,8 +145,10 @@ class Heap:
             with self.lock:
                 del self.frames[id(frame)]
 
-    def step(self, frame):
-        return _InstructionGuard(self, frame)
+    def step(self, frame, *, quantum=1):
+        if type(quantum) is not int or not 1 <= quantum <= 32:
+            raise ValueError('instruction quantum must be between 1 and 32')
+        return _InstructionGuard(self, frame, quantum)
 
     @contextmanager
     def released(self):
@@ -163,7 +186,11 @@ class Heap:
                 pending.extend(children(obj))
             dead = [key for key in self.objects if key not in marked]
             for key in dead:
-                obj = self.objects.pop(key)
+                obj = self.objects[key]
+                if isinstance(obj, (Buffer, BufferView)):
+                    with self._resource_lock:
+                        self._resource_pending[id(obj)] = obj
+                del self.objects[key]
                 # Break language cycles without delegating them to Python GC.
                 if isinstance(obj, (list, dict)):
                     obj.clear()
@@ -176,3 +203,61 @@ class Heap:
             self.collections += 1
             self.reclaimed += len(dead)
             return len(dead)
+
+    def defer_resource(self, resource):
+        """Retain an unpublished resource before attempting fallible cleanup."""
+        if not isinstance(resource, (Buffer, BufferView)):
+            raise TypeError('buffer resource required')
+        with self._resource_lock:
+            self._resource_pending[id(resource)] = resource
+
+    def drain_resources(self, limit=64):
+        """Drain deferred closes outside the mutator lock; retain unfinished work.
+
+        Instruction guards invoke this after releasing their sole mutator lock.
+        Embedders that call collect directly must drain after leaving heap.lock.
+        No external resource closer runs during marking or under either queue lock.
+        """
+        if type(limit) is not int or limit < 1:
+            raise ValueError('positive resource drain limit required')
+        if not self._resource_pending:
+            return 0
+        with self._resource_lock:
+            if self._resource_draining:
+                return 0
+            selected = list(islice(self._resource_pending.items(), limit))
+            # Preparing the batch may allocate. Publish the active-drain flag
+            # only after preparation succeeds, so MemoryError leaves retries live.
+            self._resource_draining = True
+        completed = 0
+        try:
+            for key, resource in selected:
+                try:
+                    released = resource.close()
+                except BaseException:
+                    # Keep the object and its charge for a later explicit retry.
+                    released = False
+                if released:
+                    with self._resource_lock:
+                        self._resource_pending.pop(key, None)
+                    completed += 1
+        finally:
+            with self._resource_lock:
+                self._resource_draining = False
+        return completed
+
+    def pending_resources(self):
+        with self._resource_lock:
+            return len(self._resource_pending)
+
+    def close_resources(self):
+        """Queue even pinned resources at VM teardown; call outside heap.lock."""
+        with self.lock:
+            with self._resource_lock:
+                for key, value in self.objects.items():
+                    if isinstance(value, (Buffer, BufferView)):
+                        self._resource_pending[key] = value
+        # One pass over current work; failed closers remain owned for host retry.
+        pending = self.pending_resources()
+        if pending:
+            self.drain_resources(limit=pending)

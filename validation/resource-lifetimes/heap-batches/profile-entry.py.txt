@@ -1,0 +1,21 @@
+import collections,json,os,runpy,sys,threading,time
+from pathlib import Path
+counts=collections.Counter()
+output=Path('/tmp/gopyt-pr68-profile-'+str(os.getpid())+'.json')
+def sample():
+ tick=0
+ while True:
+  time.sleep(.02)
+  for frame in sys._current_frames().values():
+   leaf=frame
+   active=False
+   while frame:
+    if frame.f_code.co_name=='_exec_frame':active=True
+    frame=frame.f_back
+   if active:
+    counts[leaf.f_code.co_filename+':'+leaf.f_code.co_name+':'+str(leaf.f_lineno)]+=1
+  tick+=1
+  if tick%25==0:output.write_text(json.dumps(counts,indent=2))
+threading.Thread(target=sample,daemon=True).start()
+sys.argv=['gopyt',*sys.argv[1:]]
+runpy.run_module('gopyt',run_name='__main__')

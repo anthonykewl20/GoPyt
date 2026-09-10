@@ -16,6 +16,7 @@ from gopyt import gobyte, ops
 from gopyt.gobyte import Artifact, Func
 from gopyt.observe import Observe
 from gopyt.values import NONE, UNIT, EnumVal, NoneValue, Record, Secret, Some, Unit
+from gopyt.resource_buffer import Buffer, BufferView
 from gopyt.values import I32, U32, U64
 
 I64_MIN = -(2**63)
@@ -42,8 +43,15 @@ class Frame:
     stack: list = field(default_factory=list)
 
 
+class ResourceCleanupError(RuntimeError):
+    """Retains the VM so an embedding caller can inspect and retry cleanup."""
+    def __init__(self, vm):
+        super().__init__('VM resource cleanup incomplete')
+        self.vm = vm
+
+
 class VM:
-    def __init__(self, art: Artifact, root: str | None = None, *, authority=None, identities=None, parallel_workers: int = 64) -> None:
+    def __init__(self, art: Artifact, root: str | None = None, *, authority=None, identities=None, parallel_workers: int = 64, resource_budget=None) -> None:
         from gopyt.toolchain import FINGERPRINT
         if art.toolchain != FINGERPRINT:
             raise gobyte.e100()
@@ -71,6 +79,14 @@ class VM:
 
         from gopyt.scheduling import ParallelBudget
         self.parallel_budget = ParallelBudget(parallel_workers)
+        from gopyt.resource_budget import ResourceBudget, ResourceLimits
+        if resource_budget is not None and type(resource_budget) is not ResourceBudget:
+            raise TypeError("resource_budget must be a host ResourceBudget")
+        self.resource_budget = resource_budget if resource_budget is not None else ResourceBudget(
+            ResourceLimits(256 * 1024 * 1024, 512 * 1024 * 1024, 256, 65536))
+        self._lifecycle_lock = threading.Lock()
+        self._active_calls = 0
+        self._closed = False
         self.heap = Heap(c.value for c in art.consts)
         self.art = art
         self.root = "." if root is None else root
@@ -251,22 +267,58 @@ class VM:
 
     # -- calling ---------------------------------------------------------
 
+    def __enter__(self):
+        with self._lifecycle_lock:
+            if self._closed:
+                raise RuntimeError('VM is closed')
+        return self
+
+    def __exit__(self, exc_type, exc_value, traceback):
+        if not self.close():
+            raise ResourceCleanupError(self)
+        return False
+
+    def close(self):
+        """Close owned resources only when no calls are active; never wait on calls.
+
+        Returns false for a busy VM or unfinished physical cleanup. Once idle close
+        begins, new calls reject and the host may retry cleanup until it succeeds.
+        Embedding pins preserve objects, not permission to use a closed VM.
+        """
+        with self._lifecycle_lock:
+            if self._active_calls:
+                return False
+            self._closed = True
+        self.heap.close_resources()
+        return self.heap.pending_resources() == 0
+
     def call(self, fn_id: int, args: list, caller_effects: int | None = None) -> object:
+        with self._lifecycle_lock:
+            if self._closed:
+                raise RuntimeError('VM is closed')
+            self._active_calls += 1
+        try:
+            return self._call_admitted(fn_id, args, caller_effects)
+        finally:
+            with self._lifecycle_lock:
+                self._active_calls -= 1
+
+    def _call_admitted(self, fn_id: int, args: list, caller_effects: int | None = None) -> object:
         import time
         started = time.monotonic()
         func = self.art.funcs[fn_id]
         boundary = self.depth == 0 or func.kind == ops.KIND_NATIVE
         if boundary:
-            require_finite_values(args)
+            require_finite_values(args, resource_heap=self.heap)
         with self.heap.pin(args):
             result = self._call(fn_id, args, caller_effects)
             self.check_cancelled()
             if boundary:
-                require_finite_values(args)
-                require_finite_values(result)
+                require_finite_values(args, resource_heap=self.heap)
+                require_finite_values(result, resource_heap=self.heap)
             result = self.heap.handoff(result)
             if not self.names[fn_id].startswith("core.observe.") and (func.kind in (ops.KIND_TASK, ops.KIND_WORKFLOW) or (func.kind == ops.KIND_NATIVE and func.effects)):
-                tag = self.type_name(result.type_id) if isinstance(result, (Record, EnumVal, Secret)) else type(result).__name__
+                tag = self.type_name(result.type_id) if isinstance(result, (Record, EnumVal, Secret, Buffer, BufferView)) else type(result).__name__
                 if isinstance(result, EnumVal):
                     tag += "." + self.art.const_str(self.art.types[result.type_id].variants[result.variant][0])
                 try:
@@ -321,12 +373,18 @@ class VM:
             return self._exec_frame(frame)
 
     def _exec_frame(self, frame):
+        instruction_guard = self.heap.step(frame, quantum=32)
+        try:
+            return self._execute_frame(frame, instruction_guard)
+        finally:
+            instruction_guard.finish()
+
+    def _execute_frame(self, frame, instruction_guard):
         func = frame.func
         code = func.code
         stack = frame.stack
         pc = 0
         n = len(code)
-        instruction_guard = self.heap.step(frame)
         while pc < n:
             with instruction_guard:
                 self.check_cancelled()
@@ -416,7 +474,7 @@ class VM:
                     stack.append(v.variant)
                 elif op == ops.VALUE_TYPE:
                     v = stack.pop()
-                    if isinstance(v, (Record, EnumVal, Secret)):
+                    if isinstance(v, (Record, EnumVal, Secret, Buffer, BufferView)):
                         stack.append(v.type_id)
                     else:
                         stack.append(scalar_type_id(v))
@@ -730,7 +788,7 @@ def value_eq(a: object, b: object) -> bool:
     """Structural equality (S20). f64 and opaque values never reach here."""
     if isinstance(a, float) or isinstance(b, float):
         raise Trap(ops.TRAP_TYPE)
-    if isinstance(a, Secret) or isinstance(b, Secret):
+    if isinstance(a, (Secret, Buffer, BufferView)) or isinstance(b, (Secret, Buffer, BufferView)):
         raise Trap(ops.TRAP_TYPE)
     # A checked union may have different active member types on either side.
     if type(a) is not type(b):
@@ -770,7 +828,7 @@ def value_eq(a: object, b: object) -> bool:
     return a == b
 
 
-def require_finite_values(value: object) -> None:
+def require_finite_values(value: object, *, resource_heap=None) -> None:
     """Check host/native value graphs at each admission boundary, cycle-safe."""
     from gopyt.heap import children
     pending = [value]
@@ -779,6 +837,10 @@ def require_finite_values(value: object) -> None:
         item = pending.pop()
         if isinstance(item, float):
             if not math.isfinite(item):
+                raise Trap(ops.TRAP_TYPE)
+        elif isinstance(item, (Buffer, BufferView)):
+            owner = item.owner if isinstance(item, BufferView) else item
+            if resource_heap is not None and getattr(owner, "_vm_heap", None) is not resource_heap:
                 raise Trap(ops.TRAP_TYPE)
         elif isinstance(item, (list, dict, Record, EnumVal, Some)):
             identity = id(item)

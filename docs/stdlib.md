@@ -46,6 +46,10 @@ type TestFailed {
     message: str
 }
 
+type ResourceError {
+    message: str
+}
+
 type Throttled {
 }
 ```
@@ -605,3 +609,47 @@ Ordinary `data.json.encode` and generated `Json.to_json` obey the existing
 exceeding it traps 14 before returning a partial string. This is a per-value
 limit, separate from the smaller HTTP request/response budgets and aggregate
 process memory. See [implementer allocation rules](implementer.md#11-stack--limits-traps).
+
+## Checked resources
+
+Buffer and View are toolchain-opaque nominal handles. Their operation and lifetime
+rules are defined by the resource buffer amendment.
+
+```
+module data.buffer
+
+use core.status { ResourceError }
+
+task allocate(size: i64) -> Buffer | ResourceError
+    effects { resource }
+
+task map_bytes(data: bytes) -> Buffer | ResourceError
+    effects { resource }
+
+task read(buffer: Buffer, start: i64, length: i64) -> bytes | ResourceError
+    effects { resource }
+
+task write(buffer: Buffer, start: i64, data: bytes) -> unit | ResourceError
+    effects { resource }
+
+task freeze(buffer: Buffer) -> unit | ResourceError
+    effects { resource }
+
+task view(buffer: Buffer, start: i64, length: i64) -> View | ResourceError
+    effects { resource }
+
+task subview(view: View, start: i64, length: i64) -> View | ResourceError
+    effects { resource }
+
+task read_view(view: View, start: i64, length: i64) -> bytes | ResourceError
+    effects { resource }
+
+task write_view(view: View, start: i64, data: bytes) -> unit | ResourceError
+    effects { resource }
+
+task close(buffer: Buffer) -> unit | ResourceError
+    effects { resource }
+
+task close_view(view: View) -> unit | ResourceError
+    effects { resource }
+```

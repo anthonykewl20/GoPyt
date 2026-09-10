@@ -84,28 +84,28 @@ def cmd_run(root: str, target: str) -> int:
         # implementer.md 9: the run target's arity must be 0.
         sys.stdout.write(format_diag(Diag(22, fc.file, None, 0)))
         return EXIT_ERROR
-    vm = make_vm(root, prog, art, fn_ids)
-    fn_id = fn_ids[key]
-    try:
-        result = vm.call(fn_id, [])
-    except Trap as t:
-        sys.stdout.write(format_diag(Diag(101, None, None, 0, trap=t.code)))
-        return EXIT_TRAP
-    finally:
-        vm.observe.dump(root)
-    if isinstance(result, Unit):
+    with make_vm(root, prog, art, fn_ids) as vm:
+        fn_id = fn_ids[key]
+        try:
+            result = vm.call(fn_id, [])
+        except Trap as t:
+            sys.stdout.write(format_diag(Diag(101, None, None, 0, trap=t.code)))
+            return EXIT_TRAP
+        finally:
+            vm.observe.dump(root)
+        if isinstance(result, Unit):
+            return EXIT_OK
+        try:
+            text = jsonc.encode(art, result, art.funcs[fn_id].ret)
+        except jsonc.AllocationLimit:
+            from gopyt.ops import TRAP_ALLOC
+            sys.stdout.write(format_diag(Diag(101, None, None, 0, trap=TRAP_ALLOC)))
+            return EXIT_TRAP
+        except (ConvertFail, NotJson):
+            sys.stdout.write(format_diag(Diag(97, fc.file, None, 0)))
+            return EXIT_ERROR
+        sys.stdout.write(text + "\n")
         return EXIT_OK
-    try:
-        text = jsonc.encode(art, result, art.funcs[fn_id].ret)
-    except jsonc.AllocationLimit:
-        from gopyt.ops import TRAP_ALLOC
-        sys.stdout.write(format_diag(Diag(101, None, None, 0, trap=TRAP_ALLOC)))
-        return EXIT_TRAP
-    except (ConvertFail, NotJson):
-        sys.stdout.write(format_diag(Diag(97, fc.file, None, 0)))
-        return EXIT_ERROR
-    sys.stdout.write(text + "\n")
-    return EXIT_OK
 
 
 def cmd_test(root: str) -> int:
@@ -114,16 +114,16 @@ def cmd_test(root: str) -> int:
     prog, art, fn_ids = build(root)
     tests = [fc for fc in prog.funcs.values() if fc.kind == "test"]
     tests.sort(key=lambda fc: (fc.file.encode("utf-8"), fc.symbol.encode("utf-8")))
-    vm = make_vm(root, prog, art, fn_ids)
-    for fc in tests:
-        try:
-            vm.call(fn_ids[fc.key], [])
-        except Trap as t:
-            sys.stdout.write(format_diag(Diag(101, fc.file, None, 0, trap=t.code)))
-            vm.observe.dump(root)
-            return EXIT_TRAP
-    vm.observe.dump(root)
-    return EXIT_OK
+    with make_vm(root, prog, art, fn_ids) as vm:
+        for fc in tests:
+            try:
+                vm.call(fn_ids[fc.key], [])
+            except Trap as t:
+                sys.stdout.write(format_diag(Diag(101, fc.file, None, 0, trap=t.code)))
+                vm.observe.dump(root)
+                return EXIT_TRAP
+        vm.observe.dump(root)
+        return EXIT_OK
 
 
 def main(argv: list[str] | None = None) -> int:

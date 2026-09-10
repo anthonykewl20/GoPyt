@@ -1,0 +1,10 @@
+{
+  "interpreters": [
+    "3.11.16",
+    "3.14.7"
+  ],
+  "exit_code": 1,
+  "exception": "AttributeError",
+  "message": "module 'fcntl' has no attribute 'F_SEAL_WRITE'",
+  "resolution": "Use Linux UAPI constants verified in installed linux/fcntl.h and asm-generic/fcntl.h; guarded by sys.platform == linux."
+}

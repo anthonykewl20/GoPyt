@@ -359,24 +359,17 @@ def _safe_path(vm, path: str, write=False) -> str | None:
 @native("core.file.read")
 def _file_read(vm, args, func):
     from gopyt.files import regular_file
+    from gopyt.resource_io import read_bytes
+    from gopyt.resource_budget import ResourceLimitError
 
     full = _safe_path(vm, args[0])
     if full is None:
         return _status(vm, "IoError", "path")
     try:
         with regular_file(vm.root, args[0], check_context=vm.check_cancelled, buffering=0) as fh:
-            data = bytearray()
-            while True:
-                vm.check_cancelled()
-                chunk = fh.read(min(65_536, ops.MAX_ALLOC + 1 - len(data)))
-                vm.check_cancelled()
-                if chunk is None:
-                    raise OSError('file read would block')
-                if not chunk:
-                    return bytes(data)
-                data.extend(chunk)
-                if len(data) > ops.MAX_ALLOC:
-                    raise Trap(ops.TRAP_ALLOC)
+            return read_bytes(fh, vm.resource_budget, vm.check_cancelled, ops.MAX_ALLOC)
+    except ResourceLimitError:
+        raise Trap(ops.TRAP_ALLOC) from None
     except FileNotFoundError:
         return _status(vm, "NotFound")
     except OSError:
@@ -817,6 +810,9 @@ _install_money(NATIVES)
 from gopyt.temporal import install as _install_time
 
 _install_time(NATIVES)
+from gopyt.resource_natives import install as _install_resources
+
+_install_resources(NATIVES)
 NATIVES = _NativeTable(NATIVES)
 
 

@@ -1,0 +1,21 @@
+{
+  "scope": "Initial resource integration; issue #5 remains open",
+  "runtime": "19d44ed55f0dfbe60d5bb15f15173b8645482b7db88136b4ee66401c1f7f607b",
+  "files": {
+    "README.md": "c7dec5baf58a434a331973f64aac93204ab24a2383cf1e107d7150d339992903",
+    "components.json": "03ab79b365600b46a81eda8a96acb69eb1c22c0223f82889df832efd5657d43d",
+    "contracts-python314.json": "12907935d8ffccdccc2dec115b995dec773f4456c8d979c7a4c68a4c5712bc48",
+    "drain-fixed-python311.log": "4e9583fbd8b7dfd17b1b52f963bca5e078ab351e78d6c9726b2c05ff184c10db",
+    "drain-fixed-python314.log": "4e9583fbd8b7dfd17b1b52f963bca5e078ab351e78d6c9726b2c05ff184c10db",
+    "drain-initial-failure.log": "054996ad7a51f910d7efc058b448a909321a0832fb734d437e34fefb995e7aea",
+    "drain-initial-heap.py.txt": "ca53d36053006c29d969b881fe37fd6d87a49746d73a76d9a919160886b04e73",
+    "focused-python311.log": "7d199b8a7094448d35b1fbf3714c7e8bf5553dc4cefdd0087dad1c654cb88756",
+    "focused-python314.log": "a55a3f2e781566afb5275229de20ffc84e7d9496c28a779ff4dbf498ee64155a",
+    "full-python314.log": "58dbcabc93045b6cdb5cf2883a5682ea42f7f5e4b7bb18ba31ee77ced176de6c",
+    "guard-python314.log": "ee126207d4c782a2ea702dde75042fdc258dd4ee1e1a2e52b0710a9e61c54326",
+    "reproducible-wheel.json": "f8df4d186e9d94d71fa7c29fc58dd668c2777187e864cbd7b911a97913b5ed40",
+    "source.json": "5615258ea4c9f37ebaedd9db4b1ffe6b5d527c90faa72f69f33bb5e5102290a6",
+    "upgrade-rollback.json": "ae76cb5e8dbde61dbb4d7b2afac4168935f8b8aa65ae2735f1dd3e02f8e4b26e",
+    "wheel-smoke.json": "a89f0bba841a67b6185f8a71c6b534d1c3682e956babeca8bbf8e2c5fffc8b0a"
+  }
+}

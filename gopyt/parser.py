@@ -17,6 +17,7 @@ EFFECTS = [
     "ffi",
     "secret",
     "observe",
+    "resource",
 ]
 
 
@@ -474,7 +475,7 @@ class Parser:
             "observe",
         ):
             return self.bump().val
-        if tok.kind == "IDENT" and tok.val in ("network", "time", "random", "log", "model", "ffi", "secret", "observe"):
+        if tok.kind == "IDENT" and tok.val in ("network", "time", "random", "log", "model", "ffi", "secret", "observe", "resource"):
             return self.bump().val
         if tok.kind == "IDENT" and tok.val in ("filesystem", "database"):
             a = self.bump().val

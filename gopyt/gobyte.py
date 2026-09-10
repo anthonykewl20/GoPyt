@@ -6,6 +6,8 @@ GOPYT_E100 before the VM sees a single instruction.
 
 from __future__ import annotations
 
+from gopyt.types import OPAQUE_NAMES
+
 import struct
 import math
 from dataclasses import dataclass, field
@@ -419,7 +421,7 @@ def validate(art: Artifact) -> None:
             raise e100()
         if c.tag == TAG_FN and c.value >= nfn:
             raise e100()
-        if c.tag == TAG_EFFECT and c.value >= (1 << 12):
+        if c.tag == TAG_EFFECT and c.value >= (1 << 13):
             raise e100()
     for i, t in enumerate(art.texprs):
         refs = []
@@ -474,9 +476,9 @@ def validate(art: Artifact) -> None:
         if td.name >= nconst or art.consts[td.name].tag != TAG_STR:
             raise e100()
         name = art.const_str(td.name)
-        if name in type_names or (td.kind == 3 and name != "core.secret.Secret"):
+        if name in type_names or (td.kind == 3 and name not in OPAQUE_NAMES):
             raise e100()
-        if name == "core.secret.Secret" and td.kind != 3:
+        if name in OPAQUE_NAMES and td.kind != 3:
             raise e100()
         type_names.add(name)
         for fname, fty in td.fields:
@@ -499,7 +501,7 @@ def validate(art: Artifact) -> None:
     for f in art.funcs:
         if f.name >= nconst or art.consts[f.name].tag != TAG_STR:
             raise e100()
-        if f.effects >= (1 << 12):
+        if f.effects >= (1 << 13):
             raise e100()
         if f.kind == ops.KIND_FN and f.effects != 0:
             raise e100()

@@ -1,0 +1,14 @@
+{
+  "<frozen importlib._bootstrap_external>:get_data:1130": 1,
+  "/tmp/gopyt-pr68-review/gopyt/files.py:parent_directory:22": 1,
+  "/tmp/gopyt-python31116/python/lib/python3.11/selectors.py:select:415": 9,
+  "/tmp/gopyt-pr68-review/gopyt/vm.py:<genexpr>:242": 1,
+  "/tmp/gopyt-pr68-review/gopyt/vm.py:_call_admitted:308": 1,
+  "/tmp/gopyt-pr68-review/gopyt/heap.py:__exit__:42": 1,
+  "/tmp/gopyt-pr68-review/gopyt/heap.py:drain_resources:199": 1,
+  "/tmp/gopyt-pr68-review/gopyt/vm.py:require_finite_values:830": 1,
+  "/tmp/gopyt-pr68-review/gopyt/vm.py:check_cancelled:242": 1,
+  "/tmp/gopyt-pr68-review/gopyt/vm.py:native_admission:260": 1,
+  "/tmp/gopyt-pr68-review/gopyt/vm.py:_exec_frame:392": 1,
+  "/tmp/gopyt-python31116/python/lib/python3.11/threading.py:_wait_for_tstate_lock:1139": 4
+}

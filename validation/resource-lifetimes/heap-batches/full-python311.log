@@ -1,0 +1,644 @@
+echo
+..echo
+..echo
+echo
+.echo
+.echo
+.charge
+..echo
+echo
+.........echo
+....................................probe
+probe
+probe
+......arithmetic
+..probe
+................x
+...x
+...charge
+...................................................start
+.......decode
+...............................echo
+echo
+..echo
+..echo
+echo
+echo
+........................echo
+echo
+echo
+echo
+echo
+echo
+charge
+echo
+echo
+echo
+probe
+probe
+probe
+arithmetic
+probe
+x
+x
+charge
+start
+decode
+echo
+echo
+echo
+echo
+echo
+echo
+start
+ERROR:root:Refund transaction failed
+Traceback (most recent call last):
+  File "/tmp/gopyt-pr68-review/examples/guarded_refunds/service.py", line 236, in do_POST
+    result = self.server.ledger.apply(body)
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/tmp/gopyt-pr68-review/examples/guarded_refunds/service.py", line 143, in apply
+    return self._apply(body)
+           ^^^^^^^^^^^^^^^^^
+  File "/tmp/gopyt-pr68-review/examples/guarded_refunds/service.py", line 180, in _apply
+    conn.execute('INSERT INTO requests VALUES(?,?,?,?)', (order_id,key,payload,canonical(response).decode()))
+sqlite3.IntegrityError: injected
+ERROR:root:Refund transaction failed
+Traceback (most recent call last):
+  File "/tmp/gopyt-pr68-review/examples/guarded_refunds/service.py", line 236, in do_POST
+    result = self.server.ledger.apply(body)
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/tmp/gopyt-pr68-review/examples/guarded_refunds/service.py", line 143, in apply
+    return self._apply(body)
+           ^^^^^^^^^^^^^^^^^
+  File "/tmp/gopyt-pr68-review/examples/guarded_refunds/service.py", line 168, in _apply
+    allowed = timed_call(self.vm, self.ids['refund_policy.allowed'],
+              ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/tmp/gopyt-python31116/python/lib/python3.11/unittest/mock.py", line 1124, in __call__
+    return self._mock_call(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/tmp/gopyt-python31116/python/lib/python3.11/unittest/mock.py", line 1128, in _mock_call
+    return self._execute_mock_call(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/tmp/gopyt-python31116/python/lib/python3.11/unittest/mock.py", line 1183, in _execute_mock_call
+    raise effect
+gopyt.vm.Trap: trap 2
+ERROR:root:Refund transaction failed
+Traceback (most recent call last):
+  File "/tmp/gopyt-pr68-review/examples/guarded_refunds/service.py", line 236, in do_POST
+    result = self.server.ledger.apply(body)
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/tmp/gopyt-pr68-review/examples/guarded_refunds/service.py", line 143, in apply
+    return self._apply(body)
+           ^^^^^^^^^^^^^^^^^
+  File "/tmp/gopyt-pr68-review/examples/guarded_refunds/service.py", line 168, in _apply
+    allowed = timed_call(self.vm, self.ids['refund_policy.allowed'],
+              ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/tmp/gopyt-python31116/python/lib/python3.11/unittest/mock.py", line 1124, in __call__
+    return self._mock_call(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/tmp/gopyt-python31116/python/lib/python3.11/unittest/mock.py", line 1128, in _mock_call
+    return self._execute_mock_call(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/tmp/gopyt-python31116/python/lib/python3.11/unittest/mock.py", line 1183, in _execute_mock_call
+    raise effect
+gopyt.vm.Cancelled
+ERROR:root:Refund transaction failed
+Traceback (most recent call last):
+  File "/tmp/gopyt-pr68-review/examples/guarded_refunds/service.py", line 236, in do_POST
+    result = self.server.ledger.apply(body)
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/tmp/gopyt-pr68-review/examples/guarded_refunds/service.py", line 143, in apply
+    return self._apply(body)
+           ^^^^^^^^^^^^^^^^^
+  File "/tmp/gopyt-pr68-review/examples/guarded_refunds/service.py", line 172, in _apply
+    after = timed_call(self.vm, self.ids['refund_policy.after_refund'],
+            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/tmp/gopyt-pr68-review/gopyt/guard.py", line 337, in timed_call
+    return vm.call(fn, list(args))
+           ^^^^^^^^^^^^^^^^^^^^^^^
+  File "/tmp/gopyt-pr68-review/gopyt/vm.py", line 301, in call
+    return self._call_admitted(fn_id, args, caller_effects)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/tmp/gopyt-pr68-review/gopyt/vm.py", line 314, in _call_admitted
+    result = self._call(fn_id, args, caller_effects)
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/tmp/gopyt-pr68-review/gopyt/vm.py", line 355, in _call
+    return self.exec(fn_id, func, args)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/tmp/gopyt-pr68-review/gopyt/vm.py", line 373, in exec
+    return self._exec_frame(frame)
+           ^^^^^^^^^^^^^^^^^^^^^^^
+  File "/tmp/gopyt-pr68-review/gopyt/vm.py", line 378, in _exec_frame
+    return self._execute_frame(frame, instruction_guard)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/tmp/gopyt-pr68-review/gopyt/vm.py", line 591, in _execute_frame
+    raise Trap(ops.TRAP_REQUIRES if op == ops.REQUIRE else ops.TRAP_ENSURES)
+gopyt.vm.Trap: trap 2
+guard prepare: duplicate JSON key: cases
+guard prepare: preparation policy exceeds byte limit
+echo
+echo
+echo
+echo
+echo
+echo
+echo
+echo
+echo
+echo
+echo
+output
+output
+8a94869c250c427999fe53fc134b450b0170f68b2df95d46b577ebf4818cf187
+{
+  "schema": "gopyt.guard.receipt.v1",
+  "accepted": true,
+  "bundle_sha256": "8a94869c250c427999fe53fc134b450b0170f68b2df95d46b577ebf4818cf187",
+  "engine_sha256": "826f4c1977ad971341b90651982eaa6f7fd2eb1b6f38f9a11832e229314f21d0",
+  "limitations": [
+    "Finite acceptance cases, not a proof.",
+    "Listed obligations are declarations; this gate executes only the supplied cases, not HTTP or database tests.",
+    "Caller, bundle pin, and executor must be protected outside candidate authority.",
+    "No guarantee about external payment processors or undisclosed policies."
+  ],
+  "candidate_sha256": "8eac6816843c7d386df5ce82ee7371b200c72837039eec1b82c7d02c139ab29d",
+  "changed_files": [],
+  "obligations": {
+    "stock": "Reservation preserves nonnegative stock."
+  },
+  "protected_contract_helpers": [],
+  "passed": 3,
+  "total": 3,
+  "failures": []
+}
+obligations: FileExistsError: [Errno 17] File exists: '/tmp/tmpnpt3m2fp/report.json'
+obligations: FileExistsError: [Errno 17] File exists: '/tmp/tmphn8pre2c/report.json'
+obligations: FileExistsError: [Errno 17] File exists: '/tmp/tmp5am9k613/report.json'
+obligations: FileExistsError: [Errno 17] File exists: '/tmp/tmpi8b77gw0/report.json'
+arm
+arm
+project context: FileExistsError: [Errno 17] File exists: '/tmp/tmpxkf1_0qt/receipt.json'
+echo
+echo
+echo
+echo
+echo
+echo
+
+50 modules checked in 23 ms
+
+check 15 ms, 10000 logins 4114 ms
+decode
+charge
+cell
+e
+o
+e
+o
+e
+o
+e
+charging
+echo
+user
+ping
+charge
+wire
+alloc
+1
+1
+found
+go
+go
+0
+1
+2
+3
+go
+go
+go
+and
+order
+contract
+div
+enum
+int
+opt
+or
+range
+mod
+slice
+len
+encode
+encode
+decode
+get
+bools
+empty
+keys
+map
+..echo
+echo
+echo
+echo
+echo
+echo
+charge
+echo
+echo
+echo
+probe
+probe
+probe
+arithmetic
+probe
+x
+x
+charge
+start
+decode
+echo
+echo
+echo
+echo
+echo
+echo
+start
+ERROR:root:Refund transaction failed
+Traceback (most recent call last):
+  File "/tmp/gopyt-pr68-review/examples/guarded_refunds/service.py", line 236, in do_POST
+    result = self.server.ledger.apply(body)
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/tmp/gopyt-pr68-review/examples/guarded_refunds/service.py", line 143, in apply
+    return self._apply(body)
+           ^^^^^^^^^^^^^^^^^
+  File "/tmp/gopyt-pr68-review/examples/guarded_refunds/service.py", line 180, in _apply
+    conn.execute('INSERT INTO requests VALUES(?,?,?,?)', (order_id,key,payload,canonical(response).decode()))
+sqlite3.IntegrityError: injected
+ERROR:root:Refund transaction failed
+Traceback (most recent call last):
+  File "/tmp/gopyt-pr68-review/examples/guarded_refunds/service.py", line 236, in do_POST
+    result = self.server.ledger.apply(body)
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/tmp/gopyt-pr68-review/examples/guarded_refunds/service.py", line 143, in apply
+    return self._apply(body)
+           ^^^^^^^^^^^^^^^^^
+  File "/tmp/gopyt-pr68-review/examples/guarded_refunds/service.py", line 168, in _apply
+    allowed = timed_call(self.vm, self.ids['refund_policy.allowed'],
+              ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/tmp/gopyt-python31116/python/lib/python3.11/unittest/mock.py", line 1124, in __call__
+    return self._mock_call(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/tmp/gopyt-python31116/python/lib/python3.11/unittest/mock.py", line 1128, in _mock_call
+    return self._execute_mock_call(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/tmp/gopyt-python31116/python/lib/python3.11/unittest/mock.py", line 1183, in _execute_mock_call
+    raise effect
+gopyt.vm.Trap: trap 2
+ERROR:root:Refund transaction failed
+Traceback (most recent call last):
+  File "/tmp/gopyt-pr68-review/examples/guarded_refunds/service.py", line 236, in do_POST
+    result = self.server.ledger.apply(body)
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/tmp/gopyt-pr68-review/examples/guarded_refunds/service.py", line 143, in apply
+    return self._apply(body)
+           ^^^^^^^^^^^^^^^^^
+  File "/tmp/gopyt-pr68-review/examples/guarded_refunds/service.py", line 168, in _apply
+    allowed = timed_call(self.vm, self.ids['refund_policy.allowed'],
+              ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/tmp/gopyt-python31116/python/lib/python3.11/unittest/mock.py", line 1124, in __call__
+    return self._mock_call(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/tmp/gopyt-python31116/python/lib/python3.11/unittest/mock.py", line 1128, in _mock_call
+    return self._execute_mock_call(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/tmp/gopyt-python31116/python/lib/python3.11/unittest/mock.py", line 1183, in _execute_mock_call
+    raise effect
+gopyt.vm.Cancelled
+ERROR:root:Refund transaction failed
+Traceback (most recent call last):
+  File "/tmp/gopyt-pr68-review/examples/guarded_refunds/service.py", line 236, in do_POST
+    result = self.server.ledger.apply(body)
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/tmp/gopyt-pr68-review/examples/guarded_refunds/service.py", line 143, in apply
+    return self._apply(body)
+           ^^^^^^^^^^^^^^^^^
+  File "/tmp/gopyt-pr68-review/examples/guarded_refunds/service.py", line 172, in _apply
+    after = timed_call(self.vm, self.ids['refund_policy.after_refund'],
+            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/tmp/gopyt-pr68-review/gopyt/guard.py", line 337, in timed_call
+    return vm.call(fn, list(args))
+           ^^^^^^^^^^^^^^^^^^^^^^^
+  File "/tmp/gopyt-pr68-review/gopyt/vm.py", line 301, in call
+    return self._call_admitted(fn_id, args, caller_effects)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/tmp/gopyt-pr68-review/gopyt/vm.py", line 314, in _call_admitted
+    result = self._call(fn_id, args, caller_effects)
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/tmp/gopyt-pr68-review/gopyt/vm.py", line 355, in _call
+    return self.exec(fn_id, func, args)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/tmp/gopyt-pr68-review/gopyt/vm.py", line 373, in exec
+    return self._exec_frame(frame)
+           ^^^^^^^^^^^^^^^^^^^^^^^
+  File "/tmp/gopyt-pr68-review/gopyt/vm.py", line 378, in _exec_frame
+    return self._execute_frame(frame, instruction_guard)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/tmp/gopyt-pr68-review/gopyt/vm.py", line 591, in _execute_frame
+    raise Trap(ops.TRAP_REQUIRES if op == ops.REQUIRE else ops.TRAP_ENSURES)
+gopyt.vm.Trap: trap 2
+guard prepare: duplicate JSON key: cases
+guard prepare: preparation policy exceeds byte limit
+echo
+echo
+echo
+echo
+echo
+echo
+echo
+echo
+echo
+echo
+echo
+output
+output
+8a94869c250c427999fe53fc134b450b0170f68b2df95d46b577ebf4818cf187
+{
+  "schema": "gopyt.guard.receipt.v1",
+  "accepted": true,
+  "bundle_sha256": "8a94869c250c427999fe53fc134b450b0170f68b2df95d46b577ebf4818cf187",
+  "engine_sha256": "826f4c1977ad971341b90651982eaa6f7fd2eb1b6f38f9a11832e229314f21d0",
+  "limitations": [
+    "Finite acceptance cases, not a proof.",
+    "Listed obligations are declarations; this gate executes only the supplied cases, not HTTP or database tests.",
+    "Caller, bundle pin, and executor must be protected outside candidate authority.",
+    "No guarantee about external payment processors or undisclosed policies."
+  ],
+  "candidate_sha256": "8eac6816843c7d386df5ce82ee7371b200c72837039eec1b82c7d02c139ab29d",
+  "changed_files": [],
+  "obligations": {
+    "stock": "Reservation preserves nonnegative stock."
+  },
+  "protected_contract_helpers": [],
+  "passed": 3,
+  "total": 3,
+  "failures": []
+}
+obligations: FileExistsError: [Errno 17] File exists: '/tmp/tmprr5gb18s/report.json'
+obligations: FileExistsError: [Errno 17] File exists: '/tmp/tmp35d9njeu/report.json'
+obligations: FileExistsError: [Errno 17] File exists: '/tmp/tmp2xku8bpv/report.json'
+obligations: FileExistsError: [Errno 17] File exists: '/tmp/tmp6mc5dvsj/report.json'
+arm
+arm
+project context: FileExistsError: [Errno 17] File exists: '/tmp/tmpm415jvrw/receipt.json'
+echo
+echo
+echo
+echo
+echo
+echo
+
+50 modules checked in 24 ms
+
+check 16 ms, 10000 logins 4608 ms
+decode
+charge
+cell
+e
+o
+e
+o
+e
+o
+e
+charging
+echo
+user
+ping
+charge
+wire
+alloc
+1
+1
+found
+go
+go
+0
+1
+2
+3
+go
+go
+go
+and
+order
+contract
+div
+enum
+int
+opt
+or
+range
+mod
+slice
+len
+encode
+encode
+decode
+get
+bools
+empty
+keys
+map
+...............................................................................................................................start
+................................................ERROR:root:Refund transaction failed
+Traceback (most recent call last):
+  File "/tmp/gopyt-pr68-review/examples/guarded_refunds/service.py", line 236, in do_POST
+    result = self.server.ledger.apply(body)
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/tmp/gopyt-pr68-review/examples/guarded_refunds/service.py", line 143, in apply
+    return self._apply(body)
+           ^^^^^^^^^^^^^^^^^
+  File "/tmp/gopyt-pr68-review/examples/guarded_refunds/service.py", line 180, in _apply
+    conn.execute('INSERT INTO requests VALUES(?,?,?,?)', (order_id,key,payload,canonical(response).decode()))
+sqlite3.IntegrityError: injected
+.....ERROR:root:Refund transaction failed
+Traceback (most recent call last):
+  File "/tmp/gopyt-pr68-review/examples/guarded_refunds/service.py", line 236, in do_POST
+    result = self.server.ledger.apply(body)
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/tmp/gopyt-pr68-review/examples/guarded_refunds/service.py", line 143, in apply
+    return self._apply(body)
+           ^^^^^^^^^^^^^^^^^
+  File "/tmp/gopyt-pr68-review/examples/guarded_refunds/service.py", line 168, in _apply
+    allowed = timed_call(self.vm, self.ids['refund_policy.allowed'],
+              ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/tmp/gopyt-python31116/python/lib/python3.11/unittest/mock.py", line 1124, in __call__
+    return self._mock_call(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/tmp/gopyt-python31116/python/lib/python3.11/unittest/mock.py", line 1128, in _mock_call
+    return self._execute_mock_call(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/tmp/gopyt-python31116/python/lib/python3.11/unittest/mock.py", line 1183, in _execute_mock_call
+    raise effect
+gopyt.vm.Trap: trap 2
+ERROR:root:Refund transaction failed
+Traceback (most recent call last):
+  File "/tmp/gopyt-pr68-review/examples/guarded_refunds/service.py", line 236, in do_POST
+    result = self.server.ledger.apply(body)
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/tmp/gopyt-pr68-review/examples/guarded_refunds/service.py", line 143, in apply
+    return self._apply(body)
+           ^^^^^^^^^^^^^^^^^
+  File "/tmp/gopyt-pr68-review/examples/guarded_refunds/service.py", line 168, in _apply
+    allowed = timed_call(self.vm, self.ids['refund_policy.allowed'],
+              ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/tmp/gopyt-python31116/python/lib/python3.11/unittest/mock.py", line 1124, in __call__
+    return self._mock_call(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/tmp/gopyt-python31116/python/lib/python3.11/unittest/mock.py", line 1128, in _mock_call
+    return self._execute_mock_call(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/tmp/gopyt-python31116/python/lib/python3.11/unittest/mock.py", line 1183, in _execute_mock_call
+    raise effect
+gopyt.vm.Cancelled
+...ERROR:root:Refund transaction failed
+Traceback (most recent call last):
+  File "/tmp/gopyt-pr68-review/examples/guarded_refunds/service.py", line 236, in do_POST
+    result = self.server.ledger.apply(body)
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/tmp/gopyt-pr68-review/examples/guarded_refunds/service.py", line 143, in apply
+    return self._apply(body)
+           ^^^^^^^^^^^^^^^^^
+  File "/tmp/gopyt-pr68-review/examples/guarded_refunds/service.py", line 172, in _apply
+    after = timed_call(self.vm, self.ids['refund_policy.after_refund'],
+            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/tmp/gopyt-pr68-review/gopyt/guard.py", line 337, in timed_call
+    return vm.call(fn, list(args))
+           ^^^^^^^^^^^^^^^^^^^^^^^
+  File "/tmp/gopyt-pr68-review/gopyt/vm.py", line 301, in call
+    return self._call_admitted(fn_id, args, caller_effects)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/tmp/gopyt-pr68-review/gopyt/vm.py", line 314, in _call_admitted
+    result = self._call(fn_id, args, caller_effects)
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/tmp/gopyt-pr68-review/gopyt/vm.py", line 355, in _call
+    return self.exec(fn_id, func, args)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/tmp/gopyt-pr68-review/gopyt/vm.py", line 373, in exec
+    return self._exec_frame(frame)
+           ^^^^^^^^^^^^^^^^^^^^^^^
+  File "/tmp/gopyt-pr68-review/gopyt/vm.py", line 378, in _exec_frame
+    return self._execute_frame(frame, instruction_guard)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/tmp/gopyt-pr68-review/gopyt/vm.py", line 591, in _execute_frame
+    raise Trap(ops.TRAP_REQUIRES if op == ops.REQUIRE else ops.TRAP_ENSURES)
+gopyt.vm.Trap: trap 2
+..........guard prepare: duplicate JSON key: cases
+...........guard prepare: preparation policy exceeds byte limit
+...........................echo
+echo
+.echo
+echo
+echo
+.echo
+echo
+echo
+echo
+echo
+echo
+.........................output
+output
+....................8a94869c250c427999fe53fc134b450b0170f68b2df95d46b577ebf4818cf187
+{
+  "schema": "gopyt.guard.receipt.v1",
+  "accepted": true,
+  "bundle_sha256": "8a94869c250c427999fe53fc134b450b0170f68b2df95d46b577ebf4818cf187",
+  "engine_sha256": "826f4c1977ad971341b90651982eaa6f7fd2eb1b6f38f9a11832e229314f21d0",
+  "limitations": [
+    "Finite acceptance cases, not a proof.",
+    "Listed obligations are declarations; this gate executes only the supplied cases, not HTTP or database tests.",
+    "Caller, bundle pin, and executor must be protected outside candidate authority.",
+    "No guarantee about external payment processors or undisclosed policies."
+  ],
+  "candidate_sha256": "8eac6816843c7d386df5ce82ee7371b200c72837039eec1b82c7d02c139ab29d",
+  "changed_files": [],
+  "obligations": {
+    "stock": "Reservation preserves nonnegative stock."
+  },
+  "protected_contract_helpers": [],
+  "passed": 3,
+  "total": 3,
+  "failures": []
+}
+..................................obligations: FileExistsError: [Errno 17] File exists: '/tmp/tmpvb4c1c5v/report.json'
+...................obligations: FileExistsError: [Errno 17] File exists: '/tmp/tmp_mt8evo4/report.json'
+..................obligations: FileExistsError: [Errno 17] File exists: '/tmp/tmpktq71ci9/report.json'
+...............obligations: FileExistsError: [Errno 17] File exists: '/tmp/tmprfha83t0/report.json'
+................................arm
+arm
+...................project context: FileExistsError: [Errno 17] File exists: '/tmp/tmp9v8el_4m/receipt.json'
+...............................................................................................echo
+echo
+echo
+echo
+.echo
+echo
+.......
+50 modules checked in 32 ms
+
+check 18 ms, 10000 logins 4069 ms
+...................................................................................................................decode
+.....charge
+...................cell
+.e
+o
+e
+o
+e
+o
+e
+..charging
+..........echo
+......user
+.ping
+..charge
+.........wire
+.alloc
+...........1
+1
+.....found
+...go
+..go
+.0
+1
+2
+3
+..go
+...go
+....go
+.......and
+.order
+.contract
+.div
+.enum
+.int
+...opt
+.or
+.range
+.mod
+.slice
+.len
+.encode
+..encode
+decode
+..get
+..bools
+..empty
+..keys
+.map
+...........
+----------------------------------------------------------------------
+Ran 966 tests in 408.711s
+
+OK

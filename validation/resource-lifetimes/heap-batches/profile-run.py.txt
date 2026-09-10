@@ -1,0 +1,61 @@
+import json,os,signal,sys,time,threading,traceback
+from pathlib import Path
+sys.path.insert(0,os.getcwd())
+from tools.inventory_probe import Server,acceptance
+prefix=sys.argv[1]
+
+
+import subprocess
+original_popen=subprocess.Popen
+def popen(args,*rest,**kwargs):
+ if isinstance(args,list) and args[-2:]==['run','inventory.serve']:
+  args=[args[0],'/tmp/gopyt-pr68-profile-entry.py',*args[-2:]]
+ return original_popen(args,*rest,**kwargs)
+subprocess.Popen=popen
+
+records=[]
+lock=threading.Lock()
+original_init=Server.__init__
+original_request=Server.request
+original_close=Server.close
+
+def init(self,*args,**kwargs):
+ original_init(self,*args,**kwargs)
+ self.env['PYTHONFAULTHANDLER']='1'
+ self.probe_id=len(records)
+
+def request(self,*args,**kwargs):
+ start=time.monotonic()
+ try:
+  result=original_request(self,*args,**kwargs)
+  with lock:records.append({'seconds':time.monotonic()-start,'outcome':result['outcome']})
+  return result
+ except BaseException as error:
+  with lock:records.append({'seconds':time.monotonic()-start,'error':type(error).__name__})
+  if isinstance(error,TimeoutError) and self.proc is not None and self.proc.poll() is None:
+   self.proc.send_signal(signal.SIGABRT)
+   self.proc.wait(timeout=5)
+  raise
+
+def close(self):
+ self.stop()
+ self.log.seek(0)
+ Path(prefix+'-server-'+str(self.probe_id)+'.log').write_bytes(self.log.read())
+ original_close(self)
+
+Server.__init__=init
+Server.request=request
+Server.close=close
+results=[]
+try:
+ for trial in range(1):
+  start=time.monotonic()
+  try:
+   checks=acceptance()
+   results.append({'trial':trial,'seconds':time.monotonic()-start,'checks':checks})
+  except BaseException:
+   results.append({'trial':trial,'seconds':time.monotonic()-start,'failure':traceback.format_exc()})
+   raise
+  print(json.dumps(results[-1]),flush=True)
+finally:
+ Path(prefix+'-results.json').write_text(json.dumps({'trials':results,'requests':records},indent=2)+'\n')
