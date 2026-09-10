@@ -1,5 +1,7 @@
 # Current repository baseline
 
+The [frozen production workload, threat model and qualification targets](production-qualification-targets.md) record the selected deployment envelope, the unified attacker model, the acceptance thresholds and the frozen dataset and oracle identities that later qualification is measured against. Freezing a target is not evidence that it is met.
+
 See the [architecture checklist review](architecture-checklist-review-2026-09-09.md),
 [atomic data-backend validation](architecture-validation-2026-09-09.md),
 [release validation](release-baseline.md), [security operation](../SECURITY.md),
