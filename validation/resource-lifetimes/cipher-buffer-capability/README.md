@@ -14,3 +14,10 @@ allocation. Existing snapshot format and writer identity must remain stable.
 
 SQLite allocator usage and the cryptographic library's internal scratch still
 require separate accounting or a qualified isolation policy.
+
+The keyring wrapper now offers encrypt_into/decrypt_into. Failed operations
+clear the supplied writable destination in at most 4096-byte chunks; failed
+reader authentication clears it before trying another key. Tests cover real
+key fallback, matching existing allocating output, partial writes and cancellation
+with retained destination aliases. Eleven focused tests pass on both runtimes.
+These methods are not yet connected to budgeted storage allocation.

@@ -114,6 +114,39 @@ class _KeyringCipher:
         raise InvalidTag
 
 
+    def encrypt_into(self, nonce, data, aad, destination):
+        try:
+            return self.active.encrypt_into(nonce, data, aad, destination)
+        except BaseException:
+            _clear_destination(destination)
+            raise
+
+    def decrypt_into(self, nonce, data, aad, destination):
+        from cryptography.exceptions import InvalidTag
+        try:
+            for cipher in self.readers:
+                try:
+                    return cipher.decrypt_into(nonce, data, aad, destination)
+                except InvalidTag:
+                    _clear_destination(destination)
+            raise InvalidTag
+        except BaseException:
+            _clear_destination(destination)
+            raise
+
+
+_ZERO_BLOCK = bytes(4096)
+
+
+def _clear_destination(destination):
+    """Clear writable cipher output without another payload-sized allocation."""
+    with memoryview(destination) as original:
+        with original.cast('B') as view:
+            for start in range(0, len(view), len(_ZERO_BLOCK)):
+                size = min(len(_ZERO_BLOCK), len(view) - start)
+                view[start:start + size] = _ZERO_BLOCK[:size]
+
+
 def seal(data,setting):
     if setting is None:return data
     cipher,aad,_=setting;nonce=secrets.token_bytes(12)
