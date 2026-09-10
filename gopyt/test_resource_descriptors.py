@@ -10,6 +10,48 @@ from gopyt.resource_descriptors import DescriptorRegistry
 
 
 class DescriptorOwnership(unittest.TestCase):
+    def test_parallel_openers_share_capacity_until_physical_close(self):
+        budget, registry = self.fixture(3)
+        start = threading.Barrier(9)
+        attempted = threading.Barrier(9)
+        release = threading.Event()
+        winners = []
+        rejected = []
+        failures = []
+        def worker():
+            owner = None
+            try:
+                start.wait(timeout=3)
+                try:
+                    owner = registry.open(os.devnull, os.O_RDONLY)
+                    winners.append(owner)
+                except ResourceLimitError:
+                    rejected.append(1)
+                attempted.wait(timeout=3)
+                if not release.wait(3): raise AssertionError('release not signaled')
+            except BaseException as error:
+                failures.append(error)
+            finally:
+                if owner is not None: owner.close()
+        threads = [threading.Thread(target=worker) for _ in range(8)]
+        for thread in threads: thread.start()
+        try:
+            start.wait(timeout=3)
+            attempted.wait(timeout=3)
+            self.assertEqual(len(winners), 3)
+            self.assertEqual(len(rejected), 5)
+            self.assertEqual(registry.pending(), 3)
+            self.assertEqual(budget.snapshot()['used']['descriptors'], 3)
+            for owner in winners: os.fstat(owner.fileno())
+        finally:
+            release.set()
+            for thread in threads:
+                thread.join(4)
+                self.assertFalse(thread.is_alive())
+        self.assertEqual(failures, [])
+        self.assertEqual(budget.snapshot()['active_reservations'], 0)
+        self.assertEqual(registry.pending(), 0)
+
     def fixture(self, limit=2):
         budget = ResourceBudget(ResourceLimits(0, 0, limit, 0))
         registry = DescriptorRegistry(budget)

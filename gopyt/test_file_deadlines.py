@@ -16,6 +16,30 @@ from gopyt.vm import VM, Cancelled, Trap
 
 
 class FileDeadlines(unittest.TestCase):
+    def test_mapped_backing_and_file_access_share_descriptor_capacity(self):
+        import sys
+        from gopyt.resource_budget import ResourceBudget, ResourceLimits
+        from gopyt.resource_buffer import Buffer
+        if sys.platform != 'linux' or not hasattr(os, 'memfd_create'):
+            self.skipTest('Linux sealed mapping profile')
+        budget = ResourceBudget(ResourceLimits(64, 32, 2, 4))
+        self.path.write_bytes(b'before')
+        with VM(self.vm.art, self.root, resource_budget=budget) as vm:
+            mapped = Buffer.map_bytes(budget, b'abc')
+            try:
+                self.assertEqual(budget.snapshot()['used']['descriptors'], 1)
+                with self.assertRaises(Trap) as caught:
+                    vm.call(self.ids['demo.persist'], [b'after'])
+                self.assertEqual(caught.exception.code, 14)
+                self.assertEqual(self.path.read_bytes(), b'before')
+                self.assertEqual(vm.descriptors.pending(), 0)
+                self.assertEqual(mapped.read(0, 3), b'abc')
+            finally:
+                mapped.close()
+            vm.call(self.ids['demo.persist'], [b'after'])
+            self.assertEqual(vm.call(self.ids['demo.load'], []), b'after')
+        self.assertEqual(budget.snapshot()['active_reservations'], 0)
+
     def test_descriptor_budget_rejects_before_creation_or_truncation(self):
         from gopyt.resource_budget import ResourceBudget, ResourceLimits
         for capacity in (0, 1, 2):

@@ -116,3 +116,19 @@ Explicit close and lease rules are unchanged. This is an instruction-count bound
 not a wall-time bound for a synchronous opcode or host call. See
 [the scheduling design](heap-instruction-batch-design.md) and retained failure and
 qualification evidence under validation/resource-lifetimes/heap-batches/.
+
+## VM file descriptor reservations
+
+VM core.file reads and writes reserve one descriptor before each OS open, including
+parent/child traversal overlap and the target file. The registry shares the VM's
+construction-time ResourceBudget with mapped buffers. Capacity exhaustion traps 14
+before a rejected open can create or truncate the target. A normal traversal needs
+capacity for two simultaneous descriptors; other live resources consume the same
+limit. Body cancellation and operation exceptions still unwind acquired owners.
+
+A close that raises leaves a quarantined owner and charge, and never retries a raw
+number which may have been reused. VM teardown reports incomplete cleanup. A failed
+parent close does not discard its already acquired child: ownership transfers first
+and unwind closes that child. Non-VM administrative file helpers, storage and network
+paths remain separate incomplete accounting work. See the descriptor integration
+design for the working implementation and qualification requirements.
