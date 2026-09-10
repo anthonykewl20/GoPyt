@@ -490,3 +490,51 @@ class JsonTypedDecimal(unittest.TestCase):
                     self.assertTrue(value_eq(result, INT_VALUE[tag](expected)))
                     del result
                 self.assertEqual(budget.snapshot()['active_reservations'], 0)
+
+
+class JsonTypedNumericFailures(unittest.TestCase):
+    def test_cancellation_at_every_typed_conversion_check(self):
+        from decimal import Decimal
+        from gopyt.gobyte import TE_U64
+        from gopyt.resource_json import integer_value, decimal_integer_value
+        class Cancelled(Exception):
+            pass
+        for producer, value in ((integer_value, 18446744073709551615),
+                                (decimal_integer_value, Decimal('18446744073709551615.0'))):
+            budget = ResourceBudget(ResourceLimits(100000, 0, 0, 0))
+            calls = 0
+            def count():
+                nonlocal calls
+                calls += 1
+            result = producer(value, TE_U64, budget, count)
+            del result
+            total = calls
+            for stop in range(1, total + 1):
+                calls = 0
+                def check():
+                    nonlocal calls
+                    calls += 1
+                    if calls == stop:
+                        raise Cancelled()
+                failure = None
+                try:
+                    producer(value, TE_U64, budget, check)
+                except Cancelled as error:
+                    failure = error
+                self.assertIsNotNone(failure)
+                self.assertEqual(budget.snapshot()['active_reservations'], 0)
+
+    def test_capacity_failure_at_each_temporary_stage(self):
+        from decimal import Decimal
+        from gopyt.gobyte import TE_U64
+        from gopyt.resource_json import decimal_integer_value
+        for limit in range(0, 600):
+            budget = ResourceBudget(ResourceLimits(limit, 0, 0, 0))
+            result = failure = None
+            try:
+                result = decimal_integer_value(Decimal('18446744073709551615.0'),
+                                               TE_U64, budget)
+            except ResourceLimitError as error:
+                failure = error
+            del result
+            self.assertEqual(budget.snapshot()['active_reservations'], 0, limit)

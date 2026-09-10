@@ -495,7 +495,8 @@ def decimal_integer_value(value, tag, budget, check=lambda: None):
         capacity = Decimal.__sizeof__(value) + 8
         with budget.reserve(native_bytes=2 * capacity):
             try:
-                rounded = value.to_integral_value()
+                rounded = Decimal.to_integral_value(value)
+                check()
                 if value != rounded:
                     raise ConvertFail('int')
             finally:

@@ -233,3 +233,12 @@ compare results or exact rejection messages against existing _as_int plus type
 ranges, including u64 boundaries and long fractional-zero coefficients. Production
 typed decoding is still unchanged; helper cancellation/fault and broader graph
 integration qualification remain required.
+
+Typed numeric failure coverage: Decimal integrality now invokes the base Decimal
+method and checks cancellation while the rounded temporary remains admitted.
+Thirty focused tests pass on both runtimes. Each reached check in integer and
+Decimal u64 conversion is cancelled with the failure retained, and every budget
+limit from 0 through 599 bytes exercises temporary/destination admission boundaries.
+All reservations release after returned values or failed conversions are dropped.
+These finite cases supplement source bounds; complete typed graph decoding remains
+unimplemented and production JSON routing remains unchanged.
