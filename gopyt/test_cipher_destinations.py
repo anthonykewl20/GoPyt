@@ -47,3 +47,31 @@ class CipherDestinations(unittest.TestCase):
                     with self.assertRaises(failure):
                         getattr(ring, method)(b'', b'', b'', result)
                     self.assertEqual(result, bytes(len(result)))
+
+    def test_plaintext_scope_charges_alias_and_clears_on_exit(self):
+        from gopyt.resource_budget import ResourceBudget, ResourceLimits
+        from gopyt.security_config import seal, unseal_payload
+        cipher = AESGCMSIV(bytes(32))
+        setting = (_KeyringCipher({'key': cipher}, 'key', 'writer'), b'aad', b'id')
+        encrypted = seal(b'secret', setting)
+        budget = ResourceBudget(ResourceLimits(6, 0, 0, 0))
+        with unseal_payload(encrypted, setting, budget) as plaintext:
+            self.assertEqual(plaintext, b'secret')
+            self.assertEqual(budget.snapshot()['used']['native_bytes'], 6)
+        self.assertEqual(plaintext, bytes(6))
+        self.assertEqual(budget.snapshot()['used']['native_bytes'], 6)
+        del plaintext
+        self.assertEqual(budget.snapshot()['active_reservations'], 0)
+
+    def test_plaintext_rejection_does_not_invoke_cipher(self):
+        from gopyt.resource_budget import ResourceBudget, ResourceLimits, ResourceLimitError
+        from gopyt.security_config import MAGIC, OVERHEAD, unseal_payload
+        class Never:
+            def decrypt_into(self, *args):
+                raise AssertionError('cipher invoked before admission')
+        budget = ResourceBudget(ResourceLimits(0, 0, 0, 0))
+        data = MAGIC + bytes(OVERHEAD - len(MAGIC) + 1)
+        with self.assertRaises(ResourceLimitError):
+            with unseal_payload(data, (Never(), b'', b''), budget):
+                self.fail('plaintext published')
+        self.assertEqual(budget.snapshot()['active_reservations'], 0)

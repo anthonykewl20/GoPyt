@@ -21,7 +21,7 @@ from gopyt.resource_bytes import read_payload
 
 from gopyt.rollback import locked_anchor, snapshot_digest
 from gopyt.files import parent_directory, opened_descriptor
-from gopyt.security_config import storage_cipher,seal,unseal,SecurityError,OVERHEAD
+from gopyt.security_config import storage_cipher,seal,unseal,unseal_payload,SecurityError,OVERHEAD
 
 MAX_BYTES = 64 * 1024 * 1024
 LOCK_TIMEOUT = 5.0
@@ -202,7 +202,12 @@ class Store:
             if self._anchor is not None and self._anchor.record is not None:
                 if hashlib.sha256(data).hexdigest() != self._anchor.record['digest']:
                     raise SecurityError('snapshot changed after anchor validation')
-            self._deserialize(unseal(data, self._security), db)
+            budget = getattr(self._context, 'resource_budget', None)
+            if budget is None:
+                self._deserialize(unseal(data, self._security), db)
+            else:
+                with unseal_payload(data, self._security, budget) as plaintext:
+                    self._deserialize(plaintext, db)
         finally:
             data = None
 

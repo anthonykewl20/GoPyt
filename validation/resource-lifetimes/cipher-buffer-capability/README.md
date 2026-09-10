@@ -21,3 +21,11 @@ reader authentication clears it before trying another key. Tests cover real
 key fallback, matching existing allocating output, partial writes and cancellation
 with retained destination aliases. Eleven focused tests pass on both runtimes.
 These methods are not yet connected to budgeted storage allocation.
+
+VM storage loads now decrypt into preadmitted mutable plaintext and clear it
+on scope exit. Surviving aliases remain charged until destruction. Scoped
+memoryviews avoid ciphertext/nonce slice copies. The unencrypted path borrows
+existing input. Thirty-five focused tests pass on both runtimes; the initial
+failed injection against the retired unseal call is retained. The injection
+now targets deserialization with the same alias assertions. Ciphertext output,
+restore, SQLite and cryptographic internal accounting remain unfinished.
