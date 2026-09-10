@@ -203,3 +203,27 @@ class NativeSlicedText(unittest.TestCase):
             NATIVES['core.str.slice'](vm, ['ab', 0, 1], None)
         self.assertEqual(failure.exception.code, ops.TRAP_ALLOC)
         self.assertEqual(budget.snapshot()['active_reservations'], 0)
+
+
+class ConcatenatedText(unittest.TestCase):
+    def test_utf8_size_matches_encoder(self):
+        from gopyt.resource_text import utf8_size
+        for text in ('', 'ascii', 'é中😀', 'a' * 4097):
+            self.assertEqual(utf8_size(text), len(text.encode('utf-8')))
+        with self.assertRaises(UnicodeEncodeError):
+            utf8_size('a\ud800')
+
+    def test_native_concat_avoids_encoded_size_copies(self):
+        from types import SimpleNamespace
+        from gopyt.natives import NATIVES
+        class NoEncode(str):
+            def encode(self, *args):
+                raise AssertionError('allocated size-check copy')
+        budget = ResourceBudget(ResourceLimits(1000, 0, 0, 0))
+        vm = SimpleNamespace(resource_budget=budget, check_cancelled=lambda: None)
+        result = NATIVES['core.str.concat'](vm, [NoEncode('é'), '😀'], None)
+        self.assertEqual(result, 'é😀')
+        self.assertEqual(budget.snapshot()['used']['native_bytes'], 12)
+        self.assertEqual(budget.snapshot()['peak']['native_bytes'], 24)
+        del result
+        self.assertEqual(budget.snapshot()['active_reservations'], 0)

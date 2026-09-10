@@ -72,3 +72,45 @@ def slice_text(text, start, end, budget, check=lambda: None):
         text = result = None
         if reservation is not None and not transferred:
             reservation.release()
+
+
+def utf8_size(text, check=lambda: None):
+    """Measure strict UTF-8 payload length without allocating encoded copies."""
+    try:
+        size = 0
+        for index, char in enumerate(text):
+            if index % 4096 == 0:
+                check()
+            point = ord(char)
+            if 0xD800 <= point <= 0xDFFF:
+                raise UnicodeEncodeError('utf-8', text, index, index + 1,
+                                         'surrogates not allowed')
+            size += 1 if point < 128 else 2 if point < 2048 else 3 if point < 65536 else 4
+        check()
+        return size
+    finally:
+        text = None
+
+
+def concat_text(left, right, budget, check=lambda: None):
+    """Concatenate borrowed strings with temporary and owned capacity admitted."""
+    reservation = None
+    raw = result = None
+    transferred = False
+    try:
+        check()
+        capacity = 4 * (len(left) + len(right) + 1)
+        reservation = budget.reserve(native_bytes=capacity)
+        with budget.reserve(native_bytes=capacity):
+            try:
+                raw = str.__add__(left, right)
+                check()
+                result = _ChargedString(raw, reservation)
+                transferred = True
+                return result
+            finally:
+                raw = None
+    finally:
+        left = right = result = None
+        if reservation is not None and not transferred:
+            reservation.release()

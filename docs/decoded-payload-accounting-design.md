@@ -63,3 +63,11 @@ remain; capacity failure raises the allocation trap. Each capacity uses four byt
 per output code point plus a terminator, retained conservatively through aliases.
 The 22-test text/native selection passes on both runtimes, covering empty/full and
 multibyte slices plus admission failure cleanup. Full qualification remains pending.
+
+core.str.concat now measures UTF-8 bytes by scanning code points, with cancellation
+checks every 4096 code points, instead of allocating encoded size-check copies.
+The existing byte limit remains. Temporary concatenation and owned string capacity
+are admitted before concatenation, with conservative alias-retained charges.
+The 24-test text/native selection passes on both runtimes; size measurements match
+the UTF-8 encoder and an instrumented input verifies no encode call for sizing.
+Model decoding, parser allocations and full language qualification remain pending.

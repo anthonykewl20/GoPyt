@@ -200,9 +200,14 @@ def _str_len(vm, args, func):
 
 @native("core.str.concat")
 def _str_concat(vm, args, func):
-    if sum(len(value.encode("utf-8")) for value in args) > ops.MAX_ALLOC:
+    from gopyt.resource_budget import ResourceLimitError
+    from gopyt.resource_text import concat_text, utf8_size
+    if sum(utf8_size(value, vm.check_cancelled) for value in args) > ops.MAX_ALLOC:
         raise Trap(ops.TRAP_ALLOC)
-    return args[0] + args[1]
+    try:
+        return concat_text(args[0], args[1], vm.resource_budget, vm.check_cancelled)
+    except ResourceLimitError:
+        raise Trap(ops.TRAP_ALLOC) from None
 
 
 @native("core.str.from_i64")
