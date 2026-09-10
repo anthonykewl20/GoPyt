@@ -78,3 +78,44 @@ class NativeTextPayload(unittest.TestCase):
             self.assertIs(NATIVES['core.bytes.to_str'](vm, [b'\xff'], None), sentinel)
             convert.assert_called_once_with(vm, 'utf8')
         self.assertEqual(budget.snapshot()['active_reservations'], 0)
+
+
+class TextFailureOwnership(unittest.TestCase):
+    def test_constructor_failure_clears_raw_with_traceback_retained(self):
+        from unittest.mock import patch
+        budget = ResourceBudget(ResourceLimits(1000, 0, 0, 0))
+        def fail(value, reservation):
+            try:
+                raise MemoryError('injected owned string allocation failure')
+            finally:
+                value = None
+        failure = None
+        with patch('gopyt.resource_text._ChargedString', new=fail):
+            try:
+                decode_utf8(b'hello', budget)
+            except MemoryError as error:
+                failure = error
+        self.assertIsNotNone(failure)
+        self.assertEqual(budget.snapshot()['active_reservations'], 0)
+        frame = failure.__traceback__
+        while frame is not None:
+            if frame.tb_frame.f_code.co_name == 'decode_utf8':
+                self.assertIsNone(frame.tb_frame.f_locals['raw'])
+                self.assertIsNone(frame.tb_frame.f_locals['data'])
+            frame = frame.tb_next
+
+    def test_finalizer_never_reenters_locked_budget(self):
+        import subprocess
+        import sys
+        program = """
+from gopyt.resource_budget import ResourceBudget, ResourceLimits
+from gopyt.resource_text import decode_utf8
+budget = ResourceBudget(ResourceLimits(1000, 0, 0, 0))
+value = decode_utf8(b'hello', budget)
+with budget._lock:
+    del value
+assert budget.snapshot()['active_reservations'] == 0
+"""
+        result = subprocess.run([sys.executable, '-c', program], timeout=5,
+                                capture_output=True, text=True)
+        self.assertEqual(result.returncode, 0, result.stderr)

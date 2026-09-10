@@ -44,3 +44,10 @@ Three focused tests pass on each pinned runtime for roundtrip/hash/alias behavio
 rejection/invalid input cleanup and cancellation with a retained traceback.
 The helper is not yet wired into language natives. Additional constructor/finalizer
 fault coverage and integration qualification remain required.
+
+Constructor-failure injection now retains its traceback and checks released
+reservations plus cleared decode-frame input/raw references. A bounded child process
+destroys charged text while holding the budget lock, then checks drained accounting;
+it completes without the finalizer reentrancy deadlock. The 16-test text/native
+selection passes on both pinned runtimes. These focused tests do not qualify all
+string producers, implicit copies or parser allocations.
