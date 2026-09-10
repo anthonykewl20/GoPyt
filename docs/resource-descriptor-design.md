@@ -94,3 +94,18 @@ recognizes FileNotFoundError only while opening; exceptions raised by its caller
 propagate unchanged and still close the descriptor. Directory, database-lock,
 rollback-anchor, receipt and publication-stage descriptors remain to be integrated.
 This partial implementation does not establish aggregate storage resource accounting.
+
+Storage directory traversal and database-lock acquisition now share the registry,
+with a scope installed before opening the storage directory so parent-close failure
+still unwinds that directory. Lock-creation retries preserve their prior deadline
+and exclusivity checks. Directory enumeration reserves one temporary descriptor: the
+CPython reference `Modules/posixmodule.c` at
+`823f0323ee6ec1402088b73bce1a38473cac36dc`, `_posix_listdir`, duplicates fd inputs
+for fdopendir and closes that temporary directory stream on exit. This internal
+descriptor stays owned by CPython, rather than exposing a raw owner to the VM.
+
+A non-anchored read requires capacity for three overlapping descriptors (directory,
+lock, and enumeration or snapshot). Tests reject capacities zero through two without
+changing the existing database and verify exact budget return at capacity three.
+Rollback anchors, receipts and publication stages remain unintegrated; this is not
+a complete native descriptor or memory accounting claim.

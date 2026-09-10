@@ -36,16 +36,17 @@ class StorageError(Exception):
     pass
 
 
-def _open_lock(directory, deadline, check_context=lambda: None):
+def _open_lock(directory, deadline, check_context=lambda: None, *, opener=None):
     """Open an existing lock or create it exclusively, tolerating creation races."""
     flags = os.O_RDWR | os.O_NOFOLLOW | os.O_NONBLOCK
+    opener = os.open if opener is None else opener
     while True:
         check_context()
         try:
-            return os.open('lock', flags, dir_fd=directory)
+            return opener('lock', flags, dir_fd=directory)
         except FileNotFoundError:
             try:
-                return os.open('lock', flags | os.O_CREAT | os.O_EXCL,
+                return opener('lock', flags | os.O_CREAT | os.O_EXCL,
                                0o600, dir_fd=directory)
             except (FileExistsError, FileNotFoundError):
                 # Never follow a replaced directory or wait without a deadline.
@@ -112,52 +113,53 @@ class Store:
             # resolve this newly created private root, never a package root.
             self.root = os.path.realpath(self._temporary.name)
             weakref.finalize(self, self._temporary.cleanup)
-        with parent_directory(self.root, DIRECTORY) as (root, name):
-            try:
-                os.mkdir(name, 0o700, dir_fd=root)
-                os.fsync(root)
-            except FileExistsError:
-                pass
-            directory = os.open(name, os.O_RDONLY | os.O_DIRECTORY | os.O_NOFOLLOW, dir_fd=root)
-        try:
-            lock = _open_lock(directory, deadline, self._check_context)
-            try:
-                info = os.fstat(lock)
-                if not stat.S_ISREG(info.st_mode) or info.st_nlink != 1:
-                    raise StorageError('invalid database lock')
-                while True:
-                    self._lock_remaining(deadline)
-                    try:
-                        fcntl.flock(lock, fcntl.LOCK_EX | fcntl.LOCK_NB)
-                        break
-                    except BlockingIOError:
-                        time.sleep(min(0.002, self._lock_remaining(deadline)))
-                self._check_context()
-                # An uncooperative unlink/replacement must not split our lock.
-                current = os.stat('lock', dir_fd=directory, follow_symlinks=False)
-                if (current.st_dev, current.st_ino) != (info.st_dev, info.st_ino):
-                    raise StorageError('database lock changed')
-                with locked_anchor(self.root, lambda: self._lock_remaining(deadline), enroll=enroll) as anchor:
-                    if anchor is not None:
-                        if self._security is None:
-                            raise SecurityError('anchored storage requires encryption')
-                        if not restore:
-                            anchor.recover(directory, DATABASE, MAX_BYTES + OVERHEAD)
-                    self._anchor = anchor
-                    try:
-                        for stale in (() if restore else os.listdir(directory)):
-                            self._check_context()
-                            suffix = stale.removeprefix('.pending-')
-                            if stale.startswith('.pending-') and len(suffix) == 24 and all(c in '0123456789abcdef' for c in suffix):
-                                os.unlink(stale, dir_fd=directory)
+        descriptors = getattr(self._context, 'descriptors', None)
+        with ExitStack() as owners:
+            def acquire(path, flags, mode=0o777, *, dir_fd=None):
+                return owners.enter_context(opened_descriptor(
+                    path, flags, mode, dir_fd=dir_fd, descriptors=descriptors))
+            with parent_directory(self.root, DIRECTORY, descriptors=descriptors) as (root, name):
+                try:
+                    os.mkdir(name, 0o700, dir_fd=root)
+                    os.fsync(root)
+                except FileExistsError:
+                    pass
+                directory = acquire(name, os.O_RDONLY | os.O_DIRECTORY | os.O_NOFOLLOW, dir_fd=root)
+            lock = _open_lock(directory, deadline, self._check_context, opener=acquire)
+            info = os.fstat(lock)
+            if not stat.S_ISREG(info.st_mode) or info.st_nlink != 1:
+                raise StorageError('invalid database lock')
+            while True:
+                self._lock_remaining(deadline)
+                try:
+                    fcntl.flock(lock, fcntl.LOCK_EX | fcntl.LOCK_NB)
+                    break
+                except BlockingIOError:
+                    time.sleep(min(0.002, self._lock_remaining(deadline)))
+            self._check_context()
+            # An uncooperative unlink/replacement must not split our lock.
+            current = os.stat('lock', dir_fd=directory, follow_symlinks=False)
+            if (current.st_dev, current.st_ino) != (info.st_dev, info.st_ino):
+                raise StorageError('database lock changed')
+            with locked_anchor(self.root, lambda: self._lock_remaining(deadline), enroll=enroll) as anchor:
+                if anchor is not None:
+                    if self._security is None:
+                        raise SecurityError('anchored storage requires encryption')
+                    if not restore:
+                        anchor.recover(directory, DATABASE, MAX_BYTES + OVERHEAD)
+                self._anchor = anchor
+                try:
+                    stale_names = (() if restore else os.listdir(directory) if descriptors is None
+                                   else descriptors.listdir(directory))
+                    for stale in stale_names:
                         self._check_context()
-                        yield directory
-                    finally:
-                        self._anchor = None
-            finally:
-                os.close(lock)
-        finally:
-            os.close(directory)
+                        suffix = stale.removeprefix('.pending-')
+                        if stale.startswith('.pending-') and len(suffix) == 24 and all(c in '0123456789abcdef' for c in suffix):
+                            os.unlink(stale, dir_fd=directory)
+                    self._check_context()
+                    yield directory
+                finally:
+                    self._anchor = None
 
     @staticmethod
     def _identity(info):

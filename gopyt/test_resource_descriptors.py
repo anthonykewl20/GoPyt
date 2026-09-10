@@ -10,6 +10,26 @@ from gopyt.resource_descriptors import DescriptorRegistry
 
 
 class DescriptorOwnership(unittest.TestCase):
+    def test_directory_enumeration_reserves_temporary_duplicate(self):
+        import tempfile
+        with tempfile.TemporaryDirectory() as root:
+            for capacity in (1, 2):
+                budget, registry = self.fixture(capacity)
+                owner = registry.open(root, os.O_RDONLY | os.O_DIRECTORY)
+                original = os.listdir
+                def enumerate_names(fd):
+                    self.assertEqual(budget.snapshot()['used']['descriptors'], 2)
+                    return original(fd)
+                with patch('gopyt.resource_descriptors.os.listdir', side_effect=enumerate_names) as listing:
+                    if capacity == 1:
+                        with self.assertRaises(ResourceLimitError): registry.listdir(owner.fileno())
+                        listing.assert_not_called()
+                    else:
+                        self.assertEqual(registry.listdir(owner.fileno()), [])
+                self.assertEqual(budget.snapshot()['used']['descriptors'], 1)
+                owner.close()
+                self.assertEqual(budget.snapshot()['active_reservations'], 0)
+
     def test_parallel_openers_share_capacity_until_physical_close(self):
         budget, registry = self.fixture(3)
         start = threading.Barrier(9)

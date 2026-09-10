@@ -88,6 +88,18 @@ class DescriptorRegistry:
         with self._lock:
             self._owners.pop(id(owner), None)
 
+    def listdir(self, fd):
+        """Admit CPython's temporary dup/fdopendir descriptor for enumeration.
+
+        CPython owns and closes this temporary descriptor on return or failure;
+        unlike an explicit open, no raw owner is transferred to this registry.
+        """
+        with self._lock:
+            if self._closed:
+                raise ResourceClosedError('descriptor registry is closed')
+        with self._budget.reserve(descriptors=1):
+            return os.listdir(fd)
+
     def pending(self):
         with self._lock:
             return len(self._owners)
