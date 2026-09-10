@@ -1,0 +1,12 @@
+{
+  "runtime_sha256": "530adfe2e6e2e366032be5e79bad600658364752e5673b13b099aaa9001b0a16",
+  "probe_sha256": "d6c725be4437e0a22d60511b992ed73ead8e81f72e7ea6a1167231e3ea382d86",
+  "python": "3.14.7 (main, Sep  1 2026, 14:18:09) [Clang 22.1.3 ]",
+  "encrypted_mode_rejected": [
+    "read",
+    "rekey"
+  ],
+  "migration_cli_exit": 2,
+  "migration_command_absent": true,
+  "plaintext_unchanged": true
+}
