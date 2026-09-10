@@ -1,0 +1,1947 @@
+test_ambiguous_or_oversized_framing_is_rejected (gopyt.test_app_runtime.ApplicationHttpRuntime.test_ambiguous_or_oversized_framing_is_rejected) ... echo
+ok
+test_draining_keeps_the_active_request_deadline (gopyt.test_app_runtime.ApplicationHttpRuntime.test_draining_keeps_the_active_request_deadline) ... ok
+test_drip_fed_body_cannot_extend_request_deadline (gopyt.test_app_runtime.ApplicationHttpRuntime.test_drip_fed_body_cannot_extend_request_deadline) ... echo
+ok
+test_expired_queued_connection_never_invokes_handler (gopyt.test_app_runtime.ApplicationHttpRuntime.test_expired_queued_connection_never_invokes_handler) ... ok
+test_full_queue_returns_503_and_recovers_after_clients_close (gopyt.test_app_runtime.ApplicationHttpRuntime.test_full_queue_returns_503_and_recovers_after_clients_close) ... echo
+echo
+ok
+test_idle_connections_eventually_release_workers (gopyt.test_app_runtime.ApplicationHttpRuntime.test_idle_connections_eventually_release_workers) ... echo
+ok
+test_listener_startup_does_not_depend_on_reverse_dns (gopyt.test_app_runtime.ApplicationHttpRuntime.test_listener_startup_does_not_depend_on_reverse_dns) ... echo
+ok
+test_malformed_json_is_rejected_and_connection_remains_usable (gopyt.test_app_runtime.ApplicationHttpRuntime.test_malformed_json_is_rejected_and_connection_remains_usable) ... charge
+ok
+test_partial_worker_start_failure_closes_listener_and_joins_workers (gopyt.test_app_runtime.ApplicationHttpRuntime.test_partial_worker_start_failure_closes_listener_and_joins_workers) ... ok
+test_pipelined_requests_preserve_response_boundaries (gopyt.test_app_runtime.ApplicationHttpRuntime.test_pipelined_requests_preserve_response_boundaries) ... echo
+echo
+ok
+test_request_execution_budget_and_keepalive_reset (gopyt.test_app_runtime.ApplicationHttpRuntime.test_request_execution_budget_and_keepalive_reset) ... ok
+test_response_backpressure_consumes_remaining_budget (gopyt.test_app_runtime.ApplicationHttpRuntime.test_response_backpressure_consumes_remaining_budget) ... ok
+test_serving_context_stops_idle_input_and_native_workers (gopyt.test_app_runtime.ApplicationHttpRuntime.test_serving_context_stops_idle_input_and_native_workers) ... ok
+test_shutdown_drains_durable_active_response_without_starting_pipeline (gopyt.test_app_runtime.ApplicationHttpRuntime.test_shutdown_drains_durable_active_response_without_starting_pipeline) ... ok
+test_shutdown_interrupts_partial_headers_and_partial_bodies (gopyt.test_app_runtime.ApplicationHttpRuntime.test_shutdown_interrupts_partial_headers_and_partial_bodies) ... ok
+test_shutdown_reclaims_queue_after_worker_exits (gopyt.test_app_runtime.ApplicationHttpRuntime.test_shutdown_reclaims_queue_after_worker_exits) ... ok
+test_sigterm_delivers_active_durable_response_and_exits (gopyt.test_app_runtime.ApplicationHttpRuntime.test_sigterm_delivers_active_durable_response_and_exits) ... ok
+test_small_responses_disable_nagle_on_the_accepted_socket (gopyt.test_app_runtime.ApplicationHttpRuntime.test_small_responses_disable_nagle_on_the_accepted_socket) ... ok
+test_truncated_declared_body_does_not_invoke_post_handler (gopyt.test_app_runtime.ApplicationHttpRuntime.test_truncated_declared_body_does_not_invoke_post_handler) ... echo
+ok
+test_truncated_ignored_get_body_is_still_bad_framing (gopyt.test_app_runtime.ApplicationHttpRuntime.test_truncated_ignored_get_body_is_still_bad_framing) ... ok
+test_dependency_formatting_is_checked (gopyt.test_audit.DependencyAudit.test_dependency_formatting_is_checked) ... ok
+test_digest_path_cannot_inject_additional_entries (gopyt.test_audit.DependencyAudit.test_digest_path_cannot_inject_additional_entries) ... ok
+test_transitive_lock_paths_and_order (gopyt.test_audit.DependencyAudit.test_transitive_lock_paths_and_order) ... ok
+test_apply_failure_rolls_back_sources (gopyt.test_audit.EvolutionAudit.test_apply_failure_rolls_back_sources) ... ok
+test_candidate_does_not_rewrite_string_literals (gopyt.test_audit.EvolutionAudit.test_candidate_does_not_rewrite_string_literals) ... ok
+test_candidates_keep_path_dependencies_resolvable (gopyt.test_audit.EvolutionAudit.test_candidates_keep_path_dependencies_resolvable) ... ok
+test_timeout_leaves_live_sources_and_lock_unchanged (gopyt.test_audit.EvolutionAudit.test_timeout_leaves_live_sources_and_lock_unchanged) ... ok
+test_bad_input_observation_uses_route_template (gopyt.test_audit.HttpBoundaryAudit.test_bad_input_observation_uses_route_template) ... ok
+test_invalid_content_lengths_return_400 (gopyt.test_audit.HttpBoundaryAudit.test_invalid_content_lengths_return_400) ... ok
+test_worker_count_and_accepted_queue_are_bounded (gopyt.test_audit.HttpQueueAudit.test_worker_count_and_accepted_queue_are_bounded) ... ok
+test_decimal_integer_does_not_round_through_float (gopyt.test_audit.JsonAudit.test_decimal_integer_does_not_round_through_float) ... ok
+test_integer_union_round_trip_preserves_tag (gopyt.test_audit.JsonAudit.test_integer_union_round_trip_preserves_tag) ... ok
+test_json_whitespace_and_unicode_validity (gopyt.test_audit.JsonAudit.test_json_whitespace_and_unicode_validity) ... ok
+test_application_ffi_is_rejected (gopyt.test_audit.LoaderAudit.test_application_ffi_is_rejected) ... ok
+test_bad_constant_index (gopyt.test_audit.LoaderAudit.test_bad_constant_index) ... ok
+test_cyclic_type_expression_is_rejected (gopyt.test_audit.LoaderAudit.test_cyclic_type_expression_is_rejected) ... ok
+test_dead_instruction_still_validates_indices (gopyt.test_audit.LoaderAudit.test_dead_instruction_still_validates_indices) ... ok
+test_falling_off_function_is_rejected (gopyt.test_audit.LoaderAudit.test_falling_off_function_is_rejected) ... ok
+test_float_equality_is_rejected_before_execution (gopyt.test_audit.LoaderAudit.test_float_equality_is_rejected_before_execution) ... ok
+test_forged_provide_signature (gopyt.test_audit.LoaderAudit.test_forged_provide_signature) ... ok
+test_forged_stdlib_record_layout (gopyt.test_audit.LoaderAudit.test_forged_stdlib_record_layout) ... ok
+test_join_type_mismatch (gopyt.test_audit.LoaderAudit.test_join_type_mismatch) ... ok
+test_native_argument_type_mismatch (gopyt.test_audit.LoaderAudit.test_native_argument_type_mismatch) ... ok
+test_return_type_mismatch (gopyt.test_audit.LoaderAudit.test_return_type_mismatch) ... ok
+test_seeded_bytecode_mutations_never_crash_decoder (gopyt.test_audit.LoaderAudit.test_seeded_bytecode_mutations_never_crash_decoder) ... ok
+test_model_redirect_cannot_reach_an_unlisted_origin (gopyt.test_audit.NetworkAudit.test_model_redirect_cannot_reach_an_unlisted_origin) ... ok
+test_origin_parser_accepts_query_without_path (gopyt.test_audit.NetworkAudit.test_origin_parser_accepts_query_without_path) ... ok
+test_parallel_arm_keeps_its_modules_egress (gopyt.test_audit.NetworkAudit.test_parallel_arm_keeps_its_modules_egress) ... ok
+test_file_io_rejects_nonregular_entries_without_blocking (gopyt.test_audit.ResourceAudit.test_file_io_rejects_nonregular_entries_without_blocking) ... ok
+test_native_collection_growth_checks_allocation_limit (gopyt.test_audit.ResourceAudit.test_native_collection_growth_checks_allocation_limit) ... ok
+test_build_directory_symlink_does_not_write_outside_package (gopyt.test_audit.SourceAudit.test_build_directory_symlink_does_not_write_outside_package) ... ok
+test_direct_polymorphic_recursion_is_e029_even_when_unused (gopyt.test_audit.SourceAudit.test_direct_polymorphic_recursion_is_e029_even_when_unused) ... ok
+test_duplicate_enum_payload_fields_are_rejected (gopyt.test_audit.SourceAudit.test_duplicate_enum_payload_fields_are_rejected) ... ok
+test_enum_with_float_payload_has_no_equality (gopyt.test_audit.SourceAudit.test_enum_with_float_payload_has_no_equality) ... ok
+test_integer_conversion_keeps_union_variant (gopyt.test_audit.SourceAudit.test_integer_conversion_keeps_union_variant) ... probe
+probe
+probe
+ok
+test_long_number_is_a_lexical_error (gopyt.test_audit.SourceAudit.test_long_number_is_a_lexical_error) ... ok
+test_mutual_polymorphic_recursion_is_e029 (gopyt.test_audit.SourceAudit.test_mutual_polymorphic_recursion_is_e029) ... ok
+test_nested_directory_symlink_is_not_ignored (gopyt.test_audit.SourceAudit.test_nested_directory_symlink_is_not_ignored) ... ok
+test_non_ascii_names_and_numbers_are_rejected (gopyt.test_audit.SourceAudit.test_non_ascii_names_and_numbers_are_rejected) ... ok
+test_recursive_record_equality_terminates (gopyt.test_audit.SourceAudit.test_recursive_record_equality_terminates) ... ok
+test_seeded_arithmetic_matches_integer_reference (gopyt.test_audit.SourceAudit.test_seeded_arithmetic_matches_integer_reference) ... arithmetic
+ok
+test_source_directory_symlink_rejected_before_fmt (gopyt.test_audit.SourceAudit.test_source_directory_symlink_rejected_before_fmt) ... ok
+test_union_equality_different_active_members_is_false (gopyt.test_audit.SourceAudit.test_union_equality_different_active_members_is_false) ... probe
+ok
+test_collection_during_reserve_preserves_counter_update (gopyt.test_budget_finalizers.BudgetFinalizers.test_collection_during_reserve_preserves_counter_update) ... ok
+test_collection_under_lock_completes_in_bounded_process (gopyt.test_budget_finalizers.BudgetFinalizers.test_collection_under_lock_completes_in_bounded_process) ... ok
+test_failed_drain_preserves_charge_and_retries (gopyt.test_budget_finalizers.BudgetFinalizers.test_failed_drain_preserves_charge_and_retries) ... ok
+test_batch_denial_is_all_or_nothing (gopyt.test_capabilities.Capabilities.test_batch_denial_is_all_or_nothing) ... ok
+test_explicit_wildcard_and_empty_deny_all (gopyt.test_capabilities.Capabilities.test_explicit_wildcard_and_empty_deny_all) ... ok
+test_malformed_missing_or_public_policy_fails_closed (gopyt.test_capabilities.Capabilities.test_malformed_missing_or_public_policy_fails_closed) ... ok
+test_namespace_does_not_grant_nearby_tenant_or_unscoped_keys (gopyt.test_capabilities.Capabilities.test_namespace_does_not_grant_nearby_tenant_or_unscoped_keys) ... ok
+test_revocation_precedes_cache_and_read_write_are_separate (gopyt.test_capabilities.Capabilities.test_revocation_precedes_cache_and_read_write_are_separate) ... ok
+test_filtered_extraction_rejects_escape (gopyt.test_ci_python.InterpreterInstall.test_filtered_extraction_rejects_escape) ... ok
+test_size_mismatch_rejects_download (gopyt.test_ci_python.InterpreterInstall.test_size_mismatch_rejects_download) ... ok
+test_version_mismatch_does_not_provide_python_command (gopyt.test_ci_python.InterpreterInstall.test_version_mismatch_does_not_provide_python_command) ... ok
+test_wrong_hash_never_opens_archive (gopyt.test_ci_python.InterpreterInstall.test_wrong_hash_never_opens_archive) ... ok
+test_ciphertext_scope_preserves_format_and_alias_charge (gopyt.test_cipher_destinations.CipherDestinations.test_ciphertext_scope_preserves_format_and_alias_charge) ... ok
+test_failed_publication_clears_retained_ciphertext_without_losing_charge (gopyt.test_cipher_destinations.CipherDestinations.test_failed_publication_clears_retained_ciphertext_without_losing_charge) ... ok
+test_failed_reader_clears_partial_output_before_fallback (gopyt.test_cipher_destinations.CipherDestinations.test_failed_reader_clears_partial_output_before_fallback) ... ok
+test_failure_and_cancellation_clear_large_retained_destination (gopyt.test_cipher_destinations.CipherDestinations.test_failure_and_cancellation_clear_large_retained_destination) ... ok
+test_plaintext_rejection_does_not_invoke_cipher (gopyt.test_cipher_destinations.CipherDestinations.test_plaintext_rejection_does_not_invoke_cipher) ... ok
+test_plaintext_scope_charges_alias_and_clears_on_exit (gopyt.test_cipher_destinations.CipherDestinations.test_plaintext_scope_charges_alias_and_clears_on_exit) ... ok
+test_real_keyring_fallback_matches_existing_format (gopyt.test_cipher_destinations.CipherDestinations.test_real_keyring_fallback_matches_existing_format) ... ok
+test_check_takes_no_argument (gopyt.test_cli.Commands.test_check_takes_no_argument) ... ok
+test_check_writes_the_artifact (gopyt.test_cli.Commands.test_check_writes_the_artifact) ... ok
+test_no_command (gopyt.test_cli.Commands.test_no_command) ... ok
+test_no_manifest_is_e046 (gopyt.test_cli.Commands.test_no_manifest_is_e046) ... ok
+test_run_needs_exactly_one_target (gopyt.test_cli.Commands.test_run_needs_exactly_one_target) ... ok
+test_run_of_a_fn_is_e074 (gopyt.test_cli.Commands.test_run_of_a_fn_is_e074)
+implementer.md 9: run targets a task or workflow. ... ok
+test_run_of_a_task_prints_json (gopyt.test_cli.Commands.test_run_of_a_task_prints_json) ... x
+ok
+test_run_of_a_task_with_arguments_is_e022 (gopyt.test_cli.Commands.test_run_of_a_task_with_arguments_is_e022) ... ok
+test_run_of_an_unknown_target_is_e074 (gopyt.test_cli.Commands.test_run_of_an_unknown_target_is_e074) ... ok
+test_run_prints_nothing_for_unit (gopyt.test_cli.Commands.test_run_prints_nothing_for_unit) ... x
+ok
+test_unknown_command (gopyt.test_cli.Commands.test_unknown_command) ... ok
+test_a_module_header_must_match_a_nested_path (gopyt.test_cli.NestedModules.test_a_module_header_must_match_a_nested_path) ... ok
+test_nested_spec_impl_and_test_modules (gopyt.test_cli.NestedModules.test_nested_spec_impl_and_test_modules) ... charge
+ok
+test_a_failing_test_exits_two_at_the_first_trap (gopyt.test_cli.TestOrdering.test_a_failing_test_exits_two_at_the_first_trap) ... ok
+test_tests_run_in_lexicographic_order (gopyt.test_cli.TestOrdering.test_tests_run_in_lexicographic_order) ... ok
+test_back_edge_cannot_exempt_a_double_store (gopyt.test_closure.ArtifactPolicy.test_back_edge_cannot_exempt_a_double_store) ... ok
+test_duplicate_union_types_with_different_indices_are_rejected (gopyt.test_closure.ArtifactPolicy.test_duplicate_union_types_with_different_indices_are_rejected) ... ok
+test_evolve_round_trip_and_validation (gopyt.test_closure.ArtifactPolicy.test_evolve_round_trip_and_validation) ... ok
+test_multiple_agents_require_identical_bounds (gopyt.test_closure.ArtifactPolicy.test_multiple_agents_require_identical_bounds) ... ok
+test_reset_parameters_and_load_after_reset_are_rejected (gopyt.test_closure.ArtifactPolicy.test_reset_parameters_and_load_after_reset_are_rejected) ... ok
+test_rich_artifact_mutations_never_raise_host_exceptions (gopyt.test_closure.ArtifactPolicy.test_rich_artifact_mutations_never_raise_host_exceptions) ... ok
+test_custom_trait_stub_has_all_members (gopyt.test_closure.Authoring.test_custom_trait_stub_has_all_members) ... ok
+test_derived_from_str_cannot_be_overridden (gopyt.test_closure.Authoring.test_derived_from_str_cannot_be_overridden) ... ok
+test_identity_and_constructor_are_determined (gopyt.test_closure.Authoring.test_identity_and_constructor_are_determined) ... ok
+test_missing_member_repair_preserves_completed_body (gopyt.test_closure.Authoring.test_missing_member_repair_preserves_completed_body) ... ok
+test_missing_test_has_safe_canonical_file_repair (gopyt.test_closure.Authoring.test_missing_test_has_safe_canonical_file_repair) ... ok
+test_serve_body_is_compiler_determined (gopyt.test_closure.Authoring.test_serve_body_is_compiler_determined) ... ok
+test_serve_cannot_add_an_arbitrary_body (gopyt.test_closure.Authoring.test_serve_cannot_add_an_arbitrary_body) ... ok
+test_bloom_and_trace_dump_have_fixed_bounds (gopyt.test_closure.BoundedState.test_bloom_and_trace_dump_have_fixed_bounds) ... ok
+test_full_bucket_pressure_does_not_rescan_before_refill (gopyt.test_closure.BoundedState.test_full_bucket_pressure_does_not_rescan_before_refill) ... ok
+test_parameter_change_cannot_bypass_limit (gopyt.test_closure.BoundedState.test_parameter_change_cannot_bypass_limit) ... ok
+test_pressure_does_not_reset_depleted_keys (gopyt.test_closure.BoundedState.test_pressure_does_not_reset_depleted_keys) ... ok
+test_vm_counts_nominal_failure_without_manual_note (gopyt.test_closure.BoundedState.test_vm_counts_nominal_failure_without_manual_note) ... ok
+test_collection_during_parallel_calls_preserves_results (gopyt.test_closure.Memory.test_collection_during_parallel_calls_preserves_results) ... ok
+test_cycles_are_swept_with_host_cycle_gc_disabled (gopyt.test_closure.Memory.test_cycles_are_swept_with_host_cycle_gc_disabled) ... ok
+test_long_lived_vm_reclaims_temporary_values (gopyt.test_closure.Memory.test_long_lived_vm_reclaims_temporary_values) ... ok
+test_native_only_allocations_trigger_collection (gopyt.test_closure.Memory.test_native_only_allocations_trigger_collection) ... ok
+test_root_keeps_transitive_graph_and_releases_it (gopyt.test_closure.Memory.test_root_keeps_transitive_graph_and_releases_it) ... ok
+test_ambient_proxy_does_not_receive_allowed_request (gopyt.test_closure.NetworkBoundary.test_ambient_proxy_does_not_receive_allowed_request) ... ok
+test_real_tls_verification_and_model_protocol (gopyt.test_closure.NetworkBoundary.test_real_tls_verification_and_model_protocol) ... ok
+test_candidate_tampering_is_refused_before_live_writes (gopyt.test_closure.Transactions.test_candidate_tampering_is_refused_before_live_writes) ... ok
+test_checked_survivors_use_persistent_weights_and_tag_replay (gopyt.test_closure.Transactions.test_checked_survivors_use_persistent_weights_and_tag_replay) ... ok
+test_committed_journal_is_cleaned_without_rollback (gopyt.test_closure.Transactions.test_committed_journal_is_cleaned_without_rollback) ... ok
+test_cooperating_reader_waits_until_commit (gopyt.test_closure.Transactions.test_cooperating_reader_waits_until_commit) ... ok
+test_descriptor_access_rejects_a_flipping_symlink (gopyt.test_closure.Transactions.test_descriptor_access_rejects_a_flipping_symlink) ... ok
+test_external_edit_conflict_is_preserved (gopyt.test_closure.Transactions.test_external_edit_conflict_is_preserved) ... ok
+test_process_death_after_each_write_recovers_complete_old_tree (gopyt.test_closure.Transactions.test_process_death_after_each_write_recovers_complete_old_tree) ... ok
+test_source_digest_must_match_bytes_that_were_parsed (gopyt.test_closure.Transactions.test_source_digest_must_match_bytes_that_were_parsed) ... ok
+test_a_comment_is_never_a_contract (gopyt.test_comments.Comments.test_a_comment_is_never_a_contract)
+fmt.md: comments never become a contract or an `open`. ... ok
+test_a_commented_package_checks (gopyt.test_comments.Comments.test_a_commented_package_checks)
+Types live in spec/ only (elaborator.md); comments live in both. ... ok
+test_comment_only_module_keeps_its_text (gopyt.test_comments.Comments.test_comment_only_module_keeps_its_text) ... ok
+test_fmt_does_not_delete_comments_on_disk (gopyt.test_comments.Comments.test_fmt_does_not_delete_comments_on_disk) ... ok
+test_formatting_is_idempotent_with_comments (gopyt.test_comments.Comments.test_formatting_is_idempotent_with_comments) ... ok
+test_formatting_keeps_every_comment (gopyt.test_comments.Comments.test_formatting_keeps_every_comment) ... ok
+test_trailing_whitespace_is_removed (gopyt.test_comments.Comments.test_trailing_whitespace_is_removed) ... ok
+test_missing_installed_code_rejected (gopyt.test_component_inventory.InventoryTests.test_missing_installed_code_rejected) ... ok
+test_modified_installed_code_rejected (gopyt.test_component_inventory.InventoryTests.test_modified_installed_code_rejected) ... ok
+test_nested_metadata_vendor_pins_and_sboms_preserved (gopyt.test_component_inventory.InventoryTests.test_nested_metadata_vendor_pins_and_sboms_preserved) ... ok
+test_unhashed_code_is_not_treated_as_installer_metadata (gopyt.test_component_inventory.InventoryTests.test_unhashed_code_is_not_treated_as_installer_metadata) ... ok
+test_unknown_vendor_declaration_rejected (gopyt.test_component_inventory.InventoryTests.test_unknown_vendor_declaration_rejected) ... ok
+test_c019_list_empty_type (gopyt.test_conformance.Assertions.test_c019_list_empty_type) ... ok
+test_c020_map_empty_type (gopyt.test_conformance.Assertions.test_c020_map_empty_type) ... ok
+test_c022_parallel_runs_in_source_order (gopyt.test_conformance.Assertions.test_c022_parallel_runs_in_source_order) ... ok
+test_c024_division_by_zero_traps (gopyt.test_conformance.Assertions.test_c024_division_by_zero_traps) ... start
+ok
+test_c026_format_is_idempotent (gopyt.test_conformance.Assertions.test_c026_format_is_idempotent) ... ok
+test_c027_jump_into_operand (gopyt.test_conformance.Assertions.test_c027_jump_into_operand) ... ok
+test_c030_stale_lock (gopyt.test_conformance.Assertions.test_c030_stale_lock) ... ok
+test_c031_test_effects_are_inferred (gopyt.test_conformance.Assertions.test_c031_test_effects_are_inferred) ... ok
+test_c032_effectful_test_uses_the_runtime (gopyt.test_conformance.Assertions.test_c032_effectful_test_uses_the_runtime) ... ok
+test_c033_obligation_discharged (gopyt.test_conformance.Assertions.test_c033_obligation_discharged) ... ok
+test_c037_json_extra_key (gopyt.test_conformance.Assertions.test_c037_json_extra_key) ... decode
+ok
+test_c040_propose_needs_evolve (gopyt.test_conformance.Assertions.test_c040_propose_needs_evolve) ... ok
+test_c001_pure_i64 (gopyt.test_conformance.MustAccept.test_c001_pure_i64) ... ok
+test_c014_param_comma (gopyt.test_conformance.MustAccept.test_c014_param_comma) ... ok
+test_c018_return_unit (gopyt.test_conformance.MustAccept.test_c018_return_unit) ... ok
+test_c002_missing_use (gopyt.test_conformance.MustReject.test_c002_missing_use) ... ok
+test_c003_inexhaustive_match (gopyt.test_conformance.MustReject.test_c003_inexhaustive_match) ... ok
+test_c004_fn_cannot_call_task (gopyt.test_conformance.MustReject.test_c004_fn_cannot_call_task) ... ok
+test_c005_int_is_not_a_type (gopyt.test_conformance.MustReject.test_c005_int_is_not_a_type) ... ok
+test_c006_userid_illegal (gopyt.test_conformance.MustReject.test_c006_userid_illegal) ... ok
+test_c007_leading_zero (gopyt.test_conformance.MustReject.test_c007_leading_zero) ... ok
+test_c008_if_is_not_an_expression (gopyt.test_conformance.MustReject.test_c008_if_is_not_an_expression) ... ok
+test_c009_open_fails_check (gopyt.test_conformance.MustReject.test_c009_open_fails_check) ... ok
+test_c010_parallel_requires_bounds (gopyt.test_conformance.MustReject.test_c010_parallel_requires_bounds) ... ok
+test_c011_json_requires_provide (gopyt.test_conformance.MustReject.test_c011_json_requires_provide) ... ok
+test_c012_serve_arity (gopyt.test_conformance.MustReject.test_c012_serve_arity) ... ok
+test_c013_param_comma_required (gopyt.test_conformance.MustReject.test_c013_param_comma_required) ... ok
+test_c015_effect_comma_required (gopyt.test_conformance.MustReject.test_c015_effect_comma_required) ... ok
+test_c016_no_trailing_comma (gopyt.test_conformance.MustReject.test_c016_no_trailing_comma) ... ok
+test_c017_missing_return_path (gopyt.test_conformance.MustReject.test_c017_missing_return_path) ... ok
+test_c021_map_key_is_closed (gopyt.test_conformance.MustReject.test_c021_map_key_is_closed) ... ok
+test_c023_parallel_max_zero (gopyt.test_conformance.MustReject.test_c023_parallel_max_zero) ... ok
+test_c025_if_in_value_position (gopyt.test_conformance.MustReject.test_c025_if_in_value_position) ... ok
+test_c028_unknown_effect (gopyt.test_conformance.MustReject.test_c028_unknown_effect) ... ok
+test_c029_non_test_open (gopyt.test_conformance.MustReject.test_c029_non_test_open) ... ok
+test_c034_app_ffi (gopyt.test_conformance.MustReject.test_c034_app_ffi) ... ok
+test_c035_request_without_egress (gopyt.test_conformance.MustReject.test_c035_request_without_egress) ... ok
+test_c036_secret_in_log (gopyt.test_conformance.MustReject.test_c036_secret_in_log) ... ok
+test_c038_eval (gopyt.test_conformance.MustReject.test_c038_eval) ... ok
+test_c039_evolve_without_model (gopyt.test_conformance.MustReject.test_c039_evolve_without_model) ... ok
+test_c041_evolve_bounds (gopyt.test_conformance.MustReject.test_c041_evolve_bounds) ... ok
+test_idle_connection_lifetime_releases_queued_client (gopyt.test_connection_budget.ConnectionBudget.test_idle_connection_lifetime_releases_queued_client) ... echo
+echo
+ok
+test_new_requests_cannot_extend_connection_deadline (gopyt.test_connection_budget.ConnectionBudget.test_new_requests_cannot_extend_connection_deadline) ... ok
+test_non_handler_responses_also_consume_request_quota (gopyt.test_connection_budget.ConnectionBudget.test_non_handler_responses_also_consume_request_quota) ... echo
+ok
+test_pipelined_excess_requests_never_dispatch (gopyt.test_connection_budget.ConnectionBudget.test_pipelined_excess_requests_never_dispatch) ... ok
+test_quota_releases_worker_to_already_queued_client (gopyt.test_connection_budget.ConnectionBudget.test_quota_releases_worker_to_already_queued_client) ... echo
+echo
+echo
+ok
+test_changed_contract_kind_is_drift (gopyt.test_contract_drift.ContractDriftTests.test_changed_contract_kind_is_drift) ... ok
+test_changed_literal_is_drift (gopyt.test_contract_drift.ContractDriftTests.test_changed_literal_is_drift) ... ok
+test_changed_operator_is_drift (gopyt.test_contract_drift.ContractDriftTests.test_changed_operator_is_drift) ... ok
+test_comments_and_source_lines_are_not_drift (gopyt.test_contract_drift.ContractDriftTests.test_comments_and_source_lines_are_not_drift) ... ok
+test_nested_expression_change_is_drift (gopyt.test_contract_drift.ContractDriftTests.test_nested_expression_change_is_drift) ... ok
+test_reordered_clauses_are_drift (gopyt.test_contract_drift.ContractDriftTests.test_reordered_clauses_are_drift) ... ok
+test_contract_change_is_reviewed_and_enforced_after_rebuild (gopyt.test_dependency_upgrades.DependencyUpgrades.test_contract_change_is_reviewed_and_enforced_after_rebuild) ... ok
+test_relocated_graph_compiles_to_identical_bytes_and_lock (gopyt.test_dependency_upgrades.DependencyUpgrades.test_relocated_graph_compiles_to_identical_bytes_and_lock) ... ok
+test_reviewed_lock_cannot_make_incompatible_api_typecheck (gopyt.test_dependency_upgrades.DependencyUpgrades.test_reviewed_lock_cannot_make_incompatible_api_typecheck) ... ok
+test_transitive_upgrade_requires_review_and_rollback_is_reproducible (gopyt.test_dependency_upgrades.DependencyUpgrades.test_transitive_upgrade_requires_review_and_rollback_is_reproducible) ... ok
+test_version_unchanged_does_not_hide_dependency_source_change (gopyt.test_dependency_upgrades.DependencyUpgrades.test_version_unchanged_does_not_hide_dependency_source_change) ... ok
+test_declaring_the_dependency_makes_the_import_legal (gopyt.test_deps.DirectImports.test_declaring_the_dependency_makes_the_import_legal) ... ok
+test_reaching_past_a_dependency_is_e043 (gopyt.test_deps.DirectImports.test_reaching_past_a_dependency_is_e043) ... ok
+test_e042_cycle (gopyt.test_deps.Graph.test_e042_cycle) ... ok
+test_e043_missing_path (gopyt.test_deps.Graph.test_e043_missing_path) ... ok
+test_e044_name_mismatch (gopyt.test_deps.Graph.test_e044_name_mismatch) ... ok
+test_e045_same_name_two_paths (gopyt.test_deps.Graph.test_e045_same_name_two_paths) ... ok
+test_a_root_module_may_not_shadow_a_dependency (gopyt.test_deps.Names.test_a_root_module_may_not_shadow_a_dependency) ... ok
+test_a_stdlib_prefix_may_not_be_an_app_module (gopyt.test_deps.Names.test_a_stdlib_prefix_may_not_be_an_app_module) ... ok
+test_dep_digest_tracks_dep_sources (gopyt.test_deps.Resolved.test_dep_digest_tracks_dep_sources) ... ok
+test_dep_module_is_callable_and_reaches_bytecode (gopyt.test_deps.Resolved.test_dep_module_is_callable_and_reaches_bytecode) ... ok
+test_lock_lists_root_first_then_deps_by_name (gopyt.test_deps.Resolved.test_lock_lists_root_first_then_deps_by_name) ... ok
+test_missing_lock_is_e041_then_check_passes (gopyt.test_deps.Resolved.test_missing_lock_is_e041_then_check_passes) ... ok
+test_every_documented_code_is_raised_or_declared (gopyt.test_diagnostics.Coverage.test_every_documented_code_is_raised_or_declared) ... echo
+echo
+echo
+echo
+echo
+echo
+charge
+echo
+echo
+echo
+probe
+probe
+probe
+arithmetic
+probe
+x
+x
+charge
+start
+decode
+echo
+echo
+echo
+echo
+echo
+echo
+start
+ERROR:root:Refund transaction failed
+Traceback (most recent call last):
+  File "/tmp/gopyt-json-admission/examples/guarded_refunds/service.py", line 236, in do_POST
+    result = self.server.ledger.apply(body)
+  File "/tmp/gopyt-json-admission/examples/guarded_refunds/service.py", line 143, in apply
+    return self._apply(body)
+           ~~~~~~~~~~~^^^^^^
+  File "/tmp/gopyt-json-admission/examples/guarded_refunds/service.py", line 180, in _apply
+    conn.execute('INSERT INTO requests VALUES(?,?,?,?)', (order_id,key,payload,canonical(response).decode()))
+    ~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+sqlite3.IntegrityError: injected
+ERROR:root:Refund transaction failed
+Traceback (most recent call last):
+  File "/tmp/gopyt-json-admission/examples/guarded_refunds/service.py", line 236, in do_POST
+    result = self.server.ledger.apply(body)
+  File "/tmp/gopyt-json-admission/examples/guarded_refunds/service.py", line 143, in apply
+    return self._apply(body)
+           ~~~~~~~~~~~^^^^^^
+  File "/tmp/gopyt-json-admission/examples/guarded_refunds/service.py", line 168, in _apply
+    allowed = timed_call(self.vm, self.ids['refund_policy.allowed'],
+                         [row['paid'],row['refunded'],amount,row['version'],expected,bool(row['closed'])])
+  File "/home/soultransit/.local/share/uv/python/cpython-3.14.7-linux-x86_64-gnu/lib/python3.14/unittest/mock.py", line 1176, in __call__
+    return self._mock_call(*args, **kwargs)
+           ~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^
+  File "/home/soultransit/.local/share/uv/python/cpython-3.14.7-linux-x86_64-gnu/lib/python3.14/unittest/mock.py", line 1180, in _mock_call
+    return self._execute_mock_call(*args, **kwargs)
+           ~~~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^
+  File "/home/soultransit/.local/share/uv/python/cpython-3.14.7-linux-x86_64-gnu/lib/python3.14/unittest/mock.py", line 1241, in _execute_mock_call
+    raise effect
+gopyt.vm.Trap: trap 2
+ERROR:root:Refund transaction failed
+Traceback (most recent call last):
+  File "/tmp/gopyt-json-admission/examples/guarded_refunds/service.py", line 236, in do_POST
+    result = self.server.ledger.apply(body)
+  File "/tmp/gopyt-json-admission/examples/guarded_refunds/service.py", line 143, in apply
+    return self._apply(body)
+           ~~~~~~~~~~~^^^^^^
+  File "/tmp/gopyt-json-admission/examples/guarded_refunds/service.py", line 168, in _apply
+    allowed = timed_call(self.vm, self.ids['refund_policy.allowed'],
+                         [row['paid'],row['refunded'],amount,row['version'],expected,bool(row['closed'])])
+  File "/home/soultransit/.local/share/uv/python/cpython-3.14.7-linux-x86_64-gnu/lib/python3.14/unittest/mock.py", line 1176, in __call__
+    return self._mock_call(*args, **kwargs)
+           ~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^
+  File "/home/soultransit/.local/share/uv/python/cpython-3.14.7-linux-x86_64-gnu/lib/python3.14/unittest/mock.py", line 1180, in _mock_call
+    return self._execute_mock_call(*args, **kwargs)
+           ~~~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^
+  File "/home/soultransit/.local/share/uv/python/cpython-3.14.7-linux-x86_64-gnu/lib/python3.14/unittest/mock.py", line 1241, in _execute_mock_call
+    raise effect
+gopyt.vm.Cancelled
+ERROR:root:Refund transaction failed
+Traceback (most recent call last):
+  File "/tmp/gopyt-json-admission/examples/guarded_refunds/service.py", line 236, in do_POST
+    result = self.server.ledger.apply(body)
+  File "/tmp/gopyt-json-admission/examples/guarded_refunds/service.py", line 143, in apply
+    return self._apply(body)
+           ~~~~~~~~~~~^^^^^^
+  File "/tmp/gopyt-json-admission/examples/guarded_refunds/service.py", line 172, in _apply
+    after = timed_call(self.vm, self.ids['refund_policy.after_refund'],
+                       [row['paid'],row['refunded'],amount])
+  File "/tmp/gopyt-json-admission/gopyt/guard.py", line 337, in timed_call
+    return vm.call(fn, list(args))
+           ~~~~~~~^^^^^^^^^^^^^^^^
+  File "/tmp/gopyt-json-admission/gopyt/vm.py", line 304, in call
+    return self._call_admitted(fn_id, args, caller_effects)
+           ~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/tmp/gopyt-json-admission/gopyt/vm.py", line 317, in _call_admitted
+    result = self._call(fn_id, args, caller_effects)
+  File "/tmp/gopyt-json-admission/gopyt/vm.py", line 358, in _call
+    return self.exec(fn_id, func, args)
+           ~~~~~~~~~^^^^^^^^^^^^^^^^^^^
+  File "/tmp/gopyt-json-admission/gopyt/vm.py", line 376, in exec
+    return self._exec_frame(frame)
+           ~~~~~~~~~~~~~~~~^^^^^^^
+  File "/tmp/gopyt-json-admission/gopyt/vm.py", line 381, in _exec_frame
+    return self._execute_frame(frame, instruction_guard)
+           ~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/tmp/gopyt-json-admission/gopyt/vm.py", line 594, in _execute_frame
+    raise Trap(ops.TRAP_REQUIRES if op == ops.REQUIRE else ops.TRAP_ENSURES)
+gopyt.vm.Trap: trap 2
+guard prepare: duplicate JSON key: cases
+guard prepare: preparation policy exceeds byte limit
+2e4df474b89c148c32b5a6cc6c77538536c7c1b88d4d75930105bb19f51a4c96
+{
+  "schema": "gopyt.guard.receipt.v1",
+  "accepted": true,
+  "bundle_sha256": "2e4df474b89c148c32b5a6cc6c77538536c7c1b88d4d75930105bb19f51a4c96",
+  "engine_sha256": "ddb41f06e5705cf2ca13f4287bbcb21a8a0be0e2dad9d841d63b5c086497bb11",
+  "limitations": [
+    "Finite acceptance cases, not a proof.",
+    "Listed obligations are declarations; this gate executes only the supplied cases, not HTTP or database tests.",
+    "Caller, bundle pin, and executor must be protected outside candidate authority.",
+    "No guarantee about external payment processors or undisclosed policies."
+  ],
+  "candidate_sha256": "c535e8f3aecd9a3d0f101579e9a72cd06c5633f038f2248544d01ecd860ea1f2",
+  "changed_files": [],
+  "obligations": {
+    "stock": "Reservation preserves nonnegative stock."
+  },
+  "protected_contract_helpers": [],
+  "passed": 3,
+  "total": 3,
+  "failures": []
+}
+echo
+echo
+echo
+echo
+echo
+echo
+echo
+echo
+echo
+echo
+echo
+echo
+echo
+echo
+echo
+echo
+output
+output
+obligations: FileExistsError: [Errno 17] File exists: '/tmp/tmp_3tvagi2/report.json'
+obligations: FileExistsError: [Errno 17] File exists: '/tmp/tmp3nlusk8t/report.json'
+obligations: FileExistsError: [Errno 17] File exists: '/tmp/tmpqfn4bjin/report.json'
+obligations: FileExistsError: [Errno 17] File exists: '/tmp/tmpwpb5r6mu/report.json'
+arm
+arm
+
+50 modules checked in 19 ms
+
+check 22 ms, 10000 logins 3630 ms
+project context: FileExistsError: [Errno 17] File exists: '/tmp/tmpmu39vjju/receipt.json'
+echo
+echo
+echo
+echo
+echo
+echo
+Scheduled Python thread stacks:
+Thread 133149236393664:
+  File "/home/soultransit/.local/share/uv/python/cpython-3.14.7-linux-x86_64-gnu/lib/python3.14/threading.py", line 1044, in _bootstrap
+    self._bootstrap_inner()
+  File "/home/soultransit/.local/share/uv/python/cpython-3.14.7-linux-x86_64-gnu/lib/python3.14/threading.py", line 1082, in _bootstrap_inner
+    self._context.run(self.run)
+  File "/home/soultransit/.local/share/uv/python/cpython-3.14.7-linux-x86_64-gnu/lib/python3.14/threading.py", line 1024, in run
+    self._target(*self._args, **self._kwargs)
+  File "/tmp/gopyt-json-admission/tools/run_language_tests.py", line 18, in report_stacks
+    traceback.print_stack(frame, file=stream)
+Thread 133149293401920:
+  File "/tmp/gopyt-json-admission/tools/run_language_tests.py", line 32, in <module>
+    runpy.run_module('unittest', run_name='__main__')
+  File "<frozen runpy>", line 234, in run_module
+  File "<frozen runpy>", line 88, in _run_code
+  File "/home/soultransit/.local/share/uv/python/cpython-3.14.7-linux-x86_64-gnu/lib/python3.14/unittest/__main__.py", line 18, in <module>
+    main(module=None)
+  File "/home/soultransit/.local/share/uv/python/cpython-3.14.7-linux-x86_64-gnu/lib/python3.14/unittest/main.py", line 104, in __init__
+    self.runTests()
+  File "/home/soultransit/.local/share/uv/python/cpython-3.14.7-linux-x86_64-gnu/lib/python3.14/unittest/main.py", line 270, in runTests
+    self.result = testRunner.run(self.test)
+  File "/home/soultransit/.local/share/uv/python/cpython-3.14.7-linux-x86_64-gnu/lib/python3.14/unittest/runner.py", line 257, in run
+    test(result)
+  File "/home/soultransit/.local/share/uv/python/cpython-3.14.7-linux-x86_64-gnu/lib/python3.14/unittest/suite.py", line 84, in __call__
+    return self.run(*args, **kwds)
+  File "/home/soultransit/.local/share/uv/python/cpython-3.14.7-linux-x86_64-gnu/lib/python3.14/unittest/suite.py", line 122, in run
+    test(result)
+  File "/home/soultransit/.local/share/uv/python/cpython-3.14.7-linux-x86_64-gnu/lib/python3.14/unittest/suite.py", line 84, in __call__
+    return self.run(*args, **kwds)
+  File "/home/soultransit/.local/share/uv/python/cpython-3.14.7-linux-x86_64-gnu/lib/python3.14/unittest/suite.py", line 122, in run
+    test(result)
+  File "/home/soultransit/.local/share/uv/python/cpython-3.14.7-linux-x86_64-gnu/lib/python3.14/unittest/suite.py", line 84, in __call__
+    return self.run(*args, **kwds)
+  File "/home/soultransit/.local/share/uv/python/cpython-3.14.7-linux-x86_64-gnu/lib/python3.14/unittest/suite.py", line 122, in run
+    test(result)
+  File "/home/soultransit/.local/share/uv/python/cpython-3.14.7-linux-x86_64-gnu/lib/python3.14/unittest/case.py", line 725, in __call__
+    return self.run(*args, **kwds)
+  File "/home/soultransit/.local/share/uv/python/cpython-3.14.7-linux-x86_64-gnu/lib/python3.14/unittest/case.py", line 669, in run
+    self._callTestMethod(testMethod)
+  File "/home/soultransit/.local/share/uv/python/cpython-3.14.7-linux-x86_64-gnu/lib/python3.14/unittest/case.py", line 615, in _callTestMethod
+    result = method()
+  File "/tmp/gopyt-json-admission/gopyt/test_diagnostics.py", line 79, in test_every_documented_code_is_raised_or_declared
+    seen = raised_codes()
+  File "/tmp/gopyt-json-admission/gopyt/test_diagnostics.py", line 67, in raised_codes
+    result = runner.run(suite)
+  File "/home/soultransit/.local/share/uv/python/cpython-3.14.7-linux-x86_64-gnu/lib/python3.14/unittest/runner.py", line 257, in run
+    test(result)
+  File "/home/soultransit/.local/share/uv/python/cpython-3.14.7-linux-x86_64-gnu/lib/python3.14/unittest/suite.py", line 84, in __call__
+    return self.run(*args, **kwds)
+  File "/home/soultransit/.local/share/uv/python/cpython-3.14.7-linux-x86_64-gnu/lib/python3.14/unittest/suite.py", line 122, in run
+    test(result)
+  File "/home/soultransit/.local/share/uv/python/cpython-3.14.7-linux-x86_64-gnu/lib/python3.14/unittest/suite.py", line 84, in __call__
+    return self.run(*args, **kwds)
+  File "/home/soultransit/.local/share/uv/python/cpython-3.14.7-linux-x86_64-gnu/lib/python3.14/unittest/suite.py", line 122, in run
+    test(result)
+  File "/home/soultransit/.local/share/uv/python/cpython-3.14.7-linux-x86_64-gnu/lib/python3.14/unittest/case.py", line 725, in __call__
+    return self.run(*args, **kwds)
+  File "/home/soultransit/.local/share/uv/python/cpython-3.14.7-linux-x86_64-gnu/lib/python3.14/unittest/case.py", line 669, in run
+    self._callTestMethod(testMethod)
+  File "/home/soultransit/.local/share/uv/python/cpython-3.14.7-linux-x86_64-gnu/lib/python3.14/unittest/case.py", line 615, in _callTestMethod
+    result = method()
+  File "/tmp/gopyt-json-admission/gopyt/test_tickets.py", line 40, in test_identifier_validation_matches_independent_character_and_length_oracle
+    self.assertIs(vm.call(ids['tickets.valid_id'], [text]), expected)
+  File "/tmp/gopyt-json-admission/gopyt/vm.py", line 306, in call
+    with self._lifecycle_lock:
+  File "/tmp/gopyt-json-admission/gopyt/vm.py", line 316, in _call_admitted
+    with self.heap.pin(args):
+  File "/tmp/gopyt-json-admission/gopyt/vm.py", line 368, in _call
+    self.depth -= 1
+  File "/tmp/gopyt-json-admission/gopyt/vm.py", line 375, in exec
+    with self.heap.frame(frame):
+  File "/tmp/gopyt-json-admission/gopyt/vm.py", line 383, in _exec_frame
+    instruction_guard.finish()
+  File "/tmp/gopyt-json-admission/gopyt/vm.py", line 392, in _execute_frame
+    with instruction_guard:
+  File "/tmp/gopyt-json-admission/gopyt/heap.py", line 40, in __enter__
+    if len(heap.objects) >= heap.threshold:
+decode
+charge
+cell
+e
+o
+e
+o
+e
+o
+e
+charging
+echo
+user
+ping
+charge
+wire
+alloc
+1
+1
+found
+go
+go
+0
+1
+2
+3
+go
+go
+go
+and
+order
+contract
+div
+enum
+int
+opt
+or
+range
+mod
+slice
+len
+encode
+encode
+decode
+get
+bools
+empty
+keys
+map
+ok
+test_untested_codes_are_documented (gopyt.test_diagnostics.Coverage.test_untested_codes_are_documented) ... ok
+test_untested_list_stays_honest (gopyt.test_diagnostics.Coverage.test_untested_list_stays_honest)
+A code that a test does reach must not sit in UNTESTED. ... echo
+echo
+echo
+echo
+echo
+echo
+charge
+echo
+echo
+echo
+probe
+probe
+probe
+arithmetic
+probe
+x
+x
+charge
+start
+decode
+echo
+echo
+echo
+echo
+echo
+echo
+start
+ERROR:root:Refund transaction failed
+Traceback (most recent call last):
+  File "/tmp/gopyt-json-admission/examples/guarded_refunds/service.py", line 236, in do_POST
+    result = self.server.ledger.apply(body)
+  File "/tmp/gopyt-json-admission/examples/guarded_refunds/service.py", line 143, in apply
+    return self._apply(body)
+           ~~~~~~~~~~~^^^^^^
+  File "/tmp/gopyt-json-admission/examples/guarded_refunds/service.py", line 180, in _apply
+    conn.execute('INSERT INTO requests VALUES(?,?,?,?)', (order_id,key,payload,canonical(response).decode()))
+    ~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+sqlite3.IntegrityError: injected
+ERROR:root:Refund transaction failed
+Traceback (most recent call last):
+  File "/tmp/gopyt-json-admission/examples/guarded_refunds/service.py", line 236, in do_POST
+    result = self.server.ledger.apply(body)
+  File "/tmp/gopyt-json-admission/examples/guarded_refunds/service.py", line 143, in apply
+    return self._apply(body)
+           ~~~~~~~~~~~^^^^^^
+  File "/tmp/gopyt-json-admission/examples/guarded_refunds/service.py", line 168, in _apply
+    allowed = timed_call(self.vm, self.ids['refund_policy.allowed'],
+                         [row['paid'],row['refunded'],amount,row['version'],expected,bool(row['closed'])])
+  File "/home/soultransit/.local/share/uv/python/cpython-3.14.7-linux-x86_64-gnu/lib/python3.14/unittest/mock.py", line 1176, in __call__
+    return self._mock_call(*args, **kwargs)
+           ~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^
+  File "/home/soultransit/.local/share/uv/python/cpython-3.14.7-linux-x86_64-gnu/lib/python3.14/unittest/mock.py", line 1180, in _mock_call
+    return self._execute_mock_call(*args, **kwargs)
+           ~~~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^
+  File "/home/soultransit/.local/share/uv/python/cpython-3.14.7-linux-x86_64-gnu/lib/python3.14/unittest/mock.py", line 1241, in _execute_mock_call
+    raise effect
+gopyt.vm.Trap: trap 2
+ERROR:root:Refund transaction failed
+Traceback (most recent call last):
+  File "/tmp/gopyt-json-admission/examples/guarded_refunds/service.py", line 236, in do_POST
+    result = self.server.ledger.apply(body)
+  File "/tmp/gopyt-json-admission/examples/guarded_refunds/service.py", line 143, in apply
+    return self._apply(body)
+           ~~~~~~~~~~~^^^^^^
+  File "/tmp/gopyt-json-admission/examples/guarded_refunds/service.py", line 168, in _apply
+    allowed = timed_call(self.vm, self.ids['refund_policy.allowed'],
+                         [row['paid'],row['refunded'],amount,row['version'],expected,bool(row['closed'])])
+  File "/home/soultransit/.local/share/uv/python/cpython-3.14.7-linux-x86_64-gnu/lib/python3.14/unittest/mock.py", line 1176, in __call__
+    return self._mock_call(*args, **kwargs)
+           ~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^
+  File "/home/soultransit/.local/share/uv/python/cpython-3.14.7-linux-x86_64-gnu/lib/python3.14/unittest/mock.py", line 1180, in _mock_call
+    return self._execute_mock_call(*args, **kwargs)
+           ~~~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^
+  File "/home/soultransit/.local/share/uv/python/cpython-3.14.7-linux-x86_64-gnu/lib/python3.14/unittest/mock.py", line 1241, in _execute_mock_call
+    raise effect
+gopyt.vm.Cancelled
+ERROR:root:Refund transaction failed
+Traceback (most recent call last):
+  File "/tmp/gopyt-json-admission/examples/guarded_refunds/service.py", line 236, in do_POST
+    result = self.server.ledger.apply(body)
+  File "/tmp/gopyt-json-admission/examples/guarded_refunds/service.py", line 143, in apply
+    return self._apply(body)
+           ~~~~~~~~~~~^^^^^^
+  File "/tmp/gopyt-json-admission/examples/guarded_refunds/service.py", line 172, in _apply
+    after = timed_call(self.vm, self.ids['refund_policy.after_refund'],
+                       [row['paid'],row['refunded'],amount])
+  File "/tmp/gopyt-json-admission/gopyt/guard.py", line 337, in timed_call
+    return vm.call(fn, list(args))
+           ~~~~~~~^^^^^^^^^^^^^^^^
+  File "/tmp/gopyt-json-admission/gopyt/vm.py", line 304, in call
+    return self._call_admitted(fn_id, args, caller_effects)
+           ~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/tmp/gopyt-json-admission/gopyt/vm.py", line 317, in _call_admitted
+    result = self._call(fn_id, args, caller_effects)
+  File "/tmp/gopyt-json-admission/gopyt/vm.py", line 358, in _call
+    return self.exec(fn_id, func, args)
+           ~~~~~~~~~^^^^^^^^^^^^^^^^^^^
+  File "/tmp/gopyt-json-admission/gopyt/vm.py", line 376, in exec
+    return self._exec_frame(frame)
+           ~~~~~~~~~~~~~~~~^^^^^^^
+  File "/tmp/gopyt-json-admission/gopyt/vm.py", line 381, in _exec_frame
+    return self._execute_frame(frame, instruction_guard)
+           ~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/tmp/gopyt-json-admission/gopyt/vm.py", line 594, in _execute_frame
+    raise Trap(ops.TRAP_REQUIRES if op == ops.REQUIRE else ops.TRAP_ENSURES)
+gopyt.vm.Trap: trap 2
+guard prepare: duplicate JSON key: cases
+guard prepare: preparation policy exceeds byte limit
+2e4df474b89c148c32b5a6cc6c77538536c7c1b88d4d75930105bb19f51a4c96
+{
+  "schema": "gopyt.guard.receipt.v1",
+  "accepted": true,
+  "bundle_sha256": "2e4df474b89c148c32b5a6cc6c77538536c7c1b88d4d75930105bb19f51a4c96",
+  "engine_sha256": "ddb41f06e5705cf2ca13f4287bbcb21a8a0be0e2dad9d841d63b5c086497bb11",
+  "limitations": [
+    "Finite acceptance cases, not a proof.",
+    "Listed obligations are declarations; this gate executes only the supplied cases, not HTTP or database tests.",
+    "Caller, bundle pin, and executor must be protected outside candidate authority.",
+    "No guarantee about external payment processors or undisclosed policies."
+  ],
+  "candidate_sha256": "c535e8f3aecd9a3d0f101579e9a72cd06c5633f038f2248544d01ecd860ea1f2",
+  "changed_files": [],
+  "obligations": {
+    "stock": "Reservation preserves nonnegative stock."
+  },
+  "protected_contract_helpers": [],
+  "passed": 3,
+  "total": 3,
+  "failures": []
+}
+echo
+echo
+echo
+echo
+echo
+echo
+echo
+echo
+echo
+echo
+echo
+echo
+echo
+echo
+echo
+echo
+output
+output
+obligations: FileExistsError: [Errno 17] File exists: '/tmp/tmpd546kmbp/report.json'
+obligations: FileExistsError: [Errno 17] File exists: '/tmp/tmpc62lonfa/report.json'
+obligations: FileExistsError: [Errno 17] File exists: '/tmp/tmp_1p6cve7/report.json'
+obligations: FileExistsError: [Errno 17] File exists: '/tmp/tmp565iu9le/report.json'
+arm
+arm
+
+50 modules checked in 22 ms
+
+check 13 ms, 10000 logins 3608 ms
+project context: FileExistsError: [Errno 17] File exists: '/tmp/tmpq_c71jas/receipt.json'
+echo
+echo
+echo
+echo
+echo
+echo
+Scheduled Python thread stacks:
+Thread 133149236393664:
+  File "/home/soultransit/.local/share/uv/python/cpython-3.14.7-linux-x86_64-gnu/lib/python3.14/threading.py", line 1044, in _bootstrap
+    self._bootstrap_inner()
+  File "/home/soultransit/.local/share/uv/python/cpython-3.14.7-linux-x86_64-gnu/lib/python3.14/threading.py", line 1082, in _bootstrap_inner
+    self._context.run(self.run)
+  File "/home/soultransit/.local/share/uv/python/cpython-3.14.7-linux-x86_64-gnu/lib/python3.14/threading.py", line 1024, in run
+    self._target(*self._args, **self._kwargs)
+  File "/tmp/gopyt-json-admission/tools/run_language_tests.py", line 18, in report_stacks
+    traceback.print_stack(frame, file=stream)
+Thread 133149293401920:
+  File "/tmp/gopyt-json-admission/tools/run_language_tests.py", line 32, in <module>
+    runpy.run_module('unittest', run_name='__main__')
+  File "<frozen runpy>", line 234, in run_module
+  File "<frozen runpy>", line 88, in _run_code
+  File "/home/soultransit/.local/share/uv/python/cpython-3.14.7-linux-x86_64-gnu/lib/python3.14/unittest/__main__.py", line 18, in <module>
+    main(module=None)
+  File "/home/soultransit/.local/share/uv/python/cpython-3.14.7-linux-x86_64-gnu/lib/python3.14/unittest/main.py", line 104, in __init__
+    self.runTests()
+  File "/home/soultransit/.local/share/uv/python/cpython-3.14.7-linux-x86_64-gnu/lib/python3.14/unittest/main.py", line 270, in runTests
+    self.result = testRunner.run(self.test)
+  File "/home/soultransit/.local/share/uv/python/cpython-3.14.7-linux-x86_64-gnu/lib/python3.14/unittest/runner.py", line 257, in run
+    test(result)
+  File "/home/soultransit/.local/share/uv/python/cpython-3.14.7-linux-x86_64-gnu/lib/python3.14/unittest/suite.py", line 84, in __call__
+    return self.run(*args, **kwds)
+  File "/home/soultransit/.local/share/uv/python/cpython-3.14.7-linux-x86_64-gnu/lib/python3.14/unittest/suite.py", line 122, in run
+    test(result)
+  File "/home/soultransit/.local/share/uv/python/cpython-3.14.7-linux-x86_64-gnu/lib/python3.14/unittest/suite.py", line 84, in __call__
+    return self.run(*args, **kwds)
+  File "/home/soultransit/.local/share/uv/python/cpython-3.14.7-linux-x86_64-gnu/lib/python3.14/unittest/suite.py", line 122, in run
+    test(result)
+  File "/home/soultransit/.local/share/uv/python/cpython-3.14.7-linux-x86_64-gnu/lib/python3.14/unittest/suite.py", line 84, in __call__
+    return self.run(*args, **kwds)
+  File "/home/soultransit/.local/share/uv/python/cpython-3.14.7-linux-x86_64-gnu/lib/python3.14/unittest/suite.py", line 122, in run
+    test(result)
+  File "/home/soultransit/.local/share/uv/python/cpython-3.14.7-linux-x86_64-gnu/lib/python3.14/unittest/case.py", line 725, in __call__
+    return self.run(*args, **kwds)
+  File "/home/soultransit/.local/share/uv/python/cpython-3.14.7-linux-x86_64-gnu/lib/python3.14/unittest/case.py", line 669, in run
+    self._callTestMethod(testMethod)
+  File "/home/soultransit/.local/share/uv/python/cpython-3.14.7-linux-x86_64-gnu/lib/python3.14/unittest/case.py", line 615, in _callTestMethod
+    result = method()
+  File "/tmp/gopyt-json-admission/gopyt/test_diagnostics.py", line 85, in test_untested_list_stays_honest
+    seen = raised_codes()
+  File "/tmp/gopyt-json-admission/gopyt/test_diagnostics.py", line 67, in raised_codes
+    result = runner.run(suite)
+  File "/home/soultransit/.local/share/uv/python/cpython-3.14.7-linux-x86_64-gnu/lib/python3.14/unittest/runner.py", line 257, in run
+    test(result)
+  File "/home/soultransit/.local/share/uv/python/cpython-3.14.7-linux-x86_64-gnu/lib/python3.14/unittest/suite.py", line 84, in __call__
+    return self.run(*args, **kwds)
+  File "/home/soultransit/.local/share/uv/python/cpython-3.14.7-linux-x86_64-gnu/lib/python3.14/unittest/suite.py", line 122, in run
+    test(result)
+  File "/home/soultransit/.local/share/uv/python/cpython-3.14.7-linux-x86_64-gnu/lib/python3.14/unittest/suite.py", line 84, in __call__
+    return self.run(*args, **kwds)
+  File "/home/soultransit/.local/share/uv/python/cpython-3.14.7-linux-x86_64-gnu/lib/python3.14/unittest/suite.py", line 122, in run
+    test(result)
+  File "/home/soultransit/.local/share/uv/python/cpython-3.14.7-linux-x86_64-gnu/lib/python3.14/unittest/case.py", line 725, in __call__
+    return self.run(*args, **kwds)
+  File "/home/soultransit/.local/share/uv/python/cpython-3.14.7-linux-x86_64-gnu/lib/python3.14/unittest/case.py", line 669, in run
+    self._callTestMethod(testMethod)
+  File "/home/soultransit/.local/share/uv/python/cpython-3.14.7-linux-x86_64-gnu/lib/python3.14/unittest/case.py", line 615, in _callTestMethod
+    result = method()
+  File "/tmp/gopyt-json-admission/gopyt/test_storage_transactions.py", line 93, in test_seeded_state_machine_against_independent_dictionary
+    self.assertEqual(self.db.compare_exchange_many(changes), accepted, step)
+  File "/tmp/gopyt-json-admission/gopyt/storage.py", line 554, in compare_exchange_many
+    return self._operate('compare_exchange_many', self._batch(changes, changes=True))
+  File "/tmp/gopyt-json-admission/gopyt/storage.py", line 335, in _operate
+    result = self._operate_locked(operation, key, value, expected, deadline)
+  File "/tmp/gopyt-json-admission/gopyt/storage.py", line 472, in _operate_locked
+    self._save(directory, db)
+  File "/tmp/gopyt-json-admission/gopyt/storage.py", line 278, in _save
+    self._publish(directory, data, restore=restore, authorize_writer=authorize_writer)
+  File "/tmp/gopyt-json-admission/gopyt/storage.py", line 303, in _publish
+    os.fsync(stream.fileno())
+decode
+charge
+cell
+e
+o
+e
+o
+e
+o
+e
+charging
+echo
+user
+ping
+charge
+wire
+alloc
+1
+1
+found
+go
+go
+0
+1
+2
+3
+go
+go
+go
+and
+order
+contract
+div
+enum
+int
+opt
+or
+range
+mod
+slice
+len
+encode
+encode
+decode
+get
+bools
+empty
+keys
+map
+ok
+test_distinct_routes_are_accepted (gopyt.test_errors.Errors.test_distinct_routes_are_accepted) ... ok
+test_e002_tab (gopyt.test_errors.Errors.test_e002_tab) ... ok
+test_e003_crlf_source (gopyt.test_errors.Errors.test_e003_crlf_source) ... ok
+test_e003_invalid_utf8_source (gopyt.test_errors.Errors.test_e003_invalid_utf8_source) ... ok
+test_e004_duplicate_egress_origin (gopyt.test_errors.Errors.test_e004_duplicate_egress_origin) ... ok
+test_e004_unformatted (gopyt.test_errors.Errors.test_e004_unformatted) ... ok
+test_e004_unused_egress_block (gopyt.test_errors.Errors.test_e004_unused_egress_block)
+security.md: omit `egress` when nothing goes out. ... ok
+test_e010_module_path_too_deep (gopyt.test_errors.Errors.test_e010_module_path_too_deep)
+implementer.md 7: at most eight path segments. ... ok
+test_e012_module_header_mismatch (gopyt.test_errors.Errors.test_e012_module_header_mismatch) ... ok
+test_e014_unused_use (gopyt.test_errors.Errors.test_e014_unused_use) ... ok
+test_e017_keyword_as_a_name (gopyt.test_errors.Errors.test_e017_keyword_as_a_name) ... ok
+test_e018_impl_without_a_spec_twin (gopyt.test_errors.Errors.test_e018_impl_without_a_spec_twin) ... ok
+test_e019_impl_provide_without_a_spec_twin (gopyt.test_errors.Errors.test_e019_impl_provide_without_a_spec_twin) ... ok
+test_e022_wrong_argument_count (gopyt.test_errors.Errors.test_e022_wrong_argument_count) ... ok
+test_e023_missing_field (gopyt.test_errors.Errors.test_e023_missing_field) ... ok
+test_e024_extra_field (gopyt.test_errors.Errors.test_e024_extra_field) ... ok
+test_e025_illegal_union_member (gopyt.test_errors.Errors.test_e025_illegal_union_member) ... ok
+test_e026_optional_used_as_a_value (gopyt.test_errors.Errors.test_e026_optional_used_as_a_value) ... ok
+test_e028_builtin_shadow (gopyt.test_errors.Errors.test_e028_builtin_shadow) ... ok
+test_e029_bad_type_arguments (gopyt.test_errors.Errors.test_e029_bad_type_arguments) ... ok
+test_e031_body_in_spec (gopyt.test_errors.Errors.test_e031_body_in_spec) ... ok
+test_e032_impl_drifts_from_spec (gopyt.test_errors.Errors.test_e032_impl_drifts_from_spec) ... ok
+test_e033_missing_impl (gopyt.test_errors.Errors.test_e033_missing_impl) ... ok
+test_e034_unresolved_in_a_spec_role_body (gopyt.test_errors.Errors.test_e034_unresolved_in_a_spec_role_body)
+`unresolved` is illegal in spec/ even where a body is (E031 first). ... ok
+test_e034_unresolved_in_spec (gopyt.test_errors.Errors.test_e034_unresolved_in_spec) ... ok
+test_e035_private_type_in_a_public_signature (gopyt.test_errors.Errors.test_e035_private_type_in_a_public_signature) ... ok
+test_e036_duplicate_test_name (gopyt.test_errors.Errors.test_e036_duplicate_test_name) ... ok
+test_e036_rebind (gopyt.test_errors.Errors.test_e036_rebind) ... ok
+test_e038_comma_in_a_field_list (gopyt.test_errors.Errors.test_e038_comma_in_a_field_list) ... ok
+test_e040_toolchain_mismatch (gopyt.test_errors.Errors.test_e040_toolchain_mismatch) ... ok
+test_e050_effect_missing (gopyt.test_errors.Errors.test_e050_effect_missing) ... ok
+test_e051_effect_unused (gopyt.test_errors.Errors.test_e051_effect_unused) ... ok
+test_e055_parallel_arm_types_differ (gopyt.test_errors.Errors.test_e055_parallel_arm_types_differ) ... ok
+test_e060_contract_is_not_bool (gopyt.test_errors.Errors.test_e060_contract_is_not_bool) ... ok
+test_e061_f64_in_a_contract (gopyt.test_errors.Errors.test_e061_f64_in_a_contract)
+S20: v0 contracts are bool/i64/str/enum/T? only. ... ok
+test_e062_contract_calls_a_task (gopyt.test_errors.Errors.test_e062_contract_calls_a_task) ... ok
+test_e065_duplicate_obligation_test (gopyt.test_errors.Errors.test_e065_duplicate_obligation_test) ... ok
+test_e065_obligation_only_on_a_public_fn (gopyt.test_errors.Errors.test_e065_obligation_only_on_a_public_fn) ... ok
+test_e072_for_over_a_scalar (gopyt.test_errors.Errors.test_e072_for_over_a_scalar) ... ok
+test_e074_unknown_local (gopyt.test_errors.Errors.test_e074_unknown_local) ... ok
+test_e080_provide_orphan (gopyt.test_errors.Errors.test_e080_provide_orphan) ... ok
+test_e081_provide_twice (gopyt.test_errors.Errors.test_e081_provide_twice) ... ok
+test_e082_provide_signature_mismatch (gopyt.test_errors.Errors.test_e082_provide_signature_mismatch) ... ok
+test_e083_provide_widens_effects (gopyt.test_errors.Errors.test_e083_provide_widens_effects) ... ok
+test_e084_fn_calls_an_effectful_trait_member (gopyt.test_errors.Errors.test_e084_fn_calls_an_effectful_trait_member) ... ok
+test_e091_empty_http_block (gopyt.test_errors.Errors.test_e091_empty_http_block) ... ok
+test_e091_handler_must_be_a_task (gopyt.test_errors.Errors.test_e091_handler_must_be_a_task) ... ok
+test_e091_illegal_route_path (gopyt.test_errors.Errors.test_e091_illegal_route_path) ... ok
+test_e091_overlapping_routes (gopyt.test_errors.Errors.test_e091_overlapping_routes)
+implementer.md 12: no precedence rule, so an overlap is an error. ... ok
+test_e091_route_without_a_handler (gopyt.test_errors.Errors.test_e091_route_without_a_handler) ... ok
+test_e091_two_http_blocks (gopyt.test_errors.Errors.test_e091_two_http_blocks) ... ok
+test_e092_placeholder_is_not_a_parameter (gopyt.test_errors.Errors.test_e092_placeholder_is_not_a_parameter) ... ok
+test_e093_serve_missing (gopyt.test_errors.Errors.test_e093_serve_missing) ... ok
+test_e094_agent_lists_an_unknown_task (gopyt.test_errors.Errors.test_e094_agent_lists_an_unknown_task) ... ok
+test_e095_agent_effects_are_not_the_union (gopyt.test_errors.Errors.test_e095_agent_effects_are_not_the_union) ... ok
+test_e096_unknown_app_module (gopyt.test_errors.Errors.test_e096_unknown_app_module) ... ok
+test_e096_unknown_name_in_an_allowlist (gopyt.test_errors.Errors.test_e096_unknown_name_in_an_allowlist) ... ok
+test_e096_unknown_stdlib_module (gopyt.test_errors.Errors.test_e096_unknown_stdlib_module) ... ok
+test_e099_f64_equality (gopyt.test_errors.Errors.test_e099_f64_equality) ... ok
+test_e111_bad_egress_origins (gopyt.test_errors.Errors.test_e111_bad_egress_origins) ... ok
+test_egress_normalizes_host_and_port (gopyt.test_errors.Errors.test_egress_normalizes_host_and_port) ... ok
+test_a_well_formed_float_is_accepted (gopyt.test_errors.Lexical.test_a_well_formed_float_is_accepted) ... ok
+test_character_literals_do_not_exist (gopyt.test_errors.Lexical.test_character_literals_do_not_exist) ... ok
+test_float_needs_digits_on_both_sides (gopyt.test_errors.Lexical.test_float_needs_digits_on_both_sides) ... ok
+test_hex_and_underscored_integers_do_not_exist (gopyt.test_errors.Lexical.test_hex_and_underscored_integers_do_not_exist) ... ok
+test_integer_must_fit_in_i64 (gopyt.test_errors.Lexical.test_integer_must_fit_in_i64) ... ok
+test_only_the_five_escapes_exist (gopyt.test_errors.Lexical.test_only_the_five_escapes_exist) ... ok
+test_unary_minus_on_f64_is_illegal (gopyt.test_errors.Lexical.test_unary_minus_on_f64_is_illegal) ... ok
+test_a_fat_arrow (gopyt.test_errors.RejectedForms.test_a_fat_arrow) ... ok
+test_a_method_call (gopyt.test_errors.RejectedForms.test_a_method_call) ... ok
+test_a_ternary (gopyt.test_errors.RejectedForms.test_a_ternary) ... ok
+test_c_style_boolean_operators (gopyt.test_errors.RejectedForms.test_c_style_boolean_operators) ... ok
+test_identity_comparison (gopyt.test_errors.RejectedForms.test_identity_comparison) ... ok
+test_the_words_are_the_operators (gopyt.test_errors.RejectedForms.test_the_words_are_the_operators) ... ok
+test_a_record_holding_a_secret_is_not_json (gopyt.test_errors.SecretRules.test_a_record_holding_a_secret_is_not_json) ... ok
+test_secret_equality_is_rejected (gopyt.test_errors.SecretRules.test_secret_equality_is_rejected) ... ok
+test_user_code_cannot_construct_a_secret (gopyt.test_errors.SecretRules.test_user_code_cannot_construct_a_secret) ... ok
+test_cleanup_does_not_follow_links_or_delete_replaced_root (gopyt.test_evolution_workspace.EvolutionWorkspace.test_cleanup_does_not_follow_links_or_delete_replaced_root) ... ok
+test_cleanup_failure_after_apply_does_not_undo_publication (gopyt.test_evolution_workspace.EvolutionWorkspace.test_cleanup_failure_after_apply_does_not_undo_publication) ... ok
+test_cleanup_failure_preserves_primary_cancellation (gopyt.test_evolution_workspace.EvolutionWorkspace.test_cleanup_failure_preserves_primary_cancellation) ... ok
+test_concurrent_proposals_cannot_remove_each_others_workspace (gopyt.test_evolution_workspace.EvolutionWorkspace.test_concurrent_proposals_cannot_remove_each_others_workspace) ... ok
+test_prepare_error_and_cancellation_release_owned_files (gopyt.test_evolution_workspace.EvolutionWorkspace.test_prepare_error_and_cancellation_release_owned_files) ... ok
+test_real_waves_remove_candidates_and_preserve_legacy_files (gopyt.test_evolution_workspace.EvolutionWorkspace.test_real_waves_remove_candidates_and_preserve_legacy_files) ... ok
+test_a_candidate_that_fails_check_is_discarded (gopyt.test_evolve.Pipeline.test_a_candidate_that_fails_check_is_discarded)
+Force every candidate to be illegal; the package must not move. ... ok
+test_a_package_with_no_limiter_has_nothing_to_change (gopyt.test_evolve.Pipeline.test_a_package_with_no_limiter_has_nothing_to_change) ... ok
+test_alarm_tightens_the_limiter_and_moves_the_digest (gopyt.test_evolve.Pipeline.test_alarm_tightens_the_limiter_and_moves_the_digest) ... ok
+test_candidates_never_add_ffi_or_drop_egress (gopyt.test_evolve.Pipeline.test_candidates_never_add_ffi_or_drop_egress) ... ok
+test_quiet_cusum_is_nochange_and_writes_nothing (gopyt.test_evolve.Pipeline.test_quiet_cusum_is_nochange_and_writes_nothing) ... ok
+test_a_second_propose_inside_the_cooldown_is_nochange (gopyt.test_evolve.ThroughTheVm.test_a_second_propose_inside_the_cooldown_is_nochange)
+hardening.md: the cooldown is the evolve block's timeout_ms. ... ok
+test_burst_then_propose_applies_a_checked_candidate (gopyt.test_evolve.ThroughTheVm.test_burst_then_propose_applies_a_checked_candidate) ... ok
+test_check_accepts_the_evolve_agent (gopyt.test_evolve.ThroughTheVm.test_check_accepts_the_evolve_agent) ... ok
+test_in_flight_propose_is_refused (gopyt.test_evolve.ThroughTheVm.test_in_flight_propose_is_refused) ... ok
+test_propose_outside_an_evolve_module_is_e115 (gopyt.test_evolve.ThroughTheVm.test_propose_outside_an_evolve_module_is_e115) ... ok
+test_propose_without_an_alarm_is_nochange (gopyt.test_evolve.ThroughTheVm.test_propose_without_an_alarm_is_nochange)
+Same package, no burst: the model is never consulted. ... ok
+test_the_agent_sizes_the_reservoir (gopyt.test_evolve.ThroughTheVm.test_the_agent_sizes_the_reservoir)
+S32: `evolve { reservoir K }` is the Vitter bound the VM uses. ... ok
+test_apply_lock_context_never_enters_recovery (gopyt.test_evolve_deadlines.EvolutionDeadlines.test_apply_lock_context_never_enters_recovery) ... ok
+test_cancellation_during_revalidation_cannot_publish (gopyt.test_evolve_deadlines.EvolutionDeadlines.test_cancellation_during_revalidation_cannot_publish) ... ok
+test_entered_commit_finishes_before_timeout_is_reported (gopyt.test_evolve_deadlines.EvolutionDeadlines.test_entered_commit_finishes_before_timeout_is_reported) ... ok
+test_own_budget_is_data_and_inherited_deadline_is_a_trap (gopyt.test_evolve_deadlines.EvolutionDeadlines.test_own_budget_is_data_and_inherited_deadline_is_a_trap) ... ok
+test_own_wave_budget_bounds_apply_lock_wait (gopyt.test_evolve_deadlines.EvolutionDeadlines.test_own_wave_budget_bounds_apply_lock_wait) ... ok
+test_recovery_finishes_before_observing_cancellation (gopyt.test_evolve_deadlines.EvolutionDeadlines.test_recovery_finishes_before_observing_cancellation) ... ok
+test_start_failure_before_and_after_spawn_closes_owned_resources (gopyt.test_evolve_deadlines.EvolutionDeadlines.test_start_failure_before_and_after_spawn_closes_owned_resources) ... ok
+test_started_and_partial_workers_observe_cancellation_and_deadline (gopyt.test_evolve_deadlines.EvolutionDeadlines.test_started_and_partial_workers_observe_cancellation_and_deadline) ... ok
+test_valid_fragmented_result_and_invalid_frames (gopyt.test_evolve_deadlines.EvolutionDeadlines.test_valid_fragmented_result_and_invalid_frames) ... ok
+test_burst_sets_cusum_alarm (gopyt.test_examples.AuthExample.test_burst_sets_cusum_alarm) ... ok
+test_check_is_clean_with_the_committed_lock (gopyt.test_examples.AuthExample.test_check_is_clean_with_the_committed_lock) ... ok
+test_login_denies_then_throttles (gopyt.test_examples.AuthExample.test_login_denies_then_throttles)
+Distinct users so the bucket state of one case cannot leak. ... ok
+test_no_app_ffi_and_no_egress (gopyt.test_examples.AuthExample.test_no_app_ffi_and_no_egress) ... ok
+test_observe_buffers_stay_bounded (gopyt.test_examples.AuthExample.test_observe_buffers_stay_bounded) ... ok
+test_staging_does_not_copy_a_local_demo_database_or_build_cache (gopyt.test_examples.AuthExample.test_staging_does_not_copy_a_local_demo_database_or_build_cache)
+Running the example locally must not contaminate isolated tests. ... ok
+test_tests_pass (gopyt.test_examples.AuthExample.test_tests_pass) ... ok
+test_the_committed_sources_are_canonical (gopyt.test_examples.AuthExample.test_the_committed_sources_are_canonical)
+`gopyt fmt` must be a no-op on what is committed (E004 otherwise). ... ok
+test_cancellation_after_partial_write_stops_further_progress (gopyt.test_file_deadlines.FileDeadlines.test_cancellation_after_partial_write_stops_further_progress) ... ok
+test_cancelled_open_closes_descriptor_before_truncate (gopyt.test_file_deadlines.FileDeadlines.test_cancelled_open_closes_descriptor_before_truncate) ... ok
+test_cancelled_read_stops_before_next_chunk (gopyt.test_file_deadlines.FileDeadlines.test_cancelled_read_stops_before_next_chunk) ... ok
+test_descriptor_budget_rejects_before_creation_or_truncation (gopyt.test_file_deadlines.FileDeadlines.test_descriptor_budget_rejects_before_creation_or_truncation) ... ok
+test_expired_directory_resolution_cannot_create_or_truncate (gopyt.test_file_deadlines.FileDeadlines.test_expired_directory_resolution_cannot_create_or_truncate) ... ok
+test_file_read_uses_shared_native_budget_and_preserves_trap_contract (gopyt.test_file_deadlines.FileDeadlines.test_file_read_uses_shared_native_budget_and_preserves_trap_contract) ... ok
+test_mapped_backing_and_file_access_share_descriptor_capacity (gopyt.test_file_deadlines.FileDeadlines.test_mapped_backing_and_file_access_share_descriptor_capacity) ... ok
+test_nonprogress_is_error_and_allocation_limit_remains_a_trap (gopyt.test_file_deadlines.FileDeadlines.test_nonprogress_is_error_and_allocation_limit_remains_a_trap) ... ok
+test_parent_close_failure_retains_charge_and_unwinds_child (gopyt.test_file_deadlines.FileDeadlines.test_parent_close_failure_retains_charge_and_unwinds_child) ... ok
+test_short_raw_reads_and_writes_preserve_all_bytes (gopyt.test_file_deadlines.FileDeadlines.test_short_raw_reads_and_writes_preserve_all_bytes) ... ok
+test_cycle_and_nested_values_do_not_bypass_check (gopyt.test_finite_f64.FiniteF64.test_cycle_and_nested_values_do_not_bypass_check) ... ok
+test_host_graphs_are_checked_each_call (gopyt.test_finite_f64.FiniteF64.test_host_graphs_are_checked_each_call) ... ok
+test_invalid_in_memory_constants_rejected (gopyt.test_finite_f64.FiniteF64.test_invalid_in_memory_constants_rejected) ... ok
+test_native_nonfinite_result_is_type_trap (gopyt.test_finite_f64.FiniteF64.test_native_nonfinite_result_is_type_trap) ... ok
+test_overflow_literal_is_diagnostic_and_preserves_old_artifact (gopyt.test_finite_f64.FiniteF64.test_overflow_literal_is_diagnostic_and_preserves_old_artifact) ... ok
+test_raw_nonfinite_bits_rejected_including_unused_constants (gopyt.test_finite_f64.FiniteF64.test_raw_nonfinite_bits_rejected_including_unused_constants) ... ok
+test_rounding_subnormal_underflow_and_maximum_bits (gopyt.test_finite_f64.FiniteF64.test_rounding_subnormal_underflow_and_maximum_bits) ... ok
+test_fixtures (gopyt.test_fixtures.Fixtures.test_fixtures) ... start
+ok
+test_every_fixture_formats_to_a_fixed_point (gopyt.test_fixtures.FormatterIdempotence.test_every_fixture_formats_to_a_fixed_point) ... ok
+test_agent_tasks_and_egress_are_sorted (gopyt.test_fmt.Canonical.test_agent_tasks_and_egress_are_sorted) ... ok
+test_body_brace_is_on_its_own_line_and_headers_keep_theirs (gopyt.test_fmt.Canonical.test_body_brace_is_on_its_own_line_and_headers_keep_theirs) ... ok
+test_effects_use_the_catalog_order_not_alphabetical (gopyt.test_fmt.Canonical.test_effects_use_the_catalog_order_not_alphabetical) ... ok
+test_empty_parameter_list_has_no_interior_space (gopyt.test_fmt.Canonical.test_empty_parameter_list_has_no_interior_space) ... ok
+test_formatting_is_a_fixed_point_for_every_construct (gopyt.test_fmt.Canonical.test_formatting_is_a_fixed_point_for_every_construct) ... ok
+test_one_blank_line_between_items_and_a_single_final_newline (gopyt.test_fmt.Canonical.test_one_blank_line_between_items_and_a_single_final_newline) ... ok
+test_unformatted_source_is_e004_with_the_full_file_as_repair (gopyt.test_fmt.Canonical.test_unformatted_source_is_e004_with_the_full_file_as_repair) ... ok
+test_uses_are_sorted_and_names_grouped (gopyt.test_fmt.Canonical.test_uses_are_sorted_and_names_grouped) ... ok
+test_every_source_in_the_repository_keeps_its_parse_tree (gopyt.test_fmt.MeaningPreserved.test_every_source_in_the_repository_keeps_its_parse_tree)
+The real corpus: conformance fixtures, examples, and dep testdata. ... ok
+test_formatting_keeps_the_parse_tree (gopyt.test_fmt.MeaningPreserved.test_formatting_keeps_the_parse_tree) ... ok
+test_mutants_keep_their_parse_tree (gopyt.test_fmt.MeaningPreserved.test_mutants_keep_their_parse_tree) ... ok
+test_needed_parentheses_survive (gopyt.test_fmt.MeaningPreserved.test_needed_parentheses_survive) ... ok
+test_redundant_parentheses_are_removed (gopyt.test_fmt.MeaningPreserved.test_redundant_parentheses_are_removed) ... ok
+test_c001 (gopyt.test_frontend.Frontend.test_c001) ... ok
+test_c002_missing_use (gopyt.test_frontend.Frontend.test_c002_missing_use) ... ok
+test_c004_fn_task (gopyt.test_frontend.Frontend.test_c004_fn_task) ... ok
+test_c005_int (gopyt.test_frontend.Frontend.test_c005_int) ... ok
+test_c006_userid (gopyt.test_frontend.Frontend.test_c006_userid) ... ok
+test_c007_leading_zero (gopyt.test_frontend.Frontend.test_c007_leading_zero) ... ok
+test_c008_if_expr (gopyt.test_frontend.Frontend.test_c008_if_expr) ... ok
+test_c009_open (gopyt.test_frontend.Frontend.test_c009_open) ... ok
+test_c013_comma (gopyt.test_frontend.Frontend.test_c013_comma) ... ok
+test_c034_ffi (gopyt.test_frontend.Frontend.test_c034_ffi) ... ok
+test_fmt_idempotent (gopyt.test_frontend.Frontend.test_fmt_idempotent) ... ok
+test_mutants_that_parse_format_to_a_fixed_point (gopyt.test_fuzz.Idempotence.test_mutants_that_parse_format_to_a_fixed_point) ... ok
+test_deep_nesting_is_a_diagnostic (gopyt.test_fuzz.Limits.test_deep_nesting_is_a_diagnostic) ... ok
+test_long_identifier_is_e010 (gopyt.test_fuzz.Limits.test_long_identifier_is_e010) ... ok
+test_oversized_file_is_e010 (gopyt.test_fuzz.Limits.test_oversized_file_is_e010) ... ok
+test_mutated_packages_reach_the_checker (gopyt.test_fuzz.MutatedModules.test_mutated_packages_reach_the_checker)
+Full pipeline: a mutated impl must give a diagnostic, never a crash. ... ok
+test_mutated_valid_modules_never_crash (gopyt.test_fuzz.MutatedModules.test_mutated_valid_modules_never_crash) ... ok
+test_random_text_never_crashes (gopyt.test_fuzz.RandomBytes.test_random_text_never_crashes) ... ok
+test_random_tokens_never_crash (gopyt.test_fuzz.RandomBytes.test_random_tokens_never_crash)
+Shuffled real tokens hit the parser rather than dying in the lexer. ... ok
+test_arithmetic_branches_and_overflow (gopyt.test_generated_programs.GeneratedPrograms.test_arithmetic_branches_and_overflow) ... ok
+test_both_contract_copies_cannot_erase_rule (gopyt.test_guard.GuardTests.test_both_contract_copies_cannot_erase_rule) ... ok
+test_bundle_and_engine_tampering (gopyt.test_guard.GuardTests.test_bundle_and_engine_tampering) ... ok
+test_candidate_cannot_replace_gate_or_tests (gopyt.test_guard.GuardTests.test_candidate_cannot_replace_gate_or_tests) ... ok
+test_clean_and_legitimate_body_change (gopyt.test_guard.GuardTests.test_clean_and_legitimate_body_change) ... ok
+test_lock_is_derived_not_an_authority (gopyt.test_guard.GuardTests.test_lock_is_derived_not_an_authority) ... ok
+test_manifest_and_spec_deletion_refused (gopyt.test_guard.GuardTests.test_manifest_and_spec_deletion_refused) ... ok
+test_oversized_input_refused (gopyt.test_guard.GuardTests.test_oversized_input_refused) ... ok
+test_symlink_directory_and_file_refused (gopyt.test_guard.GuardTests.test_symlink_directory_and_file_refused) ... ok
+test_timeout_fails_closed (gopyt.test_guard.GuardTests.test_timeout_fails_closed) ... ok
+test_wrong_body_fails_executable_contract (gopyt.test_guard.GuardTests.test_wrong_body_fails_executable_contract) ... ok
+test_bad_adapter_pin_prevents_start (gopyt.test_guard.LedgerTests.test_bad_adapter_pin_prevents_start) ... ok
+test_concurrent_identical_requests_replay_one_commit (gopyt.test_guard.LedgerTests.test_concurrent_identical_requests_replay_one_commit) ... ok
+test_concurrent_unique_requests_cannot_double_spend (gopyt.test_guard.LedgerTests.test_concurrent_unique_requests_cannot_double_spend) ... ok
+test_db_failure_between_update_and_receipt_rolls_back (gopyt.test_guard.LedgerTests.test_db_failure_between_update_and_receipt_rolls_back) ... ERROR:root:Refund transaction failed
+Traceback (most recent call last):
+  File "/tmp/gopyt-json-admission/examples/guarded_refunds/service.py", line 236, in do_POST
+    result = self.server.ledger.apply(body)
+  File "/tmp/gopyt-json-admission/examples/guarded_refunds/service.py", line 143, in apply
+    return self._apply(body)
+           ~~~~~~~~~~~^^^^^^
+  File "/tmp/gopyt-json-admission/examples/guarded_refunds/service.py", line 180, in _apply
+    conn.execute('INSERT INTO requests VALUES(?,?,?,?)', (order_id,key,payload,canonical(response).decode()))
+    ~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+sqlite3.IntegrityError: injected
+ok
+test_missing_wrong_and_cross_customer_credentials (gopyt.test_guard.LedgerTests.test_missing_wrong_and_cross_customer_credentials) ... ok
+test_process_death_between_update_and_receipt_rolls_back (gopyt.test_guard.LedgerTests.test_process_death_between_update_and_receipt_rolls_back) ... ok
+test_remaining_balance_stale_version_closed_customer (gopyt.test_guard.LedgerTests.test_remaining_balance_stale_version_closed_customer) ... ok
+test_replay_conflict_and_restart (gopyt.test_guard.LedgerTests.test_replay_conflict_and_restart) ... ok
+test_runtime_trap_and_cancel_roll_back (gopyt.test_guard.LedgerTests.test_runtime_trap_and_cancel_roll_back) ... ERROR:root:Refund transaction failed
+Traceback (most recent call last):
+  File "/tmp/gopyt-json-admission/examples/guarded_refunds/service.py", line 236, in do_POST
+    result = self.server.ledger.apply(body)
+  File "/tmp/gopyt-json-admission/examples/guarded_refunds/service.py", line 143, in apply
+    return self._apply(body)
+           ~~~~~~~~~~~^^^^^^
+  File "/tmp/gopyt-json-admission/examples/guarded_refunds/service.py", line 168, in _apply
+    allowed = timed_call(self.vm, self.ids['refund_policy.allowed'],
+                         [row['paid'],row['refunded'],amount,row['version'],expected,bool(row['closed'])])
+  File "/home/soultransit/.local/share/uv/python/cpython-3.14.7-linux-x86_64-gnu/lib/python3.14/unittest/mock.py", line 1176, in __call__
+    return self._mock_call(*args, **kwargs)
+           ~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^
+  File "/home/soultransit/.local/share/uv/python/cpython-3.14.7-linux-x86_64-gnu/lib/python3.14/unittest/mock.py", line 1180, in _mock_call
+    return self._execute_mock_call(*args, **kwargs)
+           ~~~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^
+  File "/home/soultransit/.local/share/uv/python/cpython-3.14.7-linux-x86_64-gnu/lib/python3.14/unittest/mock.py", line 1241, in _execute_mock_call
+    raise effect
+gopyt.vm.Trap: trap 2
+ERROR:root:Refund transaction failed
+Traceback (most recent call last):
+  File "/tmp/gopyt-json-admission/examples/guarded_refunds/service.py", line 236, in do_POST
+    result = self.server.ledger.apply(body)
+  File "/tmp/gopyt-json-admission/examples/guarded_refunds/service.py", line 143, in apply
+    return self._apply(body)
+           ~~~~~~~~~~~^^^^^^
+  File "/tmp/gopyt-json-admission/examples/guarded_refunds/service.py", line 168, in _apply
+    allowed = timed_call(self.vm, self.ids['refund_policy.allowed'],
+                         [row['paid'],row['refunded'],amount,row['version'],expected,bool(row['closed'])])
+  File "/home/soultransit/.local/share/uv/python/cpython-3.14.7-linux-x86_64-gnu/lib/python3.14/unittest/mock.py", line 1176, in __call__
+    return self._mock_call(*args, **kwargs)
+           ~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^
+  File "/home/soultransit/.local/share/uv/python/cpython-3.14.7-linux-x86_64-gnu/lib/python3.14/unittest/mock.py", line 1180, in _mock_call
+    return self._execute_mock_call(*args, **kwargs)
+           ~~~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^
+  File "/home/soultransit/.local/share/uv/python/cpython-3.14.7-linux-x86_64-gnu/lib/python3.14/unittest/mock.py", line 1241, in _execute_mock_call
+    raise effect
+gopyt.vm.Cancelled
+ok
+test_strict_input (gopyt.test_guard.LedgerTests.test_strict_input) ... ok
+test_two_independent_ledgers_share_database_safely (gopyt.test_guard.LedgerTests.test_two_independent_ledgers_share_database_safely) ... ok
+test_unseen_wrong_body_is_blocked_by_real_runtime_contract (gopyt.test_guard.LedgerTests.test_unseen_wrong_body_is_blocked_by_real_runtime_contract) ... ERROR:root:Refund transaction failed
+Traceback (most recent call last):
+  File "/tmp/gopyt-json-admission/examples/guarded_refunds/service.py", line 236, in do_POST
+    result = self.server.ledger.apply(body)
+  File "/tmp/gopyt-json-admission/examples/guarded_refunds/service.py", line 143, in apply
+    return self._apply(body)
+           ~~~~~~~~~~~^^^^^^
+  File "/tmp/gopyt-json-admission/examples/guarded_refunds/service.py", line 172, in _apply
+    after = timed_call(self.vm, self.ids['refund_policy.after_refund'],
+                       [row['paid'],row['refunded'],amount])
+  File "/tmp/gopyt-json-admission/gopyt/guard.py", line 337, in timed_call
+    return vm.call(fn, list(args))
+           ~~~~~~~^^^^^^^^^^^^^^^^
+  File "/tmp/gopyt-json-admission/gopyt/vm.py", line 304, in call
+    return self._call_admitted(fn_id, args, caller_effects)
+           ~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/tmp/gopyt-json-admission/gopyt/vm.py", line 317, in _call_admitted
+    result = self._call(fn_id, args, caller_effects)
+  File "/tmp/gopyt-json-admission/gopyt/vm.py", line 358, in _call
+    return self.exec(fn_id, func, args)
+           ~~~~~~~~~^^^^^^^^^^^^^^^^^^^
+  File "/tmp/gopyt-json-admission/gopyt/vm.py", line 376, in exec
+    return self._exec_frame(frame)
+           ~~~~~~~~~~~~~~~~^^^^^^^
+  File "/tmp/gopyt-json-admission/gopyt/vm.py", line 381, in _exec_frame
+    return self._execute_frame(frame, instruction_guard)
+           ~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/tmp/gopyt-json-admission/gopyt/vm.py", line 594, in _execute_frame
+    raise Trap(ops.TRAP_REQUIRES if op == ops.REQUIRE else ops.TRAP_ENSURES)
+gopyt.vm.Trap: trap 2
+ok
+test_helper_comments_and_line_numbers_do_not_change_meaning (gopyt.test_guard_dependencies.ContractDependencies.test_helper_comments_and_line_numbers_do_not_change_meaning) ... ok
+test_nonhelper_body_still_editable (gopyt.test_guard_dependencies.ContractDependencies.test_nonhelper_body_still_editable) ... ok
+test_semantic_helper_edits_require_operator_review (gopyt.test_guard_dependencies.ContractDependencies.test_semantic_helper_edits_require_operator_review) ... ok
+test_transitive_cross_module_binding (gopyt.test_guard_dependencies.ContractDependencies.test_transitive_cross_module_binding) ... ok
+test_unseen_transitive_helper_change_is_rejected_before_execution (gopyt.test_guard_dependencies.ContractDependencies.test_unseen_transitive_helper_change_is_rejected_before_execution) ... ok
+test_bool_is_not_integer_argument (gopyt.test_guard_hardening.GuardHardening.test_bool_is_not_integer_argument) ... ok
+test_extra_argument_cannot_match_expected_type_trap (gopyt.test_guard_hardening.GuardHardening.test_extra_argument_cannot_match_expected_type_trap) ... ok
+test_integer_is_not_bool_argument (gopyt.test_guard_hardening.GuardHardening.test_integer_is_not_bool_argument) ... ok
+test_missing_argument_cannot_match_expected_type_trap (gopyt.test_guard_hardening.GuardHardening.test_missing_argument_cannot_match_expected_type_trap) ... ok
+test_prepare_duplicate_policy_key_is_refused (gopyt.test_guard_hardening.GuardHardening.test_prepare_duplicate_policy_key_is_refused) ... guard prepare: duplicate JSON key: cases
+ok
+test_prepare_rejects_unknown_function (gopyt.test_guard_hardening.GuardHardening.test_prepare_rejects_unknown_function) ... ok
+test_prepare_rejects_wrong_arity (gopyt.test_guard_hardening.GuardHardening.test_prepare_rejects_wrong_arity) ... ok
+test_prepare_rejects_wrong_result_type (gopyt.test_guard_hardening.GuardHardening.test_prepare_rejects_wrong_result_type) ... ok
+test_timed_call_preserves_input_list (gopyt.test_guard_hardening.GuardHardening.test_timed_call_preserves_input_list) ... ok
+test_timeout_and_cancellation_restoration (gopyt.test_guard_hardening.GuardHardening.test_timeout_and_cancellation_restoration) ... ok
+test_unsupported_string_parameter (gopyt.test_guard_hardening.GuardHardening.test_unsupported_string_parameter) ... ok
+test_valid_bool_and_integer_cases_pass (gopyt.test_guard_hardening.GuardHardening.test_valid_bool_and_integer_cases_pass) ... ok
+test_actual_vm_loop_stops_and_next_call_works (gopyt.test_guard_optimization.DeadlineExecution.test_actual_vm_loop_stops_and_next_call_works) ... ok
+test_no_timer_thread_is_allocated (gopyt.test_guard_optimization.DeadlineExecution.test_no_timer_thread_is_allocated) ... ok
+test_case_limit_is_checked_before_compilation (gopyt.test_guard_preparation.PreparationLimits.test_case_limit_is_checked_before_compilation) ... ok
+test_cli_oversized_policy_refused_before_json_parse (gopyt.test_guard_preparation.PreparationLimits.test_cli_oversized_policy_refused_before_json_parse) ... guard prepare: preparation policy exceeds byte limit
+ok
+test_engine_change_during_preparation_is_refused (gopyt.test_guard_preparation.PreparationLimits.test_engine_change_during_preparation_is_refused) ... ok
+test_parameter_swap_cannot_change_contract_meaning (gopyt.test_guard_private_helpers.PrivateHelperSignature.test_parameter_swap_cannot_change_contract_meaning) ... ok
+test_ambiguous_and_invalid_case_outcomes (gopyt.test_guard_schema.BundleValidation.test_ambiguous_and_invalid_case_outcomes) ... ok
+test_cli_prepare_and_evaluate_preserve_existing_receipts (gopyt.test_guard_schema.BundleValidation.test_cli_prepare_and_evaluate_preserve_existing_receipts) ... 2e4df474b89c148c32b5a6cc6c77538536c7c1b88d4d75930105bb19f51a4c96
+{
+  "schema": "gopyt.guard.receipt.v1",
+  "accepted": true,
+  "bundle_sha256": "2e4df474b89c148c32b5a6cc6c77538536c7c1b88d4d75930105bb19f51a4c96",
+  "engine_sha256": "ddb41f06e5705cf2ca13f4287bbcb21a8a0be0e2dad9d841d63b5c086497bb11",
+  "limitations": [
+    "Finite acceptance cases, not a proof.",
+    "Listed obligations are declarations; this gate executes only the supplied cases, not HTTP or database tests.",
+    "Caller, bundle pin, and executor must be protected outside candidate authority.",
+    "No guarantee about external payment processors or undisclosed policies."
+  ],
+  "candidate_sha256": "c535e8f3aecd9a3d0f101579e9a72cd06c5633f038f2248544d01ecd860ea1f2",
+  "changed_files": [],
+  "obligations": {
+    "stock": "Reservation preserves nonnegative stock."
+  },
+  "protected_contract_helpers": [],
+  "passed": 3,
+  "total": 3,
+  "failures": []
+}
+ok
+test_duplicate_keys_refused (gopyt.test_guard_schema.BundleValidation.test_duplicate_keys_refused) ... ok
+test_empty_cases_even_with_correct_pin (gopyt.test_guard_schema.BundleValidation.test_empty_cases_even_with_correct_pin) ... ok
+test_empty_obligations_and_unknown_fields_refused (gopyt.test_guard_schema.BundleValidation.test_empty_obligations_and_unknown_fields_refused) ... ok
+test_inventory_path_traversal_and_wrong_hash_refused (gopyt.test_guard_schema.BundleValidation.test_inventory_path_traversal_and_wrong_hash_refused) ... ok
+test_mutable_authority_cannot_expand_to_specs (gopyt.test_guard_schema.BundleValidation.test_mutable_authority_cannot_expand_to_specs) ... ok
+test_only_trap_cases_are_not_sufficient (gopyt.test_guard_schema.BundleValidation.test_only_trap_cases_are_not_sufficient) ... ok
+test_preparation_refuses_invalid_case (gopyt.test_guard_schema.BundleValidation.test_preparation_refuses_invalid_case) ... ok
+test_collection_retains_charge_until_release_and_closes_outside_lock (gopyt.test_heap_batches.HeapBatches.test_collection_retains_charge_until_release_and_closes_outside_lock) ... ok
+test_exception_and_early_frame_finish_release_immediately (gopyt.test_heap_batches.HeapBatches.test_exception_and_early_frame_finish_release_immediately) ... ok
+test_native_release_and_batch_boundary_have_one_physical_lock (gopyt.test_heap_batches.HeapBatches.test_native_release_and_batch_boundary_have_one_physical_lock) ... ok
+test_collection_traces_new_children_of_already_admitted_mutable_roots (gopyt.test_heap_boundaries.HeapBoundaries.test_collection_traces_new_children_of_already_admitted_mutable_roots) ... ok
+test_exception_removes_frame_and_pin_roots_and_restores_released_lock (gopyt.test_heap_boundaries.HeapBoundaries.test_exception_removes_frame_and_pin_roots_and_restores_released_lock) ... ok
+test_handoff_survives_until_caller_stack_owns_the_return_value (gopyt.test_heap_boundaries.HeapBoundaries.test_handoff_survives_until_caller_stack_owns_the_return_value) ... ok
+test_one_threads_instruction_does_not_consume_another_threads_handoff (gopyt.test_heap_boundaries.HeapBoundaries.test_one_threads_instruction_does_not_consume_another_threads_handoff) ... ok
+test_released_native_boundary_allows_collection_with_arguments_pinned (gopyt.test_heap_boundaries.HeapBoundaries.test_released_native_boundary_allows_collection_with_arguments_pinned) ... ok
+test_step_admits_both_stack_and_local_graphs_before_threshold_collection (gopyt.test_heap_boundaries.HeapBoundaries.test_step_admits_both_stack_and_local_graphs_before_threshold_collection) ... ok
+test_failed_body_releases_reusable_guard (gopyt.test_heap_refinement.HeapRefinement.test_failed_body_releases_reusable_guard) ... ok
+test_failed_enter_releases_lock_for_other_thread (gopyt.test_heap_refinement.HeapRefinement.test_failed_enter_releases_lock_for_other_thread) ... ok
+test_guard_reuse_rescans_mutated_roots (gopyt.test_heap_refinement.HeapRefinement.test_guard_reuse_rescans_mutated_roots) ... ok
+test_seeded_graph_traces_match_retained_heap (gopyt.test_heap_refinement.HeapRefinement.test_seeded_graph_traces_match_retained_heap) ... ok
+test_descriptor_exhaustion_rejects_reload_and_recovers (gopyt.test_http_credentials.HttpCredentials.test_descriptor_exhaustion_rejects_reload_and_recovers) ... ok
+test_previously_admitted_request_finishes_after_rotation (gopyt.test_http_credentials.HttpCredentials.test_previously_admitted_request_finishes_after_rotation) ... ok
+test_reload_failures_never_reach_handler_and_recover (gopyt.test_http_credentials.HttpCredentials.test_reload_failures_never_reach_handler_and_recover) ... ok
+test_rotates_on_live_keepalive_connection (gopyt.test_http_credentials.HttpCredentials.test_rotates_on_live_keepalive_connection) ... echo
+echo
+ok
+test_startup_path_and_mode_cannot_be_disabled_by_environment_change (gopyt.test_http_credentials.HttpCredentials.test_startup_path_and_mode_cannot_be_disabled_by_environment_change) ... echo
+echo
+echo
+ok
+test_exception_traceback_does_not_retain_charged_body (gopyt.test_http_retention.HttpRetention.test_exception_traceback_does_not_retain_charged_body) ... ok
+test_failed_bind_releases_listener_charge (gopyt.test_http_retention.HttpRetention.test_failed_bind_releases_listener_charge) ... ok
+test_failed_response_write_releases_payload_in_retained_traceback (gopyt.test_http_retention.HttpRetention.test_failed_response_write_releases_payload_in_retained_traceback) ... echo
+echo
+ok
+test_finished_handlers_are_reclaimed_with_cyclic_gc_disabled (gopyt.test_http_retention.HttpRetention.test_finished_handlers_are_reclaimed_with_cyclic_gc_disabled) ... echo
+echo
+echo
+echo
+echo
+echo
+ok
+test_listener_and_accept_share_descriptor_capacity (gopyt.test_http_retention.HttpRetention.test_listener_and_accept_share_descriptor_capacity) ... ok
+test_request_body_capacity_rejection_and_release (gopyt.test_http_retention.HttpRetention.test_request_body_capacity_rejection_and_release) ... echo
+ok
+test_response_payload_admission_and_charge_during_write (gopyt.test_http_retention.HttpRetention.test_response_payload_admission_and_charge_during_write) ... echo
+echo
+ok
+test_concurrent_users_and_policy_changes_do_not_cross_scopes (gopyt.test_identity.HttpIdentities.test_concurrent_users_and_policy_changes_do_not_cross_scopes) ... ok
+test_cross_tenant_reads_writes_batch_and_forged_identity_headers (gopyt.test_identity.HttpIdentities.test_cross_tenant_reads_writes_batch_and_forged_identity_headers) ... ok
+test_expiry_and_policy_revocation_between_authentication_and_resource_operation (gopyt.test_identity.HttpIdentities.test_expiry_and_policy_revocation_between_authentication_and_resource_operation) ... ok
+test_missing_duplicate_revoked_expired_and_restart_credentials (gopyt.test_identity.HttpIdentities.test_missing_duplicate_revoked_expired_and_restart_credentials) ... ok
+test_policy_change_denies_stale_credentials_and_route_escalation (gopyt.test_identity.HttpIdentities.test_policy_change_denies_stale_credentials_and_route_escalation) ... ok
+test_reused_http_connection_reauthenticates_every_request (gopyt.test_identity.HttpIdentities.test_reused_http_connection_reauthenticates_every_request) ... ok
+test_wrong_audience_and_reused_broker_are_refused (gopyt.test_identity.HttpIdentities.test_wrong_audience_and_reused_broker_are_refused) ... ok
+test_expiry_applies_to_retained_authority_and_descendants_without_wall_clock (gopyt.test_identity.Sessions.test_expiry_applies_to_retained_authority_and_descendants_without_wall_clock) ... ok
+test_identity_and_expiring_authority_follow_parallel_children (gopyt.test_identity.Sessions.test_identity_and_expiring_authority_follow_parallel_children) ... ok
+test_mutated_configuration_does_not_change_issued_authority (gopyt.test_identity.Sessions.test_mutated_configuration_does_not_change_issued_authority) ... ok
+test_namespace_escape_invalid_routes_and_capacity_fail_closed (gopyt.test_identity.Sessions.test_namespace_escape_invalid_routes_and_capacity_fail_closed) ... ok
+test_policy_replacement_revoke_and_reprovision_invalidate_old_credentials (gopyt.test_identity.Sessions.test_policy_replacement_revoke_and_reprovision_invalidate_old_credentials) ... ok
+test_strict_sessions_require_loopback_keys_and_unambiguous_auth_mode (gopyt.test_identity.Sessions.test_strict_sessions_require_loopback_keys_and_unambiguous_auth_mode) ... ok
+test_verified_identity_and_immutable_policy (gopyt.test_identity.Sessions.test_verified_identity_and_immutable_policy) ... ok
+test_concurrent_users_and_policy_changes_do_not_cross_scopes (gopyt.test_identity.StrictHttpIdentities.test_concurrent_users_and_policy_changes_do_not_cross_scopes) ... ok
+test_cross_tenant_reads_writes_batch_and_forged_identity_headers (gopyt.test_identity.StrictHttpIdentities.test_cross_tenant_reads_writes_batch_and_forged_identity_headers) ... ok
+test_encrypted_tenant_data_remains_bound_to_verified_identity (gopyt.test_identity.StrictHttpIdentities.test_encrypted_tenant_data_remains_bound_to_verified_identity) ... ok
+test_expiry_and_policy_revocation_between_authentication_and_resource_operation (gopyt.test_identity.StrictHttpIdentities.test_expiry_and_policy_revocation_between_authentication_and_resource_operation) ... ok
+test_missing_duplicate_revoked_expired_and_restart_credentials (gopyt.test_identity.StrictHttpIdentities.test_missing_duplicate_revoked_expired_and_restart_credentials) ... ok
+test_policy_change_denies_stale_credentials_and_route_escalation (gopyt.test_identity.StrictHttpIdentities.test_policy_change_denies_stale_credentials_and_route_escalation) ... ok
+test_reused_http_connection_reauthenticates_every_request (gopyt.test_identity.StrictHttpIdentities.test_reused_http_connection_reauthenticates_every_request) ... ok
+test_wrong_audience_and_reused_broker_are_refused (gopyt.test_identity.StrictHttpIdentities.test_wrong_audience_and_reused_broker_are_refused) ... ok
+test_generated_state_sequences (gopyt.test_inventory.Inventory.test_generated_state_sequences) ... ok
+test_real_http_lifecycle (gopyt.test_inventory.Inventory.test_real_http_lifecycle) ... ok
+test_cli_result_serialization_reports_allocation_trap (gopyt.test_json_allocation.JsonAllocation.test_cli_result_serialization_reports_allocation_trap) ... output
+output
+ok
+test_collection_preflight_and_canonical_output (gopyt.test_json_allocation.JsonAllocation.test_collection_preflight_and_canonical_output) ... ok
+test_compiled_native_and_generated_provide_trap_and_recover (gopyt.test_json_allocation.JsonAllocation.test_compiled_native_and_generated_provide_trap_and_recover) ... ok
+test_exact_escaped_utf8_boundary (gopyt.test_json_allocation.JsonAllocation.test_exact_escaped_utf8_boundary) ... ok
+test_failed_encoding_clears_output_retained_by_traceback (gopyt.test_json_allocation.JsonAllocation.test_failed_encoding_clears_output_retained_by_traceback) ... ok
+test_corruption_is_not_reencrypted_or_overwritten (gopyt.test_key_rotation.KeyRotation.test_corruption_is_not_reencrypted_or_overwritten) ... ok
+test_encrypted_batch_conflict_and_delete_survive_restart (gopyt.test_key_rotation.KeyRotation.test_encrypted_batch_conflict_and_delete_survive_restart) ... ok
+test_failed_publish_keeps_old_key_readable_and_retry_succeeds (gopyt.test_key_rotation.KeyRotation.test_failed_publish_keeps_old_key_readable_and_retry_succeeds) ... ok
+test_multiple_key_sources_and_malformed_rings_rejected (gopyt.test_key_rotation.KeyRotation.test_multiple_key_sources_and_malformed_rings_rejected) ... ok
+test_rekey_legacy_snapshot_then_retire_old_key (gopyt.test_key_rotation.KeyRotation.test_rekey_legacy_snapshot_then_retire_old_key) ... ok
+test_retiring_key_early_invalidates_cached_plaintext (gopyt.test_key_rotation.KeyRotation.test_retiring_key_early_invalidates_cached_plaintext) ... ok
+test_actual_stdio_initialize_symbols_shutdown (gopyt.test_lsp.LanguageServer.test_actual_stdio_initialize_symbols_shutdown) ... ok
+test_path_and_message_boundaries (gopyt.test_lsp.LanguageServer.test_path_and_message_boundaries) ... ok
+test_unsaved_diagnostics_revert_and_stale_versions (gopyt.test_lsp.LanguageServer.test_unsaved_diagnostics_revert_and_stale_versions) ... ok
+test_malformed_lengths_and_headers (gopyt.test_mapped_data.MappedColumn.test_malformed_lengths_and_headers) ... ok
+test_seals_block_resize_write_and_mapping_mutation (gopyt.test_mapped_data.MappedColumn.test_seals_block_resize_write_and_mapping_mutation) ... ok
+test_bad_digest_and_wrong_key_do_not_overwrite (gopyt.test_migration.Migration.test_bad_digest_and_wrong_key_do_not_overwrite) ... ok
+test_cancellation_before_active_publication_preserves_recovery (gopyt.test_migration.Migration.test_cancellation_before_active_publication_preserves_recovery) ... ok
+test_cli_and_independent_decryption_and_retry (gopyt.test_migration.Migration.test_cli_and_independent_decryption_and_retry) ... ok
+test_existing_bad_backup_and_incompatible_settings_fail_closed (gopyt.test_migration.Migration.test_existing_bad_backup_and_incompatible_settings_fail_closed) ... ok
+test_failed_active_publication_and_missing_file_recover (gopyt.test_migration.Migration.test_failed_active_publication_and_missing_file_recover) ... ok
+test_migration_descriptor_budget_and_recovery_retry (gopyt.test_migration.Migration.test_migration_descriptor_budget_and_recovery_retry) ... ok
+test_process_crashes_resume_the_same_operation (gopyt.test_migration.Migration.test_process_crashes_resume_the_same_operation) ... ok
+test_recovery_lock_obeys_deadline_without_publication (gopyt.test_migration.Migration.test_recovery_lock_obeys_deadline_without_publication) ... ok
+test_schema_values_and_corrupt_source_are_not_published (gopyt.test_migration.Migration.test_schema_values_and_corrupt_source_are_not_published) ... ok
+test_unsafe_recovery_paths_do_not_publish (gopyt.test_migration.Migration.test_unsafe_recovery_paths_do_not_publish) ... ok
+test_decimal_text_rounding_oracle (gopyt.test_money.MoneyTests.test_decimal_text_rounding_oracle) ... ok
+test_exact_mode_and_add_subtract_oracle (gopyt.test_money.MoneyTests.test_exact_mode_and_add_subtract_oracle) ... ok
+test_invalid_inputs_return_convert_error (gopyt.test_money.MoneyTests.test_invalid_inputs_return_convert_error) ... ok
+test_mismatch_and_overflow_are_explicit (gopyt.test_money.MoneyTests.test_mismatch_and_overflow_are_explicit) ... ok
+test_parse_format_and_integer_extremes (gopyt.test_money.MoneyTests.test_parse_format_and_integer_extremes) ... ok
+test_record_and_enum_validation_at_each_operation (gopyt.test_money.MoneyTests.test_record_and_enum_validation_at_each_operation) ... ok
+test_signed_rounding_matches_decimal_oracle (gopyt.test_money.MoneyTests.test_signed_rounding_matches_decimal_oracle) ... ok
+test_acquired_exception_releases_lock_and_preserves_recovery (gopyt.test_native_admission.NativeAdmission.test_acquired_exception_releases_lock_and_preserves_recovery) ... ok
+test_cancellation_racing_with_acquisition_releases_without_mutation (gopyt.test_native_admission.NativeAdmission.test_cancellation_racing_with_acquisition_releases_without_mutation) ... ok
+test_waiting_callers_stop_before_held_lock_release (gopyt.test_native_admission.NativeAdmission.test_waiting_callers_stop_before_held_lock_release) ... ok
+test_deep_policy_returns_db_error (gopyt.test_native_boundaries.NativeBoundaries.test_deep_policy_returns_db_error) ... ok
+test_maximum_sleep_can_be_cancelled_by_ancestor (gopyt.test_native_boundaries.NativeBoundaries.test_maximum_sleep_can_be_cancelled_by_ancestor) ... ok
+test_missing_optional_provider_returns_model_error (gopyt.test_native_boundaries.NativeBoundaries.test_missing_optional_provider_returns_model_error) ... ok
+test_policy_parser_recursion_returns_db_error (gopyt.test_native_boundaries.NativeBoundaries.test_policy_parser_recursion_returns_db_error) ... ok
+test_real_maximum_sleep_cancellation (gopyt.test_native_boundaries.NativeBoundaries.test_real_maximum_sleep_cancellation) ... ok
+test_sleep_uses_monotonic_elapsed_time (gopyt.test_native_boundaries.NativeBoundaries.test_sleep_uses_monotonic_elapsed_time) ... ok
+test_body_wait_observes_shared_deadline_cancellation_and_own_budget (gopyt.test_netio.OutboundBudgets.test_body_wait_observes_shared_deadline_cancellation_and_own_budget) ... ok
+test_chunked_body_and_received_error_status_are_preserved (gopyt.test_netio.OutboundBudgets.test_chunked_body_and_received_error_status_are_preserved) ... ok
+test_descriptor_rejection_does_not_connect (gopyt.test_netio.OutboundBudgets.test_descriptor_rejection_does_not_connect) ... ok
+test_error_response_body_timeout_is_data_for_own_budget (gopyt.test_netio.OutboundBudgets.test_error_response_body_timeout_is_data_for_own_budget) ... ok
+test_expired_dns_does_not_start_a_connection (gopyt.test_netio.OutboundBudgets.test_expired_dns_does_not_start_a_connection) ... ok
+test_headers_chunk_sizes_and_trailers_consume_budget (gopyt.test_netio.OutboundBudgets.test_headers_chunk_sizes_and_trailers_consume_budget) ... ok
+test_http_result_bytes_remain_charged_through_host_alias (gopyt.test_netio.OutboundBudgets.test_http_result_bytes_remain_charged_through_host_alias) ... ok
+test_model_payload_admission_and_transport_lifetime (gopyt.test_netio.OutboundBudgets.test_model_payload_admission_and_transport_lifetime) ... ok
+test_model_payload_alias_survives_transport_failure_with_its_charge (gopyt.test_netio.OutboundBudgets.test_model_payload_alias_survives_transport_failure_with_its_charge) ... ok
+test_stalled_tls_handshake_consumes_shared_deadline (gopyt.test_netio.OutboundBudgets.test_stalled_tls_handshake_consumes_shared_deadline) ... ok
+test_tls_poll_timeout_can_resume_a_valid_response (gopyt.test_netio.OutboundBudgets.test_tls_poll_timeout_can_resume_a_valid_response) ... ok
+test_tls_trust_hostname_and_delayed_read (gopyt.test_netio.OutboundBudgets.test_tls_trust_hostname_and_delayed_read) ... ok
+test_every_width_to_i64_boundary_is_exact_or_rejected (gopyt.test_numeric_conversions.NumericConversions.test_every_width_to_i64_boundary_is_exact_or_rejected) ... ok
+test_i64_to_width_boundaries_preserve_value_and_tag (gopyt.test_numeric_conversions.NumericConversions.test_i64_to_width_boundaries_preserve_value_and_tag) ... ok
+test_no_implicit_numeric_width_or_float_conversion (gopyt.test_numeric_conversions.NumericConversions.test_no_implicit_numeric_width_or_float_conversion) ... ok
+test_acceptance_binding_and_staleness (gopyt.test_obligations.Challenge2026.test_acceptance_binding_and_staleness) ... ok
+test_acceptance_summary_discloses_corpus_size (gopyt.test_obligations.Challenge2026.test_acceptance_summary_discloses_corpus_size) ... ok
+test_binding_scopes_and_gaps (gopyt.test_obligations.Challenge2026.test_binding_scopes_and_gaps) ... ok
+test_cli_refuses_existing_output (gopyt.test_obligations.Challenge2026.test_cli_refuses_existing_output) ... obligations: FileExistsError: [Errno 17] File exists: '/tmp/tmpej3hwp8m/report.json'
+ok
+test_contract_document_change_is_reported (gopyt.test_obligations.Challenge2026.test_contract_document_change_is_reported) ... ok
+test_contradictory_current_receipts_are_flagged_not_order_decided (gopyt.test_obligations.Challenge2026.test_contradictory_current_receipts_are_flagged_not_order_decided) ... ok
+test_ensures_violation_traps_in_test_receipt (gopyt.test_obligations.Challenge2026.test_ensures_violation_traps_in_test_receipt) ... ok
+test_facts_expose_field_coupling_and_body_identity (gopyt.test_obligations.Challenge2026.test_facts_expose_field_coupling_and_body_identity) ... ok
+test_impact_flags_before_report_from_another_package (gopyt.test_obligations.Challenge2026.test_impact_flags_before_report_from_another_package) ... ok
+test_impact_lists_changed_functions_obligations_and_stale_evidence (gopyt.test_obligations.Challenge2026.test_impact_lists_changed_functions_obligations_and_stale_evidence) ... ok
+test_impact_records_engine_change_between_reports (gopyt.test_obligations.Challenge2026.test_impact_records_engine_change_between_reports) ... ok
+test_impact_records_registry_change_between_reports (gopyt.test_obligations.Challenge2026.test_impact_records_registry_change_between_reports) ... ok
+test_missing_clause_and_unknown_function_are_explicit (gopyt.test_obligations.Challenge2026.test_missing_clause_and_unknown_function_are_explicit) ... ok
+test_one_suite_identity_two_corpora_is_flagged (gopyt.test_obligations.Challenge2026.test_one_suite_identity_two_corpora_is_flagged) ... ok
+test_orders_registry_binds_completely (gopyt.test_obligations.Challenge2026.test_orders_registry_binds_completely) ... ok
+test_preserved_field_violation_is_static (gopyt.test_obligations.Challenge2026.test_preserved_field_violation_is_static) ... ok
+test_receipt_goes_stale_when_source_changes (gopyt.test_obligations.Challenge2026.test_receipt_goes_stale_when_source_changes) ... ok
+test_stale_except_names_are_flagged (gopyt.test_obligations.Challenge2026.test_stale_except_names_are_flagged) ... ok
+test_uninstantiated_generic_clause_is_not_claimed_compiled (gopyt.test_obligations.Challenge2026.test_uninstantiated_generic_clause_is_not_claimed_compiled) ... ok
+test_unresolved_policy_cannot_carry_executable_representation (gopyt.test_obligations.Challenge2026.test_unresolved_policy_cannot_carry_executable_representation) ... ok
+test_acceptance_binding_and_staleness (gopyt.test_obligations.ChallengeFindings.test_acceptance_binding_and_staleness) ... ok
+test_binding_scopes_and_gaps (gopyt.test_obligations.ChallengeFindings.test_binding_scopes_and_gaps) ... ok
+test_cli_refuses_existing_output (gopyt.test_obligations.ChallengeFindings.test_cli_refuses_existing_output) ... obligations: FileExistsError: [Errno 17] File exists: '/tmp/tmp81jjw89a/report.json'
+ok
+test_contract_document_change_is_reported (gopyt.test_obligations.ChallengeFindings.test_contract_document_change_is_reported) ... ok
+test_ensures_violation_traps_in_test_receipt (gopyt.test_obligations.ChallengeFindings.test_ensures_violation_traps_in_test_receipt) ... ok
+test_equivalent_clause_spelling_binds (gopyt.test_obligations.ChallengeFindings.test_equivalent_clause_spelling_binds) ... ok
+test_facts_expose_field_coupling_and_body_identity (gopyt.test_obligations.ChallengeFindings.test_facts_expose_field_coupling_and_body_identity) ... ok
+test_halted_tests_are_labelled (gopyt.test_obligations.ChallengeFindings.test_halted_tests_are_labelled) ... ok
+test_impact_lists_changed_functions_obligations_and_stale_evidence (gopyt.test_obligations.ChallengeFindings.test_impact_lists_changed_functions_obligations_and_stale_evidence) ... ok
+test_invalid_row_does_not_hide_other_obligations (gopyt.test_obligations.ChallengeFindings.test_invalid_row_does_not_hide_other_obligations) ... ok
+test_local_alias_field_is_not_established_not_violated (gopyt.test_obligations.ChallengeFindings.test_local_alias_field_is_not_established_not_violated) ... ok
+test_missing_clause_and_unknown_function_are_explicit (gopyt.test_obligations.ChallengeFindings.test_missing_clause_and_unknown_function_are_explicit) ... ok
+test_misspelled_preserved_field_is_a_gap (gopyt.test_obligations.ChallengeFindings.test_misspelled_preserved_field_is_a_gap) ... ok
+test_orders_registry_binds_completely (gopyt.test_obligations.ChallengeFindings.test_orders_registry_binds_completely) ... ok
+test_preserved_field_violation_is_static (gopyt.test_obligations.ChallengeFindings.test_preserved_field_violation_is_static) ... ok
+test_receipt_goes_stale_when_source_changes (gopyt.test_obligations.ChallengeFindings.test_receipt_goes_stale_when_source_changes) ... ok
+test_unresolved_policy_cannot_carry_executable_representation (gopyt.test_obligations.ChallengeFindings.test_unresolved_policy_cannot_carry_executable_representation) ... ok
+test_helper_sorting_before_contract_owner (gopyt.test_obligations.ContractNamePropagation.test_helper_sorting_before_contract_owner) ... ok
+test_acceptance_binding_and_staleness (gopyt.test_obligations.Obligations.test_acceptance_binding_and_staleness) ... ok
+test_binding_scopes_and_gaps (gopyt.test_obligations.Obligations.test_binding_scopes_and_gaps) ... ok
+test_cli_refuses_existing_output (gopyt.test_obligations.Obligations.test_cli_refuses_existing_output) ... obligations: FileExistsError: [Errno 17] File exists: '/tmp/tmpqz8k5vci/report.json'
+ok
+test_contract_document_change_is_reported (gopyt.test_obligations.Obligations.test_contract_document_change_is_reported) ... ok
+test_ensures_violation_traps_in_test_receipt (gopyt.test_obligations.Obligations.test_ensures_violation_traps_in_test_receipt) ... ok
+test_facts_expose_field_coupling_and_body_identity (gopyt.test_obligations.Obligations.test_facts_expose_field_coupling_and_body_identity) ... ok
+test_impact_lists_changed_functions_obligations_and_stale_evidence (gopyt.test_obligations.Obligations.test_impact_lists_changed_functions_obligations_and_stale_evidence) ... ok
+test_missing_clause_and_unknown_function_are_explicit (gopyt.test_obligations.Obligations.test_missing_clause_and_unknown_function_are_explicit) ... ok
+test_orders_registry_binds_completely (gopyt.test_obligations.Obligations.test_orders_registry_binds_completely) ... ok
+test_preserved_field_violation_is_static (gopyt.test_obligations.Obligations.test_preserved_field_violation_is_static) ... ok
+test_receipt_goes_stale_when_source_changes (gopyt.test_obligations.Obligations.test_receipt_goes_stale_when_source_changes) ... ok
+test_unresolved_policy_cannot_carry_executable_representation (gopyt.test_obligations.Obligations.test_unresolved_policy_cannot_carry_executable_representation) ... ok
+test_acceptance_binding_and_staleness (gopyt.test_obligations.ReviewRegressions.test_acceptance_binding_and_staleness) ... ok
+test_acceptance_representation_binds_by_suite_not_basename (gopyt.test_obligations.ReviewRegressions.test_acceptance_representation_binds_by_suite_not_basename) ... ok
+test_arithmetic_change_pulls_in_downstream_readers (gopyt.test_obligations.ReviewRegressions.test_arithmetic_change_pulls_in_downstream_readers) ... ok
+test_binding_scopes_and_gaps (gopyt.test_obligations.ReviewRegressions.test_binding_scopes_and_gaps) ... ok
+test_boolean_scenario_counts_are_contradictory (gopyt.test_obligations.ReviewRegressions.test_boolean_scenario_counts_are_contradictory) ... ok
+test_cli_refuses_existing_output (gopyt.test_obligations.ReviewRegressions.test_cli_refuses_existing_output) ... obligations: FileExistsError: [Errno 17] File exists: '/tmp/tmp4bee9fii/report.json'
+ok
+test_complete_report_binds_when_repo_root_is_not_package_parent (gopyt.test_obligations.ReviewRegressions.test_complete_report_binds_when_repo_root_is_not_package_parent) ... ok
+test_contract_document_change_is_reported (gopyt.test_obligations.ReviewRegressions.test_contract_document_change_is_reported) ... ok
+test_decoy_gopyt_directory_does_not_cover_the_engine (gopyt.test_obligations.ReviewRegressions.test_decoy_gopyt_directory_does_not_cover_the_engine) ... ok
+test_duplicate_json_keys_make_the_report_invalid (gopyt.test_obligations.ReviewRegressions.test_duplicate_json_keys_make_the_report_invalid) ... ok
+test_ensures_violation_traps_in_test_receipt (gopyt.test_obligations.ReviewRegressions.test_ensures_violation_traps_in_test_receipt) ... ok
+test_facts_expose_field_coupling_and_body_identity (gopyt.test_obligations.ReviewRegressions.test_facts_expose_field_coupling_and_body_identity) ... ok
+test_impact_lists_changed_functions_obligations_and_stale_evidence (gopyt.test_obligations.ReviewRegressions.test_impact_lists_changed_functions_obligations_and_stale_evidence) ... ok
+test_impact_propagates_contract_staleness (gopyt.test_obligations.ReviewRegressions.test_impact_propagates_contract_staleness) ... ok
+test_missing_clause_and_unknown_function_are_explicit (gopyt.test_obligations.ReviewRegressions.test_missing_clause_and_unknown_function_are_explicit) ... ok
+test_orders_registry_binds_completely (gopyt.test_obligations.ReviewRegressions.test_orders_registry_binds_completely) ... ok
+test_partial_or_contradictory_acceptance_is_never_passing (gopyt.test_obligations.ReviewRegressions.test_partial_or_contradictory_acceptance_is_never_passing) ... ok
+test_preserved_field_violation_is_static (gopyt.test_obligations.ReviewRegressions.test_preserved_field_violation_is_static) ... ok
+test_receipt_goes_stale_when_source_changes (gopyt.test_obligations.ReviewRegressions.test_receipt_goes_stale_when_source_changes) ... ok
+test_stale_contract_marks_every_obligation_applicability (gopyt.test_obligations.ReviewRegressions.test_stale_contract_marks_every_obligation_applicability) ... ok
+test_unbound_or_missing_contract_flags_contract_authority (gopyt.test_obligations.ReviewRegressions.test_unbound_or_missing_contract_flags_contract_authority) ... ok
+test_uncalled_function_is_not_reported_as_executed (gopyt.test_obligations.ReviewRegressions.test_uncalled_function_is_not_reported_as_executed) ... ok
+test_unresolved_policy_cannot_carry_executable_representation (gopyt.test_obligations.ReviewRegressions.test_unresolved_policy_cannot_carry_executable_representation) ... ok
+test_acquired_expired_admission_releases_without_event (gopyt.test_observe_deadlines.ObservationDeadlines.test_acquired_expired_admission_releases_without_event) ... ok
+test_compiled_call_stops_before_telemetry_lock_release (gopyt.test_observe_deadlines.ObservationDeadlines.test_compiled_call_stops_before_telemetry_lock_release) ... ok
+test_note_report_snapshot_and_outcome_use_context (gopyt.test_observe_deadlines.ObservationDeadlines.test_note_report_snapshot_and_outcome_use_context) ... ok
+test_outcome_timeout_releases_unreturned_heap_handoff (gopyt.test_observe_deadlines.ObservationDeadlines.test_outcome_timeout_releases_unreturned_heap_handoff) ... ok
+test_terminal_telemetry_does_not_replace_original_trap (gopyt.test_observe_deadlines.ObservationDeadlines.test_terminal_telemetry_does_not_replace_original_trap) ... ok
+test_http_exact_body_limit_and_rejection_before_transport (gopyt.test_outbound_request_budget.OutboundRequestBudget.test_http_exact_body_limit_and_rejection_before_transport) ... ok
+test_model_full_payload_limit_includes_json_envelope (gopyt.test_outbound_request_budget.OutboundRequestBudget.test_model_full_payload_limit_includes_json_envelope) ... ok
+test_model_limit_counts_escaped_utf8_bytes (gopyt.test_outbound_request_budget.OutboundRequestBudget.test_model_limit_counts_escaped_utf8_bytes) ... ok
+test_model_serialization_consumes_own_and_inherited_budgets (gopyt.test_outbound_request_budget.OutboundRequestBudget.test_model_serialization_consumes_own_and_inherited_budgets) ... ok
+test_url_byte_limit_precedes_transport_for_http_and_model (gopyt.test_outbound_request_budget.OutboundRequestBudget.test_url_byte_limit_precedes_transport_for_http_and_model) ... ok
+test_absolute_host_deadline_propagates_through_nested_groups (gopyt.test_parallel_admission.ParallelAdmission.test_absolute_host_deadline_propagates_through_nested_groups) ... ok
+test_ancestor_cancel_releases_all_worker_capacity (gopyt.test_parallel_admission.ParallelAdmission.test_ancestor_cancel_releases_all_worker_capacity) ... ok
+test_both_sleep_loops_clamp_wait_to_inherited_deadline (gopyt.test_parallel_admission.ParallelAdmission.test_both_sleep_loops_clamp_wait_to_inherited_deadline) ... ok
+test_expired_host_deadline_does_not_admit_work (gopyt.test_parallel_admission.ParallelAdmission.test_expired_host_deadline_does_not_admit_work) ... ok
+test_http_parallel_overload_is_503_and_recovers (gopyt.test_parallel_admission.ParallelAdmission.test_http_parallel_overload_is_503_and_recovers) ... arm
+arm
+ok
+test_http_parallel_timeout_is_504 (gopyt.test_parallel_admission.ParallelAdmission.test_http_parallel_timeout_is_504) ... ok
+test_invalid_host_worker_limits_are_rejected (gopyt.test_parallel_admission.ParallelAdmission.test_invalid_host_worker_limits_are_rejected) ... ok
+test_nested_groups_cannot_multiply_past_vm_budget (gopyt.test_parallel_admission.ParallelAdmission.test_nested_groups_cannot_multiply_past_vm_budget) ... ok
+test_noncooperative_native_is_joined_before_timeout_returns (gopyt.test_parallel_admission.ParallelAdmission.test_noncooperative_native_is_joined_before_timeout_returns) ... ok
+test_overlapping_host_calls_share_admission (gopyt.test_parallel_admission.ParallelAdmission.test_overlapping_host_calls_share_admission) ... ok
+test_own_deadline_includes_admission_lock_contention (gopyt.test_parallel_admission.ParallelAdmission.test_own_deadline_includes_admission_lock_contention) ... ok
+test_partial_thread_start_failure_joins_and_releases_capacity (gopyt.test_parallel_admission.ParallelAdmission.test_partial_thread_start_failure_joins_and_releases_capacity) ... ok
+test_rejection_starts_no_arm_or_worker (gopyt.test_parallel_admission.ParallelAdmission.test_rejection_starts_no_arm_or_worker) ... ok
+test_ids_are_sorted_by_symbol_and_type_arguments (gopyt.test_perf.ArtifactOrder.test_ids_are_sorted_by_symbol_and_type_arguments) ... ok
+test_artifact_is_identical_under_different_hash_seeds (gopyt.test_perf.Determinism.test_artifact_is_identical_under_different_hash_seeds) ... ok
+test_the_same_broken_package_reports_the_same_diagnostic (gopyt.test_perf.Determinism.test_the_same_broken_package_reports_the_same_diagnostic)
+docs/diagnostics.md: first error only, chosen deterministically. ... ok
+test_fifty_modules (gopyt.test_perf.ManyModules.test_fifty_modules) ... 
+50 modules checked in 42 ms
+ok
+test_check_and_a_ten_thousand_denial_burst (gopyt.test_perf.Smoke.test_check_and_a_ten_thousand_denial_burst) ... 
+check 13 ms, 10000 logins 3371 ms
+ok
+test_observe_memory_is_flat_across_sizes (gopyt.test_perf.Smoke.test_observe_memory_is_flat_across_sizes)
+Ten times the events must not mean more cells. ... ok
+test_changed_source_and_tampered_receipt_rejected (gopyt.test_project_context.ProjectContext.test_changed_source_and_tampered_receipt_rejected) ... ok
+test_contract_diff_ignores_comments_but_tracks_policy_expression (gopyt.test_project_context.ProjectContext.test_contract_diff_ignores_comments_but_tracks_policy_expression) ... ok
+test_copied_input_is_tested_when_working_tree_changes (gopyt.test_project_context.ProjectContext.test_copied_input_is_tested_when_working_tree_changes) ... ok
+test_exact_generic_contract_and_resolved_call (gopyt.test_project_context.ProjectContext.test_exact_generic_contract_and_resolved_call) ... ok
+test_existing_output_never_overwritten (gopyt.test_project_context.ProjectContext.test_existing_output_never_overwritten) ... project context: FileExistsError: [Errno 17] File exists: '/tmp/tmpxd39d6fl/receipt.json'
+ok
+test_failed_compile_never_reuses_disk_artifact (gopyt.test_project_context.ProjectContext.test_failed_compile_never_reuses_disk_artifact) ... ok
+test_failed_test_distinct_from_compile_and_retained (gopyt.test_project_context.ProjectContext.test_failed_test_distinct_from_compile_and_retained) ... ok
+test_first_test_failure_does_not_claim_remaining_tests (gopyt.test_project_context.ProjectContext.test_first_test_failure_does_not_claim_remaining_tests) ... ok
+test_sibling_dependency_test_and_non_source_bytes_bound (gopyt.test_project_context.ProjectContext.test_sibling_dependency_test_and_non_source_bytes_bound) ... ok
+test_stale_lock_is_a_failed_check (gopyt.test_project_context.ProjectContext.test_stale_lock_is_a_failed_check) ... ok
+test_symlink_source_has_no_context (gopyt.test_project_context.ProjectContext.test_symlink_source_has_no_context) ... ok
+test_test_receipt_replays_serialized_result (gopyt.test_project_context.ProjectContext.test_test_receipt_replays_serialized_result) ... ok
+test_zero_tests_is_explicit (gopyt.test_project_context.ProjectContext.test_zero_tests_is_explicit) ... ok
+test_hook_is_applied_and_caller_umask_does_not_change_wheel (gopyt.test_release_build.PackagingInputIntegration.test_hook_is_applied_and_caller_umask_does_not_change_wheel) ... ok
+test_unicode_equivalent_manifest_exclusion (gopyt.test_release_build.PackagingInputIntegration.test_unicode_equivalent_manifest_exclusion) ... ok
+test_duplicate_and_oversized_inventory_are_rejected (gopyt.test_release_build.WheelIntegrity.test_duplicate_and_oversized_inventory_are_rejected) ... ok
+test_extra_payload_and_missing_source_are_rejected (gopyt.test_release_build.WheelIntegrity.test_extra_payload_and_missing_source_are_rejected) ... ok
+test_modified_source_even_with_updated_record_is_rejected (gopyt.test_release_build.WheelIntegrity.test_modified_source_even_with_updated_record_is_rejected) ... ok
+test_record_tampering_is_rejected (gopyt.test_release_build.WheelIntegrity.test_record_tampering_is_rejected) ... ok
+test_valid_wheel_matches_source (gopyt.test_release_build.WheelIntegrity.test_valid_wheel_matches_source) ... ok
+test_abbreviated_source_and_symlink_rejected (gopyt.test_release_provenance.ReleaseVerificationTests.test_abbreviated_source_and_symlink_rejected) ... ok
+test_hash_mismatch_rejected_before_attestation (gopyt.test_release_provenance.ReleaseVerificationTests.test_hash_mismatch_rejected_before_attestation) ... ok
+test_missing_or_malformed_policy_fails_closed (gopyt.test_release_provenance.ReleaseVerificationTests.test_missing_or_malformed_policy_fails_closed) ... ok
+test_revoked_source_or_artifact_rejected (gopyt.test_release_provenance.ReleaseVerificationTests.test_revoked_source_or_artifact_rejected) ... ok
+test_signature_failure_cannot_be_accepted (gopyt.test_release_provenance.ReleaseVerificationTests.test_signature_failure_cannot_be_accepted) ... ok
+test_verifier_constrains_signed_identity (gopyt.test_release_provenance.ReleaseVerificationTests.test_verifier_constrains_signed_identity) ... ok
+test_each_fixture_converges_or_stops_at_its_own_code (gopyt.test_repair.AgainstTheFixtures.test_each_fixture_converges_or_stops_at_its_own_code) ... ok
+test_a_repair_only_touches_the_file_it_names (gopyt.test_repair.RepairLoop.test_a_repair_only_touches_the_file_it_names) ... ok
+test_int_stops_without_inventing_a_dialect (gopyt.test_repair.RepairLoop.test_int_stops_without_inventing_a_dialect)
+C005: E020 has no exact replacement text, so the loop must stop. ... ok
+test_missing_use_and_lock_are_repaired (gopyt.test_repair.RepairLoop.test_missing_use_and_lock_are_repaired)
+C002 shape: no `use`, no lock. Both repairs are exact text. ... ok
+test_open_hole_stops (gopyt.test_repair.RepairLoop.test_open_hole_stops)
+E065 is a hole a human or agent must fill; no repair bytes. ... ok
+test_runs_as_a_script (gopyt.test_repair.RepairLoop.test_runs_as_a_script) ... ok
+test_several_errors_converge (gopyt.test_repair.RepairLoop.test_several_errors_converge)
+Unformatted, missing use, missing impl, and no lock, all at once. ... ok
+test_stale_lock_alone_is_repaired (gopyt.test_repair.RepairLoop.test_stale_lock_alone_is_repaired) ... ok
+test_the_missing_impl_repair_is_a_file_that_parses (gopyt.test_repair.RepairLoop.test_the_missing_impl_repair_is_a_file_that_parses)
+E033's repair is the E-D2 stub: it reaches E030, not E013 or E020. ... ok
+test_widening_an_existing_allowlist (gopyt.test_repair.RepairLoop.test_widening_an_existing_allowlist) ... ok
+test_restricted_vm_never_enters_evolution_host_code (gopyt.test_resource_authority.EvolutionAuthority.test_restricted_vm_never_enters_evolution_host_code) ... ok
+test_attenuation_and_namespace_boundaries (gopyt.test_resource_authority.Grants.test_attenuation_and_namespace_boundaries) ... ok
+test_invalid_grants_and_bounded_delegation (gopyt.test_resource_authority.Grants.test_invalid_grants_and_bounded_delegation) ... ok
+test_parent_revocation_and_sibling_independence (gopyt.test_resource_authority.Grants.test_parent_revocation_and_sibling_independence) ... ok
+test_operator_grant_does_not_replace_source_egress (gopyt.test_resource_authority.NetworkCalls.test_operator_grant_does_not_replace_source_egress) ... ok
+test_real_http_and_model_egress_require_operator_and_source_grants (gopyt.test_resource_authority.NetworkCalls.test_real_http_and_model_egress_require_operator_and_source_grants) ... ok
+test_file_exact_grant_traversal_and_link_denial (gopyt.test_resource_authority.ResourceCalls.test_file_exact_grant_traversal_and_link_denial) ... ok
+test_file_replacement_after_admission_cannot_follow_link (gopyt.test_resource_authority.ResourceCalls.test_file_replacement_after_admission_cannot_follow_link) ... ok
+test_mixed_authority_batch_is_atomic (gopyt.test_resource_authority.ResourceCalls.test_mixed_authority_batch_is_atomic) ... ok
+test_operator_policy_intersects_delegated_grants (gopyt.test_resource_authority.ResourceCalls.test_operator_policy_intersects_delegated_grants) ... ok
+test_revocation_precedes_cached_access (gopyt.test_resource_authority.ResourceCalls.test_revocation_precedes_cached_access) ... ok
+test_revoke_does_not_abort_an_admitted_commit (gopyt.test_resource_authority.ResourceCalls.test_revoke_does_not_abort_an_admitted_commit) ... ok
+test_scope_propagates_to_parallel_arms_and_restores_after_exception (gopyt.test_resource_authority.ResourceCalls.test_scope_propagates_to_parallel_arms_and_restores_after_exception) ... ok
+test_secret_acquisition_is_scoped_and_revocable (gopyt.test_resource_authority.ResourceCalls.test_secret_acquisition_is_scoped_and_revocable) ... ok
+test_simultaneous_host_scopes_do_not_share_authority (gopyt.test_resource_authority.ResourceCalls.test_simultaneous_host_scopes_do_not_share_authority) ... ok
+test_unmediated_provider_never_imported_and_forged_scope_refused (gopyt.test_resource_authority.ResourceCalls.test_unmediated_provider_never_imported_and_forged_scope_refused) ... ok
+test_warm_cache_and_transitive_deputy_cannot_expand_scope (gopyt.test_resource_authority.ResourceCalls.test_warm_cache_and_transitive_deputy_cannot_expand_scope) ... ok
+test_listener_and_worker_inherit_attenuated_scope (gopyt.test_resource_authority.ServingAuthority.test_listener_and_worker_inherit_attenuated_scope) ... ok
+test_atomic_dimensions_and_exact_once_release (gopyt.test_resource_budget.ResourceAccounting.test_atomic_dimensions_and_exact_once_release) ... ok
+test_concurrent_admission_never_exceeds_shared_capacity (gopyt.test_resource_budget.ResourceAccounting.test_concurrent_admission_never_exceeds_shared_capacity) ... ok
+test_exception_unwinds_and_double_release_race_is_safe (gopyt.test_resource_budget.ResourceAccounting.test_exception_unwinds_and_double_release_race_is_safe) ... ok
+test_invalid_amounts_and_snapshot_cannot_change_ledger (gopyt.test_resource_budget.ResourceAccounting.test_invalid_amounts_and_snapshot_cannot_change_ledger) ... ok
+test_cancelled_construction_returns_reservation (gopyt.test_resource_buffer.CheckedBuffers.test_cancelled_construction_returns_reservation) ... ok
+test_cancelled_wait_releases_lease_without_mutation (gopyt.test_resource_buffer.CheckedBuffers.test_cancelled_wait_releases_lease_without_mutation) ... ok
+test_exhaustion_and_bad_ranges_leave_data_and_charges_unchanged (gopyt.test_resource_buffer.CheckedBuffers.test_exhaustion_and_bad_ranges_leave_data_and_charges_unchanged) ... ok
+test_freeze_revokes_every_mutable_alias (gopyt.test_resource_buffer.CheckedBuffers.test_freeze_revokes_every_mutable_alias) ... ok
+test_nested_views_alias_and_close_rules (gopyt.test_resource_buffer.CheckedBuffers.test_nested_views_alias_and_close_rules) ... ok
+test_parallel_fixed_size_updates_are_serialized (gopyt.test_resource_buffer.CheckedBuffers.test_parallel_fixed_size_updates_are_serialized) ... ok
+test_alias_retains_payload_charge_after_owner_close (gopyt.test_resource_bytes.ByteOwnership.test_alias_retains_payload_charge_after_owner_close) ... ok
+test_bounded_payload_reads_short_chunks_and_stops_at_limit (gopyt.test_resource_bytes.ByteOwnership.test_bounded_payload_reads_short_chunks_and_stops_at_limit) ... ok
+test_cancelled_json_releases_admitted_chunks (gopyt.test_resource_bytes.ByteOwnership.test_cancelled_json_releases_admitted_chunks) ... ok
+test_encoding_failure_and_preallocation_rejection (gopyt.test_resource_bytes.ByteOwnership.test_encoding_failure_and_preallocation_rejection) ... ok
+test_final_copy_rejection_releases_chunks (gopyt.test_resource_bytes.ByteOwnership.test_final_copy_rejection_releases_chunks) ... ok
+test_json_envelope_is_charged_and_included_in_size_limit (gopyt.test_resource_bytes.ByteOwnership.test_json_envelope_is_charged_and_included_in_size_limit) ... ok
+test_metadata_allocation_failure_releases_reservations (gopyt.test_resource_bytes.ByteOwnership.test_metadata_allocation_failure_releases_reservations) ... ok
+test_owned_json_matches_independent_encoding (gopyt.test_resource_bytes.ByteOwnership.test_owned_json_matches_independent_encoding) ... ok
+test_payload_retains_charge_after_builder_finishes (gopyt.test_resource_bytes.ByteOwnership.test_payload_retains_charge_after_builder_finishes) ... ok
+test_read_chunk_owns_scratch_and_returned_bytes (gopyt.test_resource_bytes.ByteOwnership.test_read_chunk_owns_scratch_and_returned_bytes) ... ok
+test_read_error_retained_scratch_keeps_its_charge (gopyt.test_resource_bytes.ByteOwnership.test_read_error_retained_scratch_keeps_its_charge) ... ok
+test_close_defers_physical_release_until_admitted_access_finishes (gopyt.test_resource_control.ResourceLifetimeControl.test_close_defers_physical_release_until_admitted_access_finishes) ... ok
+test_exception_in_nested_leases_does_not_strand_release (gopyt.test_resource_control.ResourceLifetimeControl.test_exception_in_nested_leases_does_not_strand_release) ... ok
+test_failed_cleanup_remains_charged_and_retry_is_explicit (gopyt.test_resource_control.ResourceLifetimeControl.test_failed_cleanup_remains_charged_and_retry_is_explicit) ... ok
+test_simultaneous_close_runs_closer_once_without_state_lock (gopyt.test_resource_control.ResourceLifetimeControl.test_simultaneous_close_runs_closer_once_without_state_lock) ... ok
+test_admission_before_open_and_exact_idempotent_release (gopyt.test_resource_descriptors.DescriptorOwnership.test_admission_before_open_and_exact_idempotent_release) ... ok
+test_ambiguous_close_never_closes_replacement_descriptor (gopyt.test_resource_descriptors.DescriptorOwnership.test_ambiguous_close_never_closes_replacement_descriptor) ... ok
+test_directory_enumeration_reserves_temporary_duplicate (gopyt.test_resource_descriptors.DescriptorOwnership.test_directory_enumeration_reserves_temporary_duplicate) ... ok
+test_open_and_registration_failures_leave_no_charge (gopyt.test_resource_descriptors.DescriptorOwnership.test_open_and_registration_failures_leave_no_charge) ... ok
+test_parallel_openers_share_capacity_until_physical_close (gopyt.test_resource_descriptors.DescriptorOwnership.test_parallel_openers_share_capacity_until_physical_close) ... ok
+test_teardown_during_open_retains_then_closes_acquisition (gopyt.test_resource_descriptors.DescriptorOwnership.test_teardown_during_open_retains_then_closes_acquisition) ... ok
+test_failed_drain_batch_allocation_does_not_disable_future_cleanup (gopyt.test_resource_heap.ResourceTracing.test_failed_drain_batch_allocation_does_not_disable_future_cleanup) ... ok
+test_failed_release_and_drain_limit_keep_ownership (gopyt.test_resource_heap.ResourceTracing.test_failed_release_and_drain_limit_keep_ownership) ... ok
+test_instruction_cleanup_runs_without_heap_lock (gopyt.test_resource_heap.ResourceTracing.test_instruction_cleanup_runs_without_heap_lock) ... ok
+test_lease_survives_collection_and_deferred_work_is_retained (gopyt.test_resource_heap.ResourceTracing.test_lease_survives_collection_and_deferred_work_is_retained) ... ok
+test_pinned_nested_view_retains_owner_and_collects_closed_parent (gopyt.test_resource_heap.ResourceTracing.test_pinned_nested_view_retains_owner_and_collects_closed_parent) ... ok
+test_exhaustion_cancellation_and_oversize_release_all_scratch (gopyt.test_resource_io.ReadReservations.test_exhaustion_cancellation_and_oversize_release_all_scratch) ... ok
+test_no_capacity_rejects_before_read (gopyt.test_resource_io.ReadReservations.test_no_capacity_rejects_before_read) ... ok
+test_reduce_is_atomic_and_cannot_increase_or_revive (gopyt.test_resource_io.ReadReservations.test_reduce_is_atomic_and_cannot_increase_or_revive) ... ok
+test_short_reads_release_unused_capacity_and_charge_final_copy (gopyt.test_resource_io.ReadReservations.test_short_reads_release_unused_capacity_and_charge_final_copy) ... ok
+test_cancelled_append_retained_traceback_clears_owner (gopyt.test_resource_json.JsonArrayOwnership.test_cancelled_append_retained_traceback_clears_owner) ... ok
+test_growth_storage_and_alias_lifetime (gopyt.test_resource_json.JsonArrayOwnership.test_growth_storage_and_alias_lifetime) ... ok
+test_resize_rejection_preserves_previous_array (gopyt.test_resource_json.JsonArrayOwnership.test_resize_rejection_preserves_previous_array) ... ok
+test_admission_precedes_constructor (gopyt.test_resource_json.JsonDecimalToken.test_admission_precedes_constructor) ... ok
+test_decimal_context_traps_match_oracle (gopyt.test_resource_json.JsonDecimalToken.test_decimal_context_traps_match_oracle) ... ok
+test_invalid_exponent_and_cancelled_result_cleanup (gopyt.test_resource_json.JsonDecimalToken.test_invalid_exponent_and_cancelled_result_cleanup) ... ok
+test_oracle_and_alias_ownership (gopyt.test_resource_json.JsonDecimalToken.test_oracle_and_alias_ownership) ... ok
+test_cancelled_conversion_clears_intermediates (gopyt.test_resource_json.JsonIntegerToken.test_cancelled_conversion_clears_intermediates) ... ok
+test_capacity_and_digit_limit (gopyt.test_resource_json.JsonIntegerToken.test_capacity_and_digit_limit) ... ok
+test_constructor_failure_releases_reserved_payload (gopyt.test_resource_json.JsonIntegerToken.test_constructor_failure_releases_reserved_payload) ... ok
+test_oracle_and_alias_ownership (gopyt.test_resource_json.JsonIntegerToken.test_oracle_and_alias_ownership) ... ok
+test_budget_exhaustion_is_allocation_trap (gopyt.test_resource_json.JsonModelResponse.test_budget_exhaustion_is_allocation_trap) ... ok
+test_text_alias_and_invalid_response_cleanup (gopyt.test_resource_json.JsonModelResponse.test_text_alias_and_invalid_response_cleanup) ... ok
+test_decode_native_uses_vm_budget_and_owned_result (gopyt.test_resource_json.JsonNativeRouting.test_decode_native_uses_vm_budget_and_owned_result) ... ok
+test_cancelled_nominal_conversion_keeps_only_borrowed_graph (gopyt.test_resource_json.JsonNominalGraph.test_cancelled_nominal_conversion_keeps_only_borrowed_graph) ... ok
+test_record_enum_union_and_field_errors (gopyt.test_resource_json.JsonNominalGraph.test_record_enum_union_and_field_errors) ... ok
+test_grammar_matches_standard_decoder_offsets (gopyt.test_resource_json.JsonNumberSpan.test_grammar_matches_standard_decoder_offsets) ... ok
+test_invalid_digits_and_incomplete_numbers (gopyt.test_resource_json.JsonNumberSpan.test_invalid_digits_and_incomplete_numbers) ... ok
+test_long_scan_cancellation_clears_input (gopyt.test_resource_json.JsonNumberSpan.test_long_scan_cancellation_clears_input) ... ok
+test_duplicate_and_capacity_rejection_preserve_object (gopyt.test_resource_json.JsonObjectOwnership.test_duplicate_and_capacity_rejection_preserve_object) ... ok
+test_growth_and_string_subclass_keys (gopyt.test_resource_json.JsonObjectOwnership.test_growth_and_string_subclass_keys) ... ok
+test_owned_sizes_ranges_and_width_rejection (gopyt.test_resource_json.JsonOwnedBufferIndices.test_owned_sizes_ranges_and_width_rejection) ... ok
+test_owned_i64_limits_reach_parallel_execution (gopyt.test_resource_json.JsonOwnedParallelLimits.test_owned_i64_limits_reach_parallel_execution) ... ok
+test_malformed_partial_graph_releases_with_error_retained (gopyt.test_resource_json.JsonOwnedParser.test_malformed_partial_graph_releases_with_error_retained) ... ok
+test_nested_values_match_oracle (gopyt.test_resource_json.JsonOwnedParser.test_nested_values_match_oracle) ... ok
+test_arithmetic_money_and_time_accept_owned_i64_only (gopyt.test_resource_json.JsonOwnedScalarConsumers.test_arithmetic_money_and_time_accept_owned_i64_only) ... ok
+test_owned_currency_and_time_text (gopyt.test_resource_json.JsonOwnedScalarConsumers.test_owned_currency_and_time_text) ... ok
+test_owned_graph_matches_plain_graph_with_integer_widths_preserved (gopyt.test_resource_json.JsonOwnedValueEquality.test_owned_graph_matches_plain_graph_with_integer_widths_preserved) ... ok
+test_budget_rejection_releases_partial_graph (gopyt.test_resource_json.JsonParserFailureBoundaries.test_budget_rejection_releases_partial_graph) ... ok
+test_child_alias_outlives_parent (gopyt.test_resource_json.JsonParserFailureBoundaries.test_child_alias_outlives_parent) ... ok
+test_every_cancellation_boundary_releases_partial_graph (gopyt.test_resource_json.JsonParserFailureBoundaries.test_every_cancellation_boundary_releases_partial_graph) ... ok
+test_error_after_long_prefix_releases_with_traceback_retained (gopyt.test_resource_json.JsonStringToken.test_error_after_long_prefix_releases_with_traceback_retained) ... ok
+test_escape_heavy_widening_matches_oracle (gopyt.test_resource_json.JsonStringToken.test_escape_heavy_widening_matches_oracle) ... ok
+test_rejection_and_malformed_tokens_release (gopyt.test_resource_json.JsonStringToken.test_rejection_and_malformed_tokens_release) ... ok
+test_tokens_match_json_oracle_and_retain_charge (gopyt.test_resource_json.JsonStringToken.test_tokens_match_json_oracle_and_retain_charge) ... ok
+test_boundaries_and_rejection_match_existing_decoder (gopyt.test_resource_json.JsonTypedDecimal.test_boundaries_and_rejection_match_existing_decoder) ... ok
+test_nested_destinations_match_existing_conversion (gopyt.test_resource_json.JsonTypedGraph.test_nested_destinations_match_existing_conversion) ... ok
+test_width_boundaries_and_ownership (gopyt.test_resource_json.JsonTypedInteger.test_width_boundaries_and_ownership) ... ok
+test_cancellation_at_every_typed_conversion_check (gopyt.test_resource_json.JsonTypedNumericFailures.test_cancellation_at_every_typed_conversion_check) ... ok
+test_capacity_failure_at_each_temporary_stage (gopyt.test_resource_json.JsonTypedNumericFailures.test_capacity_failure_at_each_temporary_stage) ... ok
+test_ambiguous_original_close_is_not_retried_on_reused_number (gopyt.test_resource_mapping.MappedResources.test_ambiguous_original_close_is_not_retried_on_reused_number) ... ok
+test_descriptor_peak_rejected_before_memfd_acquisition (gopyt.test_resource_mapping.MappedResources.test_descriptor_peak_rejected_before_memfd_acquisition) ... ok
+test_each_acquisition_failure_releases_budget_and_descriptors (gopyt.test_resource_mapping.MappedResources.test_each_acquisition_failure_releases_budget_and_descriptors) ... ok
+test_partial_writes_and_cancellation_after_mapping (gopyt.test_resource_mapping.MappedResources.test_partial_writes_and_cancellation_after_mapping) ... ok
+test_real_mapping_nested_views_and_exact_budget_return (gopyt.test_resource_mapping.MappedResources.test_real_mapping_nested_views_and_exact_budget_return) ... ok
+test_unsupported_profile_and_empty_input_do_not_allocate (gopyt.test_resource_mapping.UnsupportedMapping.test_unsupported_profile_and_empty_input_do_not_allocate) ... ok
+test_failed_publication_and_close_keep_unpublished_owner (gopyt.test_resource_natives.NativeResourceCleanup.test_failed_publication_and_close_keep_unpublished_owner) ... ok
+test_run_owner_closes_on_success_and_trap (gopyt.test_resource_owners.ResourceOwners.test_run_owner_closes_on_success_and_trap) ... ok
+test_accept_admission_and_reader_ownership (gopyt.test_resource_sockets.SocketOwnership.test_accept_admission_and_reader_ownership) ... ok
+test_accept_failure_releases_unused_admission (gopyt.test_resource_sockets.SocketOwnership.test_accept_failure_releases_unused_admission) ... ok
+test_accepted_descriptor_closed_if_adoption_fails (gopyt.test_resource_sockets.SocketOwnership.test_accepted_descriptor_closed_if_adoption_fails) ... ok
+test_admission_shared_with_file_and_failed_construction (gopyt.test_resource_sockets.SocketOwnership.test_admission_shared_with_file_and_failed_construction) ... ok
+test_ambiguous_physical_close_quarantines_without_retry (gopyt.test_resource_sockets.SocketOwnership.test_ambiguous_physical_close_quarantines_without_retry) ... ok
+test_reader_retains_charge_and_blocks_teardown (gopyt.test_resource_sockets.SocketOwnership.test_reader_retains_charge_and_blocks_teardown) ... ok
+test_teardown_during_socket_acquisition (gopyt.test_resource_sockets.SocketOwnership.test_teardown_during_socket_acquisition) ... ok
+test_tls_failure_on_each_side_of_detach_closes_once (gopyt.test_resource_sockets.SocketOwnership.test_tls_failure_on_each_side_of_detach_closes_once) ... ok
+test_tls_handshake_and_validation_failure_release_owner (gopyt.test_resource_sockets.SocketOwnership.test_tls_handshake_and_validation_failure_release_owner) ... ok
+test_tls_teardown_during_descriptor_handoff (gopyt.test_resource_sockets.SocketOwnership.test_tls_teardown_during_descriptor_handoff) ... ok
+test_tls_transfer_retains_one_charge_until_reader_close (gopyt.test_resource_sockets.SocketOwnership.test_tls_transfer_retains_one_charge_until_reader_close) ... ok
+test_native_concat_avoids_encoded_size_copies (gopyt.test_resource_text.ConcatenatedText.test_native_concat_avoids_encoded_size_copies) ... ok
+test_utf8_size_matches_encoder (gopyt.test_resource_text.ConcatenatedText.test_utf8_size_matches_encoder) ... ok
+test_concat_content_peak_and_alias_lifetime (gopyt.test_resource_text.NativeConcatenatedBytes.test_concat_content_peak_and_alias_lifetime) ... ok
+test_concat_rejection_releases_scratch (gopyt.test_resource_text.NativeConcatenatedBytes.test_concat_rejection_releases_scratch) ... ok
+test_budget_rejection_precedes_encoder (gopyt.test_resource_text.NativeEncodedPayload.test_budget_rejection_precedes_encoder) ... ok
+test_encoded_output_keeps_charge_and_matches_utf8 (gopyt.test_resource_text.NativeEncodedPayload.test_encoded_output_keeps_charge_and_matches_utf8) ... ok
+test_slice_capacity_failure_releases_reservation (gopyt.test_resource_text.NativeSlicedText.test_slice_capacity_failure_releases_reservation) ... ok
+test_slice_codepoints_and_alias_capacity (gopyt.test_resource_text.NativeSlicedText.test_slice_codepoints_and_alias_capacity) ... ok
+test_invalid_utf8_preserves_conversion_error (gopyt.test_resource_text.NativeTextPayload.test_invalid_utf8_preserves_conversion_error) ... ok
+test_native_roundtrip_and_budget_trap (gopyt.test_resource_text.NativeTextPayload.test_native_roundtrip_and_budget_trap) ... ok
+test_constructor_failure_clears_raw_with_traceback_retained (gopyt.test_resource_text.TextFailureOwnership.test_constructor_failure_clears_raw_with_traceback_retained) ... ok
+test_finalizer_never_reenters_locked_budget (gopyt.test_resource_text.TextFailureOwnership.test_finalizer_never_reenters_locked_budget) ... ok
+test_cancellation_retained_traceback_releases_temporaries (gopyt.test_resource_text.TextPayload.test_cancellation_retained_traceback_releases_temporaries) ... ok
+test_rejection_and_invalid_input_release (gopyt.test_resource_text.TextPayload.test_rejection_and_invalid_input_release) ... ok
+test_roundtrip_and_alias_charge (gopyt.test_resource_text.TextPayload.test_roundtrip_and_alias_charge) ... ok
+test_opaque_resource_equality_is_rejected (gopyt.test_resource_types.ResourceTypes.test_opaque_resource_equality_is_rejected) ... ok
+test_opaque_resource_json_is_rejected (gopyt.test_resource_types.ResourceTypes.test_opaque_resource_json_is_rejected) ... ok
+test_resource_call_requires_its_declared_effect (gopyt.test_resource_types.ResourceTypes.test_resource_call_requires_its_declared_effect) ... ok
+test_resource_effect_and_opaque_return_are_admitted (gopyt.test_resource_types.ResourceTypes.test_resource_effect_and_opaque_return_are_admitted) ... ok
+test_all_operations_and_opaque_union_dispatch (gopyt.test_resource_vm.CompiledResources.test_all_operations_and_opaque_union_dispatch) ... ok
+test_busy_vm_close_leaves_admitted_call_running (gopyt.test_resource_vm.CompiledResources.test_busy_vm_close_leaves_admitted_call_running) ... ok
+test_compiled_mapping_returns_checked_immutable_owner (gopyt.test_resource_vm.CompiledResources.test_compiled_mapping_returns_checked_immutable_owner) ... ok
+test_compiled_nested_union_match_dispatches_buffer_and_view (gopyt.test_resource_vm.CompiledResources.test_compiled_nested_union_match_dispatches_buffer_and_view) ... ok
+test_exhaustion_bounds_and_foreign_heap_reject (gopyt.test_resource_vm.CompiledResources.test_exhaustion_bounds_and_foreign_heap_reject) ... ok
+test_explicit_vm_close_invalidates_pinned_resources (gopyt.test_resource_vm.CompiledResources.test_explicit_vm_close_invalidates_pinned_resources) ... ok
+test_loader_rejects_forged_resource_types_and_effects (gopyt.test_resource_vm.CompiledResources.test_loader_rejects_forged_resource_types_and_effects) ... ok
+test_mapping_constructor_failed_cleanup_is_retained_by_native (gopyt.test_resource_vm.CompiledResources.test_mapping_constructor_failed_cleanup_is_retained_by_native) ... ok
+test_depth_and_cancellation_bound_traversal (gopyt.test_response_budget.ResponseBudget.test_depth_and_cancellation_bound_traversal) ... ok
+test_exact_utf8_and_escape_limits_match_independent_json (gopyt.test_response_budget.ResponseBudget.test_exact_utf8_and_escape_limits_match_independent_json) ... ok
+test_http_cap_rejects_without_success_headers_and_recovers (gopyt.test_response_budget.ResponseBudget.test_http_cap_rejects_without_success_headers_and_recovers) ... echo
+echo
+echo
+echo
+ok
+test_http_serialization_expiry_sends_no_success_response (gopyt.test_response_budget.ResponseBudget.test_http_serialization_expiry_sends_no_success_response) ... echo
+echo
+ok
+test_oversized_container_rejected_before_sort_or_escape (gopyt.test_response_budget.ResponseBudget.test_oversized_container_rejected_before_sort_or_escape) ... ok
+test_sorted_map_and_list_canonical_output (gopyt.test_response_budget.ResponseBudget.test_sorted_map_and_list_canonical_output) ... ok
+test_authenticated_typed_atomic_batch_boundary (gopyt.test_retail_http.RetailHTTP.test_authenticated_typed_atomic_batch_boundary) ... ok
+test_admitted_snapshot_recovered_after_replace_failure (gopyt.test_rollback.RollbackAuthority.test_admitted_snapshot_recovered_after_replace_failure) ... ok
+test_anchor_and_recovery_share_descriptor_budget (gopyt.test_rollback.RollbackAuthority.test_anchor_and_recovery_share_descriptor_budget) ... ok
+test_authority_failure_before_advance_preserves_old_snapshot (gopyt.test_rollback.RollbackAuthority.test_authority_failure_before_advance_preserves_old_snapshot) ... ok
+test_authorized_restore_advances_and_rejects_prior_snapshots (gopyt.test_rollback.RollbackAuthority.test_authorized_restore_advances_and_rejects_prior_snapshots) ... ok
+test_competing_processes_advance_once (gopyt.test_rollback.RollbackAuthority.test_competing_processes_advance_once) ... ok
+test_compiled_native_replay_is_typed_error (gopyt.test_rollback.RollbackAuthority.test_compiled_native_replay_is_typed_error) ... ok
+test_enroll_existing_authenticated_snapshot (gopyt.test_rollback.RollbackAuthority.test_enroll_existing_authenticated_snapshot) ... ok
+test_enrollment_required_and_cannot_overwrite (gopyt.test_rollback.RollbackAuthority.test_enrollment_required_and_cannot_overwrite) ... ok
+test_held_authority_lock_observes_context_cancellation (gopyt.test_rollback.RollbackAuthority.test_held_authority_lock_observes_context_cancellation) ... ok
+test_invalid_or_stale_restore_cannot_change_state (gopyt.test_rollback.RollbackAuthority.test_invalid_or_stale_restore_cannot_change_state) ... ok
+test_missing_admitted_staging_fails_closed (gopyt.test_rollback.RollbackAuthority.test_missing_admitted_staging_fails_closed) ... ok
+test_missing_authority_rejects_cached_read (gopyt.test_rollback.RollbackAuthority.test_missing_authority_rejects_cached_read) ... ok
+test_operator_cli_restore_missing_snapshot (gopyt.test_rollback.RollbackAuthority.test_operator_cli_restore_missing_snapshot) ... ok
+test_private_authority_files_and_symlinks (gopyt.test_rollback.RollbackAuthority.test_private_authority_files_and_symlinks) ... ok
+test_process_crash_publication_boundaries (gopyt.test_rollback.RollbackAuthority.test_process_crash_publication_boundaries) ... ok
+test_process_crashes_at_each_durability_barrier (gopyt.test_rollback.RollbackAuthority.test_process_crashes_at_each_durability_barrier) ... ok
+test_replay_rejects_fresh_cached_reads_and_write (gopyt.test_rollback.RollbackAuthority.test_replay_rejects_fresh_cached_reads_and_write) ... ok
+test_restore_recovers_after_receipt_publication_failure (gopyt.test_rollback.RollbackAuthority.test_restore_recovers_after_receipt_publication_failure) ... ok
+test_substituted_identity_and_record_reject (gopyt.test_rollback.RollbackAuthority.test_substituted_identity_and_record_reject) ... ok
+test_encrypted_restart_and_conditional_write (gopyt.test_security_config.SecurityProfile.test_encrypted_restart_and_conditional_write) ... ok
+test_plaintext_is_not_silently_migrated (gopyt.test_security_config.SecurityProfile.test_plaintext_is_not_silently_migrated) ... ok
+test_real_http_authentication_encrypted_restart (gopyt.test_security_config.SecurityProfile.test_real_http_authentication_encrypted_restart) ... ok
+test_secret_permissions_links_and_package_location (gopyt.test_security_config.SecurityProfile.test_secret_permissions_links_and_package_location) ... ok
+test_storage_key_descriptor_admission_and_private_file_cleanup (gopyt.test_security_config.SecurityProfile.test_storage_key_descriptor_admission_and_private_file_cleanup) ... ok
+test_strict_listener_requires_loopback_and_token (gopyt.test_security_config.SecurityProfile.test_strict_listener_requires_loopback_and_token) ... ok
+test_tampered_snapshot_cannot_be_read_or_overwritten (gopyt.test_security_config.SecurityProfile.test_tampered_snapshot_cannot_be_read_or_overwritten) ... ok
+test_wrong_key_context_and_missing_key_reject_even_cached_reads (gopyt.test_security_config.SecurityProfile.test_wrong_key_context_and_missing_key_reject_even_cached_reads) ... ok
+test_hardlinks_cannot_read_or_modify_outside_file (gopyt.test_security_files.FilesystemSecurity.test_hardlinks_cannot_read_or_modify_outside_file) ... ok
+test_runtime_metadata_and_source_writes_are_reserved (gopyt.test_security_files.FilesystemSecurity.test_runtime_metadata_and_source_writes_are_reserved) ... ok
+test_absent_is_distinct_from_empty_and_unicode_values (gopyt.test_storage.Storage.test_absent_is_distinct_from_empty_and_unicode_values) ... ok
+test_acknowledged_write_survives_abrupt_process_exit (gopyt.test_storage.Storage.test_acknowledged_write_survives_abrupt_process_exit) ... ok
+test_cache_lru_bounds_utf8_payload_and_entry_count (gopyt.test_storage.Storage.test_cache_lru_bounds_utf8_payload_and_entry_count) ... ok
+test_crash_before_commit_preserves_database_and_cleans_temporary (gopyt.test_storage.Storage.test_crash_before_commit_preserves_database_and_cleans_temporary) ... ok
+test_database_and_lock_links_are_rejected (gopyt.test_storage.Storage.test_database_and_lock_links_are_rejected) ... ok
+test_database_hardlink_fifo_and_corruption_are_rejected (gopyt.test_storage.Storage.test_database_hardlink_fifo_and_corruption_are_rejected) ... ok
+test_directory_lock_and_snapshot_share_descriptor_budget (gopyt.test_storage.Storage.test_directory_lock_and_snapshot_share_descriptor_budget) ... ok
+test_directory_symlink_cannot_escape (gopyt.test_storage.Storage.test_directory_symlink_cannot_escape) ... ok
+test_failed_commit_preserves_prior_database (gopyt.test_storage.Storage.test_failed_commit_preserves_prior_database) ... ok
+test_failed_write_never_exposes_unpersisted_cached_value (gopyt.test_storage.Storage.test_failed_write_never_exposes_unpersisted_cached_value) ... ok
+test_fork_discards_inherited_cache_and_locked_python_mutex (gopyt.test_storage.Storage.test_fork_discards_inherited_cache_and_locked_python_mutex) ... ok
+test_in_place_change_with_restored_mtime_invalidates_cache (gopyt.test_storage.Storage.test_in_place_change_with_restored_mtime_invalidates_cache) ... ok
+test_lock_creation_retries_a_transient_missing_name (gopyt.test_storage.Storage.test_lock_creation_retries_a_transient_missing_name) ... ok
+test_lock_wait_is_bounded (gopyt.test_storage.Storage.test_lock_wait_is_bounded) ... ok
+test_native_compiles_without_app_ffi_and_persists_between_vms (gopyt.test_storage.Storage.test_native_compiles_without_app_ffi_and_persists_between_vms) ... ok
+test_one_winner_for_process_stale_updates (gopyt.test_storage.Storage.test_one_winner_for_process_stale_updates) ... ok
+test_one_winner_for_threaded_conditional_insert (gopyt.test_storage.Storage.test_one_winner_for_threaded_conditional_insert) ... ok
+test_post_rename_failure_reads_back_actual_persisted_state (gopyt.test_storage.Storage.test_post_rename_failure_reads_back_actual_persisted_state) ... ok
+test_process_cas_increment_has_no_lost_updates (gopyt.test_storage.Storage.test_process_cas_increment_has_no_lost_updates) ... ok
+test_removed_and_recreated_database_invalidates_cached_value (gopyt.test_storage.Storage.test_removed_and_recreated_database_invalidates_cached_value) ... ok
+test_same_store_threads_share_atomic_cas_and_bounded_lock_wait (gopyt.test_storage.Storage.test_same_store_threads_share_atomic_cas_and_bounded_lock_wait) ... ok
+test_separate_packages_and_implicit_stores_are_isolated (gopyt.test_storage.Storage.test_separate_packages_and_implicit_stores_are_isolated) ... ok
+test_size_error_does_not_replace_existing_value (gopyt.test_storage.Storage.test_size_error_does_not_replace_existing_value) ... ok
+test_snapshot_descriptor_scope_rejects_and_unwinds_without_hiding_body_errors (gopyt.test_storage.Storage.test_snapshot_descriptor_scope_rejects_and_unwinds_without_hiding_body_errors) ... ok
+test_warm_cache_rejects_unsafe_replacement_and_corruption (gopyt.test_storage.Storage.test_warm_cache_rejects_unsafe_replacement_and_corruption) ... ok
+test_warm_cache_revalidates_schema_and_value_types (gopyt.test_storage.Storage.test_warm_cache_revalidates_schema_and_value_types) ... ok
+test_warm_reads_and_absence_reuse_only_validated_results (gopyt.test_storage.Storage.test_warm_reads_and_absence_reuse_only_validated_results) ... ok
+test_cancelled_snapshot_preparation_cannot_publish (gopyt.test_storage_deadlines.EncryptedStorageDeadlines.test_cancelled_snapshot_preparation_cannot_publish) ... ok
+test_contended_local_and_process_locks_stop_before_peer_release (gopyt.test_storage_deadlines.EncryptedStorageDeadlines.test_contended_local_and_process_locks_stop_before_peer_release) ... ok
+test_deadline_after_temporary_fsync_discards_unpublished_snapshot (gopyt.test_storage_deadlines.EncryptedStorageDeadlines.test_deadline_after_temporary_fsync_discards_unpublished_snapshot) ... ok
+test_cancelled_snapshot_preparation_cannot_publish (gopyt.test_storage_deadlines.StorageDeadlines.test_cancelled_snapshot_preparation_cannot_publish) ... ok
+test_contended_local_and_process_locks_stop_before_peer_release (gopyt.test_storage_deadlines.StorageDeadlines.test_contended_local_and_process_locks_stop_before_peer_release) ... ok
+test_deadline_after_temporary_fsync_discards_unpublished_snapshot (gopyt.test_storage_deadlines.StorageDeadlines.test_deadline_after_temporary_fsync_discards_unpublished_snapshot) ... ok
+test_budget_rejection_precedes_consumption (gopyt.test_storage_payload.RestoreFilePayload.test_budget_rejection_precedes_consumption) ... ok
+test_public_restore_still_requires_exact_bytes (gopyt.test_storage_payload.RestoreFilePayload.test_public_restore_still_requires_exact_bytes) ... ok
+test_retained_input_survives_failed_restore_with_charge (gopyt.test_storage_payload.RestoreFilePayload.test_retained_input_survives_failed_restore_with_charge) ... ok
+test_admission_precedes_serialize (gopyt.test_storage_payload.SerializedPayload.test_admission_precedes_serialize) ... ok
+test_cancellation_after_copy_releases_with_traceback_retained (gopyt.test_storage_payload.SerializedPayload.test_cancellation_after_copy_releases_with_traceback_retained) ... ok
+test_changed_image_size_rejected_and_released (gopyt.test_storage_payload.SerializedPayload.test_changed_image_size_rejected_and_released) ... ok
+test_image_compatibility_peak_and_retained_alias (gopyt.test_storage_payload.SerializedPayload.test_image_compatibility_peak_and_retained_alias) ... ok
+test_invalid_size_closes_cursor_without_serializing (gopyt.test_storage_payload.SerializedPayload.test_invalid_size_closes_cursor_without_serializing) ... ok
+test_serialize_failure_releases_reservations_with_traceback_retained (gopyt.test_storage_payload.SerializedPayload.test_serialize_failure_releases_reservations_with_traceback_retained) ... ok
+test_cancellation_after_read_releases_scratch_with_traceback_retained (gopyt.test_storage_payload.SnapshotPayload.test_cancellation_after_read_releases_scratch_with_traceback_retained) ... ok
+test_failed_decoder_retained_input_keeps_charge (gopyt.test_storage_payload.SnapshotPayload.test_failed_decoder_retained_input_keeps_charge) ... ok
+test_rejection_precedes_snapshot_consumption (gopyt.test_storage_payload.SnapshotPayload.test_rejection_precedes_snapshot_consumption) ... ok
+test_io_errors_at_publication_edges (gopyt.test_storage_publication.EncryptedPublication.test_io_errors_at_publication_edges) ... ok
+test_process_death_at_publication_edges (gopyt.test_storage_publication.EncryptedPublication.test_process_death_at_publication_edges) ... ok
+test_publication_descriptor_admission_and_cleanup (gopyt.test_storage_publication.EncryptedPublication.test_publication_descriptor_admission_and_cleanup) ... ok
+test_io_errors_at_publication_edges (gopyt.test_storage_publication.Publication.test_io_errors_at_publication_edges) ... ok
+test_process_death_at_publication_edges (gopyt.test_storage_publication.Publication.test_process_death_at_publication_edges) ... ok
+test_publication_descriptor_admission_and_cleanup (gopyt.test_storage_publication.Publication.test_publication_descriptor_admission_and_cleanup) ... ok
+test_batch_cache_reuse_does_not_double_count_or_return_stale_values (gopyt.test_storage_transactions.Transactions.test_batch_cache_reuse_does_not_double_count_or_return_stale_values) ... ok
+test_competing_processes_preserve_transfer_invariant (gopyt.test_storage_transactions.Transactions.test_competing_processes_preserve_transfer_invariant) ... ok
+test_compiled_native_types_effects_and_atomicity (gopyt.test_storage_transactions.Transactions.test_compiled_native_types_effects_and_atomicity) ... ok
+test_conflict_changes_nothing_and_delete_distinguishes_absent_empty (gopyt.test_storage_transactions.Transactions.test_conflict_changes_nothing_and_delete_distinguishes_absent_empty) ... ok
+test_directory_sync_failure_has_ambiguous_commit_but_no_torn_batch (gopyt.test_storage_transactions.Transactions.test_directory_sync_failure_has_ambiguous_commit_but_no_torn_batch) ... ok
+test_failure_before_publish_preserves_all_old_values (gopyt.test_storage_transactions.Transactions.test_failure_before_publish_preserves_all_old_values) ... ok
+test_oversized_batch_response_is_an_error (gopyt.test_storage_transactions.Transactions.test_oversized_batch_response_is_an_error) ... ok
+test_process_death_before_and_after_publish_never_tears_batch (gopyt.test_storage_transactions.Transactions.test_process_death_before_and_after_publish_never_tears_batch) ... ok
+test_read_only_conditions_and_noop_do_not_publish (gopyt.test_storage_transactions.Transactions.test_read_only_conditions_and_noop_do_not_publish) ... ok
+test_rejects_duplicate_malformed_and_unbounded_batches (gopyt.test_storage_transactions.Transactions.test_rejects_duplicate_malformed_and_unbounded_batches) ... ok
+test_seeded_state_machine_against_independent_dictionary (gopyt.test_storage_transactions.Transactions.test_seeded_state_machine_against_independent_dictionary) ... ok
+test_cancel_after_backup_read_releases_payload_and_descriptor (gopyt.test_store_admin_budget.MaintenanceBudget.test_cancel_after_backup_read_releases_payload_and_descriptor) ... ok
+test_interrupt_still_closes_acquired_descriptor (gopyt.test_store_admin_budget.MaintenanceBudget.test_interrupt_still_closes_acquired_descriptor) ... ok
+test_zero_descriptor_budget_reports_failure_and_closes_registry (gopyt.test_store_admin_budget.MaintenanceBudget.test_zero_descriptor_budget_reports_failure_and_closes_registry) ... ok
+test_duration_serialization (gopyt.test_temporal.TemporalTests.test_duration_serialization) ... ok
+test_exact_millisecond_conversion_and_checked_arithmetic (gopyt.test_temporal.TemporalTests.test_exact_millisecond_conversion_and_checked_arithmetic) ... ok
+test_explicit_offsets_and_nanosecond_precision (gopyt.test_temporal.TemporalTests.test_explicit_offsets_and_nanosecond_precision) ... ok
+test_invalid_calendar_offset_precision_and_range (gopyt.test_temporal.TemporalTests.test_invalid_calendar_offset_precision_and_range) ... ok
+test_malformed_record_and_unit_confusion_rejected (gopyt.test_temporal.TemporalTests.test_malformed_record_and_unit_confusion_rejected) ... ok
+test_monotonic_origins_backwards_and_clock_failure (gopyt.test_temporal.TemporalTests.test_monotonic_origins_backwards_and_clock_failure) ... ok
+test_sleep_uses_monotonic_deadline_detects_rollback_and_cancels (gopyt.test_temporal.TemporalTests.test_sleep_uses_monotonic_deadline_detects_rollback_and_cancels) ... ok
+test_timestamp_roundtrip_extremes_and_os_calendar_oracle (gopyt.test_temporal.TemporalTests.test_timestamp_roundtrip_extremes_and_os_calendar_oracle) ... ok
+test_wall_clock_rollback_is_visible_and_legacy_floor_is_exact (gopyt.test_temporal.TemporalTests.test_wall_clock_rollback_is_visible_and_legacy_floor_is_exact) ... ok
+test_example_checks_tests_and_formats_without_source_changes (gopyt.test_tickets.TicketExample.test_example_checks_tests_and_formats_without_source_changes) ... ok
+test_identifier_validation_matches_independent_character_and_length_oracle (gopyt.test_tickets.TicketExample.test_identifier_validation_matches_independent_character_and_length_oracle)
+The frozen HTTP contract, independent of the application's algorithm. ... ok
+test_embedding_cannot_accidentally_use_mismatched_artifact (gopyt.test_toolchain_compatibility.ToolchainCompatibility.test_embedding_cannot_accidentally_use_mismatched_artifact) ... ok
+test_header_binds_source_and_rejects_old_and_unknown_versions (gopyt.test_toolchain_compatibility.ToolchainCompatibility.test_header_binds_source_and_rejects_old_and_unknown_versions) ... ok
+test_source_copy_matches_and_runtime_change_requires_rebuild (gopyt.test_toolchain_compatibility.ToolchainCompatibility.test_source_copy_matches_and_runtime_change_requires_rebuild) ... ok
+test_cancellation_before_call_has_no_effect (gopyt.test_transaction_cancellation.EncryptedTransactionCancellation.test_cancellation_before_call_has_no_effect) ... ok
+test_cancellation_can_hide_post_replace_db_error (gopyt.test_transaction_cancellation.EncryptedTransactionCancellation.test_cancellation_can_hide_post_replace_db_error) ... ok
+test_cancellation_during_native_does_not_roll_back_commit (gopyt.test_transaction_cancellation.EncryptedTransactionCancellation.test_cancellation_during_native_does_not_roll_back_commit) ... ok
+test_lock_timeout_returns_db_error_without_mutation (gopyt.test_transaction_cancellation.EncryptedTransactionCancellation.test_lock_timeout_returns_db_error_without_mutation) ... ok
+test_parallel_timeout_waits_for_admitted_publication_then_traps (gopyt.test_transaction_cancellation.EncryptedTransactionCancellation.test_parallel_timeout_waits_for_admitted_publication_then_traps) ... ok
+test_prepublication_failure_with_cancellation_has_no_commit (gopyt.test_transaction_cancellation.EncryptedTransactionCancellation.test_prepublication_failure_with_cancellation_has_no_commit) ... ok
+test_cancellation_before_call_has_no_effect (gopyt.test_transaction_cancellation.TransactionCancellation.test_cancellation_before_call_has_no_effect) ... ok
+test_cancellation_can_hide_post_replace_db_error (gopyt.test_transaction_cancellation.TransactionCancellation.test_cancellation_can_hide_post_replace_db_error) ... ok
+test_cancellation_during_native_does_not_roll_back_commit (gopyt.test_transaction_cancellation.TransactionCancellation.test_cancellation_during_native_does_not_roll_back_commit) ... ok
+test_lock_timeout_returns_db_error_without_mutation (gopyt.test_transaction_cancellation.TransactionCancellation.test_lock_timeout_returns_db_error_without_mutation) ... ok
+test_parallel_timeout_waits_for_admitted_publication_then_traps (gopyt.test_transaction_cancellation.TransactionCancellation.test_parallel_timeout_waits_for_admitted_publication_then_traps) ... ok
+test_prepublication_failure_with_cancellation_has_no_commit (gopyt.test_transaction_cancellation.TransactionCancellation.test_prepublication_failure_with_cancellation_has_no_commit) ... ok
+test_process_histories (gopyt.test_transaction_histories.ConcurrentHistories.test_process_histories) ... ok
+test_thread_histories (gopyt.test_transaction_histories.ConcurrentHistories.test_thread_histories) ... ok
+test_process_histories (gopyt.test_transaction_histories.EncryptedHistories.test_process_histories) ... ok
+test_thread_histories (gopyt.test_transaction_histories.EncryptedHistories.test_thread_histories) ... ok
+test_absence_empty_deletion_and_read_conditions (gopyt.test_transaction_histories.HistoryOracle.test_absence_empty_deletion_and_read_conditions) ... ok
+test_accepts_overlap_and_respects_completed_before_invoked (gopyt.test_transaction_histories.HistoryOracle.test_accepts_overlap_and_respects_completed_before_invoked) ... ok
+test_bounded_input (gopyt.test_transaction_histories.HistoryOracle.test_bounded_input) ... ok
+test_rejects_double_success_torn_read_and_false_conflict (gopyt.test_transaction_histories.HistoryOracle.test_rejects_double_success_torn_read_and_false_conflict) ... ok
+test_control_stream_alarm_rate_is_low (gopyt.test_validation.P0Observe.test_control_stream_alarm_rate_is_low) ... ok
+test_memory_is_o1_in_stream_length (gopyt.test_validation.P0Observe.test_memory_is_o1_in_stream_length) ... ok
+test_planted_shift_alarms (gopyt.test_validation.P0Observe.test_planted_shift_alarms) ... ok
+test_reservoir_never_exceeds_k (gopyt.test_validation.P0Observe.test_reservoir_never_exceeds_k) ... ok
+test_the_prototype_still_passes (gopyt.test_validation.P0Observe.test_the_prototype_still_passes) ... ok
+test_c001_to_c041_are_all_covered (gopyt.test_validation.P1Conformance.test_c001_to_c041_are_all_covered) ... ok
+test_the_fixture_runner_agrees_with_the_compiler (gopyt.test_validation.P1Conformance.test_the_fixture_runner_agrees_with_the_compiler) ... ok
+test_a_broken_tree_reaches_check_zero (gopyt.test_validation.P2RepairLoop.test_a_broken_tree_reaches_check_zero) ... ok
+test_a_candidate_that_fails_check_leaves_the_digest_alone (gopyt.test_validation.P3Harden.test_a_candidate_that_fails_check_leaves_the_digest_alone) ... ok
+test_burst_raises_the_alarm (gopyt.test_validation.P3Harden.test_burst_raises_the_alarm) ... ok
+test_propose_keeps_egress_and_ffi_closed (gopyt.test_validation.P3Harden.test_propose_keeps_egress_and_ffi_closed) ... ok
+test_a_json_extra_field_is_convert_error (gopyt.test_validation.P4Security.test_a_json_extra_field_is_convert_error) ... decode
+ok
+test_app_ffi_is_e069 (gopyt.test_validation.P4Security.test_app_ffi_is_e069) ... ok
+test_eval_is_e110 (gopyt.test_validation.P4Security.test_eval_is_e110) ... ok
+test_logging_a_secret_is_e112 (gopyt.test_validation.P4Security.test_logging_a_secret_is_e112) ... ok
+test_request_off_the_allowlist_is_e111 (gopyt.test_validation.P4Security.test_request_off_the_allowlist_is_e111) ... ok
+test_a_caller_holds_the_trait_effects_not_the_provide_effects (gopyt.test_vm.EffectHygiene.test_a_caller_holds_the_trait_effects_not_the_provide_effects)
+S26: the trait signature is the caller contract. ... charge
+ok
+test_a_caller_missing_a_trait_effect_is_e050 (gopyt.test_vm.EffectHygiene.test_a_caller_missing_a_trait_effect_is_e050) ... ok
+test_a_task_that_only_calls_a_pure_fn_needs_no_effect_but_must_have_one (gopyt.test_vm.EffectHygiene.test_a_task_that_only_calls_a_pure_fn_needs_no_effect_but_must_have_one)
+S9: a declaration with an empty effect set is a fn, so this is E051. ... ok
+test_an_effect_used_only_in_a_match_arm_counts (gopyt.test_vm.EffectHygiene.test_an_effect_used_only_in_a_match_arm_counts) ... ok
+test_an_effect_used_only_inside_a_parallel_arm_counts (gopyt.test_vm.EffectHygiene.test_an_effect_used_only_inside_a_parallel_arm_counts) ... ok
+test_empty_effects_clause_is_e050 (gopyt.test_vm.EffectHygiene.test_empty_effects_clause_is_e050) ... ok
+test_parallel_without_time_is_effect_missing (gopyt.test_vm.EffectHygiene.test_parallel_without_time_is_effect_missing) ... ok
+test_a_repeated_arm_is_e070 (gopyt.test_vm.Exhaustiveness.test_a_repeated_arm_is_e070) ... ok
+test_all_members_named_once_is_accepted (gopyt.test_vm.Exhaustiveness.test_all_members_named_once_is_accepted) ... ok
+test_an_arm_outside_the_union_is_e070 (gopyt.test_vm.Exhaustiveness.test_an_arm_outside_the_union_is_e070) ... ok
+test_matching_a_plain_record_is_e070 (gopyt.test_vm.Exhaustiveness.test_matching_a_plain_record_is_e070) ... ok
+test_optional_needs_both_arms (gopyt.test_vm.Exhaustiveness.test_optional_needs_both_arms) ... ok
+test_generic_body_may_use_its_own_type_variable (gopyt.test_vm.GenericBodies.test_generic_body_may_use_its_own_type_variable) ... ok
+test_identity_is_accepted (gopyt.test_vm.GenericBodies.test_identity_is_accepted) ... ok
+test_missing_return_in_an_uncalled_generic_is_reported (gopyt.test_vm.GenericBodies.test_missing_return_in_an_uncalled_generic_is_reported) ... ok
+test_type_error_in_an_uncalled_generic_is_reported (gopyt.test_vm.GenericBodies.test_type_error_in_an_uncalled_generic_is_reported) ... ok
+test_uncalled_generic_emits_no_function (gopyt.test_vm.GenericBodies.test_uncalled_generic_emits_no_function) ... ok
+test_unresolved_in_an_uncalled_generic_is_reported (gopyt.test_vm.GenericBodies.test_unresolved_in_an_uncalled_generic_is_reported) ... ok
+test_a_generic_record_is_monomorphized (gopyt.test_vm.Generics.test_a_generic_record_is_monomorphized) ... ok
+test_a_generic_trait_binds_its_parameters (gopyt.test_vm.Generics.test_a_generic_trait_binds_its_parameters) ... cell
+ok
+test_mutually_recursive_tasks (gopyt.test_vm.Generics.test_mutually_recursive_tasks) ... e
+o
+e
+o
+e
+o
+e
+ok
+test_one_function_record_per_type_argument_vector (gopyt.test_vm.Generics.test_one_function_record_per_type_argument_vector) ... ok
+test_trait_task_dispatch_and_two_traits_sharing_a_member_name (gopyt.test_vm.Generics.test_trait_task_dispatch_and_two_traits_sharing_a_member_name)
+S23/S26: static dispatch, and `Named.label` vs `Gateway.label`. ... charging
+ok
+test_wrong_trait_argument_count_is_e029 (gopyt.test_vm.Generics.test_wrong_trait_argument_count_is_e029) ... ok
+test_denied_burst_sets_cusum_alarm (gopyt.test_vm.Hardening.test_denied_burst_sets_cusum_alarm) ... ok
+test_a_negative_sleep_traps (gopyt.test_vm.HostServices.test_a_negative_sleep_traps) ... ok
+test_file_write_then_read_round_trips_inside_the_package (gopyt.test_vm.HostServices.test_file_write_then_read_round_trips_inside_the_package) ... ok
+test_random_respects_its_bounds (gopyt.test_vm.HostServices.test_random_respects_its_bounds) ... Scheduled Python thread stacks:
+Thread 133149236393664:
+  File "/home/soultransit/.local/share/uv/python/cpython-3.14.7-linux-x86_64-gnu/lib/python3.14/threading.py", line 1044, in _bootstrap
+    self._bootstrap_inner()
+  File "/home/soultransit/.local/share/uv/python/cpython-3.14.7-linux-x86_64-gnu/lib/python3.14/threading.py", line 1082, in _bootstrap_inner
+    self._context.run(self.run)
+  File "/home/soultransit/.local/share/uv/python/cpython-3.14.7-linux-x86_64-gnu/lib/python3.14/threading.py", line 1024, in run
+    self._target(*self._args, **self._kwargs)
+  File "/tmp/gopyt-json-admission/tools/run_language_tests.py", line 18, in report_stacks
+    traceback.print_stack(frame, file=stream)
+Thread 133149293401920:
+  File "<frozen os>", line 418, in walk
+ok
+test_random_with_min_above_max_traps (gopyt.test_vm.HostServices.test_random_with_min_above_max_traps) ... ok
+test_reading_a_missing_file_is_not_found (gopyt.test_vm.HostServices.test_reading_a_missing_file_is_not_found) ... ok
+test_time_moves_forward (gopyt.test_vm.HostServices.test_time_moves_forward) ... ok
+test_a_second_serve_is_listen_error (gopyt.test_vm.HttpEdges.test_a_second_serve_is_listen_error) ... ok
+test_get_ignores_a_request_body (gopyt.test_vm.HttpEdges.test_get_ignores_a_request_body) ... echo
+ok
+test_post_with_a_wrong_content_type_is_400_empty (gopyt.test_vm.HttpEdges.test_post_with_a_wrong_content_type_is_400_empty) ... ok
+test_post_with_an_extra_json_key_is_400_empty (gopyt.test_vm.HttpEdges.test_post_with_an_extra_json_key_is_400_empty) ... ok
+test_routes_carry_their_parameter_names (gopyt.test_vm.HttpEdges.test_routes_carry_their_parameter_names)
+The artifact alone is enough to bind by name (bytecode.md). ... ok
+test_unknown_route_is_404_empty (gopyt.test_vm.HttpEdges.test_unknown_route_is_404_empty) ... ok
+test_wrong_method_on_a_known_path_is_404 (gopyt.test_vm.HttpEdges.test_wrong_method_on_a_known_path_is_404) ... ok
+test_a_convertible_placeholder_reaches_the_handler (gopyt.test_vm.HttpFromStr.test_a_convertible_placeholder_reaches_the_handler) ... user
+ok
+test_a_unit_handler_answers_200_with_an_empty_body (gopyt.test_vm.HttpFromStr.test_a_unit_handler_answers_200_with_an_empty_body) ... ping
+ok
+test_an_unconvertible_placeholder_is_400_empty (gopyt.test_vm.HttpFromStr.test_an_unconvertible_placeholder_is_400_empty) ... ok
+test_post_route_round_trip (gopyt.test_vm.HttpServer.test_post_route_round_trip) ... charge
+ok
+test_a_frame_must_be_empty_after_return (gopyt.test_vm.Loader.test_a_frame_must_be_empty_after_return)
+Anything left on the stack at RETURN is a lowering bug. ... ok
+test_a_native_must_match_the_shipped_declaration (gopyt.test_vm.Loader.test_a_native_must_match_the_shipped_declaration)
+bytecode.md: arity, parameter types, return type, and effects. ... ok
+test_bad_magic (gopyt.test_vm.Loader.test_bad_magic) ... ok
+test_fn_may_not_carry_effects (gopyt.test_vm.Loader.test_fn_may_not_carry_effects) ... ok
+test_round_trip (gopyt.test_vm.Loader.test_round_trip) ... ok
+test_stack_height_must_agree_at_a_join (gopyt.test_vm.Loader.test_stack_height_must_agree_at_a_join) ... ok
+test_stack_must_be_empty_at_end (gopyt.test_vm.Loader.test_stack_must_be_empty_at_end) ... ok
+test_unknown_opcode (gopyt.test_vm.Loader.test_unknown_opcode) ... ok
+test_a_workflow_runs_like_a_task (gopyt.test_vm.MoreStdlib.test_a_workflow_runs_like_a_task) ... wire
+ok
+test_allocation_limit_traps (gopyt.test_vm.MoreStdlib.test_allocation_limit_traps) ... alloc
+ok
+test_assert_eq_on_f64_is_e099 (gopyt.test_vm.MoreStdlib.test_assert_eq_on_f64_is_e099) ... ok
+test_model_with_an_unlisted_origin_never_leaves_the_process (gopyt.test_vm.MoreStdlib.test_model_with_an_unlisted_origin_never_leaves_the_process) ... ok
+test_model_without_a_url_is_model_error (gopyt.test_vm.MoreStdlib.test_model_without_a_url_is_model_error) ... ok
+test_request_with_userinfo_is_refused (gopyt.test_vm.MoreStdlib.test_request_with_userinfo_is_refused) ... ok
+test_cusum_alarms_on_a_planted_shift (gopyt.test_vm.ObservePort.test_cusum_alarms_on_a_planted_shift) ... ok
+test_memory_is_fixed (gopyt.test_vm.ObservePort.test_memory_is_fixed) ... ok
+test_reservoir_is_bounded (gopyt.test_vm.ObservePort.test_reservoir_is_bounded) ... ok
+test_a_trapping_arm_does_not_stop_a_neighbouring_parallel (gopyt.test_vm.ParallelCancellation.test_a_trapping_arm_does_not_stop_a_neighbouring_parallel)
+Two parallels run on different threads; only the bad one traps. ... ok
+test_observe_holds_its_bound_under_threads (gopyt.test_vm.ParallelCancellation.test_observe_holds_its_bound_under_threads)
+P0's reservoir bound must survive concurrent arms. ... ok
+test_results_keep_source_order_regardless_of_finish_order (gopyt.test_vm.ParallelCancellation.test_results_keep_source_order_regardless_of_finish_order) ... ok
+test_a_package_using_every_callable_kind (gopyt.test_vm.ProgramMatchesArtifact.test_a_package_using_every_callable_kind) ... 1
+1
+ok
+test_the_auth_example (gopyt.test_vm.ProgramMatchesArtifact.test_the_auth_example) ... ok
+test_a_test_stores_its_inferred_effects_in_the_artifact (gopyt.test_vm.Runtime.test_a_test_stores_its_inferred_effects_in_the_artifact)
+C031 / S9: preserve application effects; stdlib ffi does not propagate. ... ok
+test_a_trap_is_one_observe_event_not_one_per_frame (gopyt.test_vm.Runtime.test_a_trap_is_one_observe_event_not_one_per_frame) ... ok
+test_an_arm_captures_a_match_binding (gopyt.test_vm.Runtime.test_an_arm_captures_a_match_binding) ... ok
+test_an_early_return_from_a_loop (gopyt.test_vm.Runtime.test_an_early_return_from_a_loop) ... found
+ok
+test_artifact_is_reproducible (gopyt.test_vm.Runtime.test_artifact_is_reproducible)
+RP-002: same sources and toolchain, same bytes. ... ok
+test_assert_eq_mismatch_is_trap_13 (gopyt.test_vm.Runtime.test_assert_eq_mismatch_is_trap_13) ... ok
+test_call_depth_traps (gopyt.test_vm.Runtime.test_call_depth_traps) ... go
+ok
+test_egress_denied_at_runtime (gopyt.test_vm.Runtime.test_egress_denied_at_runtime) ... ok
+test_ensures_traps (gopyt.test_vm.Runtime.test_ensures_traps) ... go
+ok
+test_for_loop_rebinds_its_slots (gopyt.test_vm.Runtime.test_for_loop_rebinds_its_slots) ... 0
+1
+2
+3
+ok
+test_limit_throttles (gopyt.test_vm.Runtime.test_limit_throttles) ... ok
+test_list_get_negative_index_traps (gopyt.test_vm.Runtime.test_list_get_negative_index_traps) ... go
+ok
+test_nested_parallel_captures_through_an_arm (gopyt.test_vm.Runtime.test_nested_parallel_captures_through_an_arm) ... ok
+test_observe_report_counts_traps (gopyt.test_vm.Runtime.test_observe_report_counts_traps) ... ok
+test_overflow_traps (gopyt.test_vm.Runtime.test_overflow_traps) ... go
+ok
+test_parallel_arm_trap_fails_parent (gopyt.test_vm.Runtime.test_parallel_arm_trap_fails_parent) ... ok
+test_parallel_captures_outer_locals (gopyt.test_vm.Runtime.test_parallel_captures_outer_locals) ... ok
+test_parallel_timeout_traps (gopyt.test_vm.Runtime.test_parallel_timeout_traps) ... ok
+test_requires_traps (gopyt.test_vm.Runtime.test_requires_traps) ... go
+ok
+test_store_db_from_an_app_task (gopyt.test_vm.Runtime.test_store_db_from_an_app_task)
+S9 (amended): stdlib `ffi` does not propagate; scalar arms match. ... ok
+test_store_db_round_trip (gopyt.test_vm.Runtime.test_store_db_round_trip) ... ok
+test_missing_lock_is_e041_with_full_repair (gopyt.test_vm.Security.test_missing_lock_is_e041_with_full_repair)
+docs/lockfile.md: missing lock -> E041; the repair is the whole lock. ... ok
+test_secret_never_json (gopyt.test_vm.Security.test_secret_never_json) ... ok
+test_truncated_artifact_is_rejected (gopyt.test_vm.Security.test_truncated_artifact_is_rejected) ... ok
+test_wrong_literal_origin_fails_check (gopyt.test_vm.Security.test_wrong_literal_origin_fails_check) ... ok
+test_and_short_circuits (gopyt.test_vm.Semantics.test_and_short_circuits) ... and
+ok
+test_arguments_evaluate_left_to_right (gopyt.test_vm.Semantics.test_arguments_evaluate_left_to_right)
+The left argument's trap wins, so evaluation order is observable. ... order
+ok
+test_contracts_run_in_declaration_order (gopyt.test_vm.Semantics.test_contracts_run_in_declaration_order)
+The first false clause traps; a later clause never runs. ... contract
+ok
+test_division_truncates_toward_zero (gopyt.test_vm.Semantics.test_division_truncates_toward_zero) ... div
+ok
+test_enum_without_a_payload_encodes_as_an_empty_object (gopyt.test_vm.Semantics.test_enum_without_a_payload_encodes_as_an_empty_object) ... enum
+ok
+test_int_conversion_range_is_checked (gopyt.test_vm.Semantics.test_int_conversion_range_is_checked) ... int
+ok
+test_json_decode_rejects_duplicate_keys (gopyt.test_vm.Semantics.test_json_decode_rejects_duplicate_keys) ... ok
+test_json_decode_rejects_trailing_input (gopyt.test_vm.Semantics.test_json_decode_rejects_trailing_input) ... ok
+test_optional_encodes_as_null (gopyt.test_vm.Semantics.test_optional_encodes_as_null) ... opt
+ok
+test_or_short_circuits (gopyt.test_vm.Semantics.test_or_short_circuits) ... or
+ok
+test_range_is_end_exclusive_and_may_be_empty (gopyt.test_vm.Semantics.test_range_is_end_exclusive_and_may_be_empty) ... range
+ok
+test_remainder_takes_the_sign_of_the_dividend (gopyt.test_vm.Semantics.test_remainder_takes_the_sign_of_the_dividend) ... mod
+ok
+test_slice_past_the_end_is_convert_error (gopyt.test_vm.Semantics.test_slice_past_the_end_is_convert_error) ... slice
+ok
+test_str_len_counts_scalars_and_bytes_len_counts_bytes (gopyt.test_vm.Semantics.test_str_len_counts_scalars_and_bytes_len_counts_bytes) ... len
+ok
+test_canonical_json_of_a_nested_value (gopyt.test_vm.Shapes.test_canonical_json_of_a_nested_value) ... encode
+ok
+test_check_is_clean (gopyt.test_vm.Shapes.test_check_is_clean) ... ok
+test_decode_reaches_the_record (gopyt.test_vm.Shapes.test_decode_reaches_the_record) ... encode
+decode
+ok
+test_structural_equality_over_the_whole_shape (gopyt.test_vm.Shapes.test_structural_equality_over_the_whole_shape) ... ok
+test_a_missing_map_key_is_none (gopyt.test_vm.StdlibEdges.test_a_missing_map_key_is_none) ... get
+ok
+test_absolute_and_empty_segments_are_io_error (gopyt.test_vm.StdlibEdges.test_absolute_and_empty_segments_are_io_error) ... ok
+test_bool_keys_sort_false_then_true (gopyt.test_vm.StdlibEdges.test_bool_keys_sort_false_then_true) ... bools
+ok
+test_dot_dot_path_is_io_error (gopyt.test_vm.StdlibEdges.test_dot_dot_path_is_io_error) ... ok
+test_empty_collections_encode (gopyt.test_vm.StdlibEdges.test_empty_collections_encode) ... empty
+ok
+test_map_key_must_be_closed (gopyt.test_vm.StdlibEdges.test_map_key_must_be_closed) ... ok
+test_map_keys_sort_by_kind (gopyt.test_vm.StdlibEdges.test_map_keys_sort_by_kind)
+implementer.md 5: bool false then true, i64 ascending. ... keys
+ok
+test_map_round_trip_and_sorted_keys (gopyt.test_vm.StdlibEdges.test_map_round_trip_and_sorted_keys) ... map
+ok
+test_reveal_declassifies_and_is_visible_in_effects (gopyt.test_vm.StdlibEdges.test_reveal_declassifies_and_is_visible_in_effects) ... ok
+test_secret_is_not_accepted_by_concat (gopyt.test_vm.StdlibEdges.test_secret_is_not_accepted_by_concat) ... ok
+test_already_waiting_process_cannot_publish_loaded_old_settings (gopyt.test_writer_fence.WriterFence.test_already_waiting_process_cannot_publish_loaded_old_settings) ... ok
+test_backup_reader_does_not_regain_publishing_authority (gopyt.test_writer_fence.WriterFence.test_backup_reader_does_not_regain_publishing_authority) ... ok
+test_cli_and_malformed_writer_metadata (gopyt.test_writer_fence.WriterFence.test_cli_and_malformed_writer_metadata) ... ok
+test_crash_transition_recovers_exact_writer_policy (gopyt.test_writer_fence.WriterFence.test_crash_transition_recovers_exact_writer_policy) ... ok
+test_stale_operator_generation_and_invalid_generations_reject (gopyt.test_writer_fence.WriterFence.test_stale_operator_generation_and_invalid_generations_reject) ... ok
+test_stale_writes_reject_without_changing_snapshot_or_generation (gopyt.test_writer_fence.WriterFence.test_stale_writes_reject_without_changing_snapshot_or_generation) ... ok
+test_version_one_authority_requires_explicit_upgrade (gopyt.test_writer_fence.WriterFence.test_version_one_authority_requires_explicit_upgrade) ... ok
+test_writer_identity_uses_key_material_not_label_or_reader_set (gopyt.test_writer_fence.WriterFence.test_writer_identity_uses_key_material_not_label_or_reader_set) ... ok
+
+----------------------------------------------------------------------
+Ran 1096 tests in 366.871s
+
+OK
