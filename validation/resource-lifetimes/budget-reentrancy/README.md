@@ -44,3 +44,10 @@ the contract demo passed for the candidate runtime. Outputs are retained.
 Full Python 3.11.16 qualification passed 1019 tests in 418.351 seconds.
 Frozen source and lock hashes were verified after completion. Scheduled
 thread dumps are retained in the raw log. Full Python 3.14 remains pending.
+
+Diagnostic CI head 88cd18dbf3b5349c1468d1aa7eac456775ff1b29 subsequently
+timed out in both macOS Python 3.11 jobs. Job 102748720807 repeatedly shows
+_ChargedBuffer.__del__ -> reservation.release -> ResourceBudget._release
+nested inside ResourceBudget.reserve, confirming the finalizer lock deadlock
+in an actual regression run. Both raw logs are retained. This does not
+establish the cause of the separate Linux segmentation fault.
