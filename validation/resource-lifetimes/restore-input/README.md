@@ -11,3 +11,9 @@ direct failure hook isolates the intended alias without changing assertions.
 
 CLI context/limits/registry cleanup, broader failure qualification and full
 integration remain pending. This change does not complete issue #5.
+
+CLI shared context and registry cleanup are now implemented. The 58-test restore,
+publication, migration, writer-fence and payload selection passes on both pinned
+runtimes. A real-file cancellation test retains the exception traceback after the
+read and verifies that both payload reservations and descriptors are released.
+Full-suite and packaging qualification are pending.
