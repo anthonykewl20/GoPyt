@@ -9,3 +9,6 @@ checks passed; raw outputs are retained.
 This increment admits plaintext and framed ciphertext buffers at the cipher
 boundary and clears them on scope exit. SQLite serialization, restore backup
 producer admission and native library allocator accounting remain incomplete.
+
+Guard calibration passed 17 tests, stdlib parity passed for 22 modules and
+the contract demo passed. Raw outputs are retained.
